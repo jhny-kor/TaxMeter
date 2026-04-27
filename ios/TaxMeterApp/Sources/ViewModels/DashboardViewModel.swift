@@ -8,6 +8,22 @@ final class DashboardViewModel: ObservableObject {
     private let baselines: [Baseline]
     private let engine: BaselineEngine
 
+    var topRisks: [BaselineDistance] {
+        Array(distances.prefix(3))
+    }
+
+    var exceededCount: Int {
+        distances.filter(\.isExceeded).count
+    }
+
+    var completedInputCount: Int {
+        values.values.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }.count
+    }
+
+    var totalBaselineCount: Int {
+        baselines.count
+    }
+
     init(
         baselines: [Baseline] = BaselineCatalog.mvpTop15,
         engine: BaselineEngine = BaselineEngine()
@@ -21,6 +37,10 @@ final class DashboardViewModel: ObservableObject {
     func updateValue(for baselineID: UUID, text: String) {
         values[baselineID] = text
         recalculate()
+    }
+
+    func inputValue(for baselineID: UUID) -> String {
+        values[baselineID] ?? ""
     }
 
     private func recalculate() {

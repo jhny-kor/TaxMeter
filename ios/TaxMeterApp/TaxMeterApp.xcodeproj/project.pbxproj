@@ -1,0 +1,365 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3D2652A9C9BC80B254CAD6D6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127F978CC64600759ED5A28 /* DashboardView.swift */; };
+		475DCB1D57E352435D45220E /* TaxMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */; };
+		DD479B17EE33FE5E6C420B16 /* TaxMeterCore in Frameworks */ = {isa = PBXBuildFile; productRef = C07E2F776C37C042E897074B /* TaxMeterCore */; };
+		F88BE6713962898A04FADE1F /* BaselineCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */; };
+		FE588ABFCFAE4F1DB505D497 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0EE625A2487C460F60310B /* DashboardViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		033A56B242C521149C3F1C88 /* TaxMeterApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TaxMeterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2127F978CC64600759ED5A28 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaselineCardView.swift; sourceTree = "<group>"; };
+		9AD1A0375D7CD246EB8AAD3F /* TaxMeter */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaxMeter; path = ../..; sourceTree = SOURCE_ROOT; };
+		C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterApp.swift; sourceTree = "<group>"; };
+		CB0EE625A2487C460F60310B /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		995F9E02E33A9F8B16FFF963 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD479B17EE33FE5E6C420B16 /* TaxMeterCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1CF199B57321BBA2BB624E80 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CB0EE625A2487C460F60310B /* DashboardViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		206F9F786A2873F20FD3A3EC = {
+			isa = PBXGroup;
+			children = (
+				4F060A3B7EFDF9038B90E312 /* Packages */,
+				E9446178DD781CC8A7394574 /* Sources */,
+				9866881589575A148F84D1B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F060A3B7EFDF9038B90E312 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				9AD1A0375D7CD246EB8AAD3F /* TaxMeter */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		9866881589575A148F84D1B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				033A56B242C521149C3F1C88 /* TaxMeterApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AF18F52BDB6FC022AF83C0BC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */,
+				2127F978CC64600759ED5A28 /* DashboardView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D8177DC190D75663B751222B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E9446178DD781CC8A7394574 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D8177DC190D75663B751222B /* App */,
+				1CF199B57321BBA2BB624E80 /* ViewModels */,
+				AF18F52BDB6FC022AF83C0BC /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		69BD5826004EDE76E4C2A27D /* TaxMeterApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 676DBEC5A98751E81C4D7677 /* Build configuration list for PBXNativeTarget "TaxMeterApp" */;
+			buildPhases = (
+				F8EE99A6B90E0F08A8BB3657 /* Sources */,
+				995F9E02E33A9F8B16FFF963 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TaxMeterApp;
+			packageProductDependencies = (
+				C07E2F776C37C042E897074B /* TaxMeterCore */,
+			);
+			productName = TaxMeterApp;
+			productReference = 033A56B242C521149C3F1C88 /* TaxMeterApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BBC404002FED04800E05C536 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 41BC7375E4E79DCCAB6ECD46 /* Build configuration list for PBXProject "TaxMeterApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 206F9F786A2873F20FD3A3EC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B2A7F670AEA6A7E0C3505634 /* XCLocalSwiftPackageReference "../.." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 9866881589575A148F84D1B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				69BD5826004EDE76E4C2A27D /* TaxMeterApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F8EE99A6B90E0F08A8BB3657 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F88BE6713962898A04FADE1F /* BaselineCardView.swift in Sources */,
+				3D2652A9C9BC80B254CAD6D6 /* DashboardView.swift in Sources */,
+				FE588ABFCFAE4F1DB505D497 /* DashboardViewModel.swift in Sources */,
+				475DCB1D57E352435D45220E /* TaxMeterApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B69E57CA76432EDB81038A0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C647E064885BB8D15CCCAD46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TaxMeter;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taxmeter.app;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C7FF6A31F107883E8AED0619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FE85C9C97DE34E38636393F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TaxMeter;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taxmeter.app;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.10;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		41BC7375E4E79DCCAB6ECD46 /* Build configuration list for PBXProject "TaxMeterApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7FF6A31F107883E8AED0619 /* Debug */,
+				B69E57CA76432EDB81038A0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		676DBEC5A98751E81C4D7677 /* Build configuration list for PBXNativeTarget "TaxMeterApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C647E064885BB8D15CCCAD46 /* Debug */,
+				FE85C9C97DE34E38636393F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		B2A7F670AEA6A7E0C3505634 /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C07E2F776C37C042E897074B /* TaxMeterCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaxMeterCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BBC404002FED04800E05C536 /* Project object */;
+}
