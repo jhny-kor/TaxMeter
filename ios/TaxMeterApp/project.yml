@@ -1,0 +1,23 @@
+name: TaxMeterApp
+options:
+  bundleIdPrefix: com.taxmeter
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  TaxMeterApp:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.taxmeter.app
+        SWIFT_VERSION: "5.10"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_CFBundleDisplayName: TaxMeter
+    dependencies:
+      - package: TaxMeterCore
+packages:
+  TaxMeterCore:
+    path: ../..
