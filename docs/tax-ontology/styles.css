@@ -648,6 +648,7 @@ tr:last-child td {
 }
 
 .meta-grid div,
+.criteria-block,
 .relation-group,
 .source-card {
   padding: 14px;
@@ -675,10 +676,55 @@ tr:last-child td {
   gap: 10px;
 }
 
+.criteria-block {
+  margin: 0 0 16px;
+}
+
+.criteria-block h4,
 .relation-group h4 {
   margin: 0 0 10px;
   font-size: 13px;
   color: var(--muted);
+}
+
+.criteria-block ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.criteria-block li {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  background: #f8fafc;
+  border: 1px solid var(--soft);
+  border-radius: 8px;
+}
+
+.criteria-block li > strong {
+  font-size: 14px;
+}
+
+.criteria-block li div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.criteria-block li div span {
+  padding: 4px 7px;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.criteria-block li p {
+  margin: 0;
 }
 
 .relation-links {

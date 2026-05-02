@@ -928,6 +928,7 @@ def build_css() -> str:
         }
 
         .meta-grid div,
+        .criteria-block,
         .relation-group,
         .source-card {
           padding: 14px;
@@ -955,10 +956,55 @@ def build_css() -> str:
           gap: 10px;
         }
 
+        .criteria-block {
+          margin: 0 0 16px;
+        }
+
+        .criteria-block h4,
         .relation-group h4 {
           margin: 0 0 10px;
           font-size: 13px;
           color: var(--muted);
+        }
+
+        .criteria-block ul {
+          display: grid;
+          gap: 10px;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+
+        .criteria-block li {
+          display: grid;
+          gap: 6px;
+          padding: 10px;
+          background: #f8fafc;
+          border: 1px solid var(--soft);
+          border-radius: 8px;
+        }
+
+        .criteria-block li > strong {
+          font-size: 14px;
+        }
+
+        .criteria-block li div {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+
+        .criteria-block li div span {
+          padding: 4px 7px;
+          color: var(--muted);
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: 6px;
+          font-size: 12px;
+        }
+
+        .criteria-block li p {
+          margin: 0;
         }
 
         .relation-links {
@@ -1270,6 +1316,7 @@ def build_js(data: dict, summary: dict) -> str:
               item.title,
               typeLabels[item.type] || item.type,
               item.description,
+              JSON.stringify(item.criteria || []),
               item.law_reference,
               ...(item.tags || [])
             ].join(" ").toLowerCase();
@@ -1369,6 +1416,81 @@ def build_js(data: dict, summary: dict) -> str:
             `;
           }}
 
+          function formatKrw(value) {{
+            if (value === undefined || value === null || value === "") return "";
+            const number = Number(value);
+            return Number.isFinite(number) ? `${{number.toLocaleString("ko-KR")}}원` : String(value);
+          }}
+
+          function formatPercent(value) {{
+            if (value === undefined || value === null || value === "") return "";
+            return `${{value}}%`;
+          }}
+
+          function criteriaBlock(criteria) {{
+            if (!criteria || !criteria.length) return "";
+            const labels = {{
+              basis: "기준항목",
+              condition: "조건",
+              threshold_krw_min: "하한",
+              threshold_krw: "기준금액",
+              threshold_krw_max: "상한",
+              rate_percent: "세율",
+              rate_percent_min: "최저세율",
+              rate_percent_max: "최고세율",
+              progressive_deduction_krw: "누진공제",
+              deduction_krw: "공제액",
+              limit_krw: "한도",
+              amount_krw: "금액",
+              max_amount_krw: "최대금액",
+              benefit: "혜택",
+              note: "비고"
+            }};
+            const orderedKeys = [
+              "basis",
+              "condition",
+              "threshold_krw_min",
+              "threshold_krw",
+              "threshold_krw_max",
+              "rate_percent",
+              "rate_percent_min",
+              "rate_percent_max",
+              "progressive_deduction_krw",
+              "deduction_krw",
+              "limit_krw",
+              "amount_krw",
+              "max_amount_krw",
+              "benefit",
+              "note"
+            ];
+            const items = criteria.map((criterion) => {{
+              const detail = orderedKeys
+                .filter((key) => criterion[key] !== undefined && criterion[key] !== null && criterion[key] !== "")
+                .map((key) => {{
+                  let value = criterion[key];
+                  if (key.endsWith("_krw")) value = formatKrw(value);
+                  if (key.startsWith("rate_percent")) value = formatPercent(value);
+                  return `<span>${{escapeHtml(labels[key] || key)}}: <strong>${{escapeHtml(value)}}</strong></span>`;
+                }})
+                .join("");
+              const source = criterion.source ? byId.get(criterion.source) : null;
+              const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${{escapeHtml(source.id)}}">${{escapeHtml(source.title)}}</button>` : "";
+              return `
+                <li>
+                  <strong>${{escapeHtml(criterion.label || "기준")}}</strong>
+                  <div>${{detail}}</div>
+                  ${{sourceLink ? `<p>${{sourceLink}}</p>` : ""}}
+                </li>
+              `;
+            }}).join("");
+            return `
+              <div class="criteria-block">
+                <h4>기준 내역</h4>
+                <ul>${{items}}</ul>
+              </div>
+            `;
+          }}
+
           function renderDetail() {{
             const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
             if (!item) {{
@@ -1387,6 +1509,7 @@ def build_js(data: dict, summary: dict) -> str:
               relationBlock("관련 기한", item.deadlines),
               sourceBlock(item.sources)
             ].filter(Boolean).join("");
+            const criteriaHtml = criteriaBlock(item.criteria);
 
             detailEl.innerHTML = `
               <div class="detail-kicker">${{escapeHtml(typeLabels[item.type] || item.type)}} · ${{escapeHtml(item.id)}}</div>
@@ -1398,6 +1521,7 @@ def build_js(data: dict, summary: dict) -> str:
                 <div><span>폴더</span><strong>${{escapeHtml(item.folder || "-")}}</strong></div>
                 <div><span>태그</span><strong>${{escapeHtml((item.tags || []).join(", ") || "-")}}</strong></div>
               </div>
+              ${{criteriaHtml}}
               <div class="relations">${{relationHtml || "<p>연결된 관계가 없습니다.</p>"}}</div>
             `;
           }}

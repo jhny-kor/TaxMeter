@@ -61,9 +61,9 @@
     ]
   },
   "summary": {
-    "item_count": 191,
-    "source_count": 27,
-    "term_count": 23,
+    "item_count": 202,
+    "source_count": 35,
+    "term_count": 26,
     "category_count": 13,
     "national_tax_count": 12,
     "local_tax_count": 11,
@@ -76,12 +76,12 @@
       "deduction": 17,
       "domain": 1,
       "filing": 10,
-      "source": 27,
+      "source": 35,
       "support-program": 4,
       "tax": 29,
       "tax-credit": 12,
       "tax-reduction": 4,
-      "term": 23
+      "term": 26
     }
   },
   "type_labels": {
@@ -643,14 +643,46 @@
       ],
       "terms": [
         "term.publicly-notified-price",
-        "term.tax-base"
+        "term.tax-base",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
         "source.nts.comprehensive-real-estate.overview"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "주택 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "주택",
+          "deduction_krw": 900000000,
+          "note": "1세대 1주택자는 12억원",
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "1세대 1주택자 주택 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "1세대 1주택자",
+          "deduction_krw": 1200000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "종합합산토지 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "종합합산토지",
+          "deduction_krw": 500000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "별도합산토지 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "별도합산토지",
+          "deduction_krw": 8000000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        }
+      ]
     },
     {
       "id": "concept.cre-tax-base-date",
@@ -697,7 +729,9 @@
         "filing.vat-return"
       ],
       "terms": [
-        "term.general-vat-taxpayer"
+        "term.general-vat-taxpayer",
+        "term.tax-rate",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -706,7 +740,25 @@
         "source.nts.business-registration.application"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "일반과세자 매출 기준",
+          "basis": "1년 매출액",
+          "condition": "1억400만원 이상",
+          "threshold_krw_min": 104000000,
+          "benefit": "일반과세자",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "일반과세자 세율",
+          "basis": "매출세액",
+          "condition": "매출액에 기본세율 적용",
+          "rate_percent": 10,
+          "note": "영세율 적용 대상은 0%",
+          "source": "source.nts.vat.filing-duty"
+        }
+      ]
     },
     {
       "id": "concept.simple-vat-taxpayer",
@@ -728,7 +780,9 @@
         "filing.vat-return"
       ],
       "terms": [
-        "term.simple-vat-taxpayer"
+        "term.simple-vat-taxpayer",
+        "term.tax-rate",
+        "term.eligibility-threshold"
       ],
       "deadlines": [
         "deadline.vat.simplified.annual",
@@ -740,7 +794,42 @@
         "source.nts.business-registration.application"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "간이과세자 매출 기준",
+          "basis": "1년 매출액",
+          "condition": "1억400만원 미만",
+          "threshold_krw_max": 104000000,
+          "benefit": "간이과세자",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "간이과세자 업종별 부가가치율",
+          "basis": "업종별 부가가치율",
+          "condition": "2021.7.1. 이후 업종별 15%~40%",
+          "rate_percent_min": 15,
+          "rate_percent_max": 40,
+          "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "간이과세자 예정신고 대상",
+          "basis": "직전연도 공급대가",
+          "condition": "4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서 발급",
+          "threshold_krw_min": 48000000,
+          "threshold_krw_max": 104000000,
+          "source": "source.nts.vat.filing-duty"
+        },
+        {
+          "label": "간이과세자 납부의무 면제",
+          "basis": "직전연도 공급대가",
+          "condition": "4,800만원 미만",
+          "threshold_krw_max": 48000000,
+          "benefit": "납부세액 납부의무 면제 가능",
+          "source": "source.nts.vat.filing-duty"
+        }
+      ]
     },
     {
       "id": "concept.vat-payment-exemption",
@@ -760,14 +849,25 @@
         "filing.vat-return"
       ],
       "terms": [
-        "term.simple-vat-taxpayer"
+        "term.simple-vat-taxpayer",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
         "source.nts.vat.filing-duty"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "간이과세자 납부의무 면제",
+          "basis": "직전연도 공급대가",
+          "condition": "4,800만원 미만",
+          "threshold_krw_max": 48000000,
+          "benefit": "납부세액 납부의무 면제 가능",
+          "source": "source.nts.vat.filing-duty"
+        }
+      ]
     },
     {
       "id": "corporate.support.agricultural-corporation-reduction",
@@ -1736,7 +1836,8 @@
       "children": [],
       "related": [],
       "terms": [
-        "term.tax-credit"
+        "term.tax-credit",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -1745,6 +1846,38 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "의료비 공제 문턱",
+          "basis": "의료비 지출액",
+          "condition": "총급여액의 3% 초과분",
+          "rate_percent": 3,
+          "note": "초과분이 공제대상 의료비",
+          "source": "source.nts.year-end-settlement.special-credit"
+        },
+        {
+          "label": "일반 의료비",
+          "basis": "일반 기본공제대상자 의료비",
+          "condition": "연 700만원 한도",
+          "limit_krw": 7000000,
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit"
+        },
+        {
+          "label": "본인·6세 이하·65세 이상·장애인 의료비",
+          "basis": "해당 의료비",
+          "condition": "한도 없음",
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit"
+        },
+        {
+          "label": "난임시술비",
+          "basis": "난임시술비",
+          "condition": "한도 없음",
+          "rate_percent": 30,
+          "source": "source.nts.year-end-settlement.special-credit"
+        }
       ]
     },
     {
@@ -1762,7 +1895,8 @@
       "children": [],
       "related": [],
       "terms": [
-        "term.tax-credit"
+        "term.tax-credit",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -1771,6 +1905,48 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "공제대상자 소득",
+          "basis": "총급여",
+          "condition": "8,000만원 이하",
+          "threshold_krw_max": 80000000,
+          "source": "source.nts.monthly-rent-credit"
+        },
+        {
+          "label": "공제대상자 종합소득",
+          "basis": "종합소득금액",
+          "condition": "7,000만원 이하",
+          "threshold_krw_max": 70000000,
+          "source": "source.nts.monthly-rent-credit"
+        },
+        {
+          "label": "17% 공제율",
+          "basis": "총급여",
+          "condition": "5,500만원 이하",
+          "threshold_krw_max": 55000000,
+          "rate_percent": 17,
+          "limit_krw": 10000000,
+          "source": "source.nts.monthly-rent-credit"
+        },
+        {
+          "label": "15% 공제율",
+          "basis": "총급여",
+          "condition": "5,500만원 초과 8,000만원 이하",
+          "threshold_krw_min": 55000000,
+          "threshold_krw_max": 80000000,
+          "rate_percent": 15,
+          "limit_krw": 10000000,
+          "source": "source.nts.monthly-rent-credit"
+        },
+        {
+          "label": "공제대상 주택",
+          "basis": "주택 규모·기준시가",
+          "condition": "국민주택규모 또는 기준시가 4억원 이하",
+          "threshold_krw_max": 400000000,
+          "source": "source.nts.monthly-rent-credit"
+        }
       ]
     },
     {
@@ -1788,7 +1964,8 @@
       "children": [],
       "related": [],
       "terms": [
-        "term.tax-credit"
+        "term.tax-credit",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -1797,6 +1974,28 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "총급여 5,500만원 이하",
+          "basis": "총급여 또는 종합소득금액",
+          "condition": "총급여 5,500만원 이하 또는 종합소득금액 4,500만원 이하",
+          "threshold_krw_max": 55000000,
+          "limit_krw": 9000000,
+          "rate_percent": 15,
+          "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "총급여 5,500만원 초과",
+          "basis": "총급여 또는 종합소득금액",
+          "condition": "총급여 5,500만원 초과",
+          "threshold_krw_min": 55000000,
+          "limit_krw": 9000000,
+          "rate_percent": 12,
+          "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -2259,7 +2458,8 @@
       "related": [],
       "terms": [
         "term.income-deduction",
-        "term.tax-base"
+        "term.deduction-limit",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -2269,6 +2469,37 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "사용금액 문턱",
+          "basis": "신용카드 등 사용금액",
+          "condition": "총급여액의 25% 초과분",
+          "rate_percent": 25,
+          "note": "공제 대상 사용금액 산정 기준",
+          "source": "source.nts.credit-card-deduction"
+        },
+        {
+          "label": "신용카드 공제율",
+          "basis": "신용카드 사용금액",
+          "condition": "총급여 25% 초과분 중 신용카드",
+          "rate_percent": 15,
+          "source": "source.nts.credit-card-deduction"
+        },
+        {
+          "label": "현금영수증·직불카드 공제율",
+          "basis": "현금영수증·직불카드 등",
+          "condition": "총급여 25% 초과분 중 현금영수증·직불카드",
+          "rate_percent": 30,
+          "source": "source.nts.credit-card-deduction"
+        },
+        {
+          "label": "전통시장·대중교통 공제율",
+          "basis": "전통시장·대중교통 사용금액",
+          "condition": "총급여 25% 초과분 중 전통시장·대중교통",
+          "rate_percent": 40,
+          "source": "source.nts.credit-card-deduction"
+        }
       ]
     },
     {
@@ -2734,6 +2965,7 @@
       "terms": [
         "term.withholding",
         "term.withholding-obligor",
+        "term.tax-rate",
         "term.deadline-special-rule"
       ],
       "deadlines": [
@@ -2747,6 +2979,16 @@
       "law_reference": "",
       "tags": [
         "business-compliance"
+      ],
+      "criteria": [
+        {
+          "label": "사업소득 원천징수세율",
+          "basis": "원천징수 대상 사업소득 지급금액",
+          "condition": "사업소득 지급 시",
+          "rate_percent": 3,
+          "note": "지방소득세는 별도 확인",
+          "source": "source.nts.business-income.withholding"
+        }
       ]
     },
     {
@@ -3262,15 +3504,109 @@
       ],
       "terms": [
         "term.local-tax",
-        "term.publicly-notified-price"
+        "term.publicly-notified-price",
+        "term.tax-rate"
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.nts.real-estate-tax.faq"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "주택 6천만원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "주택 6천만원 이하",
+          "threshold_krw_max": 60000000,
+          "rate_percent": 0.1,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "주택 1억5천만원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "주택 1억5천만원 이하",
+          "threshold_krw_max": 150000000,
+          "rate_percent": 0.15,
+          "progressive_deduction_krw": 30000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "주택 3억원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "주택 3억원 이하",
+          "threshold_krw_max": 300000000,
+          "rate_percent": 0.25,
+          "progressive_deduction_krw": 180000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "주택 3억원 초과",
+          "basis": "재산세 과세표준",
+          "condition": "주택 3억원 초과",
+          "threshold_krw_min": 300000000,
+          "rate_percent": 0.4,
+          "progressive_deduction_krw": 630000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "종합합산 5천만원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "종합합산 5천만원 이하",
+          "threshold_krw_max": 50000000,
+          "rate_percent": 0.2,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "종합합산 1억원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "종합합산 1억원 이하",
+          "threshold_krw_max": 100000000,
+          "rate_percent": 0.3,
+          "progressive_deduction_krw": 50000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "종합합산 1억원 초과",
+          "basis": "재산세 과세표준",
+          "condition": "종합합산 1억원 초과",
+          "threshold_krw_min": 100000000,
+          "rate_percent": 0.5,
+          "progressive_deduction_krw": 250000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "별도합산 2억원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "별도합산 2억원 이하",
+          "threshold_krw_max": 200000000,
+          "rate_percent": 0.2,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "별도합산 10억원 이하",
+          "basis": "재산세 과세표준",
+          "condition": "별도합산 10억원 이하",
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 0.3,
+          "progressive_deduction_krw": 200000,
+          "source": "source.nts.real-estate-tax.faq"
+        },
+        {
+          "label": "별도합산 10억원 초과",
+          "basis": "재산세 과세표준",
+          "condition": "별도합산 10억원 초과",
+          "threshold_krw_min": 1000000000,
+          "rate_percent": 0.4,
+          "progressive_deduction_krw": 1200000,
+          "source": "source.nts.real-estate-tax.faq"
+        }
       ]
     },
     {
@@ -3697,6 +4033,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.capital-gains.rates",
+      "title": "양도소득세 세율",
+      "type": "source",
+      "description": "양도소득세 기본세율, 보유기간·자산 유형별 세율, 국외주식·파생상품 세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2345",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.comprehensive-real-estate.overview",
       "title": "종합부동산세 개요",
       "type": "source",
@@ -3718,6 +4078,54 @@
       ],
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.comprehensive-real-estate.rates",
+      "title": "종합부동산세 세율",
+      "type": "source",
+      "description": "2023년 이후 주택, 종합합산토지, 별도합산토지의 종합부동산세 과세표준 구간별 세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7736&mi=40378",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.corporate-tax.rates",
+      "title": "법인세 세율",
+      "type": "source",
+      "description": "2026.1.1. 이후 개시 사업연도 법인세 각 사업연도 소득 과세표준 구간, 세율, 누진공제액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
       "basis_date": "2026-05-02 확인"
     },
     {
@@ -3841,6 +4249,54 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.gift.rates",
+      "title": "증여세 세율",
+      "type": "source",
+      "description": "증여세 과세표준 5단계 초과누진세율, 세대생략 할증, 창업자금·가업승계 특례세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7960&mi=2227",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.grant.2026-regular-press",
+      "title": "2026년 근로·자녀장려금 정기신청 보도자료",
+      "type": "source",
+      "description": "2025년 귀속 근로·자녀장려금 소득요건, 재산요건, 감액구간, 정기 신청·지급 일정 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/na/ntt/selectNttInfo.do?mi=2201&nttSn=1350768",
+      "basis_date": "2026-04-30"
+    },
+    {
       "id": "source.nts.grant.deadline",
       "title": "근로·자녀장려금 심사 및 지급",
       "type": "source",
@@ -3913,6 +4369,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.income-tax.rates",
+      "title": "종합소득세 세율",
+      "type": "source",
+      "description": "2023~2025년 귀속 종합소득세 과세표준 구간, 세율, 누진공제액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7667&mi=2223",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.inheritance.overview",
       "title": "상속세 개요",
       "type": "source",
@@ -3937,6 +4417,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.inheritance.rates",
+      "title": "상속세 세율",
+      "type": "source",
+      "description": "상속세 과세표준 5단계 초과누진세율과 누진공제액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7957&mi=6529",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.monthly-rent-credit",
       "title": "월세액 세액공제",
       "type": "source",
@@ -3958,6 +4462,30 @@
       ],
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.real-estate-tax.faq",
+      "title": "궁금해요 종합부동산 세법",
+      "type": "source",
+      "description": "종합부동산세 과세표준 계산식, 공정시장가액비율, 재산세 표준세율, 세액공제와 세부담상한 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
       "basis_date": "2026-05-02 확인"
     },
     {
@@ -4147,7 +4675,8 @@
       ],
       "terms": [
         "term.total-income",
-        "term.property-requirement"
+        "term.property-requirement",
+        "term.eligibility-threshold"
       ],
       "deadlines": [
         "deadline.grant.regular.2025-income"
@@ -4155,11 +4684,47 @@
       "sources": [
         "source.nts.ctc.intro",
         "source.nts.grant.eligibility",
-        "source.nts.grant.deadline"
+        "source.nts.grant.deadline",
+        "source.nts.grant.2026-regular-press"
       ],
       "law_reference": "",
       "tags": [
         "cash-support"
+      ],
+      "criteria": [
+        {
+          "label": "홑벌이·맞벌이 총소득",
+          "basis": "부부합산 총소득",
+          "condition": "7,000만원 미만",
+          "threshold_krw_max": 70000000,
+          "max_amount_krw": 1000000,
+          "note": "자녀 1인당 최대 100만원, 최소 50만원",
+          "source": "source.nts.ctc.intro"
+        },
+        {
+          "label": "부양자녀",
+          "basis": "자녀 연령",
+          "condition": "18세 미만 부양자녀",
+          "benefit": "자녀장려금 대상",
+          "source": "source.nts.ctc.intro"
+        },
+        {
+          "label": "재산요건",
+          "basis": "가구원 전체 재산 합계액",
+          "condition": "2억4천만원 미만",
+          "threshold_krw_max": 240000000,
+          "benefit": "신청 가능",
+          "source": "source.nts.grant.2026-regular-press"
+        },
+        {
+          "label": "재산 감액구간",
+          "basis": "가구원 전체 재산 합계액",
+          "condition": "1억7천만원 이상 2억4천만원 미만",
+          "threshold_krw_min": 170000000,
+          "threshold_krw_max": 240000000,
+          "benefit": "산정액의 50% 지급",
+          "source": "source.nts.grant.2026-regular-press"
+        }
       ]
     },
     {
@@ -4182,7 +4747,8 @@
       "terms": [
         "term.total-income",
         "term.gross-pay",
-        "term.property-requirement"
+        "term.property-requirement",
+        "term.eligibility-threshold"
       ],
       "deadlines": [
         "deadline.grant.regular.2025-income",
@@ -4191,11 +4757,55 @@
       "sources": [
         "source.nts.eitc.intro",
         "source.nts.grant.eligibility",
-        "source.nts.grant.deadline"
+        "source.nts.grant.deadline",
+        "source.nts.grant.2026-regular-press"
       ],
       "law_reference": "",
       "tags": [
         "cash-support"
+      ],
+      "criteria": [
+        {
+          "label": "단독가구 총소득",
+          "basis": "부부합산 총소득",
+          "condition": "2,200만원 미만",
+          "threshold_krw_max": 22000000,
+          "max_amount_krw": 1650000,
+          "source": "source.nts.eitc.intro"
+        },
+        {
+          "label": "홑벌이가구 총소득",
+          "basis": "부부합산 총소득",
+          "condition": "3,200만원 미만",
+          "threshold_krw_max": 32000000,
+          "max_amount_krw": 2850000,
+          "source": "source.nts.eitc.intro"
+        },
+        {
+          "label": "맞벌이가구 총소득",
+          "basis": "부부합산 총소득",
+          "condition": "4,400만원 미만",
+          "threshold_krw_max": 44000000,
+          "max_amount_krw": 3300000,
+          "source": "source.nts.eitc.intro"
+        },
+        {
+          "label": "재산요건",
+          "basis": "가구원 전체 재산 합계액",
+          "condition": "2억4천만원 미만",
+          "threshold_krw_max": 240000000,
+          "benefit": "신청 가능",
+          "source": "source.nts.grant.2026-regular-press"
+        },
+        {
+          "label": "재산 감액구간",
+          "basis": "가구원 전체 재산 합계액",
+          "condition": "1억7천만원 이상 2억4천만원 미만",
+          "threshold_krw_min": 170000000,
+          "threshold_krw_max": 240000000,
+          "benefit": "산정액의 50% 지급",
+          "source": "source.nts.grant.2026-regular-press"
+        }
       ]
     },
     {
@@ -4244,7 +4854,8 @@
         "tax.income"
       ],
       "terms": [
-        "term.total-income"
+        "term.total-income",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
@@ -4253,6 +4864,43 @@
       "law_reference": "",
       "tags": [
         "policy-finance"
+      ],
+      "criteria": [
+        {
+          "label": "나이",
+          "basis": "계좌개설일 기준 만 나이",
+          "condition": "19세 이상 34세 이하",
+          "note": "병역이행기간은 최대 6년까지 차감",
+          "source": "source.kinfa.youth-leap"
+        },
+        {
+          "label": "개인소득 총급여",
+          "basis": "직전 과세기간 총급여액",
+          "condition": "7,500만원 이하",
+          "threshold_krw_max": 75000000,
+          "source": "source.kinfa.youth-leap"
+        },
+        {
+          "label": "개인소득 종합소득",
+          "basis": "종합소득과세표준에 합산되는 종합소득금액",
+          "condition": "6,300만원 이하",
+          "threshold_krw_max": 63000000,
+          "source": "source.kinfa.youth-leap"
+        },
+        {
+          "label": "가구소득",
+          "basis": "가구원 수별 기준 중위소득",
+          "condition": "250% 이하",
+          "benefit": "가입 대상",
+          "source": "source.kinfa.youth-leap"
+        },
+        {
+          "label": "금융소득종합과세 제외",
+          "basis": "직전 3개 과세기간",
+          "condition": "금융소득종합과세 대상 이력 없음",
+          "benefit": "가입 가능",
+          "source": "source.kinfa.youth-leap"
+        }
       ]
     },
     {
@@ -4277,16 +4925,188 @@
       "terms": [
         "term.national-tax",
         "term.tax-law",
-        "term.publicly-notified-price"
+        "term.publicly-notified-price",
+        "term.tax-rate",
+        "term.eligibility-threshold"
       ],
       "deadlines": [],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.comprehensive-real-estate.overview"
+        "source.nts.comprehensive-real-estate.overview",
+        "source.nts.comprehensive-real-estate.rates",
+        "source.nts.real-estate-tax.faq"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "주택 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "주택",
+          "deduction_krw": 900000000,
+          "note": "1세대 1주택자는 12억원",
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "1세대 1주택자 주택 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "1세대 1주택자",
+          "deduction_krw": 1200000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "종합합산토지 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "종합합산토지",
+          "deduction_krw": 500000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "별도합산토지 공제금액",
+          "basis": "공시가격 합계액",
+          "condition": "별도합산토지",
+          "deduction_krw": 8000000000,
+          "source": "source.nts.comprehensive-real-estate.overview"
+        },
+        {
+          "label": "주택 2주택 이하 3억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 3억원 이하",
+          "threshold_krw_max": 300000000,
+          "rate_percent": 0.5,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 6억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 6억원 이하",
+          "threshold_krw_max": 600000000,
+          "rate_percent": 0.7,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 12억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 12억원 이하",
+          "threshold_krw_max": 1200000000,
+          "rate_percent": 1.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 25억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 25억원 이하",
+          "threshold_krw_max": 2500000000,
+          "rate_percent": 1.3,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 50억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 50억원 이하",
+          "threshold_krw_max": 5000000000,
+          "rate_percent": 1.5,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 94억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 94억원 이하",
+          "threshold_krw_max": 9400000000,
+          "rate_percent": 2.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 2주택 이하 94억원 초과",
+          "basis": "종부세 과세표준",
+          "condition": "주택 2주택 이하, 94억원 초과",
+          "threshold_krw_min": 9400000000,
+          "rate_percent": 2.7,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 3주택 이상 25억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 3주택 이상, 25억원 이하",
+          "threshold_krw_max": 2500000000,
+          "rate_percent": 2.0,
+          "note": "3억원 이하 0.5%, 6억원 이하 0.7%, 12억원 이하 1.0%",
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 3주택 이상 50억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 3주택 이상, 50억원 이하",
+          "threshold_krw_max": 5000000000,
+          "rate_percent": 3.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 3주택 이상 94억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "주택 3주택 이상, 94억원 이하",
+          "threshold_krw_max": 9400000000,
+          "rate_percent": 4.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "주택 3주택 이상 94억원 초과",
+          "basis": "종부세 과세표준",
+          "condition": "주택 3주택 이상, 94억원 초과",
+          "threshold_krw_min": 9400000000,
+          "rate_percent": 5.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "종합합산토지 15억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "종합합산토지 15억원 이하",
+          "threshold_krw_max": 1500000000,
+          "rate_percent": 1.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "종합합산토지 45억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "종합합산토지 45억원 이하",
+          "threshold_krw_max": 4500000000,
+          "rate_percent": 2.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "종합합산토지 45억원 초과",
+          "basis": "종부세 과세표준",
+          "condition": "종합합산토지 45억원 초과",
+          "threshold_krw_min": 4500000000,
+          "rate_percent": 3.0,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "별도합산토지 200억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "별도합산토지 200억원 이하",
+          "threshold_krw_max": 20000000000,
+          "rate_percent": 0.5,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "별도합산토지 400억원 이하",
+          "basis": "종부세 과세표준",
+          "condition": "별도합산토지 400억원 이하",
+          "threshold_krw_max": 40000000000,
+          "rate_percent": 0.6,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        },
+        {
+          "label": "별도합산토지 400억원 초과",
+          "basis": "종부세 과세표준",
+          "condition": "별도합산토지 400억원 초과",
+          "threshold_krw_min": 40000000000,
+          "rate_percent": 0.7,
+          "source": "source.nts.comprehensive-real-estate.rates"
+        }
       ]
     },
     {
@@ -4308,15 +5128,63 @@
       ],
       "terms": [
         "term.national-tax",
-        "term.tax-law"
+        "term.tax-law",
+        "term.tax-base",
+        "term.tax-rate",
+        "term.progressive-deduction"
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.corporate-tax.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "2억원 이하",
+          "basis": "각 사업연도 소득 과세표준",
+          "condition": "2억원 이하",
+          "threshold_krw_max": 200000000,
+          "rate_percent": 10,
+          "progressive_deduction_krw": 0,
+          "note": "2026.1.1. 이후 개시 사업연도 기준",
+          "source": "source.nts.corporate-tax.rates"
+        },
+        {
+          "label": "2억원 초과 200억원 이하",
+          "basis": "각 사업연도 소득 과세표준",
+          "condition": "2억원 초과 200억원 이하",
+          "threshold_krw_min": 200000000,
+          "threshold_krw_max": 20000000000,
+          "rate_percent": 20,
+          "progressive_deduction_krw": 20000000,
+          "note": "2026.1.1. 이후 개시 사업연도 기준",
+          "source": "source.nts.corporate-tax.rates"
+        },
+        {
+          "label": "200억원 초과 3,000억원 이하",
+          "basis": "각 사업연도 소득 과세표준",
+          "condition": "200억원 초과 3,000억원 이하",
+          "threshold_krw_min": 20000000000,
+          "threshold_krw_max": 300000000000,
+          "rate_percent": 22,
+          "progressive_deduction_krw": 420000000,
+          "note": "2026.1.1. 이후 개시 사업연도 기준",
+          "source": "source.nts.corporate-tax.rates"
+        },
+        {
+          "label": "3,000억원 초과",
+          "basis": "각 사업연도 소득 과세표준",
+          "condition": "3,000억원 초과",
+          "threshold_krw_min": 300000000000,
+          "rate_percent": 25,
+          "progressive_deduction_krw": 9420000000,
+          "note": "2026.1.1. 이후 개시 사업연도 기준",
+          "source": "source.nts.corporate-tax.rates"
+        }
       ]
     },
     {
@@ -4391,17 +5259,70 @@
       "related": [],
       "terms": [
         "term.tax-base",
-        "term.donee"
+        "term.donee",
+        "term.tax-rate",
+        "term.progressive-deduction"
       ],
       "deadlines": [
         "deadline.gift.general"
       ],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.gift.deadline"
+        "source.nts.gift.deadline",
+        "source.nts.gift.rates"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "1억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 이하",
+          "threshold_krw_max": 100000000,
+          "rate_percent": 10,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.gift.rates"
+        },
+        {
+          "label": "1억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 초과 5억원 이하",
+          "threshold_krw_min": 100000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 20,
+          "progressive_deduction_krw": 10000000,
+          "source": "source.nts.gift.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 30,
+          "progressive_deduction_krw": 60000000,
+          "source": "source.nts.gift.rates"
+        },
+        {
+          "label": "10억원 초과 30억원 이하",
+          "basis": "과세표준",
+          "condition": "10억원 초과 30억원 이하",
+          "threshold_krw_min": 1000000000,
+          "threshold_krw_max": 3000000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 160000000,
+          "source": "source.nts.gift.rates"
+        },
+        {
+          "label": "30억원 초과",
+          "basis": "과세표준",
+          "condition": "30억원 초과",
+          "threshold_krw_min": 3000000000,
+          "rate_percent": 50,
+          "progressive_deduction_krw": 460000000,
+          "source": "source.nts.gift.rates"
+        }
+      ]
     },
     {
       "id": "tax.income",
@@ -4429,25 +5350,109 @@
       ],
       "terms": [
         "term.national-tax",
-        "term.tax-law"
+        "term.tax-law",
+        "term.tax-base",
+        "term.tax-rate",
+        "term.progressive-deduction"
       ],
       "deadlines": [
         "deadline.income-tax.2025-return",
         "deadline.year-end-settlement"
       ],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.income-tax.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "1,400만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 이하",
+          "threshold_krw_max": 14000000,
+          "rate_percent": 6,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1,400만원 초과 5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 초과 5,000만원 이하",
+          "threshold_krw_min": 14000000,
+          "threshold_krw_max": 50000000,
+          "rate_percent": 15,
+          "progressive_deduction_krw": 1260000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5,000만원 초과 8,800만원 이하",
+          "basis": "과세표준",
+          "condition": "5,000만원 초과 8,800만원 이하",
+          "threshold_krw_min": 50000000,
+          "threshold_krw_max": 88000000,
+          "rate_percent": 24,
+          "progressive_deduction_krw": 5760000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "8,800만원 초과 1억5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "8,800만원 초과 1억5,000만원 이하",
+          "threshold_krw_min": 88000000,
+          "threshold_krw_max": 150000000,
+          "rate_percent": 35,
+          "progressive_deduction_krw": 15440000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1억5,000만원 초과 3억원 이하",
+          "basis": "과세표준",
+          "condition": "1억5,000만원 초과 3억원 이하",
+          "threshold_krw_min": 150000000,
+          "threshold_krw_max": 300000000,
+          "rate_percent": 38,
+          "progressive_deduction_krw": 19940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "3억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "3억원 초과 5억원 이하",
+          "threshold_krw_min": 300000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 25940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 42,
+          "progressive_deduction_krw": 35940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "10억원 초과",
+          "basis": "과세표준",
+          "condition": "10억원 초과",
+          "threshold_krw_min": 1000000000,
+          "rate_percent": 45,
+          "progressive_deduction_krw": 65940000,
+          "source": "source.nts.income-tax.rates"
+        }
       ]
     },
     {
       "id": "tax.income.capital-gains",
       "title": "양도소득세",
       "type": "tax",
-      "description": "부동산, 주식 등 자산 양도차익에 대해 과세되는 소득세입니다.",
+      "description": "부동산, 주식 등 자산 양도차익에 대해 과세되는 소득세입니다. 자산 유형별 특례세율이 있으므로 기본세율과 특례세율을 분리해 확인합니다.",
       "folder": "10_Taxes/National",
       "basis_year": 2026,
       "effective_date": null,
@@ -4466,6 +5471,7 @@
       "terms": [
         "term.tax-base",
         "term.capital-gain",
+        "term.tax-rate",
         "term.deadline"
       ],
       "deadlines": [
@@ -4475,10 +5481,113 @@
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.capital-gains.overview",
-        "source.nts.capital-gains.deadline"
+        "source.nts.capital-gains.deadline",
+        "source.nts.capital-gains.rates"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "1,400만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 이하",
+          "threshold_krw_max": 14000000,
+          "rate_percent": 6,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1,400만원 초과 5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 초과 5,000만원 이하",
+          "threshold_krw_min": 14000000,
+          "threshold_krw_max": 50000000,
+          "rate_percent": 15,
+          "progressive_deduction_krw": 1260000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5,000만원 초과 8,800만원 이하",
+          "basis": "과세표준",
+          "condition": "5,000만원 초과 8,800만원 이하",
+          "threshold_krw_min": 50000000,
+          "threshold_krw_max": 88000000,
+          "rate_percent": 24,
+          "progressive_deduction_krw": 5760000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "8,800만원 초과 1억5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "8,800만원 초과 1억5,000만원 이하",
+          "threshold_krw_min": 88000000,
+          "threshold_krw_max": 150000000,
+          "rate_percent": 35,
+          "progressive_deduction_krw": 15440000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1억5,000만원 초과 3억원 이하",
+          "basis": "과세표준",
+          "condition": "1억5,000만원 초과 3억원 이하",
+          "threshold_krw_min": 150000000,
+          "threshold_krw_max": 300000000,
+          "rate_percent": 38,
+          "progressive_deduction_krw": 19940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "3억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "3억원 초과 5억원 이하",
+          "threshold_krw_min": 300000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 25940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 42,
+          "progressive_deduction_krw": 35940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "10억원 초과",
+          "basis": "과세표준",
+          "condition": "10억원 초과",
+          "threshold_krw_min": 1000000000,
+          "rate_percent": 45,
+          "progressive_deduction_krw": 65940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "국외 중소기업주식 등",
+          "basis": "양도소득 과세표준",
+          "condition": "국외 중소기업주식 등",
+          "rate_percent": 10,
+          "source": "source.nts.capital-gains.rates"
+        },
+        {
+          "label": "국외 그 밖의 주식 등",
+          "basis": "양도소득 과세표준",
+          "condition": "국외 그 밖의 주식 등",
+          "rate_percent": 20,
+          "source": "source.nts.capital-gains.rates"
+        },
+        {
+          "label": "파생상품 등",
+          "basis": "양도소득 과세표준",
+          "condition": "2018.4.1. 이후 양도분",
+          "rate_percent": 10,
+          "note": "기본세율 20%에 한시적 탄력세율 적용",
+          "source": "source.nts.capital-gains.rates"
+        }
+      ]
     },
     {
       "id": "tax.income.comprehensive",
@@ -4500,16 +5609,99 @@
       ],
       "terms": [
         "term.tax-base",
+        "term.tax-rate",
+        "term.progressive-deduction",
         "term.deadline-special-rule"
       ],
       "deadlines": [
         "deadline.income-tax.2025-return"
       ],
       "sources": [
-        "source.nts.income-tax.deadline"
+        "source.nts.income-tax.deadline",
+        "source.nts.income-tax.rates"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "1,400만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 이하",
+          "threshold_krw_max": 14000000,
+          "rate_percent": 6,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1,400만원 초과 5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "1,400만원 초과 5,000만원 이하",
+          "threshold_krw_min": 14000000,
+          "threshold_krw_max": 50000000,
+          "rate_percent": 15,
+          "progressive_deduction_krw": 1260000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5,000만원 초과 8,800만원 이하",
+          "basis": "과세표준",
+          "condition": "5,000만원 초과 8,800만원 이하",
+          "threshold_krw_min": 50000000,
+          "threshold_krw_max": 88000000,
+          "rate_percent": 24,
+          "progressive_deduction_krw": 5760000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "8,800만원 초과 1억5,000만원 이하",
+          "basis": "과세표준",
+          "condition": "8,800만원 초과 1억5,000만원 이하",
+          "threshold_krw_min": 88000000,
+          "threshold_krw_max": 150000000,
+          "rate_percent": 35,
+          "progressive_deduction_krw": 15440000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "1억5,000만원 초과 3억원 이하",
+          "basis": "과세표준",
+          "condition": "1억5,000만원 초과 3억원 이하",
+          "threshold_krw_min": 150000000,
+          "threshold_krw_max": 300000000,
+          "rate_percent": 38,
+          "progressive_deduction_krw": 19940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "3억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "3억원 초과 5억원 이하",
+          "threshold_krw_min": 300000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 25940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 42,
+          "progressive_deduction_krw": 35940000,
+          "source": "source.nts.income-tax.rates"
+        },
+        {
+          "label": "10억원 초과",
+          "basis": "과세표준",
+          "condition": "10억원 초과",
+          "threshold_krw_min": 1000000000,
+          "rate_percent": 45,
+          "progressive_deduction_krw": 65940000,
+          "source": "source.nts.income-tax.rates"
+        }
+      ]
     },
     {
       "id": "tax.income.retirement",
@@ -4580,7 +5772,9 @@
       "related": [],
       "terms": [
         "term.tax-base",
-        "term.heir"
+        "term.heir",
+        "term.tax-rate",
+        "term.progressive-deduction"
       ],
       "deadlines": [
         "deadline.inheritance.resident",
@@ -4588,10 +5782,61 @@
       ],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.inheritance.overview"
+        "source.nts.inheritance.overview",
+        "source.nts.inheritance.rates"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "1억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 이하",
+          "threshold_krw_max": 100000000,
+          "rate_percent": 10,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "1억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 초과 5억원 이하",
+          "threshold_krw_min": 100000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 20,
+          "progressive_deduction_krw": 10000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 30,
+          "progressive_deduction_krw": 60000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "10억원 초과 30억원 이하",
+          "basis": "과세표준",
+          "condition": "10억원 초과 30억원 이하",
+          "threshold_krw_min": 1000000000,
+          "threshold_krw_max": 3000000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 160000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "30억원 초과",
+          "basis": "과세표준",
+          "condition": "30억원 초과",
+          "threshold_krw_min": 3000000000,
+          "rate_percent": 50,
+          "progressive_deduction_krw": 460000000,
+          "source": "source.nts.inheritance.rates"
+        }
+      ]
     },
     {
       "id": "tax.inheritance-and-gift",
@@ -4614,7 +5859,9 @@
         "term.national-tax",
         "term.tax-law",
         "term.heir",
-        "term.donee"
+        "term.donee",
+        "term.tax-rate",
+        "term.progressive-deduction"
       ],
       "deadlines": [
         "deadline.inheritance.resident",
@@ -4623,11 +5870,63 @@
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.inheritance.overview",
-        "source.nts.gift.deadline"
+        "source.nts.gift.deadline",
+        "source.nts.inheritance.rates",
+        "source.nts.gift.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "1억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 이하",
+          "threshold_krw_max": 100000000,
+          "rate_percent": 10,
+          "progressive_deduction_krw": 0,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "1억원 초과 5억원 이하",
+          "basis": "과세표준",
+          "condition": "1억원 초과 5억원 이하",
+          "threshold_krw_min": 100000000,
+          "threshold_krw_max": 500000000,
+          "rate_percent": 20,
+          "progressive_deduction_krw": 10000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "5억원 초과 10억원 이하",
+          "basis": "과세표준",
+          "condition": "5억원 초과 10억원 이하",
+          "threshold_krw_min": 500000000,
+          "threshold_krw_max": 1000000000,
+          "rate_percent": 30,
+          "progressive_deduction_krw": 60000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "10억원 초과 30억원 이하",
+          "basis": "과세표준",
+          "condition": "10억원 초과 30억원 이하",
+          "threshold_krw_min": 1000000000,
+          "threshold_krw_max": 3000000000,
+          "rate_percent": 40,
+          "progressive_deduction_krw": 160000000,
+          "source": "source.nts.inheritance.rates"
+        },
+        {
+          "label": "30억원 초과",
+          "basis": "과세표준",
+          "condition": "30억원 초과",
+          "threshold_krw_min": 3000000000,
+          "rate_percent": 50,
+          "progressive_deduction_krw": 460000000,
+          "source": "source.nts.inheritance.rates"
+        }
       ]
     },
     {
@@ -4796,7 +6095,9 @@
         "term.national-tax",
         "term.tax-period",
         "term.general-vat-taxpayer",
-        "term.simple-vat-taxpayer"
+        "term.simple-vat-taxpayer",
+        "term.tax-rate",
+        "term.eligibility-threshold"
       ],
       "deadlines": [
         "deadline.vat.periodic",
@@ -4812,6 +6113,57 @@
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "일반과세자 매출 기준",
+          "basis": "1년 매출액",
+          "condition": "1억400만원 이상",
+          "threshold_krw_min": 104000000,
+          "benefit": "일반과세자",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "간이과세자 매출 기준",
+          "basis": "1년 매출액",
+          "condition": "1억400만원 미만",
+          "threshold_krw_max": 104000000,
+          "benefit": "간이과세자",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "일반과세자 세율",
+          "basis": "매출세액",
+          "condition": "매출액에 기본세율 적용",
+          "rate_percent": 10,
+          "note": "영세율 적용 대상은 0%",
+          "source": "source.nts.vat.filing-duty"
+        },
+        {
+          "label": "간이과세자 업종별 부가가치율",
+          "basis": "업종별 부가가치율",
+          "condition": "2021.7.1. 이후 업종별 15%~40%",
+          "rate_percent_min": 15,
+          "rate_percent_max": 40,
+          "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
+          "source": "source.nts.vat.overview"
+        },
+        {
+          "label": "간이과세자 예정신고 대상",
+          "basis": "직전연도 공급대가",
+          "condition": "4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서 발급",
+          "threshold_krw_min": 48000000,
+          "threshold_krw_max": 104000000,
+          "source": "source.nts.vat.filing-duty"
+        },
+        {
+          "label": "간이과세자 납부의무 면제",
+          "basis": "직전연도 공급대가",
+          "condition": "4,800만원 미만",
+          "threshold_krw_max": 48000000,
+          "benefit": "납부세액 납부의무 면제 가능",
+          "source": "source.nts.vat.filing-duty"
+        }
       ]
     },
     {
@@ -4948,6 +6300,29 @@
       ]
     },
     {
+      "id": "term.eligibility-threshold",
+      "title": "자격 기준금액",
+      "type": "term",
+      "description": "지원금, 공제, 과세유형 판정에서 대상 여부를 가르는 소득·매출·재산·주택가액 등의 기준금액입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.2026-regular-press",
+        "source.nts.vat.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
       "id": "term.general-vat-taxpayer",
       "title": "일반과세자",
       "type": "term",
@@ -5075,6 +6450,28 @@
       "deadlines": [],
       "sources": [
         "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.progressive-deduction",
+      "title": "누진공제",
+      "type": "term",
+      "description": "초과누진세율 구조에서 산출세액을 과세표준 × 세율 - 누진공제액 방식으로 계산할 때 차감하는 금액입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.income-tax.rates"
       ],
       "law_reference": "",
       "tags": [
@@ -5240,6 +6637,29 @@
       ]
     },
     {
+      "id": "term.tax-rate",
+      "title": "세율",
+      "type": "term",
+      "description": "과세표준 또는 공급가액 등에 적용해 산출세액을 계산하는 비율입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.income-tax.rates",
+        "source.nts.corporate-tax.rates"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
       "id": "term.tax-reduction",
       "title": "세액감면",
       "type": "term",
@@ -5376,6 +6796,7 @@
               item.title,
               typeLabels[item.type] || item.type,
               item.description,
+              JSON.stringify(item.criteria || []),
               item.law_reference,
               ...(item.tags || [])
             ].join(" ").toLowerCase();
@@ -5475,6 +6896,81 @@
             `;
           }
 
+          function formatKrw(value) {
+            if (value === undefined || value === null || value === "") return "";
+            const number = Number(value);
+            return Number.isFinite(number) ? `${number.toLocaleString("ko-KR")}원` : String(value);
+          }
+
+          function formatPercent(value) {
+            if (value === undefined || value === null || value === "") return "";
+            return `${value}%`;
+          }
+
+          function criteriaBlock(criteria) {
+            if (!criteria || !criteria.length) return "";
+            const labels = {
+              basis: "기준항목",
+              condition: "조건",
+              threshold_krw_min: "하한",
+              threshold_krw: "기준금액",
+              threshold_krw_max: "상한",
+              rate_percent: "세율",
+              rate_percent_min: "최저세율",
+              rate_percent_max: "최고세율",
+              progressive_deduction_krw: "누진공제",
+              deduction_krw: "공제액",
+              limit_krw: "한도",
+              amount_krw: "금액",
+              max_amount_krw: "최대금액",
+              benefit: "혜택",
+              note: "비고"
+            };
+            const orderedKeys = [
+              "basis",
+              "condition",
+              "threshold_krw_min",
+              "threshold_krw",
+              "threshold_krw_max",
+              "rate_percent",
+              "rate_percent_min",
+              "rate_percent_max",
+              "progressive_deduction_krw",
+              "deduction_krw",
+              "limit_krw",
+              "amount_krw",
+              "max_amount_krw",
+              "benefit",
+              "note"
+            ];
+            const items = criteria.map((criterion) => {
+              const detail = orderedKeys
+                .filter((key) => criterion[key] !== undefined && criterion[key] !== null && criterion[key] !== "")
+                .map((key) => {
+                  let value = criterion[key];
+                  if (key.endsWith("_krw")) value = formatKrw(value);
+                  if (key.startsWith("rate_percent")) value = formatPercent(value);
+                  return `<span>${escapeHtml(labels[key] || key)}: <strong>${escapeHtml(value)}</strong></span>`;
+                })
+                .join("");
+              const source = criterion.source ? byId.get(criterion.source) : null;
+              const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
+              return `
+                <li>
+                  <strong>${escapeHtml(criterion.label || "기준")}</strong>
+                  <div>${detail}</div>
+                  ${sourceLink ? `<p>${sourceLink}</p>` : ""}
+                </li>
+              `;
+            }).join("");
+            return `
+              <div class="criteria-block">
+                <h4>기준 내역</h4>
+                <ul>${items}</ul>
+              </div>
+            `;
+          }
+
           function renderDetail() {
             const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
             if (!item) {
@@ -5493,6 +6989,7 @@
               relationBlock("관련 기한", item.deadlines),
               sourceBlock(item.sources)
             ].filter(Boolean).join("");
+            const criteriaHtml = criteriaBlock(item.criteria);
 
             detailEl.innerHTML = `
               <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
@@ -5504,6 +7001,7 @@
                 <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
                 <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
               </div>
+              ${criteriaHtml}
               <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
             `;
           }
