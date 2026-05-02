@@ -10,6 +10,7 @@ related: []
 terms: ["term.tax-credit", "term.tax-reduction"]
 deadlines: []
 sources: ["source.nts.corporate-tax.reliefs"]
+criteria: [{"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs"}]
 law_reference: ""
 tags: ["corporate-tax-support"]
 ---
@@ -17,6 +18,10 @@ tags: ["corporate-tax-support"]
 # M&A 활성화 지원
 
 기술혁신형 합병·주식취득 인수가액 중 기술가치 금액에 대한 법인세 공제입니다.
+
+## 기준 내역
+
+- **기술혁신형 M&A**: 기준항목: 인수가액 중 기술가치 금액; 조건: 기술혁신형 합병·주식취득; 세액공제율: 10%; 출처: [[90_Sources/법인세 공제감면|법인세 공제감면]]
 
 ## 상위 항목
 

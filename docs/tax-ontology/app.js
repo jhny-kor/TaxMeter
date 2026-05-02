@@ -1,4 +1,4 @@
-        const ONTOLOGY_DATA = {
+const ONTOLOGY_DATA = {
   "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02",
   "basis_date": "2026-05-02",
   "manifests": {
@@ -61,10 +61,14 @@
     ]
   },
   "summary": {
-    "item_count": 223,
-    "source_count": 44,
+    "item_count": 230,
+    "source_count": 51,
     "term_count": 30,
     "category_count": 13,
+    "deadline_count": 16,
+    "support_count": 12,
+    "business_count": 4,
+    "relation_count": 978,
     "national_tax_count": 12,
     "local_tax_count": 11,
     "corporate_support_count": 28,
@@ -76,7 +80,7 @@
       "deduction": 17,
       "domain": 1,
       "filing": 10,
-      "source": 44,
+      "source": 51,
       "support-program": 12,
       "tax": 29,
       "tax-credit": 12,
@@ -101,13 +105,13 @@
   },
   "type_roles": {
     "domain": "최상위 지식 그래프 루트",
-    "category": "세목·공제·지원·기한의 탐색 축",
+    "category": "세목·공제·지원·사업자 세무·기한의 탐색 축",
     "tax": "국세, 지방세, 관세 세목",
     "deduction": "과세표준 전 단계의 소득공제 항목",
     "tax-credit": "산출세액에서 차감하는 세액공제",
     "tax-reduction": "정책 목적의 세액감면",
     "corporate-tax-support": "법인세 공제·감면 공식 지원제도",
-    "support-program": "장려금과 세제지원 계좌",
+    "support-program": "장려금, 세제지원 계좌, 금융·복지 지원",
     "filing": "신고·납부·신청 절차",
     "concept": "판정 기준을 설명하는 개념 노드",
     "term": "그래프 해석에 필요한 용어",
@@ -916,6 +920,24 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "농업소득",
+          "basis": "영농조합법인 등 농업소득",
+          "condition": "농업법인 요건 충족",
+          "rate_percent": 100,
+          "rate_label": "면제율",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "농업 외 소득",
+          "basis": "농업 외 소득",
+          "condition": "한도 내 감면",
+          "rate_percent": 50,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -943,6 +965,16 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "상생협력 출연금",
+          "basis": "협력중소기업 지원 목적 출연금 등",
+          "condition": "상생협력 지원 요건 충족",
+          "rate_percent": 10,
+          "rate_label": "세액공제율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -970,6 +1002,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "위기지역 창업기업",
+          "basis": "법인세",
+          "condition": "위기지역 지정 또는 선포 기간 창업·사업장 신설",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "note": "감면기간 및 지역별 요건 별도 확인",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -997,6 +1041,17 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "재해손실세액공제",
+          "basis": "재해상실자산가액 / 상실 전 자산총액",
+          "condition": "사업용 총자산가액의 20% 이상 상실",
+          "rate_percent": 20,
+          "rate_label": "상실비율 문턱",
+          "benefit": "산출세액에 재해상실비율을 곱해 공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1024,6 +1079,15 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "전자신고 세액공제",
+          "basis": "법인세 전자신고",
+          "condition": "법인이 직접 전자신고",
+          "deduction_krw": 10000,
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1051,6 +1115,16 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "고용유지 임금감소분",
+          "basis": "임금감소액 또는 보전액",
+          "condition": "고용유지 요건 충족",
+          "rate_percent": 50,
+          "rate_label": "공제율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1078,6 +1152,17 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "기업도시개발구역 창업·신설",
+          "basis": "법인세",
+          "condition": "기업도시개발구역 창업 또는 사업장 신설",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1105,6 +1190,27 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "통합투자 기본공제",
+          "basis": "사업용 유형자산 등 투자금액",
+          "condition": "통합투자세액공제 대상 투자",
+          "rate_percent_min": 1,
+          "rate_percent_max": 10,
+          "rate_label": "기본공제율",
+          "note": "기업규모·투자자산 유형별 차등",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "투자증가분 추가공제",
+          "basis": "직전 3년 평균 투자액 초과분",
+          "condition": "투자 증가",
+          "rate_percent": 10,
+          "rate_label": "추가공제율",
+          "note": "추가공제 한도는 기본공제 금액의 2배",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        }
       ]
     },
     {
@@ -1134,6 +1240,15 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "외국납부세액공제 한도",
+          "basis": "국외원천소득 관련 외국납부세액",
+          "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
+          "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1163,6 +1278,17 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "임대료 인하액",
+          "basis": "상가건물 임대료 인하액",
+          "condition": "소상공인 임차인 임대료 인하 등 요건 충족",
+          "rate_percent": 70,
+          "rate_label": "세액공제율",
+          "note": "요건과 과세연도별 적용기한 확인 필요",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1190,6 +1316,17 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "농공단지 등 입주기업",
+          "basis": "법인세",
+          "condition": "농공단지 등 입주 후 최초 소득발생",
+          "rate_percent": 50,
+          "rate_label": "감면율",
+          "note": "감면기간 요건 별도 확인",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1217,6 +1354,17 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "제주첨단과학기술단지 등",
+          "basis": "법인세",
+          "condition": "제주첨단과학기술단지 또는 제주투자진흥지구 입주",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1244,6 +1392,15 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "지방이전 과세이연",
+          "basis": "지방이전 관련 양도차익 등",
+          "condition": "지방이전 촉진 요건 충족",
+          "benefit": "손금산입 또는 익금불산입으로 과세이연",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1271,6 +1428,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "수도권 밖 이전 감면",
+          "basis": "법인세",
+          "condition": "공장·본사 등 지방 이전 요건 충족",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "note": "지역과 기간별 차등",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1298,6 +1467,16 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "기술혁신형 M&A",
+          "basis": "인수가액 중 기술가치 금액",
+          "condition": "기술혁신형 합병·주식취득",
+          "rate_percent": 10,
+          "rate_label": "세액공제율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1325,6 +1504,16 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "중소기업 최저한세",
+          "basis": "각종 감면 전 과세표준",
+          "condition": "중소기업",
+          "rate_percent": 7,
+          "rate_label": "최저한세율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1352,6 +1541,16 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "경영성과급",
+          "basis": "성과공유 중소기업 경영성과급 지급액",
+          "condition": "성과공유기업 요건 충족",
+          "rate_percent": 15,
+          "rate_label": "세액공제율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1379,6 +1578,15 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "구조조정 과세이연",
+          "basis": "양도차익 등",
+          "condition": "구조조정 및 재무구조개선 요건 충족",
+          "benefit": "손금산입 또는 익금불산입으로 과세이연",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1408,6 +1616,29 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "일반 연구·인력개발비",
+          "basis": "연구·인력개발비",
+          "condition": "기업규모·증가분 방식별 공제율 적용",
+          "benefit": "일반 R&D 세액공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "신성장·원천기술",
+          "basis": "신성장·원천기술 연구개발비",
+          "condition": "해당 기술 연구개발비",
+          "benefit": "우대 공제율 적용",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "국가전략기술",
+          "basis": "국가전략기술 연구개발비",
+          "condition": "반도체 등 국가전략기술 연구개발비",
+          "benefit": "최고 우대 공제율 적용",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1435,6 +1666,15 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "연구개발출연금 과세이연",
+          "basis": "연구개발출연금 등",
+          "condition": "연구개발 자산 취득 또는 비용 지출",
+          "benefit": "익금불산입 후 사용 시점에 익금산입",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1462,6 +1702,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "연구개발특구 감면",
+          "basis": "법인세",
+          "condition": "연구개발특구 입주 첨단기술기업 등",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1491,6 +1743,41 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "소기업 수도권 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "소기업, 수도권 내 제조업·출판업 등",
+          "rate_percent": 20,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "소기업 수도권 외 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "소기업, 수도권 외 제조업·출판업 등",
+          "rate_percent": 30,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "중기업 수도권 외 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "중기업, 수도권 외 제조업 등",
+          "rate_percent": 15,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "도소매·의료업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "업종·지역별 차등",
+          "rate_percent_min": 5,
+          "rate_percent_max": 10,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        }
       ]
     },
     {
@@ -1518,6 +1805,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "사회적기업·장애인 표준사업장",
+          "basis": "법인세",
+          "condition": "인증 사회적기업 등",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "감면율",
+          "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1545,6 +1844,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "고용증가 사회보험료",
+          "basis": "고용증가인원의 사용자 부담 사회보험료",
+          "condition": "상시근로자 증가",
+          "rate_percent_min": 50,
+          "rate_percent_max": 100,
+          "rate_label": "세액공제율",
+          "note": "청년·경력단절자 등 우대 대상과 기업규모별 차등",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1574,6 +1885,35 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "2026년 이후 일반 창업중소기업",
+          "basis": "법인세 또는 소득세",
+          "condition": "수도권 외 지역 또는 수도권 인구감소지역",
+          "rate_percent": 50,
+          "rate_label": "감면율",
+          "note": "최초 소득발생 과세연도와 이후 4년",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "2026년 이후 청년·생계형 창업",
+          "basis": "법인세 또는 소득세",
+          "condition": "수도권 외 지역 또는 수도권과밀억제권역 외",
+          "rate_percent": 100,
+          "rate_label": "감면율",
+          "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "상시근로자 증가 추가감면",
+          "basis": "상시근로자 증가율",
+          "condition": "고용 증가 요건 충족",
+          "rate_percent": 100,
+          "rate_label": "추가감면 산식",
+          "note": "상시근로자 증가율 × 100%",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        }
       ]
     },
     {
@@ -1601,6 +1941,24 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "기술이전 소득",
+          "basis": "기술이전 소득",
+          "condition": "중소기업 기술이전",
+          "rate_percent": 50,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "기술대여 소득",
+          "basis": "기술대여 소득",
+          "condition": "중소기업 기술대여",
+          "rate_percent": 25,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1628,6 +1986,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "근로소득 증대",
+          "basis": "직전 3년 평균 초과 임금증가분",
+          "condition": "임금증가 요건 충족",
+          "rate_percent_min": 5,
+          "rate_percent_max": 20,
+          "rate_label": "세액공제율",
+          "note": "기업규모와 정규직 전환 여부별 차등",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1655,6 +2025,18 @@
       "law_reference": "",
       "tags": [
         "corporate-tax-support"
+      ],
+      "criteria": [
+        {
+          "label": "상생결제 지급금액",
+          "basis": "상생결제 지급금액",
+          "condition": "상생결제제도 이용 구매대금 지급",
+          "rate_percent_min": 0.1,
+          "rate_percent_max": 0.3,
+          "rate_label": "세액공제율",
+          "note": "결제기한 구간별 차등",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1683,6 +2065,51 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "자녀 1명",
+          "basis": "8세 이상 기본공제대상 자녀·손자녀",
+          "condition": "1명",
+          "deduction_krw": 250000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "자녀 2명",
+          "basis": "8세 이상 기본공제대상 자녀·손자녀",
+          "condition": "2명",
+          "deduction_krw": 550000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "자녀 3명 이상",
+          "basis": "8세 이상 기본공제대상 자녀·손자녀",
+          "condition": "3명 이상",
+          "deduction_krw": 550000,
+          "note": "2명을 초과하는 1명당 40만원 추가",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "출산·입양 첫째",
+          "basis": "출산·입양 신고 자녀",
+          "condition": "첫째",
+          "deduction_krw": 300000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "출산·입양 둘째",
+          "basis": "출산·입양 신고 자녀",
+          "condition": "둘째",
+          "deduction_krw": 500000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "출산·입양 셋째 이상",
+          "basis": "출산·입양 신고 자녀",
+          "condition": "셋째 이상",
+          "deduction_krw": 700000,
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -1709,6 +2136,64 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "정치자금 10만원 이하",
+          "basis": "정치자금기부금",
+          "condition": "10만원 이하",
+          "threshold_krw_max": 100000,
+          "rate_percent": 90.91,
+          "rate_label": "세액공제율",
+          "note": "100/110 세액공제",
+          "source": "source.nts.donation-credit"
+        },
+        {
+          "label": "정치자금 10만원 초과",
+          "basis": "정치자금기부금",
+          "condition": "10만원 초과",
+          "threshold_krw_min": 100000,
+          "rate_percent": 15,
+          "source": "source.nts.donation-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "정치자금 3천만원 초과",
+          "basis": "정치자금기부금",
+          "condition": "3천만원 초과분",
+          "threshold_krw_min": 30000000,
+          "rate_percent": 25,
+          "source": "source.nts.donation-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "고향사랑 10만원 이하",
+          "basis": "고향사랑기부금",
+          "condition": "10만원 이하",
+          "threshold_krw_max": 100000,
+          "rate_percent": 90.91,
+          "rate_label": "세액공제율",
+          "note": "100/110 세액공제",
+          "source": "source.nts.donation-credit"
+        },
+        {
+          "label": "특례·우리사주·일반 1천만원 이하",
+          "basis": "공제한도 내 기부금",
+          "condition": "1천만원 이하",
+          "threshold_krw_max": 10000000,
+          "rate_percent": 15,
+          "source": "source.nts.donation-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "특례·우리사주·일반 1천만원 초과",
+          "basis": "공제한도 내 기부금",
+          "condition": "1천만원 초과",
+          "threshold_krw_min": 10000000,
+          "rate_percent": 30,
+          "source": "source.nts.donation-credit",
+          "rate_label": "세액공제율"
+        }
       ]
     },
     {
@@ -1735,6 +2220,65 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "산출세액 130만원 이하",
+          "basis": "근로소득 산출세액",
+          "condition": "130만원 이하",
+          "threshold_krw_max": 1300000,
+          "rate_percent": 55,
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "산출세액 130만원 초과",
+          "basis": "근로소득 산출세액",
+          "condition": "130만원 초과",
+          "threshold_krw_min": 1300000,
+          "deduction_krw": 715000,
+          "rate_percent": 30,
+          "note": "715,000원 + 130만원 초과금액의 30%",
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "총급여 3,300만원 이하 한도",
+          "basis": "총급여",
+          "condition": "3,300만원 이하",
+          "threshold_krw_max": 33000000,
+          "limit_krw": 740000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "총급여 3,300만원 초과 7,000만원 이하 한도",
+          "basis": "총급여",
+          "condition": "3,300만원 초과 7,000만원 이하",
+          "threshold_krw_min": 33000000,
+          "threshold_krw_max": 70000000,
+          "limit_krw": 660000,
+          "note": "74만원-[(총급여액-3,300만원)×0.8%], 최소 66만원",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "총급여 7,000만원 초과 1.2억원 이하 한도",
+          "basis": "총급여",
+          "condition": "7,000만원 초과 1.2억원 이하",
+          "threshold_krw_min": 70000000,
+          "threshold_krw_max": 120000000,
+          "limit_krw": 500000,
+          "note": "66만원-[(총급여액-7,000만원)×1/2], 최소 50만원",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "총급여 1.2억원 초과 한도",
+          "basis": "총급여",
+          "condition": "1.2억원 초과",
+          "threshold_krw_min": 120000000,
+          "limit_krw": 200000,
+          "note": "50만원-[(총급여액-1.2억원)×1/2], 최소 20만원",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -1761,6 +2305,43 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "본인 교육비",
+          "basis": "근로자 본인 교육비",
+          "condition": "한도 없음",
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "취학전·초중고 교육비",
+          "basis": "부양가족 1명당 교육비",
+          "condition": "취학전 아동, 초·중·고등학생",
+          "limit_krw": 3000000,
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "대학생 교육비",
+          "basis": "부양가족 1명당 교육비",
+          "condition": "대학생",
+          "limit_krw": 9000000,
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "장애인 특수교육비",
+          "basis": "장애인 특수교육비",
+          "condition": "직계존속 포함, 소득제한 없음",
+          "rate_percent": 15,
+          "note": "한도 없음",
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        }
       ]
     },
     {
@@ -1789,6 +2370,15 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "외국납부세액공제 한도",
+          "basis": "국외원천소득 관련 외국납부세액",
+          "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
+          "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1815,6 +2405,26 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "보장성보험료",
+          "basis": "생명보험·상해보험 등 보장성보험료",
+          "condition": "기본공제대상자를 위해 지급",
+          "limit_krw": 1000000,
+          "rate_percent": 12,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "장애인전용 보장성보험료",
+          "basis": "장애인을 피보험자 또는 수익자로 하는 장애인전용 보장성보험료",
+          "condition": "장애인전용 보장성보험",
+          "limit_krw": 1000000,
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        }
       ]
     },
     {
@@ -1841,6 +2451,22 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "고용 증가 인원",
+          "basis": "상시근로자 증가 인원",
+          "condition": "전년 대비 고용 증가",
+          "benefit": "1인당 정액 세액공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "우대 대상 고용",
+          "basis": "청년·장애인·경력단절자 등",
+          "condition": "정책대상 근로자 고용 증가",
+          "benefit": "일반 상시근로자보다 우대 공제액 적용",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -1876,7 +2502,8 @@
           "condition": "총급여액의 3% 초과분",
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
-          "source": "source.nts.year-end-settlement.special-credit"
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
         },
         {
           "label": "일반 의료비",
@@ -1884,21 +2511,24 @@
           "condition": "연 700만원 한도",
           "limit_krw": 7000000,
           "rate_percent": 15,
-          "source": "source.nts.year-end-settlement.special-credit"
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
         },
         {
           "label": "본인·6세 이하·65세 이상·장애인 의료비",
           "basis": "해당 의료비",
           "condition": "한도 없음",
           "rate_percent": 15,
-          "source": "source.nts.year-end-settlement.special-credit"
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
         },
         {
           "label": "난임시술비",
           "basis": "난임시술비",
           "condition": "한도 없음",
           "rate_percent": 30,
-          "source": "source.nts.year-end-settlement.special-credit"
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
         }
       ]
     },
@@ -1953,7 +2583,8 @@
           "threshold_krw_max": 55000000,
           "rate_percent": 17,
           "limit_krw": 10000000,
-          "source": "source.nts.monthly-rent-credit"
+          "source": "source.nts.monthly-rent-credit",
+          "rate_label": "세액공제율"
         },
         {
           "label": "15% 공제율",
@@ -1963,7 +2594,8 @@
           "threshold_krw_max": 80000000,
           "rate_percent": 15,
           "limit_krw": 10000000,
-          "source": "source.nts.monthly-rent-credit"
+          "source": "source.nts.monthly-rent-credit",
+          "rate_label": "세액공제율"
         },
         {
           "label": "공제대상 주택",
@@ -2009,7 +2641,8 @@
           "limit_krw": 9000000,
           "rate_percent": 15,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "세액공제율"
         },
         {
           "label": "총급여 5,500만원 초과",
@@ -2019,7 +2652,8 @@
           "limit_krw": 9000000,
           "rate_percent": 12,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "세액공제율"
         }
       ]
     },
@@ -2049,6 +2683,29 @@
       "law_reference": "",
       "tags": [
         "tax-credit"
+      ],
+      "criteria": [
+        {
+          "label": "일반 연구·인력개발비",
+          "basis": "연구·인력개발비",
+          "condition": "기업규모·증가분 방식별 공제율 적용",
+          "benefit": "일반 R&D 세액공제",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "신성장·원천기술",
+          "basis": "신성장·원천기술 연구개발비",
+          "condition": "해당 기술 연구개발비",
+          "benefit": "우대 공제율 적용",
+          "source": "source.nts.corporate-tax.reliefs"
+        },
+        {
+          "label": "국가전략기술",
+          "basis": "국가전략기술 연구개발비",
+          "condition": "반도체 등 국가전략기술 연구개발비",
+          "benefit": "최고 우대 공제율 적용",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
       ]
     },
     {
@@ -2075,10 +2732,120 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.year-end-settlement.special-credit"
+        "source.nts.year-end-settlement.special-credit",
+        "source.nts.education-expense-credit",
+        "source.nts.donation-credit"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "보장성보험료",
+          "basis": "생명보험·상해보험 등 보장성보험료",
+          "condition": "기본공제대상자를 위해 지급",
+          "limit_krw": 1000000,
+          "rate_percent": 12,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "장애인전용 보장성보험료",
+          "basis": "장애인을 피보험자 또는 수익자로 하는 장애인전용 보장성보험료",
+          "condition": "장애인전용 보장성보험",
+          "limit_krw": 1000000,
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "의료비 공제 문턱",
+          "basis": "의료비 지출액",
+          "condition": "총급여액의 3% 초과분",
+          "rate_percent": 3,
+          "note": "초과분이 공제대상 의료비",
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "일반 의료비",
+          "basis": "일반 기본공제대상자 의료비",
+          "condition": "연 700만원 한도",
+          "limit_krw": 7000000,
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "본인·6세 이하·65세 이상·장애인 의료비",
+          "basis": "해당 의료비",
+          "condition": "한도 없음",
+          "rate_percent": 15,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "난임시술비",
+          "basis": "난임시술비",
+          "condition": "한도 없음",
+          "rate_percent": 30,
+          "source": "source.nts.year-end-settlement.special-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "본인 교육비",
+          "basis": "근로자 본인 교육비",
+          "condition": "한도 없음",
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "취학전·초중고 교육비",
+          "basis": "부양가족 1명당 교육비",
+          "condition": "취학전 아동, 초·중·고등학생",
+          "limit_krw": 3000000,
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "대학생 교육비",
+          "basis": "부양가족 1명당 교육비",
+          "condition": "대학생",
+          "limit_krw": 9000000,
+          "rate_percent": 15,
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "장애인 특수교육비",
+          "basis": "장애인 특수교육비",
+          "condition": "직계존속 포함, 소득제한 없음",
+          "rate_percent": 15,
+          "note": "한도 없음",
+          "source": "source.nts.education-expense-credit",
+          "rate_label": "세액공제율"
+        },
+        {
+          "label": "정치자금 10만원 이하",
+          "basis": "정치자금기부금",
+          "condition": "10만원 이하",
+          "threshold_krw_max": 100000,
+          "rate_percent": 90.91,
+          "rate_label": "세액공제율",
+          "note": "100/110 세액공제",
+          "source": "source.nts.donation-credit"
+        },
+        {
+          "label": "정치자금 10만원 초과",
+          "basis": "정치자금기부금",
+          "condition": "10만원 초과",
+          "threshold_krw_min": 100000,
+          "rate_percent": 15,
+          "source": "source.nts.donation-credit",
+          "rate_label": "세액공제율"
+        }
+      ]
     },
     {
       "id": "deadline.capital-gains.final",
@@ -2502,28 +3269,32 @@
           "condition": "총급여액의 25% 초과분",
           "rate_percent": 25,
           "note": "공제 대상 사용금액 산정 기준",
-          "source": "source.nts.credit-card-deduction"
+          "source": "source.nts.credit-card-deduction",
+          "rate_label": "소득공제율"
         },
         {
           "label": "신용카드 공제율",
           "basis": "신용카드 사용금액",
           "condition": "총급여 25% 초과분 중 신용카드",
           "rate_percent": 15,
-          "source": "source.nts.credit-card-deduction"
+          "source": "source.nts.credit-card-deduction",
+          "rate_label": "소득공제율"
         },
         {
           "label": "현금영수증·직불카드 공제율",
           "basis": "현금영수증·직불카드 등",
           "condition": "총급여 25% 초과분 중 현금영수증·직불카드",
           "rate_percent": 30,
-          "source": "source.nts.credit-card-deduction"
+          "source": "source.nts.credit-card-deduction",
+          "rate_label": "소득공제율"
         },
         {
           "label": "전통시장·대중교통 공제율",
           "basis": "전통시장·대중교통 사용금액",
           "condition": "총급여 25% 초과분 중 전통시장·대중교통",
           "rate_percent": 40,
-          "source": "source.nts.credit-card-deduction"
+          "source": "source.nts.credit-card-deduction",
+          "rate_label": "소득공제율"
         }
       ]
     },
@@ -2552,6 +3323,22 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "일반 우리사주조합 출연금",
+          "basis": "우리사주조합 출연금",
+          "condition": "조합원 출연금",
+          "limit_krw": 4000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        },
+        {
+          "label": "벤처기업 우리사주조합 출연금",
+          "basis": "우리사주조합 출연금",
+          "condition": "벤처기업 조합원 출연금",
+          "limit_krw": 15000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        }
       ]
     },
     {
@@ -2579,6 +3366,17 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "임금삭감액 공제",
+          "basis": "고용유지 중소기업 근로자 임금삭감액",
+          "condition": "고용유지 요건 충족",
+          "rate_percent": 50,
+          "limit_krw": 10000000,
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -2606,6 +3404,22 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "국민건강보험·노인장기요양보험",
+          "basis": "본인 부담 보험료",
+          "condition": "근로제공기간 중 부담분",
+          "benefit": "전액 소득공제",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "고용보험",
+          "basis": "본인 부담 보험료",
+          "condition": "근로제공기간 중 부담분",
+          "benefit": "전액 소득공제",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -2633,6 +3447,46 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "주택임차차입금 원리금",
+          "basis": "원리금 상환액",
+          "condition": "무주택 세대주 등, 국민주택규모 주택 임차",
+          "rate_percent": 40,
+          "limit_krw": 4000000,
+          "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
+          "source": "source.nts.housing-rent-principal-deduction",
+          "rate_label": "소득공제율"
+        },
+        {
+          "label": "장기주택저당차입금 10년 이상",
+          "basis": "이자상환액",
+          "condition": "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
+          "limit_krw": 6000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상",
+          "limit_krw": 8000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상 우대",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
+          "limit_krw": 18000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상 최우대",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상, 고정금리이고 비거치식 분할상환",
+          "limit_krw": 20000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        }
       ]
     },
     {
@@ -2660,6 +3514,25 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "총급여 요건",
+          "basis": "총급여액",
+          "condition": "7,000만원 이하",
+          "threshold_krw_max": 70000000,
+          "source": "source.nts.housing-savings-deduction"
+        },
+        {
+          "label": "납입액 공제",
+          "basis": "주택마련저축 납입액",
+          "condition": "연 납입액 300만원 한도",
+          "threshold_krw_max": 3000000,
+          "rate_percent": 40,
+          "limit_krw": 1200000,
+          "source": "source.nts.housing-savings-deduction",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -2687,6 +3560,44 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "일반 투자조합 출자",
+          "basis": "출자 또는 투자금액",
+          "condition": "중소기업창업투자조합 등",
+          "rate_percent": 10,
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "rate_label": "소득공제율"
+        },
+        {
+          "label": "벤처기업 등 3천만원 이하",
+          "basis": "출자 또는 투자금액",
+          "condition": "벤처기업 등 직접·간접 투자 3천만원 이하",
+          "threshold_krw_max": 30000000,
+          "rate_percent": 100,
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "rate_label": "소득공제율"
+        },
+        {
+          "label": "벤처기업 등 3천만원 초과 5천만원 이하",
+          "basis": "출자 또는 투자금액",
+          "condition": "3천만원 초과 5천만원 이하",
+          "threshold_krw_min": 30000000,
+          "threshold_krw_max": 50000000,
+          "rate_percent": 70,
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "rate_label": "소득공제율"
+        },
+        {
+          "label": "벤처기업 등 5천만원 초과",
+          "basis": "출자 또는 투자금액",
+          "condition": "5천만원 초과",
+          "threshold_krw_min": 50000000,
+          "rate_percent": 30,
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -2714,6 +3625,18 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "장기집합투자증권저축 납입액",
+          "basis": "연 납입액",
+          "condition": "연 600만원 한도",
+          "threshold_krw_max": 6000000,
+          "rate_percent": 40,
+          "limit_krw": 2400000,
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -2746,10 +3669,34 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.nts.housing-savings-deduction"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "소득공제 종합한도",
+          "basis": "종합한도 적용 소득공제 합계",
+          "condition": "2,500만원 초과액은 과세표준에 합산",
+          "limit_krw": 25000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        },
+        {
+          "label": "주택자금·주택마련저축",
+          "basis": "주택자금공제와 주택마련저축",
+          "condition": "종합한도 적용 대상",
+          "benefit": "종합한도 내 소득공제",
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        },
+        {
+          "label": "투자·우리사주·장기저축",
+          "basis": "중소기업창업투자조합 출자 등, 우리사주조합 출연금, 장기집합투자증권저축",
+          "condition": "일부 벤처투자 예외를 제외하고 종합한도 적용 대상",
+          "benefit": "종합한도 내 소득공제",
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        }
+      ]
     },
     {
       "id": "deduction.pension-insurance",
@@ -2776,6 +3723,15 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "공적연금 근로자 부담금",
+          "basis": "국민연금 등 공적연금보험료",
+          "condition": "근로자가 부담한 공적연금보험료",
+          "benefit": "전액 소득공제",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -2803,7 +3759,61 @@
         "source.nts.year-end-settlement.calculation"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "기본공제 대상자 1명당",
+          "basis": "본인·배우자·부양가족",
+          "condition": "기본공제 대상자",
+          "deduction_krw": 1500000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "부양가족 소득요건",
+          "basis": "연간 소득금액",
+          "condition": "100만원 이하",
+          "threshold_krw_max": 1000000,
+          "note": "근로소득만 있는 경우 총급여 500만원 이하",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "근로소득만 있는 부양가족",
+          "basis": "총급여",
+          "condition": "500만원 이하",
+          "threshold_krw_max": 5000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "경로우대",
+          "basis": "기본공제대상자",
+          "condition": "70세 이상",
+          "deduction_krw": 1000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "장애인",
+          "basis": "기본공제대상자",
+          "condition": "장애인",
+          "deduction_krw": 2000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "부녀자",
+          "basis": "종합소득금액",
+          "condition": "3,000만원 이하 등 요건 충족",
+          "threshold_krw_max": 30000000,
+          "deduction_krw": 500000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "한부모",
+          "basis": "배우자가 없는 기본공제대상자",
+          "condition": "기본공제대상 직계비속 또는 입양자 있음",
+          "deduction_krw": 1000000,
+          "note": "부녀자공제와 중복 시 한부모공제 적용",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
+      ]
     },
     {
       "id": "deduction.personal-pension-savings",
@@ -2830,6 +3840,18 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "개인연금저축 납입액",
+          "basis": "2000.12.31. 이전 가입 개인연금저축",
+          "condition": "연 납입액의 40%",
+          "rate_percent": 40,
+          "limit_krw": 720000,
+          "note": "연 180만원 납입 기준 최대 72만원 소득공제",
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -2857,6 +3879,38 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "경로우대",
+          "basis": "기본공제대상자",
+          "condition": "70세 이상",
+          "deduction_krw": 1000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "장애인",
+          "basis": "기본공제대상자",
+          "condition": "장애인",
+          "deduction_krw": 2000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "부녀자",
+          "basis": "종합소득금액",
+          "condition": "3,000만원 이하 등 요건 충족",
+          "threshold_krw_max": 30000000,
+          "deduction_krw": 500000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "한부모",
+          "basis": "배우자가 없는 기본공제대상자",
+          "condition": "기본공제대상 직계비속 또는 입양자 있음",
+          "deduction_krw": 1000000,
+          "note": "부녀자공제와 중복 시 한부모공제 적용",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -2884,6 +3938,30 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "기본공제 대상자 1명당",
+          "basis": "본인·배우자·부양가족",
+          "condition": "기본공제 대상자",
+          "deduction_krw": 1500000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "부양가족 소득요건",
+          "basis": "연간 소득금액",
+          "condition": "100만원 이하",
+          "threshold_krw_max": 1000000,
+          "note": "근로소득만 있는 경우 총급여 500만원 이하",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "근로소득만 있는 부양가족",
+          "basis": "총급여",
+          "condition": "500만원 이하",
+          "threshold_krw_max": 5000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        }
       ]
     },
     {
@@ -2911,6 +3989,33 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "근로소득금액 4천만원 이하",
+          "basis": "근로소득금액",
+          "condition": "4,000만원 이하",
+          "threshold_krw_max": 40000000,
+          "limit_krw": 5000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        },
+        {
+          "label": "근로소득금액 4천만원 초과 1억원 이하",
+          "basis": "근로소득금액",
+          "condition": "4,000만원 초과 1억원 이하",
+          "threshold_krw_min": 40000000,
+          "threshold_krw_max": 100000000,
+          "limit_krw": 3000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        },
+        {
+          "label": "근로소득금액 1억원 초과",
+          "basis": "근로소득금액",
+          "condition": "1억원 초과",
+          "threshold_krw_min": 100000000,
+          "limit_krw": 2000000,
+          "source": "source.nts.year-end-settlement.deduction-limit"
+        }
       ]
     },
     {
@@ -2937,10 +4042,66 @@
       "deadlines": [],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.nts.year-end-settlement.deduction-limit"
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.nts.housing-rent-principal-deduction",
+        "source.nts.housing-mortgage-interest-deduction"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "국민건강보험·노인장기요양보험",
+          "basis": "본인 부담 보험료",
+          "condition": "근로제공기간 중 부담분",
+          "benefit": "전액 소득공제",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "고용보험",
+          "basis": "본인 부담 보험료",
+          "condition": "근로제공기간 중 부담분",
+          "benefit": "전액 소득공제",
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "주택임차차입금 원리금",
+          "basis": "원리금 상환액",
+          "condition": "무주택 세대주 등, 국민주택규모 주택 임차",
+          "rate_percent": 40,
+          "limit_krw": 4000000,
+          "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
+          "source": "source.nts.housing-rent-principal-deduction",
+          "rate_label": "소득공제율"
+        },
+        {
+          "label": "장기주택저당차입금 10년 이상",
+          "basis": "이자상환액",
+          "condition": "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
+          "limit_krw": 6000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상",
+          "limit_krw": 8000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상 우대",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
+          "limit_krw": 18000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        },
+        {
+          "label": "장기주택저당차입금 15년 이상 최우대",
+          "basis": "이자상환액",
+          "condition": "상환기간 15년 이상, 고정금리이고 비거치식 분할상환",
+          "limit_krw": 20000000,
+          "source": "source.nts.housing-mortgage-interest-deduction"
+        }
+      ]
     },
     {
       "id": "deduction.youth-long-term-fund",
@@ -2967,6 +4128,25 @@
       "law_reference": "",
       "tags": [
         "income-deduction"
+      ],
+      "criteria": [
+        {
+          "label": "가입 소득요건",
+          "basis": "총급여 또는 종합소득금액",
+          "condition": "총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하",
+          "threshold_krw_max": 50000000,
+          "source": "source.nts.year-end-settlement.calculation"
+        },
+        {
+          "label": "청년형 장기집합투자증권저축 납입액",
+          "basis": "연 납입액",
+          "condition": "연 600만원 한도",
+          "threshold_krw_max": 6000000,
+          "rate_percent": 40,
+          "limit_krw": 2400000,
+          "source": "source.nts.year-end-settlement.calculation",
+          "rate_label": "소득공제율"
+        }
       ]
     },
     {
@@ -3763,7 +4943,18 @@
         "source.nts.corporate-tax.reliefs"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "임대료 인하액",
+          "basis": "상가건물 임대료 인하액",
+          "condition": "소상공인 임차인 임대료 인하 등 요건 충족",
+          "rate_percent": 70,
+          "rate_label": "세액공제율",
+          "note": "요건과 과세연도별 적용기한 확인 필요",
+          "source": "source.nts.corporate-tax.reliefs"
+        }
+      ]
     },
     {
       "id": "reduction.sme-employment-income",
@@ -3784,10 +4975,42 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.year-end-settlement.calculation"
+        "source.nts.sme-employment-income-reduction"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "청년",
+          "basis": "중소기업 취업자 근로소득세",
+          "condition": "근로계약 체결일 현재 15~34세 이하",
+          "rate_percent": 90,
+          "rate_label": "감면율",
+          "limit_krw": 2000000,
+          "note": "감면기간 5년",
+          "source": "source.nts.sme-employment-income-reduction"
+        },
+        {
+          "label": "고령자",
+          "basis": "중소기업 취업자 근로소득세",
+          "condition": "근로계약 체결일 현재 60세 이상",
+          "rate_percent": 70,
+          "rate_label": "감면율",
+          "limit_krw": 2000000,
+          "note": "감면기간 3년",
+          "source": "source.nts.sme-employment-income-reduction"
+        },
+        {
+          "label": "장애인·경력단절근로자",
+          "basis": "중소기업 취업자 근로소득세",
+          "condition": "장애인 또는 경력단절근로자 요건 충족",
+          "rate_percent": 70,
+          "rate_label": "감면율",
+          "limit_krw": 2000000,
+          "note": "감면기간 3년",
+          "source": "source.nts.sme-employment-income-reduction"
+        }
+      ]
     },
     {
       "id": "reduction.sme-special",
@@ -3810,10 +5033,46 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.nts.corporate-tax-consulting.2026"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "소기업 수도권 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "소기업, 수도권 내 제조업·출판업 등",
+          "rate_percent": 20,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "소기업 수도권 외 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "소기업, 수도권 외 제조업·출판업 등",
+          "rate_percent": 30,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "중기업 수도권 외 제조업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "중기업, 수도권 외 제조업 등",
+          "rate_percent": 15,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "도소매·의료업 등",
+          "basis": "중소기업 특별세액감면",
+          "condition": "업종·지역별 차등",
+          "rate_percent_min": 5,
+          "rate_percent_max": 10,
+          "rate_label": "감면율",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        }
+      ]
     },
     {
       "id": "reduction.startup-sme",
@@ -3836,10 +5095,40 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.nts.corporate-tax-consulting.2026"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "2026년 이후 일반 창업중소기업",
+          "basis": "법인세 또는 소득세",
+          "condition": "수도권 외 지역 또는 수도권 인구감소지역",
+          "rate_percent": 50,
+          "rate_label": "감면율",
+          "note": "최초 소득발생 과세연도와 이후 4년",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "2026년 이후 청년·생계형 창업",
+          "basis": "법인세 또는 소득세",
+          "condition": "수도권 외 지역 또는 수도권과밀억제권역 외",
+          "rate_percent": 100,
+          "rate_label": "감면율",
+          "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        },
+        {
+          "label": "상시근로자 증가 추가감면",
+          "basis": "상시근로자 증가율",
+          "condition": "고용 증가 요건 충족",
+          "rate_percent": 100,
+          "rate_label": "추가감면 산식",
+          "note": "상시근로자 증가율 × 100%",
+          "source": "source.nts.corporate-tax-consulting.2026"
+        }
+      ]
     },
     {
       "id": "source.ccrs.long-term-delinquent-debt-adjustment",
@@ -4346,6 +5635,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.corporate-tax-consulting.2026",
+      "title": "중소기업 공제·감면 컨설팅 제도 안내",
+      "type": "source",
+      "description": "2026년 창업중소기업 세액감면, 중소기업특별세액감면, 통합투자세액공제 등 주요 공제·감면율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
       "id": "source.nts.corporate-tax.rates",
       "title": "법인세 세율",
       "type": "source",
@@ -4440,6 +5753,54 @@
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
       "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.donation-credit",
+      "title": "기부금 세액공제",
+      "type": "source",
+      "description": "정치자금, 고향사랑, 특례, 우리사주조합, 일반기부금의 공제율과 금액 구간 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.nts.education-expense-credit",
+      "title": "교육비 세액공제",
+      "type": "source",
+      "description": "교육비 세액공제의 본인 전액, 취학전·초중고 300만원, 대학생 900만원, 장애인 특수교육비 전액 한도와 15% 공제율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
+      "basis_date": "2026-05-03 확인"
     },
     {
       "id": "source.nts.eitc.intro",
@@ -4586,6 +5947,78 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.housing-mortgage-interest-deduction",
+      "title": "장기주택저당차입금 이자상환액 소득공제",
+      "type": "source",
+      "description": "장기주택저당차입금 이자상환액의 상환기간·상환방식별 600만원~2,000만원 한도 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.nts.housing-rent-principal-deduction",
+      "title": "주택임차차입금 원리금 상환액 소득공제",
+      "type": "source",
+      "description": "주택임차차입금 원리금 상환액의 공제대상자, 주택요건, 40% 공제율, 연 400만원 한도 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.nts.housing-savings-deduction",
+      "title": "주택마련저축 소득공제",
+      "type": "source",
+      "description": "총급여 7,000만원 이하 무주택 세대주·배우자의 주택마련저축 납입액 40%, 연 납입액 300만원 한도 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
       "id": "source.nts.income-tax.deadline",
       "title": "종합소득세 신고납부기한",
       "type": "source",
@@ -4728,6 +6161,30 @@
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
       "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.sme-employment-income-reduction",
+      "title": "중소기업 취업자 소득세 감면",
+      "type": "source",
+      "description": "청년, 고령자, 장애인, 경력단절근로자별 감면기간, 감면율, 과세기간별 200만원 감면한도 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
+      "basis_date": "2026-05-03 확인"
     },
     {
       "id": "source.nts.tax-calendar.2026",
@@ -7810,347 +9267,352 @@
   ]
 };
 
-        (() => {
-          const items = ONTOLOGY_DATA.items;
-          const byId = new Map(items.map((item) => [item.id, item]));
-          const typeLabels = ONTOLOGY_DATA.type_labels;
-          const typeRoles = ONTOLOGY_DATA.type_roles;
-          const searchInput = document.querySelector("[data-search]");
-          const listEl = document.querySelector("[data-item-list]");
-          const tabsEl = document.querySelector("[data-tabs]");
-          const resultCountEl = document.querySelector("[data-result-count]");
-          const detailEl = document.querySelector("[data-detail-panel]");
-          const sourceListEl = document.querySelector("[data-source-list]");
-          const typeTableEl = document.querySelector("[data-type-table]");
+(() => {
+  const items = ONTOLOGY_DATA.items;
+  const byId = new Map(items.map((item) => [item.id, item]));
+  const typeLabels = ONTOLOGY_DATA.type_labels;
+  const typeRoles = ONTOLOGY_DATA.type_roles;
+  const searchInput = document.querySelector("[data-search]");
+  const listEl = document.querySelector("[data-item-list]");
+  const tabsEl = document.querySelector("[data-tabs]");
+  const resultCountEl = document.querySelector("[data-result-count]");
+  const detailEl = document.querySelector("[data-detail-panel]");
+  const sourceListEl = document.querySelector("[data-source-list]");
+  const typeTableEl = document.querySelector("[data-type-table]");
 
-          const state = {
-            tab: "all",
-            query: "",
-            selectedId: "kr-tax-system"
-          };
+  const state = {
+    tab: "all",
+    query: "",
+    selectedId: "kr-tax-system"
+  };
 
-          const tabs = [
-            { id: "all", label: "전체", test: () => true },
-            { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
-            { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
-            { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
-            { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
-            { id: "terms", label: "용어", test: (item) => ["term", "concept"].includes(item.type) },
-            { id: "sources", label: "출처", test: (item) => item.type === "source" }
-          ];
+  const tabs = [
+    { id: "all", label: "전체", test: () => true },
+    { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
+    { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
+    { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
+    { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
+    { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
+    { id: "terms", label: "용어·기준", test: (item) => ["term", "concept"].includes(item.type) },
+    { id: "sources", label: "출처", test: (item) => item.type === "source" }
+  ];
 
-          function escapeHtml(value) {
-            return String(value ?? "")
-              .replaceAll("&", "&amp;")
-              .replaceAll("<", "&lt;")
-              .replaceAll(">", "&gt;")
-              .replaceAll('"', "&quot;")
-              .replaceAll("'", "&#039;");
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function itemText(item) {
+    return [
+      item.id,
+      item.title,
+      typeLabels[item.type] || item.type,
+      item.description,
+      JSON.stringify(item.criteria || []),
+      item.law_reference,
+      item.publisher,
+      item.url,
+      ...(item.tags || [])
+    ].join(" ").toLowerCase();
+  }
+
+  function hasAncestor(item, ancestorId, visited = new Set()) {
+    if (!item || visited.has(item.id)) return false;
+    visited.add(item.id);
+    if ((item.parents || []).includes(ancestorId)) return true;
+    return (item.parents || []).some((parentId) => hasAncestor(byId.get(parentId), ancestorId, visited));
+  }
+
+  function filteredItems() {
+    const query = state.query.trim().toLowerCase();
+    const activeTab = tabs.find((tab) => tab.id === state.tab) || tabs[0];
+    return items
+      .filter((item) => activeTab.test(item))
+      .filter((item) => !query || itemText(item).includes(query))
+      .sort((a, b) => {
+        if (a.type === "domain") return -1;
+        if (b.type === "domain") return 1;
+        if (a.type !== b.type) return a.type.localeCompare(b.type);
+        return a.title.localeCompare(b.title, "ko");
+      });
+  }
+
+  function ensureVisibleSelection(visible) {
+    if (!visible.length) {
+      state.selectedId = "";
+      return;
+    }
+
+    if (!visible.some((item) => item.id === state.selectedId)) {
+      state.selectedId = visible[0].id;
+    }
+  }
+
+  function renderTabs() {
+    tabsEl.innerHTML = tabs
+      .map((tab) => `<button class="tab-button" type="button" role="tab" aria-selected="${tab.id === state.tab}" data-tab="${tab.id}">${escapeHtml(tab.label)}</button>`)
+      .join("");
+  }
+
+  function renderList() {
+    const visible = filteredItems();
+    ensureVisibleSelection(visible);
+    resultCountEl.textContent = `${visible.length.toLocaleString("ko-KR")}개 표시`;
+    if (!visible.length) {
+      listEl.innerHTML = `<div class="empty-state">검색 조건에 맞는 항목이 없습니다.</div>`;
+      return;
+    }
+
+    listEl.innerHTML = visible
+      .map((item) => `
+        <button class="item-row${item.id === state.selectedId ? " active" : ""}" type="button" data-select-item="${escapeHtml(item.id)}">
+          <span>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.description)}</p>
+          </span>
+          <span class="type-chip">${escapeHtml(typeLabels[item.type] || item.type)}</span>
+        </button>
+      `)
+      .join("");
+  }
+
+  function relationBlock(title, ids) {
+    const links = (ids || [])
+      .map((id) => byId.get(id))
+      .filter(Boolean)
+      .map((item) => `<button class="relation-link" type="button" data-select-item="${escapeHtml(item.id)}">${escapeHtml(item.title)}</button>`)
+      .join("");
+
+    if (!links) return "";
+    return `
+      <div class="relation-group">
+        <h4>${escapeHtml(title)}</h4>
+        <div class="relation-links">${links}</div>
+      </div>
+    `;
+  }
+
+  function sourceBlock(ids) {
+    const links = (ids || [])
+      .map((id) => byId.get(id))
+      .filter(Boolean)
+      .map((source) => {
+        if (source.url) {
+          return `<a class="relation-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>`;
+        }
+        return `<span class="relation-link">${escapeHtml(source.title)}</span>`;
+      })
+      .join("");
+    if (!links) return "";
+    return `
+      <div class="relation-group">
+        <h4>근거·출처</h4>
+        <div class="relation-links">${links}</div>
+      </div>
+    `;
+  }
+
+  function formatKrw(value) {
+    if (value === undefined || value === null || value === "") return "";
+    const number = Number(value);
+    return Number.isFinite(number) ? `${number.toLocaleString("ko-KR")}원` : String(value);
+  }
+
+  function formatPercent(value) {
+    if (value === undefined || value === null || value === "") return "";
+    return `${value}%`;
+  }
+
+  function criteriaBlock(criteria) {
+    if (!criteria || !criteria.length) return "";
+    const labels = {
+      basis: "기준항목",
+      condition: "조건",
+      threshold_krw_min: "하한",
+      threshold_krw: "기준금액",
+      threshold_krw_max: "상한",
+      rate_percent: "세율",
+      rate_percent_min: "최저세율",
+      rate_percent_max: "최고세율",
+      progressive_deduction_krw: "누진공제",
+      deduction_krw: "공제액",
+      limit_krw: "한도",
+      amount_krw: "금액",
+      max_amount_krw: "최대금액",
+      benefit: "혜택",
+      note: "비고"
+    };
+    const orderedKeys = [
+      "basis",
+      "condition",
+      "threshold_krw_min",
+      "threshold_krw",
+      "threshold_krw_max",
+      "rate_percent",
+      "rate_percent_min",
+      "rate_percent_max",
+      "progressive_deduction_krw",
+      "deduction_krw",
+      "limit_krw",
+      "amount_krw",
+      "max_amount_krw",
+      "benefit",
+      "note"
+    ];
+    const items = criteria.map((criterion) => {
+      const detail = orderedKeys
+        .filter((key) => criterion[key] !== undefined && criterion[key] !== null && criterion[key] !== "")
+        .map((key) => {
+          let value = criterion[key];
+          if (key.endsWith("_krw")) value = formatKrw(value);
+          if (key.startsWith("rate_percent")) value = formatPercent(value);
+          let label = labels[key] || key;
+          if (key.startsWith("rate_percent") && criterion.rate_label) {
+            label = key === "rate_percent_min" ? `최저${criterion.rate_label}` : key === "rate_percent_max" ? `최고${criterion.rate_label}` : criterion.rate_label;
           }
+          return `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`;
+        })
+        .join("");
+      const source = criterion.source ? byId.get(criterion.source) : null;
+      const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
+      return `
+        <li>
+          <strong>${escapeHtml(criterion.label || "기준")}</strong>
+          <div>${detail}</div>
+          ${sourceLink ? `<p>${sourceLink}</p>` : ""}
+        </li>
+      `;
+    }).join("");
+    return `
+      <div class="criteria-block">
+        <h4>기준 내역</h4>
+        <ul>${items}</ul>
+      </div>
+    `;
+  }
 
-          function itemText(item) {
-            return [
-              item.id,
-              item.title,
-              typeLabels[item.type] || item.type,
-              item.description,
-              JSON.stringify(item.criteria || []),
-              item.law_reference,
-              ...(item.tags || [])
-            ].join(" ").toLowerCase();
-          }
+  function renderDetail() {
+    const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
+    if (!item) {
+      detailEl.innerHTML = `
+        <div class="detail-kicker">검색 결과 없음</div>
+        <h3>선택할 항목이 없습니다</h3>
+        <p>검색어를 줄이거나 다른 필터를 선택해 주세요.</p>
+      `;
+      return;
+    }
+    const relationHtml = [
+      relationBlock("상위 항목", item.parents),
+      relationBlock("하위 항목", item.children),
+      relationBlock("관련 항목", item.related),
+      relationBlock("관련 용어", item.terms),
+      relationBlock("관련 기한", item.deadlines),
+      sourceBlock(item.sources)
+    ].filter(Boolean).join("");
+    const criteriaHtml = criteriaBlock(item.criteria);
 
-          function hasAncestor(item, ancestorId, visited = new Set()) {
-            if (!item || visited.has(item.id)) return false;
-            visited.add(item.id);
-            if ((item.parents || []).includes(ancestorId)) return true;
-            return (item.parents || []).some((parentId) => hasAncestor(byId.get(parentId), ancestorId, visited));
-          }
+    detailEl.innerHTML = `
+      <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p>${escapeHtml(item.description)}</p>
+      <div class="meta-grid">
+        <div><span>기준연도</span><strong>${escapeHtml(item.basis_year || "해당 없음")}</strong></div>
+        <div><span>법령 근거</span><strong>${escapeHtml(item.law_reference || "출처 노드 참조")}</strong></div>
+        <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
+        <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
+      </div>
+      ${criteriaHtml}
+      <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
+    `;
+  }
 
-          function filteredItems() {
-            const query = state.query.trim().toLowerCase();
-            const activeTab = tabs.find((tab) => tab.id === state.tab) || tabs[0];
-            return items
-              .filter((item) => activeTab.test(item))
-              .filter((item) => !query || itemText(item).includes(query))
-              .sort((a, b) => {
-                if (a.type === "domain") return -1;
-                if (b.type === "domain") return 1;
-                if (a.type !== b.type) return a.type.localeCompare(b.type);
-                return a.title.localeCompare(b.title, "ko");
-              });
-          }
+  function renderTypeTable() {
+    const counts = ONTOLOGY_DATA.summary.type_counts;
+    typeTableEl.innerHTML = Object.keys(counts)
+      .sort((a, b) => (typeLabels[a] || a).localeCompare(typeLabels[b] || b, "ko"))
+      .map((type) => `
+        <tr>
+          <td><strong>${escapeHtml(typeLabels[type] || type)}</strong><br><span>${escapeHtml(type)}</span></td>
+          <td>${Number(counts[type]).toLocaleString("ko-KR")}</td>
+          <td>${escapeHtml(typeRoles[type] || "온톨로지 노드")}</td>
+        </tr>
+      `)
+      .join("");
+  }
 
-          function ensureVisibleSelection(visible) {
-            if (!visible.length) {
-              state.selectedId = "";
-              return;
-            }
+  function renderSources() {
+    const sources = items
+      .filter((item) => item.type === "source")
+      .sort((a, b) => (a.publisher || "").localeCompare(b.publisher || "", "ko") || a.title.localeCompare(b.title, "ko"));
 
-            if (!visible.some((item) => item.id === state.selectedId)) {
-              state.selectedId = visible[0].id;
-            }
-          }
+    sourceListEl.innerHTML = sources
+      .map((source) => `
+        <article class="source-card">
+          <span>${escapeHtml(source.publisher || "공식 출처")} · ${escapeHtml(source.basis_date || ONTOLOGY_DATA.basis_date)}</span>
+          <strong>${escapeHtml(source.title)}</strong>
+          <p>${escapeHtml(source.description)}</p>
+          ${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">원문 열기</a>` : ""}
+        </article>
+      `)
+      .join("");
+  }
 
-          function renderTabs() {
-            tabsEl.innerHTML = tabs
-              .map((tab) => `<button class="tab-button" type="button" role="tab" aria-selected="${tab.id === state.tab}" data-tab="${tab.id}">${escapeHtml(tab.label)}</button>`)
-              .join("");
-          }
+  function downloadJson() {
+    const exportData = {
+      version: ONTOLOGY_DATA.version,
+      basis_date: ONTOLOGY_DATA.basis_date,
+      manifests: ONTOLOGY_DATA.manifests,
+      items: ONTOLOGY_DATA.items
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "korea-tax-ontology-2026.json";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }
 
-          function renderList() {
-            const visible = filteredItems();
-            ensureVisibleSelection(visible);
-            resultCountEl.textContent = `${visible.length.toLocaleString("ko-KR")}개 표시`;
-            if (!visible.length) {
-              listEl.innerHTML = `<div class="empty-state">검색 조건에 맞는 항목이 없습니다.</div>`;
-              return;
-            }
+  document.addEventListener("click", (event) => {
+    const selectButton = event.target.closest("[data-select-item]");
+    if (selectButton) {
+      const id = selectButton.getAttribute("data-select-item");
+      if (byId.has(id)) {
+        state.selectedId = id;
+        renderList();
+        renderDetail();
+        document.querySelector("#browser")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
 
-            listEl.innerHTML = visible
-              .map((item) => `
-                <button class="item-row${item.id === state.selectedId ? " active" : ""}" type="button" data-select-item="${escapeHtml(item.id)}">
-                  <span>
-                    <strong>${escapeHtml(item.title)}</strong>
-                    <p>${escapeHtml(item.description)}</p>
-                  </span>
-                  <span class="type-chip">${escapeHtml(typeLabels[item.type] || item.type)}</span>
-                </button>
-              `)
-              .join("");
-          }
+    const tabButton = event.target.closest("[data-tab]");
+    if (tabButton) {
+      state.tab = tabButton.getAttribute("data-tab");
+      renderTabs();
+      renderList();
+      renderDetail();
+    }
 
-          function relationBlock(title, ids) {
-            const links = (ids || [])
-              .map((id) => byId.get(id))
-              .filter(Boolean)
-              .map((item) => `<button class="relation-link" type="button" data-select-item="${escapeHtml(item.id)}">${escapeHtml(item.title)}</button>`)
-              .join("");
+    if (event.target.closest("[data-download-json]")) {
+      downloadJson();
+    }
+  });
 
-            if (!links) return "";
-            return `
-              <div class="relation-group">
-                <h4>${escapeHtml(title)}</h4>
-                <div class="relation-links">${links}</div>
-              </div>
-            `;
-          }
+  searchInput.addEventListener("input", (event) => {
+    state.query = event.target.value;
+    renderList();
+    renderDetail();
+  });
 
-          function sourceBlock(ids) {
-            const links = (ids || [])
-              .map((id) => byId.get(id))
-              .filter(Boolean)
-              .map((source) => {
-                const href = source.url ? `<a class="relation-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>` : `<span class="relation-link">${escapeHtml(source.title)}</span>`;
-                return href;
-              })
-              .join("");
-            if (!links) return "";
-            return `
-              <div class="relation-group">
-                <h4>근거·출처</h4>
-                <div class="relation-links">${links}</div>
-              </div>
-            `;
-          }
-
-          function formatKrw(value) {
-            if (value === undefined || value === null || value === "") return "";
-            const number = Number(value);
-            return Number.isFinite(number) ? `${number.toLocaleString("ko-KR")}원` : String(value);
-          }
-
-          function formatPercent(value) {
-            if (value === undefined || value === null || value === "") return "";
-            return `${value}%`;
-          }
-
-          function criteriaBlock(criteria) {
-            if (!criteria || !criteria.length) return "";
-            const labels = {
-              basis: "기준항목",
-              condition: "조건",
-              threshold_krw_min: "하한",
-              threshold_krw: "기준금액",
-              threshold_krw_max: "상한",
-              rate_percent: "세율",
-              rate_percent_min: "최저세율",
-              rate_percent_max: "최고세율",
-              progressive_deduction_krw: "누진공제",
-              deduction_krw: "공제액",
-              limit_krw: "한도",
-              amount_krw: "금액",
-              max_amount_krw: "최대금액",
-              benefit: "혜택",
-              note: "비고"
-            };
-            const orderedKeys = [
-              "basis",
-              "condition",
-              "threshold_krw_min",
-              "threshold_krw",
-              "threshold_krw_max",
-              "rate_percent",
-              "rate_percent_min",
-              "rate_percent_max",
-              "progressive_deduction_krw",
-              "deduction_krw",
-              "limit_krw",
-              "amount_krw",
-              "max_amount_krw",
-              "benefit",
-              "note"
-            ];
-            const items = criteria.map((criterion) => {
-              const detail = orderedKeys
-                .filter((key) => criterion[key] !== undefined && criterion[key] !== null && criterion[key] !== "")
-                .map((key) => {
-                  let value = criterion[key];
-                  if (key.endsWith("_krw")) value = formatKrw(value);
-                  if (key.startsWith("rate_percent")) value = formatPercent(value);
-                  let label = labels[key] || key;
-                  if (key.startsWith("rate_percent") && criterion.rate_label) {
-                    label = key === "rate_percent_min" ? `최저${criterion.rate_label}` : key === "rate_percent_max" ? `최고${criterion.rate_label}` : criterion.rate_label;
-                  }
-                  return `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`;
-                })
-                .join("");
-              const source = criterion.source ? byId.get(criterion.source) : null;
-              const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
-              return `
-                <li>
-                  <strong>${escapeHtml(criterion.label || "기준")}</strong>
-                  <div>${detail}</div>
-                  ${sourceLink ? `<p>${sourceLink}</p>` : ""}
-                </li>
-              `;
-            }).join("");
-            return `
-              <div class="criteria-block">
-                <h4>기준 내역</h4>
-                <ul>${items}</ul>
-              </div>
-            `;
-          }
-
-          function renderDetail() {
-            const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
-            if (!item) {
-              detailEl.innerHTML = `
-                <div class="detail-kicker">검색 결과 없음</div>
-                <h3>선택할 항목이 없습니다</h3>
-                <p>검색어를 줄이거나 다른 필터를 선택해 주세요.</p>
-              `;
-              return;
-            }
-            const relationHtml = [
-              relationBlock("상위 항목", item.parents),
-              relationBlock("하위 항목", item.children),
-              relationBlock("관련 항목", item.related),
-              relationBlock("관련 용어", item.terms),
-              relationBlock("관련 기한", item.deadlines),
-              sourceBlock(item.sources)
-            ].filter(Boolean).join("");
-            const criteriaHtml = criteriaBlock(item.criteria);
-
-            detailEl.innerHTML = `
-              <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
-              <h3>${escapeHtml(item.title)}</h3>
-              <p>${escapeHtml(item.description)}</p>
-              <div class="meta-grid">
-                <div><span>기준연도</span><strong>${escapeHtml(item.basis_year || "해당 없음")}</strong></div>
-                <div><span>법령 근거</span><strong>${escapeHtml(item.law_reference || "출처 노드 참조")}</strong></div>
-                <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
-                <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
-              </div>
-              ${criteriaHtml}
-              <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
-            `;
-          }
-
-          function renderTypeTable() {
-            const counts = ONTOLOGY_DATA.summary.type_counts;
-            typeTableEl.innerHTML = Object.keys(counts)
-              .sort((a, b) => (typeLabels[a] || a).localeCompare(typeLabels[b] || b, "ko"))
-              .map((type) => `
-                <tr>
-                  <td><strong>${escapeHtml(typeLabels[type] || type)}</strong><br><span>${escapeHtml(type)}</span></td>
-                  <td>${Number(counts[type]).toLocaleString("ko-KR")}</td>
-                  <td>${escapeHtml(typeRoles[type] || "온톨로지 노드")}</td>
-                </tr>
-              `)
-              .join("");
-          }
-
-          function renderSources() {
-            const sources = items
-              .filter((item) => item.type === "source")
-              .sort((a, b) => (a.publisher || "").localeCompare(b.publisher || "", "ko") || a.title.localeCompare(b.title, "ko"));
-
-            sourceListEl.innerHTML = sources
-              .map((source) => `
-                <article class="source-card">
-                  <span>${escapeHtml(source.publisher || "공식 출처")} · ${escapeHtml(source.basis_date || ONTOLOGY_DATA.basis_date)}</span>
-                  <strong>${escapeHtml(source.title)}</strong>
-                  <p>${escapeHtml(source.description)}</p>
-                  ${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">원문 열기</a>` : ""}
-                </article>
-              `)
-              .join("");
-          }
-
-          function downloadJson() {
-            const exportData = {
-              version: ONTOLOGY_DATA.version,
-              basis_date: ONTOLOGY_DATA.basis_date,
-              manifests: ONTOLOGY_DATA.manifests,
-              items: ONTOLOGY_DATA.items
-            };
-            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const anchor = document.createElement("a");
-            anchor.href = url;
-            anchor.download = "korea-tax-ontology-2026.json";
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
-            URL.revokeObjectURL(url);
-          }
-
-          document.addEventListener("click", (event) => {
-            const selectButton = event.target.closest("[data-select-item]");
-            if (selectButton) {
-              const id = selectButton.getAttribute("data-select-item");
-              if (byId.has(id)) {
-                state.selectedId = id;
-                renderList();
-                renderDetail();
-                document.querySelector("#browser")?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
-            }
-
-            const tabButton = event.target.closest("[data-tab]");
-            if (tabButton) {
-              state.tab = tabButton.getAttribute("data-tab");
-              renderTabs();
-              renderList();
-              renderDetail();
-            }
-
-            if (event.target.closest("[data-download-json]")) {
-              downloadJson();
-            }
-          });
-
-          searchInput.addEventListener("input", (event) => {
-            state.query = event.target.value;
-            renderList();
-            renderDetail();
-          });
-
-          renderTypeTable();
-          renderSources();
-          renderTabs();
-          renderList();
-          renderDetail();
-        })();
+  renderTypeTable();
+  renderSources();
+  renderTabs();
+  renderList();
+  renderDetail();
+})();
