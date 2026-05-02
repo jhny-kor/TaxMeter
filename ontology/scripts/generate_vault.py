@@ -251,12 +251,75 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "월별 신고·납부 일정과 기한의 특례 확인용 공식 일정입니다.",
     },
+    "source.govkr.basic-livelihood-benefit": {
+        "title": "생계급여",
+        "publisher": "정부24",
+        "url": "https://www.gov.kr/portal/service/serviceInfo/WII000001410",
+        "basis_date": "최종수정일 2026-02-09",
+        "description": "2026년 생계급여 선정·급여기준, 기준 중위소득 32%, 가구원 수별 급여기준, 부양의무자 제외 기준 근거입니다.",
+    },
+    "source.fsc.youth-future-savings": {
+        "title": "청년미래적금 카드뉴스",
+        "publisher": "금융위원회",
+        "url": "https://www.fsc.go.kr/no040101?cnId=2983",
+        "basis_date": "2025-12-11",
+        "description": "2026년 6월 출시 예정 청년미래적금의 가입 소득기준, 만기, 월 납입한도, 정부기여금 매칭비율, 비과세 특례 근거입니다.",
+    },
+    "source.kinfa.illegal-private-finance-prevention-loan": {
+        "title": "불법사금융예방대출",
+        "publisher": "서민금융진흥원",
+        "url": "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
+        "basis_date": "2026-05-02 확인",
+        "description": "신용평점 하위 20%·연소득 3,500만원 이하 대상 생계비 정책서민금융상품의 대출한도, 금리, 상환방식 근거입니다.",
+    },
+    "source.kinfa.hessal-loan-youth": {
+        "title": "햇살론유스",
+        "publisher": "서민금융진흥원",
+        "url": "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
+        "basis_date": "2026-05-02 확인",
+        "description": "만 19~34세 청년·대학생·사회초년생 대상 햇살론유스의 소득요건, 동일인 한도, 연간·용도별 보증한도 근거입니다.",
+    },
+    "source.kinfa.hessal-119": {
+        "title": "햇살론119",
+        "publisher": "서민금융진흥원",
+        "url": "https://www.kinfa.or.kr/financialProduct/hessalLoanEmergency.do",
+        "basis_date": "2026-05-02 확인",
+        "description": "은행권 채무조정 프로그램을 성실상환 중인 영세 개인사업자 대상 신규 운전자금 보증부 대출의 지원요건과 한도 근거입니다.",
+    },
     "source.kinfa.youth-leap": {
         "title": "청년도약계좌 상품 안내",
         "publisher": "서민금융진흥원",
         "url": "https://ylaccount.kinfa.or.kr/main",
         "basis_date": "2026-05-02 확인",
         "description": "청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다.",
+    },
+    "source.hf.didimdol-loan": {
+        "title": "내집마련 디딤돌대출 상품소개",
+        "publisher": "한국주택금융공사",
+        "url": "https://www.hf.go.kr/ko/sub01/sub01_02_01.do",
+        "basis_date": "2026-05-02 확인",
+        "description": "디딤돌대출의 무주택, 순자산, 주택가격, 부부합산 연소득, LTV·DTI, 대출한도 기준 근거입니다.",
+    },
+    "source.hf.didimdol-rate.2026-05": {
+        "title": "2026년 5월 디딤돌대출 금리안내",
+        "publisher": "한국주택금융공사",
+        "url": "https://hf.go.kr/ko/sub01/sub01_02_03.do",
+        "basis_date": "공시일 2026-05-01",
+        "description": "2026년 5월 기준 디딤돌대출 소득구간별 만기 금리와 우대금리 근거입니다.",
+    },
+    "source.hf.special-rent-guarantee": {
+        "title": "특례전세자금보증",
+        "publisher": "한국주택금융공사",
+        "url": "https://www.hf.go.kr/ko/sub02/sub02_01_04.do",
+        "basis_date": "2026-05-02 확인",
+        "description": "무주택 청년, 다자녀가구, 정책서민금융 이용자 등 특례전세자금보증 대상별 보증요건과 보증한도 근거입니다.",
+    },
+    "source.ccrs.long-term-delinquent-debt-adjustment": {
+        "title": "장기연체자 특별채무조정",
+        "publisher": "신용회복위원회",
+        "url": "https://ad.ccrs.or.kr/cms/com/index.do?CONTENTS_NO=2&MENU_ID=1580",
+        "basis_date": "2026-05-02 확인",
+        "description": "새도약기금 관련 5년 이상 장기연체채권 특별채무조정의 2026년 기준중위소득 125%, 채무감면, 분할상환, 상환유예 근거입니다.",
     },
     "source.fsc.isa.policy": {
         "title": "ISA 정책문답",
@@ -484,6 +547,10 @@ TERMS = {
     "term.total-income": ("총소득", "근로·자녀장려금 자격 판정에서 근로, 사업, 종교인, 기타, 이자·배당·연금소득을 합산한 금액입니다.", ["source.nts.grant.eligibility"]),
     "term.gross-pay": ("총급여액 등", "장려금 지급액 결정과 홑벌이·맞벌이 구분 등에 쓰이는 근로, 사업, 종교인소득의 합계 기준입니다.", ["source.nts.grant.eligibility"]),
     "term.property-requirement": ("재산요건", "근로·자녀장려금에서 가구원 재산 합계액으로 판정하는 요건입니다.", ["source.nts.grant.eligibility"]),
+    "term.median-income": ("기준 중위소득", "복지급여와 정책금융 지원대상 판정에 쓰이는 가구원 수별 중위소득 기준입니다.", ["source.govkr.basic-livelihood-benefit", "source.fsc.youth-future-savings"]),
+    "term.policy-finance": ("정책금융", "정부, 금융위원회, 금융공공기관 등이 취약계층·청년·서민·실수요자의 금융 접근성과 자산형성을 지원하기 위해 운영하는 금융상품입니다.", ["source.fsc.youth-future-savings", "source.kinfa.illegal-private-finance-prevention-loan", "source.hf.didimdol-loan"]),
+    "term.policy-loan": ("정책대출", "지원대상·한도·금리·보증요건을 정책적으로 정해 일반 금융 접근이 어려운 대상에게 제공하는 대출 또는 보증 상품입니다.", ["source.kinfa.hessal-loan-youth", "source.kinfa.hessal-119", "source.hf.didimdol-loan"]),
+    "term.debt-adjustment": ("채무조정", "상환이 어려운 채무자의 이자율, 상환기간, 유예기간, 원금감면 등을 조정해 경제적 재기를 지원하는 제도입니다.", ["source.ccrs.long-term-delinquent-debt-adjustment"]),
     "term.general-vat-taxpayer": ("일반과세자", "부가가치세에서 일반 세율과 매입세액 공제 구조를 적용받는 과세사업자 유형입니다.", ["source.nts.vat.overview", "source.nts.vat.filing-duty"]),
     "term.simple-vat-taxpayer": ("간이과세자", "부가가치세에서 직전 1년 매출액이 10,400만원 미만인 개인사업자 유형입니다.", ["source.nts.vat.overview", "source.nts.vat.filing-duty", "source.nts.business-registration.application"]),
     "term.withholding-obligor": ("원천징수의무자", "원천징수 대상 소득 또는 수입금액을 지급하면서 세액을 징수·신고·납부해야 하는 개인이나 법인입니다.", ["source.nts.withholding.overview"]),
@@ -770,6 +837,98 @@ MEDICAL_EXPENSE_CREDIT_CRITERIA = [
 ]
 
 
+BASIC_LIVELIHOOD_BENEFIT_CRITERIA = [
+    {"label": "1인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 820_556, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "2인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 1_343_773, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "3인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 1_714_892, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "4인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 2_078_316, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "5인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 2_418_150, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "부양의무자 고소득 제외", "basis": "부양의무자 연 소득", "condition": "1.3억원 초과 시 제외 가능", "threshold_krw": 130_000_000, "source": "source.govkr.basic-livelihood-benefit"},
+    {"label": "부양의무자 일반재산 제외", "basis": "부양의무자 일반재산", "condition": "12억원 초과 시 제외 가능", "threshold_krw": 1_200_000_000, "source": "source.govkr.basic-livelihood-benefit"},
+]
+
+
+YOUTH_FUTURE_SAVINGS_CRITERIA = [
+    {"label": "출시 예정", "basis": "상품 출시", "condition": "2026년 6월 출시 예정", "benefit": "청년 자산형성 적금", "source": "source.fsc.youth-future-savings"},
+    {"label": "가입연령", "basis": "만 나이", "condition": "19세 이상 34세 이하", "note": "청년기본법상 청년 기준", "source": "source.fsc.youth-future-savings"},
+    {"label": "일반형 개인소득", "basis": "개인소득", "condition": "6,000만원 이하", "threshold_krw_max": 60_000_000, "source": "source.fsc.youth-future-savings"},
+    {"label": "일반형 소상공인 매출", "basis": "연매출", "condition": "3억원 이하 소상공인", "threshold_krw_max": 300_000_000, "source": "source.fsc.youth-future-savings"},
+    {"label": "일반형 가구소득", "basis": "기준 중위소득", "condition": "200% 이하", "benefit": "일반형 가입 가능", "source": "source.fsc.youth-future-savings"},
+    {"label": "우대형 개인소득", "basis": "개인소득", "condition": "3,600만원 이하 중소기업 재직자", "threshold_krw_max": 36_000_000, "source": "source.fsc.youth-future-savings"},
+    {"label": "우대형 소상공인 매출", "basis": "연매출", "condition": "1억원 이하 소상공인", "threshold_krw_max": 100_000_000, "source": "source.fsc.youth-future-savings"},
+    {"label": "우대형 가구소득", "basis": "기준 중위소득", "condition": "150% 이하", "benefit": "우대형 가입 가능", "source": "source.fsc.youth-future-savings"},
+    {"label": "월 납입한도", "basis": "월 납입금", "condition": "최대 50만원 자유적립", "limit_krw": 500_000, "source": "source.fsc.youth-future-savings"},
+    {"label": "일반형 기여금", "basis": "월 납입금", "condition": "일반형", "rate_percent": 6, "rate_label": "기여금비율", "benefit": "정부기여금 매칭", "source": "source.fsc.youth-future-savings"},
+    {"label": "우대형 기여금", "basis": "월 납입금", "condition": "우대형", "rate_percent": 12, "rate_label": "기여금비율", "benefit": "정부기여금 매칭", "source": "source.fsc.youth-future-savings"},
+    {"label": "만기", "basis": "가입기간", "condition": "3년", "benefit": "이자소득 비과세 특례 예정", "source": "source.fsc.youth-future-savings"},
+]
+
+
+ILLEGAL_PRIVATE_FINANCE_PREVENTION_LOAN_CRITERIA = [
+    {"label": "신용요건", "basis": "개인신용평점", "condition": "하위 20%", "benefit": "신청 대상", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "소득요건", "basis": "연소득", "condition": "3,500만원 이하", "threshold_krw_max": 35_000_000, "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "필수 이수·가입", "basis": "사전요건", "condition": "금융교육 이수 또는 복지멤버십 가입", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "대출한도", "basis": "1인당 한도", "condition": "최대 100만원", "limit_krw": 1_000_000, "note": "연체자는 기본 50만원+추가 50만원, 특정용도 증빙 시 기본 최대 100만원", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "일반 금리", "basis": "대출금리", "condition": "일반", "rate_percent": 12.5, "rate_label": "금리", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "사회적배려대상자 금리", "basis": "대출금리", "condition": "사회적배려대상자", "rate_percent": 9.9, "rate_label": "금리", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+    {"label": "완제자 재대출 금리", "basis": "대출금리", "condition": "6개월 이상 이용 후 완제자 재대출", "rate_percent": 4.5, "rate_label": "금리", "source": "source.kinfa.illegal-private-finance-prevention-loan"},
+]
+
+
+HESSAL_LOAN_YOUTH_CRITERIA = [
+    {"label": "연령·소득", "basis": "만 나이와 연소득", "condition": "19세 이상 34세 이하이면서 연소득 3,500만원 이하", "threshold_krw_max": 35_000_000, "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "취업준비생", "basis": "지원대상", "condition": "대학(원)생, 학점은행제 수강자, 미취업청년", "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "사회초년생", "basis": "지원대상", "condition": "중소기업에 1년 이하 재직 중", "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "청년사업자", "basis": "지원대상", "condition": "창업 1년 이하 저소득 청년 개인사업자", "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "동일인 한도", "basis": "보증한도", "condition": "1인 최대 1,200만원", "limit_krw": 12_000_000, "note": "상환 후에도 한도 재부여 없음", "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "일반생활자금 연간한도", "basis": "보증한도", "condition": "연간 600만원", "limit_krw": 6_000_000, "source": "source.kinfa.hessal-loan-youth"},
+    {"label": "특정용도자금 연간한도", "basis": "보증한도", "condition": "연간 900만원", "limit_krw": 9_000_000, "source": "source.kinfa.hessal-loan-youth"},
+]
+
+
+HESSAL_119_CRITERIA = [
+    {"label": "채무조정 이용기간", "basis": "은행권 채무조정 프로그램", "condition": "3개월 이상 이용 중", "source": "source.kinfa.hessal-119"},
+    {"label": "성실상환", "basis": "상환상태", "condition": "신청일 현재 연체 중이 아님", "source": "source.kinfa.hessal-119"},
+    {"label": "연매출", "basis": "개인사업자 연 매출", "condition": "3억원 이하", "threshold_krw_max": 300_000_000, "source": "source.kinfa.hessal-119"},
+    {"label": "대출한도", "basis": "신규·추가 운전자금", "condition": "최대 2,000만원", "limit_krw": 20_000_000, "note": "신규 1,000만원 + 추가 1,000만원", "source": "source.kinfa.hessal-119"},
+    {"label": "대출금리", "basis": "은행별 대출금리", "condition": "연 6~7% 수준", "rate_percent_min": 6, "rate_percent_max": 7, "rate_label": "금리", "source": "source.kinfa.hessal-119"},
+    {"label": "보증료", "basis": "보증료율", "condition": "연 0.5%", "rate_percent": 0.5, "rate_label": "보증료율", "source": "source.kinfa.hessal-119"},
+]
+
+
+DIDIMDOL_LOAN_CRITERIA = [
+    {"label": "순자산", "basis": "본인 및 배우자 합산 순자산", "condition": "5.11억원 이하", "threshold_krw_max": 511_000_000, "source": "source.hf.didimdol-loan"},
+    {"label": "주택가격", "basis": "공부상 주택 평가액", "condition": "5억원 이하", "threshold_krw_max": 500_000_000, "note": "신혼·2자녀 이상 가구는 6억원 이하", "source": "source.hf.didimdol-loan"},
+    {"label": "기본 소득요건", "basis": "부부합산 연소득", "condition": "6,000만원 이하", "threshold_krw_max": 60_000_000, "source": "source.hf.didimdol-loan"},
+    {"label": "생애최초·2자녀 이상 소득요건", "basis": "부부합산 연소득", "condition": "7,000만원 이하", "threshold_krw_max": 70_000_000, "source": "source.hf.didimdol-loan"},
+    {"label": "신혼가구 소득요건", "basis": "부부합산 연소득", "condition": "8,500만원 이하", "threshold_krw_max": 85_000_000, "source": "source.hf.didimdol-loan"},
+    {"label": "대출한도", "basis": "대출한도", "condition": "최대 2억원", "limit_krw": 200_000_000, "note": "생애최초 2.4억원, 신혼·2자녀 이상 3.2억원", "source": "source.hf.didimdol-loan"},
+    {"label": "LTV", "basis": "담보인정비율", "condition": "최대 70%", "rate_percent": 70, "rate_label": "LTV", "source": "source.hf.didimdol-loan"},
+    {"label": "DTI", "basis": "총부채상환비율", "condition": "최대 60%", "rate_percent": 60, "rate_label": "DTI", "source": "source.hf.didimdol-loan"},
+    {"label": "2026년 5월 금리", "basis": "소득구간·만기별 금리", "condition": "연 2.85%~4.15%", "rate_percent_min": 2.85, "rate_percent_max": 4.15, "rate_label": "금리", "source": "source.hf.didimdol-rate.2026-05"},
+]
+
+
+YOUTH_SPECIAL_RENT_GUARANTEE_CRITERIA = [
+    {"label": "무주택 청년 연령", "basis": "신청일 기준 만 나이", "condition": "만 34세 이하", "source": "source.hf.special-rent-guarantee"},
+    {"label": "무주택 청년 소득", "basis": "본인과 배우자 합산 연소득", "condition": "7,000만원 이하", "threshold_krw_max": 70_000_000, "source": "source.hf.special-rent-guarantee"},
+    {"label": "무주택 청년 보증한도", "basis": "보증한도", "condition": "최대 2억원", "limit_krw": 200_000_000, "note": "1억원 이하 이용 시 상환능력별 보증한도 생략, 보증비율 100%", "source": "source.hf.special-rent-guarantee"},
+    {"label": "다자녀가구 보증한도", "basis": "보증한도", "condition": "미성년 자녀 2명 이상", "limit_krw": 200_000_000, "source": "source.hf.special-rent-guarantee"},
+]
+
+
+LONG_TERM_DELINQUENT_DEBT_ADJUSTMENT_CRITERIA = [
+    {"label": "연체기간", "basis": "채무조정 신청일 기준 연체채무", "condition": "5년 이상", "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "1인 가구 소득", "basis": "2026년 기준중위소득 125%", "condition": "3,205,298원 이하", "threshold_krw_max": 3_205_298, "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "2인 가구 소득", "basis": "2026년 기준중위소득 125%", "condition": "5,249,115원 이하", "threshold_krw_max": 5_249_115, "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "3인 가구 소득", "basis": "2026년 기준중위소득 125%", "condition": "6,698,795원 이하", "threshold_krw_max": 6_698_795, "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "4인 가구 소득", "basis": "2026년 기준중위소득 125%", "condition": "8,118,423원 이하", "threshold_krw_max": 8_118_423, "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "채무감면", "basis": "연체이자·이자·원금", "condition": "연체이자 및 이자 전액 감면, 원금 최대 30~80% 감면", "rate_percent_min": 30, "rate_percent_max": 80, "rate_label": "감면율", "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "분할상환", "basis": "상환기간", "condition": "최장 10년 이내 원금균등분할상환", "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+    {"label": "상환유예", "basis": "유예기간·유예이자율", "condition": "최장 3년 이내 유예, 유예이자율 연 2%", "rate_percent": 2, "rate_label": "유예이자율", "source": "source.ccrs.long-term-delinquent-debt-adjustment"},
+]
+
+
 NODES = [
     node(
         "kr-tax-system",
@@ -788,7 +947,7 @@ NODES = [
     node("category.local-ordinary-taxes", "지방 보통세", "category", "지방세 중 특정 목적세가 아닌 보통세 세목 묶음입니다.", "10_Taxes/Local", parents=["category.local-taxes"], children=["local.acquisition", "local.registration-license", "local.leisure", "local.tobacco-consumption", "local.local-consumption", "local.resident", "local.local-income", "local.property", "local.automobile"], sources=["source.local-tax-framework-act.2026.article8"], terms=["term.local-tax"]),
     node("category.local-purpose-taxes", "지방 목적세", "category", "지방세 중 특정 재원 목적을 위해 부과되는 목적세 세목 묶음입니다.", "10_Taxes/Local", parents=["category.local-taxes"], children=["local.regional-resource-facility", "local.local-education"], sources=["source.local-tax-framework-act.2026.article8"], terms=["term.local-tax"]),
     node("category.deductions-and-reliefs", "공제·감면", "category", "과세표준을 줄이는 소득공제, 산출세액에서 차감하는 세액공제, 정책 목적의 세액감면과 법인세 조세지원 항목입니다.", "20_Deductions", parents=["kr-tax-system"], children=["category.income-deductions", "category.tax-credits", "category.tax-reductions", "category.corporate-tax-supports"], sources=["source.nts.year-end-settlement.calculation", "source.nts.corporate-tax.reliefs"], terms=["term.income-deduction", "term.tax-credit", "term.tax-reduction"]),
-    node("category.policy-supports", "정책지원금·세제지원 계좌", "category", "국세청 현금성 지원금과 세제지원 금융상품을 학습용으로 묶은 항목입니다.", "30_Supports", parents=["kr-tax-system"], children=["support.earned-income-tax-credit", "support.child-tax-credit", "support.youth-leap-account", "support.isa"], sources=["source.nts.eitc.intro", "source.nts.ctc.intro", "source.kinfa.youth-leap", "source.fsc.isa.policy"], terms=["term.total-income", "term.gross-pay", "term.property-requirement"]),
+    node("category.policy-supports", "정책지원금·세제지원 계좌", "category", "국세청 현금성 지원금, 정부24 복지급여, 금융위원회·금융공공기관의 자산형성·서민금융·주거금융·채무조정 지원을 학습용으로 묶은 항목입니다.", "30_Supports", parents=["kr-tax-system"], children=["support.earned-income-tax-credit", "support.child-tax-credit", "support.basic-livelihood-benefit", "support.youth-future-savings", "support.youth-leap-account", "support.isa", "support.illegal-private-finance-prevention-loan", "support.hessal-loan-youth", "support.hessal-119", "support.didimdol-loan", "support.youth-special-rent-guarantee", "support.long-term-delinquent-debt-adjustment"], sources=["source.nts.eitc.intro", "source.nts.ctc.intro", "source.govkr.basic-livelihood-benefit", "source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.kinfa.illegal-private-finance-prevention-loan", "source.kinfa.hessal-loan-youth", "source.kinfa.hessal-119", "source.hf.didimdol-loan", "source.hf.special-rent-guarantee", "source.ccrs.long-term-delinquent-debt-adjustment", "source.fsc.isa.policy"], terms=["term.total-income", "term.gross-pay", "term.property-requirement", "term.eligibility-threshold", "term.median-income", "term.policy-finance", "term.policy-loan", "term.debt-adjustment"]),
     node("category.business-tax-compliance", "사업자 세무", "category", "개인사업자와 원천징수의무자가 사업자등록, 부가가치세, 원천세 신고·납부에서 확인해야 하는 실무 흐름입니다.", "60_Business", parents=["kr-tax-system"], children=["filing.business-registration", "filing.vat-return", "filing.withholding-tax", "filing.business-income-withholding"], sources=["source.nts.business-registration.application", "source.nts.vat.filing-duty", "source.nts.withholding.overview", "source.nts.business-income.withholding"], terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer", "term.withholding-obligor"]),
     node("category.filing-calendar", "신고·납부·신청 기한", "category", "세목과 지원제도에 연결되는 기준연도별 기한입니다.", "50_Deadlines", parents=["kr-tax-system"], children=["filing.income-tax-return", "filing.year-end-settlement", "filing.withholding-tax", "filing.vat-return", "filing.capital-gains-return", "filing.inheritance-tax-return", "filing.gift-tax-return", "filing.grant-application"], sources=["source.nts.income-tax.deadline", "source.nts.tax-calendar.2026", "source.nts.grant.deadline", "source.nts.capital-gains.deadline", "source.nts.inheritance.overview", "source.nts.gift.deadline"], terms=["term.deadline", "term.deadline-special-rule"]),
     national_tax("tax.income", "소득세", "개인의 소득에 과세되는 국세입니다. 종합소득, 퇴직소득, 양도소득 흐름으로 세부 학습 노드를 둡니다.", children=["tax.income.comprehensive", "tax.income.retirement", "tax.income.capital-gains"], related=["category.income-deductions", "category.tax-credits"], sources=["source.national-tax-framework-act.2026.article2", "source.nts.income-tax.rates"], deadlines=["deadline.income-tax.2025-return", "deadline.year-end-settlement"], terms=["term.national-tax", "term.tax-law", "term.tax-base", "term.tax-rate", "term.progressive-deduction"], criteria=INCOME_TAX_RATE_CRITERIA),
@@ -891,8 +1050,16 @@ NODES.extend([
     corporate_support("corporate.support.foreign-tax-paid-credit", "외국납부세액공제", "국외원천소득에 대한 이중과세 조정을 위한 법인세법상 세액공제입니다.", related=["credit.foreign-tax-paid"]),
     node("support.earned-income-tax-credit", "근로장려금", "support-program", "근로·사업·종교인소득이 있는 저소득 가구의 근로를 장려하기 위해 지급하는 국세청 지원금입니다. 2025년 귀속 소득 기준은 단독 2,200만원, 홑벌이 3,200만원, 맞벌이 4,400만원 미만입니다.", "30_Supports", parents=["category.policy-supports"], related=["tax.income.comprehensive"], terms=["term.total-income", "term.gross-pay", "term.property-requirement", "term.eligibility-threshold"], deadlines=["deadline.grant.regular.2025-income", "deadline.grant.semiannual.2026"], sources=["source.nts.eitc.intro", "source.nts.grant.eligibility", "source.nts.grant.deadline", "source.nts.grant.2026-regular-press"], basis_year=2025, tags=["cash-support"], criteria=EITC_CRITERIA),
     node("support.child-tax-credit", "자녀장려금", "support-program", "18세 미만 부양자녀가 있는 저소득 가구의 자녀양육을 지원하는 국세청 지원금입니다. 2025년 귀속 총소득 기준은 홑벌이·맞벌이 7,000만원 미만입니다.", "30_Supports", parents=["category.policy-supports"], related=["credit.child"], terms=["term.total-income", "term.property-requirement", "term.eligibility-threshold"], deadlines=["deadline.grant.regular.2025-income"], sources=["source.nts.ctc.intro", "source.nts.grant.eligibility", "source.nts.grant.deadline", "source.nts.grant.2026-regular-press"], basis_year=2025, tags=["cash-support"], criteria=CTC_CRITERIA),
+    node("support.basic-livelihood-benefit", "생계급여", "support-program", "생활이 어려운 국민기초생활보장 수급자에게 최저생활 보장을 위해 현금 급여를 지급하는 정부24 복지급여입니다. 2026년 선정·급여기준은 기준 중위소득 32%입니다.", "30_Supports", parents=["category.policy-supports"], related=["support.illegal-private-finance-prevention-loan"], terms=["term.median-income", "term.eligibility-threshold"], sources=["source.govkr.basic-livelihood-benefit"], basis_year=2026, tags=["cash-support", "gov24", "welfare"], criteria=BASIC_LIVELIHOOD_BENEFIT_CRITERIA),
+    node("support.youth-future-savings", "청년미래적금", "support-program", "2026년 6월 출시 예정인 청년 자산형성 정책형 적금입니다. 월 납입액에 대해 일반형과 우대형 정부기여금을 매칭하고 이자소득 비과세 특례를 연결합니다.", "30_Supports", parents=["category.policy-supports"], related=["support.youth-leap-account", "tax.income"], terms=["term.policy-finance", "term.median-income", "term.eligibility-threshold"], sources=["source.fsc.youth-future-savings"], basis_year=2026, tags=["asset-building", "policy-finance", "planned-2026"], criteria=YOUTH_FUTURE_SAVINGS_CRITERIA),
     node("support.youth-leap-account", "청년도약계좌", "support-program", "청년의 중장기 자산형성을 지원하는 정책금융 상품입니다. 세금 세목은 아니지만 소득 요건, 금융소득종합과세 이력 제한, 비과세·정부기여금 학습 항목으로 연결합니다.", "30_Supports", parents=["category.policy-supports"], related=["tax.income"], terms=["term.total-income", "term.eligibility-threshold"], sources=["source.kinfa.youth-leap"], tags=["policy-finance"], criteria=YOUTH_LEAP_CRITERIA),
     node("support.isa", "개인종합자산관리계좌 ISA", "support-program", "개인이 예·적금, 펀드, 파생결합증권 등을 한 계좌에서 운용하며 세제혜택을 받을 수 있는 정책성 금융계좌입니다.", "30_Supports", parents=["category.policy-supports"], related=["tax.income"], sources=["source.fsc.isa.policy"], terms=["term.tax-credit"], tags=["policy-finance", "tax-preferred-account"]),
+    node("support.illegal-private-finance-prevention-loan", "불법사금융예방대출", "support-program", "대부업조차 이용이 어려운 저신용·저소득자의 생계비를 지원해 불법사금융 피해를 예방하는 서민금융진흥원 정책서민금융상품입니다.", "30_Supports", parents=["category.policy-supports"], related=["support.basic-livelihood-benefit"], terms=["term.policy-finance", "term.policy-loan", "term.eligibility-threshold"], sources=["source.kinfa.illegal-private-finance-prevention-loan"], basis_year=2026, tags=["policy-finance", "loan", "vulnerable-finance"], criteria=ILLEGAL_PRIVATE_FINANCE_PREVENTION_LOAN_CRITERIA),
+    node("support.hessal-loan-youth", "햇살론유스", "support-program", "대학생, 미취업청년, 사회초년생, 저소득 청년 개인사업자의 학업·취업준비·사회진입 자금을 보증 지원하는 서민금융진흥원 정책대출입니다.", "30_Supports", parents=["category.policy-supports"], related=["support.youth-future-savings", "support.youth-leap-account"], terms=["term.policy-finance", "term.policy-loan", "term.eligibility-threshold"], sources=["source.kinfa.hessal-loan-youth"], basis_year=2026, tags=["policy-finance", "loan", "youth"], criteria=HESSAL_LOAN_YOUTH_CRITERIA),
+    node("support.hessal-119", "햇살론119", "support-program", "은행권 채무조정 프로그램을 성실상환 중인 연 매출 3억원 이하 영세 개인사업자에게 사업 운영 신규 운전자금을 보증부 대출로 지원하는 상품입니다.", "30_Supports", parents=["category.policy-supports"], related=["category.business-tax-compliance", "support.long-term-delinquent-debt-adjustment"], terms=["term.policy-finance", "term.policy-loan", "term.debt-adjustment", "term.eligibility-threshold"], sources=["source.kinfa.hessal-119"], basis_year=2026, tags=["policy-finance", "loan", "small-business"], criteria=HESSAL_119_CRITERIA),
+    node("support.didimdol-loan", "내집마련 디딤돌대출", "support-program", "무주택 서민의 주택 구입자금을 낮은 금리로 공급하는 정책모기지입니다. 소득, 순자산, 주택가격, LTV·DTI, 대출한도를 함께 확인합니다.", "30_Supports", parents=["category.policy-supports"], related=["credit.monthly-rent", "tax.comprehensive-real-estate"], terms=["term.policy-finance", "term.policy-loan", "term.eligibility-threshold"], sources=["source.hf.didimdol-loan", "source.hf.didimdol-rate.2026-05"], basis_year=2026, tags=["policy-finance", "housing", "loan"], criteria=DIDIMDOL_LOAN_CRITERIA),
+    node("support.youth-special-rent-guarantee", "무주택 청년 특례전세자금보증", "support-program", "무주택 청년 등 주거취약 대상에게 일반전세자금보증보다 완화된 요건과 보증한도를 적용하는 한국주택금융공사 특례보증입니다.", "30_Supports", parents=["category.policy-supports"], related=["support.didimdol-loan", "credit.monthly-rent"], terms=["term.policy-finance", "term.policy-loan", "term.eligibility-threshold"], sources=["source.hf.special-rent-guarantee"], basis_year=2026, tags=["policy-finance", "housing", "guarantee", "youth"], criteria=YOUTH_SPECIAL_RENT_GUARANTEE_CRITERIA),
+    node("support.long-term-delinquent-debt-adjustment", "장기연체자 특별채무조정", "support-program", "새도약기금 관련 장기연체채권 중 상환능력이 있는 채무자를 대상으로 신용회복위원회가 이자 감면, 원금감면, 분할상환, 상환유예를 지원하는 채무조정 제도입니다.", "30_Supports", parents=["category.policy-supports"], related=["support.hessal-119"], terms=["term.debt-adjustment", "term.median-income", "term.eligibility-threshold"], sources=["source.ccrs.long-term-delinquent-debt-adjustment"], basis_year=2026, tags=["debt-adjustment", "policy-finance", "vulnerable-finance"], criteria=LONG_TERM_DELINQUENT_DEBT_ADJUSTMENT_CRITERIA),
     node("filing.income-tax-return", "종합소득세 확정신고", "filing", "종합소득이 있는 개인이 다음연도 5월 신고·납부하는 절차입니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["tax.income.comprehensive"], terms=["term.deadline", "term.deadline-special-rule"], deadlines=["deadline.income-tax.2025-return"], sources=["source.nts.income-tax.deadline"], basis_year=2025),
     node("filing.year-end-settlement", "연말정산", "filing", "원천징수의무자가 근로자의 해당 과세기간 근로소득세를 확정하는 절차입니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["category.deductions-and-reliefs"], terms=["term.withholding", "term.income-deduction", "term.tax-credit"], deadlines=["deadline.year-end-settlement"], sources=["source.nts.year-end-settlement.calculation"]),
     node("filing.business-registration", "사업자등록 신청", "filing", "신규사업자가 사업 개시 전 또는 사업 개시일부터 20일 이내 관할 세무서장에게 등록하는 절차입니다. 일반과세자·간이과세자 유형 선택과 간이과세 배제 업종 확인을 함께 관리합니다.", "60_Business", parents=["category.business-tax-compliance"], related=["tax.value-added", "concept.general-vat-taxpayer", "concept.simple-vat-taxpayer"], terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer"], sources=["source.nts.business-registration.application"], tags=["business-compliance"]),
@@ -1057,7 +1224,17 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
                 value = f"{int(value):,}원"
             elif key.startswith("rate_percent"):
                 value = f"{value}%"
-            pieces.append(f"{labels[key]}: {value}")
+            if key.startswith("rate_percent"):
+                rate_label = criterion.get("rate_label")
+                if rate_label and key == "rate_percent_min":
+                    label = f"최저{rate_label}"
+                elif rate_label and key == "rate_percent_max":
+                    label = f"최고{rate_label}"
+                else:
+                    label = rate_label or labels[key]
+            else:
+                label = labels[key]
+            pieces.append(f"{label}: {value}")
         source_id = criterion.get("source")
         if source_id in all_items:
             pieces.append(f"출처: {obsidian_link(all_items, source_id)}")

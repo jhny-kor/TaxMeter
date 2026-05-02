@@ -1470,7 +1470,11 @@ def build_js(data: dict, summary: dict) -> str:
                   let value = criterion[key];
                   if (key.endsWith("_krw")) value = formatKrw(value);
                   if (key.startsWith("rate_percent")) value = formatPercent(value);
-                  return `<span>${{escapeHtml(labels[key] || key)}}: <strong>${{escapeHtml(value)}}</strong></span>`;
+                  let label = labels[key] || key;
+                  if (key.startsWith("rate_percent") && criterion.rate_label) {{
+                    label = key === "rate_percent_min" ? `최저${{criterion.rate_label}}` : key === "rate_percent_max" ? `최고${{criterion.rate_label}}` : criterion.rate_label;
+                  }}
+                  return `<span>${{escapeHtml(label)}}: <strong>${{escapeHtml(value)}}</strong></span>`;
                 }})
                 .join("");
               const source = criterion.source ? byId.get(criterion.source) : null;
