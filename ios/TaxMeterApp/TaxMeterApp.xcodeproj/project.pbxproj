@@ -7,20 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C374A44B22AB8F81EBE7A96 /* TaxMeterEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E67DE37F5414A2C356306A /* TaxMeterEntryView.swift */; };
+		1F0F6282F3FC30917646194E /* TaxMeterDraftComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C77602A2D46FF4745DC7FFB /* TaxMeterDraftComponents.swift */; };
 		3D2652A9C9BC80B254CAD6D6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127F978CC64600759ED5A28 /* DashboardView.swift */; };
 		475DCB1D57E352435D45220E /* TaxMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */; };
+		6386F3C710591326B1908511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25EB96A1547F910A074A5648 /* Assets.xcassets */; };
+		A097F2D960E7C26F282B618B /* TaxMeterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E83EE86D12EAB774CD54EBE /* TaxMeterTheme.swift */; };
+		A7A92331E7CE1DAE5587BFF2 /* TaxMeterHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADBAF3A05A1D52C107345E3 /* TaxMeterHomeView.swift */; };
+		B6BEDFBACAE7DD746AABC3FC /* AssetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2784AD85D622BC86C0DA93 /* AssetSettingsView.swift */; };
+		D5043B5A8544CAE3D5447547 /* TaxItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30AF965DDF0B49396D1EC6D /* TaxItemDetailView.swift */; };
 		DD479B17EE33FE5E6C420B16 /* TaxMeterCore in Frameworks */ = {isa = PBXBuildFile; productRef = C07E2F776C37C042E897074B /* TaxMeterCore */; };
+		F4D6A75C11061FD5140E7B9E /* TaxMeterDraftModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00D1E1225BEF4E7CA62E1AD /* TaxMeterDraftModels.swift */; };
 		F88BE6713962898A04FADE1F /* BaselineCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */; };
 		FE588ABFCFAE4F1DB505D497 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0EE625A2487C460F60310B /* DashboardViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		033A56B242C521149C3F1C88 /* TaxMeterApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TaxMeterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A2784AD85D622BC86C0DA93 /* AssetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetSettingsView.swift; sourceTree = "<group>"; };
+		18E67DE37F5414A2C356306A /* TaxMeterEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterEntryView.swift; sourceTree = "<group>"; };
 		2127F978CC64600759ED5A28 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		25EB96A1547F910A074A5648 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2C77602A2D46FF4745DC7FFB /* TaxMeterDraftComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterDraftComponents.swift; sourceTree = "<group>"; };
+		3ADBAF3A05A1D52C107345E3 /* TaxMeterHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterHomeView.swift; sourceTree = "<group>"; };
 		3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaselineCardView.swift; sourceTree = "<group>"; };
+		8E83EE86D12EAB774CD54EBE /* TaxMeterTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterTheme.swift; sourceTree = "<group>"; };
 		9AD1A0375D7CD246EB8AAD3F /* TaxMeter */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaxMeter; path = ../..; sourceTree = SOURCE_ROOT; };
 		C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterApp.swift; sourceTree = "<group>"; };
 		CB0EE625A2487C460F60310B /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		E00D1E1225BEF4E7CA62E1AD /* TaxMeterDraftModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterDraftModels.swift; sourceTree = "<group>"; };
+		E30AF965DDF0B49396D1EC6D /* TaxItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxItemDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +68,19 @@
 			);
 			sourceTree = "<group>";
 		};
+		497AB98FE0E6914A788433E5 /* AppDraft */ = {
+			isa = PBXGroup;
+			children = (
+				0A2784AD85D622BC86C0DA93 /* AssetSettingsView.swift */,
+				E30AF965DDF0B49396D1EC6D /* TaxItemDetailView.swift */,
+				2C77602A2D46FF4745DC7FFB /* TaxMeterDraftComponents.swift */,
+				E00D1E1225BEF4E7CA62E1AD /* TaxMeterDraftModels.swift */,
+				18E67DE37F5414A2C356306A /* TaxMeterEntryView.swift */,
+				3ADBAF3A05A1D52C107345E3 /* TaxMeterHomeView.swift */,
+			);
+			path = AppDraft;
+			sourceTree = "<group>";
+		};
 		4F060A3B7EFDF9038B90E312 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +102,8 @@
 			children = (
 				3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */,
 				2127F978CC64600759ED5A28 /* DashboardView.swift */,
+				8E83EE86D12EAB774CD54EBE /* TaxMeterTheme.swift */,
+				497AB98FE0E6914A788433E5 /* AppDraft */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -88,6 +119,7 @@
 		E9446178DD781CC8A7394574 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				25EB96A1547F910A074A5648 /* Assets.xcassets */,
 				D8177DC190D75663B751222B /* App */,
 				1CF199B57321BBA2BB624E80 /* ViewModels */,
 				AF18F52BDB6FC022AF83C0BC /* Views */,
@@ -103,6 +135,7 @@
 			buildConfigurationList = 676DBEC5A98751E81C4D7677 /* Build configuration list for PBXNativeTarget "TaxMeterApp" */;
 			buildPhases = (
 				F8EE99A6B90E0F08A8BB3657 /* Sources */,
+				0002807CA911949A75D31A1A /* Resources */,
 				995F9E02E33A9F8B16FFF963 /* Frameworks */,
 			);
 			buildRules = (
@@ -150,15 +183,33 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		0002807CA911949A75D31A1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6386F3C710591326B1908511 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F8EE99A6B90E0F08A8BB3657 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6BEDFBACAE7DD746AABC3FC /* AssetSettingsView.swift in Sources */,
 				F88BE6713962898A04FADE1F /* BaselineCardView.swift in Sources */,
 				3D2652A9C9BC80B254CAD6D6 /* DashboardView.swift in Sources */,
 				FE588ABFCFAE4F1DB505D497 /* DashboardViewModel.swift in Sources */,
+				D5043B5A8544CAE3D5447547 /* TaxItemDetailView.swift in Sources */,
 				475DCB1D57E352435D45220E /* TaxMeterApp.swift in Sources */,
+				1F0F6282F3FC30917646194E /* TaxMeterDraftComponents.swift in Sources */,
+				F4D6A75C11061FD5140E7B9E /* TaxMeterDraftModels.swift in Sources */,
+				0C374A44B22AB8F81EBE7A96 /* TaxMeterEntryView.swift in Sources */,
+				A7A92331E7CE1DAE5587BFF2 /* TaxMeterHomeView.swift in Sources */,
+				A097F2D960E7C26F282B618B /* TaxMeterTheme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
