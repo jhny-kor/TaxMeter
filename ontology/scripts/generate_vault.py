@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the standalone Korean tax ontology Obsidian vault.
+"""Generate the standalone OpenTax Obsidian vault.
 
 The generated Markdown files are intentionally separate from the TaxMeter app.
 Obsidian is the human-facing study surface; the frontmatter is the machine-
@@ -1294,9 +1294,9 @@ LONG_TERM_DELINQUENT_DEBT_ADJUSTMENT_CRITERIA = [
 NODES = [
     node(
         "kr-tax-system",
-        "대한민국 세금 온톨로지",
+        "OpenTax",
         "domain",
-        "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 최상위 항목입니다.",
+        "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다.",
         "00_Index",
         children=["category.national-taxes", "category.customs", "category.local-taxes", "category.deductions-and-reliefs", "category.policy-supports", "category.business-tax-compliance", "category.filing-calendar"],
         sources=["source.national-tax-framework-act.2026.article2", "source.local-tax-framework-act.2026.article8"],
@@ -1854,8 +1854,8 @@ def write_markdown(items: dict[str, dict]) -> None:
 
 
 def write_index(items: dict[str, dict]) -> None:
-    index = VAULT / "00_Index" / "대한민국 세금 온톨로지.md"
     root = items["kr-tax-system"]
+    index = expected_note_path(root)
     index.write_text(render_note(root, items), encoding="utf-8")
 
 

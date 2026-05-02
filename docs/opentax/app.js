@@ -4493,9 +4493,9 @@ const ONTOLOGY_DATA = {
     },
     {
       "id": "kr-tax-system",
-      "title": "대한민국 세금 온톨로지",
+      "title": "OpenTax",
       "type": "domain",
-      "description": "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 최상위 항목입니다.",
+      "description": "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다.",
       "folder": "00_Index",
       "basis_year": 2026,
       "effective_date": null,
@@ -9572,7 +9572,7 @@ const ONTOLOGY_DATA = {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "korea-tax-ontology-2026.json";
+    anchor.download = "opentax-2026.json";
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();

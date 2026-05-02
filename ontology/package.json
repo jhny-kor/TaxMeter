@@ -1,9 +1,10 @@
 {
-  "name": "tax-ontology-mcp",
+  "name": "opentax-mcp",
   "version": "0.1.0",
   "private": true,
-  "description": "Standalone stdio MCP server for a Korean tax ontology Obsidian vault",
+  "description": "Standalone stdio MCP server for the OpenTax Obsidian vault",
   "bin": {
+    "opentax-mcp": "./run_mcp.sh",
     "tax-ontology-mcp": "./run_mcp.sh"
   },
   "files": [

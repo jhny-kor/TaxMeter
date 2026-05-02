@@ -1,8 +1,8 @@
 ---
 id: "kr-tax-system"
-title: "대한민국 세금 온톨로지"
+title: "OpenTax"
 type: "domain"
-description: "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 최상위 항목입니다."
+description: "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다."
 basis_year: 2026
 parents: []
 children: ["category.national-taxes", "category.customs", "category.local-taxes", "category.deductions-and-reliefs", "category.policy-supports", "category.business-tax-compliance", "category.filing-calendar"]
@@ -14,9 +14,9 @@ law_reference: ""
 tags: ["root"]
 ---
 
-# 대한민국 세금 온톨로지
+# OpenTax
 
-대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 최상위 항목입니다.
+대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다.
 
 ## 하위 항목
 

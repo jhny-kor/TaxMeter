@@ -1,6 +1,6 @@
-# Tax Ontology MCP Install Guide
+# OpenTax MCP Install Guide
 
-`tax_ontology`는 stdio 방식 MCP 서버입니다. MCP를 지원하는 LLM 클라이언트는
+`OpenTax`는 stdio 방식 MCP 서버입니다. MCP를 지원하는 LLM 클라이언트는
 대부분 `command`와 `args`만 설정하면 연결할 수 있습니다.
 
 ## 빠른 실행
@@ -36,15 +36,18 @@ cd /path/to/TaxMeter/ontology
 설치 후 실행:
 
 ```sh
-tax-ontology-mcp
+opentax-mcp
 ```
 
 보조 명령:
 
 ```sh
-tax-ontology-generate
-tax-ontology-validate
+opentax-generate
+opentax-validate
 ```
+
+기존 설치 문서와 클라이언트 호환을 위해 `tax-ontology-mcp`,
+`tax-ontology-generate`, `tax-ontology-validate` 명령도 legacy alias로 유지합니다.
 
 ## Claude Desktop 연결
 
@@ -61,7 +64,7 @@ macOS 예시 경로:
 ```json
 {
   "mcpServers": {
-    "tax_ontology": {
+    "opentax": {
       "command": "/path/to/TaxMeter/ontology/run_mcp.sh",
       "args": []
     }
@@ -74,7 +77,7 @@ Python 직접 실행 방식:
 ```json
 {
   "mcpServers": {
-    "tax_ontology": {
+    "opentax": {
       "command": "python3",
       "args": [
         "/path/to/TaxMeter/ontology/mcp_server.py"
@@ -89,8 +92,8 @@ Python 직접 실행 방식:
 ```json
 {
   "mcpServers": {
-    "tax_ontology": {
-      "command": "tax-ontology-mcp",
+    "opentax": {
+      "command": "opentax-mcp",
       "args": []
     }
   }
@@ -111,19 +114,19 @@ Codex 설정 파일:
 등록 예시:
 
 ```toml
-[mcp_servers.tax_ontology]
+[mcp_servers.opentax]
 command = "python3"
 args = ["/path/to/TaxMeter/ontology/mcp_server.py"]
 enabled = true
 startup_timeout_sec = 10
 
-[mcp_servers.tax_ontology.tools.tax_ontology_add_or_update_item]
+[mcp_servers.opentax.tools.opentax_add_or_update_item]
 approval_mode = "approve"
 
-[mcp_servers.tax_ontology.tools.tax_ontology_patch_item]
+[mcp_servers.opentax.tools.opentax_patch_item]
 approval_mode = "approve"
 
-[mcp_servers.tax_ontology.tools.tax_ontology_delete_custom_item]
+[mcp_servers.opentax.tools.opentax_delete_custom_item]
 approval_mode = "approve"
 ```
 
@@ -135,7 +138,7 @@ MCP 설정에서 다음 값을 사용합니다.
 
 ```json
 {
-  "tax_ontology": {
+  "opentax": {
     "command": "/path/to/TaxMeter/ontology/run_mcp.sh",
     "args": []
   }
@@ -146,8 +149,8 @@ MCP 설정에서 다음 값을 사용합니다.
 
 ```json
 {
-  "tax_ontology": {
-    "command": "tax-ontology-mcp",
+  "opentax": {
+    "command": "opentax-mcp",
     "args": []
   }
 }
@@ -155,16 +158,18 @@ MCP 설정에서 다음 값을 사용합니다.
 
 ## 제공 도구
 
-- `tax_ontology_search`
-- `tax_ontology_get_item`
-- `tax_ontology_read_note`
-- `tax_ontology_neighbors`
-- `tax_ontology_sources`
-- `tax_ontology_validate`
-- `tax_ontology_export_summary`
-- `tax_ontology_add_or_update_item`
-- `tax_ontology_patch_item`
-- `tax_ontology_delete_custom_item`
+- `opentax_search`
+- `opentax_get_item`
+- `opentax_read_note`
+- `opentax_neighbors`
+- `opentax_sources`
+- `opentax_validate`
+- `opentax_export_summary`
+- `opentax_add_or_update_item`
+- `opentax_patch_item`
+- `opentax_delete_custom_item`
+
+기존 `tax_ontology_*` 도구명도 legacy alias로 계속 동작합니다.
 
 ## 쓰기 동작
 
@@ -194,7 +199,7 @@ printf '%s\n' \
 
 ```sh
 cd /path/to/TaxMeter
-zip -r tax-ontology-mcp.zip ontology \
+zip -r opentax-mcp.zip ontology \
   -x 'ontology/**/__pycache__/*' \
   -x 'ontology/**/*.pyc'
 ```

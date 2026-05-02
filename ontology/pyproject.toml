@@ -3,21 +3,24 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tax-ontology-mcp"
+name = "opentax-mcp"
 version = "0.1.0"
-description = "Standalone stdio MCP server for a Korean tax ontology Obsidian vault"
+description = "Standalone stdio MCP server for the OpenTax Obsidian vault"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }
 authors = [
-  { name = "TaxMeter" }
+  { name = "OpenTax" }
 ]
 dependencies = []
 
 [project.scripts]
+opentax-mcp = "tax_ontology_mcp.server:main"
+opentax-generate = "tax_ontology_mcp.scripts.generate_vault:main"
+opentax-validate = "tax_ontology_mcp.scripts.validate_ontology:main"
 tax-ontology-mcp = "tax_ontology_mcp.server:main"
-tax-ontology-generate = "tax_ontology_mcp.generate_vault:main"
-tax-ontology-validate = "tax_ontology_mcp.validate_ontology:main"
+tax-ontology-generate = "tax_ontology_mcp.scripts.generate_vault:main"
+tax-ontology-validate = "tax_ontology_mcp.scripts.validate_ontology:main"
 
 [tool.setuptools]
 package-dir = { "tax_ontology_mcp" = "." }

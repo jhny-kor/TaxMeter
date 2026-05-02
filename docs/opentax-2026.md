@@ -1,8 +1,8 @@
-# Korea Tax Ontology 2026
+# OpenTax 2026
 
 기준일: 2026-05-02
 
-대한민국 세금 온톨로지는 앱 코드와 분리된 Obsidian vault로 구현한다. 원본
+OpenTax는 앱 코드와 분리된 대한민국 세금 Obsidian vault로 구현한다. 원본
 정의는 `ontology/scripts/generate_vault.py`에 있으며, 생성 결과는
 `ontology/vault`의 Markdown 노트와 `ontology/exports/korea-tax-ontology-2026.json`
 으로 나온다.

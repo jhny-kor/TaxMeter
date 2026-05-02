@@ -1,6 +1,6 @@
-# Korea Tax Ontology Obsidian Vault
+# OpenTax Obsidian Vault
 
-이 디렉터리는 TaxMeter 앱과 분리된 대한민국 세금 온톨로지 작업 공간입니다.
+이 디렉터리는 TaxMeter 앱과 분리된 OpenTax 작업 공간입니다.
 앱 런타임 코드가 아니라 학습, 검증, 추후 앱 데이터 export를 위한 독립
 지식베이스입니다.
 
@@ -42,7 +42,7 @@ python3 ontology/mcp_server.py
 Codex 등록 예시:
 
 ```toml
-[mcp_servers.tax_ontology]
+[mcp_servers.opentax]
 command = "python3"
 args = ["/path/to/TaxMeter/ontology/mcp_server.py"]
 enabled = true
@@ -51,16 +51,18 @@ startup_timeout_sec = 10
 
 제공 도구:
 
-- `tax_ontology_search`: 항목 검색.
-- `tax_ontology_get_item`: ID로 항목 메타데이터 조회.
-- `tax_ontology_read_note`: ID 또는 vault 상대경로로 Obsidian 노트 읽기.
-- `tax_ontology_neighbors`: 상위/하위/관련/용어/기한/출처 이웃 조회.
-- `tax_ontology_sources`: 항목의 근거 출처와 URL 조회.
-- `tax_ontology_validate`: vault 검증 실행.
-- `tax_ontology_export_summary`: JSON export 요약.
-- `tax_ontology_add_or_update_item`: custom overlay 항목 추가 또는 교체.
-- `tax_ontology_patch_item`: built-in 또는 custom 항목을 custom overlay로 수정.
-- `tax_ontology_delete_custom_item`: custom overlay 항목 삭제.
+- `opentax_search`: 항목 검색.
+- `opentax_get_item`: ID로 항목 메타데이터 조회.
+- `opentax_read_note`: ID 또는 vault 상대경로로 Obsidian 노트 읽기.
+- `opentax_neighbors`: 상위/하위/관련/용어/기한/출처 이웃 조회.
+- `opentax_sources`: 항목의 근거 출처와 URL 조회.
+- `opentax_validate`: vault 검증 실행.
+- `opentax_export_summary`: JSON export 요약.
+- `opentax_add_or_update_item`: custom overlay 항목 추가 또는 교체.
+- `opentax_patch_item`: built-in 또는 custom 항목을 custom overlay로 수정.
+- `opentax_delete_custom_item`: custom overlay 항목 삭제.
+
+기존 클라이언트 호환을 위해 `tax_ontology_*` 도구명도 legacy alias로 유지합니다.
 
 쓰기 도구는 기본 공식 데이터 정의를 직접 바꾸지 않고
 `ontology/custom/items.json`에 overlay를 저장한 뒤 vault와 JSON export를

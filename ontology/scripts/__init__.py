@@ -1,1 +1,1 @@
-"""Generator and validator support for the Korean tax ontology package."""
+"""Generator and validator support for the OpenTax package."""
