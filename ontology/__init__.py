@@ -1,1 +1,1 @@
-"""Korean tax ontology MCP package."""
+"""OpenTax MCP package."""

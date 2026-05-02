@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the standalone Obsidian tax ontology vault."""
+"""Validate the standalone Obsidian OpenTax vault."""
 
 from __future__ import annotations
 

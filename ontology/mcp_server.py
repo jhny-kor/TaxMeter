@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""MCP stdio server for the standalone Korean tax ontology vault.
+"""MCP stdio server for the standalone OpenTax vault.
 
 The server intentionally has no third-party dependency. It exposes the
 Obsidian vault and JSON export through read tools, and writes only through the
@@ -331,8 +331,8 @@ def export_summary() -> dict[str, Any]:
 
 
 TOOLS: dict[str, dict[str, Any]] = {
-    "tax_ontology_search": {
-        "description": "Search Korean tax ontology items by id, title, type, description, tag, law reference, or URL.",
+    "opentax_search": {
+        "description": "Search OpenTax items by id, title, type, description, tag, law reference, or URL.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -343,7 +343,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["query"],
         },
     },
-    "tax_ontology_get_item": {
+    "opentax_get_item": {
         "description": "Get one ontology item by ontology id, including its generated note path.",
         "inputSchema": {
             "type": "object",
@@ -351,7 +351,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["id"],
         },
     },
-    "tax_ontology_read_note": {
+    "opentax_read_note": {
         "description": "Read an Obsidian note by ontology id or vault-relative path.",
         "inputSchema": {
             "type": "object",
@@ -359,7 +359,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["path_or_id"],
         },
     },
-    "tax_ontology_neighbors": {
+    "opentax_neighbors": {
         "description": "Return parent, child, related, term, deadline, and source neighbors for an item.",
         "inputSchema": {
             "type": "object",
@@ -370,7 +370,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["id"],
         },
     },
-    "tax_ontology_sources": {
+    "opentax_sources": {
         "description": "Return source notes and URLs linked to an ontology item.",
         "inputSchema": {
             "type": "object",
@@ -378,15 +378,15 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["id"],
         },
     },
-    "tax_ontology_validate": {
+    "opentax_validate": {
         "description": "Run the ontology validator and return its output.",
         "inputSchema": {"type": "object", "properties": {}},
     },
-    "tax_ontology_export_summary": {
+    "opentax_export_summary": {
         "description": "Return JSON export path, manifest sizes, and counts by type.",
         "inputSchema": {"type": "object", "properties": {}},
     },
-    "tax_ontology_add_or_update_item": {
+    "opentax_add_or_update_item": {
         "description": "Add or replace an item in ontology/custom/items.json, then regenerate and validate the vault.",
         "inputSchema": {
             "type": "object",
@@ -394,7 +394,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["item"],
         },
     },
-    "tax_ontology_patch_item": {
+    "opentax_patch_item": {
         "description": "Patch a built-in or custom item through the custom overlay, then regenerate and validate the vault.",
         "inputSchema": {
             "type": "object",
@@ -405,7 +405,7 @@ TOOLS: dict[str, dict[str, Any]] = {
             "required": ["id", "patch"],
         },
     },
-    "tax_ontology_delete_custom_item": {
+    "opentax_delete_custom_item": {
         "description": "Delete a custom overlay item and regenerate. Built-in base items cannot be deleted with this tool.",
         "inputSchema": {
             "type": "object",
@@ -416,33 +416,55 @@ TOOLS: dict[str, dict[str, Any]] = {
 }
 
 
+PRIMARY_TOOL_PREFIX = "opentax_"
+LEGACY_TOOL_PREFIX = "tax_ontology_"
+
+
+for tool_name, definition in list(TOOLS.items()):
+    if tool_name.startswith(PRIMARY_TOOL_PREFIX):
+        legacy_name = LEGACY_TOOL_PREFIX + tool_name[len(PRIMARY_TOOL_PREFIX):]
+        TOOLS[legacy_name] = {
+            **definition,
+            "description": f"Legacy alias for `{tool_name}`. {definition['description']}",
+        }
+
+
+def normalize_tool_name(name: str) -> str:
+    if name.startswith(LEGACY_TOOL_PREFIX):
+        return PRIMARY_TOOL_PREFIX + name[len(LEGACY_TOOL_PREFIX):]
+    return name
+
+
 def call_tool(name: str, arguments: dict[str, Any]) -> Any:
-    if name == "tax_ontology_search":
+    if not isinstance(name, str):
+        raise ToolError("Tool name must be a string")
+    name = normalize_tool_name(name)
+    if name == "opentax_search":
         return search_items(
             arguments.get("query", ""),
             arguments.get("type"),
             int(arguments.get("limit", 20)),
         )
-    if name == "tax_ontology_get_item":
+    if name == "opentax_get_item":
         return serialize_item(get_item_or_error(arguments["id"]))
-    if name == "tax_ontology_read_note":
+    if name == "opentax_read_note":
         path, text = read_note_text(arguments["path_or_id"])
         return {"path": str(path), "text": text}
-    if name == "tax_ontology_neighbors":
+    if name == "opentax_neighbors":
         return neighbor_items(arguments["id"], int(arguments.get("depth", 1)))
-    if name == "tax_ontology_sources":
+    if name == "opentax_sources":
         item = get_item_or_error(arguments["id"])
         items = all_items()
         return [serialize_item(items[source_id]) for source_id in item.get("sources") or [] if source_id in items]
-    if name == "tax_ontology_validate":
+    if name == "opentax_validate":
         return regenerate_and_validate()["validate"]
-    if name == "tax_ontology_export_summary":
+    if name == "opentax_export_summary":
         return export_summary()
-    if name == "tax_ontology_add_or_update_item":
+    if name == "opentax_add_or_update_item":
         return upsert_custom_item(arguments["item"])
-    if name == "tax_ontology_patch_item":
+    if name == "opentax_patch_item":
         return patch_custom_item(arguments["id"], arguments["patch"])
-    if name == "tax_ontology_delete_custom_item":
+    if name == "opentax_delete_custom_item":
         return delete_custom_item(arguments["id"])
     raise ToolError(f"Unknown tool: {name}")
 
@@ -475,7 +497,7 @@ def handle_request(message: dict[str, Any]) -> None:
             {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "tax-ontology-mcp", "version": "0.1.0"},
+                "serverInfo": {"name": "opentax-mcp", "version": "0.1.0"},
             },
         )
         return
@@ -520,7 +542,7 @@ def main() -> None:
             if "message" in locals() and isinstance(message, dict) and "id" in message:
                 respond(message["id"], error={"code": -32603, "message": str(exc)})
             else:
-                print(f"tax-ontology-mcp error: {exc}", file=sys.stderr)
+                print(f"opentax-mcp error: {exc}", file=sys.stderr)
 
 
 if __name__ == "__main__":

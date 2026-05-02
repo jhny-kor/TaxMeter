@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the static web guide for the Korean tax ontology."""
+"""Build the static web guide for OpenTax."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from textwrap import dedent
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ONTOLOGY_ROOT = REPO_ROOT / "ontology"
 EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-tax-ontology-2026.json"
-WEB_ROOT = REPO_ROOT / "docs" / "tax-ontology"
+WEB_ROOT = REPO_ROOT / "docs" / "opentax"
 
 
 TYPE_LABELS = {
@@ -102,20 +102,20 @@ def build_html(data: dict, summary: dict) -> str:
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>대한민국 세금 온톨로지</title>
-          <meta name="description" content="대한민국 세금, 공제, 정책지원, 사업자 세무, 신고기한을 연결한 검증형 TaxMeter 온톨로지 웹 가이드">
+          <title>OpenTax</title>
+          <meta name="description" content="대한민국 세금, 공제, 정책지원, 사업자 세무, 신고기한을 연결한 검증형 OpenTax 웹 가이드">
           <link rel="stylesheet" href="./styles.css">
         </head>
         <body>
           <header class="site-header">
-            <a class="brand" href="#top" aria-label="대한민국 세금 온톨로지 홈">
+            <a class="brand" href="#top" aria-label="OpenTax 홈">
               <span class="brand-mark" aria-hidden="true">
                 <svg viewBox="0 0 32 32" role="img">
                   <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
                   <path d="M10 16h12M16 10v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               </span>
-              <span>Tax Ontology</span>
+              <span>OpenTax</span>
             </a>
             <nav class="top-nav" aria-label="주요 섹션">
               <a href="#overview">개요</a>
@@ -129,10 +129,10 @@ def build_html(data: dict, summary: dict) -> str:
           <main id="top">
             <section class="hero section" id="overview">
               <div class="hero-copy">
-                <h1>대한민국 세금 온톨로지</h1>
+                <h1>OpenTax</h1>
                 <p class="hero-lede">
                   흩어진 세법, 국세청 안내, 정책지원, 사업자 세무, 신고기한을
-                  <strong>검증 가능한 지식 그래프</strong>로 묶어 TaxMeter가 바로 탐색하고
+                  <strong>검증 가능한 지식 그래프</strong>로 묶어 OpenTax가 바로 탐색하고
                   재사용할 수 있는 데이터 표면으로 만듭니다.
                 </p>
                 <div class="hero-actions">
@@ -147,7 +147,7 @@ def build_html(data: dict, summary: dict) -> str:
 
               <div class="graph-panel hero-graph" aria-label="온톨로지 상위 그래프">
                 <button class="graph-node root" type="button" data-select-item="kr-tax-system">
-                  <strong>대한민국 세금</strong>
+                  <strong>OpenTax</strong>
                   <span>{summary["item_count"]} nodes</span>
                 </button>
                 {major_nodes}
@@ -204,7 +204,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div class="major-map">
                 <div class="map-core">
                   <strong>kr-tax-system</strong>
-                  <span>대한민국 세금 온톨로지</span>
+                  <span>OpenTax</span>
                 </div>
                 <button class="map-node national" data-select-item="category.national-taxes"><strong>국세</strong><span>{summary["national_tax_count"]} 세목</span></button>
                 <button class="map-node local" data-select-item="category.local-taxes"><strong>지방세</strong><span>{summary["local_tax_count"]} 세목</span></button>
@@ -308,7 +308,7 @@ def build_html(data: dict, summary: dict) -> str:
                 </article>
                 <article>
                   <h3>앱 기능 매핑</h3>
-                  <p>TaxMeter의 baseline, 위험 신호, 절세 체크리스트가 어떤 온톨로지 노드에 기대는지 표시해야 유지보수가 쉬워집니다.</p>
+                  <p>TaxMeter와 다른 클라이언트의 baseline, 위험 신호, 절세 체크리스트가 어떤 OpenTax 노드에 기대는지 표시해야 유지보수가 쉬워집니다.</p>
                   <span>반영: tags에 app-surface 값을 부여하고 브라우저 탭에 “앱 사용처” 필터 추가</span>
                 </article>
               </div>
@@ -362,7 +362,7 @@ def build_html(data: dict, summary: dict) -> str:
           </main>
 
           <footer class="site-footer">
-            <span>TaxMeter · Korea Tax Ontology</span>
+            <span>OpenTax</span>
             <span>검증 기준일 {basis_date}</span>
           </footer>
 
@@ -1801,7 +1801,7 @@ def build_js(data: dict, summary: dict) -> str:
             const url = URL.createObjectURL(blob);
             const anchor = document.createElement("a");
             anchor.href = url;
-            anchor.download = "korea-tax-ontology-2026.json";
+            anchor.download = "opentax-2026.json";
             document.body.appendChild(anchor);
             anchor.click();
             anchor.remove();
