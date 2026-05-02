@@ -62,6 +62,55 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "보험료, 의료비, 교육비, 기부금 등 특별세액공제 항목의 근거입니다.",
     },
+    "source.nts.housing-rent-principal-deduction": {
+        "title": "주택임차차입금 원리금 상환액 소득공제",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239021&mi=40629",
+        "basis_date": "2026-05-03 확인",
+        "description": "주택임차차입금 원리금 상환액의 공제대상자, 주택요건, 40% 공제율, 연 400만원 한도 근거입니다.",
+    },
+    "source.nts.housing-mortgage-interest-deduction": {
+        "title": "장기주택저당차입금 이자상환액 소득공제",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239020&mi=40630",
+        "basis_date": "2026-05-03 확인",
+        "description": "장기주택저당차입금 이자상환액의 상환기간·상환방식별 600만원~2,000만원 한도 근거입니다.",
+    },
+    "source.nts.housing-savings-deduction": {
+        "title": "주택마련저축 소득공제",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239022&mi=40610",
+        "basis_date": "2026-05-03 확인",
+        "description": "총급여 7,000만원 이하 무주택 세대주·배우자의 주택마련저축 납입액 40%, 연 납입액 300만원 한도 근거입니다.",
+    },
+    "source.nts.sme-employment-income-reduction": {
+        "title": "중소기업 취업자 소득세 감면",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239023&mi=40611",
+        "basis_date": "2026-05-03 확인",
+        "description": "청년, 고령자, 장애인, 경력단절근로자별 감면기간, 감면율, 과세기간별 200만원 감면한도 근거입니다.",
+    },
+    "source.nts.education-expense-credit": {
+        "title": "교육비 세액공제",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239024&mi=40612",
+        "basis_date": "2026-05-03 확인",
+        "description": "교육비 세액공제의 본인 전액, 취학전·초중고 300만원, 대학생 900만원, 장애인 특수교육비 전액 한도와 15% 공제율 근거입니다.",
+    },
+    "source.nts.donation-credit": {
+        "title": "기부금 세액공제",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239040&mi=40978",
+        "basis_date": "2026-05-03 확인",
+        "description": "정치자금, 고향사랑, 특례, 우리사주조합, 일반기부금의 공제율과 금액 구간 근거입니다.",
+    },
+    "source.nts.corporate-tax-consulting.2026": {
+        "title": "중소기업 공제·감면 컨설팅 제도 안내",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
+        "basis_date": "2026-05-03 확인",
+        "description": "2026년 창업중소기업 세액감면, 중소기업특별세액감면, 통합투자세액공제 등 주요 공제·감면율 근거입니다.",
+    },
     "source.nts.monthly-rent-credit": {
         "title": "월세액 세액공제",
         "publisher": "국세청",
@@ -479,6 +528,10 @@ def deduction(id_: str, title: str, description: str, parent: str, **kwargs) -> 
     sources = kwargs.pop("sources", ["source.nts.year-end-settlement.calculation"])
     terms = kwargs.pop("terms", ["term.income-deduction", "term.tax-base"])
     tags = kwargs.pop("tags", ["income-deduction"])
+    if "criteria" not in kwargs:
+        criteria = globals().get("DEDUCTION_CRITERIA_BY_ID", {}).get(id_)
+        if criteria:
+            kwargs["criteria"] = criteria
     return node(
         id_,
         title,
@@ -497,6 +550,10 @@ def credit(id_: str, title: str, description: str, parent: str = "category.tax-c
     sources = kwargs.pop("sources", ["source.nts.year-end-settlement.special-credit"])
     terms = kwargs.pop("terms", ["term.tax-credit"])
     tags = kwargs.pop("tags", ["tax-credit"])
+    if "criteria" not in kwargs:
+        criteria = globals().get("CREDIT_CRITERIA_BY_ID", {}).get(id_)
+        if criteria:
+            kwargs["criteria"] = criteria
     return node(
         id_,
         title,
@@ -515,6 +572,10 @@ def corporate_support(id_: str, title: str, description: str, **kwargs) -> dict:
     sources = kwargs.pop("sources", ["source.nts.corporate-tax.reliefs"])
     terms = kwargs.pop("terms", ["term.tax-credit", "term.tax-reduction"])
     tags = kwargs.pop("tags", ["corporate-tax-support"])
+    if "criteria" not in kwargs:
+        criteria = globals().get("CORPORATE_SUPPORT_CRITERIA_BY_ID", {}).get(id_)
+        if criteria:
+            kwargs["criteria"] = criteria
     return node(
         id_,
         title,
@@ -837,6 +898,307 @@ MEDICAL_EXPENSE_CREDIT_CRITERIA = [
 ]
 
 
+PERSONAL_BASIC_DEDUCTION_CRITERIA = [
+    {"label": "기본공제 대상자 1명당", "basis": "본인·배우자·부양가족", "condition": "기본공제 대상자", "deduction_krw": 1_500_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "부양가족 소득요건", "basis": "연간 소득금액", "condition": "100만원 이하", "threshold_krw_max": 1_000_000, "note": "근로소득만 있는 경우 총급여 500만원 이하", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "근로소득만 있는 부양가족", "basis": "총급여", "condition": "500만원 이하", "threshold_krw_max": 5_000_000, "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+PERSONAL_ADDITIONAL_DEDUCTION_CRITERIA = [
+    {"label": "경로우대", "basis": "기본공제대상자", "condition": "70세 이상", "deduction_krw": 1_000_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "장애인", "basis": "기본공제대상자", "condition": "장애인", "deduction_krw": 2_000_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "부녀자", "basis": "종합소득금액", "condition": "3,000만원 이하 등 요건 충족", "threshold_krw_max": 30_000_000, "deduction_krw": 500_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "한부모", "basis": "배우자가 없는 기본공제대상자", "condition": "기본공제대상 직계비속 또는 입양자 있음", "deduction_krw": 1_000_000, "note": "부녀자공제와 중복 시 한부모공제 적용", "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+PERSONAL_DEDUCTION_CRITERIA = PERSONAL_BASIC_DEDUCTION_CRITERIA + PERSONAL_ADDITIONAL_DEDUCTION_CRITERIA
+
+
+PENSION_INSURANCE_DEDUCTION_CRITERIA = [
+    {"label": "공적연금 근로자 부담금", "basis": "국민연금 등 공적연금보험료", "condition": "근로자가 부담한 공적연금보험료", "benefit": "전액 소득공제", "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+HEALTH_INSURANCE_PREMIUM_DEDUCTION_CRITERIA = [
+    {"label": "국민건강보험·노인장기요양보험", "basis": "본인 부담 보험료", "condition": "근로제공기간 중 부담분", "benefit": "전액 소득공제", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "고용보험", "basis": "본인 부담 보험료", "condition": "근로제공기간 중 부담분", "benefit": "전액 소득공제", "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+HOUSING_FUNDS_DEDUCTION_CRITERIA = [
+    {"label": "주택임차차입금 원리금", "basis": "원리금 상환액", "condition": "무주택 세대주 등, 국민주택규모 주택 임차", "rate_percent": 40, "limit_krw": 4_000_000, "note": "주택마련저축 공제금액과 합산 연 400만원 한도", "source": "source.nts.housing-rent-principal-deduction"},
+    {"label": "장기주택저당차입금 10년 이상", "basis": "이자상환액", "condition": "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환", "limit_krw": 6_000_000, "source": "source.nts.housing-mortgage-interest-deduction"},
+    {"label": "장기주택저당차입금 15년 이상", "basis": "이자상환액", "condition": "상환기간 15년 이상", "limit_krw": 8_000_000, "source": "source.nts.housing-mortgage-interest-deduction"},
+    {"label": "장기주택저당차입금 15년 이상 우대", "basis": "이자상환액", "condition": "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환", "limit_krw": 18_000_000, "source": "source.nts.housing-mortgage-interest-deduction"},
+    {"label": "장기주택저당차입금 15년 이상 최우대", "basis": "이자상환액", "condition": "상환기간 15년 이상, 고정금리이고 비거치식 분할상환", "limit_krw": 20_000_000, "source": "source.nts.housing-mortgage-interest-deduction"},
+]
+
+
+SPECIAL_INCOME_DEDUCTION_CRITERIA = HEALTH_INSURANCE_PREMIUM_DEDUCTION_CRITERIA + HOUSING_FUNDS_DEDUCTION_CRITERIA
+
+
+OTHER_INCOME_DEDUCTION_CRITERIA = [
+    {"label": "소득공제 종합한도", "basis": "종합한도 적용 소득공제 합계", "condition": "2,500만원 초과액은 과세표준에 합산", "limit_krw": 25_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "주택자금·주택마련저축", "basis": "주택자금공제와 주택마련저축", "condition": "종합한도 적용 대상", "benefit": "종합한도 내 소득공제", "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "투자·우리사주·장기저축", "basis": "중소기업창업투자조합 출자 등, 우리사주조합 출연금, 장기집합투자증권저축", "condition": "일부 벤처투자 예외를 제외하고 종합한도 적용 대상", "benefit": "종합한도 내 소득공제", "source": "source.nts.year-end-settlement.deduction-limit"},
+]
+
+
+PERSONAL_PENSION_SAVINGS_DEDUCTION_CRITERIA = [
+    {"label": "개인연금저축 납입액", "basis": "2000.12.31. 이전 가입 개인연금저축", "condition": "연 납입액의 40%", "rate_percent": 40, "limit_krw": 720_000, "note": "연 180만원 납입 기준 최대 72만원 소득공제", "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+SMALL_BUSINESS_MUTUAL_AID_DEDUCTION_CRITERIA = [
+    {"label": "근로소득금액 4천만원 이하", "basis": "근로소득금액", "condition": "4,000만원 이하", "threshold_krw_max": 40_000_000, "limit_krw": 5_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "근로소득금액 4천만원 초과 1억원 이하", "basis": "근로소득금액", "condition": "4,000만원 초과 1억원 이하", "threshold_krw_min": 40_000_000, "threshold_krw_max": 100_000_000, "limit_krw": 3_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "근로소득금액 1억원 초과", "basis": "근로소득금액", "condition": "1억원 초과", "threshold_krw_min": 100_000_000, "limit_krw": 2_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+]
+
+
+HOUSING_SAVINGS_DEDUCTION_CRITERIA = [
+    {"label": "총급여 요건", "basis": "총급여액", "condition": "7,000만원 이하", "threshold_krw_max": 70_000_000, "source": "source.nts.housing-savings-deduction"},
+    {"label": "납입액 공제", "basis": "주택마련저축 납입액", "condition": "연 납입액 300만원 한도", "threshold_krw_max": 3_000_000, "rate_percent": 40, "limit_krw": 1_200_000, "source": "source.nts.housing-savings-deduction"},
+]
+
+
+INVESTMENT_ASSOCIATION_DEDUCTION_CRITERIA = [
+    {"label": "일반 투자조합 출자", "basis": "출자 또는 투자금액", "condition": "중소기업창업투자조합 등", "rate_percent": 10, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "벤처기업 등 3천만원 이하", "basis": "출자 또는 투자금액", "condition": "벤처기업 등 직접·간접 투자 3천만원 이하", "threshold_krw_max": 30_000_000, "rate_percent": 100, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "벤처기업 등 3천만원 초과 5천만원 이하", "basis": "출자 또는 투자금액", "condition": "3천만원 초과 5천만원 이하", "threshold_krw_min": 30_000_000, "threshold_krw_max": 50_000_000, "rate_percent": 70, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "벤처기업 등 5천만원 초과", "basis": "출자 또는 투자금액", "condition": "5천만원 초과", "threshold_krw_min": 50_000_000, "rate_percent": 30, "source": "source.nts.year-end-settlement.deduction-limit"},
+]
+
+
+EMPLOYEE_STOCK_OWNERSHIP_DEDUCTION_CRITERIA = [
+    {"label": "일반 우리사주조합 출연금", "basis": "우리사주조합 출연금", "condition": "조합원 출연금", "limit_krw": 4_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+    {"label": "벤처기업 우리사주조합 출연금", "basis": "우리사주조합 출연금", "condition": "벤처기업 조합원 출연금", "limit_krw": 15_000_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+]
+
+
+EMPLOYMENT_MAINTENANCE_WORKER_DEDUCTION_CRITERIA = [
+    {"label": "임금삭감액 공제", "basis": "고용유지 중소기업 근로자 임금삭감액", "condition": "고용유지 요건 충족", "rate_percent": 50, "limit_krw": 10_000_000, "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+LONG_TERM_FUND_DEDUCTION_CRITERIA = [
+    {"label": "장기집합투자증권저축 납입액", "basis": "연 납입액", "condition": "연 600만원 한도", "threshold_krw_max": 6_000_000, "rate_percent": 40, "limit_krw": 2_400_000, "source": "source.nts.year-end-settlement.deduction-limit"},
+]
+
+
+YOUTH_LONG_TERM_FUND_DEDUCTION_CRITERIA = [
+    {"label": "가입 소득요건", "basis": "총급여 또는 종합소득금액", "condition": "총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하", "threshold_krw_max": 50_000_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "청년형 장기집합투자증권저축 납입액", "basis": "연 납입액", "condition": "연 600만원 한도", "threshold_krw_max": 6_000_000, "rate_percent": 40, "limit_krw": 2_400_000, "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+EARNED_INCOME_TAX_CREDIT_CRITERIA = [
+    {"label": "산출세액 130만원 이하", "basis": "근로소득 산출세액", "condition": "130만원 이하", "threshold_krw_max": 1_300_000, "rate_percent": 55, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "산출세액 130만원 초과", "basis": "근로소득 산출세액", "condition": "130만원 초과", "threshold_krw_min": 1_300_000, "deduction_krw": 715_000, "rate_percent": 30, "note": "715,000원 + 130만원 초과금액의 30%", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "총급여 3,300만원 이하 한도", "basis": "총급여", "condition": "3,300만원 이하", "threshold_krw_max": 33_000_000, "limit_krw": 740_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "총급여 3,300만원 초과 7,000만원 이하 한도", "basis": "총급여", "condition": "3,300만원 초과 7,000만원 이하", "threshold_krw_min": 33_000_000, "threshold_krw_max": 70_000_000, "limit_krw": 660_000, "note": "74만원-[(총급여액-3,300만원)×0.8%], 최소 66만원", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "총급여 7,000만원 초과 1.2억원 이하 한도", "basis": "총급여", "condition": "7,000만원 초과 1.2억원 이하", "threshold_krw_min": 70_000_000, "threshold_krw_max": 120_000_000, "limit_krw": 500_000, "note": "66만원-[(총급여액-7,000만원)×1/2], 최소 50만원", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "총급여 1.2억원 초과 한도", "basis": "총급여", "condition": "1.2억원 초과", "threshold_krw_min": 120_000_000, "limit_krw": 200_000, "note": "50만원-[(총급여액-1.2억원)×1/2], 최소 20만원", "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+CHILD_TAX_CREDIT_CRITERIA = [
+    {"label": "자녀 1명", "basis": "8세 이상 기본공제대상 자녀·손자녀", "condition": "1명", "deduction_krw": 250_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "자녀 2명", "basis": "8세 이상 기본공제대상 자녀·손자녀", "condition": "2명", "deduction_krw": 550_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "자녀 3명 이상", "basis": "8세 이상 기본공제대상 자녀·손자녀", "condition": "3명 이상", "deduction_krw": 550_000, "note": "2명을 초과하는 1명당 40만원 추가", "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "출산·입양 첫째", "basis": "출산·입양 신고 자녀", "condition": "첫째", "deduction_krw": 300_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "출산·입양 둘째", "basis": "출산·입양 신고 자녀", "condition": "둘째", "deduction_krw": 500_000, "source": "source.nts.year-end-settlement.calculation"},
+    {"label": "출산·입양 셋째 이상", "basis": "출산·입양 신고 자녀", "condition": "셋째 이상", "deduction_krw": 700_000, "source": "source.nts.year-end-settlement.calculation"},
+]
+
+
+INSURANCE_PREMIUM_CREDIT_CRITERIA = [
+    {"label": "보장성보험료", "basis": "생명보험·상해보험 등 보장성보험료", "condition": "기본공제대상자를 위해 지급", "limit_krw": 1_000_000, "rate_percent": 12, "source": "source.nts.year-end-settlement.special-credit"},
+    {"label": "장애인전용 보장성보험료", "basis": "장애인을 피보험자 또는 수익자로 하는 장애인전용 보장성보험료", "condition": "장애인전용 보장성보험", "limit_krw": 1_000_000, "rate_percent": 15, "source": "source.nts.year-end-settlement.special-credit"},
+]
+
+
+EDUCATION_EXPENSE_CREDIT_CRITERIA = [
+    {"label": "본인 교육비", "basis": "근로자 본인 교육비", "condition": "한도 없음", "rate_percent": 15, "source": "source.nts.education-expense-credit"},
+    {"label": "취학전·초중고 교육비", "basis": "부양가족 1명당 교육비", "condition": "취학전 아동, 초·중·고등학생", "limit_krw": 3_000_000, "rate_percent": 15, "source": "source.nts.education-expense-credit"},
+    {"label": "대학생 교육비", "basis": "부양가족 1명당 교육비", "condition": "대학생", "limit_krw": 9_000_000, "rate_percent": 15, "source": "source.nts.education-expense-credit"},
+    {"label": "장애인 특수교육비", "basis": "장애인 특수교육비", "condition": "직계존속 포함, 소득제한 없음", "rate_percent": 15, "note": "한도 없음", "source": "source.nts.education-expense-credit"},
+]
+
+
+DONATION_CREDIT_CRITERIA = [
+    {"label": "정치자금 10만원 이하", "basis": "정치자금기부금", "condition": "10만원 이하", "threshold_krw_max": 100_000, "rate_percent": 90.91, "rate_label": "세액공제율", "note": "100/110 세액공제", "source": "source.nts.donation-credit"},
+    {"label": "정치자금 10만원 초과", "basis": "정치자금기부금", "condition": "10만원 초과", "threshold_krw_min": 100_000, "rate_percent": 15, "source": "source.nts.donation-credit"},
+    {"label": "정치자금 3천만원 초과", "basis": "정치자금기부금", "condition": "3천만원 초과분", "threshold_krw_min": 30_000_000, "rate_percent": 25, "source": "source.nts.donation-credit"},
+    {"label": "고향사랑 10만원 이하", "basis": "고향사랑기부금", "condition": "10만원 이하", "threshold_krw_max": 100_000, "rate_percent": 90.91, "rate_label": "세액공제율", "note": "100/110 세액공제", "source": "source.nts.donation-credit"},
+    {"label": "특례·우리사주·일반 1천만원 이하", "basis": "공제한도 내 기부금", "condition": "1천만원 이하", "threshold_krw_max": 10_000_000, "rate_percent": 15, "source": "source.nts.donation-credit"},
+    {"label": "특례·우리사주·일반 1천만원 초과", "basis": "공제한도 내 기부금", "condition": "1천만원 초과", "threshold_krw_min": 10_000_000, "rate_percent": 30, "source": "source.nts.donation-credit"},
+]
+
+
+SPECIAL_TAX_CREDIT_CRITERIA = INSURANCE_PREMIUM_CREDIT_CRITERIA + MEDICAL_EXPENSE_CREDIT_CRITERIA + EDUCATION_EXPENSE_CREDIT_CRITERIA + DONATION_CREDIT_CRITERIA[:2]
+
+
+FOREIGN_TAX_PAID_CREDIT_CRITERIA = [
+    {"label": "외국납부세액공제 한도", "basis": "국외원천소득 관련 외국납부세액", "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도", "benefit": "외국납부세액과 한도액 중 작은 금액 공제", "source": "source.nts.corporate-tax.reliefs"},
+]
+
+
+RND_CREDIT_CRITERIA = [
+    {"label": "일반 연구·인력개발비", "basis": "연구·인력개발비", "condition": "기업규모·증가분 방식별 공제율 적용", "benefit": "일반 R&D 세액공제", "source": "source.nts.corporate-tax.reliefs"},
+    {"label": "신성장·원천기술", "basis": "신성장·원천기술 연구개발비", "condition": "해당 기술 연구개발비", "benefit": "우대 공제율 적용", "source": "source.nts.corporate-tax.reliefs"},
+    {"label": "국가전략기술", "basis": "국가전략기술 연구개발비", "condition": "반도체 등 국가전략기술 연구개발비", "benefit": "최고 우대 공제율 적용", "source": "source.nts.corporate-tax.reliefs"},
+]
+
+
+INTEGRATED_EMPLOYMENT_CREDIT_CRITERIA = [
+    {"label": "고용 증가 인원", "basis": "상시근로자 증가 인원", "condition": "전년 대비 고용 증가", "benefit": "1인당 정액 세액공제", "source": "source.nts.corporate-tax.reliefs"},
+    {"label": "우대 대상 고용", "basis": "청년·장애인·경력단절자 등", "condition": "정책대상 근로자 고용 증가", "benefit": "일반 상시근로자보다 우대 공제액 적용", "source": "source.nts.corporate-tax.reliefs"},
+]
+
+
+SME_EMPLOYMENT_INCOME_REDUCTION_CRITERIA = [
+    {"label": "청년", "basis": "중소기업 취업자 근로소득세", "condition": "근로계약 체결일 현재 15~34세 이하", "rate_percent": 90, "rate_label": "감면율", "limit_krw": 2_000_000, "note": "감면기간 5년", "source": "source.nts.sme-employment-income-reduction"},
+    {"label": "고령자", "basis": "중소기업 취업자 근로소득세", "condition": "근로계약 체결일 현재 60세 이상", "rate_percent": 70, "rate_label": "감면율", "limit_krw": 2_000_000, "note": "감면기간 3년", "source": "source.nts.sme-employment-income-reduction"},
+    {"label": "장애인·경력단절근로자", "basis": "중소기업 취업자 근로소득세", "condition": "장애인 또는 경력단절근로자 요건 충족", "rate_percent": 70, "rate_label": "감면율", "limit_krw": 2_000_000, "note": "감면기간 3년", "source": "source.nts.sme-employment-income-reduction"},
+]
+
+
+STARTUP_SME_REDUCTION_CRITERIA = [
+    {"label": "2026년 이후 일반 창업중소기업", "basis": "법인세 또는 소득세", "condition": "수도권 외 지역 또는 수도권 인구감소지역", "rate_percent": 50, "rate_label": "감면율", "note": "최초 소득발생 과세연도와 이후 4년", "source": "source.nts.corporate-tax-consulting.2026"},
+    {"label": "2026년 이후 청년·생계형 창업", "basis": "법인세 또는 소득세", "condition": "수도권 외 지역 또는 수도권과밀억제권역 외", "rate_percent": 100, "rate_label": "감면율", "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등", "source": "source.nts.corporate-tax-consulting.2026"},
+    {"label": "상시근로자 증가 추가감면", "basis": "상시근로자 증가율", "condition": "고용 증가 요건 충족", "rate_percent": 100, "rate_label": "추가감면 산식", "note": "상시근로자 증가율 × 100%", "source": "source.nts.corporate-tax-consulting.2026"},
+]
+
+
+SME_SPECIAL_REDUCTION_CRITERIA = [
+    {"label": "소기업 수도권 제조업 등", "basis": "중소기업 특별세액감면", "condition": "소기업, 수도권 내 제조업·출판업 등", "rate_percent": 20, "rate_label": "감면율", "source": "source.nts.corporate-tax-consulting.2026"},
+    {"label": "소기업 수도권 외 제조업 등", "basis": "중소기업 특별세액감면", "condition": "소기업, 수도권 외 제조업·출판업 등", "rate_percent": 30, "rate_label": "감면율", "source": "source.nts.corporate-tax-consulting.2026"},
+    {"label": "중기업 수도권 외 제조업 등", "basis": "중소기업 특별세액감면", "condition": "중기업, 수도권 외 제조업 등", "rate_percent": 15, "rate_label": "감면율", "source": "source.nts.corporate-tax-consulting.2026"},
+    {"label": "도소매·의료업 등", "basis": "중소기업 특별세액감면", "condition": "업종·지역별 차등", "rate_percent_min": 5, "rate_percent_max": 10, "rate_label": "감면율", "source": "source.nts.corporate-tax-consulting.2026"},
+]
+
+
+GOOD_LANDLORD_REDUCTION_CRITERIA = [
+    {"label": "임대료 인하액", "basis": "상가건물 임대료 인하액", "condition": "소상공인 임차인 임대료 인하 등 요건 충족", "rate_percent": 70, "rate_label": "세액공제율", "note": "요건과 과세연도별 적용기한 확인 필요", "source": "source.nts.corporate-tax.reliefs"},
+]
+
+
+DEDUCTION_CRITERIA_BY_ID = {
+    "deduction.personal": PERSONAL_DEDUCTION_CRITERIA,
+    "deduction.personal.basic": PERSONAL_BASIC_DEDUCTION_CRITERIA,
+    "deduction.personal.additional": PERSONAL_ADDITIONAL_DEDUCTION_CRITERIA,
+    "deduction.pension-insurance": PENSION_INSURANCE_DEDUCTION_CRITERIA,
+    "deduction.special-income": SPECIAL_INCOME_DEDUCTION_CRITERIA,
+    "deduction.health-insurance-premium": HEALTH_INSURANCE_PREMIUM_DEDUCTION_CRITERIA,
+    "deduction.housing-funds": HOUSING_FUNDS_DEDUCTION_CRITERIA,
+    "deduction.other-income": OTHER_INCOME_DEDUCTION_CRITERIA,
+    "deduction.personal-pension-savings": PERSONAL_PENSION_SAVINGS_DEDUCTION_CRITERIA,
+    "deduction.small-business-mutual-aid": SMALL_BUSINESS_MUTUAL_AID_DEDUCTION_CRITERIA,
+    "deduction.housing-savings": HOUSING_SAVINGS_DEDUCTION_CRITERIA,
+    "deduction.investment-association": INVESTMENT_ASSOCIATION_DEDUCTION_CRITERIA,
+    "deduction.employee-stock-ownership": EMPLOYEE_STOCK_OWNERSHIP_DEDUCTION_CRITERIA,
+    "deduction.employment-maintenance-worker": EMPLOYMENT_MAINTENANCE_WORKER_DEDUCTION_CRITERIA,
+    "deduction.long-term-fund": LONG_TERM_FUND_DEDUCTION_CRITERIA,
+    "deduction.youth-long-term-fund": YOUTH_LONG_TERM_FUND_DEDUCTION_CRITERIA,
+}
+
+
+CREDIT_CRITERIA_BY_ID = {
+    "credit.earned-income": EARNED_INCOME_TAX_CREDIT_CRITERIA,
+    "credit.child": CHILD_TAX_CREDIT_CRITERIA,
+    "credit.insurance-premium": INSURANCE_PREMIUM_CREDIT_CRITERIA,
+    "credit.education-expense": EDUCATION_EXPENSE_CREDIT_CRITERIA,
+    "credit.donation": DONATION_CREDIT_CRITERIA,
+    "credit.foreign-tax-paid": FOREIGN_TAX_PAID_CREDIT_CRITERIA,
+    "credit.research-and-development": RND_CREDIT_CRITERIA,
+    "credit.integrated-employment": INTEGRATED_EMPLOYMENT_CREDIT_CRITERIA,
+}
+
+
+CORPORATE_SUPPORT_CRITERIA_BY_ID = {
+    "corporate.support.startup-sme-reduction": STARTUP_SME_REDUCTION_CRITERIA,
+    "corporate.support.sme-special-reduction": SME_SPECIAL_REDUCTION_CRITERIA,
+    "corporate.support.tech-transfer-reduction": [
+        {"label": "기술이전 소득", "basis": "기술이전 소득", "condition": "중소기업 기술이전", "rate_percent": 50, "rate_label": "감면율", "source": "source.nts.corporate-tax.reliefs"},
+        {"label": "기술대여 소득", "basis": "기술대여 소득", "condition": "중소기업 기술대여", "rate_percent": 25, "rate_label": "감면율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.winwin-payment-credit": [
+        {"label": "상생결제 지급금액", "basis": "상생결제 지급금액", "condition": "상생결제제도 이용 구매대금 지급", "rate_percent_min": 0.1, "rate_percent_max": 0.3, "rate_label": "세액공제율", "note": "결제기한 구간별 차등", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.wage-increase-credit": [
+        {"label": "근로소득 증대", "basis": "직전 3년 평균 초과 임금증가분", "condition": "임금증가 요건 충족", "rate_percent_min": 5, "rate_percent_max": 20, "rate_label": "세액공제율", "note": "기업규모와 정규직 전환 여부별 차등", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.performance-sharing-credit": [
+        {"label": "경영성과급", "basis": "성과공유 중소기업 경영성과급 지급액", "condition": "성과공유기업 요건 충족", "rate_percent": 15, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.employment-maintenance-credit": [
+        {"label": "고용유지 임금감소분", "basis": "임금감소액 또는 보전액", "condition": "고용유지 요건 충족", "rate_percent": 50, "rate_label": "공제율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.social-insurance-credit": [
+        {"label": "고용증가 사회보험료", "basis": "고용증가인원의 사용자 부담 사회보험료", "condition": "상시근로자 증가", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "세액공제율", "note": "청년·경력단절자 등 우대 대상과 기업규모별 차등", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.minimum-tax-preference": [
+        {"label": "중소기업 최저한세", "basis": "각종 감면 전 과세표준", "condition": "중소기업", "rate_percent": 7, "rate_label": "최저한세율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.cooperation-credit": [
+        {"label": "상생협력 출연금", "basis": "협력중소기업 지원 목적 출연금 등", "condition": "상생협력 지원 요건 충족", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.rnd-credit": RND_CREDIT_CRITERIA,
+    "corporate.support.rnd-grant-deferral": [
+        {"label": "연구개발출연금 과세이연", "basis": "연구개발출연금 등", "condition": "연구개발 자산 취득 또는 비용 지출", "benefit": "익금불산입 후 사용 시점에 익금산입", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.rnd-zone-reduction": [
+        {"label": "연구개발특구 감면", "basis": "법인세", "condition": "연구개발특구 입주 첨단기술기업 등", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "note": "일반적으로 3년 100%, 이후 2년 50% 구조", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.ma-credit": [
+        {"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.facility-investment-credit": [
+        {"label": "통합투자 기본공제", "basis": "사업용 유형자산 등 투자금액", "condition": "통합투자세액공제 대상 투자", "rate_percent_min": 1, "rate_percent_max": 10, "rate_label": "기본공제율", "note": "기업규모·투자자산 유형별 차등", "source": "source.nts.corporate-tax-consulting.2026"},
+        {"label": "투자증가분 추가공제", "basis": "직전 3년 평균 투자액 초과분", "condition": "투자 증가", "rate_percent": 10, "rate_label": "추가공제율", "note": "추가공제 한도는 기본공제 금액의 2배", "source": "source.nts.corporate-tax-consulting.2026"},
+    ],
+    "corporate.support.local-relocation-reduction": [
+        {"label": "수도권 밖 이전 감면", "basis": "법인세", "condition": "공장·본사 등 지방 이전 요건 충족", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "note": "지역과 기간별 차등", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.agricultural-corporation-reduction": [
+        {"label": "농업소득", "basis": "영농조합법인 등 농업소득", "condition": "농업법인 요건 충족", "rate_percent": 100, "rate_label": "면제율", "source": "source.nts.corporate-tax.reliefs"},
+        {"label": "농업 외 소득", "basis": "농업 외 소득", "condition": "한도 내 감면", "rate_percent": 50, "rate_label": "감면율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.industrial-complex-reduction": [
+        {"label": "농공단지 등 입주기업", "basis": "법인세", "condition": "농공단지 등 입주 후 최초 소득발생", "rate_percent": 50, "rate_label": "감면율", "note": "감면기간 요건 별도 확인", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.social-enterprise-reduction": [
+        {"label": "사회적기업·장애인 표준사업장", "basis": "법인세", "condition": "인증 사회적기업 등", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "note": "일반적으로 3년 100%, 이후 2년 50% 구조", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.jeju-zone-reduction": [
+        {"label": "제주첨단과학기술단지 등", "basis": "법인세", "condition": "제주첨단과학기술단지 또는 제주투자진흥지구 입주", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.enterprise-city-reduction": [
+        {"label": "기업도시개발구역 창업·신설", "basis": "법인세", "condition": "기업도시개발구역 창업 또는 사업장 신설", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.e-filing-credit": [
+        {"label": "전자신고 세액공제", "basis": "법인세 전자신고", "condition": "법인이 직접 전자신고", "deduction_krw": 10_000, "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.restructuring-deferral": [
+        {"label": "구조조정 과세이연", "basis": "양도차익 등", "condition": "구조조정 및 재무구조개선 요건 충족", "benefit": "손금산입 또는 익금불산입으로 과세이연", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.local-relocation-deferral": [
+        {"label": "지방이전 과세이연", "basis": "지방이전 관련 양도차익 등", "condition": "지방이전 촉진 요건 충족", "benefit": "손금산입 또는 익금불산입으로 과세이연", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.good-landlord-credit": GOOD_LANDLORD_REDUCTION_CRITERIA,
+    "corporate.support.crisis-area-startup-reduction": [
+        {"label": "위기지역 창업기업", "basis": "법인세", "condition": "위기지역 지정 또는 선포 기간 창업·사업장 신설", "rate_percent_min": 50, "rate_percent_max": 100, "rate_label": "감면율", "note": "감면기간 및 지역별 요건 별도 확인", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.disaster-loss-credit": [
+        {"label": "재해손실세액공제", "basis": "재해상실자산가액 / 상실 전 자산총액", "condition": "사업용 총자산가액의 20% 이상 상실", "rate_percent": 20, "rate_label": "상실비율 문턱", "benefit": "산출세액에 재해상실비율을 곱해 공제", "source": "source.nts.corporate-tax.reliefs"},
+    ],
+    "corporate.support.foreign-tax-paid-credit": FOREIGN_TAX_PAID_CREDIT_CRITERIA,
+}
+
+
 BASIC_LIVELIHOOD_BENEFIT_CRITERIA = [
     {"label": "1인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 820_556, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
     {"label": "2인 가구 선정·급여기준", "basis": "소득인정액", "condition": "2026년 기준 중위소득 32% 이하", "threshold_krw_max": 1_343_773, "benefit": "생계급여 기준액에서 소득인정액 차감 지급", "source": "source.govkr.basic-livelihood-benefit"},
@@ -980,14 +1342,14 @@ NODES = [
     local_tax("local.regional-resource-facility", "지역자원시설세", "지역자원 보호, 안전관리 등 특정 재원 목적의 지방 목적세입니다.", "category.local-purpose-taxes"),
     local_tax("local.local-education", "지방교육세", "지방교육재정 확충을 위해 다른 지방세에 부가되는 지방 목적세입니다.", "category.local-purpose-taxes", related=["tax.education"]),
     node("category.income-deductions", "소득공제", "category", "근로소득 연말정산에서 과세표준 전 단계에 반영되는 공제 묶음입니다.", "20_Deductions/IncomeDeductions", parents=["category.deductions-and-reliefs"], children=["deduction.personal", "deduction.pension-insurance", "deduction.special-income", "deduction.other-income"], sources=["source.nts.year-end-settlement.calculation", "source.nts.year-end-settlement.deduction-limit"], terms=["term.income-deduction", "term.deduction-limit"]),
-    node("deduction.personal", "인적공제", "deduction", "기본공제와 추가공제로 구성되는 소득공제입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.personal.basic", "deduction.personal.additional"], sources=["source.nts.year-end-settlement.calculation"], terms=["term.income-deduction"]),
+    node("deduction.personal", "인적공제", "deduction", "기본공제와 추가공제로 구성되는 소득공제입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.personal.basic", "deduction.personal.additional"], sources=["source.nts.year-end-settlement.calculation"], terms=["term.income-deduction"], criteria=PERSONAL_DEDUCTION_CRITERIA),
     deduction("deduction.personal.basic", "기본공제", "본인, 배우자, 부양가족 등 기본공제 대상자에 대한 인적공제입니다.", "deduction.personal"),
     deduction("deduction.personal.additional", "추가공제", "경로우대, 장애인, 부녀자, 한부모 등 추가 요건에 따른 인적공제입니다.", "deduction.personal"),
     deduction("deduction.pension-insurance", "연금보험료공제", "공적연금의 근로자 부담금을 차감소득금액 계산에 반영하는 공제입니다.", "category.income-deductions"),
-    node("deduction.special-income", "특별소득공제", "deduction", "근로소득 연말정산 계산 구조에서 차감소득금액을 산출할 때 반영되는 특별소득공제 묶음입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.health-insurance-premium", "deduction.housing-funds"], sources=["source.nts.year-end-settlement.calculation", "source.nts.year-end-settlement.deduction-limit"], terms=["term.income-deduction", "term.deduction-limit"]),
+    node("deduction.special-income", "특별소득공제", "deduction", "근로소득 연말정산 계산 구조에서 차감소득금액을 산출할 때 반영되는 특별소득공제 묶음입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.health-insurance-premium", "deduction.housing-funds"], sources=["source.nts.year-end-settlement.calculation", "source.nts.year-end-settlement.deduction-limit", "source.nts.housing-rent-principal-deduction", "source.nts.housing-mortgage-interest-deduction"], terms=["term.income-deduction", "term.deduction-limit"], criteria=SPECIAL_INCOME_DEDUCTION_CRITERIA),
     deduction("deduction.health-insurance-premium", "보험료공제", "국민건강보험료, 고용보험료 등 법정 보험료 납부액을 특별소득공제로 반영하는 항목입니다.", "deduction.special-income"),
     deduction("deduction.housing-funds", "주택자금공제", "주택임차차입금 원리금상환액과 장기주택저당차입금 이자상환액 등 주택자금 관련 소득공제입니다.", "deduction.special-income", sources=["source.nts.year-end-settlement.deduction-limit"]),
-    node("deduction.other-income", "그 밖의 소득공제", "deduction", "과세표준 계산 전 추가로 반영되는 소득공제 항목 묶음입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.personal-pension-savings", "deduction.small-business-mutual-aid", "deduction.housing-savings", "deduction.investment-association", "deduction.credit-card-use", "deduction.employee-stock-ownership", "deduction.employment-maintenance-worker", "deduction.long-term-fund", "deduction.youth-long-term-fund"], sources=["source.nts.year-end-settlement.deduction-limit"], terms=["term.income-deduction", "term.deduction-limit"]),
+    node("deduction.other-income", "그 밖의 소득공제", "deduction", "과세표준 계산 전 추가로 반영되는 소득공제 항목 묶음입니다.", "20_Deductions/IncomeDeductions", parents=["category.income-deductions"], children=["deduction.personal-pension-savings", "deduction.small-business-mutual-aid", "deduction.housing-savings", "deduction.investment-association", "deduction.credit-card-use", "deduction.employee-stock-ownership", "deduction.employment-maintenance-worker", "deduction.long-term-fund", "deduction.youth-long-term-fund"], sources=["source.nts.year-end-settlement.deduction-limit", "source.nts.housing-savings-deduction"], terms=["term.income-deduction", "term.deduction-limit"], criteria=OTHER_INCOME_DEDUCTION_CRITERIA),
     deduction("deduction.personal-pension-savings", "개인연금저축 소득공제", "연금저축 세액공제와 구분되는 개인연금저축 관련 소득공제 항목입니다.", "deduction.other-income", sources=["source.nts.year-end-settlement.calculation"]),
     deduction("deduction.small-business-mutual-aid", "소기업·소상공인 공제부금", "노란우산 등 소기업·소상공인 공제부금에 대한 소득공제입니다.", "deduction.other-income", sources=["source.nts.year-end-settlement.deduction-limit"]),
     deduction("deduction.housing-savings", "주택마련저축", "청약저축, 주택청약종합저축, 근로자우대저축 등 주택마련저축 소득공제입니다.", "deduction.other-income", sources=["source.nts.year-end-settlement.deduction-limit"]),
@@ -1001,7 +1363,7 @@ NODES = [
     credit("credit.earned-income", "근로소득 세액공제", "근로소득자의 산출세액에서 차감되는 세액공제입니다.", sources=["source.nts.year-end-settlement.calculation"]),
     credit("credit.child", "자녀 세액공제", "자녀 수 등 요건에 따라 산출세액에서 차감되는 세액공제입니다.", related=["support.child-tax-credit"], sources=["source.nts.year-end-settlement.calculation"]),
     credit("credit.pension-account", "연금계좌 세액공제", "연금저축, 퇴직연금계좌 납입액 등에 대한 세액공제입니다.", sources=["source.nts.year-end-settlement.calculation"], terms=["term.tax-credit", "term.eligibility-threshold"], criteria=PENSION_ACCOUNT_CREDIT_CRITERIA),
-    node("credit.special-tax", "특별세액공제", "tax-credit", "근로소득자가 해당 과세기간에 지출한 일정 비용을 산출세액에서 공제하는 항목 묶음입니다.", "20_Deductions/TaxCredits", parents=["category.tax-credits"], children=["credit.insurance-premium", "credit.medical-expense", "credit.education-expense", "credit.donation"], sources=["source.nts.year-end-settlement.special-credit"], terms=["term.tax-credit"]),
+    node("credit.special-tax", "특별세액공제", "tax-credit", "근로소득자가 해당 과세기간에 지출한 일정 비용을 산출세액에서 공제하는 항목 묶음입니다.", "20_Deductions/TaxCredits", parents=["category.tax-credits"], children=["credit.insurance-premium", "credit.medical-expense", "credit.education-expense", "credit.donation"], sources=["source.nts.year-end-settlement.special-credit", "source.nts.education-expense-credit", "source.nts.donation-credit"], terms=["term.tax-credit"], criteria=SPECIAL_TAX_CREDIT_CRITERIA),
     credit("credit.insurance-premium", "보험료 세액공제", "보장성보험료, 장애인전용 보장성보험료 등에 대한 특별세액공제입니다.", "credit.special-tax"),
     credit("credit.medical-expense", "의료비 세액공제", "총급여액의 일정 비율 초과 의료비 등에 대한 특별세액공제입니다.", "credit.special-tax", terms=["term.tax-credit", "term.eligibility-threshold"], criteria=MEDICAL_EXPENSE_CREDIT_CRITERIA),
     credit("credit.education-expense", "교육비 세액공제", "본인과 기본공제대상자 교육비 등에 대한 특별세액공제입니다.", "credit.special-tax"),
@@ -1011,10 +1373,10 @@ NODES = [
     credit("credit.research-and-development", "연구·인력개발비 세액공제", "일반, 신성장·원천기술, 국가전략기술 연구개발비 등에 대한 조세지원입니다.", sources=["source.nts.corporate-tax.reliefs"], related=["corporate.support.rnd-credit"]),
     credit("credit.integrated-employment", "통합고용세액공제", "고용 증가, 청년·장애인·경력단절자 등 정책 대상 고용에 대한 세액공제입니다.", sources=["source.nts.corporate-tax.reliefs"]),
     node("category.tax-reductions", "세액감면", "category", "정책 목적에 따라 산출세액 또는 납부할 세액을 줄여 주는 감면 항목 묶음입니다.", "20_Deductions/TaxReductions", parents=["category.deductions-and-reliefs"], children=["reduction.sme-employment-income", "reduction.startup-sme", "reduction.sme-special", "reduction.good-landlord"], sources=["source.nts.year-end-settlement.calculation", "source.nts.corporate-tax.reliefs"], terms=["term.tax-reduction"]),
-    node("reduction.sme-employment-income", "중소기업 취업자 소득세 감면", "tax-reduction", "청년 등 중소기업 취업자의 소득세를 일정 요건에서 감면하는 항목입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.year-end-settlement.calculation"], terms=["term.tax-reduction"]),
-    node("reduction.startup-sme", "창업중소기업 등에 대한 세액감면", "tax-reduction", "창업중소기업 등의 최초 소득발생 과세연도와 이후 일정 기간에 적용되는 세액감면입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs"], terms=["term.tax-reduction"], related=["corporate.support.startup-sme-reduction"]),
-    node("reduction.sme-special", "중소기업특별세액감면", "tax-reduction", "제조업 등 일정 업종 중소기업 소득에 대한 세액감면입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs"], terms=["term.tax-reduction"], related=["corporate.support.sme-special-reduction"]),
-    node("reduction.good-landlord", "착한임대인 세액공제 제도", "tax-reduction", "상가건물 임대료 인하액에 적용되는 세액공제 제도입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs"], terms=["term.tax-credit", "term.tax-reduction"], related=["corporate.support.good-landlord-credit"]),
+    node("reduction.sme-employment-income", "중소기업 취업자 소득세 감면", "tax-reduction", "청년 등 중소기업 취업자의 소득세를 일정 요건에서 감면하는 항목입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.sme-employment-income-reduction"], terms=["term.tax-reduction"], criteria=SME_EMPLOYMENT_INCOME_REDUCTION_CRITERIA),
+    node("reduction.startup-sme", "창업중소기업 등에 대한 세액감면", "tax-reduction", "창업중소기업 등의 최초 소득발생 과세연도와 이후 일정 기간에 적용되는 세액감면입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs", "source.nts.corporate-tax-consulting.2026"], terms=["term.tax-reduction"], related=["corporate.support.startup-sme-reduction"], criteria=STARTUP_SME_REDUCTION_CRITERIA),
+    node("reduction.sme-special", "중소기업특별세액감면", "tax-reduction", "제조업 등 일정 업종 중소기업 소득에 대한 세액감면입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs", "source.nts.corporate-tax-consulting.2026"], terms=["term.tax-reduction"], related=["corporate.support.sme-special-reduction"], criteria=SME_SPECIAL_REDUCTION_CRITERIA),
+    node("reduction.good-landlord", "착한임대인 세액공제 제도", "tax-reduction", "상가건물 임대료 인하액에 적용되는 세액공제 제도입니다.", "20_Deductions/TaxReductions", parents=["category.tax-reductions"], sources=["source.nts.corporate-tax.reliefs"], terms=["term.tax-credit", "term.tax-reduction"], related=["corporate.support.good-landlord-credit"], criteria=GOOD_LANDLORD_REDUCTION_CRITERIA),
     node("category.corporate-tax-supports", "법인세 공제·감면 지원제도", "category", "국세청 법인세 공제감면 안내가 열거한 중소기업, 모든 기업, 법인세법상 조세지원 항목 전체 목록입니다.", "20_Deductions/CorporateTaxSupports", parents=["category.deductions-and-reliefs"], children=CORPORATE_SUPPORT_IDS, sources=["source.nts.corporate-tax.reliefs"], terms=["term.tax-credit", "term.tax-reduction"], tags=["complete-manifest"]),
 ]
 
@@ -1133,6 +1495,31 @@ def normalize_items(items: dict[str, dict]) -> None:
     for item in items.values():
         for key in ("parents", "children", "related", "terms", "deadlines", "sources", "tags"):
             item[key] = unique(item.get(key) or [])
+        normalize_criteria_rate_labels(item)
+
+
+def default_criteria_rate_label(item: dict) -> str | None:
+    item_type = item.get("type")
+    if item_type == "deduction":
+        return "소득공제율"
+    if item_type == "tax-credit":
+        return "세액공제율"
+    if item_type == "tax-reduction":
+        return "감면율"
+    if item_type == "corporate-tax-support":
+        return "공제·감면율"
+    return None
+
+
+def normalize_criteria_rate_labels(item: dict) -> None:
+    label = default_criteria_rate_label(item)
+    if not label:
+        return
+    for criterion in item.get("criteria") or []:
+        if criterion.get("rate_label"):
+            continue
+        if any(key in criterion for key in ("rate_percent", "rate_percent_min", "rate_percent_max")):
+            criterion["rate_label"] = label
 
 
 def frontmatter(fields: dict) -> str:

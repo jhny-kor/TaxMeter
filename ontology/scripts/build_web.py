@@ -32,6 +32,17 @@ TYPE_LABELS = {
 }
 
 
+MAJOR_NODES = [
+    ("category.national-taxes", "national", "국세", "12 세목"),
+    ("category.local-taxes", "local", "지방세", "11 세목"),
+    ("category.customs", "customs", "관세", "별도 영역"),
+    ("category.deductions-and-reliefs", "relief", "공제·감면", "소득·세액·법인"),
+    ("category.policy-supports", "support", "정책지원", "장려금·계좌·금융"),
+    ("category.business-tax-compliance", "business", "사업자 세무", "등록·VAT·원천세"),
+    ("category.filing-calendar", "filing", "신고기한", "신청·납부·지급"),
+]
+
+
 def load_export() -> dict:
     return json.loads(EXPORT_PATH.read_text(encoding="utf-8"))
 
@@ -39,11 +50,20 @@ def load_export() -> dict:
 def summarize(data: dict) -> dict:
     items = data["items"]
     counts = Counter(item["type"] for item in items)
+    relation_count = sum(
+        len(item.get(key, []))
+        for item in items
+        for key in ("parents", "children", "related", "terms", "deadlines", "sources")
+    )
     return {
         "item_count": len(items),
         "source_count": counts["source"],
         "term_count": counts["term"],
         "category_count": counts["category"],
+        "deadline_count": counts["deadline"],
+        "support_count": counts["support-program"],
+        "business_count": 4,
+        "relation_count": relation_count,
         "national_tax_count": len(data["manifests"]["national_tax_ids"]),
         "local_tax_count": len(data["manifests"]["local_tax_ids"]),
         "corporate_support_count": len(data["manifests"]["corporate_support_ids"]),
@@ -51,9 +71,30 @@ def summarize(data: dict) -> dict:
     }
 
 
+def item_map(data: dict) -> dict[str, dict]:
+    return {item["id"]: item for item in data["items"]}
+
+
+def child_count(items_by_id: dict[str, dict], item_id: str) -> int:
+    return len(items_by_id.get(item_id, {}).get("children", []))
+
+
+def graph_node_html(item_id: str, class_name: str, label: str, meta: str) -> str:
+    return (
+        f'<button class="graph-node {class_name}" type="button" data-select-item="{item_id}">'
+        f"<strong>{label}</strong><span>{meta}</span></button>"
+    )
+
+
 def build_html(data: dict, summary: dict) -> str:
     version = data["version"]
     basis_date = data["basis_date"]
+    items_by_id = item_map(data)
+    major_nodes = "\n".join(graph_node_html(*node) for node in MAJOR_NODES)
+    policy_count = child_count(items_by_id, "category.policy-supports")
+    filing_count = child_count(items_by_id, "category.filing-calendar")
+    business_count = child_count(items_by_id, "category.business-tax-compliance")
+
     return dedent(
         f"""\
         <!doctype html>
@@ -62,7 +103,7 @@ def build_html(data: dict, summary: dict) -> str:
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>대한민국 세금 온톨로지</title>
-          <meta name="description" content="대한민국 세금, 공제, 감면, 정책지원금, 신고기한을 연결한 TaxMeter 온톨로지 웹 가이드">
+          <meta name="description" content="대한민국 세금, 공제, 정책지원, 사업자 세무, 신고기한을 연결한 검증형 TaxMeter 온톨로지 웹 가이드">
           <link rel="stylesheet" href="./styles.css">
         </head>
         <body>
@@ -77,148 +118,205 @@ def build_html(data: dict, summary: dict) -> str:
               <span>Tax Ontology</span>
             </a>
             <nav class="top-nav" aria-label="주요 섹션">
-              <a href="#browser">둘러보기</a>
-              <a href="#structure">구조</a>
-              <a href="#sources">출처</a>
-              <a href="#export">Export</a>
+              <a href="#overview">개요</a>
+              <a href="#graph">그래프</a>
+              <a href="#flow">데이터 흐름</a>
+              <a href="#roadmap">로드맵</a>
+              <a href="#browser">탐색</a>
             </nav>
           </header>
 
           <main id="top">
-            <section class="hero section">
+            <section class="hero section" id="overview">
               <div class="hero-copy">
-                <p class="version-line">{version} · 기준일 {basis_date}</p>
                 <h1>대한민국 세금 온톨로지</h1>
                 <p class="hero-lede">
-                  국세, 지방세, 관세, 공제·감면, 정책지원금, 신고·납부 기한을
-                  하나의 검증 가능한 지식 그래프로 정리한 TaxMeter 데이터 표면입니다.
+                  흩어진 세법, 국세청 안내, 정책지원, 사업자 세무, 신고기한을
+                  <strong>검증 가능한 지식 그래프</strong>로 묶어 TaxMeter가 바로 탐색하고
+                  재사용할 수 있는 데이터 표면으로 만듭니다.
                 </p>
                 <div class="hero-actions">
-                  <a class="button primary" href="#browser">온톨로지 둘러보기</a>
-                  <button class="button secondary" type="button" data-download-json>JSON export 보기</button>
+                  <a class="button primary" href="#graph">그래프 탐색</a>
+                  <button class="button secondary" type="button" data-download-json>JSON export</button>
                 </div>
+                <dl class="hero-meta">
+                  <div><dt>version</dt><dd>{version}</dd></div>
+                  <div><dt>basis date</dt><dd>{basis_date}</dd></div>
+                </dl>
               </div>
 
-              <div class="graph-panel" aria-label="온톨로지 상위 그래프">
+              <div class="graph-panel hero-graph" aria-label="온톨로지 상위 그래프">
                 <button class="graph-node root" type="button" data-select-item="kr-tax-system">
                   <strong>대한민국 세금</strong>
                   <span>{summary["item_count"]} nodes</span>
                 </button>
-                <button class="graph-node national" type="button" data-select-item="category.national-taxes">
-                  <strong>국세</strong>
-                  <span>{summary["national_tax_count"]} 세목</span>
-                </button>
-                <button class="graph-node customs" type="button" data-select-item="category.customs">
-                  <strong>관세</strong>
-                  <span>별도 영역</span>
-                </button>
-                <button class="graph-node local" type="button" data-select-item="category.local-taxes">
-                  <strong>지방세</strong>
-                  <span>{summary["local_tax_count"]} 세목</span>
-                </button>
-                <button class="graph-node relief" type="button" data-select-item="category.deductions-and-reliefs">
-                  <strong>공제·감면</strong>
-                  <span>소득·세액·법인</span>
-                </button>
-                <button class="graph-node support" type="button" data-select-item="category.policy-supports">
-                  <strong>정책지원</strong>
-                  <span>계좌·장려금</span>
-                </button>
-                <button class="graph-node filing" type="button" data-select-item="category.filing-calendar">
-                  <strong>신고기한</strong>
-                  <span>신청·납부</span>
-                </button>
-                <svg class="graph-lines" viewBox="0 0 640 420" aria-hidden="true">
-                  <path d="M320 205 C260 130 210 82 125 76"/>
-                  <path d="M320 205 C380 125 465 85 535 86"/>
-                  <path d="M320 205 C198 201 131 206 82 210"/>
-                  <path d="M320 205 C440 200 507 205 562 211"/>
-                  <path d="M320 205 C236 285 196 335 126 345"/>
-                  <path d="M320 205 C400 289 450 337 535 345"/>
+                {major_nodes}
+                <svg class="graph-lines" viewBox="0 0 720 460" aria-hidden="true">
+                  <path d="M360 224 C280 112 217 82 114 82"/>
+                  <path d="M360 224 C356 95 448 72 574 82"/>
+                  <path d="M360 224 C205 198 154 202 78 228"/>
+                  <path d="M360 224 C500 184 552 188 642 222"/>
+                  <path d="M360 224 C236 300 184 342 108 374"/>
+                  <path d="M360 224 C365 348 430 384 574 374"/>
+                  <path d="M360 224 C470 292 520 314 650 330"/>
                 </svg>
               </div>
             </section>
 
             <section class="metrics section" aria-label="온톨로지 요약 수치">
-              <div>
-                <strong>{summary["item_count"]}</strong>
-                <span>검증 노트</span>
+              <div><strong>{summary["item_count"]}</strong><span>검증 노드</span></div>
+              <div><strong>{summary["national_tax_count"]}</strong><span>국세 세목</span></div>
+              <div><strong>{summary["local_tax_count"]}</strong><span>지방세 세목</span></div>
+              <div><strong>{summary["corporate_support_count"]}</strong><span>법인세 지원</span></div>
+              <div><strong>{summary["source_count"]}</strong><span>공식 출처</span></div>
+            </section>
+
+            <section class="section split-section" aria-labelledby="why-title">
+              <div class="section-heading">
+                <h2 id="why-title">흩어진 세금 정보 vs 그래프</h2>
+                <p>레퍼런스 사이트의 핵심처럼, 이 페이지도 단순 소개가 아니라 “왜 필요한지”와 “어떻게 쓰는지”를 먼저 보여줍니다.</p>
               </div>
-              <div>
-                <strong>{summary["national_tax_count"]}</strong>
-                <span>국세 세목</span>
+              <div class="comparison-grid">
+                <article>
+                  <h3>흩어진 정보</h3>
+                  <ul>
+                    <li>세목, 공제, 지원금, 신고기한이 기관별 페이지에 분산됩니다.</li>
+                    <li>금액 기준과 적용 대상이 본문 안에 숨어 있어 앱에서 재사용하기 어렵습니다.</li>
+                    <li>법령·행정안내의 변경 시점과 출처 확인이 수작업으로 남습니다.</li>
+                  </ul>
+                </article>
+                <article>
+                  <h3>온톨로지 표면</h3>
+                  <ul>
+                    <li>세목, 제도, 용어, 기한, 출처를 ID 기반 노드로 분해합니다.</li>
+                    <li>상위·하위·관련·용어·출처 링크로 설명 가능한 탐색 경로를 만듭니다.</li>
+                    <li>Obsidian vault, MCP 검색, JSON export, 웹 UI가 같은 데이터를 씁니다.</li>
+                  </ul>
+                </article>
               </div>
-              <div>
-                <strong>{summary["local_tax_count"]}</strong>
-                <span>지방세 세목</span>
+            </section>
+
+            <section class="section graph-section" id="graph" aria-labelledby="graph-title">
+              <div class="section-heading">
+                <h2 id="graph-title">큰 노드 그래프</h2>
+                <p>현재 루트가 직접 연결하는 주요 카테고리입니다. 각 노드를 누르면 아래 탐색기의 상세 패널로 이동합니다.</p>
               </div>
-              <div>
-                <strong>{summary["corporate_support_count"]}</strong>
-                <span>법인세 지원</span>
-              </div>
-              <div>
-                <strong>{summary["source_count"]}</strong>
-                <span>공식 출처</span>
+              <div class="major-map">
+                <div class="map-core">
+                  <strong>kr-tax-system</strong>
+                  <span>대한민국 세금 온톨로지</span>
+                </div>
+                <button class="map-node national" data-select-item="category.national-taxes"><strong>국세</strong><span>{summary["national_tax_count"]} 세목</span></button>
+                <button class="map-node local" data-select-item="category.local-taxes"><strong>지방세</strong><span>{summary["local_tax_count"]} 세목</span></button>
+                <button class="map-node customs" data-select-item="category.customs"><strong>관세</strong><span>수입물품 조세</span></button>
+                <button class="map-node relief" data-select-item="category.deductions-and-reliefs"><strong>공제·감면</strong><span>4개 묶음</span></button>
+                <button class="map-node support" data-select-item="category.policy-supports"><strong>정책지원</strong><span>{policy_count} 항목</span></button>
+                <button class="map-node business" data-select-item="category.business-tax-compliance"><strong>사업자 세무</strong><span>{business_count} 흐름</span></button>
+                <button class="map-node filing" data-select-item="category.filing-calendar"><strong>신고기한</strong><span>{filing_count} 기한</span></button>
+                <svg viewBox="0 0 980 460" aria-hidden="true">
+                  <path d="M490 220 172 90"/>
+                  <path d="M490 220 490 68"/>
+                  <path d="M490 220 812 90"/>
+                  <path d="M490 220 160 360"/>
+                  <path d="M490 220 402 382"/>
+                  <path d="M490 220 624 382"/>
+                  <path d="M490 220 824 354"/>
+                </svg>
               </div>
             </section>
 
             <section class="section intro-grid" aria-labelledby="what-you-get">
               <div class="section-heading">
                 <h2 id="what-you-get">What You Get</h2>
-                <p>Obsidian vault, JSON export, MCP 검색면, 그리고 웹 탐색 UI를 같은 데이터에서 만듭니다.</p>
+                <p>현재 export 기준으로 웹에 노출해야 할 핵심 표면을 다시 정리했습니다.</p>
               </div>
               <div class="feature-grid">
                 <article class="feature-card">
                   <span class="feature-icon" aria-hidden="true">01</span>
-                  <h3>완전한 세목 골격</h3>
-                  <p>국세기본법과 지방세기본법 기준 세목을 매니페스트로 고정하고 검증합니다.</p>
+                  <h3>완전성 매니페스트</h3>
+                  <p>국세 12개, 지방세 11개, 법인세 지원 28개는 검증기에서 고정 목록으로 확인합니다.</p>
                 </article>
                 <article class="feature-card">
                   <span class="feature-icon" aria-hidden="true">02</span>
-                  <h3>공제·감면 연결</h3>
-                  <p>소득공제, 세액공제, 세액감면, 법인세 지원 항목을 상위 카테고리와 용어에 연결합니다.</p>
+                  <h3>정책지원 확장</h3>
+                  <p>근로·자녀장려금뿐 아니라 주거, 금융, 채무조정, 자산형성 지원까지 지원제도 묶음을 넓혔습니다.</p>
                 </article>
                 <article class="feature-card">
                   <span class="feature-icon" aria-hidden="true">03</span>
-                  <h3>신고 일정 표면</h3>
-                  <p>종합소득세, 연말정산, 원천세, 부가가치세, 장려금 신청·지급 기한을 연결합니다.</p>
+                  <h3>사업자 세무 흐름</h3>
+                  <p>사업자등록, 간이과세, 부가가치세, 원천세처럼 실무자가 먼저 확인하는 절차 노드를 별도 축으로 둡니다.</p>
                 </article>
                 <article class="feature-card">
                   <span class="feature-icon" aria-hidden="true">04</span>
-                  <h3>공식 근거 추적</h3>
-                  <p>각 항목은 국세청, 법령정보센터, 금융위원회 등 출처 노드와 URL을 보유합니다.</p>
+                  <h3>기준 내역과 출처</h3>
+                  <p>금액, 세율, 한도 같은 기준은 상세 패널에서 criteria로 노출하고, 각 기준은 출처 노드로 추적합니다.</p>
                 </article>
               </div>
             </section>
 
-            <section class="section structure" id="structure" aria-labelledby="structure-title">
+            <section class="section flow" id="flow" aria-labelledby="flow-title">
               <div class="section-heading">
-                <h2 id="structure-title">구조</h2>
-                <p>원본 정의에서 vault와 export를 생성한 뒤, 검증기가 링크 무결성과 필수 항목을 확인합니다.</p>
+                <h2 id="flow-title">데이터 흐름</h2>
+                <p>레퍼런스의 아키텍처 섹션처럼, 이 사이트도 “어디서 와서 어디에 쓰이는지”를 명시합니다.</p>
               </div>
               <div class="pipeline">
-                <div><strong>Definition</strong><span>generate_vault.py</span></div>
-                <div><strong>Vault</strong><span>154 Markdown notes</span></div>
-                <div><strong>Validation</strong><span>references + manifests</span></div>
-                <div><strong>Export</strong><span>JSON + MCP + Web</span></div>
+                <div><strong>Definition</strong><span>generate_vault.py + custom overlay</span></div>
+                <div><strong>Vault</strong><span>Obsidian notes + graph links</span></div>
+                <div><strong>Validation</strong><span>manifest, source, bidirectional links</span></div>
+                <div><strong>Export</strong><span>JSON, MCP, Web, App seed</span></div>
               </div>
               <div class="type-table-wrap">
                 <table class="type-table">
                   <thead>
-                    <tr>
-                      <th>노드 타입</th>
-                      <th>개수</th>
-                      <th>역할</th>
-                    </tr>
+                    <tr><th>노드 타입</th><th>개수</th><th>역할</th></tr>
                   </thead>
                   <tbody data-type-table></tbody>
                 </table>
               </div>
             </section>
 
+            <section class="section roadmap" id="roadmap" aria-labelledby="roadmap-title">
+              <div class="section-heading">
+                <h2 id="roadmap-title">추가하면 좋은 내용</h2>
+                <p>현재 온톨로지에 이미 들어온 범위를 기준으로, 다음 확장은 아래처럼 반영하는 것이 좋습니다.</p>
+              </div>
+              <div class="roadmap-grid">
+                <article>
+                  <h3>세율·한도 기준의 구조화</h3>
+                  <p>종합소득세율, 부가가치세 과세유형, 장려금 소득·재산요건처럼 계산에 쓰이는 값을 criteria 배열로 통일합니다.</p>
+                  <span>반영: source 노드 추가 → 대상 item.criteria 입력 → validate에서 출처 필수 확인</span>
+                </article>
+                <article>
+                  <h3>지원제도 eligibility 흐름</h3>
+                  <p>청년도약계좌, 버팀목 전세대출, 근로장려금처럼 대상 조건이 많은 제도는 판정 개념 노드와 조건 그룹으로 분해합니다.</p>
+                  <span>반영: concept 노드 생성 → support-program과 related 연결 → 상세 패널에 기준 내역 노출</span>
+                </article>
+                <article>
+                  <h3>신고기한 반복 규칙</h3>
+                  <p>월별 원천세, 부가가치세 예정·확정신고, 장려금 정기·반기 신청은 start/end 날짜뿐 아니라 반복 규칙이 필요합니다.</p>
+                  <span>반영: deadline 노드에 recurrence 필드 추가 → 웹 필터에 “다가오는 일정” 뷰 추가</span>
+                </article>
+                <article>
+                  <h3>변경 이력과 기준일</h3>
+                  <p>세법은 매년 바뀌므로 값 변경과 출처 확인일을 노드 단위로 비교할 수 있어야 합니다.</p>
+                  <span>반영: basis_date, effective_date, expiration_date를 웹 표와 export diff에 노출</span>
+                </article>
+                <article>
+                  <h3>사용자 사례별 경로</h3>
+                  <p>근로자, 개인사업자, 청년, 주택 임차인, 법인 담당자가 자주 묻는 경로를 curated path로 만들면 탐색성이 좋아집니다.</p>
+                  <span>반영: path/tutorial 노드 타입 추가 또는 docs 섹션에서 핵심 노드를 순서대로 링크</span>
+                </article>
+                <article>
+                  <h3>앱 기능 매핑</h3>
+                  <p>TaxMeter의 baseline, 위험 신호, 절세 체크리스트가 어떤 온톨로지 노드에 기대는지 표시해야 유지보수가 쉬워집니다.</p>
+                  <span>반영: tags에 app-surface 값을 부여하고 브라우저 탭에 “앱 사용처” 필터 추가</span>
+                </article>
+              </div>
+            </section>
+
             <section class="section browser" id="browser" aria-labelledby="browser-title">
               <div class="section-heading">
-                <h2 id="browser-title">온톨로지 둘러보기</h2>
+                <h2 id="browser-title">온톨로지 탐색</h2>
                 <p>검색어, 타입, 상위 카테고리 관계를 기준으로 노드를 빠르게 좁히고 상세 연결을 확인합니다.</p>
               </div>
               <div class="browser-shell">
@@ -229,7 +327,7 @@ def build_html(data: dict, summary: dict) -> str:
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="m21 21-4.3-4.3M10.7 18a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                       </svg>
-                      <input type="search" placeholder="예: 부가가치세, 세액공제, 신고기한" data-search>
+                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 사업자등록" data-search>
                     </label>
                     <span class="result-count" data-result-count></span>
                   </div>
@@ -243,7 +341,7 @@ def build_html(data: dict, summary: dict) -> str:
             <section class="section sources" id="sources" aria-labelledby="sources-title">
               <div class="section-heading">
                 <h2 id="sources-title">공식 출처</h2>
-                <p>웹 표면은 설명을 다시 쓰지 않고 출처 노드의 발행처, 기준일, URL을 그대로 노출합니다.</p>
+                <p>출처 노드는 설명, 발행처, 기준일, URL을 가진 독립 노드입니다. 상세 패널의 기준 내역도 이 출처로 역추적합니다.</p>
               </div>
               <div class="source-list" data-source-list></div>
             </section>
@@ -256,7 +354,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/korea-tax-ontology-2026.json</strong>
-                  <span>{version}</span>
+                  <span>{version} · {summary["relation_count"]} graph links</span>
                 </div>
                 <button class="button primary" type="button" data-download-json>JSON 다운로드</button>
               </div>
@@ -279,21 +377,24 @@ def build_css() -> str:
     return dedent(
         """\
         :root {
-          color-scheme: light;
-          --bg: #f7f9fb;
-          --paper: #ffffff;
-          --ink: #0c1424;
-          --muted: #526073;
-          --soft: #e7edf4;
-          --line: #d8e0ea;
-          --blue: #1555d6;
-          --blue-strong: #0f3f9f;
-          --teal: #0f8b8d;
-          --green: #287a4f;
-          --coral: #c44f35;
-          --amber: #a36412;
-          --purple: #7253b7;
-          --shadow: 0 18px 50px rgba(12, 20, 36, 0.08);
+          color-scheme: dark;
+          --bg: #080b12;
+          --bg-2: #0d121c;
+          --panel: #101722;
+          --panel-2: #141d2a;
+          --panel-3: #182333;
+          --ink: #f3f7fb;
+          --muted: #9aa8b8;
+          --faint: #6f7d8e;
+          --line: #243142;
+          --line-strong: #33465c;
+          --cyan: #5ad7ff;
+          --blue: #6aa6ff;
+          --green: #63d99b;
+          --coral: #ff8f70;
+          --amber: #f4b95f;
+          --violet: #b49cff;
+          --shadow: 0 26px 70px rgba(0, 0, 0, 0.34);
           --radius: 8px;
           --max: 1180px;
         }
@@ -304,15 +405,17 @@ def build_css() -> str:
 
         html {
           scroll-behavior: smooth;
+          background: var(--bg);
         }
 
         body {
           margin: 0;
-          background: var(--bg);
+          background:
+            linear-gradient(180deg, #0a0f18 0%, #080b12 42%, #0b1018 100%);
           color: var(--ink);
           font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", "Segoe UI", sans-serif;
           font-size: 16px;
-          line-height: 1.6;
+          line-height: 1.62;
           letter-spacing: 0;
         }
 
@@ -341,7 +444,7 @@ def build_css() -> str:
           gap: 24px;
           min-height: 64px;
           padding: 0 28px;
-          background: rgba(255, 255, 255, 0.92);
+          background: rgba(8, 11, 18, 0.86);
           border-bottom: 1px solid var(--line);
           backdrop-filter: blur(18px);
         }
@@ -350,8 +453,7 @@ def build_css() -> str:
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          color: var(--ink);
-          font-weight: 760;
+          font-weight: 780;
           white-space: nowrap;
         }
 
@@ -360,9 +462,9 @@ def build_css() -> str:
           width: 34px;
           height: 34px;
           place-items: center;
-          color: var(--blue);
-          background: #edf4ff;
-          border: 1px solid #cfe0ff;
+          color: var(--cyan);
+          background: #101a27;
+          border: 1px solid #294a61;
           border-radius: var(--radius);
         }
 
@@ -379,16 +481,16 @@ def build_css() -> str:
 
         .top-nav a {
           padding: 8px 11px;
-          border-radius: 6px;
           color: var(--muted);
+          border-radius: 6px;
           font-size: 14px;
-          font-weight: 680;
+          font-weight: 720;
         }
 
         .top-nav a:hover,
         .top-nav a:focus-visible {
           color: var(--ink);
-          background: #eef3f8;
+          background: #141d2a;
           outline: none;
         }
 
@@ -399,18 +501,11 @@ def build_css() -> str:
 
         .hero {
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(440px, 1.1fr);
-          gap: 56px;
+          grid-template-columns: minmax(0, 0.86fr) minmax(480px, 1.14fr);
+          gap: 52px;
           align-items: center;
           min-height: calc(100vh - 64px);
-          padding: 76px 0 52px;
-        }
-
-        .version-line {
-          margin: 0 0 14px;
-          color: var(--blue);
-          font-size: 14px;
-          font-weight: 720;
+          padding: 72px 0 48px;
         }
 
         h1,
@@ -421,19 +516,24 @@ def build_css() -> str:
         }
 
         h1 {
-          max-width: 10em;
-          margin-bottom: 24px;
-          font-size: clamp(46px, 7vw, 86px);
+          max-width: 9em;
+          margin-bottom: 22px;
+          font-size: clamp(48px, 7vw, 88px);
           line-height: 0.98;
-          font-weight: 820;
+          font-weight: 850;
         }
 
         .hero-lede {
-          max-width: 610px;
+          max-width: 650px;
           margin-bottom: 28px;
           color: var(--muted);
           font-size: 19px;
-          line-height: 1.72;
+          line-height: 1.76;
+        }
+
+        .hero-lede strong {
+          color: var(--ink);
+          font-weight: 760;
         }
 
         .hero-actions,
@@ -454,57 +554,91 @@ def build_css() -> str:
           border: 1px solid transparent;
           border-radius: 7px;
           font-size: 15px;
-          font-weight: 760;
+          font-weight: 790;
         }
 
         .button.primary {
-          color: #fff;
-          background: var(--blue);
-          box-shadow: 0 12px 24px rgba(21, 85, 214, 0.22);
+          color: #04111b;
+          background: var(--cyan);
+          box-shadow: 0 16px 36px rgba(90, 215, 255, 0.18);
         }
 
         .button.primary:hover,
         .button.primary:focus-visible {
-          background: var(--blue-strong);
+          background: #8ae5ff;
           outline: none;
         }
 
         .button.secondary {
           color: var(--ink);
-          background: #fff;
-          border-color: var(--line);
+          background: #111927;
+          border-color: var(--line-strong);
         }
 
         .button.secondary:hover,
         .button.secondary:focus-visible {
-          border-color: #a9b9cc;
+          border-color: var(--cyan);
           outline: none;
+        }
+
+        .hero-meta {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          max-width: 650px;
+          margin: 28px 0 0;
+        }
+
+        .hero-meta div {
+          min-width: 0;
+          padding: 14px;
+          background: rgba(16, 23, 34, 0.74);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+        }
+
+        .hero-meta dt {
+          margin-bottom: 4px;
+          color: var(--faint);
+          font-size: 12px;
+          font-weight: 780;
+          text-transform: uppercase;
+        }
+
+        .hero-meta dd {
+          margin: 0;
+          overflow-wrap: anywhere;
+          color: var(--ink);
+          font-size: 13px;
+          font-weight: 700;
         }
 
         .graph-panel {
           position: relative;
-          min-height: 420px;
+          min-height: 460px;
           overflow: hidden;
-          background: var(--paper);
-          border: 1px solid var(--line);
+          background: linear-gradient(180deg, rgba(16, 23, 34, 0.96), rgba(11, 16, 24, 0.96));
+          border: 1px solid var(--line-strong);
           border-radius: var(--radius);
           box-shadow: var(--shadow);
         }
 
-        .graph-lines {
+        .graph-lines,
+        .major-map svg {
           position: absolute;
           inset: 0;
           width: 100%;
           height: 100%;
-          color: #aebdcd;
+          color: #3c5872;
           pointer-events: none;
         }
 
-        .graph-lines path {
+        .graph-lines path,
+        .major-map path {
           fill: none;
           stroke: currentColor;
           stroke-width: 1.6;
-          stroke-dasharray: 4 8;
+          stroke-dasharray: 4 9;
         }
 
         .graph-node {
@@ -513,41 +647,46 @@ def build_css() -> str:
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          min-width: 128px;
+          min-width: 132px;
           padding: 14px 16px;
           color: var(--ink);
-          background: #fff;
-          border: 1px solid var(--line);
+          background: #121b29;
+          border: 1px solid var(--line-strong);
           border-left: 5px solid var(--blue);
           border-radius: var(--radius);
-          box-shadow: 0 12px 30px rgba(12, 20, 36, 0.09);
+          box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
           text-align: left;
         }
 
         .graph-node:hover,
-        .graph-node:focus-visible {
+        .graph-node:focus-visible,
+        .map-node:hover,
+        .map-node:focus-visible {
           transform: translateY(-2px);
-          outline: 2px solid rgba(21, 85, 214, 0.24);
-          outline-offset: 2px;
+          border-color: var(--cyan);
+          outline: none;
         }
 
-        .graph-node strong {
+        .graph-node strong,
+        .map-node strong {
           font-size: 15px;
           line-height: 1.35;
         }
 
-        .graph-node span {
+        .graph-node span,
+        .map-node span {
           color: var(--muted);
           font-size: 12px;
-          font-weight: 680;
+          font-weight: 700;
         }
 
         .graph-node.root {
-          top: 166px;
+          top: 188px;
           left: 50%;
-          min-width: 162px;
+          min-width: 178px;
           transform: translateX(-50%);
-          border-left-color: var(--blue);
+          border-left-color: var(--cyan);
+          background: #0e2030;
         }
 
         .graph-node.root:hover,
@@ -555,48 +694,20 @@ def build_css() -> str:
           transform: translateX(-50%) translateY(-2px);
         }
 
-        .graph-node.national {
-          top: 48px;
-          left: 38px;
-          border-left-color: var(--blue);
-        }
-
-        .graph-node.customs {
-          top: 50px;
-          right: 40px;
-          border-left-color: var(--purple);
-        }
-
-        .graph-node.local {
-          top: 180px;
-          left: 30px;
-          border-left-color: var(--teal);
-        }
-
-        .graph-node.relief {
-          top: 182px;
-          right: 28px;
-          border-left-color: var(--green);
-        }
-
-        .graph-node.support {
-          bottom: 44px;
-          left: 46px;
-          border-left-color: var(--coral);
-        }
-
-        .graph-node.filing {
-          right: 38px;
-          bottom: 44px;
-          border-left-color: var(--amber);
-        }
+        .graph-node.national { top: 48px; left: 38px; border-left-color: var(--blue); }
+        .graph-node.local { top: 176px; left: 28px; border-left-color: var(--green); }
+        .graph-node.support { bottom: 46px; left: 44px; border-left-color: var(--coral); }
+        .graph-node.customs { top: 50px; right: 38px; border-left-color: var(--violet); }
+        .graph-node.relief { top: 174px; right: 30px; border-left-color: var(--green); }
+        .graph-node.business { right: 52px; bottom: 98px; border-left-color: var(--cyan); }
+        .graph-node.filing { right: 38px; bottom: 36px; border-left-color: var(--amber); }
 
         .metrics {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 1px;
           overflow: hidden;
-          margin-top: -18px;
+          margin-top: -8px;
           background: var(--line);
           border: 1px solid var(--line);
           border-radius: var(--radius);
@@ -604,84 +715,169 @@ def build_css() -> str:
 
         .metrics div {
           display: flex;
-          min-height: 118px;
+          min-height: 116px;
           flex-direction: column;
           justify-content: center;
           padding: 22px;
-          background: #fff;
+          background: #0f1621;
         }
 
         .metrics strong {
-          font-size: 38px;
+          color: var(--ink);
+          font-size: 39px;
           line-height: 1;
-          font-weight: 820;
+          font-weight: 850;
         }
 
         .metrics span {
           margin-top: 8px;
           color: var(--muted);
           font-size: 14px;
-          font-weight: 720;
+          font-weight: 730;
         }
 
         .section-heading {
-          max-width: 760px;
+          max-width: 780px;
           margin-bottom: 28px;
         }
 
         .section-heading h2 {
           margin-bottom: 10px;
-          font-size: clamp(30px, 4vw, 48px);
+          font-size: clamp(30px, 4vw, 50px);
           line-height: 1.08;
-          font-weight: 820;
+          font-weight: 850;
         }
 
         .section-heading p {
           color: var(--muted);
           font-size: 17px;
-          line-height: 1.7;
+          line-height: 1.72;
         }
 
+        .split-section,
+        .graph-section,
         .intro-grid,
-        .structure,
+        .flow,
+        .roadmap,
         .browser,
         .sources,
         .export {
           padding: 96px 0 0;
         }
 
-        .feature-grid {
+        .comparison-grid,
+        .feature-grid,
+        .roadmap-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 14px;
         }
 
-        .feature-card {
-          min-height: 220px;
+        .feature-grid,
+        .roadmap-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .comparison-grid article,
+        .feature-card,
+        .roadmap-grid article {
           padding: 22px;
-          background: #fff;
+          background: #101722;
           border: 1px solid var(--line);
           border-radius: var(--radius);
+        }
+
+        .comparison-grid h3,
+        .feature-card h3,
+        .roadmap-grid h3 {
+          margin-bottom: 12px;
+          font-size: 20px;
+          line-height: 1.28;
+        }
+
+        .comparison-grid ul {
+          display: grid;
+          gap: 10px;
+          margin: 0;
+          padding-left: 18px;
+          color: var(--muted);
+        }
+
+        .feature-card {
+          min-height: 238px;
         }
 
         .feature-icon {
           display: inline-flex;
           margin-bottom: 28px;
-          color: var(--blue);
+          color: var(--cyan);
           font-size: 13px;
-          font-weight: 820;
+          font-weight: 850;
         }
 
-        .feature-card h3 {
-          margin-bottom: 12px;
-          font-size: 20px;
-          line-height: 1.25;
-        }
-
-        .feature-card p {
+        .feature-card p,
+        .roadmap-grid p {
           color: var(--muted);
           font-size: 15px;
         }
+
+        .roadmap-grid span {
+          display: block;
+          margin-top: 14px;
+          color: var(--green);
+          font-size: 13px;
+          font-weight: 730;
+          line-height: 1.55;
+        }
+
+        .major-map {
+          position: relative;
+          min-height: 460px;
+          overflow: hidden;
+          background: #101722;
+          border: 1px solid var(--line-strong);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+        }
+
+        .map-core,
+        .map-node {
+          position: absolute;
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          min-height: 72px;
+          padding: 15px 17px;
+          background: #121b29;
+          border: 1px solid var(--line-strong);
+          border-radius: var(--radius);
+          color: var(--ink);
+          text-align: left;
+        }
+
+        .map-core {
+          top: 184px;
+          left: 50%;
+          width: 230px;
+          min-height: 92px;
+          transform: translateX(-50%);
+          background: #0d2233;
+          border-color: #326079;
+        }
+
+        .map-node {
+          width: 170px;
+        }
+
+        .map-node.national { top: 48px; left: 74px; border-left: 5px solid var(--blue); }
+        .map-node.local { top: 44px; left: 50%; transform: translateX(-50%); border-left: 5px solid var(--green); }
+        .map-node.local:hover { transform: translateX(-50%) translateY(-2px); }
+        .map-node.customs { top: 48px; right: 74px; border-left: 5px solid var(--violet); }
+        .map-node.relief { bottom: 46px; left: 66px; border-left: 5px solid var(--green); }
+        .map-node.support { bottom: 42px; left: 36%; border-left: 5px solid var(--coral); }
+        .map-node.business { bottom: 42px; right: 30%; border-left: 5px solid var(--cyan); }
+        .map-node.filing { bottom: 50px; right: 60px; border-left: 5px solid var(--amber); }
 
         .pipeline {
           display: grid;
@@ -700,7 +896,7 @@ def build_css() -> str:
           flex-direction: column;
           justify-content: center;
           padding: 18px;
-          background: #fff;
+          background: #101722;
         }
 
         .pipeline strong {
@@ -716,10 +912,10 @@ def build_css() -> str:
         .browser-shell,
         .source-list,
         .export-panel {
-          background: #fff;
+          background: #101722;
           border: 1px solid var(--line);
           border-radius: var(--radius);
-          box-shadow: 0 12px 34px rgba(12, 20, 36, 0.05);
+          box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
         }
 
         .type-table-wrap {
@@ -734,20 +930,24 @@ def build_css() -> str:
         th,
         td {
           padding: 15px 18px;
-          border-bottom: 1px solid var(--soft);
+          border-bottom: 1px solid var(--line);
           text-align: left;
           vertical-align: top;
         }
 
         th {
           color: var(--muted);
-          background: #f8fafc;
+          background: #0d141f;
           font-size: 13px;
-          font-weight: 800;
+          font-weight: 820;
         }
 
         td {
           font-size: 14px;
+        }
+
+        td span {
+          color: var(--faint);
         }
 
         tr:last-child td {
@@ -756,9 +956,9 @@ def build_css() -> str:
 
         .browser-shell {
           display: grid;
-          grid-template-columns: minmax(0, 1.06fr) minmax(360px, 0.94fr);
+          grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
           overflow: hidden;
-          min-height: 680px;
+          min-height: 700px;
         }
 
         .browser-list {
@@ -778,10 +978,10 @@ def build_css() -> str:
           height: 46px;
           gap: 10px;
           padding: 0 13px;
-          background: #f8fafc;
-          border: 1px solid var(--line);
-          border-radius: 7px;
           color: var(--muted);
+          background: #0c121b;
+          border: 1px solid var(--line-strong);
+          border-radius: 7px;
         }
 
         .search-field svg {
@@ -800,10 +1000,14 @@ def build_css() -> str:
           font-size: 15px;
         }
 
+        .search-field input::placeholder {
+          color: #6e7c8d;
+        }
+
         .result-count {
           color: var(--muted);
           font-size: 14px;
-          font-weight: 720;
+          font-weight: 740;
           white-space: nowrap;
         }
 
@@ -820,21 +1024,21 @@ def build_css() -> str:
           min-height: 34px;
           padding: 0 12px;
           color: var(--muted);
-          background: #fff;
-          border: 1px solid var(--line);
+          background: #111927;
+          border: 1px solid var(--line-strong);
           border-radius: 6px;
           font-size: 13px;
-          font-weight: 760;
+          font-weight: 780;
         }
 
         .tab-button[aria-selected="true"] {
-          color: #fff;
-          background: var(--ink);
-          border-color: var(--ink);
+          color: #04111b;
+          background: var(--cyan);
+          border-color: var(--cyan);
         }
 
         .item-list {
-          max-height: 588px;
+          max-height: 608px;
           overflow: auto;
         }
 
@@ -845,20 +1049,20 @@ def build_css() -> str:
           width: 100%;
           padding: 17px 18px;
           color: var(--ink);
-          background: #fff;
+          background: #101722;
           border: 0;
-          border-bottom: 1px solid var(--soft);
+          border-bottom: 1px solid var(--line);
           text-align: left;
         }
 
         .item-row:hover,
         .item-row:focus-visible {
-          background: #f8fafc;
+          background: #141d2a;
           outline: none;
         }
 
         .item-row.active {
-          background: #eef5ff;
+          background: #102538;
         }
 
         .item-row strong {
@@ -882,12 +1086,12 @@ def build_css() -> str:
         .type-chip {
           align-self: start;
           padding: 4px 8px;
-          color: var(--blue-strong);
-          background: #eef5ff;
-          border: 1px solid #d6e5ff;
+          color: var(--cyan);
+          background: #0c2030;
+          border: 1px solid #274d63;
           border-radius: 6px;
           font-size: 12px;
-          font-weight: 780;
+          font-weight: 790;
           white-space: nowrap;
         }
 
@@ -900,14 +1104,14 @@ def build_css() -> str:
 
         .detail-panel {
           padding: 24px;
-          background: #fcfdff;
+          background: #0d141f;
         }
 
         .detail-kicker {
           margin-bottom: 8px;
-          color: var(--blue);
+          color: var(--cyan);
           font-size: 13px;
-          font-weight: 820;
+          font-weight: 840;
         }
 
         .detail-panel h3 {
@@ -932,7 +1136,7 @@ def build_css() -> str:
         .relation-group,
         .source-card {
           padding: 14px;
-          background: #fff;
+          background: #101722;
           border: 1px solid var(--line);
           border-radius: var(--radius);
         }
@@ -963,8 +1167,8 @@ def build_css() -> str:
         .criteria-block h4,
         .relation-group h4 {
           margin: 0 0 10px;
-          font-size: 13px;
           color: var(--muted);
+          font-size: 13px;
         }
 
         .criteria-block ul {
@@ -979,9 +1183,9 @@ def build_css() -> str:
           display: grid;
           gap: 6px;
           padding: 10px;
-          background: #f8fafc;
-          border: 1px solid var(--soft);
-          border-radius: 8px;
+          background: #0c121b;
+          border: 1px solid var(--line);
+          border-radius: 7px;
         }
 
         .criteria-block li > strong {
@@ -997,10 +1201,14 @@ def build_css() -> str:
         .criteria-block li div span {
           padding: 4px 7px;
           color: var(--muted);
-          background: #fff;
+          background: #121b29;
           border: 1px solid var(--line);
           border-radius: 6px;
           font-size: 12px;
+        }
+
+        .criteria-block li div span strong {
+          color: var(--ink);
         }
 
         .criteria-block li p {
@@ -1017,8 +1225,8 @@ def build_css() -> str:
           max-width: 100%;
           padding: 5px 8px;
           color: var(--ink);
-          background: #f6f8fb;
-          border: 1px solid var(--soft);
+          background: #121b29;
+          border: 1px solid var(--line-strong);
           border-radius: 6px;
           font-size: 12px;
           font-weight: 720;
@@ -1027,8 +1235,8 @@ def build_css() -> str:
 
         .relation-link:hover,
         .relation-link:focus-visible {
-          color: var(--blue);
-          border-color: #bdd2f8;
+          color: var(--cyan);
+          border-color: var(--cyan);
           outline: none;
         }
 
@@ -1067,7 +1275,7 @@ def build_css() -> str:
         }
 
         .source-card a {
-          color: var(--blue);
+          color: var(--cyan);
           font-size: 13px;
           font-weight: 780;
           overflow-wrap: anywhere;
@@ -1131,12 +1339,14 @@ def build_css() -> str:
             padding-top: 54px;
           }
 
-          .graph-panel {
-            min-height: 390px;
+          .graph-panel,
+          .major-map {
+            min-height: 430px;
           }
 
           .metrics,
           .feature-grid,
+          .roadmap-grid,
           .pipeline,
           .source-list {
             grid-template-columns: repeat(2, 1fr);
@@ -1156,7 +1366,7 @@ def build_css() -> str:
           }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 760px) {
           .section {
             width: min(100% - 28px, var(--max));
           }
@@ -1169,11 +1379,24 @@ def build_css() -> str:
             font-size: 17px;
           }
 
-          .button {
+          .button,
+          .hero-meta {
             width: 100%;
           }
 
-          .graph-panel {
+          .hero-meta,
+          .comparison-grid,
+          .metrics,
+          .feature-grid,
+          .roadmap-grid,
+          .pipeline,
+          .source-list,
+          .meta-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .graph-panel,
+          .major-map {
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
@@ -1181,33 +1404,34 @@ def build_css() -> str:
             padding: 14px;
           }
 
-          .graph-lines {
+          .graph-lines,
+          .major-map svg {
             display: none;
           }
 
           .graph-node,
           .graph-node.root,
           .graph-node.root:hover,
-          .graph-node.root:focus-visible {
+          .graph-node.root:focus-visible,
+          .map-core,
+          .map-node,
+          .map-node.local,
+          .map-node.local:hover {
             position: static;
+            width: 100%;
             min-width: 0;
             transform: none;
-          }
-
-          .metrics,
-          .feature-grid,
-          .pipeline,
-          .source-list,
-          .meta-grid {
-            grid-template-columns: 1fr;
           }
 
           .metrics {
             margin-top: 0;
           }
 
+          .split-section,
+          .graph-section,
           .intro-grid,
-          .structure,
+          .flow,
+          .roadmap,
           .browser,
           .sources,
           .export {
@@ -1241,13 +1465,13 @@ def build_css() -> str:
 def type_role(type_: str) -> str:
     roles = {
         "domain": "최상위 지식 그래프 루트",
-        "category": "세목·공제·지원·기한의 탐색 축",
+        "category": "세목·공제·지원·사업자 세무·기한의 탐색 축",
         "tax": "국세, 지방세, 관세 세목",
         "deduction": "과세표준 전 단계의 소득공제 항목",
         "tax-credit": "산출세액에서 차감하는 세액공제",
         "tax-reduction": "정책 목적의 세액감면",
         "corporate-tax-support": "법인세 공제·감면 공식 지원제도",
-        "support-program": "장려금과 세제지원 계좌",
+        "support-program": "장려금, 세제지원 계좌, 금융·복지 지원",
         "filing": "신고·납부·신청 절차",
         "concept": "판정 기준을 설명하는 개념 노드",
         "term": "그래프 해석에 필요한 용어",
@@ -1268,11 +1492,11 @@ def build_js(data: dict, summary: dict) -> str:
         "items": data["items"],
     }
     data_json = json.dumps(payload, ensure_ascii=False, indent=2)
-    return dedent(
-        f"""\
-        const ONTOLOGY_DATA = {data_json};
+    script = dedent(
+        """\
+        const ONTOLOGY_DATA = __DATA__;
 
-        (() => {{
+        (() => {
           const items = ONTOLOGY_DATA.items;
           const byId = new Map(items.map((item) => [item.id, item]));
           const typeLabels = ONTOLOGY_DATA.type_labels;
@@ -1285,32 +1509,33 @@ def build_js(data: dict, summary: dict) -> str:
           const sourceListEl = document.querySelector("[data-source-list]");
           const typeTableEl = document.querySelector("[data-type-table]");
 
-          const state = {{
+          const state = {
             tab: "all",
             query: "",
             selectedId: "kr-tax-system"
-          }};
+          };
 
           const tabs = [
-            {{ id: "all", label: "전체", test: () => true }},
-            {{ id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") }},
-            {{ id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") }},
-            {{ id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") }},
-            {{ id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") }},
-            {{ id: "terms", label: "용어", test: (item) => ["term", "concept"].includes(item.type) }},
-            {{ id: "sources", label: "출처", test: (item) => item.type === "source" }}
+            { id: "all", label: "전체", test: () => true },
+            { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
+            { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
+            { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
+            { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
+            { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
+            { id: "terms", label: "용어·기준", test: (item) => ["term", "concept"].includes(item.type) },
+            { id: "sources", label: "출처", test: (item) => item.type === "source" }
           ];
 
-          function escapeHtml(value) {{
+          function escapeHtml(value) {
             return String(value ?? "")
               .replaceAll("&", "&amp;")
               .replaceAll("<", "&lt;")
               .replaceAll(">", "&gt;")
               .replaceAll('"', "&quot;")
               .replaceAll("'", "&#039;");
-          }}
+          }
 
-          function itemText(item) {{
+          function itemText(item) {
             return [
               item.id,
               item.title,
@@ -1318,118 +1543,122 @@ def build_js(data: dict, summary: dict) -> str:
               item.description,
               JSON.stringify(item.criteria || []),
               item.law_reference,
+              item.publisher,
+              item.url,
               ...(item.tags || [])
             ].join(" ").toLowerCase();
-          }}
+          }
 
-          function hasAncestor(item, ancestorId, visited = new Set()) {{
+          function hasAncestor(item, ancestorId, visited = new Set()) {
             if (!item || visited.has(item.id)) return false;
             visited.add(item.id);
             if ((item.parents || []).includes(ancestorId)) return true;
             return (item.parents || []).some((parentId) => hasAncestor(byId.get(parentId), ancestorId, visited));
-          }}
+          }
 
-          function filteredItems() {{
+          function filteredItems() {
             const query = state.query.trim().toLowerCase();
             const activeTab = tabs.find((tab) => tab.id === state.tab) || tabs[0];
             return items
               .filter((item) => activeTab.test(item))
               .filter((item) => !query || itemText(item).includes(query))
-              .sort((a, b) => {{
+              .sort((a, b) => {
                 if (a.type === "domain") return -1;
                 if (b.type === "domain") return 1;
                 if (a.type !== b.type) return a.type.localeCompare(b.type);
                 return a.title.localeCompare(b.title, "ko");
-              }});
-          }}
+              });
+          }
 
-          function ensureVisibleSelection(visible) {{
-            if (!visible.length) {{
+          function ensureVisibleSelection(visible) {
+            if (!visible.length) {
               state.selectedId = "";
               return;
-            }}
+            }
 
-            if (!visible.some((item) => item.id === state.selectedId)) {{
+            if (!visible.some((item) => item.id === state.selectedId)) {
               state.selectedId = visible[0].id;
-            }}
-          }}
+            }
+          }
 
-          function renderTabs() {{
+          function renderTabs() {
             tabsEl.innerHTML = tabs
-              .map((tab) => `<button class="tab-button" type="button" role="tab" aria-selected="${{tab.id === state.tab}}" data-tab="${{tab.id}}">${{escapeHtml(tab.label)}}</button>`)
+              .map((tab) => `<button class="tab-button" type="button" role="tab" aria-selected="${tab.id === state.tab}" data-tab="${tab.id}">${escapeHtml(tab.label)}</button>`)
               .join("");
-          }}
+          }
 
-          function renderList() {{
+          function renderList() {
             const visible = filteredItems();
             ensureVisibleSelection(visible);
-            resultCountEl.textContent = `${{visible.length.toLocaleString("ko-KR")}}개 표시`;
-            if (!visible.length) {{
+            resultCountEl.textContent = `${visible.length.toLocaleString("ko-KR")}개 표시`;
+            if (!visible.length) {
               listEl.innerHTML = `<div class="empty-state">검색 조건에 맞는 항목이 없습니다.</div>`;
               return;
-            }}
+            }
 
             listEl.innerHTML = visible
               .map((item) => `
-                <button class="item-row${{item.id === state.selectedId ? " active" : ""}}" type="button" data-select-item="${{escapeHtml(item.id)}}">
+                <button class="item-row${item.id === state.selectedId ? " active" : ""}" type="button" data-select-item="${escapeHtml(item.id)}">
                   <span>
-                    <strong>${{escapeHtml(item.title)}}</strong>
-                    <p>${{escapeHtml(item.description)}}</p>
+                    <strong>${escapeHtml(item.title)}</strong>
+                    <p>${escapeHtml(item.description)}</p>
                   </span>
-                  <span class="type-chip">${{escapeHtml(typeLabels[item.type] || item.type)}}</span>
+                  <span class="type-chip">${escapeHtml(typeLabels[item.type] || item.type)}</span>
                 </button>
               `)
               .join("");
-          }}
+          }
 
-          function relationBlock(title, ids) {{
+          function relationBlock(title, ids) {
             const links = (ids || [])
               .map((id) => byId.get(id))
               .filter(Boolean)
-              .map((item) => `<button class="relation-link" type="button" data-select-item="${{escapeHtml(item.id)}}">${{escapeHtml(item.title)}}</button>`)
+              .map((item) => `<button class="relation-link" type="button" data-select-item="${escapeHtml(item.id)}">${escapeHtml(item.title)}</button>`)
               .join("");
 
             if (!links) return "";
             return `
               <div class="relation-group">
-                <h4>${{escapeHtml(title)}}</h4>
-                <div class="relation-links">${{links}}</div>
+                <h4>${escapeHtml(title)}</h4>
+                <div class="relation-links">${links}</div>
               </div>
             `;
-          }}
+          }
 
-          function sourceBlock(ids) {{
+          function sourceBlock(ids) {
             const links = (ids || [])
               .map((id) => byId.get(id))
               .filter(Boolean)
-              .map((source) => {{
-                const href = source.url ? `<a class="relation-link" href="${{escapeHtml(source.url)}}" target="_blank" rel="noreferrer">${{escapeHtml(source.title)}}</a>` : `<span class="relation-link">${{escapeHtml(source.title)}}</span>`;
-                return href;
-              }})
+              .map((source) => {
+                if (source.url) {
+                  return `<a class="relation-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>`;
+                }
+                return `<span class="relation-link">${escapeHtml(source.title)}</span>`;
+              })
               .join("");
             if (!links) return "";
             return `
               <div class="relation-group">
                 <h4>근거·출처</h4>
-                <div class="relation-links">${{links}}</div>
+                <div class="relation-links">${links}</div>
               </div>
             `;
-          }}
+          }
 
-          function formatKrw(value) {{
+          function formatKrw(value) {
             if (value === undefined || value === null || value === "") return "";
             const number = Number(value);
-            return Number.isFinite(number) ? `${{number.toLocaleString("ko-KR")}}원` : String(value);
-          }}
+            return Number.isFinite(number) ? `${number.toLocaleString("ko-KR")}원` : String(value);
+          }
 
-          function formatPercent(value) {{
+          function formatPercent(value) {
             if (value === undefined || value === null || value === "") return "";
-            return `${{value}}%`;
-          }}
+            return `${value}%`;
+          }
 
-          function criteriaBlock(criteria) {{
+          function criteriaBlock(criteria) {
             if (!criteria || !criteria.length) return "";
-            const labels = {{
+            const labels = {
               basis: "기준항목",
               condition: "조건",
               threshold_krw_min: "하한",
@@ -1445,7 +1674,7 @@ def build_js(data: dict, summary: dict) -> str:
               max_amount_krw: "최대금액",
               benefit: "혜택",
               note: "비고"
-            }};
+            };
             const orderedKeys = [
               "basis",
               "condition",
@@ -1463,48 +1692,48 @@ def build_js(data: dict, summary: dict) -> str:
               "benefit",
               "note"
             ];
-            const items = criteria.map((criterion) => {{
+            const items = criteria.map((criterion) => {
               const detail = orderedKeys
                 .filter((key) => criterion[key] !== undefined && criterion[key] !== null && criterion[key] !== "")
-                .map((key) => {{
+                .map((key) => {
                   let value = criterion[key];
                   if (key.endsWith("_krw")) value = formatKrw(value);
                   if (key.startsWith("rate_percent")) value = formatPercent(value);
                   let label = labels[key] || key;
-                  if (key.startsWith("rate_percent") && criterion.rate_label) {{
-                    label = key === "rate_percent_min" ? `최저${{criterion.rate_label}}` : key === "rate_percent_max" ? `최고${{criterion.rate_label}}` : criterion.rate_label;
-                  }}
-                  return `<span>${{escapeHtml(label)}}: <strong>${{escapeHtml(value)}}</strong></span>`;
-                }})
+                  if (key.startsWith("rate_percent") && criterion.rate_label) {
+                    label = key === "rate_percent_min" ? `최저${criterion.rate_label}` : key === "rate_percent_max" ? `최고${criterion.rate_label}` : criterion.rate_label;
+                  }
+                  return `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`;
+                })
                 .join("");
               const source = criterion.source ? byId.get(criterion.source) : null;
-              const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${{escapeHtml(source.id)}}">${{escapeHtml(source.title)}}</button>` : "";
+              const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
               return `
                 <li>
-                  <strong>${{escapeHtml(criterion.label || "기준")}}</strong>
-                  <div>${{detail}}</div>
-                  ${{sourceLink ? `<p>${{sourceLink}}</p>` : ""}}
+                  <strong>${escapeHtml(criterion.label || "기준")}</strong>
+                  <div>${detail}</div>
+                  ${sourceLink ? `<p>${sourceLink}</p>` : ""}
                 </li>
               `;
-            }}).join("");
+            }).join("");
             return `
               <div class="criteria-block">
                 <h4>기준 내역</h4>
-                <ul>${{items}}</ul>
+                <ul>${items}</ul>
               </div>
             `;
-          }}
+          }
 
-          function renderDetail() {{
+          function renderDetail() {
             const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
-            if (!item) {{
+            if (!item) {
               detailEl.innerHTML = `
                 <div class="detail-kicker">검색 결과 없음</div>
                 <h3>선택할 항목이 없습니다</h3>
                 <p>검색어를 줄이거나 다른 필터를 선택해 주세요.</p>
               `;
               return;
-            }}
+            }
             const relationHtml = [
               relationBlock("상위 항목", item.parents),
               relationBlock("하위 항목", item.children),
@@ -1516,35 +1745,35 @@ def build_js(data: dict, summary: dict) -> str:
             const criteriaHtml = criteriaBlock(item.criteria);
 
             detailEl.innerHTML = `
-              <div class="detail-kicker">${{escapeHtml(typeLabels[item.type] || item.type)}} · ${{escapeHtml(item.id)}}</div>
-              <h3>${{escapeHtml(item.title)}}</h3>
-              <p>${{escapeHtml(item.description)}}</p>
+              <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.description)}</p>
               <div class="meta-grid">
-                <div><span>기준연도</span><strong>${{escapeHtml(item.basis_year || "해당 없음")}}</strong></div>
-                <div><span>법령 근거</span><strong>${{escapeHtml(item.law_reference || "출처 노드 참조")}}</strong></div>
-                <div><span>폴더</span><strong>${{escapeHtml(item.folder || "-")}}</strong></div>
-                <div><span>태그</span><strong>${{escapeHtml((item.tags || []).join(", ") || "-")}}</strong></div>
+                <div><span>기준연도</span><strong>${escapeHtml(item.basis_year || "해당 없음")}</strong></div>
+                <div><span>법령 근거</span><strong>${escapeHtml(item.law_reference || "출처 노드 참조")}</strong></div>
+                <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
+                <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
               </div>
-              ${{criteriaHtml}}
-              <div class="relations">${{relationHtml || "<p>연결된 관계가 없습니다.</p>"}}</div>
+              ${criteriaHtml}
+              <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
             `;
-          }}
+          }
 
-          function renderTypeTable() {{
+          function renderTypeTable() {
             const counts = ONTOLOGY_DATA.summary.type_counts;
             typeTableEl.innerHTML = Object.keys(counts)
               .sort((a, b) => (typeLabels[a] || a).localeCompare(typeLabels[b] || b, "ko"))
               .map((type) => `
                 <tr>
-                  <td><strong>${{escapeHtml(typeLabels[type] || type)}}</strong><br><span>${{escapeHtml(type)}}</span></td>
-                  <td>${{Number(counts[type]).toLocaleString("ko-KR")}}</td>
-                  <td>${{escapeHtml(typeRoles[type] || "온톨로지 노드")}}</td>
+                  <td><strong>${escapeHtml(typeLabels[type] || type)}</strong><br><span>${escapeHtml(type)}</span></td>
+                  <td>${Number(counts[type]).toLocaleString("ko-KR")}</td>
+                  <td>${escapeHtml(typeRoles[type] || "온톨로지 노드")}</td>
                 </tr>
               `)
               .join("");
-          }}
+          }
 
-          function renderSources() {{
+          function renderSources() {
             const sources = items
               .filter((item) => item.type === "source")
               .sort((a, b) => (a.publisher || "").localeCompare(b.publisher || "", "ko") || a.title.localeCompare(b.title, "ko"));
@@ -1552,23 +1781,23 @@ def build_js(data: dict, summary: dict) -> str:
             sourceListEl.innerHTML = sources
               .map((source) => `
                 <article class="source-card">
-                  <span>${{escapeHtml(source.publisher || "공식 출처")}} · ${{escapeHtml(source.basis_date || ONTOLOGY_DATA.basis_date)}}</span>
-                  <strong>${{escapeHtml(source.title)}}</strong>
-                  <p>${{escapeHtml(source.description)}}</p>
-                  ${{source.url ? `<a href="${{escapeHtml(source.url)}}" target="_blank" rel="noreferrer">원문 열기</a>` : ""}}
+                  <span>${escapeHtml(source.publisher || "공식 출처")} · ${escapeHtml(source.basis_date || ONTOLOGY_DATA.basis_date)}</span>
+                  <strong>${escapeHtml(source.title)}</strong>
+                  <p>${escapeHtml(source.description)}</p>
+                  ${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">원문 열기</a>` : ""}
                 </article>
               `)
               .join("");
-          }}
+          }
 
-          function downloadJson() {{
-            const exportData = {{
+          function downloadJson() {
+            const exportData = {
               version: ONTOLOGY_DATA.version,
               basis_date: ONTOLOGY_DATA.basis_date,
               manifests: ONTOLOGY_DATA.manifests,
               items: ONTOLOGY_DATA.items
-            }};
-            const blob = new Blob([JSON.stringify(exportData, null, 2)], {{ type: "application/json" }});
+            };
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const anchor = document.createElement("a");
             anchor.href = url;
@@ -1577,47 +1806,48 @@ def build_js(data: dict, summary: dict) -> str:
             anchor.click();
             anchor.remove();
             URL.revokeObjectURL(url);
-          }}
+          }
 
-          document.addEventListener("click", (event) => {{
+          document.addEventListener("click", (event) => {
             const selectButton = event.target.closest("[data-select-item]");
-            if (selectButton) {{
+            if (selectButton) {
               const id = selectButton.getAttribute("data-select-item");
-              if (byId.has(id)) {{
+              if (byId.has(id)) {
                 state.selectedId = id;
                 renderList();
                 renderDetail();
-                document.querySelector("#browser")?.scrollIntoView({{ behavior: "smooth", block: "start" }});
-              }}
-            }}
+                document.querySelector("#browser")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }
 
             const tabButton = event.target.closest("[data-tab]");
-            if (tabButton) {{
+            if (tabButton) {
               state.tab = tabButton.getAttribute("data-tab");
               renderTabs();
               renderList();
               renderDetail();
-            }}
+            }
 
-            if (event.target.closest("[data-download-json]")) {{
+            if (event.target.closest("[data-download-json]")) {
               downloadJson();
-            }}
-          }});
+            }
+          });
 
-          searchInput.addEventListener("input", (event) => {{
+          searchInput.addEventListener("input", (event) => {
             state.query = event.target.value;
             renderList();
             renderDetail();
-          }});
+          });
 
           renderTypeTable();
           renderSources();
           renderTabs();
           renderList();
           renderDetail();
-        }})();
+        })();
         """
     )
+    return script.replace("__DATA__", data_json)
 
 
 def main() -> int:
