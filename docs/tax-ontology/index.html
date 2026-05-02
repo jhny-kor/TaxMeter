@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>대한민국 세금 온톨로지</title>
+  <meta name="description" content="대한민국 세금, 공제, 감면, 정책지원금, 신고기한을 연결한 TaxMeter 온톨로지 웹 가이드">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="대한민국 세금 온톨로지 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M10 16h12M16 10v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>Tax Ontology</span>
+    </a>
+    <nav class="top-nav" aria-label="주요 섹션">
+      <a href="#browser">둘러보기</a>
+      <a href="#structure">구조</a>
+      <a href="#sources">출처</a>
+      <a href="#export">Export</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-copy">
+        <p class="version-line">KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02 · 기준일 2026-05-02</p>
+        <h1>대한민국 세금 온톨로지</h1>
+        <p class="hero-lede">
+          국세, 지방세, 관세, 공제·감면, 정책지원금, 신고·납부 기한을
+          하나의 검증 가능한 지식 그래프로 정리한 TaxMeter 데이터 표면입니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#browser">온톨로지 둘러보기</a>
+          <button class="button secondary" type="button" data-download-json>JSON export 보기</button>
+        </div>
+      </div>
+
+      <div class="graph-panel" aria-label="온톨로지 상위 그래프">
+        <button class="graph-node root" type="button" data-select-item="kr-tax-system">
+          <strong>대한민국 세금</strong>
+          <span>154 nodes</span>
+        </button>
+        <button class="graph-node national" type="button" data-select-item="category.national-taxes">
+          <strong>국세</strong>
+          <span>12 세목</span>
+        </button>
+        <button class="graph-node customs" type="button" data-select-item="category.customs">
+          <strong>관세</strong>
+          <span>별도 영역</span>
+        </button>
+        <button class="graph-node local" type="button" data-select-item="category.local-taxes">
+          <strong>지방세</strong>
+          <span>11 세목</span>
+        </button>
+        <button class="graph-node relief" type="button" data-select-item="category.deductions-and-reliefs">
+          <strong>공제·감면</strong>
+          <span>소득·세액·법인</span>
+        </button>
+        <button class="graph-node support" type="button" data-select-item="category.policy-supports">
+          <strong>정책지원</strong>
+          <span>계좌·장려금</span>
+        </button>
+        <button class="graph-node filing" type="button" data-select-item="category.filing-calendar">
+          <strong>신고기한</strong>
+          <span>신청·납부</span>
+        </button>
+        <svg class="graph-lines" viewBox="0 0 640 420" aria-hidden="true">
+          <path d="M320 205 C260 130 210 82 125 76"/>
+          <path d="M320 205 C380 125 465 85 535 86"/>
+          <path d="M320 205 C198 201 131 206 82 210"/>
+          <path d="M320 205 C440 200 507 205 562 211"/>
+          <path d="M320 205 C236 285 196 335 126 345"/>
+          <path d="M320 205 C400 289 450 337 535 345"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="metrics section" aria-label="온톨로지 요약 수치">
+      <div>
+        <strong>154</strong>
+        <span>검증 노트</span>
+      </div>
+      <div>
+        <strong>12</strong>
+        <span>국세 세목</span>
+      </div>
+      <div>
+        <strong>11</strong>
+        <span>지방세 세목</span>
+      </div>
+      <div>
+        <strong>28</strong>
+        <span>법인세 지원</span>
+      </div>
+      <div>
+        <strong>18</strong>
+        <span>공식 출처</span>
+      </div>
+    </section>
+
+    <section class="section intro-grid" aria-labelledby="what-you-get">
+      <div class="section-heading">
+        <h2 id="what-you-get">What You Get</h2>
+        <p>Obsidian vault, JSON export, MCP 검색면, 그리고 웹 탐색 UI를 같은 데이터에서 만듭니다.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-icon" aria-hidden="true">01</span>
+          <h3>완전한 세목 골격</h3>
+          <p>국세기본법과 지방세기본법 기준 세목을 매니페스트로 고정하고 검증합니다.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon" aria-hidden="true">02</span>
+          <h3>공제·감면 연결</h3>
+          <p>소득공제, 세액공제, 세액감면, 법인세 지원 항목을 상위 카테고리와 용어에 연결합니다.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon" aria-hidden="true">03</span>
+          <h3>신고 일정 표면</h3>
+          <p>종합소득세, 연말정산, 원천세, 부가가치세, 장려금 신청·지급 기한을 연결합니다.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon" aria-hidden="true">04</span>
+          <h3>공식 근거 추적</h3>
+          <p>각 항목은 국세청, 법령정보센터, 금융위원회 등 출처 노드와 URL을 보유합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section structure" id="structure" aria-labelledby="structure-title">
+      <div class="section-heading">
+        <h2 id="structure-title">구조</h2>
+        <p>원본 정의에서 vault와 export를 생성한 뒤, 검증기가 링크 무결성과 필수 항목을 확인합니다.</p>
+      </div>
+      <div class="pipeline">
+        <div><strong>Definition</strong><span>generate_vault.py</span></div>
+        <div><strong>Vault</strong><span>154 Markdown notes</span></div>
+        <div><strong>Validation</strong><span>references + manifests</span></div>
+        <div><strong>Export</strong><span>JSON + MCP + Web</span></div>
+      </div>
+      <div class="type-table-wrap">
+        <table class="type-table">
+          <thead>
+            <tr>
+              <th>노드 타입</th>
+              <th>개수</th>
+              <th>역할</th>
+            </tr>
+          </thead>
+          <tbody data-type-table></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section browser" id="browser" aria-labelledby="browser-title">
+      <div class="section-heading">
+        <h2 id="browser-title">온톨로지 둘러보기</h2>
+        <p>검색어, 타입, 상위 카테고리 관계를 기준으로 노드를 빠르게 좁히고 상세 연결을 확인합니다.</p>
+      </div>
+      <div class="browser-shell">
+        <div class="browser-list" aria-label="온톨로지 목록">
+          <div class="browser-toolbar">
+            <label class="search-field">
+              <span class="sr-only">온톨로지 검색</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m21 21-4.3-4.3M10.7 18a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <input type="search" placeholder="예: 부가가치세, 세액공제, 신고기한" data-search>
+            </label>
+            <span class="result-count" data-result-count></span>
+          </div>
+          <div class="tabs" data-tabs aria-label="목록 필터"></div>
+          <div class="item-list" data-item-list></div>
+        </div>
+        <aside class="detail-panel" data-detail-panel aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section class="section sources" id="sources" aria-labelledby="sources-title">
+      <div class="section-heading">
+        <h2 id="sources-title">공식 출처</h2>
+        <p>웹 표면은 설명을 다시 쓰지 않고 출처 노드의 발행처, 기준일, URL을 그대로 노출합니다.</p>
+      </div>
+      <div class="source-list" data-source-list></div>
+    </section>
+
+    <section class="section export" id="export" aria-labelledby="export-title">
+      <div class="section-heading">
+        <h2 id="export-title">JSON Export</h2>
+        <p>앱, MCP 서버, 웹 페이지가 동일한 export 파일을 기준으로 움직입니다.</p>
+      </div>
+      <div class="export-panel">
+        <div>
+          <strong>ontology/exports/korea-tax-ontology-2026.json</strong>
+          <span>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02</span>
+        </div>
+        <button class="button primary" type="button" data-download-json>JSON 다운로드</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>TaxMeter · Korea Tax Ontology</span>
+    <span>검증 기준일 2026-05-02</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>

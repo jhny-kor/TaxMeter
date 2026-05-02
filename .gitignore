@@ -5,3 +5,8 @@ DerivedData/
 xcuserdata/
 *.xcuserstate
 .omx/
+__pycache__/
+*.pyc
+ontology/vault/.obsidian/
+ontology/vault/무제*.base
+ontology/vault/무제.canvas

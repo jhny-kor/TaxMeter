@@ -1,0 +1,21 @@
+{
+  "name": "tax-ontology-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone stdio MCP server for a Korean tax ontology Obsidian vault",
+  "bin": {
+    "tax-ontology-mcp": "./run_mcp.sh"
+  },
+  "files": [
+    "mcp_server.py",
+    "run_mcp.sh",
+    "install_local.sh",
+    "custom",
+    "exports",
+    "schema",
+    "scripts",
+    "vault",
+    "README.md",
+    "MCP_INSTALL.md"
+  ]
+}

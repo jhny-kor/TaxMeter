@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tax-ontology-mcp"
+version = "0.1.0"
+description = "Standalone stdio MCP server for a Korean tax ontology Obsidian vault"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [
+  { name = "TaxMeter" }
+]
+dependencies = []
+
+[project.scripts]
+tax-ontology-mcp = "tax_ontology_mcp.server:main"
+tax-ontology-generate = "tax_ontology_mcp.generate_vault:main"
+tax-ontology-validate = "tax_ontology_mcp.validate_ontology:main"
+
+[tool.setuptools]
+package-dir = { "tax_ontology_mcp" = "." }
+packages = ["tax_ontology_mcp", "tax_ontology_mcp.scripts"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+tax_ontology_mcp = [
+  "custom/*.json",
+  "exports/*.json",
+  "schema/*.json",
+  "vault/**/*.md"
+]

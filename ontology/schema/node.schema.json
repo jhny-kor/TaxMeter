@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Korea Tax Ontology Obsidian Node",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "type",
+    "description",
+    "parents",
+    "children",
+    "related",
+    "terms",
+    "deadlines",
+    "sources",
+    "tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "domain",
+        "category",
+        "tax",
+        "deduction",
+        "tax-credit",
+        "tax-reduction",
+        "corporate-tax-support",
+        "support-program",
+        "filing",
+        "concept",
+        "term",
+        "deadline",
+        "source"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basis_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "effective_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "expiration_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deadlines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "law_reference": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "basis_date": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "string"
+    },
+    "end_date": {
+      "type": "string"
+    }
+  }
+}

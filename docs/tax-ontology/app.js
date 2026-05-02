@@ -1,0 +1,4553 @@
+        const ONTOLOGY_DATA = {
+  "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02",
+  "basis_date": "2026-05-02",
+  "manifests": {
+    "national_tax_ids": [
+      "tax.income",
+      "tax.corporate",
+      "tax.inheritance-and-gift",
+      "tax.comprehensive-real-estate",
+      "tax.value-added",
+      "tax.individual-consumption",
+      "tax.transport-energy-environment",
+      "tax.liquor",
+      "tax.stamp",
+      "tax.securities-transaction",
+      "tax.education",
+      "tax.special-rural-development"
+    ],
+    "local_tax_ids": [
+      "local.acquisition",
+      "local.registration-license",
+      "local.leisure",
+      "local.tobacco-consumption",
+      "local.local-consumption",
+      "local.resident",
+      "local.local-income",
+      "local.property",
+      "local.automobile",
+      "local.regional-resource-facility",
+      "local.local-education"
+    ],
+    "corporate_support_ids": [
+      "corporate.support.startup-sme-reduction",
+      "corporate.support.sme-special-reduction",
+      "corporate.support.tech-transfer-reduction",
+      "corporate.support.winwin-payment-credit",
+      "corporate.support.wage-increase-credit",
+      "corporate.support.performance-sharing-credit",
+      "corporate.support.employment-maintenance-credit",
+      "corporate.support.social-insurance-credit",
+      "corporate.support.minimum-tax-preference",
+      "corporate.support.cooperation-credit",
+      "corporate.support.rnd-credit",
+      "corporate.support.rnd-grant-deferral",
+      "corporate.support.rnd-zone-reduction",
+      "corporate.support.ma-credit",
+      "corporate.support.facility-investment-credit",
+      "corporate.support.local-relocation-reduction",
+      "corporate.support.agricultural-corporation-reduction",
+      "corporate.support.industrial-complex-reduction",
+      "corporate.support.social-enterprise-reduction",
+      "corporate.support.jeju-zone-reduction",
+      "corporate.support.enterprise-city-reduction",
+      "corporate.support.e-filing-credit",
+      "corporate.support.restructuring-deferral",
+      "corporate.support.local-relocation-deferral",
+      "corporate.support.good-landlord-credit",
+      "corporate.support.crisis-area-startup-reduction",
+      "corporate.support.disaster-loss-credit",
+      "corporate.support.foreign-tax-paid-credit"
+    ]
+  },
+  "summary": {
+    "item_count": 154,
+    "source_count": 18,
+    "term_count": 17,
+    "category_count": 12,
+    "national_tax_count": 12,
+    "local_tax_count": 11,
+    "corporate_support_count": 28,
+    "type_counts": {
+      "category": 12,
+      "concept": 1,
+      "corporate-tax-support": 28,
+      "deadline": 6,
+      "deduction": 17,
+      "domain": 1,
+      "filing": 5,
+      "source": 18,
+      "support-program": 4,
+      "tax": 29,
+      "tax-credit": 12,
+      "tax-reduction": 4,
+      "term": 17
+    }
+  },
+  "type_labels": {
+    "domain": "도메인",
+    "category": "카테고리",
+    "tax": "세목",
+    "deduction": "소득공제",
+    "tax-credit": "세액공제",
+    "tax-reduction": "세액감면",
+    "corporate-tax-support": "법인세 지원",
+    "support-program": "정책지원",
+    "filing": "신고 절차",
+    "concept": "판정 개념",
+    "term": "용어",
+    "deadline": "기한",
+    "source": "공식 출처"
+  },
+  "type_roles": {
+    "domain": "최상위 지식 그래프 루트",
+    "category": "세목·공제·지원·기한의 탐색 축",
+    "tax": "국세, 지방세, 관세 세목",
+    "deduction": "과세표준 전 단계의 소득공제 항목",
+    "tax-credit": "산출세액에서 차감하는 세액공제",
+    "tax-reduction": "정책 목적의 세액감면",
+    "corporate-tax-support": "법인세 공제·감면 공식 지원제도",
+    "support-program": "장려금과 세제지원 계좌",
+    "filing": "신고·납부·신청 절차",
+    "concept": "판정 기준을 설명하는 개념 노드",
+    "term": "그래프 해석에 필요한 용어",
+    "deadline": "기준연도별 신고·납부·지급 기한",
+    "source": "법률·기관별 공식 근거 URL"
+  },
+  "items": [
+    {
+      "id": "category.corporate-tax-supports",
+      "title": "법인세 공제·감면 지원제도",
+      "type": "category",
+      "description": "국세청 법인세 공제감면 안내가 열거한 중소기업, 모든 기업, 법인세법상 조세지원 항목 전체 목록입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.deductions-and-reliefs"
+      ],
+      "children": [
+        "corporate.support.startup-sme-reduction",
+        "corporate.support.sme-special-reduction",
+        "corporate.support.tech-transfer-reduction",
+        "corporate.support.winwin-payment-credit",
+        "corporate.support.wage-increase-credit",
+        "corporate.support.performance-sharing-credit",
+        "corporate.support.employment-maintenance-credit",
+        "corporate.support.social-insurance-credit",
+        "corporate.support.minimum-tax-preference",
+        "corporate.support.cooperation-credit",
+        "corporate.support.rnd-credit",
+        "corporate.support.rnd-grant-deferral",
+        "corporate.support.rnd-zone-reduction",
+        "corporate.support.ma-credit",
+        "corporate.support.facility-investment-credit",
+        "corporate.support.local-relocation-reduction",
+        "corporate.support.agricultural-corporation-reduction",
+        "corporate.support.industrial-complex-reduction",
+        "corporate.support.social-enterprise-reduction",
+        "corporate.support.jeju-zone-reduction",
+        "corporate.support.enterprise-city-reduction",
+        "corporate.support.e-filing-credit",
+        "corporate.support.restructuring-deferral",
+        "corporate.support.local-relocation-deferral",
+        "corporate.support.good-landlord-credit",
+        "corporate.support.crisis-area-startup-reduction",
+        "corporate.support.disaster-loss-credit",
+        "corporate.support.foreign-tax-paid-credit"
+      ],
+      "related": [
+        "tax.corporate"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "complete-manifest"
+      ]
+    },
+    {
+      "id": "category.customs",
+      "title": "관세 영역",
+      "type": "category",
+      "description": "국세기본법 제2조의 국세 열거와 별개로 관세법에 근거해 수입물품에 부과되는 조세 영역입니다.",
+      "folder": "10_Taxes/Customs",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "tax.customs"
+      ],
+      "related": [],
+      "terms": [
+        "term.customs"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.customs-act.2026.article14"
+      ],
+      "law_reference": "관세법 제14조",
+      "tags": []
+    },
+    {
+      "id": "category.deductions-and-reliefs",
+      "title": "공제·감면",
+      "type": "category",
+      "description": "과세표준을 줄이는 소득공제, 산출세액에서 차감하는 세액공제, 정책 목적의 세액감면과 법인세 조세지원 항목입니다.",
+      "folder": "20_Deductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "category.income-deductions",
+        "category.tax-credits",
+        "category.tax-reductions",
+        "category.corporate-tax-supports"
+      ],
+      "related": [
+        "filing.year-end-settlement"
+      ],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.filing-calendar",
+      "title": "신고·납부·신청 기한",
+      "type": "category",
+      "description": "세목과 지원제도에 연결되는 기준연도별 기한입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "filing.income-tax-return",
+        "filing.year-end-settlement",
+        "filing.withholding-tax",
+        "filing.vat-return",
+        "filing.grant-application"
+      ],
+      "related": [],
+      "terms": [
+        "term.deadline",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.income-tax.deadline",
+        "source.nts.tax-calendar.2026",
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.income-deductions",
+      "title": "소득공제",
+      "type": "category",
+      "description": "근로소득 연말정산에서 과세표준 전 단계에 반영되는 공제 묶음입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.deductions-and-reliefs"
+      ],
+      "children": [
+        "deduction.personal",
+        "deduction.pension-insurance",
+        "deduction.special-income",
+        "deduction.other-income"
+      ],
+      "related": [
+        "tax.income"
+      ],
+      "terms": [
+        "term.income-deduction",
+        "term.deduction-limit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.local-ordinary-taxes",
+      "title": "지방 보통세",
+      "type": "category",
+      "description": "지방세 중 특정 목적세가 아닌 보통세 세목 묶음입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.local-taxes"
+      ],
+      "children": [
+        "local.acquisition",
+        "local.registration-license",
+        "local.leisure",
+        "local.tobacco-consumption",
+        "local.local-consumption",
+        "local.resident",
+        "local.local-income",
+        "local.property",
+        "local.automobile"
+      ],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.local-purpose-taxes",
+      "title": "지방 목적세",
+      "type": "category",
+      "description": "지방세 중 특정 재원 목적을 위해 부과되는 목적세 세목 묶음입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.local-taxes"
+      ],
+      "children": [
+        "local.regional-resource-facility",
+        "local.local-education"
+      ],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.local-taxes",
+      "title": "지방세",
+      "type": "category",
+      "description": "지방자치단체가 과세권을 가지는 지방세기본법 제8조상 세목 전체입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "category.local-ordinary-taxes",
+        "category.local-purpose-taxes"
+      ],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "complete-manifest"
+      ]
+    },
+    {
+      "id": "category.national-taxes",
+      "title": "국세",
+      "type": "category",
+      "description": "국가가 부과하는 조세 중 국세기본법 제2조가 열거한 세목 전체입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "tax.income",
+        "tax.corporate",
+        "tax.inheritance-and-gift",
+        "tax.comprehensive-real-estate",
+        "tax.value-added",
+        "tax.individual-consumption",
+        "tax.transport-energy-environment",
+        "tax.liquor",
+        "tax.stamp",
+        "tax.securities-transaction",
+        "tax.education",
+        "tax.special-rural-development"
+      ],
+      "related": [],
+      "terms": [
+        "term.national-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "complete-manifest"
+      ]
+    },
+    {
+      "id": "category.policy-supports",
+      "title": "정책지원금·세제지원 계좌",
+      "type": "category",
+      "description": "국세청 현금성 지원금과 세제지원 금융상품을 학습용으로 묶은 항목입니다.",
+      "folder": "30_Supports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "support.earned-income-tax-credit",
+        "support.child-tax-credit",
+        "support.youth-leap-account",
+        "support.isa"
+      ],
+      "related": [],
+      "terms": [
+        "term.total-income",
+        "term.gross-pay",
+        "term.property-requirement"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.eitc.intro",
+        "source.nts.ctc.intro",
+        "source.kinfa.youth-leap",
+        "source.fsc.isa.policy"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.tax-credits",
+      "title": "세액공제",
+      "type": "category",
+      "description": "산출세액에서 직접 차감하는 공제 항목 묶음입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.deductions-and-reliefs"
+      ],
+      "children": [
+        "credit.earned-income",
+        "credit.child",
+        "credit.pension-account",
+        "credit.special-tax",
+        "credit.monthly-rent",
+        "credit.foreign-tax-paid",
+        "credit.research-and-development",
+        "credit.integrated-employment"
+      ],
+      "related": [
+        "tax.income"
+      ],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.special-credit",
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "category.tax-reductions",
+      "title": "세액감면",
+      "type": "category",
+      "description": "정책 목적에 따라 산출세액 또는 납부할 세액을 줄여 주는 감면 항목 묶음입니다.",
+      "folder": "20_Deductions/TaxReductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.deductions-and-reliefs"
+      ],
+      "children": [
+        "reduction.sme-employment-income",
+        "reduction.startup-sme",
+        "reduction.sme-special",
+        "reduction.good-landlord"
+      ],
+      "related": [],
+      "terms": [
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.simple-vat-taxpayer",
+      "title": "간이과세자 기준",
+      "type": "concept",
+      "description": "부가가치세에서 1년 매출액 10,400만원 미만 개인사업자에게 적용되는 납세 유형 기준입니다.",
+      "folder": "40_Terms/Concepts",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.value-added"
+      ],
+      "children": [],
+      "related": [
+        "filing.vat-return"
+      ],
+      "terms": [
+        "term.simple-vat-taxpayer"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "corporate.support.agricultural-corporation-reduction",
+      "title": "영농조합법인 등에 대한 감면",
+      "type": "corporate-tax-support",
+      "description": "영농조합법인, 영어조합법인, 농업회사법인 등의 농어업소득 등에 대한 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.cooperation-credit",
+      "title": "상생협력에 대한 조세지원",
+      "type": "corporate-tax-support",
+      "description": "협력중소기업 지원 목적 출연금과 유형고정자산 무상임대 등에 대한 조세지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.crisis-area-startup-reduction",
+      "title": "위기지역 창업기업 감면",
+      "type": "corporate-tax-support",
+      "description": "위기지역 지정 또는 선포 기간에 창업하거나 사업장을 신설한 기업에 대한 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.disaster-loss-credit",
+      "title": "재해손실세액공제",
+      "type": "corporate-tax-support",
+      "description": "천재지변 등 재해로 사업용 총자산가액의 20% 이상을 상실한 경우 적용되는 법인세법상 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.e-filing-credit",
+      "title": "전자신고 세액공제",
+      "type": "corporate-tax-support",
+      "description": "법인이 직접 법인세를 전자신고할 때 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.employment-maintenance-credit",
+      "title": "고용유지 중소기업 등에 대한 과세특례",
+      "type": "corporate-tax-support",
+      "description": "임금 감소와 시간당 임금 보전액 등을 기준으로 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.enterprise-city-reduction",
+      "title": "기업도시개발구역 창업기업 등 감면",
+      "type": "corporate-tax-support",
+      "description": "기업도시개발구역 창업 또는 사업장 신설 기업에 적용되는 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.facility-investment-credit",
+      "title": "시설투자 등에 대한 세액공제",
+      "type": "corporate-tax-support",
+      "description": "각종 시설투자 금액과 투자 증가분에 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.foreign-tax-paid-credit",
+      "title": "외국납부세액공제",
+      "type": "corporate-tax-support",
+      "description": "국외원천소득에 대한 이중과세 조정을 위한 법인세법상 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [
+        "credit.foreign-tax-paid"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.good-landlord-credit",
+      "title": "상가임대료 인하 임대사업자 세액공제",
+      "type": "corporate-tax-support",
+      "description": "상가건물 임대료 인하액에 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [
+        "reduction.good-landlord"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.industrial-complex-reduction",
+      "title": "농공단지 등 입주 기업 감면",
+      "type": "corporate-tax-support",
+      "description": "농공단지 등 입주 후 최초 소득발생 과세연도와 이후 일정 기간에 적용되는 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.jeju-zone-reduction",
+      "title": "제주첨단과학기술단지 등 입주 감면",
+      "type": "corporate-tax-support",
+      "description": "제주첨단과학기술단지 또는 제주투자진흥지구 입주기업 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.local-relocation-deferral",
+      "title": "지방이전 촉진 과세이연",
+      "type": "corporate-tax-support",
+      "description": "지방이전 등을 촉진하기 위한 양도차익 등의 손금산입 또는 익금불산입 지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.local-relocation-reduction",
+      "title": "공장·본사 등 지방이전 세액감면",
+      "type": "corporate-tax-support",
+      "description": "수도권과밀억제권역 본사·공장 지방 이전 등에 적용되는 세액감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.ma-credit",
+      "title": "M&A 활성화 지원",
+      "type": "corporate-tax-support",
+      "description": "기술혁신형 합병·주식취득 인수가액 중 기술가치 금액에 대한 법인세 공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.minimum-tax-preference",
+      "title": "최저한세 적용한도 우대",
+      "type": "corporate-tax-support",
+      "description": "중소기업 등에게 일반법인보다 우대되는 최저한세율을 적용하는 지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.performance-sharing-credit",
+      "title": "성과공유 중소기업의 경영성과급 세액공제",
+      "type": "corporate-tax-support",
+      "description": "중소기업이 요건을 충족한 경영성과급을 지급하는 경우 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.restructuring-deferral",
+      "title": "구조조정 및 재무구조개선 과세이연",
+      "type": "corporate-tax-support",
+      "description": "양도차익 등에 대한 손금산입 또는 익금불산입 등 구조조정 지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.rnd-credit",
+      "title": "연구·인력개발비 세액공제",
+      "type": "corporate-tax-support",
+      "description": "일반, 신성장·원천기술, 국가전략기술 연구개발비에 대한 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [
+        "credit.research-and-development"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.rnd-grant-deferral",
+      "title": "연구개발 관련 출연금등의 과세이연",
+      "type": "corporate-tax-support",
+      "description": "연구개발출연금 등에 대한 익금불산입 지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.rnd-zone-reduction",
+      "title": "연구개발특구 입주 기업 감면",
+      "type": "corporate-tax-support",
+      "description": "첨단기술 및 연구소기업 등에 적용되는 법인세 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.sme-special-reduction",
+      "title": "중소기업특별세액감면",
+      "type": "corporate-tax-support",
+      "description": "제조업 등 일정 업종 중소기업 소득에 대한 법인세 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [
+        "reduction.sme-special"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.social-enterprise-reduction",
+      "title": "사회적기업 등에 대한 감면",
+      "type": "corporate-tax-support",
+      "description": "사회적기업 인증 법인과 장애인 표준사업장 등에 적용되는 감면입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.social-insurance-credit",
+      "title": "사회보험료 세액공제",
+      "type": "corporate-tax-support",
+      "description": "고용증가인원의 사회보험료 상당액에 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.startup-sme-reduction",
+      "title": "창업중소기업 등에 대한 세액감면",
+      "type": "corporate-tax-support",
+      "description": "창업중소기업 등의 최초 소득발생 과세연도와 이후 일정 기간에 적용되는 법인세 조세지원입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [
+        "reduction.startup-sme"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.tech-transfer-reduction",
+      "title": "기술이전·대여 세액감면",
+      "type": "corporate-tax-support",
+      "description": "기술이전 및 기술취득 등에 대한 과세특례입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.wage-increase-credit",
+      "title": "근로소득을 증대시킨 기업에 대한 세액공제",
+      "type": "corporate-tax-support",
+      "description": "임금 증가와 정규직 전환 근로자 임금 증가 등에 대한 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "corporate.support.winwin-payment-credit",
+      "title": "상생결제 지급금액 세액공제",
+      "type": "corporate-tax-support",
+      "description": "상생결제제도를 통해 구매대금을 지급한 경우 적용되는 세액공제입니다.",
+      "folder": "20_Deductions/CorporateTaxSupports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.corporate-tax-supports"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "corporate-tax-support"
+      ]
+    },
+    {
+      "id": "credit.child",
+      "title": "자녀 세액공제",
+      "type": "tax-credit",
+      "description": "자녀 수 등 요건에 따라 산출세액에서 차감되는 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [
+        "support.child-tax-credit"
+      ],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.donation",
+      "title": "기부금 세액공제",
+      "type": "tax-credit",
+      "description": "정치자금, 고향사랑, 특례, 우리사주조합, 일반기부금 등 공제한도 내 기부금에 대한 특별세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "credit.special-tax"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.earned-income",
+      "title": "근로소득 세액공제",
+      "type": "tax-credit",
+      "description": "근로소득자의 산출세액에서 차감되는 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.education-expense",
+      "title": "교육비 세액공제",
+      "type": "tax-credit",
+      "description": "본인과 기본공제대상자 교육비 등에 대한 특별세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "credit.special-tax"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.foreign-tax-paid",
+      "title": "외국납부세액공제",
+      "type": "tax-credit",
+      "description": "국외원천소득에 대한 이중과세 조정을 위한 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [
+        "corporate.support.foreign-tax-paid-credit"
+      ],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.insurance-premium",
+      "title": "보험료 세액공제",
+      "type": "tax-credit",
+      "description": "보장성보험료, 장애인전용 보장성보험료 등에 대한 특별세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "credit.special-tax"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.integrated-employment",
+      "title": "통합고용세액공제",
+      "type": "tax-credit",
+      "description": "고용 증가, 청년·장애인·경력단절자 등 정책 대상 고용에 대한 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.medical-expense",
+      "title": "의료비 세액공제",
+      "type": "tax-credit",
+      "description": "총급여액의 일정 비율 초과 의료비 등에 대한 특별세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "credit.special-tax"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.monthly-rent",
+      "title": "월세액 세액공제",
+      "type": "tax-credit",
+      "description": "무주택, 총급여·종합소득금액, 주택 요건 등을 충족한 월세액에 대한 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.monthly-rent-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.pension-account",
+      "title": "연금계좌 세액공제",
+      "type": "tax-credit",
+      "description": "연금저축, 퇴직연금계좌 납입액 등에 대한 세액공제입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.research-and-development",
+      "title": "연구·인력개발비 세액공제",
+      "type": "tax-credit",
+      "description": "일반, 신성장·원천기술, 국가전략기술 연구개발비 등에 대한 조세지원입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [],
+      "related": [
+        "corporate.support.rnd-credit"
+      ],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "tax-credit"
+      ]
+    },
+    {
+      "id": "credit.special-tax",
+      "title": "특별세액공제",
+      "type": "tax-credit",
+      "description": "근로소득자가 해당 과세기간에 지출한 일정 비용을 산출세액에서 공제하는 항목 묶음입니다.",
+      "folder": "20_Deductions/TaxCredits",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-credits"
+      ],
+      "children": [
+        "credit.insurance-premium",
+        "credit.medical-expense",
+        "credit.education-expense",
+        "credit.donation"
+      ],
+      "related": [],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "deadline.grant.regular.2025-income",
+      "title": "2025년 귀속 근로·자녀장려금 정기신청",
+      "type": "deadline",
+      "description": "2025년 귀속 근로·자녀장려금 정기신청은 2026년 5월 신청 흐름으로 관리하고, 2026년에는 6월 1일까지로 기한의 특례를 반영합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.eligibility",
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2026-05-01",
+      "end_date": "2026-06-01"
+    },
+    {
+      "id": "deadline.grant.semiannual.2026",
+      "title": "2026년 근로장려금 반기신청분 지급",
+      "type": "deadline",
+      "description": "2026년 상반기분은 2026년 12월 30일, 하반기분은 2027년 6월 30일 지급기한으로 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2026-12-30",
+      "end_date": "2027-06-30"
+    },
+    {
+      "id": "deadline.income-tax.2025-return",
+      "title": "2025년 귀속 종합소득세 확정신고",
+      "type": "deadline",
+      "description": "2025년 귀속 종합소득세 일반 신고·납부는 2026년 5월 1일부터 2026년 6월 1일까지입니다. 성실신고확인서 제출자는 2026년 6월 30일까지입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.income-tax.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2026-05-01",
+      "end_date": "2026-06-01"
+    },
+    {
+      "id": "deadline.vat.periodic",
+      "title": "부가가치세 신고 납부",
+      "type": "deadline",
+      "description": "일반과세자는 예정·확정 신고 구조를 따르며, 2026년 세무일정상 1기 예정신고 납부는 2026년 4월 27일, 2기 예정신고 납부는 2026년 10월 26일로 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.overview",
+        "source.nts.tax-calendar.2026"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.withholding.monthly",
+      "title": "원천세 신고 납부",
+      "type": "deadline",
+      "description": "매월분 원천세는 다음 달 10일까지 신고·납부하는 반복 기한으로 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.tax-calendar.2026"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.year-end-settlement",
+      "title": "근로소득 연말정산",
+      "type": "deadline",
+      "description": "계속 근로자는 다음연도 2월분 근로소득 지급 시, 중도 퇴직자는 퇴직하는 달의 근로소득 지급 시 연말정산을 실시합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deduction.credit-card-use",
+      "title": "신용카드 등 사용금액",
+      "type": "deduction",
+      "description": "신용카드, 직불카드, 현금영수증 등 사용금액에 대한 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.credit-card-deduction",
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.employee-stock-ownership",
+      "title": "우리사주조합 출연금",
+      "type": "deduction",
+      "description": "우리사주조합 출연금 관련 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.employment-maintenance-worker",
+      "title": "고용유지중소기업 근로자 소득공제",
+      "type": "deduction",
+      "description": "고용유지 중소기업 근로자에게 적용되는 소득공제 항목입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.health-insurance-premium",
+      "title": "보험료공제",
+      "type": "deduction",
+      "description": "국민건강보험료, 고용보험료 등 법정 보험료 납부액을 특별소득공제로 반영하는 항목입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.special-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.housing-funds",
+      "title": "주택자금공제",
+      "type": "deduction",
+      "description": "주택임차차입금 원리금상환액과 장기주택저당차입금 이자상환액 등 주택자금 관련 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.special-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.housing-savings",
+      "title": "주택마련저축",
+      "type": "deduction",
+      "description": "청약저축, 주택청약종합저축, 근로자우대저축 등 주택마련저축 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.investment-association",
+      "title": "중소기업창업투자조합 출자 등",
+      "type": "deduction",
+      "description": "중소기업창업투자조합 출자 등 투자 관련 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.long-term-fund",
+      "title": "장기집합투자증권저축",
+      "type": "deduction",
+      "description": "장기집합투자증권저축에 대한 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.other-income",
+      "title": "그 밖의 소득공제",
+      "type": "deduction",
+      "description": "과세표준 계산 전 추가로 반영되는 소득공제 항목 묶음입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.income-deductions"
+      ],
+      "children": [
+        "deduction.personal-pension-savings",
+        "deduction.small-business-mutual-aid",
+        "deduction.housing-savings",
+        "deduction.investment-association",
+        "deduction.credit-card-use",
+        "deduction.employee-stock-ownership",
+        "deduction.employment-maintenance-worker",
+        "deduction.long-term-fund",
+        "deduction.youth-long-term-fund"
+      ],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.deduction-limit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "deduction.pension-insurance",
+      "title": "연금보험료공제",
+      "type": "deduction",
+      "description": "공적연금의 근로자 부담금을 차감소득금액 계산에 반영하는 공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.income-deductions"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.personal",
+      "title": "인적공제",
+      "type": "deduction",
+      "description": "기본공제와 추가공제로 구성되는 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.income-deductions"
+      ],
+      "children": [
+        "deduction.personal.basic",
+        "deduction.personal.additional"
+      ],
+      "related": [],
+      "terms": [
+        "term.income-deduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "deduction.personal-pension-savings",
+      "title": "개인연금저축 소득공제",
+      "type": "deduction",
+      "description": "연금저축 세액공제와 구분되는 개인연금저축 관련 소득공제 항목입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.personal.additional",
+      "title": "추가공제",
+      "type": "deduction",
+      "description": "경로우대, 장애인, 부녀자, 한부모 등 추가 요건에 따른 인적공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.personal"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.personal.basic",
+      "title": "기본공제",
+      "type": "deduction",
+      "description": "본인, 배우자, 부양가족 등 기본공제 대상자에 대한 인적공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.personal"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.small-business-mutual-aid",
+      "title": "소기업·소상공인 공제부금",
+      "type": "deduction",
+      "description": "노란우산 등 소기업·소상공인 공제부금에 대한 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "deduction.special-income",
+      "title": "특별소득공제",
+      "type": "deduction",
+      "description": "근로소득 연말정산 계산 구조에서 차감소득금액을 산출할 때 반영되는 특별소득공제 묶음입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.income-deductions"
+      ],
+      "children": [
+        "deduction.health-insurance-premium",
+        "deduction.housing-funds"
+      ],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.deduction-limit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "deduction.youth-long-term-fund",
+      "title": "청년형 장기집합투자증권저축",
+      "type": "deduction",
+      "description": "청년형 장기집합투자증권저축에 대한 소득공제입니다.",
+      "folder": "20_Deductions/IncomeDeductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "deduction.other-income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.income-deduction",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "income-deduction"
+      ]
+    },
+    {
+      "id": "filing.grant-application",
+      "title": "근로·자녀장려금 신청",
+      "type": "filing",
+      "description": "국세청 근로·자녀장려금 정기·반기·기한 후 신청 및 심사 흐름입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar"
+      ],
+      "children": [],
+      "related": [
+        "support.earned-income-tax-credit",
+        "support.child-tax-credit"
+      ],
+      "terms": [
+        "term.total-income",
+        "term.property-requirement"
+      ],
+      "deadlines": [
+        "deadline.grant.regular.2025-income",
+        "deadline.grant.semiannual.2026"
+      ],
+      "sources": [
+        "source.nts.grant.eligibility",
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.income-tax-return",
+      "title": "종합소득세 확정신고",
+      "type": "filing",
+      "description": "종합소득이 있는 개인이 다음연도 5월 신고·납부하는 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar"
+      ],
+      "children": [],
+      "related": [
+        "tax.income.comprehensive"
+      ],
+      "terms": [
+        "term.deadline",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [
+        "deadline.income-tax.2025-return"
+      ],
+      "sources": [
+        "source.nts.income-tax.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.vat-return",
+      "title": "부가가치세 신고 납부 절차",
+      "type": "filing",
+      "description": "부가가치세 과세사업자가 과세기간별 매출세액과 매입세액을 신고·납부하는 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar"
+      ],
+      "children": [],
+      "related": [
+        "tax.value-added",
+        "concept.simple-vat-taxpayer"
+      ],
+      "terms": [
+        "term.tax-period",
+        "term.simple-vat-taxpayer",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [
+        "deadline.vat.periodic"
+      ],
+      "sources": [
+        "source.nts.vat.overview",
+        "source.nts.tax-calendar.2026"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.withholding-tax",
+      "title": "원천세 신고 납부 절차",
+      "type": "filing",
+      "description": "원천징수의무자가 원천징수한 세액을 신고·납부하는 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.withholding",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [
+        "deadline.withholding.monthly"
+      ],
+      "sources": [
+        "source.nts.tax-calendar.2026"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.year-end-settlement",
+      "title": "연말정산",
+      "type": "filing",
+      "description": "원천징수의무자가 근로자의 해당 과세기간 근로소득세를 확정하는 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar"
+      ],
+      "children": [],
+      "related": [
+        "category.deductions-and-reliefs"
+      ],
+      "terms": [
+        "term.withholding",
+        "term.income-deduction",
+        "term.tax-credit"
+      ],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "kr-tax-system",
+      "title": "대한민국 세금 온톨로지",
+      "type": "domain",
+      "description": "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 최상위 항목입니다.",
+      "folder": "00_Index",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [
+        "category.national-taxes",
+        "category.customs",
+        "category.local-taxes",
+        "category.deductions-and-reliefs",
+        "category.policy-supports",
+        "category.filing-calendar"
+      ],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.local-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2",
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "",
+      "tags": [
+        "root"
+      ]
+    },
+    {
+      "id": "local.acquisition",
+      "title": "취득세",
+      "type": "tax",
+      "description": "부동산, 차량 등 과세물건 취득에 대해 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.automobile",
+      "title": "자동차세",
+      "type": "tax",
+      "description": "자동차 보유 또는 주행 등에 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.leisure",
+      "title": "레저세",
+      "type": "tax",
+      "description": "경륜·경정·경마 등 승자투표권 발매 등에 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.local-consumption",
+      "title": "지방소비세",
+      "type": "tax",
+      "description": "부가가치세와 연결되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [
+        "tax.value-added"
+      ],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.local-education",
+      "title": "지방교육세",
+      "type": "tax",
+      "description": "지방교육재정 확충을 위해 다른 지방세에 부가되는 지방 목적세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-purpose-taxes"
+      ],
+      "children": [],
+      "related": [
+        "tax.education"
+      ],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.local-income",
+      "title": "지방소득세",
+      "type": "tax",
+      "description": "소득세·법인세 과세표준이 되는 소득과 연결되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [
+        "tax.income",
+        "tax.corporate"
+      ],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.property",
+      "title": "재산세",
+      "type": "tax",
+      "description": "토지, 건축물, 주택 등 재산 보유에 대해 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.regional-resource-facility",
+      "title": "지역자원시설세",
+      "type": "tax",
+      "description": "지역자원 보호, 안전관리 등 특정 재원 목적의 지방 목적세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-purpose-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.registration-license",
+      "title": "등록면허세",
+      "type": "tax",
+      "description": "재산권 등 등록 또는 각종 면허에 대해 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.resident",
+      "title": "주민세",
+      "type": "tax",
+      "description": "개인, 사업소, 종업원 등 지역 구성원에게 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "local.tobacco-consumption",
+      "title": "담배소비세",
+      "type": "tax",
+      "description": "담배 반출 또는 반입에 대해 과세되는 지방 보통세입니다.",
+      "folder": "10_Taxes/Local",
+      "basis_year": 2026,
+      "effective_date": "2026-02-05",
+      "expiration_date": null,
+      "parents": [
+        "category.local-ordinary-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.local-tax"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "지방세기본법 제8조",
+      "tags": [
+        "local-tax"
+      ]
+    },
+    {
+      "id": "reduction.good-landlord",
+      "title": "착한임대인 세액공제 제도",
+      "type": "tax-reduction",
+      "description": "상가건물 임대료 인하액에 적용되는 세액공제 제도입니다.",
+      "folder": "20_Deductions/TaxReductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-reductions"
+      ],
+      "children": [],
+      "related": [
+        "corporate.support.good-landlord-credit"
+      ],
+      "terms": [
+        "term.tax-credit",
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "reduction.sme-employment-income",
+      "title": "중소기업 취업자 소득세 감면",
+      "type": "tax-reduction",
+      "description": "청년 등 중소기업 취업자의 소득세를 일정 요건에서 감면하는 항목입니다.",
+      "folder": "20_Deductions/TaxReductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-reductions"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "reduction.sme-special",
+      "title": "중소기업특별세액감면",
+      "type": "tax-reduction",
+      "description": "제조업 등 일정 업종 중소기업 소득에 대한 세액감면입니다.",
+      "folder": "20_Deductions/TaxReductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-reductions"
+      ],
+      "children": [],
+      "related": [
+        "corporate.support.sme-special-reduction"
+      ],
+      "terms": [
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "reduction.startup-sme",
+      "title": "창업중소기업 등에 대한 세액감면",
+      "type": "tax-reduction",
+      "description": "창업중소기업 등의 최초 소득발생 과세연도와 이후 일정 기간에 적용되는 세액감면입니다.",
+      "folder": "20_Deductions/TaxReductions",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.tax-reductions"
+      ],
+      "children": [],
+      "related": [
+        "corporate.support.startup-sme-reduction"
+      ],
+      "terms": [
+        "term.tax-reduction"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "source.customs-act.2026.article14",
+      "title": "관세법 제14조",
+      "type": "source",
+      "description": "수입물품에 관세를 부과한다는 관세의 과세물건 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900015991",
+      "basis_date": "시행 2026-01-01"
+    },
+    {
+      "id": "source.fsc.isa.policy",
+      "title": "ISA 정책문답",
+      "type": "source",
+      "description": "개인종합자산관리계좌(ISA)의 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "금융위원회"
+      ],
+      "publisher": "금융위원회",
+      "url": "https://www.fsc.go.kr/po020201/27339",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.kinfa.youth-leap",
+      "title": "청년도약계좌 상품 안내",
+      "type": "source",
+      "description": "청년도약계좌 가입 연령, 개인소득, 가구소득, 금융소득종합과세 이력 제한 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "서민금융진흥원"
+      ],
+      "publisher": "서민금융진흥원",
+      "url": "https://ylaccount.kinfa.or.kr/main",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.local-tax-framework-act.2026.article8",
+      "title": "지방세기본법 제8조",
+      "type": "source",
+      "description": "특별시세, 광역시세, 도세, 구세, 시·군세, 특별자치시·특별자치도세의 세목 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
+      "basis_date": "시행 2026-02-05"
+    },
+    {
+      "id": "source.national-tax-framework-act.2026.article2",
+      "title": "국세기본법 제2조",
+      "type": "source",
+      "description": "국세 세목, 세법, 원천징수, 과세기간, 과세표준 등 국세 기본 용어의 법률상 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=900637068",
+      "basis_date": "시행 2026-01-01"
+    },
+    {
+      "id": "source.nts.corporate-tax.reliefs",
+      "title": "법인세 공제감면",
+      "type": "source",
+      "description": "중소기업, 모든 기업, 법인세법상 공제·감면과 과세이연 지원제도의 공식 목록 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.credit-card-deduction",
+      "title": "신용카드 등 사용금액 소득공제",
+      "type": "source",
+      "description": "신용카드, 직불카드, 현금영수증 사용액 소득공제와 총급여 25% 기준의 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7794&mi=2202",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.ctc.intro",
+      "title": "자녀장려금 소개",
+      "type": "source",
+      "description": "자녀장려금의 부양자녀, 총소득, 자녀 1인당 지급액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7782&mi=2451",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.eitc.intro",
+      "title": "근로장려금 소개",
+      "type": "source",
+      "description": "근로장려금 제도 취지, 가구 유형별 소득 기준, 최대지급액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.grant.deadline",
+      "title": "근로·자녀장려금 심사 및 지급",
+      "type": "source",
+      "description": "정기신청분, 기한 후 신청분, 반기신청분의 심사와 지급기한 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7784&mi=2453",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.grant.eligibility",
+      "title": "근로·자녀장려금 신청자격",
+      "type": "source",
+      "description": "2025년 소득요건, 2025년 6월 1일 재산요건, 신청제외자 기준의 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7783&mi=2452",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.income-tax.deadline",
+      "title": "종합소득세 신고납부기한",
+      "type": "source",
+      "description": "2025년 귀속 종합소득세 신고·납부 기한과 기한의 특례 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7665&mi=2225",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.monthly-rent-credit",
+      "title": "월세액 세액공제",
+      "type": "source",
+      "description": "월세액 세액공제의 총급여, 종합소득금액, 주택, 전입신고, 한도 조건 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.tax-calendar.2026",
+      "title": "2026년 국세청 세무일정",
+      "type": "source",
+      "description": "월별 신고·납부 일정과 기한의 특례 확인용 공식 일정입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/ad/taxSchdul/selectList.do?mi=135747&taxYear=2026",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.vat.overview",
+      "title": "부가가치세 개요",
+      "type": "source",
+      "description": "부가가치세 구조와 일반과세자·간이과세자 구분 기준의 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.year-end-settlement.calculation",
+      "title": "연말정산 세액계산방법",
+      "type": "source",
+      "description": "연말정산 계산 단계와 인적공제, 연금보험료공제, 특별소득공제, 세액감면, 세액공제의 구조 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.year-end-settlement.deduction-limit",
+      "title": "근로소득 과세표준과 산출세액",
+      "type": "source",
+      "description": "소득공제 종합한도와 종합한도 적용 특별소득공제 등 항목의 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7873&mi=6594",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.year-end-settlement.special-credit",
+      "title": "근로소득 특별세액공제",
+      "type": "source",
+      "description": "보험료, 의료비, 교육비, 기부금 등 특별세액공제 항목의 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://kids.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7874&mi=6438",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "support.child-tax-credit",
+      "title": "자녀장려금",
+      "type": "support-program",
+      "description": "18세 미만 부양자녀가 있는 저소득 가구의 자녀양육을 지원하는 국세청 지원금입니다. 2025년 귀속 총소득 기준은 홑벌이·맞벌이 7,000만원 미만입니다.",
+      "folder": "30_Supports",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.policy-supports"
+      ],
+      "children": [],
+      "related": [
+        "credit.child",
+        "filing.grant-application"
+      ],
+      "terms": [
+        "term.total-income",
+        "term.property-requirement"
+      ],
+      "deadlines": [
+        "deadline.grant.regular.2025-income"
+      ],
+      "sources": [
+        "source.nts.ctc.intro",
+        "source.nts.grant.eligibility",
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "cash-support"
+      ]
+    },
+    {
+      "id": "support.earned-income-tax-credit",
+      "title": "근로장려금",
+      "type": "support-program",
+      "description": "근로·사업·종교인소득이 있는 저소득 가구의 근로를 장려하기 위해 지급하는 국세청 지원금입니다. 2025년 귀속 소득 기준은 단독 2,200만원, 홑벌이 3,200만원, 맞벌이 4,400만원 미만입니다.",
+      "folder": "30_Supports",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.policy-supports"
+      ],
+      "children": [],
+      "related": [
+        "tax.income.comprehensive",
+        "filing.grant-application"
+      ],
+      "terms": [
+        "term.total-income",
+        "term.gross-pay",
+        "term.property-requirement"
+      ],
+      "deadlines": [
+        "deadline.grant.regular.2025-income",
+        "deadline.grant.semiannual.2026"
+      ],
+      "sources": [
+        "source.nts.eitc.intro",
+        "source.nts.grant.eligibility",
+        "source.nts.grant.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "cash-support"
+      ]
+    },
+    {
+      "id": "support.isa",
+      "title": "개인종합자산관리계좌 ISA",
+      "type": "support-program",
+      "description": "개인이 예·적금, 펀드, 파생결합증권 등을 한 계좌에서 운용하며 세제혜택을 받을 수 있는 정책성 금융계좌입니다.",
+      "folder": "30_Supports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.policy-supports"
+      ],
+      "children": [],
+      "related": [
+        "tax.income"
+      ],
+      "terms": [
+        "term.tax-credit"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.fsc.isa.policy"
+      ],
+      "law_reference": "",
+      "tags": [
+        "policy-finance",
+        "tax-preferred-account"
+      ]
+    },
+    {
+      "id": "support.youth-leap-account",
+      "title": "청년도약계좌",
+      "type": "support-program",
+      "description": "청년의 중장기 자산형성을 지원하는 정책금융 상품입니다. 세금 세목은 아니지만 소득 요건, 금융소득종합과세 이력 제한, 비과세·정부기여금 학습 항목으로 연결합니다.",
+      "folder": "30_Supports",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.policy-supports"
+      ],
+      "children": [],
+      "related": [
+        "tax.income"
+      ],
+      "terms": [
+        "term.total-income"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.kinfa.youth-leap"
+      ],
+      "law_reference": "",
+      "tags": [
+        "policy-finance"
+      ]
+    },
+    {
+      "id": "tax.comprehensive-real-estate",
+      "title": "종합부동산세",
+      "type": "tax",
+      "description": "일정 기준을 넘는 주택·토지 보유에 대해 과세되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.corporate",
+      "title": "법인세",
+      "type": "tax",
+      "description": "법인의 각 사업연도 소득 등에 과세되는 국세이며 법인세 공제·감면 지원제도와 직접 연결됩니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [
+        "category.corporate-tax-supports",
+        "local.local-income"
+      ],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.customs",
+      "title": "관세",
+      "type": "tax",
+      "description": "수입물품에 부과되는 조세입니다. 국세기본법 제2조의 국세 열거와 별도로 관세법 제14조를 근거로 관리합니다.",
+      "folder": "10_Taxes/Customs",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.customs"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.customs",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.customs-act.2026.article14"
+      ],
+      "law_reference": "관세법 제14조",
+      "tags": []
+    },
+    {
+      "id": "tax.education",
+      "title": "교육세",
+      "type": "tax",
+      "description": "교육재정 확충을 위한 목적세 성격의 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [
+        "local.local-education"
+      ],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.gift",
+      "title": "증여세",
+      "type": "tax",
+      "description": "무상 이전되는 재산에 과세되는 세금입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.inheritance-and-gift"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "tax.income",
+      "title": "소득세",
+      "type": "tax",
+      "description": "개인의 소득에 과세되는 국세입니다. 종합소득, 퇴직소득, 양도소득 흐름으로 세부 학습 노드를 둡니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [
+        "tax.income.comprehensive",
+        "tax.income.retirement",
+        "tax.income.capital-gains"
+      ],
+      "related": [
+        "category.income-deductions",
+        "category.tax-credits",
+        "local.local-income",
+        "support.youth-leap-account",
+        "support.isa"
+      ],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [
+        "deadline.income-tax.2025-return",
+        "deadline.year-end-settlement"
+      ],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.income.capital-gains",
+      "title": "양도소득세",
+      "type": "tax",
+      "description": "부동산, 주식 등 자산 양도차익에 대해 과세되는 소득세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.income"
+      ],
+      "children": [],
+      "related": [
+        "tax.securities-transaction"
+      ],
+      "terms": [
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "tax.income.comprehensive",
+      "title": "종합소득세",
+      "type": "tax",
+      "description": "이자·배당·사업·근로·연금·기타소득 등 종합소득금액에 대해 확정신고하는 소득세 흐름입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2025,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.income"
+      ],
+      "children": [],
+      "related": [
+        "support.earned-income-tax-credit",
+        "filing.income-tax-return"
+      ],
+      "terms": [
+        "term.tax-base",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [
+        "deadline.income-tax.2025-return"
+      ],
+      "sources": [
+        "source.nts.income-tax.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "tax.income.retirement",
+      "title": "퇴직소득세",
+      "type": "tax",
+      "description": "퇴직으로 받는 소득에 대해 별도 계산 구조를 가지는 소득세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.income"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.withholding"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "tax.individual-consumption",
+      "title": "개별소비세",
+      "type": "tax",
+      "description": "특정 물품, 장소, 행위 등에 개별적으로 부과되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.inheritance",
+      "title": "상속세",
+      "type": "tax",
+      "description": "사망으로 이전되는 재산에 과세되는 세금입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.inheritance-and-gift"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "tax.inheritance-and-gift",
+      "title": "상속세와 증여세",
+      "type": "tax",
+      "description": "상속 또는 증여로 이전되는 재산에 과세되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [
+        "tax.inheritance",
+        "tax.gift"
+      ],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.liquor",
+      "title": "주세",
+      "type": "tax",
+      "description": "주류에 과세되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.securities-transaction",
+      "title": "증권거래세",
+      "type": "tax",
+      "description": "주권 등의 양도 거래에 과세되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [
+        "tax.income.capital-gains"
+      ],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.special-rural-development",
+      "title": "농어촌특별세",
+      "type": "tax",
+      "description": "농어촌 경쟁력 강화 재원 등을 위해 부과되는 목적세 성격의 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.stamp",
+      "title": "인지세",
+      "type": "tax",
+      "description": "과세문서 작성에 대해 부과되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.transport-energy-environment",
+      "title": "교통·에너지·환경세",
+      "type": "tax",
+      "description": "교통시설, 에너지, 환경 관련 재원 목적의 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.national-tax",
+        "term.tax-law"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "tax.value-added",
+      "title": "부가가치세",
+      "type": "tax",
+      "description": "재화 또는 용역의 공급 과정에서 생긴 부가가치에 과세되는 국세입니다.",
+      "folder": "10_Taxes/National",
+      "basis_year": 2026,
+      "effective_date": "2026-01-01",
+      "expiration_date": null,
+      "parents": [
+        "category.national-taxes"
+      ],
+      "children": [
+        "concept.simple-vat-taxpayer"
+      ],
+      "related": [
+        "local.local-consumption",
+        "filing.vat-return"
+      ],
+      "terms": [
+        "term.national-tax",
+        "term.tax-period",
+        "term.simple-vat-taxpayer"
+      ],
+      "deadlines": [
+        "deadline.vat.periodic"
+      ],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.vat.overview"
+      ],
+      "law_reference": "국세기본법 제2조 제1호",
+      "tags": [
+        "national-tax"
+      ]
+    },
+    {
+      "id": "term.customs",
+      "title": "관세",
+      "type": "term",
+      "description": "수입물품에 부과되는 조세입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.customs-act.2026.article14"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.deadline",
+      "title": "법정신고기한",
+      "type": "term",
+      "description": "세법에 따라 과세표준신고서를 제출할 기한입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.deadline-special-rule",
+      "title": "기한의 특례",
+      "type": "term",
+      "description": "신고·납부 기한일이 공휴일, 토요일 또는 근로자의 날이면 그 다음 날을 기한으로 보는 규칙입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.tax-calendar.2026",
+        "source.nts.income-tax.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.deduction-limit",
+      "title": "소득공제 종합한도",
+      "type": "term",
+      "description": "과도한 소득공제 적용을 배제하기 위해 일정 소득공제 항목 합계에 적용되는 한도입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.gross-pay",
+      "title": "총급여액 등",
+      "type": "term",
+      "description": "장려금 지급액 결정과 홑벌이·맞벌이 구분 등에 쓰이는 근로, 사업, 종교인소득의 합계 기준입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.eligibility"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.income-deduction",
+      "title": "소득공제",
+      "type": "term",
+      "description": "과세표준 계산 전에 소득금액에서 차감하는 공제입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.deduction-limit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.local-tax",
+      "title": "지방세",
+      "type": "term",
+      "description": "지방자치단체가 과세권을 가지며 지방세기본법상 세목과 자치단체 세목 배분에 따라 관리되는 세금입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.local-tax-framework-act.2026.article8"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.national-tax",
+      "title": "국세",
+      "type": "term",
+      "description": "국가가 부과하는 조세 중 국세기본법 제2조가 열거한 세목입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.property-requirement",
+      "title": "재산요건",
+      "type": "term",
+      "description": "근로·자녀장려금에서 가구원 재산 합계액으로 판정하는 요건입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.eligibility"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.simple-vat-taxpayer",
+      "title": "간이과세자",
+      "type": "term",
+      "description": "부가가치세에서 직전 1년 매출액이 10,400만원 미만인 개인사업자 유형입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.tax-base",
+      "title": "과세표준",
+      "type": "term",
+      "description": "세율 적용과 세액 산출의 기준이 되는 과세대상의 수량 또는 가액입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.tax-credit",
+      "title": "세액공제",
+      "type": "term",
+      "description": "산출세액에서 직접 차감하는 공제입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.year-end-settlement.special-credit"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.tax-law",
+      "title": "세법",
+      "type": "term",
+      "description": "국세의 종목과 세율을 정하는 법률과 국세기본법이 세법으로 묶는 관련 법률 체계입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.tax-period",
+      "title": "과세기간",
+      "type": "term",
+      "description": "세법에 따라 과세표준 계산의 기초가 되는 기간입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.tax-reduction",
+      "title": "세액감면",
+      "type": "term",
+      "description": "정책 목적에 따라 산출세액 또는 납부할 세액을 줄여 주는 조세지원입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.total-income",
+      "title": "총소득",
+      "type": "term",
+      "description": "근로·자녀장려금 자격 판정에서 근로, 사업, 종교인, 기타, 이자·배당·연금소득을 합산한 금액입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.grant.eligibility"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.withholding",
+      "title": "원천징수",
+      "type": "term",
+      "description": "소득을 지급하는 자가 세법에 따라 세금을 미리 징수해 납부하는 방식입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    }
+  ]
+};
+
+        (() => {
+          const items = ONTOLOGY_DATA.items;
+          const byId = new Map(items.map((item) => [item.id, item]));
+          const typeLabels = ONTOLOGY_DATA.type_labels;
+          const typeRoles = ONTOLOGY_DATA.type_roles;
+          const searchInput = document.querySelector("[data-search]");
+          const listEl = document.querySelector("[data-item-list]");
+          const tabsEl = document.querySelector("[data-tabs]");
+          const resultCountEl = document.querySelector("[data-result-count]");
+          const detailEl = document.querySelector("[data-detail-panel]");
+          const sourceListEl = document.querySelector("[data-source-list]");
+          const typeTableEl = document.querySelector("[data-type-table]");
+
+          const state = {
+            tab: "all",
+            query: "",
+            selectedId: "kr-tax-system"
+          };
+
+          const tabs = [
+            { id: "all", label: "전체", test: () => true },
+            { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
+            { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
+            { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
+            { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
+            { id: "terms", label: "용어", test: (item) => ["term", "concept"].includes(item.type) },
+            { id: "sources", label: "출처", test: (item) => item.type === "source" }
+          ];
+
+          function escapeHtml(value) {
+            return String(value ?? "")
+              .replaceAll("&", "&amp;")
+              .replaceAll("<", "&lt;")
+              .replaceAll(">", "&gt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("'", "&#039;");
+          }
+
+          function itemText(item) {
+            return [
+              item.id,
+              item.title,
+              typeLabels[item.type] || item.type,
+              item.description,
+              item.law_reference,
+              ...(item.tags || [])
+            ].join(" ").toLowerCase();
+          }
+
+          function hasAncestor(item, ancestorId, visited = new Set()) {
+            if (!item || visited.has(item.id)) return false;
+            visited.add(item.id);
+            if ((item.parents || []).includes(ancestorId)) return true;
+            return (item.parents || []).some((parentId) => hasAncestor(byId.get(parentId), ancestorId, visited));
+          }
+
+          function filteredItems() {
+            const query = state.query.trim().toLowerCase();
+            const activeTab = tabs.find((tab) => tab.id === state.tab) || tabs[0];
+            return items
+              .filter((item) => activeTab.test(item))
+              .filter((item) => !query || itemText(item).includes(query))
+              .sort((a, b) => {
+                if (a.type === "domain") return -1;
+                if (b.type === "domain") return 1;
+                if (a.type !== b.type) return a.type.localeCompare(b.type);
+                return a.title.localeCompare(b.title, "ko");
+              });
+          }
+
+          function ensureVisibleSelection(visible) {
+            if (!visible.length) {
+              state.selectedId = "";
+              return;
+            }
+
+            if (!visible.some((item) => item.id === state.selectedId)) {
+              state.selectedId = visible[0].id;
+            }
+          }
+
+          function renderTabs() {
+            tabsEl.innerHTML = tabs
+              .map((tab) => `<button class="tab-button" type="button" role="tab" aria-selected="${tab.id === state.tab}" data-tab="${tab.id}">${escapeHtml(tab.label)}</button>`)
+              .join("");
+          }
+
+          function renderList() {
+            const visible = filteredItems();
+            ensureVisibleSelection(visible);
+            resultCountEl.textContent = `${visible.length.toLocaleString("ko-KR")}개 표시`;
+            if (!visible.length) {
+              listEl.innerHTML = `<div class="empty-state">검색 조건에 맞는 항목이 없습니다.</div>`;
+              return;
+            }
+
+            listEl.innerHTML = visible
+              .map((item) => `
+                <button class="item-row${item.id === state.selectedId ? " active" : ""}" type="button" data-select-item="${escapeHtml(item.id)}">
+                  <span>
+                    <strong>${escapeHtml(item.title)}</strong>
+                    <p>${escapeHtml(item.description)}</p>
+                  </span>
+                  <span class="type-chip">${escapeHtml(typeLabels[item.type] || item.type)}</span>
+                </button>
+              `)
+              .join("");
+          }
+
+          function relationBlock(title, ids) {
+            const links = (ids || [])
+              .map((id) => byId.get(id))
+              .filter(Boolean)
+              .map((item) => `<button class="relation-link" type="button" data-select-item="${escapeHtml(item.id)}">${escapeHtml(item.title)}</button>`)
+              .join("");
+
+            if (!links) return "";
+            return `
+              <div class="relation-group">
+                <h4>${escapeHtml(title)}</h4>
+                <div class="relation-links">${links}</div>
+              </div>
+            `;
+          }
+
+          function sourceBlock(ids) {
+            const links = (ids || [])
+              .map((id) => byId.get(id))
+              .filter(Boolean)
+              .map((source) => {
+                const href = source.url ? `<a class="relation-link" href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)}</a>` : `<span class="relation-link">${escapeHtml(source.title)}</span>`;
+                return href;
+              })
+              .join("");
+            if (!links) return "";
+            return `
+              <div class="relation-group">
+                <h4>근거·출처</h4>
+                <div class="relation-links">${links}</div>
+              </div>
+            `;
+          }
+
+          function renderDetail() {
+            const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
+            if (!item) {
+              detailEl.innerHTML = `
+                <div class="detail-kicker">검색 결과 없음</div>
+                <h3>선택할 항목이 없습니다</h3>
+                <p>검색어를 줄이거나 다른 필터를 선택해 주세요.</p>
+              `;
+              return;
+            }
+            const relationHtml = [
+              relationBlock("상위 항목", item.parents),
+              relationBlock("하위 항목", item.children),
+              relationBlock("관련 항목", item.related),
+              relationBlock("관련 용어", item.terms),
+              relationBlock("관련 기한", item.deadlines),
+              sourceBlock(item.sources)
+            ].filter(Boolean).join("");
+
+            detailEl.innerHTML = `
+              <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.description)}</p>
+              <div class="meta-grid">
+                <div><span>기준연도</span><strong>${escapeHtml(item.basis_year || "해당 없음")}</strong></div>
+                <div><span>법령 근거</span><strong>${escapeHtml(item.law_reference || "출처 노드 참조")}</strong></div>
+                <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
+                <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
+              </div>
+              <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
+            `;
+          }
+
+          function renderTypeTable() {
+            const counts = ONTOLOGY_DATA.summary.type_counts;
+            typeTableEl.innerHTML = Object.keys(counts)
+              .sort((a, b) => (typeLabels[a] || a).localeCompare(typeLabels[b] || b, "ko"))
+              .map((type) => `
+                <tr>
+                  <td><strong>${escapeHtml(typeLabels[type] || type)}</strong><br><span>${escapeHtml(type)}</span></td>
+                  <td>${Number(counts[type]).toLocaleString("ko-KR")}</td>
+                  <td>${escapeHtml(typeRoles[type] || "온톨로지 노드")}</td>
+                </tr>
+              `)
+              .join("");
+          }
+
+          function renderSources() {
+            const sources = items
+              .filter((item) => item.type === "source")
+              .sort((a, b) => (a.publisher || "").localeCompare(b.publisher || "", "ko") || a.title.localeCompare(b.title, "ko"));
+
+            sourceListEl.innerHTML = sources
+              .map((source) => `
+                <article class="source-card">
+                  <span>${escapeHtml(source.publisher || "공식 출처")} · ${escapeHtml(source.basis_date || ONTOLOGY_DATA.basis_date)}</span>
+                  <strong>${escapeHtml(source.title)}</strong>
+                  <p>${escapeHtml(source.description)}</p>
+                  ${source.url ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">원문 열기</a>` : ""}
+                </article>
+              `)
+              .join("");
+          }
+
+          function downloadJson() {
+            const exportData = {
+              version: ONTOLOGY_DATA.version,
+              basis_date: ONTOLOGY_DATA.basis_date,
+              manifests: ONTOLOGY_DATA.manifests,
+              items: ONTOLOGY_DATA.items
+            };
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement("a");
+            anchor.href = url;
+            anchor.download = "korea-tax-ontology-2026.json";
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+            URL.revokeObjectURL(url);
+          }
+
+          document.addEventListener("click", (event) => {
+            const selectButton = event.target.closest("[data-select-item]");
+            if (selectButton) {
+              const id = selectButton.getAttribute("data-select-item");
+              if (byId.has(id)) {
+                state.selectedId = id;
+                renderList();
+                renderDetail();
+                document.querySelector("#browser")?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }
+
+            const tabButton = event.target.closest("[data-tab]");
+            if (tabButton) {
+              state.tab = tabButton.getAttribute("data-tab");
+              renderTabs();
+              renderList();
+              renderDetail();
+            }
+
+            if (event.target.closest("[data-download-json]")) {
+              downloadJson();
+            }
+          });
+
+          searchInput.addEventListener("input", (event) => {
+            state.query = event.target.value;
+            renderList();
+            renderDetail();
+          });
+
+          renderTypeTable();
+          renderSources();
+          renderTabs();
+          renderList();
+          renderDetail();
+        })();

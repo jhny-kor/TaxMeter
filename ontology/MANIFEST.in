@@ -1,0 +1,6 @@
+include README.md
+include MCP_INSTALL.md
+include custom/*.json
+include exports/*.json
+include schema/*.json
+recursive-include vault *.md
