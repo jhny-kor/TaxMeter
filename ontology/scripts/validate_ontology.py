@@ -41,15 +41,22 @@ REQUIRED_TYPES_WITH_SOURCES = {
 }
 
 
-def parse_frontmatter(path: Path) -> dict:
+def parse_frontmatter(path: Path) -> dict | None:
     text = path.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
         raise ValueError(f"{path}: missing frontmatter")
     _, frontmatter, _ = text.split("---", 2)
     result: dict = {}
     for raw_line in frontmatter.strip().splitlines():
+        if ": " not in raw_line:
+            continue
         key, value = raw_line.split(": ", 1)
-        result[key] = json.loads(value)
+        try:
+            result[key] = json.loads(value)
+        except json.JSONDecodeError:
+            result[key] = value
+    if "id" not in result:
+        return None
     result["_path"] = str(path.relative_to(ROOT))
     return result
 
@@ -58,6 +65,8 @@ def load_notes() -> dict[str, dict]:
     items: dict[str, dict] = {}
     for path in sorted(VAULT.rglob("*.md")):
         item = parse_frontmatter(path)
+        if item is None:
+            continue
         item_id = item["id"]
         if item_id in items:
             raise ValueError(f"duplicate id {item_id}: {items[item_id]['_path']} and {item['_path']}")
@@ -75,6 +84,28 @@ def validate_references(items: dict[str, dict], errors: list[str]) -> None:
         for key in REFERENCE_KEYS:
             for target_id in item.get(key) or []:
                 require(target_id in items, f"{item_id}: {key} references missing id {target_id}", errors)
+
+
+def validate_criteria(items: dict[str, dict], errors: list[str]) -> None:
+    for item_id, item in items.items():
+        criteria = item.get("criteria") or []
+        require(isinstance(criteria, list), f"{item_id}: criteria must be a list", errors)
+        if not isinstance(criteria, list):
+            continue
+        for index, criterion in enumerate(criteria, start=1):
+            if not isinstance(criterion, dict):
+                errors.append(f"{item_id}: criteria #{index} must be an object")
+                continue
+            require(bool(criterion.get("label")), f"{item_id}: criteria #{index} missing label", errors)
+            require(bool(criterion.get("basis")), f"{item_id}: criteria #{index} missing basis", errors)
+            source_id = criterion.get("source")
+            require(bool(source_id), f"{item_id}: criteria #{index} missing source", errors)
+            if source_id:
+                require(source_id in items, f"{item_id}: criteria #{index} references missing source {source_id}", errors)
+            minimum = criterion.get("threshold_krw_min")
+            maximum = criterion.get("threshold_krw_max")
+            if minimum is not None and maximum is not None:
+                require(minimum <= maximum, f"{item_id}: criteria #{index} threshold min exceeds max", errors)
 
 
 def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> None:
@@ -122,6 +153,7 @@ def main() -> int:
     items = load_notes()
     errors: list[str] = []
     validate_references(items, errors)
+    validate_criteria(items, errors)
     validate_required_metadata(items, errors)
     validate_bidirectional_links(items, errors)
     validate_manifests(items, errors)
