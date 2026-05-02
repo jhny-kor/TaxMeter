@@ -142,7 +142,7 @@ SOURCES = {
     "source.nts.capital-gains.rates": {
         "title": "양도소득세 세율",
         "publisher": "국세청",
-        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2345",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7711&mi=2312",
         "basis_date": "2026-05-02 확인",
         "description": "양도소득세 기본세율, 보유기간·자산 유형별 세율, 국외주식·파생상품 세율 근거입니다.",
     },
