@@ -61,27 +61,27 @@
     ]
   },
   "summary": {
-    "item_count": 154,
-    "source_count": 18,
-    "term_count": 17,
-    "category_count": 12,
+    "item_count": 191,
+    "source_count": 27,
+    "term_count": 23,
+    "category_count": 13,
     "national_tax_count": 12,
     "local_tax_count": 11,
     "corporate_support_count": 28,
     "type_counts": {
-      "category": 12,
-      "concept": 1,
+      "category": 13,
+      "concept": 7,
       "corporate-tax-support": 28,
-      "deadline": 6,
+      "deadline": 16,
       "deduction": 17,
       "domain": 1,
-      "filing": 5,
-      "source": 18,
+      "filing": 10,
+      "source": 27,
       "support-program": 4,
       "tax": 29,
       "tax-credit": 12,
       "tax-reduction": 4,
-      "term": 17
+      "term": 23
     }
   },
   "type_labels": {
@@ -115,6 +115,42 @@
     "source": "법률·기관별 공식 근거 URL"
   },
   "items": [
+    {
+      "id": "category.business-tax-compliance",
+      "title": "사업자 세무",
+      "type": "category",
+      "description": "개인사업자와 원천징수의무자가 사업자등록, 부가가치세, 원천세 신고·납부에서 확인해야 하는 실무 흐름입니다.",
+      "folder": "60_Business",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "filing.business-registration",
+        "filing.vat-return",
+        "filing.withholding-tax",
+        "filing.business-income-withholding"
+      ],
+      "related": [
+        "tax.value-added"
+      ],
+      "terms": [
+        "term.general-vat-taxpayer",
+        "term.simple-vat-taxpayer",
+        "term.withholding-obligor"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.business-registration.application",
+        "source.nts.vat.filing-duty",
+        "source.nts.withholding.overview",
+        "source.nts.business-income.withholding"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
     {
       "id": "category.corporate-tax-supports",
       "title": "법인세 공제·감면 지원제도",
@@ -250,6 +286,9 @@
         "filing.year-end-settlement",
         "filing.withholding-tax",
         "filing.vat-return",
+        "filing.capital-gains-return",
+        "filing.inheritance-tax-return",
+        "filing.gift-tax-return",
         "filing.grant-application"
       ],
       "related": [],
@@ -261,7 +300,10 @@
       "sources": [
         "source.nts.income-tax.deadline",
         "source.nts.tax-calendar.2026",
-        "source.nts.grant.deadline"
+        "source.nts.grant.deadline",
+        "source.nts.capital-gains.deadline",
+        "source.nts.inheritance.overview",
+        "source.nts.gift.deadline"
       ],
       "law_reference": "",
       "tags": []
@@ -530,10 +572,117 @@
       "tags": []
     },
     {
-      "id": "concept.simple-vat-taxpayer",
-      "title": "간이과세자 기준",
+      "id": "concept.capital-gains.calculation-flow",
+      "title": "양도소득세 계산 흐름",
       "type": "concept",
-      "description": "부가가치세에서 1년 매출액 10,400만원 미만 개인사업자에게 적용되는 납세 유형 기준입니다.",
+      "description": "양도가액, 취득가액, 필요경비, 장기보유특별공제, 기본공제 등을 거쳐 양도소득 과세표준과 산출세액을 파악하는 계산 구조입니다.",
+      "folder": "10_Taxes/National/CapitalGains",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.income.capital-gains"
+      ],
+      "children": [],
+      "related": [
+        "filing.capital-gains-return"
+      ],
+      "terms": [
+        "term.capital-gain",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.capital-gains.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.capital-gains.stock-basic-deduction",
+      "title": "주식 등 양도소득 기본공제",
+      "type": "concept",
+      "description": "주식 등 양도소득은 국내·국외주식 등 그룹별 기본공제 적용 여부를 확인해야 하며, 증권거래세와 별도로 양도차익 과세 흐름을 관리합니다.",
+      "folder": "10_Taxes/National/CapitalGains",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.income.capital-gains"
+      ],
+      "children": [],
+      "related": [
+        "tax.securities-transaction",
+        "filing.capital-gains-return"
+      ],
+      "terms": [
+        "term.capital-gain"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.capital-gains.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.cre-deduction-thresholds",
+      "title": "종합부동산세 공제금액",
+      "type": "concept",
+      "description": "종합부동산세는 주택, 종합합산토지, 별도합산토지 등 과세대상별 공제금액을 먼저 차감한 뒤 과세표준을 계산합니다.",
+      "folder": "10_Taxes/National/RealEstate",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.comprehensive-real-estate"
+      ],
+      "children": [],
+      "related": [
+        "local.property"
+      ],
+      "terms": [
+        "term.publicly-notified-price",
+        "term.tax-base"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.comprehensive-real-estate.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.cre-tax-base-date",
+      "title": "종합부동산세 과세기준일",
+      "type": "concept",
+      "description": "종합부동산세는 매년 6월 1일 현재 보유한 주택과 토지를 기준으로 재산세 과세자료와 연결해 과세대상을 판단합니다.",
+      "folder": "10_Taxes/National/RealEstate",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.comprehensive-real-estate"
+      ],
+      "children": [],
+      "related": [
+        "local.property"
+      ],
+      "terms": [
+        "term.publicly-notified-price"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.comprehensive-real-estate.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.general-vat-taxpayer",
+      "title": "일반과세자 기준",
+      "type": "concept",
+      "description": "부가가치세에서 일반 세율과 매입세액 공제 구조를 적용받는 과세사업자 유형입니다. 사업자등록과 부가가치세 신고 시 간이과세자 기준과 함께 확인합니다.",
       "folder": "40_Terms/Concepts",
       "basis_year": 2026,
       "effective_date": null,
@@ -543,6 +692,71 @@
       ],
       "children": [],
       "related": [
+        "concept.simple-vat-taxpayer",
+        "filing.business-registration",
+        "filing.vat-return"
+      ],
+      "terms": [
+        "term.general-vat-taxpayer"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.overview",
+        "source.nts.vat.filing-duty",
+        "source.nts.business-registration.application"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.simple-vat-taxpayer",
+      "title": "간이과세자 기준",
+      "type": "concept",
+      "description": "부가가치세에서 1년 매출액 10,400만원 미만 개인사업자에게 적용되는 납세 유형 기준입니다. 사업자등록 단계에서 간이과세 배제 업종과 일반과세자 전환 가능성을 함께 확인합니다.",
+      "folder": "40_Terms/Concepts",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.value-added"
+      ],
+      "children": [],
+      "related": [
+        "concept.general-vat-taxpayer",
+        "concept.vat-payment-exemption",
+        "filing.business-registration",
+        "filing.vat-return"
+      ],
+      "terms": [
+        "term.simple-vat-taxpayer"
+      ],
+      "deadlines": [
+        "deadline.vat.simplified.annual",
+        "deadline.vat.simplified.preliminary"
+      ],
+      "sources": [
+        "source.nts.vat.overview",
+        "source.nts.vat.filing-duty",
+        "source.nts.business-registration.application"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "concept.vat-payment-exemption",
+      "title": "간이과세자 납부의무 면제",
+      "type": "concept",
+      "description": "직전연도 공급대가가 일정 금액 미만인 간이과세자는 부가가치세 납부세액의 납부의무가 면제될 수 있어 신고와 납부 판단을 분리해 확인해야 합니다.",
+      "folder": "40_Terms/Concepts",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "tax.value-added"
+      ],
+      "children": [],
+      "related": [
+        "concept.simple-vat-taxpayer",
         "filing.vat-return"
       ],
       "terms": [
@@ -550,7 +764,7 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.vat.overview"
+        "source.nts.vat.filing-duty"
       ],
       "law_reference": "",
       "tags": []
@@ -1643,6 +1857,78 @@
       "tags": []
     },
     {
+      "id": "deadline.capital-gains.final",
+      "title": "양도소득세 확정신고",
+      "type": "deadline",
+      "description": "양도소득세 확정신고는 양도한 연도의 다음연도 5월 1일부터 5월 31일까지입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.capital-gains.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2027-05-01",
+      "end_date": "2027-05-31"
+    },
+    {
+      "id": "deadline.capital-gains.preliminary",
+      "title": "양도소득세 예정신고",
+      "type": "deadline",
+      "description": "토지·건물·부동산에 관한 권리·기타자산은 양도일이 속하는 달의 말일부터 2개월 이내, 주식·출자지분은 양도일이 속하는 반기의 말일부터 2개월 이내 예정신고합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.capital-gains.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.gift.general",
+      "title": "증여세 일반 증여 신고납부",
+      "type": "deadline",
+      "description": "일반 증여는 재산을 증여받은 날이 속하는 달의 말일부터 3개월 이내에 증여세를 신고·납부합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.gift.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
       "id": "deadline.grant.regular.2025-income",
       "title": "2025년 귀속 근로·자녀장려금 정기신청",
       "type": "deadline",
@@ -1716,6 +2002,102 @@
       "end_date": "2026-06-01"
     },
     {
+      "id": "deadline.inheritance.nonresident",
+      "title": "상속세 비거주자 신고납부",
+      "type": "deadline",
+      "description": "피상속인이나 상속인 전원이 비거주자인 경우 상속개시일이 속하는 달의 말일부터 9개월 이내에 상속세를 신고·납부합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.inheritance.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.inheritance.resident",
+      "title": "상속세 거주자 신고납부",
+      "type": "deadline",
+      "description": "피상속인이 거주자인 경우 상속개시일이 속하는 달의 말일부터 6개월 이내에 상속세를 신고·납부합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.inheritance.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.vat.general.first-final",
+      "title": "부가가치세 일반과세자 1기 확정신고",
+      "type": "deadline",
+      "description": "일반과세자의 제1기 과세기간은 1월 1일부터 6월 30일까지이고, 확정신고·납부기한은 7월 1일부터 7월 25일까지입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.filing-duty"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2026-07-01",
+      "end_date": "2026-07-25"
+    },
+    {
+      "id": "deadline.vat.general.second-final",
+      "title": "부가가치세 일반과세자 2기 확정신고",
+      "type": "deadline",
+      "description": "일반과세자의 제2기 과세기간은 7월 1일부터 12월 31일까지이고, 확정신고·납부기한은 다음 해 1월 1일부터 1월 25일까지입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.filing-duty"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2027-01-01",
+      "end_date": "2027-01-25"
+    },
+    {
       "id": "deadline.vat.periodic",
       "title": "부가가치세 신고 납부",
       "type": "deadline",
@@ -1731,6 +2113,7 @@
       "deadlines": [],
       "sources": [
         "source.nts.vat.overview",
+        "source.nts.vat.filing-duty",
         "source.nts.tax-calendar.2026"
       ],
       "law_reference": "",
@@ -1739,6 +2122,54 @@
       ],
       "start_date": null,
       "end_date": null
+    },
+    {
+      "id": "deadline.vat.simplified.annual",
+      "title": "부가가치세 간이과세자 연간 확정신고",
+      "type": "deadline",
+      "description": "간이과세자는 1월 1일부터 12월 31일까지를 과세기간으로 하며, 다음 해 1월 1일부터 1월 25일까지 확정신고·납부합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.filing-duty"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2027-01-01",
+      "end_date": "2027-01-25"
+    },
+    {
+      "id": "deadline.vat.simplified.preliminary",
+      "title": "부가가치세 간이과세자 예정신고 예외",
+      "type": "deadline",
+      "description": "직전연도 공급대가 4,800만원 이상 1억400만원 미만인 간이과세자가 예정부과기간에 세금계산서를 발급한 경우 7월 1일부터 7월 25일까지 예정신고합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.filing-duty"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": "2026-07-01",
+      "end_date": "2026-07-25"
     },
     {
       "id": "deadline.withholding.monthly",
@@ -1756,6 +2187,30 @@
       "deadlines": [],
       "sources": [
         "source.nts.tax-calendar.2026"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.withholding.semiannual",
+      "title": "원천세 반기별 납부",
+      "type": "deadline",
+      "description": "반기별 원천징수의무자는 원천징수한 소득세를 그 징수일이 속하는 반기의 마지막 달의 다음 달 10일까지 납부합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.business-income.withholding"
       ],
       "law_reference": "",
       "tags": [
@@ -2259,6 +2714,138 @@
       ]
     },
     {
+      "id": "filing.business-income-withholding",
+      "title": "사업소득 원천징수",
+      "type": "filing",
+      "description": "프리랜서 등 원천징수 대상 사업소득을 지급할 때 지급금액의 일정 비율을 원천징수하고 정해진 기한에 신고·납부하는 흐름입니다.",
+      "folder": "60_Business",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.business-tax-compliance",
+        "filing.withholding-tax"
+      ],
+      "children": [],
+      "related": [
+        "tax.income.comprehensive",
+        "filing.withholding-tax"
+      ],
+      "terms": [
+        "term.withholding",
+        "term.withholding-obligor",
+        "term.deadline-special-rule"
+      ],
+      "deadlines": [
+        "deadline.withholding.monthly",
+        "deadline.withholding.semiannual"
+      ],
+      "sources": [
+        "source.nts.business-income.withholding",
+        "source.nts.withholding.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "business-compliance"
+      ]
+    },
+    {
+      "id": "filing.business-registration",
+      "title": "사업자등록 신청",
+      "type": "filing",
+      "description": "신규사업자가 사업 개시 전 또는 사업 개시일부터 20일 이내 관할 세무서장에게 등록하는 절차입니다. 일반과세자·간이과세자 유형 선택과 간이과세 배제 업종 확인을 함께 관리합니다.",
+      "folder": "60_Business",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.business-tax-compliance"
+      ],
+      "children": [],
+      "related": [
+        "tax.value-added",
+        "concept.general-vat-taxpayer",
+        "concept.simple-vat-taxpayer",
+        "filing.vat-return"
+      ],
+      "terms": [
+        "term.general-vat-taxpayer",
+        "term.simple-vat-taxpayer"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.business-registration.application"
+      ],
+      "law_reference": "",
+      "tags": [
+        "business-compliance"
+      ]
+    },
+    {
+      "id": "filing.capital-gains-return",
+      "title": "양도소득세 신고",
+      "type": "filing",
+      "description": "부동산, 주식 등 자산 양도 후 예정신고와 다음연도 확정신고 필요 여부를 구분해 관리하는 신고 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar",
+        "tax.income.capital-gains"
+      ],
+      "children": [],
+      "related": [
+        "tax.securities-transaction",
+        "concept.capital-gains.calculation-flow",
+        "concept.capital-gains.stock-basic-deduction"
+      ],
+      "terms": [
+        "term.capital-gain",
+        "term.tax-base",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.capital-gains.preliminary",
+        "deadline.capital-gains.final"
+      ],
+      "sources": [
+        "source.nts.capital-gains.overview",
+        "source.nts.capital-gains.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.gift-tax-return",
+      "title": "증여세 신고",
+      "type": "filing",
+      "description": "증여받은 날이 속하는 달의 말일부터 일반 증여 3개월 기한을 기준으로 신고·납부를 관리하는 절차입니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar",
+        "tax.gift"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.donee",
+        "term.tax-base",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.gift.general"
+      ],
+      "sources": [
+        "source.nts.gift.deadline"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
       "id": "filing.grant-application",
       "title": "근로·자녀장려금 신청",
       "type": "filing",
@@ -2320,32 +2907,72 @@
       "tags": []
     },
     {
-      "id": "filing.vat-return",
-      "title": "부가가치세 신고 납부 절차",
+      "id": "filing.inheritance-tax-return",
+      "title": "상속세 신고",
       "type": "filing",
-      "description": "부가가치세 과세사업자가 과세기간별 매출세액과 매입세액을 신고·납부하는 절차입니다.",
+      "description": "상속개시일이 속하는 달의 말일부터 거주자 6개월, 비거주자 9개월 기한을 기준으로 신고·납부를 관리하는 절차입니다.",
       "folder": "50_Deadlines",
       "basis_year": 2026,
       "effective_date": null,
       "expiration_date": null,
       "parents": [
-        "category.filing-calendar"
+        "category.filing-calendar",
+        "tax.inheritance"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.heir",
+        "term.tax-base",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.inheritance.resident",
+        "deadline.inheritance.nonresident"
+      ],
+      "sources": [
+        "source.nts.inheritance.overview"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
+      "id": "filing.vat-return",
+      "title": "부가가치세 신고 납부 절차",
+      "type": "filing",
+      "description": "부가가치세 과세사업자가 과세기간별 매출세액과 매입세액을 신고·납부하는 절차입니다. 일반과세자 확정신고, 간이과세자 연간 신고, 일부 간이과세자 예정신고 예외를 함께 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.filing-calendar",
+        "category.business-tax-compliance"
       ],
       "children": [],
       "related": [
         "tax.value-added",
-        "concept.simple-vat-taxpayer"
+        "concept.general-vat-taxpayer",
+        "concept.simple-vat-taxpayer",
+        "concept.vat-payment-exemption",
+        "filing.business-registration"
       ],
       "terms": [
         "term.tax-period",
+        "term.general-vat-taxpayer",
         "term.simple-vat-taxpayer",
         "term.deadline-special-rule"
       ],
       "deadlines": [
-        "deadline.vat.periodic"
+        "deadline.vat.periodic",
+        "deadline.vat.general.first-final",
+        "deadline.vat.general.second-final",
+        "deadline.vat.simplified.annual",
+        "deadline.vat.simplified.preliminary"
       ],
       "sources": [
         "source.nts.vat.overview",
+        "source.nts.vat.filing-duty",
         "source.nts.tax-calendar.2026"
       ],
       "law_reference": "",
@@ -2355,25 +2982,34 @@
       "id": "filing.withholding-tax",
       "title": "원천세 신고 납부 절차",
       "type": "filing",
-      "description": "원천징수의무자가 원천징수한 세액을 신고·납부하는 절차입니다.",
+      "description": "원천징수의무자가 원천징수한 세액을 신고·납부하는 절차입니다. 매월 납부와 반기별 납부를 모두 연결해 급여·사업소득 지급자의 반복 업무로 관리합니다.",
       "folder": "50_Deadlines",
       "basis_year": 2026,
       "effective_date": null,
       "expiration_date": null,
       "parents": [
-        "category.filing-calendar"
+        "category.filing-calendar",
+        "category.business-tax-compliance"
       ],
-      "children": [],
-      "related": [],
+      "children": [
+        "filing.business-income-withholding"
+      ],
+      "related": [
+        "filing.business-income-withholding"
+      ],
       "terms": [
         "term.withholding",
+        "term.withholding-obligor",
         "term.deadline-special-rule"
       ],
       "deadlines": [
-        "deadline.withholding.monthly"
+        "deadline.withholding.monthly",
+        "deadline.withholding.semiannual"
       ],
       "sources": [
-        "source.nts.tax-calendar.2026"
+        "source.nts.tax-calendar.2026",
+        "source.nts.withholding.overview",
+        "source.nts.business-income.withholding"
       ],
       "law_reference": "",
       "tags": []
@@ -2424,6 +3060,7 @@
         "category.local-taxes",
         "category.deductions-and-reliefs",
         "category.policy-supports",
+        "category.business-tax-compliance",
         "category.filing-calendar"
       ],
       "related": [],
@@ -2618,9 +3255,14 @@
         "category.local-ordinary-taxes"
       ],
       "children": [],
-      "related": [],
+      "related": [
+        "tax.comprehensive-real-estate",
+        "concept.cre-tax-base-date",
+        "concept.cre-deduction-thresholds"
+      ],
       "terms": [
-        "term.local-tax"
+        "term.local-tax",
+        "term.publicly-notified-price"
       ],
       "deadlines": [],
       "sources": [
@@ -2959,6 +3601,126 @@
       "basis_date": "시행 2026-01-01"
     },
     {
+      "id": "source.nts.business-income.withholding",
+      "title": "사업소득 원천징수",
+      "type": "source",
+      "description": "원천징수 대상 사업소득, 3% 원천징수, 다음 달 10일 또는 반기 마지막 달 다음 달 10일 납부 흐름 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7902&mi=6466",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.business-registration.application",
+      "title": "사업자등록 신청",
+      "type": "source",
+      "description": "신규사업자 사업자등록, 일반과세자·간이과세자 유형 선택, 간이과세 배제 업종 확인 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.capital-gains.deadline",
+      "title": "양도소득세 신고납부기한",
+      "type": "source",
+      "description": "토지·건물·부동산 권리·기타자산, 주식·출자지분 양도의 예정신고와 다음연도 5월 확정신고 기한 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7713&mi=2371",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.capital-gains.overview",
+      "title": "양도소득세 개요",
+      "type": "source",
+      "description": "양도소득세 세액계산 흐름, 부동산·주식 양도차익 계산, 기본공제와 가산세 흐름 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7709&mi=2308",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.comprehensive-real-estate.overview",
+      "title": "종합부동산세 개요",
+      "type": "source",
+      "description": "매년 6월 1일 과세기준일, 주택·종합합산토지·별도합산토지 공제금액과 재산세-종합부동산세 연결 구조 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7733&mi=2351",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.corporate-tax.reliefs",
       "title": "법인세 공제감면",
       "type": "source",
@@ -3055,6 +3817,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.gift.deadline",
+      "title": "증여세 신고납부기한",
+      "type": "source",
+      "description": "일반 증여와 증여의제 유형별 법정신고기한과 증여세 신고 제출서류 흐름 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7727&mi=2339",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.grant.deadline",
       "title": "근로·자녀장려금 심사 및 지급",
       "type": "source",
@@ -3127,6 +3913,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.inheritance.overview",
+      "title": "상속세 개요",
+      "type": "source",
+      "description": "상속세 신고납부기한, 거주자 6개월·비거주자 9개월 기한과 제출서류 흐름 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7719&mi=2324",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.monthly-rent-credit",
       "title": "월세액 세액공제",
       "type": "source",
@@ -3175,6 +3985,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.vat.filing-duty",
+      "title": "부가가치세 신고·납부 의무",
+      "type": "source",
+      "description": "일반과세자와 간이과세자의 과세기간, 확정신고 납부기한, 간이과세자 예정신고 및 납부면제 기준 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7806",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
       "id": "source.nts.vat.overview",
       "title": "부가가치세 개요",
       "type": "source",
@@ -3196,6 +4030,30 @@
       ],
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7693&mi=2272",
+      "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.withholding.overview",
+      "title": "원천징수 개요",
+      "type": "source",
+      "description": "원천징수 제도, 원천징수의무자, 원천징수세액 납세지와 신고·납부 흐름 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7701&mi=2289",
       "basis_date": "2026-05-02 확인"
     },
     {
@@ -3409,15 +4267,22 @@
       "parents": [
         "category.national-taxes"
       ],
-      "children": [],
-      "related": [],
+      "children": [
+        "concept.cre-tax-base-date",
+        "concept.cre-deduction-thresholds"
+      ],
+      "related": [
+        "local.property"
+      ],
       "terms": [
         "term.national-tax",
-        "term.tax-law"
+        "term.tax-law",
+        "term.publicly-notified-price"
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.comprehensive-real-estate.overview"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -3520,14 +4385,20 @@
       "parents": [
         "tax.inheritance-and-gift"
       ],
-      "children": [],
+      "children": [
+        "filing.gift-tax-return"
+      ],
       "related": [],
       "terms": [
-        "term.tax-base"
+        "term.tax-base",
+        "term.donee"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.gift.general"
+      ],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.gift.deadline"
       ],
       "law_reference": "",
       "tags": []
@@ -3584,16 +4455,27 @@
       "parents": [
         "tax.income"
       ],
-      "children": [],
+      "children": [
+        "concept.capital-gains.calculation-flow",
+        "concept.capital-gains.stock-basic-deduction",
+        "filing.capital-gains-return"
+      ],
       "related": [
         "tax.securities-transaction"
       ],
       "terms": [
-        "term.tax-base"
+        "term.tax-base",
+        "term.capital-gain",
+        "term.deadline"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.capital-gains.preliminary",
+        "deadline.capital-gains.final"
+      ],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.capital-gains.overview",
+        "source.nts.capital-gains.deadline"
       ],
       "law_reference": "",
       "tags": []
@@ -3613,7 +4495,8 @@
       "children": [],
       "related": [
         "support.earned-income-tax-credit",
-        "filing.income-tax-return"
+        "filing.income-tax-return",
+        "filing.business-income-withholding"
       ],
       "terms": [
         "term.tax-base",
@@ -3691,14 +4574,21 @@
       "parents": [
         "tax.inheritance-and-gift"
       ],
-      "children": [],
+      "children": [
+        "filing.inheritance-tax-return"
+      ],
       "related": [],
       "terms": [
-        "term.tax-base"
+        "term.tax-base",
+        "term.heir"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.inheritance.resident",
+        "deadline.inheritance.nonresident"
+      ],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.inheritance.overview"
       ],
       "law_reference": "",
       "tags": []
@@ -3722,11 +4612,18 @@
       "related": [],
       "terms": [
         "term.national-tax",
-        "term.tax-law"
+        "term.tax-law",
+        "term.heir",
+        "term.donee"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.inheritance.resident",
+        "deadline.gift.general"
+      ],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.inheritance.overview",
+        "source.nts.gift.deadline"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -3774,7 +4671,9 @@
       ],
       "children": [],
       "related": [
-        "tax.income.capital-gains"
+        "tax.income.capital-gains",
+        "filing.capital-gains-return",
+        "concept.capital-gains.stock-basic-deduction"
       ],
       "terms": [
         "term.national-tax",
@@ -3883,27 +4782,58 @@
         "category.national-taxes"
       ],
       "children": [
-        "concept.simple-vat-taxpayer"
+        "concept.general-vat-taxpayer",
+        "concept.simple-vat-taxpayer",
+        "concept.vat-payment-exemption"
       ],
       "related": [
+        "category.business-tax-compliance",
         "local.local-consumption",
+        "filing.business-registration",
         "filing.vat-return"
       ],
       "terms": [
         "term.national-tax",
         "term.tax-period",
+        "term.general-vat-taxpayer",
         "term.simple-vat-taxpayer"
       ],
       "deadlines": [
-        "deadline.vat.periodic"
+        "deadline.vat.periodic",
+        "deadline.vat.general.first-final",
+        "deadline.vat.general.second-final",
+        "deadline.vat.simplified.annual"
       ],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.vat.overview"
+        "source.nts.vat.overview",
+        "source.nts.vat.filing-duty"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ]
+    },
+    {
+      "id": "term.capital-gain",
+      "title": "양도차익",
+      "type": "term",
+      "description": "양도가액에서 취득가액과 필요경비 등을 차감해 산출하는 양도소득세 계산의 핵심 금액입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.capital-gains.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
       ]
     },
     {
@@ -3996,6 +4926,51 @@
       ]
     },
     {
+      "id": "term.donee",
+      "title": "수증자",
+      "type": "term",
+      "description": "증여로 재산을 이전받아 증여세 신고·납부 의무자가 될 수 있는 사람입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.gift.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.general-vat-taxpayer",
+      "title": "일반과세자",
+      "type": "term",
+      "description": "부가가치세에서 일반 세율과 매입세액 공제 구조를 적용받는 과세사업자 유형입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.vat.overview",
+        "source.nts.vat.filing-duty"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
       "id": "term.gross-pay",
       "title": "총급여액 등",
       "type": "term",
@@ -4011,6 +4986,28 @@
       "deadlines": [],
       "sources": [
         "source.nts.grant.eligibility"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.heir",
+      "title": "상속인",
+      "type": "term",
+      "description": "상속을 원인으로 재산을 물려받아 상속세 신고·납부 의무자가 될 수 있는 사람입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.inheritance.overview"
       ],
       "law_reference": "",
       "tags": [
@@ -4107,6 +5104,28 @@
       ]
     },
     {
+      "id": "term.publicly-notified-price",
+      "title": "공시가격",
+      "type": "term",
+      "description": "종합부동산세 등 부동산 보유세에서 과세대상 유형별 공제금액과 과세표준 계산에 쓰이는 공적 가격 기준입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.comprehensive-real-estate.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
       "id": "term.simple-vat-taxpayer",
       "title": "간이과세자",
       "type": "term",
@@ -4121,7 +5140,9 @@
       "terms": [],
       "deadlines": [],
       "sources": [
-        "source.nts.vat.overview"
+        "source.nts.vat.overview",
+        "source.nts.vat.filing-duty",
+        "source.nts.business-registration.application"
       ],
       "law_reference": "",
       "tags": [
@@ -4280,6 +5301,28 @@
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.year-end-settlement.calculation"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.withholding-obligor",
+      "title": "원천징수의무자",
+      "type": "term",
+      "description": "원천징수 대상 소득 또는 수입금액을 지급하면서 세액을 징수·신고·납부해야 하는 개인이나 법인입니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.withholding.overview"
       ],
       "law_reference": "",
       "tags": [
