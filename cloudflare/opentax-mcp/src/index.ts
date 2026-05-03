@@ -37,6 +37,7 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 const DEFAULT_OPENTAX_JSON_URL =
   "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json";
 const DEFAULT_OPENTAX_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
+const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const READ_ONLY_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
@@ -304,11 +305,34 @@ function healthResponse(env: Env): Response {
   });
 }
 
+function openAiAppsChallengeResponse(env: Env): Response {
+  const token = env.OPENAI_APPS_CHALLENGE_TOKEN?.trim();
+  if (!token) {
+    return new Response("OpenAI Apps challenge token is not configured.", {
+      status: 404,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "cache-control": "no-store",
+      },
+    });
+  }
+
+  return new Response(token, {
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname === "/" || url.pathname === "/health") {
       return healthResponse(env);
+    }
+    if (url.pathname === OPENAI_APPS_CHALLENGE_PATH) {
+      return openAiAppsChallengeResponse(env);
     }
 
     const server = createServer(env);
