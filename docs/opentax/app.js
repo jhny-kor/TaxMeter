@@ -1,5 +1,5 @@
 const ONTOLOGY_DATA = {
-  "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04",
+  "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.2",
   "basis_date": "2026-05-04",
   "manifests": {
     "national_tax_ids": [
@@ -61,31 +61,33 @@ const ONTOLOGY_DATA = {
     ]
   },
   "summary": {
-    "item_count": 250,
-    "source_count": 69,
-    "term_count": 30,
-    "category_count": 13,
+    "item_count": 262,
+    "source_count": 72,
+    "term_count": 31,
+    "category_count": 14,
     "deadline_count": 18,
+    "scenario_count": 7,
     "support_count": 12,
     "business_count": 4,
-    "relation_count": 1176,
+    "relation_count": 1322,
     "national_tax_count": 12,
     "local_tax_count": 11,
     "corporate_support_count": 28,
     "type_counts": {
-      "category": 13,
+      "category": 14,
       "concept": 7,
       "corporate-tax-support": 28,
       "deadline": 18,
       "deduction": 17,
       "domain": 1,
       "filing": 10,
-      "source": 69,
+      "scenario": 7,
+      "source": 72,
       "support-program": 12,
       "tax": 29,
       "tax-credit": 12,
       "tax-reduction": 4,
-      "term": 30
+      "term": 31
     }
   },
   "type_labels": {
@@ -98,6 +100,7 @@ const ONTOLOGY_DATA = {
     "corporate-tax-support": "법인세 지원",
     "support-program": "정책지원",
     "filing": "신고 절차",
+    "scenario": "사용자 경로",
     "concept": "판정 개념",
     "term": "용어",
     "deadline": "기한",
@@ -113,6 +116,7 @@ const ONTOLOGY_DATA = {
     "corporate-tax-support": "법인세 공제·감면 공식 지원제도",
     "support-program": "장려금, 세제지원 계좌, 금융·복지 지원",
     "filing": "신고·납부·신청 절차",
+    "scenario": "사용자 사례별 curated 탐색 경로",
     "concept": "판정 기준을 설명하는 개념 노드",
     "term": "그래프 해석에 필요한 용어",
     "deadline": "기준연도별 신고·납부·지급 기한",
@@ -139,7 +143,8 @@ const ONTOLOGY_DATA = {
       ],
       "related": [
         "tax.value-added",
-        "support.hessal-119"
+        "support.hessal-119",
+        "scenario.sole-proprietor.compliance"
       ],
       "terms": [
         "term.general-vat-taxpayer",
@@ -199,7 +204,8 @@ const ONTOLOGY_DATA = {
         "corporate.support.foreign-tax-paid-credit"
       ],
       "related": [
-        "tax.corporate"
+        "tax.corporate",
+        "scenario.corporate-tax-manager"
       ],
       "terms": [
         "term.tax-credit",
@@ -338,7 +344,8 @@ const ONTOLOGY_DATA = {
         "deduction.other-income"
       ],
       "related": [
-        "tax.income"
+        "tax.income",
+        "scenario.employee.year-end-settlement"
       ],
       "terms": [
         "term.income-deduction",
@@ -563,7 +570,8 @@ const ONTOLOGY_DATA = {
         "credit.integrated-employment"
       ],
       "related": [
-        "tax.income"
+        "tax.income",
+        "scenario.employee.year-end-settlement"
       ],
       "terms": [
         "term.tax-credit"
@@ -616,6 +624,43 @@ const ONTOLOGY_DATA = {
       "tags": []
     },
     {
+      "id": "category.user-scenarios",
+      "title": "사용자 사례별 경로",
+      "type": "category",
+      "description": "근로자, 개인사업자, 주택 보유자, 청년, 법인 담당자처럼 실제 사용자가 출발점으로 삼을 수 있는 curated 탐색 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "kr-tax-system"
+      ],
+      "children": [
+        "scenario.employee.year-end-settlement",
+        "scenario.sole-proprietor.compliance",
+        "scenario.homeowner.real-estate-tax",
+        "scenario.real-estate-transfer",
+        "scenario.inheritance-gift",
+        "scenario.youth-policy-support",
+        "scenario.corporate-tax-manager"
+      ],
+      "related": [],
+      "terms": [
+        "term.employee",
+        "term.publicly-notified-price",
+        "term.deadline"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.vat.filing-duty",
+        "source.nts.real-estate-tax.faq",
+        "source.nts.grant.eligibility"
+      ],
+      "law_reference": "",
+      "tags": []
+    },
+    {
       "id": "concept.capital-gains.calculation-flow",
       "title": "양도소득세 계산 흐름",
       "type": "concept",
@@ -648,14 +693,26 @@ const ONTOLOGY_DATA = {
           "basis": "양도가액·취득가액·필요경비·공제",
           "condition": "양도소득이 발생한 경우",
           "amount_formula": "양도가액 - 취득가액 - 필요경비 - 장기보유특별공제 - 양도소득 기본공제",
-          "source": "source.nts.capital-gains.overview"
+          "source": "source.nts.capital-gains.overview",
+          "criteria_kind": "formula",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.capital-gains.overview"
         },
         {
           "label": "양도소득 기본공제",
           "basis": "자산군별 양도소득금액",
           "condition": "해당 과세기간 자산군별 적용",
           "deduction_krw": 2500000,
-          "source": "source.nts.capital-gains.basic-deduction"
+          "source": "source.nts.capital-gains.basic-deduction",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.capital-gains.basic-deduction"
         }
       ]
     },
@@ -692,7 +749,13 @@ const ONTOLOGY_DATA = {
           "basis": "주식 등 양도소득금액",
           "condition": "해당 과세기간 주식 등 그룹",
           "deduction_krw": 2500000,
-          "source": "source.nts.capital-gains.basic-deduction"
+          "source": "source.nts.capital-gains.basic-deduction",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.capital-gains.basic-deduction"
         }
       ]
     },
@@ -719,7 +782,8 @@ const ONTOLOGY_DATA = {
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.comprehensive-real-estate.overview"
+        "source.nts.comprehensive-real-estate.overview",
+        "source.molit.realtyprice"
       ],
       "law_reference": "",
       "tags": [],
@@ -731,6 +795,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 900000000,
           "note": "1세대 1주택자는 12억원",
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -739,6 +809,12 @@ const ONTOLOGY_DATA = {
           "condition": "1세대 1주택자",
           "deduction_krw": 1200000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -747,6 +823,12 @@ const ONTOLOGY_DATA = {
           "condition": "종합합산토지",
           "deduction_krw": 500000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -755,6 +837,12 @@ const ONTOLOGY_DATA = {
           "condition": "별도합산토지",
           "deduction_krw": 8000000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -790,7 +878,13 @@ const ONTOLOGY_DATA = {
           "basis": "보유일 기준",
           "condition": "매년 6월 1일 현재 보유",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "reference",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.comprehensive-real-estate.overview"
         }
       ]
     },
@@ -834,6 +928,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 104000000,
           "benefit": "일반과세자",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -843,6 +943,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "rate",
+          "rate_basis": "매출세액",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "매출세액 × 적용비율 10%"
         }
@@ -892,6 +999,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 104000000,
           "benefit": "간이과세자",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -902,6 +1015,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "rate",
+          "rate_basis": "업종별 부가가치율",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.vat.overview",
           "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
@@ -912,6 +1032,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 48000000,
           "threshold_krw_max": 104000000,
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -921,6 +1047,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -961,6 +1093,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -1002,6 +1140,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 100,
           "rate_label": "면제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "영농조합법인 등 농업소득",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제66조",
           "amount_formula": "영농조합법인 등 농업소득 × 면제율 100%"
         },
@@ -1012,6 +1157,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "농업 외 소득",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제66조",
           "amount_formula": "농업 외 소득 × 감면율 50%"
         }
@@ -1054,6 +1206,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "협력중소기업 지원 목적 출연금 등",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문",
           "amount_formula": "협력중소기업 지원 목적 출연금 등 × 세액공제율 10%"
         }
@@ -1098,6 +1257,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "감면기간 및 지역별 요건 별도 확인",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제99조의9",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -1141,6 +1307,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "상실비율 문턱",
           "benefit": "산출세액에 재해상실비율을 곱해 공제",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "재해상실자산가액 / 상실 전 자산총액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "법인세법 제58조",
           "amount_formula": "재해상실자산가액 / 상실 전 자산총액 × 상실비율 문턱 20%"
         }
@@ -1182,6 +1355,12 @@ const ONTOLOGY_DATA = {
           "condition": "법인이 직접 전자신고",
           "deduction_krw": 10000,
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제104조의8"
         }
       ]
@@ -1223,6 +1402,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "임금감소액 또는 보전액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제30조의3",
           "amount_formula": "임금감소액 또는 보전액 × 공제율 50%"
         }
@@ -1266,6 +1452,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제121조의17",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -1311,6 +1504,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "기본공제율",
           "note": "기업규모·투자자산 유형별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "사업용 유형자산 등 투자금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제24조",
           "amount_formula": "사업용 유형자산 등 투자금액 × 기본공제율 1%~10%"
         },
@@ -1322,6 +1522,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가공제율",
           "note": "추가공제 한도는 기본공제 금액의 2배",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "직전 3년 평균 투자액 초과분",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제24조",
           "amount_formula": "직전 3년 평균 투자액 초과분 × 추가공제율 10%"
         }
@@ -1366,6 +1573,12 @@ const ONTOLOGY_DATA = {
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "min(외국납부세액, 법인세 산출세액 × 국외원천소득 / 전체 과세표준)",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
       ]
@@ -1410,6 +1623,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "적용기한은 과세연도별 조세특례제한법 개정에 따라 달라질 수 있음",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "상가건물 임대료 인하액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
@@ -1453,6 +1673,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "감면기간 요건 별도 확인",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제64조",
           "amount_formula": "법인세 × 감면율 50%"
         }
@@ -1496,6 +1723,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -1537,6 +1771,12 @@ const ONTOLOGY_DATA = {
           "condition": "지방이전 촉진 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
@@ -1581,6 +1821,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "지역과 기간별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제63조 및 제63조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -1623,6 +1870,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "인수가액 중 기술가치 금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제12조의3",
           "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"
         }
@@ -1665,6 +1919,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 7,
           "rate_label": "최저한세율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "각종 감면 전 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제132조",
           "amount_formula": "각종 감면 전 과세표준 × 최저한세율 7%"
         }
@@ -1707,6 +1968,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "성과공유 중소기업 경영성과급 지급액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제19조",
           "amount_formula": "성과공유 중소기업 경영성과급 지급액 × 세액공제율 15%"
         }
@@ -1748,6 +2016,12 @@ const ONTOLOGY_DATA = {
           "condition": "구조조정 및 재무구조개선 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
@@ -1793,6 +2067,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율",
           "rate_basis": "기업규모와 당기분·증가분 방식별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         },
         {
@@ -1803,6 +2083,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율",
           "rate_basis": "신성장·원천기술 유형별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         },
         {
@@ -1813,6 +2099,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율",
           "rate_basis": "국가전략기술 유형별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         }
       ]
@@ -1854,6 +2146,12 @@ const ONTOLOGY_DATA = {
           "benefit": "익금불산입 후 사용 시점에 익금산입",
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "연구개발출연금 중 자산 취득·비용 지출 사용액을 익금불산입 후 사용 시점 익금산입",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조의2"
         }
       ]
@@ -1897,6 +2195,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제12조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -1942,6 +2247,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
@@ -1952,6 +2264,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
@@ -1962,6 +2281,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
@@ -1973,6 +2299,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 10,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
@@ -2017,6 +2350,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제85조의6",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
@@ -2061,6 +2401,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "청년·경력단절자 등 우대 대상과 기업규모별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "고용증가인원의 사용자 부담 사회보험료",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제30조의4",
           "amount_formula": "고용증가인원의 사용자 부담 사회보험료 × 세액공제율 50%~100%"
         }
@@ -2107,6 +2454,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세 또는 소득세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
@@ -2118,6 +2472,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세 또는 소득세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
@@ -2129,6 +2490,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "상시근로자 증가율",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
@@ -2171,6 +2539,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "기술이전 소득",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제12조",
           "amount_formula": "기술이전 소득 × 감면율 50%"
         },
@@ -2181,6 +2556,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 25,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "기술대여 소득",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제12조",
           "amount_formula": "기술대여 소득 × 감면율 25%"
         }
@@ -2209,7 +2591,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.corporate-tax.reliefs",
-        "source.law.tax-special-treatment-restriction-act.reliefs"
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 제29조의4",
       "tags": [
@@ -2225,6 +2608,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "기업규모와 정규직 전환 여부별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "직전 3년 평균 초과 임금증가분",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 제29조의4",
           "amount_formula": "직전 3년 평균 초과 임금증가분 × 세액공제율 5%~20%"
         }
@@ -2269,6 +2659,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "결제기한 구간별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "상생결제 지급금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제7조의4",
           "amount_formula": "상생결제 지급금액 × 세액공제율 0.1%~0.3%"
         }
@@ -2312,6 +2709,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 250000,
           "source": "source.nts.year-end-settlement.calculation",
           "age_min": 8,
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         },
         {
@@ -2321,6 +2724,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 550000,
           "source": "source.nts.year-end-settlement.calculation",
           "age_min": 8,
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         },
         {
@@ -2331,6 +2740,12 @@ const ONTOLOGY_DATA = {
           "note": "2명을 초과하는 1명당 40만원 추가",
           "source": "source.nts.year-end-settlement.calculation",
           "age_min": 8,
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         },
         {
@@ -2339,6 +2754,12 @@ const ONTOLOGY_DATA = {
           "condition": "첫째",
           "deduction_krw": 300000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         },
         {
@@ -2347,6 +2768,12 @@ const ONTOLOGY_DATA = {
           "condition": "둘째",
           "deduction_krw": 500000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         },
         {
@@ -2355,6 +2782,12 @@ const ONTOLOGY_DATA = {
           "condition": "셋째 이상",
           "deduction_krw": 700000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         }
       ]
@@ -2398,6 +2831,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "정치자금기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4"
         },
         {
@@ -2407,6 +2847,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "정치자금기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2417,6 +2864,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 30000000,
           "rate_percent": 25,
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "정치자금기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2429,6 +2883,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "고향사랑기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4"
         },
         {
@@ -2438,6 +2899,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 10000000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "공제한도 내 기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2448,6 +2916,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 10000000,
           "rate_percent": 30,
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "공제한도 내 기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
@@ -2475,7 +2950,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제59조",
       "tags": [
@@ -2489,6 +2965,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1300000,
           "rate_percent": 55,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "근로소득 산출세액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조",
           "rate_label": "세액공제율"
         },
@@ -2501,6 +2984,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "note": "715,000원 + 130만원 초과금액의 30%",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "근로소득 산출세액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조",
           "rate_label": "세액공제율"
         },
@@ -2511,6 +3001,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 33000000,
           "limit_krw": 740000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조"
         },
         {
@@ -2522,6 +3018,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 660000,
           "note": "74만원-[(총급여액-3,300만원)×0.8%], 최소 66만원",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조"
         },
         {
@@ -2533,6 +3035,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 500000,
           "note": "66만원-[(총급여액-7,000만원)×1/2], 최소 50만원",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조"
         },
         {
@@ -2543,6 +3051,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 200000,
           "note": "50만원-[(총급여액-1.2억원)×1/2], 최소 20만원",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조"
         }
       ]
@@ -2583,6 +3097,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "근로자 본인 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
@@ -2594,6 +3115,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 3000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "부양가족 1명당 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2604,6 +3132,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 9000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "부양가족 1명당 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2614,6 +3149,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "장애인 특수교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
@@ -2660,6 +3202,12 @@ const ONTOLOGY_DATA = {
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "min(외국납부세액, 법인세 산출세액 × 국외원천소득 / 전체 과세표준)",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
       ]
@@ -2700,6 +3248,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 12,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "생명보험·상해보험 등 보장성보험료",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2710,6 +3265,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "장애인을 피보험자 또는 수익자로 하는 장애인전용 보장성보험료",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
@@ -2752,6 +3314,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "상시근로자 증가 인원 × 기업규모·지역별 1인당 공제액",
           "rate_basis": "고용증가 인원별 정액공제",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제29조의8"
         },
         {
@@ -2762,6 +3330,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "청년·장애인·경력단절자 등 우대 고용 증가 인원 × 우대 1인당 공제액",
           "rate_basis": "정책대상자별 정액공제",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제29조의8"
         }
       ]
@@ -2789,7 +3363,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.special-credit",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제59조의4",
       "tags": [
@@ -2803,6 +3378,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "의료비 지출액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "의료비 지출액 × 세액공제율 3%"
@@ -2814,6 +3396,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 7000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "일반 기본공제대상자 의료비",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -2823,6 +3412,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "해당 의료비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "해당 의료비 × 세액공제율 15%"
@@ -2833,6 +3429,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "난임시술비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "난임시술비 × 세액공제율 30%"
@@ -2865,7 +3468,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.monthly-rent-credit",
-        "source.law.tax-special-treatment-restriction-act.reliefs"
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 월세액 세액공제 조문",
       "tags": [
@@ -2878,6 +3482,12 @@ const ONTOLOGY_DATA = {
           "condition": "8,000만원 이하",
           "threshold_krw_max": 80000000,
           "source": "source.nts.monthly-rent-credit",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 월세액 세액공제 조문"
         },
         {
@@ -2886,6 +3496,12 @@ const ONTOLOGY_DATA = {
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
           "source": "source.nts.monthly-rent-credit",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.monthly-rent-credit",
           "law_reference": "조세특례제한법 월세액 세액공제 조문"
         },
         {
@@ -2896,6 +3512,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 17,
           "limit_krw": 10000000,
           "source": "source.nts.monthly-rent-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "총급여",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 월세액 세액공제 조문",
           "rate_label": "세액공제율"
         },
@@ -2908,6 +3531,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "limit_krw": 10000000,
           "source": "source.nts.monthly-rent-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "총급여",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 월세액 세액공제 조문",
           "rate_label": "세액공제율"
         },
@@ -2917,6 +3547,12 @@ const ONTOLOGY_DATA = {
           "condition": "국민주택규모 또는 기준시가 4억원 이하",
           "threshold_krw_max": 400000000,
           "source": "source.nts.monthly-rent-credit",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.monthly-rent-credit",
           "law_reference": "조세특례제한법 월세액 세액공제 조문"
         }
       ]
@@ -2944,7 +3580,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제59조의3",
       "tags": [
@@ -2960,6 +3597,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "총급여 또는 종합소득금액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조의3",
           "rate_label": "세액공제율"
         },
@@ -2972,6 +3616,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 12,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "총급여 또는 종합소득금액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조의3",
           "rate_label": "세액공제율"
         }
@@ -3016,6 +3667,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율",
           "rate_basis": "기업규모와 당기분·증가분 방식별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         },
         {
@@ -3026,6 +3683,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율",
           "rate_basis": "신성장·원천기술 유형별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         },
         {
@@ -3036,6 +3699,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.corporate-tax.reliefs",
           "amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율",
           "rate_basis": "국가전략기술 유형별 차등",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         }
       ]
@@ -3069,7 +3738,8 @@ const ONTOLOGY_DATA = {
         "source.nts.year-end-settlement.special-credit",
         "source.nts.education-expense-credit",
         "source.nts.donation-credit",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제59조의4",
       "tags": [],
@@ -3081,6 +3751,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 12,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "생명보험·상해보험 등 보장성보험료",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -3091,6 +3768,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "장애인을 피보험자 또는 수익자로 하는 장애인전용 보장성보험료",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -3101,6 +3785,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "의료비 지출액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "의료비 지출액 × 세액공제율 3%"
@@ -3112,6 +3803,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 7000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "일반 기본공제대상자 의료비",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -3121,6 +3819,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "해당 의료비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "해당 의료비 × 세액공제율 15%"
@@ -3131,6 +3836,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "난임시술비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.special-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "난임시술비 × 세액공제율 30%"
@@ -3141,6 +3853,13 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "근로자 본인 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
@@ -3152,6 +3871,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 3000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "부양가족 1명당 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -3162,6 +3888,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 9000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "부양가족 1명당 교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
@@ -3172,6 +3905,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "장애인 특수교육비",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.education-expense-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
@@ -3185,6 +3925,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "정치자금기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4"
         },
         {
@@ -3194,6 +3941,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "criteria_kind": "rate",
+          "rate_basis": "정치자금기부금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.donation-credit",
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
@@ -3222,7 +3976,13 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "event-based",
+        "anchor": "사업 개시일",
+        "period": "사업 개시 전 또는 개시 직후",
+        "due_rule": "사업 개시 전 또는 사업 개시일부터 20일 이내"
+      }
     },
     {
       "id": "deadline.capital-gains.final",
@@ -3246,7 +4006,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2027-05-01",
-      "end_date": "2027-05-31"
+      "end_date": "2027-05-31",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "양도한 연도의 다음연도",
+        "period": "매년 5월",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 31일까지"
+      }
     },
     {
       "id": "deadline.capital-gains.preliminary",
@@ -3270,7 +4037,13 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "event-based",
+        "anchor": "양도일이 속하는 달 또는 반기의 말일",
+        "period": "양도 건별",
+        "due_rule": "토지·건물 등은 양도일이 속하는 달의 말일부터 2개월 이내, 주식 등은 양도일이 속하는 반기의 말일부터 2개월 이내"
+      }
     },
     {
       "id": "deadline.corporate-tax.return",
@@ -3295,7 +4068,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "각 사업연도 종료일이 속하는 달의 말일",
+        "period": "사업연도 단위",
+        "due_rule": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내",
+        "example": "12월 말 결산법인은 다음 해 3월 말까지"
+      }
     },
     {
       "id": "deadline.gift.general",
@@ -3319,7 +4099,13 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "event-based",
+        "anchor": "증여받은 날이 속하는 달의 말일",
+        "period": "증여 건별",
+        "due_rule": "증여받은 날이 속하는 달의 말일부터 3개월 이내"
+      }
     },
     {
       "id": "deadline.grant.regular.2025-income",
@@ -3344,7 +4130,15 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2026-05-01",
-      "end_date": "2026-06-01"
+      "end_date": "2026-06-01",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "전년도 귀속 소득",
+        "period": "매년 5월 정기신청",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 말까지. 기한의 특례가 있으면 다음 날",
+        "example": "2025년 귀속 정기신청은 2026년 5월 1일부터 2026년 6월 1일까지"
+      }
     },
     {
       "id": "deadline.grant.semiannual.2026",
@@ -3368,7 +4162,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2026-12-30",
-      "end_date": "2027-06-30"
+      "end_date": "2027-06-30",
+      "recurrence": {
+        "frequency": "semiannual",
+        "anchor": "근로장려금 반기 신청분",
+        "period": "상반기분·하반기분",
+        "due_rule": "상반기분은 해당 연도 12월 말, 하반기분은 다음연도 6월 말 지급기한으로 관리",
+        "example": "2026년 상반기분 2026년 12월 30일, 하반기분 2027년 6월 30일"
+      }
     },
     {
       "id": "deadline.income-tax.2025-return",
@@ -3392,7 +4193,16 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2026-05-01",
-      "end_date": "2026-06-01"
+      "end_date": "2026-06-01",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "과세기간 다음연도",
+        "period": "매년 5월",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 31일. 기한일이 공휴일·토요일·근로자의 날이면 다음 날",
+        "special_rule": "성실신고확인서 제출자는 6월 30일까지",
+        "example": "2025년 귀속 일반 신고는 2026년 5월 1일부터 2026년 6월 1일까지"
+      }
     },
     {
       "id": "deadline.inheritance.nonresident",
@@ -3416,7 +4226,13 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "event-based",
+        "anchor": "상속개시일이 속하는 달의 말일",
+        "period": "상속 건별",
+        "due_rule": "피상속인이나 상속인 전원이 비거주자인 경우 9개월 이내"
+      }
     },
     {
       "id": "deadline.inheritance.resident",
@@ -3440,7 +4256,13 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "event-based",
+        "anchor": "상속개시일이 속하는 달의 말일",
+        "period": "상속 건별",
+        "due_rule": "상속개시일이 속하는 달의 말일부터 6개월 이내"
+      }
     },
     {
       "id": "deadline.vat.general.first-final",
@@ -3464,7 +4286,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2026-07-01",
-      "end_date": "2026-07-25"
+      "end_date": "2026-07-25",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "일반과세자 제1기 과세기간",
+        "period": "1월 1일~6월 30일",
+        "start_rule": "7월 1일",
+        "due_rule": "7월 25일까지"
+      }
     },
     {
       "id": "deadline.vat.general.second-final",
@@ -3488,7 +4317,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2027-01-01",
-      "end_date": "2027-01-25"
+      "end_date": "2027-01-25",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "일반과세자 제2기 과세기간",
+        "period": "7월 1일~12월 31일",
+        "start_rule": "다음해 1월 1일",
+        "due_rule": "다음해 1월 25일까지"
+      }
     },
     {
       "id": "deadline.vat.periodic",
@@ -3514,7 +4350,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "semiannual",
+        "anchor": "부가가치세 과세기간",
+        "period": "일반과세자 제1기·제2기 예정 및 확정",
+        "due_rule": "일반과세자는 매년 1월과 7월 확정신고, 예정신고는 세무일정과 고지·신고 대상 여부 확인",
+        "special_rule": "간이과세자는 원칙적으로 매년 1월 확정신고"
+      }
     },
     {
       "id": "deadline.vat.simplified.annual",
@@ -3538,7 +4381,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2027-01-01",
-      "end_date": "2027-01-25"
+      "end_date": "2027-01-25",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "간이과세자 과세기간",
+        "period": "1월 1일~12월 31일",
+        "start_rule": "다음해 1월 1일",
+        "due_rule": "다음해 1월 25일까지"
+      }
     },
     {
       "id": "deadline.vat.simplified.preliminary",
@@ -3562,7 +4412,15 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": "2026-07-01",
-      "end_date": "2026-07-25"
+      "end_date": "2026-07-25",
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "간이과세자 예정부과기간",
+        "period": "1월 1일~6월 30일",
+        "start_rule": "7월 1일",
+        "due_rule": "7월 25일까지",
+        "special_rule": "직전연도 공급대가 4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서를 발급한 경우"
+      }
     },
     {
       "id": "deadline.withholding.monthly",
@@ -3579,14 +4437,22 @@ const ONTOLOGY_DATA = {
       "terms": [],
       "deadlines": [],
       "sources": [
-        "source.nts.tax-calendar.2026"
+        "source.nts.tax-calendar.2026",
+        "source.nts.withholding.deadlines"
       ],
       "law_reference": "",
       "tags": [
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "monthly",
+        "anchor": "소득 지급일 또는 원천징수일이 속하는 달",
+        "period": "매월",
+        "due_rule": "소득 지급일이 속하는 달의 다음 달 10일까지",
+        "example": "2026년 4월 지급분은 2026년 5월 10일까지"
+      }
     },
     {
       "id": "deadline.withholding.semiannual",
@@ -3603,14 +4469,22 @@ const ONTOLOGY_DATA = {
       "terms": [],
       "deadlines": [],
       "sources": [
-        "source.nts.business-income.withholding"
+        "source.nts.business-income.withholding",
+        "source.nts.withholding.deadlines"
       ],
       "law_reference": "",
       "tags": [
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "semiannual",
+        "anchor": "소득 지급일이 속하는 반기",
+        "period": "1월~6월, 7월~12월",
+        "due_rule": "각 반기의 마지막 달의 다음 달 10일까지",
+        "example": "1월~6월 지급분은 7월 10일까지, 7월~12월 지급분은 다음해 1월 10일까지"
+      }
     },
     {
       "id": "deadline.year-end-settlement",
@@ -3634,7 +4508,14 @@ const ONTOLOGY_DATA = {
         "deadline"
       ],
       "start_date": null,
-      "end_date": null
+      "end_date": null,
+      "recurrence": {
+        "frequency": "annual",
+        "anchor": "해당 과세기간 근로소득",
+        "period": "다음연도 2월분 급여 지급 시",
+        "due_rule": "계속근로자는 다음연도 2월분 근로소득 지급 시, 중도퇴직자는 퇴직하는 달의 근로소득 지급 시",
+        "special_rule": "2월분 급여를 2월 말일까지 지급하지 않거나 2월분 급여가 없으면 2월 말일 기준"
+      }
     },
     {
       "id": "deduction.credit-card-use",
@@ -3660,7 +4541,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.credit-card-deduction",
-        "source.nts.year-end-settlement.deduction-limit"
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
       "tags": [
@@ -3674,6 +4556,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 25,
           "note": "공제 대상 사용금액 산정 기준",
           "source": "source.nts.credit-card-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "신용카드 등 사용금액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "신용카드 등 사용금액 × 소득공제율 25%"
@@ -3684,6 +4573,13 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 신용카드",
           "rate_percent": 15,
           "source": "source.nts.credit-card-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "신용카드 사용금액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "신용카드 사용금액 × 소득공제율 15%"
@@ -3694,6 +4590,13 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 현금영수증·직불카드",
           "rate_percent": 30,
           "source": "source.nts.credit-card-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "현금영수증·직불카드 등",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "현금영수증·직불카드 등 × 소득공제율 30%"
@@ -3704,6 +4607,13 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 전통시장·대중교통",
           "rate_percent": 40,
           "source": "source.nts.credit-card-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "전통시장·대중교통 사용금액",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "전통시장·대중교통 사용금액 × 소득공제율 40%"
@@ -3746,6 +4656,12 @@ const ONTOLOGY_DATA = {
           "condition": "조합원 출연금",
           "limit_krw": 4000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
         },
         {
@@ -3754,6 +4670,12 @@ const ONTOLOGY_DATA = {
           "condition": "벤처기업 조합원 출연금",
           "limit_krw": 15000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
         }
       ]
@@ -3795,6 +4717,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "limit_krw": 10000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "고용유지 중소기업 근로자 임금삭감액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -3836,6 +4765,12 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제52조",
           "amount_formula": "본인 부담 건강보험·노인장기요양보험료 전액",
           "unlimited_amount": true
@@ -3846,6 +4781,12 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제52조",
           "amount_formula": "본인 부담 고용보험료 전액",
           "unlimited_amount": true
@@ -3892,6 +4833,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 4000000,
           "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
           "source": "source.nts.housing-rent-principal-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "원리금 상환액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.housing-rent-principal-deduction",
           "law_reference": "소득세법 제52조",
           "rate_label": "소득공제율"
         },
@@ -3902,6 +4850,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 6000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 10,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -3911,6 +4865,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 8000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -3920,6 +4880,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 18000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -3929,6 +4895,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 20000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         }
       ]
@@ -3957,6 +4929,7 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.year-end-settlement.deduction-limit",
         "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement",
         "source.nts.housing-savings-deduction"
       ],
       "law_reference": "조세특례제한법 주택마련저축 소득공제 조문",
@@ -3970,6 +4943,12 @@ const ONTOLOGY_DATA = {
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
           "source": "source.nts.housing-savings-deduction",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 주택마련저축 소득공제 조문"
         },
         {
@@ -3980,6 +4959,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 1200000,
           "source": "source.nts.housing-savings-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "주택마련저축 납입액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.housing-savings-deduction",
           "law_reference": "조세특례제한법 주택마련저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -4021,6 +5007,13 @@ const ONTOLOGY_DATA = {
           "condition": "중소기업창업투자조합 등",
           "rate_percent": 10,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "rate",
+          "rate_basis": "출자 또는 투자금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "출자 또는 투자금액 × 소득공제율 10%"
@@ -4032,6 +5025,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 30000000,
           "rate_percent": 100,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "rate",
+          "rate_basis": "출자 또는 투자금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         },
@@ -4043,6 +5043,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 70,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "rate",
+          "rate_basis": "출자 또는 투자금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         },
@@ -4053,6 +5060,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 50000000,
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "rate",
+          "rate_basis": "출자 또는 투자금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -4096,6 +5110,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 2400000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "rate",
+          "rate_basis": "연 납입액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -4146,6 +5167,12 @@ const ONTOLOGY_DATA = {
           "condition": "2,500만원 초과액은 과세표준에 합산",
           "limit_krw": 25000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문"
         },
         {
@@ -4154,6 +5181,12 @@ const ONTOLOGY_DATA = {
           "condition": "종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         },
@@ -4163,6 +5196,12 @@ const ONTOLOGY_DATA = {
           "condition": "일부 벤처투자 예외를 제외하고 종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
@@ -4206,6 +5245,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.year-end-settlement.calculation",
           "amount_formula": "국민연금 등 공적연금보험료 근로자 부담분 전액",
           "unlimited_amount": true,
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제51조의3"
         }
       ]
@@ -4235,7 +5280,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제50조 및 제51조",
       "tags": [],
@@ -4246,6 +5292,12 @@ const ONTOLOGY_DATA = {
           "condition": "기본공제 대상자",
           "deduction_krw": 1500000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4255,6 +5307,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000,
           "note": "근로소득만 있는 경우 총급여 500만원 이하",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4263,6 +5321,12 @@ const ONTOLOGY_DATA = {
           "condition": "500만원 이하",
           "threshold_krw_max": 5000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4272,6 +5336,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 1000000,
           "source": "source.nts.year-end-settlement.calculation",
           "age_min": 70,
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4280,6 +5350,12 @@ const ONTOLOGY_DATA = {
           "condition": "장애인",
           "deduction_krw": 2000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4289,6 +5365,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 30000000,
           "deduction_krw": 500000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4298,6 +5380,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 1000000,
           "note": "부녀자공제와 중복 시 한부모공제 적용",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
@@ -4340,6 +5428,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 720000,
           "note": "연 180만원 납입 기준 최대 72만원 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "2000.12.31. 이전 가입 개인연금저축",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "조세특례제한법 개인연금저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -4382,6 +5477,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 1000000,
           "source": "source.nts.year-end-settlement.calculation",
           "age_min": 70,
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4390,6 +5491,12 @@ const ONTOLOGY_DATA = {
           "condition": "장애인",
           "deduction_krw": 2000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4399,6 +5506,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 30000000,
           "deduction_krw": 500000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4408,6 +5521,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 1000000,
           "note": "부녀자공제와 중복 시 한부모공제 적용",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
@@ -4435,7 +5554,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제50조",
       "tags": [
@@ -4448,6 +5568,12 @@ const ONTOLOGY_DATA = {
           "condition": "기본공제 대상자",
           "deduction_krw": 1500000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "deduction",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4457,6 +5583,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000,
           "note": "근로소득만 있는 경우 총급여 500만원 이하",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제50조 및 제51조"
         },
         {
@@ -4465,6 +5597,12 @@ const ONTOLOGY_DATA = {
           "condition": "500만원 이하",
           "threshold_krw_max": 5000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
@@ -4492,7 +5630,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.deduction-limit",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문",
       "tags": [
@@ -4506,6 +5645,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 40000000,
           "limit_krw": 5000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         },
         {
@@ -4516,6 +5661,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "limit_krw": 3000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         },
         {
@@ -4525,6 +5676,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000000,
           "limit_krw": 2000000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "criteria_kind": "limit",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         }
       ]
@@ -4569,6 +5726,12 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제52조",
           "amount_formula": "본인 부담 건강보험·노인장기요양보험료 전액",
           "unlimited_amount": true
@@ -4579,6 +5742,12 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제52조",
           "amount_formula": "본인 부담 고용보험료 전액",
           "unlimited_amount": true
@@ -4591,6 +5760,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 4000000,
           "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
           "source": "source.nts.housing-rent-principal-deduction",
+          "criteria_kind": "rate",
+          "rate_basis": "원리금 상환액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.housing-rent-principal-deduction",
           "law_reference": "소득세법 제52조",
           "rate_label": "소득공제율"
         },
@@ -4601,6 +5777,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 6000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 10,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -4610,6 +5792,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 8000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -4619,6 +5807,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 18000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         },
         {
@@ -4628,6 +5822,12 @@ const ONTOLOGY_DATA = {
           "limit_krw": 20000000,
           "source": "source.nts.housing-mortgage-interest-deduction",
           "period_years_min": 15,
+          "criteria_kind": "limit",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         }
       ]
@@ -4655,7 +5855,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
       "tags": [
@@ -4668,6 +5869,12 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하",
           "threshold_krw_max": 50000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문"
         },
         {
@@ -4678,6 +5885,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 2400000,
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "rate",
+          "rate_basis": "연 납입액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
@@ -4728,6 +5942,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "지방소득세는 별도 확인",
           "source": "source.nts.business-income.withholding",
+          "criteria_kind": "rate",
+          "rate_basis": "원천징수 대상 사업소득 지급금액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.business-income.withholding",
           "law_reference": "소득세법 제127조 및 제129조",
           "amount_formula": "원천징수 대상 사업소득 지급금액 × 적용비율 3%"
         }
@@ -4775,6 +5996,12 @@ const ONTOLOGY_DATA = {
           "amount_applicability": "정액 금액 기준 없음",
           "source": "source.nts.business-registration.application",
           "deadline_days_after_event": 20,
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.business-registration.application",
           "law_reference": "부가가치세법 제8조"
         }
       ]
@@ -4796,7 +6023,8 @@ const ONTOLOGY_DATA = {
       "related": [
         "tax.securities-transaction",
         "concept.capital-gains.calculation-flow",
-        "concept.capital-gains.stock-basic-deduction"
+        "concept.capital-gains.stock-basic-deduction",
+        "scenario.real-estate-transfer"
       ],
       "terms": [
         "term.capital-gain",
@@ -4822,6 +6050,12 @@ const ONTOLOGY_DATA = {
           "amount_applicability": "정액 금액 기준 없음",
           "source": "source.nts.capital-gains.deadline",
           "deadline_months_after_month_end": 2,
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.capital-gains.deadline",
           "law_reference": "소득세법 제105조 및 제110조"
         },
         {
@@ -4834,6 +6068,12 @@ const ONTOLOGY_DATA = {
           "deadline_start_day": 1,
           "deadline_end_month": 5,
           "deadline_end_day": 31,
+          "criteria_kind": "deadline",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.capital-gains.deadline",
           "law_reference": "소득세법 제105조 및 제110조"
         }
       ]
@@ -4875,6 +6115,12 @@ const ONTOLOGY_DATA = {
           "amount_applicability": "정액 금액 기준 없음",
           "source": "source.nts.gift.deadline",
           "deadline_months_after_month_end": 3,
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.gift.deadline",
           "law_reference": "상속세 및 증여세법 제68조"
         }
       ]
@@ -4919,6 +6165,12 @@ const ONTOLOGY_DATA = {
           "amount_applicability": "정액 금액 기준 없음",
           "source": "source.nts.grant.deadline",
           "deadline_month": 5,
+          "criteria_kind": "deadline",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.grant.deadline",
           "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문"
         }
       ]
@@ -4963,6 +6215,12 @@ const ONTOLOGY_DATA = {
           "deadline_start_day": 1,
           "deadline_end_month": 5,
           "deadline_end_day": 31,
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.income-tax.deadline",
           "law_reference": "소득세법 제70조"
         }
       ]
@@ -5006,6 +6264,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.inheritance.overview",
           "deadline_months_after_month_end_min": 6,
           "deadline_months_after_month_end_max": 9,
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.inheritance.overview",
           "law_reference": "상속세 및 증여세법 제67조"
         }
       ]
@@ -5063,6 +6327,12 @@ const ONTOLOGY_DATA = {
           "deadline_start_day": 1,
           "deadline_end_day": 25,
           "deadline_rule": "제1기 7월 1~25일, 제2기 다음 해 1월 1~25일",
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "부가가치세법 제48조·제49조 및 제67조"
         },
         {
@@ -5075,6 +6345,12 @@ const ONTOLOGY_DATA = {
           "deadline_start_day": 1,
           "deadline_end_month": 1,
           "deadline_end_day": 25,
+          "criteria_kind": "deadline",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "부가가치세법 제48조·제49조 및 제67조"
         }
       ]
@@ -5110,6 +6386,7 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.tax-calendar.2026",
         "source.nts.withholding.overview",
+        "source.nts.withholding.deadlines",
         "source.nts.business-income.withholding",
         "source.law.income-tax-act.deductions-credits"
       ],
@@ -5124,6 +6401,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.withholding.overview",
           "deadline_day": 10,
           "deadline_relative": "징수일이 속하는 달의 다음 달",
+          "criteria_kind": "deadline",
+          "basis_category": "deadline-anchor",
+          "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+          "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+          "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+          "basis_source": "source.nts.withholding.overview",
           "law_reference": "소득세법 제128조"
         }
       ]
@@ -5142,7 +6425,8 @@ const ONTOLOGY_DATA = {
       ],
       "children": [],
       "related": [
-        "category.deductions-and-reliefs"
+        "category.deductions-and-reliefs",
+        "scenario.employee.year-end-settlement"
       ],
       "terms": [
         "term.withholding",
@@ -5154,7 +6438,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.law.income-tax-act.deductions-credits"
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문",
       "tags": [],
@@ -5165,6 +6450,12 @@ const ONTOLOGY_DATA = {
           "condition": "원천징수의무자가 해당 과세기간 근로소득세를 정산",
           "amount_formula": "결정세액 - 기납부세액",
           "source": "source.nts.year-end-settlement.calculation",
+          "criteria_kind": "formula",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문"
         }
       ]
@@ -5186,7 +6477,8 @@ const ONTOLOGY_DATA = {
         "category.deductions-and-reliefs",
         "category.policy-supports",
         "category.business-tax-compliance",
-        "category.filing-calendar"
+        "category.filing-calendar",
+        "category.user-scenarios"
       ],
       "related": [],
       "terms": [
@@ -5237,6 +6529,12 @@ const ONTOLOGY_DATA = {
           "condition": "부동산·차량 등 과세물건 취득",
           "amount_formula": "과세표준 × 과세대상별 취득세율",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5274,6 +6572,12 @@ const ONTOLOGY_DATA = {
           "condition": "자동차 보유",
           "amount_formula": "차종별 과세단위 × 지방세법상 단위세액",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5312,6 +6616,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "amount_formula": "발매금 총액 × 10%",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "승자투표권·승마투표권 발매금 총액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5351,6 +6662,12 @@ const ONTOLOGY_DATA = {
           "condition": "부가가치세와 연동",
           "amount_formula": "부가가치세액 × 지방세법상 지방소비세율",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5390,6 +6707,12 @@ const ONTOLOGY_DATA = {
           "condition": "지방교육재정 확충 목적",
           "amount_formula": "본세액 × 지방교육세율",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5430,6 +6753,12 @@ const ONTOLOGY_DATA = {
           "condition": "소득세·법인세와 연결",
           "amount_formula": "지방소득세 과세표준 × 지방세법상 세율",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5450,7 +6779,8 @@ const ONTOLOGY_DATA = {
       "related": [
         "tax.comprehensive-real-estate",
         "concept.cre-tax-base-date",
-        "concept.cre-deduction-thresholds"
+        "concept.cre-deduction-thresholds",
+        "scenario.homeowner.real-estate-tax"
       ],
       "terms": [
         "term.local-tax",
@@ -5476,6 +6806,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.1,
           "progressive_deduction_krw": 0,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5486,6 +6823,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.15,
           "progressive_deduction_krw": 30000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5496,6 +6840,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.25,
           "progressive_deduction_krw": 180000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5506,6 +6857,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.4,
           "progressive_deduction_krw": 630000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5516,6 +6874,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.2,
           "progressive_deduction_krw": 0,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5526,6 +6891,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.3,
           "progressive_deduction_krw": 50000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5536,6 +6908,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.5,
           "progressive_deduction_krw": 250000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5546,6 +6925,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.2,
           "progressive_deduction_krw": 0,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5556,6 +6942,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.3,
           "progressive_deduction_krw": 200000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         },
         {
@@ -5566,6 +6959,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.4,
           "progressive_deduction_krw": 1200000,
           "source": "source.nts.real-estate-tax.faq",
+          "criteria_kind": "rate",
+          "rate_basis": "재산세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5603,6 +7003,12 @@ const ONTOLOGY_DATA = {
           "condition": "지역자원 보호 또는 소방시설 재원 목적",
           "amount_formula": "과세대상별 과세표준 × 지방세법상 세율 또는 정액세",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5640,6 +7046,12 @@ const ONTOLOGY_DATA = {
           "condition": "등기·등록 또는 면허",
           "amount_formula": "등록가액 × 등록세율 또는 면허종별 정액세",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5677,6 +7089,12 @@ const ONTOLOGY_DATA = {
           "condition": "지방자치단체 조례와 지방세법 기준 적용",
           "amount_formula": "개인분 정액세 또는 사업소 연면적·종업원 급여총액 기준 산식",
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5714,6 +7132,12 @@ const ONTOLOGY_DATA = {
           "condition": "궐련 담배 반출 또는 반입",
           "amount_krw": 1007,
           "source": "source.law.local-tax-act.rates",
+          "criteria_kind": "reference",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
       ]
@@ -5756,6 +7180,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "적용기한은 과세연도별 조세특례제한법 개정에 따라 달라질 수 있음",
           "source": "source.nts.corporate-tax.reliefs",
+          "criteria_kind": "rate",
+          "rate_basis": "상가건물 임대료 인하액",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
@@ -5783,7 +7214,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.sme-employment-income-reduction",
-        "source.law.tax-special-treatment-restriction-act.reliefs"
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.employee-income-statement"
       ],
       "law_reference": "조세특례제한법 제30조",
       "tags": [],
@@ -5798,6 +7230,13 @@ const ONTOLOGY_DATA = {
           "note": "감면기간 5년",
           "source": "source.nts.sme-employment-income-reduction",
           "age_max": 34,
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 취업자 근로소득세",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 제30조"
         },
         {
@@ -5810,6 +7249,13 @@ const ONTOLOGY_DATA = {
           "note": "감면기간 3년",
           "source": "source.nts.sme-employment-income-reduction",
           "age_min": 60,
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 취업자 근로소득세",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 제30조"
         },
         {
@@ -5821,6 +7267,13 @@ const ONTOLOGY_DATA = {
           "limit_krw": 2000000,
           "note": "감면기간 3년",
           "source": "source.nts.sme-employment-income-reduction",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 취업자 근로소득세",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 제30조"
         }
       ]
@@ -5862,6 +7315,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
@@ -5872,6 +7332,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
@@ -5882,6 +7349,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
@@ -5893,6 +7367,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 10,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "중소기업 특별세액감면",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
@@ -5936,6 +7417,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세 또는 소득세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
@@ -5947,6 +7435,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "법인세 또는 소득세",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
@@ -5958,8 +7453,464 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "criteria_kind": "rate",
+          "rate_basis": "상시근로자 증가율",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax-consulting.2026",
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
+        }
+      ]
+    },
+    {
+      "id": "scenario.corporate-tax-manager",
+      "title": "법인 세무담당자 경로",
+      "type": "scenario",
+      "description": "법인 세무담당자가 법인세율, 신고기한, 공제·감면 지원제도를 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "tax.corporate",
+        "category.corporate-tax-supports"
+      ],
+      "terms": [
+        "term.tax-rate",
+        "term.tax-credit",
+        "term.tax-reduction",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.corporate-tax.return"
+      ],
+      "sources": [
+        "source.nts.corporate-tax.rates",
+        "source.nts.corporate-tax.filing-procedure",
+        "source.nts.corporate-tax.reliefs"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "corporate-tax"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "법인세율 구간",
+          "target": "tax.corporate",
+          "reason": "각 사업연도 소득 과세표준 구간별 세율과 누진공제액을 확인합니다."
+        },
+        {
+          "order": 2,
+          "label": "신고기한",
+          "target": "deadline.corporate-tax.return",
+          "reason": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내 신고·납부 반복 규칙을 확인합니다."
+        },
+        {
+          "order": 3,
+          "label": "공제·감면 목록",
+          "target": "category.corporate-tax-supports",
+          "reason": "중소기업, R&D, 고용, 투자, 지역 이전 등 법인세 지원제도를 검토합니다."
+        },
+        {
+          "order": 4,
+          "label": "세액공제 한도·산식",
+          "target": "credit.foreign-tax-paid",
+          "reason": "외국납부세액공제처럼 산식 기반 한도는 criteria의 금액·적용 산식으로 확인합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.employee.year-end-settlement",
+      "title": "근로자 연말정산 경로",
+      "type": "scenario",
+      "description": "근로소득이 있는 근로자가 연말정산에서 소득공제, 세액공제, 신고기한을 순서대로 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "filing.year-end-settlement",
+        "category.income-deductions",
+        "category.tax-credits"
+      ],
+      "terms": [
+        "term.employee",
+        "term.withholding",
+        "term.income-deduction",
+        "term.tax-credit"
+      ],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.nts.employee-income-statement"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "employee"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "근로자 여부 확인",
+          "target": "term.employee",
+          "reason": "연말정산은 근로소득을 지급받는 근로자를 출발점으로 하며 일용근로자 여부를 먼저 구분합니다."
+        },
+        {
+          "order": 2,
+          "label": "연말정산 절차 확인",
+          "target": "filing.year-end-settlement",
+          "reason": "원천징수의무자가 다음연도 2월분 근로소득 지급 시 정산하는 절차와 제출 흐름을 확인합니다."
+        },
+        {
+          "order": 3,
+          "label": "소득공제 확인",
+          "target": "category.income-deductions",
+          "reason": "과세표준을 줄이는 인적공제, 연금보험료공제, 특별소득공제, 기타 소득공제 기준을 확인합니다."
+        },
+        {
+          "order": 4,
+          "label": "세액공제 확인",
+          "target": "category.tax-credits",
+          "reason": "산출세액에서 차감하는 보험료·의료비·교육비·기부금·월세액 등 공제율과 한도를 확인합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.homeowner.real-estate-tax",
+      "title": "주택 보유자 보유세 경로",
+      "type": "scenario",
+      "description": "주택 보유자가 공시가격 합계액, 과세기준일, 재산세, 종합부동산세 구간을 순서대로 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "tax.comprehensive-real-estate",
+        "local.property"
+      ],
+      "terms": [
+        "term.publicly-notified-price",
+        "term.tax-base",
+        "term.tax-rate"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.nts.real-estate-tax.faq",
+        "source.nts.comprehensive-real-estate.overview",
+        "source.nts.comprehensive-real-estate.rates",
+        "source.molit.realtyprice"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "real-estate"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "공시가격 확인",
+          "target": "term.publicly-notified-price",
+          "reason": "국토교통부 부동산공시가격 알리미에서 주택별 공시가격을 확인한 뒤 소유 주택을 합산합니다."
+        },
+        {
+          "order": 2,
+          "label": "과세기준일 확인",
+          "target": "concept.cre-tax-base-date",
+          "reason": "종합부동산세는 매년 6월 1일 현재 보유 여부로 과세대상을 판정합니다."
+        },
+        {
+          "order": 3,
+          "label": "공제금액 차감",
+          "target": "concept.cre-deduction-thresholds",
+          "reason": "주택 9억원, 1세대 1주택 12억원 등 과세유형별 공제금액을 먼저 차감합니다."
+        },
+        {
+          "order": 4,
+          "label": "세율 구간 선택",
+          "target": "tax.comprehensive-real-estate",
+          "reason": "공제 후 공정시장가액비율을 적용한 과세표준으로 주택 수·토지 유형별 세율표 구간을 선택합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.inheritance-gift",
+      "title": "상속·증여 신고 경로",
+      "type": "scenario",
+      "description": "상속인 또는 수증자가 과세표준, 세율, 신고기한을 순서대로 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "tax.inheritance",
+        "tax.gift"
+      ],
+      "terms": [
+        "term.heir",
+        "term.donee",
+        "term.tax-rate",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.inheritance.resident",
+        "deadline.inheritance.nonresident",
+        "deadline.gift.general"
+      ],
+      "sources": [
+        "source.nts.inheritance.overview",
+        "source.nts.inheritance.rates",
+        "source.nts.gift.deadline",
+        "source.nts.gift.rates"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "inheritance",
+        "gift"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "상속·증여 유형 구분",
+          "target": "tax.inheritance-and-gift",
+          "reason": "사망에 따른 이전인지 생전 무상이전인지에 따라 납세의무자와 신고기한이 달라집니다."
+        },
+        {
+          "order": 2,
+          "label": "세율표 확인",
+          "target": "tax.inheritance-and-gift",
+          "reason": "상속세와 증여세는 같은 5단계 초과누진세율 구조를 사용합니다."
+        },
+        {
+          "order": 3,
+          "label": "상속세 신고기한",
+          "target": "filing.inheritance-tax-return",
+          "reason": "거주자 6개월, 비거주자 9개월 기한을 상속개시일이 속하는 달의 말일부터 계산합니다."
+        },
+        {
+          "order": 4,
+          "label": "증여세 신고기한",
+          "target": "filing.gift-tax-return",
+          "reason": "일반 증여는 증여받은 날이 속하는 달의 말일부터 3개월 이내 신고합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.real-estate-transfer",
+      "title": "부동산 양도 경로",
+      "type": "scenario",
+      "description": "부동산을 양도한 사용자가 양도차익 계산, 기본공제, 예정·확정신고 기한을 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "tax.income.capital-gains",
+        "filing.capital-gains-return"
+      ],
+      "terms": [
+        "term.capital-gain",
+        "term.tax-base",
+        "term.deadline"
+      ],
+      "deadlines": [
+        "deadline.capital-gains.preliminary",
+        "deadline.capital-gains.final"
+      ],
+      "sources": [
+        "source.nts.capital-gains.overview",
+        "source.nts.capital-gains.deadline",
+        "source.nts.capital-gains.rates"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "capital-gains"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "양도차익 계산",
+          "target": "concept.capital-gains.calculation-flow",
+          "reason": "양도가액, 취득가액, 필요경비와 공제를 거쳐 양도소득 과세표준을 계산합니다."
+        },
+        {
+          "order": 2,
+          "label": "양도소득세율 확인",
+          "target": "tax.income.capital-gains",
+          "reason": "기본세율과 자산 유형별 특례세율을 분리해 산출세액을 확인합니다."
+        },
+        {
+          "order": 3,
+          "label": "예정신고",
+          "target": "deadline.capital-gains.preliminary",
+          "reason": "토지·건물 등은 양도일이 속하는 달의 말일부터 2개월 이내 예정신고 여부를 확인합니다."
+        },
+        {
+          "order": 4,
+          "label": "확정신고",
+          "target": "deadline.capital-gains.final",
+          "reason": "복수 양도 등 확정신고 대상은 다음연도 5월 신고 경로로 연결합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.sole-proprietor.compliance",
+      "title": "개인사업자 신고 경로",
+      "type": "scenario",
+      "description": "개인사업자가 사업자등록, 부가가치세 과세유형, 원천세, 종합소득세 신고를 순서대로 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "category.business-tax-compliance",
+        "tax.value-added",
+        "tax.income.comprehensive"
+      ],
+      "terms": [
+        "term.general-vat-taxpayer",
+        "term.simple-vat-taxpayer",
+        "term.withholding-obligor"
+      ],
+      "deadlines": [
+        "deadline.business-registration.application",
+        "deadline.vat.periodic",
+        "deadline.withholding.monthly",
+        "deadline.income-tax.2025-return"
+      ],
+      "sources": [
+        "source.nts.business-registration.application",
+        "source.nts.vat.filing-duty",
+        "source.nts.withholding.deadlines",
+        "source.nts.income-tax.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "business"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "사업자등록",
+          "target": "filing.business-registration",
+          "reason": "사업 개시 전 또는 개시일부터 20일 이내 등록하고 과세유형 선택을 확인합니다."
+        },
+        {
+          "order": 2,
+          "label": "부가가치세 과세유형",
+          "target": "tax.value-added",
+          "reason": "일반과세자·간이과세자 기준, 납부면제, 예정신고 예외를 매출 기준으로 판정합니다."
+        },
+        {
+          "order": 3,
+          "label": "원천세 반복 신고",
+          "target": "filing.withholding-tax",
+          "reason": "인건비나 사업소득 지급이 있으면 다음 달 10일 또는 반기별 납부 반복 규칙을 관리합니다."
+        },
+        {
+          "order": 4,
+          "label": "종합소득세 확정신고",
+          "target": "filing.income-tax-return",
+          "reason": "사업소득을 포함한 종합소득은 다음연도 5월 확정신고 경로로 연결합니다."
+        }
+      ]
+    },
+    {
+      "id": "scenario.youth-policy-support",
+      "title": "청년 정책지원 탐색 경로",
+      "type": "scenario",
+      "description": "청년 사용자가 자산형성, 주거금융, 서민금융 지원의 나이·소득·재산·한도 기준을 비교하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [
+        "category.user-scenarios"
+      ],
+      "children": [],
+      "related": [
+        "support.youth-future-savings",
+        "support.youth-leap-account",
+        "support.hessal-loan-youth",
+        "support.youth-special-rent-guarantee"
+      ],
+      "terms": [
+        "term.policy-finance",
+        "term.policy-loan",
+        "term.eligibility-threshold",
+        "term.median-income"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.fsc.youth-future-savings",
+        "source.kinfa.youth-leap",
+        "source.kinfa.hessal-loan-youth",
+        "source.hf.special-rent-guarantee"
+      ],
+      "law_reference": "",
+      "tags": [
+        "scenario",
+        "youth",
+        "policy-support"
+      ],
+      "path_steps": [
+        {
+          "order": 1,
+          "label": "자산형성 계좌",
+          "target": "support.youth-future-savings",
+          "reason": "2026년 출시 예정 청년미래적금의 나이, 개인소득, 가구소득, 납입한도와 기여금 기준을 확인합니다."
+        },
+        {
+          "order": 2,
+          "label": "청년도약계좌",
+          "target": "support.youth-leap-account",
+          "reason": "개인소득, 가구소득, 금융소득종합과세 제외 요건을 확인합니다."
+        },
+        {
+          "order": 3,
+          "label": "청년 서민금융",
+          "target": "support.hessal-loan-youth",
+          "reason": "만 19~34세와 연소득 기준, 동일인 보증한도 및 용도별 한도를 확인합니다."
+        },
+        {
+          "order": 4,
+          "label": "전세자금보증",
+          "target": "support.youth-special-rent-guarantee",
+          "reason": "무주택 청년의 나이, 소득, 보증한도 기준을 확인합니다."
         }
       ]
     },
@@ -6636,6 +8587,30 @@ const ONTOLOGY_DATA = {
       "basis_date": "2026-05-03 확인"
     },
     {
+      "id": "source.molit.realtyprice",
+      "title": "부동산공시가격 알리미",
+      "type": "source",
+      "description": "공동주택·개별주택·표준지·개별공시지가 등 종합부동산세와 재산세 기준이 되는 공시가격 확인 경로입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국토교통부"
+      ],
+      "publisher": "국토교통부",
+      "url": "https://www.realtyprice.kr/",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
       "id": "source.national-tax-framework-act.2026.article2",
       "title": "국세기본법 제2조",
       "type": "source",
@@ -7066,6 +9041,30 @@ const ONTOLOGY_DATA = {
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7781&mi=2450",
       "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.employee-income-statement",
+      "title": "간이지급명세서(근로소득)",
+      "type": "source",
+      "description": "상용근로자와 일용근로자 구분, 근로소득 지급명세서 제출대상 판단 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
+      "basis_date": "2026-05-04 확인"
     },
     {
       "id": "source.nts.gift.deadline",
@@ -7524,6 +9523,30 @@ const ONTOLOGY_DATA = {
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.withholding.deadlines",
+      "title": "원천세 신고납부기한",
+      "type": "source",
+      "description": "원천징수 일반·반기납부, 연말정산, 지급명세서 제출의 반복 신고기한 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
       "id": "source.nts.withholding.overview",
       "title": "원천징수 개요",
       "type": "source",
@@ -7658,7 +9681,13 @@ const ONTOLOGY_DATA = {
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 1,
-          "median_income_percent_max": 32.0
+          "median_income_percent_max": 32.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "2인 가구 선정·급여기준",
@@ -7668,7 +9697,13 @@ const ONTOLOGY_DATA = {
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 2,
-          "median_income_percent_max": 32.0
+          "median_income_percent_max": 32.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "3인 가구 선정·급여기준",
@@ -7678,7 +9713,13 @@ const ONTOLOGY_DATA = {
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 3,
-          "median_income_percent_max": 32.0
+          "median_income_percent_max": 32.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "4인 가구 선정·급여기준",
@@ -7688,7 +9729,13 @@ const ONTOLOGY_DATA = {
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 4,
-          "median_income_percent_max": 32.0
+          "median_income_percent_max": 32.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "5인 가구 선정·급여기준",
@@ -7698,21 +9745,39 @@ const ONTOLOGY_DATA = {
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
           "source": "source.govkr.basic-livelihood-benefit",
           "household_size": 5,
-          "median_income_percent_max": 32.0
+          "median_income_percent_max": 32.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "부양의무자 고소득 제외",
           "basis": "부양의무자 연 소득",
           "condition": "1.3억원 초과 시 제외 가능",
           "threshold_krw": 130000000,
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         },
         {
           "label": "부양의무자 일반재산 제외",
           "basis": "부양의무자 일반재산",
           "condition": "12억원 초과 시 제외 가능",
           "threshold_krw": 1200000000,
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit"
         }
       ]
     },
@@ -7759,7 +9824,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 70000000,
           "max_amount_krw": 1000000,
           "note": "자녀 1인당 최대 100만원, 최소 50만원",
-          "source": "source.nts.ctc.intro"
+          "source": "source.nts.ctc.intro",
+          "criteria_kind": "limit",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.ctc.intro"
         },
         {
           "label": "부양자녀",
@@ -7767,6 +9838,12 @@ const ONTOLOGY_DATA = {
           "condition": "18세 미만 부양자녀",
           "benefit": "자녀장려금 대상",
           "source": "source.nts.ctc.intro",
+          "criteria_kind": "eligibility",
+          "basis_category": "age",
+          "basis_definition": "신청일, 계좌개설일 또는 과세기간 기준으로 대상자의 만 나이를 계산한 선정 기준입니다.",
+          "basis_lookup": "주민등록상 생년월일과 해당 제도의 기준일로 확인합니다.",
+          "selection_rule": "age_min과 age_max가 있으면 해당 나이 범위에 포함되는지 판정하고 병역기간 차감 등 특례가 있으면 note를 함께 적용합니다.",
+          "basis_source": "source.nts.ctc.intro",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7775,7 +9852,13 @@ const ONTOLOGY_DATA = {
           "condition": "2억4천만원 미만",
           "threshold_krw_max": 240000000,
           "benefit": "신청 가능",
-          "source": "source.nts.grant.2026-regular-press"
+          "source": "source.nts.grant.2026-regular-press",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.nts.grant.2026-regular-press"
         },
         {
           "label": "재산 감액구간",
@@ -7784,7 +9867,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 170000000,
           "threshold_krw_max": 240000000,
           "benefit": "산정액의 50% 지급",
-          "source": "source.nts.grant.2026-regular-press"
+          "source": "source.nts.grant.2026-regular-press",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.nts.grant.2026-regular-press"
         }
       ]
     },
@@ -7828,7 +9917,13 @@ const ONTOLOGY_DATA = {
           "basis": "본인 및 배우자 합산 순자산",
           "condition": "5.11억원 이하",
           "threshold_krw_max": 511000000,
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "주택가격",
@@ -7836,28 +9931,52 @@ const ONTOLOGY_DATA = {
           "condition": "5억원 이하",
           "threshold_krw_max": 500000000,
           "note": "신혼·2자녀 이상 가구는 6억원 이하",
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "기본 소득요건",
           "basis": "부부합산 연소득",
           "condition": "6,000만원 이하",
           "threshold_krw_max": 60000000,
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "생애최초·2자녀 이상 소득요건",
           "basis": "부부합산 연소득",
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "신혼가구 소득요건",
           "basis": "부부합산 연소득",
           "condition": "8,500만원 이하",
           "threshold_krw_max": 85000000,
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "대출한도",
@@ -7865,7 +9984,13 @@ const ONTOLOGY_DATA = {
           "condition": "최대 2억원",
           "limit_krw": 200000000,
           "note": "생애최초 2.4억원, 신혼·2자녀 이상 3.2억원",
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.hf.didimdol-loan"
         },
         {
           "label": "LTV",
@@ -7874,6 +9999,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 70,
           "rate_label": "LTV",
           "source": "source.hf.didimdol-loan",
+          "criteria_kind": "rate",
+          "rate_basis": "담보인정비율",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.hf.didimdol-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
@@ -7883,6 +10015,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 60,
           "rate_label": "DTI",
           "source": "source.hf.didimdol-loan",
+          "criteria_kind": "rate",
+          "rate_basis": "총부채상환비율",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.hf.didimdol-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
@@ -7893,6 +10032,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 4.15,
           "rate_label": "금리",
           "source": "source.hf.didimdol-rate.2026-05",
+          "criteria_kind": "rate",
+          "rate_basis": "소득구간·만기별 금리",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.hf.didimdol-rate.2026-05",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
@@ -7941,7 +10087,13 @@ const ONTOLOGY_DATA = {
           "condition": "2,200만원 미만",
           "threshold_krw_max": 22000000,
           "max_amount_krw": 1650000,
-          "source": "source.nts.eitc.intro"
+          "source": "source.nts.eitc.intro",
+          "criteria_kind": "limit",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.eitc.intro"
         },
         {
           "label": "홑벌이가구 총소득",
@@ -7949,7 +10101,13 @@ const ONTOLOGY_DATA = {
           "condition": "3,200만원 미만",
           "threshold_krw_max": 32000000,
           "max_amount_krw": 2850000,
-          "source": "source.nts.eitc.intro"
+          "source": "source.nts.eitc.intro",
+          "criteria_kind": "limit",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.eitc.intro"
         },
         {
           "label": "맞벌이가구 총소득",
@@ -7957,7 +10115,13 @@ const ONTOLOGY_DATA = {
           "condition": "4,400만원 미만",
           "threshold_krw_max": 44000000,
           "max_amount_krw": 3300000,
-          "source": "source.nts.eitc.intro"
+          "source": "source.nts.eitc.intro",
+          "criteria_kind": "limit",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.nts.eitc.intro"
         },
         {
           "label": "재산요건",
@@ -7965,7 +10129,13 @@ const ONTOLOGY_DATA = {
           "condition": "2억4천만원 미만",
           "threshold_krw_max": 240000000,
           "benefit": "신청 가능",
-          "source": "source.nts.grant.2026-regular-press"
+          "source": "source.nts.grant.2026-regular-press",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.nts.grant.2026-regular-press"
         },
         {
           "label": "재산 감액구간",
@@ -7974,7 +10144,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 170000000,
           "threshold_krw_max": 240000000,
           "benefit": "산정액의 50% 지급",
-          "source": "source.nts.grant.2026-regular-press"
+          "source": "source.nts.grant.2026-regular-press",
+          "criteria_kind": "threshold",
+          "basis_category": "asset",
+          "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+          "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+          "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+          "basis_source": "source.nts.grant.2026-regular-press"
         }
       ]
     },
@@ -8003,7 +10179,8 @@ const ONTOLOGY_DATA = {
       ],
       "deadlines": [],
       "sources": [
-        "source.kinfa.hessal-119"
+        "source.kinfa.hessal-119",
+        "source.nts.vat.filing-duty"
       ],
       "law_reference": "",
       "tags": [
@@ -8018,6 +10195,12 @@ const ONTOLOGY_DATA = {
           "condition": "3개월 이상 이용 중",
           "source": "source.kinfa.hessal-119",
           "period_months_min": 3,
+          "criteria_kind": "period",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.kinfa.hessal-119",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8025,6 +10208,12 @@ const ONTOLOGY_DATA = {
           "basis": "상환상태",
           "condition": "신청일 현재 연체 중이 아님",
           "source": "source.kinfa.hessal-119",
+          "criteria_kind": "reference",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.kinfa.hessal-119",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8032,7 +10221,13 @@ const ONTOLOGY_DATA = {
           "basis": "개인사업자 연 매출",
           "condition": "3억원 이하",
           "threshold_krw_max": 300000000,
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty"
         },
         {
           "label": "대출한도",
@@ -8040,7 +10235,13 @@ const ONTOLOGY_DATA = {
           "condition": "최대 2,000만원",
           "limit_krw": 20000000,
           "note": "신규 1,000만원 + 추가 1,000만원",
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.kinfa.hessal-119"
         },
         {
           "label": "대출금리",
@@ -8050,6 +10251,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 7,
           "rate_label": "금리",
           "source": "source.kinfa.hessal-119",
+          "criteria_kind": "rate",
+          "rate_basis": "은행별 대출금리",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.kinfa.hessal-119",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
@@ -8059,6 +10267,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 0.5,
           "rate_label": "보증료율",
           "source": "source.kinfa.hessal-119",
+          "criteria_kind": "rate",
+          "rate_basis": "보증료율",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.kinfa.hessal-119",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
@@ -8078,7 +10293,8 @@ const ONTOLOGY_DATA = {
       "children": [],
       "related": [
         "support.youth-future-savings",
-        "support.youth-leap-account"
+        "support.youth-leap-account",
+        "scenario.youth-policy-support"
       ],
       "terms": [
         "term.policy-finance",
@@ -8103,13 +10319,25 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 35000000,
           "source": "source.kinfa.hessal-loan-youth",
           "age_min": 19,
-          "age_max": 34
+          "age_max": 34,
+          "criteria_kind": "eligibility",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth"
         },
         {
           "label": "취업준비생",
           "basis": "지원대상",
           "condition": "대학(원)생, 학점은행제 수강자, 미취업청년",
           "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "reference",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8117,6 +10345,12 @@ const ONTOLOGY_DATA = {
           "basis": "지원대상",
           "condition": "중소기업에 1년 이하 재직 중",
           "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "reference",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8124,6 +10358,12 @@ const ONTOLOGY_DATA = {
           "basis": "지원대상",
           "condition": "창업 1년 이하 저소득 청년 개인사업자",
           "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "reference",
+          "basis_category": "person-status",
+          "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+          "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+          "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8132,21 +10372,39 @@ const ONTOLOGY_DATA = {
           "condition": "1인 최대 1,200만원",
           "limit_krw": 12000000,
           "note": "상환 후에도 한도 재부여 없음",
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth"
         },
         {
           "label": "일반생활자금 연간한도",
           "basis": "보증한도",
           "condition": "연간 600만원",
           "limit_krw": 6000000,
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth"
         },
         {
           "label": "특정용도자금 연간한도",
           "basis": "보증한도",
           "condition": "연간 900만원",
           "limit_krw": 9000000,
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.kinfa.hessal-loan-youth"
         }
       ]
     },
@@ -8188,6 +10446,12 @@ const ONTOLOGY_DATA = {
           "condition": "하위 20%",
           "benefit": "신청 대상",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8195,13 +10459,25 @@ const ONTOLOGY_DATA = {
           "basis": "연소득",
           "condition": "3,500만원 이하",
           "threshold_krw_max": 35000000,
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan"
         },
         {
           "label": "필수 이수·가입",
           "basis": "사전요건",
           "condition": "금융교육 이수 또는 복지멤버십 가입",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "reference",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8210,7 +10486,13 @@ const ONTOLOGY_DATA = {
           "condition": "최대 100만원",
           "limit_krw": 1000000,
           "note": "연체자는 기본 50만원+추가 50만원, 특정용도 증빙 시 기본 최대 100만원",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan"
         },
         {
           "label": "일반 금리",
@@ -8219,6 +10501,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 12.5,
           "rate_label": "금리",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "rate",
+          "rate_basis": "대출금리",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
@@ -8228,6 +10517,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 9.9,
           "rate_label": "금리",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "criteria_kind": "rate",
+          "rate_basis": "대출금리",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
@@ -8238,6 +10534,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "금리",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
           "period_months_min": 6,
+          "criteria_kind": "rate",
+          "rate_basis": "대출금리",
+          "basis_category": "finance-rate",
+          "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+          "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+          "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+          "basis_source": "source.kinfa.illegal-private-finance-prevention-loan",
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
@@ -8277,14 +10580,26 @@ const ONTOLOGY_DATA = {
           "basis": "ISA 납입금",
           "condition": "연간 납입한도",
           "limit_krw": 20000000,
-          "source": "source.fsc.isa.policy"
+          "source": "source.fsc.isa.policy",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.fsc.isa.policy"
         },
         {
           "label": "총 납입한도",
           "basis": "ISA 납입금",
           "condition": "5년 누적 한도",
           "limit_krw": 100000000,
-          "source": "source.fsc.isa.policy"
+          "source": "source.fsc.isa.policy",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.fsc.isa.policy"
         },
         {
           "label": "일반형 비과세",
@@ -8292,7 +10607,13 @@ const ONTOLOGY_DATA = {
           "condition": "일반형 ISA",
           "limit_krw": 2000000,
           "benefit": "한도 내 비과세",
-          "source": "source.moef.isa.tax-benefit"
+          "source": "source.moef.isa.tax-benefit",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.moef.isa.tax-benefit"
         },
         {
           "label": "서민·농어민형 비과세",
@@ -8300,7 +10621,13 @@ const ONTOLOGY_DATA = {
           "condition": "서민·농어민형 ISA",
           "limit_krw": 4000000,
           "benefit": "한도 내 비과세",
-          "source": "source.moef.isa.tax-benefit"
+          "source": "source.moef.isa.tax-benefit",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.moef.isa.tax-benefit"
         },
         {
           "label": "비과세 초과분 분리과세",
@@ -8309,7 +10636,14 @@ const ONTOLOGY_DATA = {
           "rate_percent": 9,
           "rate_label": "분리과세율",
           "amount_formula": "비과세 한도 초과 순소득 × 9%",
-          "source": "source.moef.isa.tax-benefit"
+          "source": "source.moef.isa.tax-benefit",
+          "criteria_kind": "rate",
+          "rate_basis": "비과세 한도 초과 순소득",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.moef.isa.tax-benefit"
         }
       ]
     },
@@ -8351,6 +10685,12 @@ const ONTOLOGY_DATA = {
           "condition": "5년 이상",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "period_years_min": 5,
+          "criteria_kind": "period",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8359,7 +10699,13 @@ const ONTOLOGY_DATA = {
           "condition": "3,205,298원 이하",
           "threshold_krw_max": 3205298,
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
-          "household_size": 1
+          "household_size": 1,
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment"
         },
         {
           "label": "2인 가구 소득",
@@ -8367,7 +10713,13 @@ const ONTOLOGY_DATA = {
           "condition": "5,249,115원 이하",
           "threshold_krw_max": 5249115,
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
-          "household_size": 2
+          "household_size": 2,
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment"
         },
         {
           "label": "3인 가구 소득",
@@ -8375,7 +10727,13 @@ const ONTOLOGY_DATA = {
           "condition": "6,698,795원 이하",
           "threshold_krw_max": 6698795,
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
-          "household_size": 3
+          "household_size": 3,
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment"
         },
         {
           "label": "4인 가구 소득",
@@ -8383,7 +10741,13 @@ const ONTOLOGY_DATA = {
           "condition": "8,118,423원 이하",
           "threshold_krw_max": 8118423,
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
-          "household_size": 4
+          "household_size": 4,
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment"
         },
         {
           "label": "채무감면",
@@ -8393,6 +10757,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 80,
           "rate_label": "감면율",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "criteria_kind": "rate",
+          "rate_basis": "연체이자·이자·원금",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "amount_formula": "연체이자·이자·원금 × 감면율 30%~80%"
         },
         {
@@ -8401,6 +10772,12 @@ const ONTOLOGY_DATA = {
           "condition": "최장 10년 이내 원금균등분할상환",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "period_years_max": 10,
+          "criteria_kind": "period",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8411,6 +10788,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "유예이자율",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "period_years_max": 3,
+          "criteria_kind": "rate",
+          "rate_basis": "유예기간·유예이자율",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.ccrs.long-term-delinquent-debt-adjustment",
           "amount_formula": "유예기간·유예이자율 × 유예이자율 2%"
         }
       ]
@@ -8431,7 +10815,8 @@ const ONTOLOGY_DATA = {
       "related": [
         "support.youth-leap-account",
         "tax.income",
-        "support.hessal-loan-youth"
+        "support.hessal-loan-youth",
+        "scenario.youth-policy-support"
       ],
       "terms": [
         "term.policy-finance",
@@ -8440,7 +10825,9 @@ const ONTOLOGY_DATA = {
       ],
       "deadlines": [],
       "sources": [
-        "source.fsc.youth-future-savings"
+        "source.fsc.youth-future-savings",
+        "source.nts.vat.filing-duty",
+        "source.govkr.basic-livelihood-benefit"
       ],
       "law_reference": "",
       "tags": [
@@ -8455,6 +10842,12 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 6월 출시 예정",
           "benefit": "청년 자산형성 적금",
           "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.fsc.youth-future-savings",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8465,6 +10858,12 @@ const ONTOLOGY_DATA = {
           "source": "source.fsc.youth-future-savings",
           "age_min": 19,
           "age_max": 34,
+          "criteria_kind": "eligibility",
+          "basis_category": "age",
+          "basis_definition": "신청일, 계좌개설일 또는 과세기간 기준으로 대상자의 만 나이를 계산한 선정 기준입니다.",
+          "basis_lookup": "주민등록상 생년월일과 해당 제도의 기준일로 확인합니다.",
+          "selection_rule": "age_min과 age_max가 있으면 해당 나이 범위에 포함되는지 판정하고 병역기간 차감 등 특례가 있으면 note를 함께 적용합니다.",
+          "basis_source": "source.fsc.youth-future-savings",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8472,14 +10871,26 @@ const ONTOLOGY_DATA = {
           "basis": "개인소득",
           "condition": "6,000만원 이하",
           "threshold_krw_max": 60000000,
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.fsc.youth-future-savings"
         },
         {
           "label": "일반형 소상공인 매출",
           "basis": "연매출",
           "condition": "3억원 이하 소상공인",
           "threshold_krw_max": 300000000,
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty"
         },
         {
           "label": "일반형 가구소득",
@@ -8488,6 +10899,12 @@ const ONTOLOGY_DATA = {
           "benefit": "일반형 가입 가능",
           "source": "source.fsc.youth-future-savings",
           "median_income_percent_max": 200.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8495,14 +10912,26 @@ const ONTOLOGY_DATA = {
           "basis": "개인소득",
           "condition": "3,600만원 이하 중소기업 재직자",
           "threshold_krw_max": 36000000,
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.fsc.youth-future-savings"
         },
         {
           "label": "우대형 소상공인 매출",
           "basis": "연매출",
           "condition": "1억원 이하 소상공인",
           "threshold_krw_max": 100000000,
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty"
         },
         {
           "label": "우대형 가구소득",
@@ -8511,6 +10940,12 @@ const ONTOLOGY_DATA = {
           "benefit": "우대형 가입 가능",
           "source": "source.fsc.youth-future-savings",
           "median_income_percent_max": 150.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8518,7 +10953,13 @@ const ONTOLOGY_DATA = {
           "basis": "월 납입금",
           "condition": "최대 50만원 자유적립",
           "limit_krw": 500000,
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.fsc.youth-future-savings"
         },
         {
           "label": "일반형 기여금",
@@ -8528,6 +10969,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "기여금비율",
           "benefit": "정부기여금 매칭",
           "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "rate",
+          "rate_basis": "월 납입금",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.fsc.youth-future-savings",
           "amount_formula": "월 납입금 × 기여금비율 6%"
         },
         {
@@ -8538,6 +10986,13 @@ const ONTOLOGY_DATA = {
           "rate_label": "기여금비율",
           "benefit": "정부기여금 매칭",
           "source": "source.fsc.youth-future-savings",
+          "criteria_kind": "rate",
+          "rate_basis": "월 납입금",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.fsc.youth-future-savings",
           "amount_formula": "월 납입금 × 기여금비율 12%"
         },
         {
@@ -8547,6 +11002,12 @@ const ONTOLOGY_DATA = {
           "benefit": "이자소득 비과세 특례 예정",
           "source": "source.fsc.youth-future-savings",
           "period_years": 3,
+          "criteria_kind": "period",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.fsc.youth-future-savings",
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -8567,7 +11028,8 @@ const ONTOLOGY_DATA = {
       "related": [
         "tax.income",
         "support.youth-future-savings",
-        "support.hessal-loan-youth"
+        "support.hessal-loan-youth",
+        "scenario.youth-policy-support"
       ],
       "terms": [
         "term.total-income",
@@ -8575,7 +11037,9 @@ const ONTOLOGY_DATA = {
       ],
       "deadlines": [],
       "sources": [
-        "source.kinfa.youth-leap"
+        "source.kinfa.youth-leap",
+        "source.nts.employee-income-statement",
+        "source.govkr.basic-livelihood-benefit"
       ],
       "law_reference": "",
       "tags": [
@@ -8590,6 +11054,12 @@ const ONTOLOGY_DATA = {
           "source": "source.kinfa.youth-leap",
           "age_min": 19,
           "age_max": 34,
+          "criteria_kind": "eligibility",
+          "basis_category": "age",
+          "basis_definition": "신청일, 계좌개설일 또는 과세기간 기준으로 대상자의 만 나이를 계산한 선정 기준입니다.",
+          "basis_lookup": "주민등록상 생년월일과 해당 제도의 기준일로 확인합니다.",
+          "selection_rule": "age_min과 age_max가 있으면 해당 나이 범위에 포함되는지 판정하고 병역기간 차감 등 특례가 있으면 note를 함께 적용합니다.",
+          "basis_source": "source.kinfa.youth-leap",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8597,14 +11067,26 @@ const ONTOLOGY_DATA = {
           "basis": "직전 과세기간 총급여액",
           "condition": "7,500만원 이하",
           "threshold_krw_max": 75000000,
-          "source": "source.kinfa.youth-leap"
+          "source": "source.kinfa.youth-leap",
+          "criteria_kind": "threshold",
+          "basis_category": "earned-income",
+          "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+          "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+          "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+          "basis_source": "source.nts.employee-income-statement"
         },
         {
           "label": "개인소득 종합소득",
           "basis": "종합소득과세표준에 합산되는 종합소득금액",
           "condition": "6,300만원 이하",
           "threshold_krw_max": 63000000,
-          "source": "source.kinfa.youth-leap"
+          "source": "source.kinfa.youth-leap",
+          "criteria_kind": "threshold",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.kinfa.youth-leap"
         },
         {
           "label": "가구소득",
@@ -8613,6 +11095,12 @@ const ONTOLOGY_DATA = {
           "benefit": "가입 대상",
           "source": "source.kinfa.youth-leap",
           "median_income_percent_max": 250.0,
+          "criteria_kind": "eligibility",
+          "basis_category": "median-income",
+          "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+          "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+          "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+          "basis_source": "source.govkr.basic-livelihood-benefit",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8621,6 +11109,12 @@ const ONTOLOGY_DATA = {
           "condition": "금융소득종합과세 대상 이력 없음",
           "benefit": "가입 가능",
           "source": "source.kinfa.youth-leap",
+          "criteria_kind": "eligibility",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.kinfa.youth-leap",
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -8640,7 +11134,8 @@ const ONTOLOGY_DATA = {
       "children": [],
       "related": [
         "support.didimdol-loan",
-        "credit.monthly-rent"
+        "credit.monthly-rent",
+        "scenario.youth-policy-support"
       ],
       "terms": [
         "term.policy-finance",
@@ -8665,6 +11160,12 @@ const ONTOLOGY_DATA = {
           "condition": "만 34세 이하",
           "source": "source.hf.special-rent-guarantee",
           "age_max": 34,
+          "criteria_kind": "eligibility",
+          "basis_category": "age",
+          "basis_definition": "신청일, 계좌개설일 또는 과세기간 기준으로 대상자의 만 나이를 계산한 선정 기준입니다.",
+          "basis_lookup": "주민등록상 생년월일과 해당 제도의 기준일로 확인합니다.",
+          "selection_rule": "age_min과 age_max가 있으면 해당 나이 범위에 포함되는지 판정하고 병역기간 차감 등 특례가 있으면 note를 함께 적용합니다.",
+          "basis_source": "source.hf.special-rent-guarantee",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8672,7 +11173,13 @@ const ONTOLOGY_DATA = {
           "basis": "본인과 배우자 합산 연소득",
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
-          "source": "source.hf.special-rent-guarantee"
+          "source": "source.hf.special-rent-guarantee",
+          "criteria_kind": "threshold",
+          "basis_category": "income",
+          "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+          "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+          "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+          "basis_source": "source.hf.special-rent-guarantee"
         },
         {
           "label": "무주택 청년 보증한도",
@@ -8680,14 +11187,26 @@ const ONTOLOGY_DATA = {
           "condition": "최대 2억원",
           "limit_krw": 200000000,
           "note": "1억원 이하 이용 시 상환능력별 보증한도 생략, 보증비율 100%",
-          "source": "source.hf.special-rent-guarantee"
+          "source": "source.hf.special-rent-guarantee",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.hf.special-rent-guarantee"
         },
         {
           "label": "다자녀가구 보증한도",
           "basis": "보증한도",
           "condition": "미성년 자녀 2명 이상",
           "limit_krw": 200000000,
-          "source": "source.hf.special-rent-guarantee"
+          "source": "source.hf.special-rent-guarantee",
+          "criteria_kind": "limit",
+          "basis_category": "limit",
+          "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+          "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+          "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+          "basis_source": "source.hf.special-rent-guarantee"
         }
       ]
     },
@@ -8709,7 +11228,8 @@ const ONTOLOGY_DATA = {
       ],
       "related": [
         "local.property",
-        "support.didimdol-loan"
+        "support.didimdol-loan",
+        "scenario.homeowner.real-estate-tax"
       ],
       "terms": [
         "term.national-tax",
@@ -8723,7 +11243,8 @@ const ONTOLOGY_DATA = {
         "source.national-tax-framework-act.2026.article2",
         "source.nts.comprehensive-real-estate.overview",
         "source.nts.comprehensive-real-estate.rates",
-        "source.nts.real-estate-tax.faq"
+        "source.nts.real-estate-tax.faq",
+        "source.molit.realtyprice"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -8737,6 +11258,12 @@ const ONTOLOGY_DATA = {
           "deduction_krw": 900000000,
           "note": "1세대 1주택자는 12억원",
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8745,6 +11272,12 @@ const ONTOLOGY_DATA = {
           "condition": "1세대 1주택자",
           "deduction_krw": 1200000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8753,6 +11286,12 @@ const ONTOLOGY_DATA = {
           "condition": "종합합산토지",
           "deduction_krw": 500000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8761,6 +11300,12 @@ const ONTOLOGY_DATA = {
           "condition": "별도합산토지",
           "deduction_krw": 8000000000,
           "source": "source.nts.comprehensive-real-estate.overview",
+          "criteria_kind": "deduction",
+          "basis_category": "property-valuation",
+          "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+          "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+          "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+          "basis_source": "source.molit.realtyprice",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8770,6 +11315,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 300000000,
           "rate_percent": 0.5,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8779,6 +11331,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 600000000,
           "rate_percent": 0.7,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8788,6 +11347,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1200000000,
           "rate_percent": 1.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8797,6 +11363,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 2500000000,
           "rate_percent": 1.3,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8806,6 +11379,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 5000000000,
           "rate_percent": 1.5,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8815,6 +11395,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 9400000000,
           "rate_percent": 2.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8824,6 +11411,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 9400000000,
           "rate_percent": 2.7,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8834,6 +11428,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 2.0,
           "note": "3억원 이하 0.5%, 6억원 이하 0.7%, 12억원 이하 1.0%",
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8843,6 +11444,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 5000000000,
           "rate_percent": 3.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8852,6 +11460,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 9400000000,
           "rate_percent": 4.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8861,6 +11476,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 9400000000,
           "rate_percent": 5.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8870,6 +11492,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1500000000,
           "rate_percent": 1.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8879,6 +11508,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 4500000000,
           "rate_percent": 2.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8888,6 +11524,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 4500000000,
           "rate_percent": 3.0,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8897,6 +11540,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 20000000000,
           "rate_percent": 0.5,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8906,6 +11556,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 40000000000,
           "rate_percent": 0.6,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8915,6 +11572,13 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 40000000000,
           "rate_percent": 0.7,
           "source": "source.nts.comprehensive-real-estate.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "종부세 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+          "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+          "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+          "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -8934,7 +11598,8 @@ const ONTOLOGY_DATA = {
       "children": [],
       "related": [
         "category.corporate-tax-supports",
-        "local.local-income"
+        "local.local-income",
+        "scenario.corporate-tax-manager"
       ],
       "terms": [
         "term.national-tax",
@@ -8966,6 +11631,13 @@ const ONTOLOGY_DATA = {
           "progressive_deduction_krw": 0,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
           "source": "source.nts.corporate-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "각 사업연도 소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "법인의 각 사업연도 소득금액에서 세법상 조정과 공제를 반영한 법인세 세율 적용 기준입니다.",
+          "basis_lookup": "법인세 신고서와 세무조정계산서의 각 사업연도 소득 과세표준에서 확인합니다.",
+          "selection_rule": "과세표준이 2억원, 200억원, 3,000억원 경계 중 어디에 속하는지에 따라 세율과 누진공제액을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8978,6 +11650,13 @@ const ONTOLOGY_DATA = {
           "progressive_deduction_krw": 20000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
           "source": "source.nts.corporate-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "각 사업연도 소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "법인의 각 사업연도 소득금액에서 세법상 조정과 공제를 반영한 법인세 세율 적용 기준입니다.",
+          "basis_lookup": "법인세 신고서와 세무조정계산서의 각 사업연도 소득 과세표준에서 확인합니다.",
+          "selection_rule": "과세표준이 2억원, 200억원, 3,000억원 경계 중 어디에 속하는지에 따라 세율과 누진공제액을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -8990,6 +11669,13 @@ const ONTOLOGY_DATA = {
           "progressive_deduction_krw": 420000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
           "source": "source.nts.corporate-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "각 사업연도 소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "법인의 각 사업연도 소득금액에서 세법상 조정과 공제를 반영한 법인세 세율 적용 기준입니다.",
+          "basis_lookup": "법인세 신고서와 세무조정계산서의 각 사업연도 소득 과세표준에서 확인합니다.",
+          "selection_rule": "과세표준이 2억원, 200억원, 3,000억원 경계 중 어디에 속하는지에 따라 세율과 누진공제액을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9001,6 +11687,13 @@ const ONTOLOGY_DATA = {
           "progressive_deduction_krw": 9420000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
           "source": "source.nts.corporate-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "각 사업연도 소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "법인의 각 사업연도 소득금액에서 세법상 조정과 공제를 반영한 법인세 세율 적용 기준입니다.",
+          "basis_lookup": "법인세 신고서와 세무조정계산서의 각 사업연도 소득 과세표준에서 확인합니다.",
+          "selection_rule": "과세표준이 2억원, 200억원, 3,000억원 경계 중 어디에 속하는지에 따라 세율과 누진공제액을 선택합니다.",
+          "basis_source": "source.nts.corporate-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9037,6 +11730,12 @@ const ONTOLOGY_DATA = {
           "condition": "품목분류별 관세율표 적용",
           "amount_formula": "과세가격 × 품목별 관세율",
           "source": "source.law.customs-tariff",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.customs-tariff",
           "law_reference": "관세법 제14조"
         }
       ]
@@ -9077,6 +11776,12 @@ const ONTOLOGY_DATA = {
           "condition": "교육세법상 납세의무자",
           "amount_formula": "교육세 과세표준 × 교육세법상 세율",
           "source": "source.law.education-tax-act.article5",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.education-tax-act.article5",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9096,7 +11801,9 @@ const ONTOLOGY_DATA = {
       "children": [
         "filing.gift-tax-return"
       ],
-      "related": [],
+      "related": [
+        "scenario.inheritance-gift"
+      ],
       "terms": [
         "term.tax-base",
         "term.donee",
@@ -9123,6 +11830,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
           "source": "source.nts.gift.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
@@ -9134,6 +11848,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
           "source": "source.nts.gift.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
@@ -9145,6 +11866,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
           "source": "source.nts.gift.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
@@ -9156,6 +11884,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
           "source": "source.nts.gift.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
@@ -9166,6 +11901,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
           "source": "source.nts.gift.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         }
       ]
@@ -9224,6 +11966,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9235,6 +11984,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9246,6 +12002,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9257,6 +12020,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9268,6 +12038,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9279,6 +12056,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9290,6 +12074,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9300,6 +12091,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9322,7 +12120,8 @@ const ONTOLOGY_DATA = {
         "filing.capital-gains-return"
       ],
       "related": [
-        "tax.securities-transaction"
+        "tax.securities-transaction",
+        "scenario.real-estate-transfer"
       ],
       "terms": [
         "term.tax-base",
@@ -9353,6 +12152,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9364,6 +12170,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9375,6 +12188,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9386,6 +12206,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9397,6 +12224,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9408,6 +12242,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9419,6 +12260,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9429,6 +12277,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9437,6 +12292,13 @@ const ONTOLOGY_DATA = {
           "condition": "국외 중소기업주식 등",
           "rate_percent": 10,
           "source": "source.nts.capital-gains.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "양도소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.capital-gains.rates",
           "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         },
@@ -9446,6 +12308,13 @@ const ONTOLOGY_DATA = {
           "condition": "국외 그 밖의 주식 등",
           "rate_percent": 20,
           "source": "source.nts.capital-gains.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "양도소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.capital-gains.rates",
           "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 20%"
         },
@@ -9456,6 +12325,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "기본세율 20%에 한시적 탄력세율 적용",
           "source": "source.nts.capital-gains.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "양도소득 과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.capital-gains.rates",
           "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         }
@@ -9477,7 +12353,8 @@ const ONTOLOGY_DATA = {
       "related": [
         "support.earned-income-tax-credit",
         "filing.income-tax-return",
-        "filing.business-income-withholding"
+        "filing.business-income-withholding",
+        "scenario.sole-proprietor.compliance"
       ],
       "terms": [
         "term.tax-base",
@@ -9504,6 +12381,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9515,6 +12399,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9526,6 +12417,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9537,6 +12435,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9548,6 +12453,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9559,6 +12471,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9570,6 +12489,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9580,6 +12506,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
           "source": "source.nts.income-tax.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9616,6 +12549,12 @@ const ONTOLOGY_DATA = {
           "condition": "2020년 이후 퇴직분",
           "amount_formula": "(과세표준 × 기본세율 - 누진공제액) ÷ 12 × 근속연수",
           "source": "source.nts.retirement-income.calculation",
+          "criteria_kind": "formula",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
@@ -9626,6 +12565,12 @@ const ONTOLOGY_DATA = {
           "source": "source.nts.retirement-income.calculation",
           "years_of_service_max": 5,
           "per_year_deduction_krw": 1000000,
+          "criteria_kind": "deduction",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
@@ -9640,6 +12585,12 @@ const ONTOLOGY_DATA = {
           "per_year_deduction_krw": 2000000,
           "period_years_min": 5,
           "period_years_max": 10,
+          "criteria_kind": "deduction",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
@@ -9654,6 +12605,12 @@ const ONTOLOGY_DATA = {
           "per_year_deduction_krw": 2500000,
           "period_years_min": 10,
           "period_years_max": 20,
+          "criteria_kind": "deduction",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
@@ -9665,6 +12622,12 @@ const ONTOLOGY_DATA = {
           "years_of_service_min": 20,
           "base_deduction_krw": 40000000,
           "per_year_deduction_krw": 3000000,
+          "criteria_kind": "deduction",
+          "basis_category": "period",
+          "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+          "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+          "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         }
       ]
@@ -9703,6 +12666,12 @@ const ONTOLOGY_DATA = {
           "condition": "개별소비세법상 과세물품·장소·행위",
           "amount_formula": "과세가격 × 품목별 세율 또는 과세수량 × 품목별 정액세",
           "source": "source.law.individual-consumption-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.individual-consumption-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9722,7 +12691,9 @@ const ONTOLOGY_DATA = {
       "children": [
         "filing.inheritance-tax-return"
       ],
-      "related": [],
+      "related": [
+        "scenario.inheritance-gift"
+      ],
       "terms": [
         "term.tax-base",
         "term.heir",
@@ -9750,6 +12721,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9761,6 +12739,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9772,6 +12757,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9783,6 +12775,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9793,6 +12792,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9847,6 +12853,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9858,6 +12871,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9869,6 +12889,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9880,6 +12907,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -9890,6 +12924,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
           "source": "source.nts.inheritance.rates",
+          "criteria_kind": "rate",
+          "rate_basis": "과세표준",
+          "basis_category": "tax-base",
+          "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+          "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+          "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+          "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9928,6 +12969,12 @@ const ONTOLOGY_DATA = {
           "condition": "주정·탁주·맥주·증류주 등 주류 종류별",
           "amount_formula": "과세표준 × 종가세율 또는 출고수량 × 종량세율",
           "source": "source.law.liquor-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.liquor-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -9970,6 +13017,12 @@ const ONTOLOGY_DATA = {
           "condition": "주권 또는 지분 양도",
           "amount_formula": "양도가액 × 증권거래세법·시행령상 시장별 세율",
           "source": "source.law.securities-transaction-tax-act.article8",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.securities-transaction-tax-act.article8",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -10008,6 +13061,12 @@ const ONTOLOGY_DATA = {
           "condition": "농어촌특별세법상 납세의무자",
           "amount_formula": "과세표준 × 농어촌특별세법상 세율",
           "source": "source.law.special-rural-development-tax-act.article5",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.special-rural-development-tax-act.article5",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -10046,6 +13105,12 @@ const ONTOLOGY_DATA = {
           "condition": "1천만원 이하",
           "amount_krw": 0,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "reference",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10056,6 +13121,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 30000000,
           "amount_krw": 20000,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10066,6 +13137,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "amount_krw": 40000,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10076,6 +13153,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "amount_krw": 70000,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10086,6 +13169,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "amount_krw": 150000,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10095,6 +13184,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 1000000000,
           "amount_krw": 350000,
           "source": "source.law.stamp-tax-act.article3",
+          "criteria_kind": "threshold",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -10133,6 +13228,12 @@ const ONTOLOGY_DATA = {
           "condition": "휘발유·경유 등 법정 과세물품",
           "amount_formula": "과세물품 수량 × 물품별 정액세율",
           "source": "source.law.transport-energy-environment-tax-act.rates",
+          "criteria_kind": "formula",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.law.transport-energy-environment-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -10158,7 +13259,8 @@ const ONTOLOGY_DATA = {
         "category.business-tax-compliance",
         "local.local-consumption",
         "filing.business-registration",
-        "filing.vat-return"
+        "filing.vat-return",
+        "scenario.sole-proprietor.compliance"
       ],
       "terms": [
         "term.national-tax",
@@ -10192,6 +13294,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 104000000,
           "benefit": "일반과세자",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10201,6 +13309,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 104000000,
           "benefit": "간이과세자",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10210,6 +13324,13 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "rate",
+          "rate_basis": "매출세액",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "매출세액 × 적용비율 10%"
         },
@@ -10221,6 +13342,13 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
           "source": "source.nts.vat.overview",
+          "criteria_kind": "rate",
+          "rate_basis": "업종별 부가가치율",
+          "basis_category": "official-standard",
+          "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+          "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+          "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+          "basis_source": "source.nts.vat.overview",
           "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
@@ -10231,6 +13359,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 48000000,
           "threshold_krw_max": 104000000,
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         },
         {
@@ -10240,6 +13374,12 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
           "source": "source.nts.vat.filing-duty",
+          "criteria_kind": "threshold",
+          "basis_category": "revenue",
+          "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+          "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+          "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+          "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
       ]
@@ -10416,6 +13556,29 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.grant.2026-regular-press",
         "source.nts.vat.overview"
+      ],
+      "law_reference": "",
+      "tags": [
+        "term"
+      ]
+    },
+    {
+      "id": "term.employee",
+      "title": "근로자",
+      "type": "term",
+      "description": "근로소득을 지급받는 사람입니다. 상용근로자는 근무기간과 관계없이 월급 등 일급·시급이 아닌 형태로 급여를 지급받는 근로자를 말하며, 동일 고용주에게 일정 기간 계속 고용된 경우 일용 형태라도 상용근로자로 볼 수 있습니다.",
+      "folder": "40_Terms",
+      "basis_year": 2026,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.employee-income-statement",
+        "source.nts.year-end-settlement.calculation"
       ],
       "law_reference": "",
       "tags": [
@@ -10675,7 +13838,7 @@ const ONTOLOGY_DATA = {
       "id": "term.publicly-notified-price",
       "title": "공시가격",
       "type": "term",
-      "description": "종합부동산세 등 부동산 보유세에서 과세대상 유형별 공제금액과 과세표준 계산에 쓰이는 공적 가격 기준입니다.",
+      "description": "종합부동산세 등 부동산 보유세에서 과세대상 유형별 공제금액과 과세표준 계산에 쓰이는 공적 가격 기준입니다. 주택·토지별 공시가격은 국토교통부 부동산공시가격 알리미에서 주소와 유형으로 확인합니다.",
       "folder": "40_Terms",
       "basis_year": 2026,
       "effective_date": null,
@@ -10686,7 +13849,8 @@ const ONTOLOGY_DATA = {
       "terms": [],
       "deadlines": [],
       "sources": [
-        "source.nts.comprehensive-real-estate.overview"
+        "source.nts.comprehensive-real-estate.overview",
+        "source.molit.realtyprice"
       ],
       "law_reference": "",
       "tags": [
@@ -10949,6 +14113,7 @@ const ONTOLOGY_DATA = {
     { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
     { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
     { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
+    { id: "scenarios", label: "사용자 경로", test: (item) => item.type === "scenario" || hasAncestor(item, "category.user-scenarios") },
     { id: "terms", label: "용어·기준", test: (item) => ["term", "concept"].includes(item.type) },
     { id: "sources", label: "출처", test: (item) => item.type === "source" }
   ];
@@ -10969,6 +14134,8 @@ const ONTOLOGY_DATA = {
       typeLabels[item.type] || item.type,
       item.description,
       JSON.stringify(item.criteria || []),
+      JSON.stringify(item.recurrence || {}),
+      JSON.stringify(item.path_steps || []),
       item.law_reference,
       item.publisher,
       item.url,
@@ -11086,7 +14253,12 @@ const ONTOLOGY_DATA = {
   function criteriaBlock(criteria) {
     if (!criteria || !criteria.length) return "";
     const labels = {
+      criteria_kind: "기준 유형",
       basis: "기준항목",
+      basis_category: "선정기준 분류",
+      basis_definition: "선정기준 설명",
+      basis_lookup: "확인 방법",
+      selection_rule: "선정 규칙",
       condition: "조건",
       threshold_krw_min: "하한",
       threshold_krw: "기준금액",
@@ -11098,13 +14270,37 @@ const ONTOLOGY_DATA = {
       deduction_krw: "공제액",
       limit_krw: "한도",
       amount_krw: "금액",
+      amount_formula: "금액·적용 산식",
+      amount_applicability: "금액 기준 여부",
       max_amount_krw: "최대금액",
+      base_deduction_krw: "기본공제액",
+      per_year_deduction_krw: "연당 공제액",
+      rate_basis: "비율 기준",
+      law_reference: "근거 조항",
+      deadline_month: "기한 월",
+      deadline_day: "기한 일",
+      deadline_start_month: "기한 시작 월",
+      deadline_start_day: "기한 시작 일",
+      deadline_end_month: "기한 종료 월",
+      deadline_end_day: "기한 종료 일",
+      deadline_days_after_event: "기준일 후 일수",
+      deadline_months_after_month_end: "월말 후 개월",
+      deadline_months_after_month_end_min: "월말 후 최소 개월",
+      deadline_months_after_month_end_max: "월말 후 최대 개월",
+      deadline_relative: "상대 기한",
+      deadline_rule: "기한 규칙",
       benefit: "혜택",
       note: "비고"
     };
     const orderedKeys = [
+      "criteria_kind",
       "basis",
+      "basis_category",
       "condition",
+      "basis_definition",
+      "basis_lookup",
+      "selection_rule",
+      "law_reference",
       "threshold_krw_min",
       "threshold_krw",
       "threshold_krw_max",
@@ -11113,9 +14309,26 @@ const ONTOLOGY_DATA = {
       "rate_percent_max",
       "progressive_deduction_krw",
       "deduction_krw",
+      "base_deduction_krw",
+      "per_year_deduction_krw",
       "limit_krw",
       "amount_krw",
+      "amount_formula",
+      "amount_applicability",
       "max_amount_krw",
+      "rate_basis",
+      "deadline_month",
+      "deadline_day",
+      "deadline_start_month",
+      "deadline_start_day",
+      "deadline_end_month",
+      "deadline_end_day",
+      "deadline_days_after_event",
+      "deadline_months_after_month_end",
+      "deadline_months_after_month_end_min",
+      "deadline_months_after_month_end_max",
+      "deadline_relative",
+      "deadline_rule",
       "benefit",
       "note"
     ];
@@ -11126,6 +14339,9 @@ const ONTOLOGY_DATA = {
           let value = criterion[key];
           if (key.endsWith("_krw")) value = formatKrw(value);
           if (key.startsWith("rate_percent")) value = formatPercent(value);
+          if (key.startsWith("deadline_month") || key === "deadline_month") value = `${value}개월`;
+          if (["deadline_month", "deadline_start_month", "deadline_end_month"].includes(key)) value = `${criterion[key]}월`;
+          if (["deadline_day", "deadline_start_day", "deadline_end_day", "deadline_days_after_event"].includes(key)) value = `${criterion[key]}일`;
           let label = labels[key] || key;
           if (key.startsWith("rate_percent") && criterion.rate_label) {
             label = key === "rate_percent_min" ? `최저${criterion.rate_label}` : key === "rate_percent_max" ? `최고${criterion.rate_label}` : criterion.rate_label;
@@ -11135,17 +14351,67 @@ const ONTOLOGY_DATA = {
         .join("");
       const source = criterion.source ? byId.get(criterion.source) : null;
       const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
+      const basisSource = criterion.basis_source && criterion.basis_source !== criterion.source ? byId.get(criterion.basis_source) : null;
+      const basisSourceLink = basisSource ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(basisSource.id)}">${escapeHtml(basisSource.title)}</button>` : "";
       return `
         <li>
           <strong>${escapeHtml(criterion.label || "기준")}</strong>
           <div>${detail}</div>
-          ${sourceLink ? `<p>${sourceLink}</p>` : ""}
+          ${sourceLink || basisSourceLink ? `<p>${sourceLink}${basisSourceLink}</p>` : ""}
         </li>
       `;
     }).join("");
     return `
       <div class="criteria-block">
         <h4>기준 내역</h4>
+        <ul>${items}</ul>
+      </div>
+    `;
+  }
+
+  function recurrenceBlock(recurrence) {
+    if (!recurrence) return "";
+    const labels = {
+      frequency: "반복 주기",
+      anchor: "기준일",
+      period: "대상 기간",
+      start_rule: "시작 규칙",
+      due_rule: "마감 규칙",
+      special_rule: "특례",
+      example: "예시"
+    };
+    const detail = ["frequency", "anchor", "period", "start_rule", "due_rule", "special_rule", "example"]
+      .filter((key) => recurrence[key])
+      .map((key) => `<span>${escapeHtml(labels[key])}: <strong>${escapeHtml(recurrence[key])}</strong></span>`)
+      .join("");
+    if (!detail) return "";
+    return `
+      <div class="criteria-block">
+        <h4>반복 규칙</h4>
+        <ul><li><div>${detail}</div></li></ul>
+      </div>
+    `;
+  }
+
+  function pathStepsBlock(steps) {
+    if (!steps || !steps.length) return "";
+    const items = [...steps]
+      .sort((a, b) => a.order - b.order)
+      .map((step) => {
+        const target = byId.get(step.target);
+        const targetButton = target ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(target.id)}">${escapeHtml(target.title)}</button>` : `<span class="relation-link">${escapeHtml(step.target)}</span>`;
+        return `
+          <li>
+            <strong>${escapeHtml(step.order)}. ${escapeHtml(step.label)}</strong>
+            <div><span>${escapeHtml(step.reason)}</span></div>
+            <p>${targetButton}</p>
+          </li>
+        `;
+      })
+      .join("");
+    return `
+      <div class="criteria-block">
+        <h4>사용자 경로</h4>
         <ul>${items}</ul>
       </div>
     `;
@@ -11170,6 +14436,8 @@ const ONTOLOGY_DATA = {
       sourceBlock(item.sources)
     ].filter(Boolean).join("");
     const criteriaHtml = criteriaBlock(item.criteria);
+    const recurrenceHtml = recurrenceBlock(item.recurrence);
+    const pathStepsHtml = pathStepsBlock(item.path_steps);
 
     detailEl.innerHTML = `
       <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
@@ -11181,6 +14449,8 @@ const ONTOLOGY_DATA = {
         <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
         <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
       </div>
+      ${recurrenceHtml}
+      ${pathStepsHtml}
       ${criteriaHtml}
       <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
     `;

@@ -25,6 +25,7 @@ TYPE_LABELS = {
     "corporate-tax-support": "법인세 지원",
     "support-program": "정책지원",
     "filing": "신고 절차",
+    "scenario": "사용자 경로",
     "concept": "판정 개념",
     "term": "용어",
     "deadline": "기한",
@@ -61,6 +62,7 @@ def summarize(data: dict) -> dict:
         "term_count": counts["term"],
         "category_count": counts["category"],
         "deadline_count": counts["deadline"],
+        "scenario_count": counts["scenario"],
         "support_count": counts["support-program"],
         "business_count": 4,
         "relation_count": relation_count,
@@ -168,6 +170,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div><strong>{summary["national_tax_count"]}</strong><span>국세 세목</span></div>
               <div><strong>{summary["local_tax_count"]}</strong><span>지방세 세목</span></div>
               <div><strong>{summary["corporate_support_count"]}</strong><span>법인세 지원</span></div>
+              <div><strong>{summary["scenario_count"]}</strong><span>사용자 경로</span></div>
               <div><strong>{summary["source_count"]}</strong><span>공식 출처</span></div>
             </section>
 
@@ -277,14 +280,14 @@ def build_html(data: dict, summary: dict) -> str:
 
             <section class="section roadmap" id="roadmap" aria-labelledby="roadmap-title">
               <div class="section-heading">
-                <h2 id="roadmap-title">추가하면 좋은 내용</h2>
-                <p>현재 온톨로지에 이미 들어온 범위를 기준으로, 다음 확장은 아래처럼 반영하는 것이 좋습니다.</p>
+                <h2 id="roadmap-title">검증된 확장 표면</h2>
+                <p>세율·한도, 반복기한, 사용자 경로, 선정기준 설명은 생성기와 검증기에서 같은 구조로 관리합니다.</p>
               </div>
               <div class="roadmap-grid">
                 <article>
                   <h3>세율·한도 기준의 구조화</h3>
                   <p>종합소득세율, 부가가치세 과세유형, 장려금 소득·재산요건처럼 계산에 쓰이는 값을 criteria 배열로 통일합니다.</p>
-                  <span>반영: source 노드 추가 → 대상 item.criteria 입력 → validate에서 출처 필수 확인</span>
+                  <span>반영: criteria_kind, rate_percent, limit_krw, threshold_krw, amount_formula 검증</span>
                 </article>
                 <article>
                   <h3>지원제도 eligibility 흐름</h3>
@@ -294,7 +297,7 @@ def build_html(data: dict, summary: dict) -> str:
                 <article>
                   <h3>신고기한 반복 규칙</h3>
                   <p>월별 원천세, 부가가치세 예정·확정신고, 장려금 정기·반기 신청은 start/end 날짜뿐 아니라 반복 규칙이 필요합니다.</p>
-                  <span>반영: deadline 노드에 recurrence 필드 추가 → 웹 필터에 “다가오는 일정” 뷰 추가</span>
+                  <span>반영: deadline 노드별 recurrence.frequency, anchor, due_rule 검증</span>
                 </article>
                 <article>
                   <h3>변경 이력과 기준일</h3>
@@ -304,7 +307,7 @@ def build_html(data: dict, summary: dict) -> str:
                 <article>
                   <h3>사용자 사례별 경로</h3>
                   <p>근로자, 개인사업자, 청년, 주택 임차인, 법인 담당자가 자주 묻는 경로를 curated path로 만들면 탐색성이 좋아집니다.</p>
-                  <span>반영: path/tutorial 노드 타입 추가 또는 docs 섹션에서 핵심 노드를 순서대로 링크</span>
+                  <span>반영: scenario 노드와 path_steps target 검증</span>
                 </article>
                 <article>
                   <h3>앱 기능 매핑</h3>
@@ -1531,6 +1534,7 @@ def type_role(type_: str) -> str:
         "corporate-tax-support": "법인세 공제·감면 공식 지원제도",
         "support-program": "장려금, 세제지원 계좌, 금융·복지 지원",
         "filing": "신고·납부·신청 절차",
+        "scenario": "사용자 사례별 curated 탐색 경로",
         "concept": "판정 기준을 설명하는 개념 노드",
         "term": "그래프 해석에 필요한 용어",
         "deadline": "기준연도별 신고·납부·지급 기한",
@@ -1580,6 +1584,7 @@ def build_js(data: dict, summary: dict) -> str:
             { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
             { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
             { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
+            { id: "scenarios", label: "사용자 경로", test: (item) => item.type === "scenario" || hasAncestor(item, "category.user-scenarios") },
             { id: "terms", label: "용어·기준", test: (item) => ["term", "concept"].includes(item.type) },
             { id: "sources", label: "출처", test: (item) => item.type === "source" }
           ];
@@ -1600,6 +1605,8 @@ def build_js(data: dict, summary: dict) -> str:
               typeLabels[item.type] || item.type,
               item.description,
               JSON.stringify(item.criteria || []),
+              JSON.stringify(item.recurrence || {}),
+              JSON.stringify(item.path_steps || []),
               item.law_reference,
               item.publisher,
               item.url,
@@ -1717,7 +1724,12 @@ def build_js(data: dict, summary: dict) -> str:
           function criteriaBlock(criteria) {
             if (!criteria || !criteria.length) return "";
             const labels = {
+              criteria_kind: "기준 유형",
               basis: "기준항목",
+              basis_category: "선정기준 분류",
+              basis_definition: "선정기준 설명",
+              basis_lookup: "확인 방법",
+              selection_rule: "선정 규칙",
               condition: "조건",
               threshold_krw_min: "하한",
               threshold_krw: "기준금액",
@@ -1729,13 +1741,37 @@ def build_js(data: dict, summary: dict) -> str:
               deduction_krw: "공제액",
               limit_krw: "한도",
               amount_krw: "금액",
+              amount_formula: "금액·적용 산식",
+              amount_applicability: "금액 기준 여부",
               max_amount_krw: "최대금액",
+              base_deduction_krw: "기본공제액",
+              per_year_deduction_krw: "연당 공제액",
+              rate_basis: "비율 기준",
+              law_reference: "근거 조항",
+              deadline_month: "기한 월",
+              deadline_day: "기한 일",
+              deadline_start_month: "기한 시작 월",
+              deadline_start_day: "기한 시작 일",
+              deadline_end_month: "기한 종료 월",
+              deadline_end_day: "기한 종료 일",
+              deadline_days_after_event: "기준일 후 일수",
+              deadline_months_after_month_end: "월말 후 개월",
+              deadline_months_after_month_end_min: "월말 후 최소 개월",
+              deadline_months_after_month_end_max: "월말 후 최대 개월",
+              deadline_relative: "상대 기한",
+              deadline_rule: "기한 규칙",
               benefit: "혜택",
               note: "비고"
             };
             const orderedKeys = [
+              "criteria_kind",
               "basis",
+              "basis_category",
               "condition",
+              "basis_definition",
+              "basis_lookup",
+              "selection_rule",
+              "law_reference",
               "threshold_krw_min",
               "threshold_krw",
               "threshold_krw_max",
@@ -1744,9 +1780,26 @@ def build_js(data: dict, summary: dict) -> str:
               "rate_percent_max",
               "progressive_deduction_krw",
               "deduction_krw",
+              "base_deduction_krw",
+              "per_year_deduction_krw",
               "limit_krw",
               "amount_krw",
+              "amount_formula",
+              "amount_applicability",
               "max_amount_krw",
+              "rate_basis",
+              "deadline_month",
+              "deadline_day",
+              "deadline_start_month",
+              "deadline_start_day",
+              "deadline_end_month",
+              "deadline_end_day",
+              "deadline_days_after_event",
+              "deadline_months_after_month_end",
+              "deadline_months_after_month_end_min",
+              "deadline_months_after_month_end_max",
+              "deadline_relative",
+              "deadline_rule",
               "benefit",
               "note"
             ];
@@ -1757,6 +1810,9 @@ def build_js(data: dict, summary: dict) -> str:
                   let value = criterion[key];
                   if (key.endsWith("_krw")) value = formatKrw(value);
                   if (key.startsWith("rate_percent")) value = formatPercent(value);
+                  if (key.startsWith("deadline_month") || key === "deadline_month") value = `${value}개월`;
+                  if (["deadline_month", "deadline_start_month", "deadline_end_month"].includes(key)) value = `${criterion[key]}월`;
+                  if (["deadline_day", "deadline_start_day", "deadline_end_day", "deadline_days_after_event"].includes(key)) value = `${criterion[key]}일`;
                   let label = labels[key] || key;
                   if (key.startsWith("rate_percent") && criterion.rate_label) {
                     label = key === "rate_percent_min" ? `최저${criterion.rate_label}` : key === "rate_percent_max" ? `최고${criterion.rate_label}` : criterion.rate_label;
@@ -1766,17 +1822,67 @@ def build_js(data: dict, summary: dict) -> str:
                 .join("");
               const source = criterion.source ? byId.get(criterion.source) : null;
               const sourceLink = source ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(source.id)}">${escapeHtml(source.title)}</button>` : "";
+              const basisSource = criterion.basis_source && criterion.basis_source !== criterion.source ? byId.get(criterion.basis_source) : null;
+              const basisSourceLink = basisSource ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(basisSource.id)}">${escapeHtml(basisSource.title)}</button>` : "";
               return `
                 <li>
                   <strong>${escapeHtml(criterion.label || "기준")}</strong>
                   <div>${detail}</div>
-                  ${sourceLink ? `<p>${sourceLink}</p>` : ""}
+                  ${sourceLink || basisSourceLink ? `<p>${sourceLink}${basisSourceLink}</p>` : ""}
                 </li>
               `;
             }).join("");
             return `
               <div class="criteria-block">
                 <h4>기준 내역</h4>
+                <ul>${items}</ul>
+              </div>
+            `;
+          }
+
+          function recurrenceBlock(recurrence) {
+            if (!recurrence) return "";
+            const labels = {
+              frequency: "반복 주기",
+              anchor: "기준일",
+              period: "대상 기간",
+              start_rule: "시작 규칙",
+              due_rule: "마감 규칙",
+              special_rule: "특례",
+              example: "예시"
+            };
+            const detail = ["frequency", "anchor", "period", "start_rule", "due_rule", "special_rule", "example"]
+              .filter((key) => recurrence[key])
+              .map((key) => `<span>${escapeHtml(labels[key])}: <strong>${escapeHtml(recurrence[key])}</strong></span>`)
+              .join("");
+            if (!detail) return "";
+            return `
+              <div class="criteria-block">
+                <h4>반복 규칙</h4>
+                <ul><li><div>${detail}</div></li></ul>
+              </div>
+            `;
+          }
+
+          function pathStepsBlock(steps) {
+            if (!steps || !steps.length) return "";
+            const items = [...steps]
+              .sort((a, b) => a.order - b.order)
+              .map((step) => {
+                const target = byId.get(step.target);
+                const targetButton = target ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(target.id)}">${escapeHtml(target.title)}</button>` : `<span class="relation-link">${escapeHtml(step.target)}</span>`;
+                return `
+                  <li>
+                    <strong>${escapeHtml(step.order)}. ${escapeHtml(step.label)}</strong>
+                    <div><span>${escapeHtml(step.reason)}</span></div>
+                    <p>${targetButton}</p>
+                  </li>
+                `;
+              })
+              .join("");
+            return `
+              <div class="criteria-block">
+                <h4>사용자 경로</h4>
                 <ul>${items}</ul>
               </div>
             `;
@@ -1801,6 +1907,8 @@ def build_js(data: dict, summary: dict) -> str:
               sourceBlock(item.sources)
             ].filter(Boolean).join("");
             const criteriaHtml = criteriaBlock(item.criteria);
+            const recurrenceHtml = recurrenceBlock(item.recurrence);
+            const pathStepsHtml = pathStepsBlock(item.path_steps);
 
             detailEl.innerHTML = `
               <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
@@ -1812,6 +1920,8 @@ def build_js(data: dict, summary: dict) -> str:
                 <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
                 <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
               </div>
+              ${recurrenceHtml}
+              ${pathStepsHtml}
               ${criteriaHtml}
               <div class="relations">${relationHtml || "<p>연결된 관계가 없습니다.</p>"}</div>
             `;

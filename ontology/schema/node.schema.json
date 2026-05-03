@@ -36,6 +36,7 @@
         "corporate-tax-support",
         "support-program",
         "filing",
+        "scenario",
         "concept",
         "term",
         "deadline",
@@ -128,6 +129,36 @@
             "minLength": 1
           },
           "law_reference": {
+            "type": "string"
+          },
+          "criteria_kind": {
+            "type": "string",
+            "enum": [
+              "threshold",
+              "rate",
+              "limit",
+              "deduction",
+              "formula",
+              "eligibility",
+              "deadline",
+              "period",
+              "person",
+              "reference"
+            ]
+          },
+          "basis_category": {
+            "type": "string"
+          },
+          "basis_definition": {
+            "type": "string"
+          },
+          "basis_lookup": {
+            "type": "string"
+          },
+          "selection_rule": {
+            "type": "string"
+          },
+          "basis_source": {
             "type": "string"
           },
           "threshold_krw": {
@@ -305,6 +336,77 @@
     },
     "law_reference": {
       "type": "string"
+    },
+    "recurrence": {
+      "type": "object",
+      "properties": {
+        "frequency": {
+          "type": "string",
+          "enum": [
+            "annual",
+            "semiannual",
+            "quarterly",
+            "monthly",
+            "event-based",
+            "one-time"
+          ]
+        },
+        "anchor": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "start_rule": {
+          "type": "string"
+        },
+        "due_rule": {
+          "type": "string"
+        },
+        "special_rule": {
+          "type": "string"
+        },
+        "example": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "frequency",
+        "anchor",
+        "due_rule"
+      ],
+      "additionalProperties": false
+    },
+    "path_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "order",
+          "label",
+          "target",
+          "reason"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
     },
     "tags": {
       "type": "array",
