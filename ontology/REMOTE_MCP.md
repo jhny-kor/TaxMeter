@@ -52,6 +52,21 @@ npx @modelcontextprotocol/inspector@latest
 
 ## Deploy to Cloudflare
 
+Create a Cloudflare API token with deploy permissions before running Wrangler.
+For this Worker, use a user API token with at least:
+
+- Account: Workers Scripts: Edit
+- Account: Account Settings: Read
+- User: User Details: Read
+- User: Memberships: Read
+
+Then keep it in local `.env`, not in Git:
+
+```sh
+CLOUDFLARE_API_TOKEN=...
+CLOUDFLARE_ACCOUNT_ID=...
+```
+
 ```sh
 cd cloudflare/opentax-mcp
 npx wrangler login
