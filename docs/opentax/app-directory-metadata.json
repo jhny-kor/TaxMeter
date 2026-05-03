@@ -1,0 +1,86 @@
+{
+  "app_name": "OpenTax",
+  "submission_status": "draft",
+  "mcp_endpoint": "https://opentax-mcp.y2kthr.workers.dev/mcp",
+  "health_endpoint": "https://opentax-mcp.y2kthr.workers.dev/health",
+  "homepage_url": "https://jhny-kor.github.io/TaxMeter/opentax/",
+  "privacy_policy_url": "https://jhny-kor.github.io/TaxMeter/opentax/privacy.html",
+  "terms_url": "https://jhny-kor.github.io/TaxMeter/opentax/terms.html",
+  "support_url": "https://jhny-kor.github.io/TaxMeter/opentax/support.html",
+  "repository_url": "https://github.com/jhny-kor/TaxMeter",
+  "short_description": "Search Korean tax, deduction, policy support, filing deadline, and official-source nodes from the OpenTax ontology.",
+  "long_description": "OpenTax connects Korean tax items, deductions, credits, policy support programs, filing deadlines, terms, and official source references into a read-only ontology. Use it to find criteria, thresholds, legal references, deadlines, and source URLs with traceable node IDs.",
+  "audience": [
+    "Korean taxpayers researching tax and support criteria",
+    "Developers building tax-aware assistants or apps",
+    "Researchers comparing official tax and policy-support sources"
+  ],
+  "data_handling": {
+    "authentication_required": false,
+    "stores_user_accounts": false,
+    "uses_cookies": false,
+    "tool_input_categories": [
+      "search query",
+      "OpenTax node id or URL"
+    ],
+    "tool_output_categories": [
+      "public OpenTax ontology records",
+      "official source URLs",
+      "criteria, thresholds, dates, and graph neighbors"
+    ]
+  },
+  "tools": [
+    {
+      "name": "search",
+      "title": "Search OpenTax",
+      "description": "Use this when the user needs to find Korean tax, deduction, policy support, filing deadline, term, or official-source nodes in OpenTax. Do not use for personalized tax, legal, or financial advice.",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    },
+    {
+      "name": "fetch",
+      "title": "Fetch OpenTax Item",
+      "description": "Use this when the user needs one exact OpenTax node with criteria, official sources, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, or financial advice.",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "openWorldHint": false
+    }
+  ],
+  "golden_test_cases": [
+    {
+      "prompt": "OpenTax에서 보험료 공제 한도를 찾아서 출처와 함께 설명해주세요.",
+      "expected_tools": [
+        "search",
+        "fetch"
+      ],
+      "expected_behavior": "Find insurance premium deduction nodes, fetch the relevant item, summarize deduction criteria, and include source URLs."
+    },
+    {
+      "prompt": "OpenTax에서 ISA 비과세 한도와 근거를 찾아주세요.",
+      "expected_tools": [
+        "search",
+        "fetch"
+      ],
+      "expected_behavior": "Find ISA support nodes, return exemption limits or criteria present in the ontology, and cite official source nodes."
+    },
+    {
+      "prompt": "OpenTax에서 근로장려금 신청 기준을 조회하고 공식 출처를 보여주세요.",
+      "expected_tools": [
+        "search",
+        "fetch"
+      ],
+      "expected_behavior": "Fetch earned income tax credit criteria and show related official source URLs."
+    },
+    {
+      "prompt": "오늘 서울 날씨 알려줘.",
+      "expected_tools": [],
+      "expected_behavior": "Do not call OpenTax because the request is unrelated to Korean tax or policy support data."
+    }
+  ],
+  "submission_notes": [
+    "OpenTax is read-only and does not provide personalized tax, legal, accounting, or financial advice.",
+    "No OAuth is required for the current public ontology lookup flow.",
+    "Tool responses should avoid internal request IDs, log IDs, auth tokens, or user identifiers."
+  ]
+}

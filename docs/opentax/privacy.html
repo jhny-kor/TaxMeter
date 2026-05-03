@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenTax 개인정보처리방침</title>
+  <meta name="description" content="OpenTax ChatGPT 앱 및 MCP 서비스의 개인정보처리방침">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="OpenTax 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M10 16h12M16 10v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>OpenTax</span>
+    </a>
+  </header>
+
+  <main class="legal-page">
+    <p class="legal-meta">Last updated: 2026-05-03</p>
+    <h1>OpenTax 개인정보처리방침</h1>
+    <p>
+      OpenTax는 대한민국 세금, 공제, 정책지원, 신고기한, 공식 출처 정보를
+      검색하고 조회하는 읽기 전용 MCP 서비스입니다. 이 방침은 OpenTax 웹
+      페이지와 `opentax-mcp` ChatGPT 앱/MCP endpoint에 적용됩니다.
+    </p>
+
+    <h2>수집하는 정보</h2>
+    <p>OpenTax는 계정 생성, 로그인, 결제, 쿠키 기반 추적을 제공하지 않습니다.</p>
+    <ul>
+      <li>사용자가 ChatGPT에 입력하고 도구 호출로 전달된 검색어 또는 OpenTax 노드 ID</li>
+      <li>Cloudflare Workers가 서비스 운영을 위해 처리하는 요청 메타데이터</li>
+      <li>GitHub Pages와 Cloudflare의 기본 보안, 성능, 오류 로그</li>
+    </ul>
+
+    <h2>사용 목적</h2>
+    <ul>
+      <li>OpenTax 온톨로지에서 관련 세금, 공제, 지원금, 신고기한, 출처 노드를 찾기 위해 사용합니다.</li>
+      <li>서비스 안정성, 보안, 오류 진단을 위해 필요한 최소 운영 로그를 처리할 수 있습니다.</li>
+    </ul>
+
+    <h2>공유와 보관</h2>
+    <p>
+      OpenTax는 사용자의 검색어를 별도 사용자 프로필로 저장하거나 판매하지
+      않습니다. 서비스 운영에는 GitHub Pages와 Cloudflare Workers가 사용되며,
+      해당 제공자의 인프라 로그와 보관 정책이 적용될 수 있습니다.
+    </p>
+
+    <h2>민감정보</h2>
+    <p>
+      OpenTax는 주민등록번호, 계좌번호, 비밀번호, API 키, 결제카드 정보,
+      건강정보 같은 민감정보 입력을 요구하지 않습니다. 개인의 실제 세무 신고나
+      상담에 필요한 민감정보를 OpenTax 도구에 입력하지 마세요.
+    </p>
+
+    <h2>삭제와 문의</h2>
+    <p>
+      OpenTax는 별도 사용자 계정을 만들지 않으므로 계정 삭제 절차가 없습니다.
+      문의와 오류 신고는
+      <a href="https://github.com/jhny-kor/TaxMeter/issues">GitHub Issues</a>에서
+      접수합니다.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <span>OpenTax</span>
+    <nav aria-label="OpenTax 정책 문서">
+      <a href="./privacy.html">개인정보처리방침</a>
+      <a href="./terms.html">이용약관</a>
+      <a href="./support.html">지원</a>
+    </nav>
+    <span>검증 기준일 2026-05-02</span>
+  </footer>
+</body>
+</html>

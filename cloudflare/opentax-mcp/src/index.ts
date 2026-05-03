@@ -37,6 +37,12 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 const DEFAULT_OPENTAX_JSON_URL =
   "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json";
 const DEFAULT_OPENTAX_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
+const READ_ONLY_TOOL_ANNOTATIONS = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+} as const;
 
 let cachedExport: CachedExport | undefined;
 
@@ -164,13 +170,24 @@ function createServer(env: Env): McpServer {
     version: "0.1.0",
   });
 
-  server.tool(
+  server.registerTool(
     "search",
-    "Search OpenTax items by id, title, description, type, tag, source, or law reference.",
     {
-      query: z.string().min(1).describe("Search query, for example '보험료 공제 한도' or 'support.isa'."),
-      type: z.string().optional().describe("Optional OpenTax item type filter, for example 'tax' or 'support-program'."),
-      limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
+      title: "Search OpenTax",
+      description:
+        "Use this when the user needs to find Korean tax, deduction, policy support, filing deadline, term, or official-source nodes in OpenTax. Do not use for personalized tax, legal, or financial advice.",
+      inputSchema: {
+        query: z.string().min(1).describe("Search query, for example '보험료 공제 한도' or 'support.isa'."),
+        type: z
+          .string()
+          .optional()
+          .describe("Optional OpenTax item type filter, for example 'tax' or 'support-program'."),
+        limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
+      },
+      annotations: {
+        title: "Search OpenTax",
+        ...READ_ONLY_TOOL_ANNOTATIONS,
+      },
     },
     async ({ query, type, limit }) => {
       const data = await loadOpenTax(env);
@@ -192,26 +209,37 @@ function createServer(env: Env): McpServer {
           text: item.description ?? "",
         }));
 
+      const payload = {
+        query,
+        result_count: results.length,
+        results,
+      };
+
       return {
+        structuredContent: payload,
         content: [
           {
             type: "text",
-            text: jsonText({
-              query,
-              result_count: results.length,
-              results,
-            }),
+            text: jsonText(payload),
           },
         ],
       };
     },
   );
 
-  server.tool(
+  server.registerTool(
     "fetch",
-    "Fetch one OpenTax item with criteria, official sources, and graph neighbors.",
     {
-      id: z.string().min(1).describe("OpenTax item id, opentax:// id, or OpenTax web URL with hash id."),
+      title: "Fetch OpenTax Item",
+      description:
+        "Use this when the user needs one exact OpenTax node with criteria, official sources, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, or financial advice.",
+      inputSchema: {
+        id: z.string().min(1).describe("OpenTax item id, opentax:// id, or OpenTax web URL with hash id."),
+      },
+      annotations: {
+        title: "Fetch OpenTax Item",
+        ...READ_ONLY_TOOL_ANNOTATIONS,
+      },
     },
     async ({ id }) => {
       const data = await loadOpenTax(env);
@@ -253,6 +281,7 @@ function createServer(env: Env): McpServer {
       };
 
       return {
+        structuredContent: payload,
         content: [
           {
             type: "text",
