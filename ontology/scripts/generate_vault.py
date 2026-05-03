@@ -167,6 +167,20 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "원천징수 제도, 원천징수의무자, 원천징수세액 납세지와 신고·납부 흐름 근거입니다.",
     },
+    "source.nts.withholding.deadlines": {
+        "title": "원천세 신고납부기한",
+        "publisher": "국세청",
+        "url": "https://sc.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7702&mi=2290",
+        "basis_date": "2026-05-04 확인",
+        "description": "원천징수 일반·반기납부, 연말정산, 지급명세서 제출의 반복 신고기한 근거입니다.",
+    },
+    "source.nts.employee-income-statement": {
+        "title": "간이지급명세서(근로소득)",
+        "publisher": "국세청",
+        "url": "https://d.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239032&mi=40678",
+        "basis_date": "2026-05-04 확인",
+        "description": "상용근로자와 일용근로자 구분, 근로소득 지급명세서 제출대상 판단 근거입니다.",
+    },
     "source.nts.business-income.withholding": {
         "title": "사업소득 원천징수",
         "publisher": "국세청",
@@ -250,6 +264,13 @@ SOURCES = {
         "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7739&mi=2357",
         "basis_date": "2026-05-02 확인",
         "description": "종합부동산세 과세표준 계산식, 공정시장가액비율, 재산세 표준세율, 세액공제와 세부담상한 근거입니다.",
+    },
+    "source.molit.realtyprice": {
+        "title": "부동산공시가격 알리미",
+        "publisher": "국토교통부",
+        "url": "https://www.realtyprice.kr/",
+        "basis_date": "2026-05-04 확인",
+        "description": "공동주택·개별주택·표준지·개별공시지가 등 종합부동산세와 재산세 기준이 되는 공시가격 확인 경로입니다.",
     },
     "source.nts.corporate-tax.rates": {
         "title": "법인세 세율",
@@ -585,6 +606,8 @@ def node(
     sources: list[str] | None = None,
     criteria: list[dict] | None = None,
     law_reference: str = "",
+    recurrence: dict | None = None,
+    path_steps: list[dict] | None = None,
     tags: list[str] | None = None,
 ) -> dict:
     item = {
@@ -607,6 +630,10 @@ def node(
     }
     if criteria:
         item["criteria"] = criteria
+    if recurrence:
+        item["recurrence"] = recurrence
+    if path_steps:
+        item["path_steps"] = path_steps
     return item
 
 
@@ -731,6 +758,7 @@ TERMS = {
     "term.tax-credit": ("세액공제", "산출세액에서 직접 차감하는 공제입니다.", ["source.nts.year-end-settlement.calculation", "source.nts.year-end-settlement.special-credit"]),
     "term.tax-reduction": ("세액감면", "정책 목적에 따라 산출세액 또는 납부할 세액을 줄여 주는 조세지원입니다.", ["source.nts.year-end-settlement.calculation", "source.nts.corporate-tax.reliefs"]),
     "term.deduction-limit": ("소득공제 종합한도", "과도한 소득공제 적용을 배제하기 위해 일정 소득공제 항목 합계에 적용되는 한도입니다.", ["source.nts.year-end-settlement.deduction-limit"]),
+    "term.employee": ("근로자", "근로소득을 지급받는 사람입니다. 상용근로자는 근무기간과 관계없이 월급 등 일급·시급이 아닌 형태로 급여를 지급받는 근로자를 말하며, 동일 고용주에게 일정 기간 계속 고용된 경우 일용 형태라도 상용근로자로 볼 수 있습니다.", ["source.nts.employee-income-statement", "source.nts.year-end-settlement.calculation"]),
     "term.total-income": ("총소득", "근로·자녀장려금 자격 판정에서 근로, 사업, 종교인, 기타, 이자·배당·연금소득을 합산한 금액입니다.", ["source.nts.grant.eligibility"]),
     "term.gross-pay": ("총급여액 등", "장려금 지급액 결정과 홑벌이·맞벌이 구분 등에 쓰이는 근로, 사업, 종교인소득의 합계 기준입니다.", ["source.nts.grant.eligibility"]),
     "term.property-requirement": ("재산요건", "근로·자녀장려금에서 가구원 재산 합계액으로 판정하는 요건입니다.", ["source.nts.grant.eligibility"]),
@@ -744,7 +772,7 @@ TERMS = {
     "term.capital-gain": ("양도차익", "양도가액에서 취득가액과 필요경비 등을 차감해 산출하는 양도소득세 계산의 핵심 금액입니다.", ["source.nts.capital-gains.overview"]),
     "term.heir": ("상속인", "상속을 원인으로 재산을 물려받아 상속세 신고·납부 의무자가 될 수 있는 사람입니다.", ["source.nts.inheritance.overview"]),
     "term.donee": ("수증자", "증여로 재산을 이전받아 증여세 신고·납부 의무자가 될 수 있는 사람입니다.", ["source.nts.gift.deadline"]),
-    "term.publicly-notified-price": ("공시가격", "종합부동산세 등 부동산 보유세에서 과세대상 유형별 공제금액과 과세표준 계산에 쓰이는 공적 가격 기준입니다.", ["source.nts.comprehensive-real-estate.overview"]),
+    "term.publicly-notified-price": ("공시가격", "종합부동산세 등 부동산 보유세에서 과세대상 유형별 공제금액과 과세표준 계산에 쓰이는 공적 가격 기준입니다. 주택·토지별 공시가격은 국토교통부 부동산공시가격 알리미에서 주소와 유형으로 확인합니다.", ["source.nts.comprehensive-real-estate.overview", "source.molit.realtyprice"]),
     "term.deadline-special-rule": ("기한의 특례", "신고·납부 기한일이 공휴일, 토요일 또는 근로자의 날이면 그 다음 날을 기한으로 보는 규칙입니다.", ["source.nts.tax-calendar.2026", "source.nts.income-tax.deadline"]),
     "term.customs": ("관세", "수입물품에 부과되는 조세입니다.", ["source.customs-act.2026.article14"]),
 }
@@ -789,7 +817,7 @@ DEADLINES = {
         "basis_year": 2026,
         "start_date": None,
         "end_date": None,
-        "sources": ["source.nts.tax-calendar.2026"],
+        "sources": ["source.nts.tax-calendar.2026", "source.nts.withholding.deadlines"],
     },
     "deadline.vat.periodic": {
         "title": "부가가치세 신고 납부",
@@ -837,7 +865,7 @@ DEADLINES = {
         "basis_year": 2026,
         "start_date": None,
         "end_date": None,
-        "sources": ["source.nts.business-income.withholding"],
+        "sources": ["source.nts.business-income.withholding", "source.nts.withholding.deadlines"],
     },
     "deadline.capital-gains.preliminary": {
         "title": "양도소득세 예정신고",
@@ -894,6 +922,135 @@ DEADLINES = {
         "start_date": "2026-12-30",
         "end_date": "2027-06-30",
         "sources": ["source.nts.grant.deadline"],
+    },
+}
+
+
+DEADLINE_RECURRENCE_BY_ID = {
+    "deadline.income-tax.2025-return": {
+        "frequency": "annual",
+        "anchor": "과세기간 다음연도",
+        "period": "매년 5월",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 31일. 기한일이 공휴일·토요일·근로자의 날이면 다음 날",
+        "special_rule": "성실신고확인서 제출자는 6월 30일까지",
+        "example": "2025년 귀속 일반 신고는 2026년 5월 1일부터 2026년 6월 1일까지",
+    },
+    "deadline.corporate-tax.return": {
+        "frequency": "annual",
+        "anchor": "각 사업연도 종료일이 속하는 달의 말일",
+        "period": "사업연도 단위",
+        "due_rule": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내",
+        "example": "12월 말 결산법인은 다음 해 3월 말까지",
+    },
+    "deadline.year-end-settlement": {
+        "frequency": "annual",
+        "anchor": "해당 과세기간 근로소득",
+        "period": "다음연도 2월분 급여 지급 시",
+        "due_rule": "계속근로자는 다음연도 2월분 근로소득 지급 시, 중도퇴직자는 퇴직하는 달의 근로소득 지급 시",
+        "special_rule": "2월분 급여를 2월 말일까지 지급하지 않거나 2월분 급여가 없으면 2월 말일 기준",
+    },
+    "deadline.business-registration.application": {
+        "frequency": "event-based",
+        "anchor": "사업 개시일",
+        "period": "사업 개시 전 또는 개시 직후",
+        "due_rule": "사업 개시 전 또는 사업 개시일부터 20일 이내",
+    },
+    "deadline.withholding.monthly": {
+        "frequency": "monthly",
+        "anchor": "소득 지급일 또는 원천징수일이 속하는 달",
+        "period": "매월",
+        "due_rule": "소득 지급일이 속하는 달의 다음 달 10일까지",
+        "example": "2026년 4월 지급분은 2026년 5월 10일까지",
+    },
+    "deadline.vat.periodic": {
+        "frequency": "semiannual",
+        "anchor": "부가가치세 과세기간",
+        "period": "일반과세자 제1기·제2기 예정 및 확정",
+        "due_rule": "일반과세자는 매년 1월과 7월 확정신고, 예정신고는 세무일정과 고지·신고 대상 여부 확인",
+        "special_rule": "간이과세자는 원칙적으로 매년 1월 확정신고",
+    },
+    "deadline.vat.general.first-final": {
+        "frequency": "annual",
+        "anchor": "일반과세자 제1기 과세기간",
+        "period": "1월 1일~6월 30일",
+        "start_rule": "7월 1일",
+        "due_rule": "7월 25일까지",
+    },
+    "deadline.vat.general.second-final": {
+        "frequency": "annual",
+        "anchor": "일반과세자 제2기 과세기간",
+        "period": "7월 1일~12월 31일",
+        "start_rule": "다음해 1월 1일",
+        "due_rule": "다음해 1월 25일까지",
+    },
+    "deadline.vat.simplified.annual": {
+        "frequency": "annual",
+        "anchor": "간이과세자 과세기간",
+        "period": "1월 1일~12월 31일",
+        "start_rule": "다음해 1월 1일",
+        "due_rule": "다음해 1월 25일까지",
+    },
+    "deadline.vat.simplified.preliminary": {
+        "frequency": "annual",
+        "anchor": "간이과세자 예정부과기간",
+        "period": "1월 1일~6월 30일",
+        "start_rule": "7월 1일",
+        "due_rule": "7월 25일까지",
+        "special_rule": "직전연도 공급대가 4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서를 발급한 경우",
+    },
+    "deadline.withholding.semiannual": {
+        "frequency": "semiannual",
+        "anchor": "소득 지급일이 속하는 반기",
+        "period": "1월~6월, 7월~12월",
+        "due_rule": "각 반기의 마지막 달의 다음 달 10일까지",
+        "example": "1월~6월 지급분은 7월 10일까지, 7월~12월 지급분은 다음해 1월 10일까지",
+    },
+    "deadline.capital-gains.preliminary": {
+        "frequency": "event-based",
+        "anchor": "양도일이 속하는 달 또는 반기의 말일",
+        "period": "양도 건별",
+        "due_rule": "토지·건물 등은 양도일이 속하는 달의 말일부터 2개월 이내, 주식 등은 양도일이 속하는 반기의 말일부터 2개월 이내",
+    },
+    "deadline.capital-gains.final": {
+        "frequency": "annual",
+        "anchor": "양도한 연도의 다음연도",
+        "period": "매년 5월",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 31일까지",
+    },
+    "deadline.inheritance.resident": {
+        "frequency": "event-based",
+        "anchor": "상속개시일이 속하는 달의 말일",
+        "period": "상속 건별",
+        "due_rule": "상속개시일이 속하는 달의 말일부터 6개월 이내",
+    },
+    "deadline.inheritance.nonresident": {
+        "frequency": "event-based",
+        "anchor": "상속개시일이 속하는 달의 말일",
+        "period": "상속 건별",
+        "due_rule": "피상속인이나 상속인 전원이 비거주자인 경우 9개월 이내",
+    },
+    "deadline.gift.general": {
+        "frequency": "event-based",
+        "anchor": "증여받은 날이 속하는 달의 말일",
+        "period": "증여 건별",
+        "due_rule": "증여받은 날이 속하는 달의 말일부터 3개월 이내",
+    },
+    "deadline.grant.regular.2025-income": {
+        "frequency": "annual",
+        "anchor": "전년도 귀속 소득",
+        "period": "매년 5월 정기신청",
+        "start_rule": "5월 1일",
+        "due_rule": "5월 말까지. 기한의 특례가 있으면 다음 날",
+        "example": "2025년 귀속 정기신청은 2026년 5월 1일부터 2026년 6월 1일까지",
+    },
+    "deadline.grant.semiannual.2026": {
+        "frequency": "semiannual",
+        "anchor": "근로장려금 반기 신청분",
+        "period": "상반기분·하반기분",
+        "due_rule": "상반기분은 해당 연도 12월 말, 하반기분은 다음연도 6월 말 지급기한으로 관리",
+        "example": "2026년 상반기분 2026년 12월 30일, 하반기분 2027년 6월 30일",
     },
 }
 
@@ -1594,7 +1751,7 @@ NODES = [
         "domain",
         "대한민국의 세금, 공제, 감면, 정책지원금, 신고·납부 기한을 Obsidian 지식 그래프로 학습하기 위한 OpenTax 최상위 항목입니다.",
         "00_Index",
-        children=["category.national-taxes", "category.customs", "category.local-taxes", "category.deductions-and-reliefs", "category.policy-supports", "category.business-tax-compliance", "category.filing-calendar"],
+        children=["category.national-taxes", "category.customs", "category.local-taxes", "category.deductions-and-reliefs", "category.policy-supports", "category.business-tax-compliance", "category.filing-calendar", "category.user-scenarios"],
         sources=["source.national-tax-framework-act.2026.article2", "source.local-tax-framework-act.2026.article8"],
         terms=["term.national-tax", "term.local-tax", "term.tax-law"],
         tags=["root"],
@@ -1608,6 +1765,7 @@ NODES = [
     node("category.policy-supports", "정책지원금·세제지원 계좌", "category", "국세청 현금성 지원금, 정부24 복지급여, 금융위원회·금융공공기관의 자산형성·서민금융·주거금융·채무조정 지원을 학습용으로 묶은 항목입니다.", "30_Supports", parents=["kr-tax-system"], children=["support.earned-income-tax-credit", "support.child-tax-credit", "support.basic-livelihood-benefit", "support.youth-future-savings", "support.youth-leap-account", "support.isa", "support.illegal-private-finance-prevention-loan", "support.hessal-loan-youth", "support.hessal-119", "support.didimdol-loan", "support.youth-special-rent-guarantee", "support.long-term-delinquent-debt-adjustment"], sources=["source.nts.eitc.intro", "source.nts.ctc.intro", "source.govkr.basic-livelihood-benefit", "source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.kinfa.illegal-private-finance-prevention-loan", "source.kinfa.hessal-loan-youth", "source.kinfa.hessal-119", "source.hf.didimdol-loan", "source.hf.special-rent-guarantee", "source.ccrs.long-term-delinquent-debt-adjustment", "source.fsc.isa.policy"], terms=["term.total-income", "term.gross-pay", "term.property-requirement", "term.eligibility-threshold", "term.median-income", "term.policy-finance", "term.policy-loan", "term.debt-adjustment"]),
     node("category.business-tax-compliance", "사업자 세무", "category", "개인사업자와 원천징수의무자가 사업자등록, 부가가치세, 원천세 신고·납부에서 확인해야 하는 실무 흐름입니다.", "60_Business", parents=["kr-tax-system"], children=["filing.business-registration", "filing.vat-return", "filing.withholding-tax", "filing.business-income-withholding"], sources=["source.nts.business-registration.application", "source.nts.vat.filing-duty", "source.nts.withholding.overview", "source.nts.business-income.withholding"], terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer", "term.withholding-obligor"]),
     node("category.filing-calendar", "신고·납부·신청 기한", "category", "세목과 지원제도에 연결되는 기준연도별 기한입니다.", "50_Deadlines", parents=["kr-tax-system"], children=["filing.income-tax-return", "filing.year-end-settlement", "filing.withholding-tax", "filing.vat-return", "filing.capital-gains-return", "filing.inheritance-tax-return", "filing.gift-tax-return", "filing.grant-application"], sources=["source.nts.income-tax.deadline", "source.nts.tax-calendar.2026", "source.nts.grant.deadline", "source.nts.capital-gains.deadline", "source.nts.inheritance.overview", "source.nts.gift.deadline"], terms=["term.deadline", "term.deadline-special-rule"]),
+    node("category.user-scenarios", "사용자 사례별 경로", "category", "근로자, 개인사업자, 주택 보유자, 청년, 법인 담당자처럼 실제 사용자가 출발점으로 삼을 수 있는 curated 탐색 경로입니다.", "70_Scenarios", parents=["kr-tax-system"], children=["scenario.employee.year-end-settlement", "scenario.sole-proprietor.compliance", "scenario.homeowner.real-estate-tax", "scenario.real-estate-transfer", "scenario.inheritance-gift", "scenario.youth-policy-support", "scenario.corporate-tax-manager"], sources=["source.nts.year-end-settlement.calculation", "source.nts.vat.filing-duty", "source.nts.real-estate-tax.faq", "source.nts.grant.eligibility"], terms=["term.employee", "term.publicly-notified-price", "term.deadline"]),
     national_tax("tax.income", "소득세", "개인의 소득에 과세되는 국세입니다. 종합소득, 퇴직소득, 양도소득 흐름으로 세부 학습 노드를 둡니다.", children=["tax.income.comprehensive", "tax.income.retirement", "tax.income.capital-gains"], related=["category.income-deductions", "category.tax-credits"], sources=["source.national-tax-framework-act.2026.article2", "source.nts.income-tax.rates"], deadlines=["deadline.income-tax.2025-return", "deadline.year-end-settlement"], terms=["term.national-tax", "term.tax-law", "term.tax-base", "term.tax-rate", "term.progressive-deduction"], criteria=INCOME_TAX_RATE_CRITERIA),
     national_tax("tax.corporate", "법인세", "법인의 각 사업연도 소득 등에 과세되는 국세이며 법인세 공제·감면 지원제도와 직접 연결됩니다.", related=["category.corporate-tax-supports"], sources=["source.national-tax-framework-act.2026.article2", "source.nts.corporate-tax.rates"], terms=["term.national-tax", "term.tax-law", "term.tax-base", "term.tax-rate", "term.progressive-deduction"], criteria=CORPORATE_TAX_RATE_CRITERIA),
     national_tax("tax.inheritance-and-gift", "상속세와 증여세", "상속 또는 증여로 이전되는 재산에 과세되는 국세입니다.", children=["tax.inheritance", "tax.gift"], sources=["source.national-tax-framework-act.2026.article2", "source.nts.inheritance.overview", "source.nts.gift.deadline", "source.nts.inheritance.rates", "source.nts.gift.rates"], deadlines=["deadline.inheritance.resident", "deadline.gift.general"], terms=["term.national-tax", "term.tax-law", "term.heir", "term.donee", "term.tax-rate", "term.progressive-deduction"], criteria=INHERITANCE_GIFT_RATE_CRITERIA),
@@ -1721,7 +1879,7 @@ NODES.extend([
     node("filing.income-tax-return", "종합소득세 확정신고", "filing", "종합소득이 있는 개인이 다음연도 5월 신고·납부하는 절차입니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["tax.income.comprehensive"], terms=["term.deadline", "term.deadline-special-rule"], deadlines=["deadline.income-tax.2025-return"], sources=["source.nts.income-tax.deadline"], basis_year=2025),
     node("filing.year-end-settlement", "연말정산", "filing", "원천징수의무자가 근로자의 해당 과세기간 근로소득세를 확정하는 절차입니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["category.deductions-and-reliefs"], terms=["term.withholding", "term.income-deduction", "term.tax-credit"], deadlines=["deadline.year-end-settlement"], sources=["source.nts.year-end-settlement.calculation"]),
     node("filing.business-registration", "사업자등록 신청", "filing", "신규사업자가 사업 개시 전 또는 사업 개시일부터 20일 이내 관할 세무서장에게 등록하는 절차입니다. 일반과세자·간이과세자 유형 선택과 간이과세 배제 업종 확인을 함께 관리합니다.", "60_Business", parents=["category.business-tax-compliance"], related=["tax.value-added", "concept.general-vat-taxpayer", "concept.simple-vat-taxpayer"], terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer"], sources=["source.nts.business-registration.application"], tags=["business-compliance"]),
-    node("filing.withholding-tax", "원천세 신고 납부 절차", "filing", "원천징수의무자가 원천징수한 세액을 신고·납부하는 절차입니다. 매월 납부와 반기별 납부를 모두 연결해 급여·사업소득 지급자의 반복 업무로 관리합니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["filing.business-income-withholding"], terms=["term.withholding", "term.withholding-obligor", "term.deadline-special-rule"], deadlines=["deadline.withholding.monthly", "deadline.withholding.semiannual"], sources=["source.nts.tax-calendar.2026", "source.nts.withholding.overview", "source.nts.business-income.withholding"]),
+    node("filing.withholding-tax", "원천세 신고 납부 절차", "filing", "원천징수의무자가 원천징수한 세액을 신고·납부하는 절차입니다. 매월 납부와 반기별 납부를 모두 연결해 급여·사업소득 지급자의 반복 업무로 관리합니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["filing.business-income-withholding"], terms=["term.withholding", "term.withholding-obligor", "term.deadline-special-rule"], deadlines=["deadline.withholding.monthly", "deadline.withholding.semiannual"], sources=["source.nts.tax-calendar.2026", "source.nts.withholding.overview", "source.nts.withholding.deadlines", "source.nts.business-income.withholding"]),
     node("filing.business-income-withholding", "사업소득 원천징수", "filing", "프리랜서 등 원천징수 대상 사업소득을 지급할 때 지급금액의 일정 비율을 원천징수하고 정해진 기한에 신고·납부하는 흐름입니다.", "60_Business", parents=["category.business-tax-compliance", "filing.withholding-tax"], related=["tax.income.comprehensive"], terms=["term.withholding", "term.withholding-obligor", "term.tax-rate", "term.deadline-special-rule"], deadlines=["deadline.withholding.monthly", "deadline.withholding.semiannual"], sources=["source.nts.business-income.withholding", "source.nts.withholding.overview"], tags=["business-compliance"], criteria=BUSINESS_INCOME_WITHHOLDING_CRITERIA),
     node("filing.vat-return", "부가가치세 신고 납부 절차", "filing", "부가가치세 과세사업자가 과세기간별 매출세액과 매입세액을 신고·납부하는 절차입니다. 일반과세자 확정신고, 간이과세자 연간 신고, 일부 간이과세자 예정신고 예외를 함께 관리합니다.", "50_Deadlines", parents=["category.filing-calendar"], related=["tax.value-added", "concept.general-vat-taxpayer", "concept.simple-vat-taxpayer", "concept.vat-payment-exemption", "filing.business-registration"], terms=["term.tax-period", "term.general-vat-taxpayer", "term.simple-vat-taxpayer", "term.deadline-special-rule"], deadlines=["deadline.vat.periodic", "deadline.vat.general.first-final", "deadline.vat.general.second-final", "deadline.vat.simplified.annual", "deadline.vat.simplified.preliminary"], sources=["source.nts.vat.overview", "source.nts.vat.filing-duty", "source.nts.tax-calendar.2026"]),
     node("filing.capital-gains-return", "양도소득세 신고", "filing", "부동산, 주식 등 자산 양도 후 예정신고와 다음연도 확정신고 필요 여부를 구분해 관리하는 신고 절차입니다.", "50_Deadlines", parents=["category.filing-calendar", "tax.income.capital-gains"], related=["tax.securities-transaction"], terms=["term.capital-gain", "term.tax-base", "term.deadline"], deadlines=["deadline.capital-gains.preliminary", "deadline.capital-gains.final"], sources=["source.nts.capital-gains.overview", "source.nts.capital-gains.deadline"]),
@@ -1735,6 +1893,141 @@ NODES.extend([
     node("concept.capital-gains.stock-basic-deduction", "주식 등 양도소득 기본공제", "concept", "주식 등 양도소득은 국내·국외주식 등 그룹별 기본공제 적용 여부를 확인해야 하며, 증권거래세와 별도로 양도차익 과세 흐름을 관리합니다.", "10_Taxes/National/CapitalGains", parents=["tax.income.capital-gains"], related=["tax.securities-transaction", "filing.capital-gains-return"], terms=["term.capital-gain"], sources=["source.nts.capital-gains.overview"]),
     node("concept.cre-tax-base-date", "종합부동산세 과세기준일", "concept", "종합부동산세는 매년 6월 1일 현재 보유한 주택과 토지를 기준으로 재산세 과세자료와 연결해 과세대상을 판단합니다.", "10_Taxes/National/RealEstate", parents=["tax.comprehensive-real-estate"], related=["local.property"], terms=["term.publicly-notified-price"], sources=["source.nts.comprehensive-real-estate.overview"]),
     node("concept.cre-deduction-thresholds", "종합부동산세 공제금액", "concept", "종합부동산세는 주택, 종합합산토지, 별도합산토지 등 과세대상별 공제금액을 먼저 차감한 뒤 과세표준을 계산합니다.", "10_Taxes/National/RealEstate", parents=["tax.comprehensive-real-estate"], related=["local.property"], terms=["term.publicly-notified-price", "term.tax-base", "term.eligibility-threshold"], sources=["source.nts.comprehensive-real-estate.overview"], criteria=CRE_CRITERIA[:4]),
+])
+
+
+NODES.extend([
+    node(
+        "scenario.employee.year-end-settlement",
+        "근로자 연말정산 경로",
+        "scenario",
+        "근로소득이 있는 근로자가 연말정산에서 소득공제, 세액공제, 신고기한을 순서대로 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["filing.year-end-settlement", "category.income-deductions", "category.tax-credits"],
+        terms=["term.employee", "term.withholding", "term.income-deduction", "term.tax-credit"],
+        deadlines=["deadline.year-end-settlement"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.employee-income-statement"],
+        tags=["scenario", "employee"],
+        path_steps=[
+            {"order": 1, "label": "근로자 여부 확인", "target": "term.employee", "reason": "연말정산은 근로소득을 지급받는 근로자를 출발점으로 하며 일용근로자 여부를 먼저 구분합니다."},
+            {"order": 2, "label": "연말정산 절차 확인", "target": "filing.year-end-settlement", "reason": "원천징수의무자가 다음연도 2월분 근로소득 지급 시 정산하는 절차와 제출 흐름을 확인합니다."},
+            {"order": 3, "label": "소득공제 확인", "target": "category.income-deductions", "reason": "과세표준을 줄이는 인적공제, 연금보험료공제, 특별소득공제, 기타 소득공제 기준을 확인합니다."},
+            {"order": 4, "label": "세액공제 확인", "target": "category.tax-credits", "reason": "산출세액에서 차감하는 보험료·의료비·교육비·기부금·월세액 등 공제율과 한도를 확인합니다."},
+        ],
+    ),
+    node(
+        "scenario.sole-proprietor.compliance",
+        "개인사업자 신고 경로",
+        "scenario",
+        "개인사업자가 사업자등록, 부가가치세 과세유형, 원천세, 종합소득세 신고를 순서대로 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["category.business-tax-compliance", "tax.value-added", "tax.income.comprehensive"],
+        terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer", "term.withholding-obligor"],
+        deadlines=["deadline.business-registration.application", "deadline.vat.periodic", "deadline.withholding.monthly", "deadline.income-tax.2025-return"],
+        sources=["source.nts.business-registration.application", "source.nts.vat.filing-duty", "source.nts.withholding.deadlines", "source.nts.income-tax.deadline"],
+        tags=["scenario", "business"],
+        path_steps=[
+            {"order": 1, "label": "사업자등록", "target": "filing.business-registration", "reason": "사업 개시 전 또는 개시일부터 20일 이내 등록하고 과세유형 선택을 확인합니다."},
+            {"order": 2, "label": "부가가치세 과세유형", "target": "tax.value-added", "reason": "일반과세자·간이과세자 기준, 납부면제, 예정신고 예외를 매출 기준으로 판정합니다."},
+            {"order": 3, "label": "원천세 반복 신고", "target": "filing.withholding-tax", "reason": "인건비나 사업소득 지급이 있으면 다음 달 10일 또는 반기별 납부 반복 규칙을 관리합니다."},
+            {"order": 4, "label": "종합소득세 확정신고", "target": "filing.income-tax-return", "reason": "사업소득을 포함한 종합소득은 다음연도 5월 확정신고 경로로 연결합니다."},
+        ],
+    ),
+    node(
+        "scenario.homeowner.real-estate-tax",
+        "주택 보유자 보유세 경로",
+        "scenario",
+        "주택 보유자가 공시가격 합계액, 과세기준일, 재산세, 종합부동산세 구간을 순서대로 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["tax.comprehensive-real-estate", "local.property"],
+        terms=["term.publicly-notified-price", "term.tax-base", "term.tax-rate"],
+        sources=["source.nts.real-estate-tax.faq", "source.nts.comprehensive-real-estate.overview", "source.nts.comprehensive-real-estate.rates", "source.molit.realtyprice"],
+        tags=["scenario", "real-estate"],
+        path_steps=[
+            {"order": 1, "label": "공시가격 확인", "target": "term.publicly-notified-price", "reason": "국토교통부 부동산공시가격 알리미에서 주택별 공시가격을 확인한 뒤 소유 주택을 합산합니다."},
+            {"order": 2, "label": "과세기준일 확인", "target": "concept.cre-tax-base-date", "reason": "종합부동산세는 매년 6월 1일 현재 보유 여부로 과세대상을 판정합니다."},
+            {"order": 3, "label": "공제금액 차감", "target": "concept.cre-deduction-thresholds", "reason": "주택 9억원, 1세대 1주택 12억원 등 과세유형별 공제금액을 먼저 차감합니다."},
+            {"order": 4, "label": "세율 구간 선택", "target": "tax.comprehensive-real-estate", "reason": "공제 후 공정시장가액비율을 적용한 과세표준으로 주택 수·토지 유형별 세율표 구간을 선택합니다."},
+        ],
+    ),
+    node(
+        "scenario.real-estate-transfer",
+        "부동산 양도 경로",
+        "scenario",
+        "부동산을 양도한 사용자가 양도차익 계산, 기본공제, 예정·확정신고 기한을 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["tax.income.capital-gains", "filing.capital-gains-return"],
+        terms=["term.capital-gain", "term.tax-base", "term.deadline"],
+        deadlines=["deadline.capital-gains.preliminary", "deadline.capital-gains.final"],
+        sources=["source.nts.capital-gains.overview", "source.nts.capital-gains.deadline", "source.nts.capital-gains.rates"],
+        tags=["scenario", "capital-gains"],
+        path_steps=[
+            {"order": 1, "label": "양도차익 계산", "target": "concept.capital-gains.calculation-flow", "reason": "양도가액, 취득가액, 필요경비와 공제를 거쳐 양도소득 과세표준을 계산합니다."},
+            {"order": 2, "label": "양도소득세율 확인", "target": "tax.income.capital-gains", "reason": "기본세율과 자산 유형별 특례세율을 분리해 산출세액을 확인합니다."},
+            {"order": 3, "label": "예정신고", "target": "deadline.capital-gains.preliminary", "reason": "토지·건물 등은 양도일이 속하는 달의 말일부터 2개월 이내 예정신고 여부를 확인합니다."},
+            {"order": 4, "label": "확정신고", "target": "deadline.capital-gains.final", "reason": "복수 양도 등 확정신고 대상은 다음연도 5월 신고 경로로 연결합니다."},
+        ],
+    ),
+    node(
+        "scenario.inheritance-gift",
+        "상속·증여 신고 경로",
+        "scenario",
+        "상속인 또는 수증자가 과세표준, 세율, 신고기한을 순서대로 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["tax.inheritance", "tax.gift"],
+        terms=["term.heir", "term.donee", "term.tax-rate", "term.deadline"],
+        deadlines=["deadline.inheritance.resident", "deadline.inheritance.nonresident", "deadline.gift.general"],
+        sources=["source.nts.inheritance.overview", "source.nts.inheritance.rates", "source.nts.gift.deadline", "source.nts.gift.rates"],
+        tags=["scenario", "inheritance", "gift"],
+        path_steps=[
+            {"order": 1, "label": "상속·증여 유형 구분", "target": "tax.inheritance-and-gift", "reason": "사망에 따른 이전인지 생전 무상이전인지에 따라 납세의무자와 신고기한이 달라집니다."},
+            {"order": 2, "label": "세율표 확인", "target": "tax.inheritance-and-gift", "reason": "상속세와 증여세는 같은 5단계 초과누진세율 구조를 사용합니다."},
+            {"order": 3, "label": "상속세 신고기한", "target": "filing.inheritance-tax-return", "reason": "거주자 6개월, 비거주자 9개월 기한을 상속개시일이 속하는 달의 말일부터 계산합니다."},
+            {"order": 4, "label": "증여세 신고기한", "target": "filing.gift-tax-return", "reason": "일반 증여는 증여받은 날이 속하는 달의 말일부터 3개월 이내 신고합니다."},
+        ],
+    ),
+    node(
+        "scenario.youth-policy-support",
+        "청년 정책지원 탐색 경로",
+        "scenario",
+        "청년 사용자가 자산형성, 주거금융, 서민금융 지원의 나이·소득·재산·한도 기준을 비교하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["support.youth-future-savings", "support.youth-leap-account", "support.hessal-loan-youth", "support.youth-special-rent-guarantee"],
+        terms=["term.policy-finance", "term.policy-loan", "term.eligibility-threshold", "term.median-income"],
+        sources=["source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.kinfa.hessal-loan-youth", "source.hf.special-rent-guarantee"],
+        tags=["scenario", "youth", "policy-support"],
+        path_steps=[
+            {"order": 1, "label": "자산형성 계좌", "target": "support.youth-future-savings", "reason": "2026년 출시 예정 청년미래적금의 나이, 개인소득, 가구소득, 납입한도와 기여금 기준을 확인합니다."},
+            {"order": 2, "label": "청년도약계좌", "target": "support.youth-leap-account", "reason": "개인소득, 가구소득, 금융소득종합과세 제외 요건을 확인합니다."},
+            {"order": 3, "label": "청년 서민금융", "target": "support.hessal-loan-youth", "reason": "만 19~34세와 연소득 기준, 동일인 보증한도 및 용도별 한도를 확인합니다."},
+            {"order": 4, "label": "전세자금보증", "target": "support.youth-special-rent-guarantee", "reason": "무주택 청년의 나이, 소득, 보증한도 기준을 확인합니다."},
+        ],
+    ),
+    node(
+        "scenario.corporate-tax-manager",
+        "법인 세무담당자 경로",
+        "scenario",
+        "법인 세무담당자가 법인세율, 신고기한, 공제·감면 지원제도를 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["tax.corporate", "category.corporate-tax-supports"],
+        terms=["term.tax-rate", "term.tax-credit", "term.tax-reduction", "term.deadline"],
+        deadlines=["deadline.corporate-tax.return"],
+        sources=["source.nts.corporate-tax.rates", "source.nts.corporate-tax.filing-procedure", "source.nts.corporate-tax.reliefs"],
+        tags=["scenario", "corporate-tax"],
+        path_steps=[
+            {"order": 1, "label": "법인세율 구간", "target": "tax.corporate", "reason": "각 사업연도 소득 과세표준 구간별 세율과 누진공제액을 확인합니다."},
+            {"order": 2, "label": "신고기한", "target": "deadline.corporate-tax.return", "reason": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내 신고·납부 반복 규칙을 확인합니다."},
+            {"order": 3, "label": "공제·감면 목록", "target": "category.corporate-tax-supports", "reason": "중소기업, R&D, 고용, 투자, 지역 이전 등 법인세 지원제도를 검토합니다."},
+            {"order": 4, "label": "세액공제 한도·산식", "target": "credit.foreign-tax-paid", "reason": "외국납부세액공제처럼 산식 기반 한도는 criteria의 금액·적용 산식으로 확인합니다."},
+        ],
+    ),
 ])
 
 
@@ -1968,6 +2261,177 @@ CRITERIA_PATCHES = {
 }
 
 
+DEFAULT_BASIS_EXPLANATION = {
+    "basis_category": "official-standard",
+    "basis_definition": "해당 제도에서 대상 여부, 세율, 공제액, 한도 또는 신고기한을 판정하기 위해 공식 출처가 사용하는 기준항목입니다.",
+    "basis_lookup": "각 criterion의 출처 노드와 관련 신고·신청 서류에서 확인합니다.",
+    "selection_rule": "조건 문구와 구조화된 금액·비율·기간 필드를 함께 보고 해당 구간 또는 요건을 선택합니다.",
+}
+
+
+CRITERIA_BASIS_RULES = [
+    {
+        "matches": ("공시가격 합계액",),
+        "basis_category": "property-valuation",
+        "basis_definition": "과세유형별 전국합산 공시가격에 감면율을 반영한 뒤 종합부동산세 공제금액을 적용하기 전의 부동산 가격 기준입니다.",
+        "basis_lookup": "국토교통부 부동산공시가격 알리미에서 공동주택·개별주택·토지별 공시가격을 확인한 뒤 납세자와 과세유형별로 전국 합산합니다.",
+        "selection_rule": "주택은 일반 9억원, 1세대 1주택 12억원, 법인 0원을 차감하고 60%를 적용합니다. 종합합산토지는 5억원, 별도합산토지는 80억원을 차감하고 100%를 적용합니다.",
+        "basis_source": "source.molit.realtyprice",
+    },
+    {
+        "matches": ("종부세 과세표준",),
+        "basis_category": "tax-base",
+        "basis_definition": "공시가격 합계액에서 과세유형별 공제금액을 차감하고 공정시장가액비율을 곱한 종합부동산세 세율 적용 기준입니다.",
+        "basis_lookup": "종합부동산세 과세표준 계산식은 국세청 종합부동산세 안내와 공시가격 자료를 함께 사용해 산정합니다.",
+        "selection_rule": "주택 수가 2주택 이하인지 3주택 이상인지, 토지가 종합합산인지 별도합산인지 먼저 구분한 뒤 과세표준 금액이 속하는 세율 구간을 선택합니다.",
+        "basis_source": "source.nts.real-estate-tax.faq",
+    },
+    {
+        "matches": ("각 사업연도 소득 과세표준",),
+        "basis_category": "tax-base",
+        "basis_definition": "법인의 각 사업연도 소득금액에서 세법상 조정과 공제를 반영한 법인세 세율 적용 기준입니다.",
+        "basis_lookup": "법인세 신고서와 세무조정계산서의 각 사업연도 소득 과세표준에서 확인합니다.",
+        "selection_rule": "과세표준이 2억원, 200억원, 3,000억원 경계 중 어디에 속하는지에 따라 세율과 누진공제액을 선택합니다.",
+        "basis_source": "source.nts.corporate-tax.rates",
+    },
+    {
+        "matches": ("과세표준", "양도소득 과세표준", "상속세 과세표준", "증여세 과세표준"),
+        "basis_category": "tax-base",
+        "basis_definition": "공제와 필요경비 등을 반영한 뒤 세율을 적용하는 최종 세액 계산 기준금액입니다.",
+        "basis_lookup": "해당 세목의 신고서, 계산명세서, 국세청 세율 안내에서 확인합니다.",
+        "selection_rule": "구간별 하한·상한을 비교해 해당 과세표준이 들어가는 세율 구간을 선택하고 누진공제액을 함께 적용합니다.",
+    },
+    {
+        "matches": ("총급여", "총급여액", "근로소득", "연간 소득금액"),
+        "basis_category": "earned-income",
+        "basis_definition": "근로자가 과세기간 동안 지급받은 근로소득 또는 이를 기준으로 산정한 소득요건입니다.",
+        "basis_lookup": "근로소득 원천징수영수증, 지급명세서, 연말정산 간소화·신고 자료에서 확인합니다.",
+        "selection_rule": "근로소득이 있는 거주자와 일용근로자 여부를 먼저 구분하고 총급여·소득금액이 기준금액 이하인지 판정합니다.",
+        "basis_source": "source.nts.employee-income-statement",
+    },
+    {
+        "matches": ("부부합산 총소득", "총소득", "개인소득", "연소득", "종합소득금액", "종합소득과세표준"),
+        "basis_category": "income",
+        "basis_definition": "지원금·공제·금융상품의 신청자 또는 가구 소득요건을 판단하기 위해 합산하는 소득 기준입니다.",
+        "basis_lookup": "국세청 소득자료, 원천징수영수증, 종합소득세 신고서, 지원기관 신청서류에서 확인합니다.",
+        "selection_rule": "신청자 개인 기준인지 부부합산 또는 가구 기준인지 먼저 구분하고 threshold_krw_max 이하인지 판정합니다.",
+    },
+    {
+        "matches": ("기준 중위소득",),
+        "basis_category": "median-income",
+        "basis_definition": "복지·정책금융 지원대상 선정을 위해 가구원 수별 기준 중위소득에 일정 비율을 곱해 산정하는 소득 기준입니다.",
+        "basis_lookup": "정부24·금융위원회·지원기관의 해당 연도 가구원 수별 기준 중위소득 표에서 확인합니다.",
+        "selection_rule": "가구원 수를 확정한 뒤 median_income_percent_max 이하인지 확인합니다.",
+        "basis_source": "source.govkr.basic-livelihood-benefit",
+    },
+    {
+        "matches": ("가구원 전체 재산 합계액", "재산요건", "순자산", "일반재산"),
+        "basis_category": "asset",
+        "basis_definition": "지원금·복지·정책금융 대상 여부를 판단하기 위해 가구원 또는 본인·배우자의 재산을 합산한 기준입니다.",
+        "basis_lookup": "신청기관의 재산조회, 부동산 공시가격, 금융자산·부채 자료, 지원 신청서류에서 확인합니다.",
+        "selection_rule": "합산 범위가 가구원 전체인지 본인·배우자인지 확인하고 기준금액 이하 또는 감액구간 해당 여부를 판정합니다.",
+    },
+    {
+        "matches": ("1년 매출액", "직전연도 공급대가", "연매출", "매출액", "공급대가"),
+        "basis_category": "revenue",
+        "basis_definition": "사업자의 과세유형, 지원대상, 납부의무 면제 또는 대출대상 판단에 쓰는 매출·공급대가 기준입니다.",
+        "basis_lookup": "부가가치세 신고서, 사업장 매출자료, 세금계산서·현금영수증·카드매출 자료에서 확인합니다.",
+        "selection_rule": "직전연도 기준인지 해당 과세기간 기준인지 구분하고 매출·공급대가가 하한·상한 범위에 들어가는지 판정합니다.",
+        "basis_source": "source.nts.vat.filing-duty",
+    },
+    {
+        "matches": ("만 나이", "자녀 연령", "나이"),
+        "basis_category": "age",
+        "basis_definition": "신청일, 계좌개설일 또는 과세기간 기준으로 대상자의 만 나이를 계산한 선정 기준입니다.",
+        "basis_lookup": "주민등록상 생년월일과 해당 제도의 기준일로 확인합니다.",
+        "selection_rule": "age_min과 age_max가 있으면 해당 나이 범위에 포함되는지 판정하고 병역기간 차감 등 특례가 있으면 note를 함께 적용합니다.",
+    },
+    {
+        "matches": ("본인·배우자·부양가족", "기본공제대상자", "부양자녀", "지원대상", "취업준비생", "사회초년생", "청년사업자"),
+        "basis_category": "person-status",
+        "basis_definition": "세법 또는 지원제도에서 대상자로 인정하는 사람의 관계, 고용상태, 가족상태, 사회적 지위 기준입니다.",
+        "basis_lookup": "가족관계증명, 주민등록, 재직·퇴직 자료, 지원기관 자격확인 서류에서 확인합니다.",
+        "selection_rule": "대상자 지위가 condition에 맞는지 확인하고 소득·나이·기간 등 부가 요건을 함께 충족해야 합니다.",
+    },
+    {
+        "matches": ("사업 개시일", "원천징수일", "신고·납부기한", "부가가치세 과세기간", "양도일", "상속개시일", "증여받은 날"),
+        "basis_category": "deadline-anchor",
+        "basis_definition": "신고·납부 또는 신청기한을 계산할 때 출발점이 되는 날짜 또는 과세기간 기준입니다.",
+        "basis_lookup": "거래일, 사업개시일, 소득 지급일, 상속·증여 발생일, 과세기간 기록과 신고 안내에서 확인합니다.",
+        "selection_rule": "기준일이 속하는 달·반기·과세기간의 말일을 확정한 뒤 deadline_* 필드의 월·일·개월 규칙을 적용합니다.",
+    },
+    {
+        "matches": ("근속연수", "가입기간", "상환기간", "연체기간", "유예기간"),
+        "basis_category": "period",
+        "basis_definition": "공제액, 감면기간, 금융상품 만기, 채무조정 요건을 결정하는 기간 기준입니다.",
+        "basis_lookup": "재직증명, 퇴직소득 지급자료, 계좌 계약자료, 대출·채무조정 약정서에서 확인합니다.",
+        "selection_rule": "기간의 시작일과 종료일을 확정한 뒤 period_* 또는 years_of_service_* 범위에 들어가는지 판정합니다.",
+    },
+    {
+        "matches": ("대출한도", "보증한도", "월 납입금", "납입금", "계좌 순소득", "비과세 한도"),
+        "basis_category": "limit",
+        "basis_definition": "지원상품 또는 세제혜택에서 신청·납입·보증·비과세가 허용되는 최대 금액 기준입니다.",
+        "basis_lookup": "상품 약관, 신청기관 상품설명서, 정책보도자료, 세제지원 안내에서 확인합니다.",
+        "selection_rule": "limit_krw 또는 max_amount_krw를 초과하는 부분은 지원·비과세·공제 대상에서 제외하거나 별도 과세합니다.",
+    },
+    {
+        "matches": ("대출금리", "보증료", "LTV", "DTI", "금리"),
+        "basis_category": "finance-rate",
+        "basis_definition": "정책금융 상품에서 이자율, 보증료율, 담보·소득 대비 대출 가능 비율을 정하는 금융 기준입니다.",
+        "basis_lookup": "지원기관의 월별 금리표, 상품설명서, 보증심사 결과에서 확인합니다.",
+        "selection_rule": "rate_percent 또는 rate_percent_min/max를 적용하되 금리·보증료율·LTV·DTI는 세액계산이 아니라 금융한도 판정용 비율로 해석합니다.",
+    },
+]
+
+
+def classify_criteria_kind(criterion: dict) -> str:
+    if any(key.startswith("deadline_") for key in criterion):
+        return "deadline"
+    if any(key in criterion for key in ("rate_percent", "rate_percent_min", "rate_percent_max")):
+        return "rate"
+    if any(key in criterion for key in ("limit_krw", "max_amount_krw")):
+        return "limit"
+    if any(key in criterion for key in ("deduction_krw", "base_deduction_krw", "per_year_deduction_krw", "progressive_deduction_krw")):
+        return "deduction"
+    if "amount_formula" in criterion:
+        return "formula"
+    if any(key in criterion for key in ("period_years", "period_years_min", "period_years_max", "period_months_min", "period_months_max", "years_of_service_min", "years_of_service_max")):
+        return "period"
+    if any(key in criterion for key in ("age_min", "age_max", "household_size", "median_income_percent_max")):
+        return "eligibility"
+    if any(key in criterion for key in ("threshold_krw", "threshold_krw_min", "threshold_krw_max")):
+        return "threshold"
+    if "benefit" in criterion:
+        return "eligibility"
+    return "reference"
+
+
+def add_criteria_structure(criterion: dict) -> None:
+    criterion.setdefault("criteria_kind", classify_criteria_kind(criterion))
+    if any(key in criterion for key in ("rate_percent", "rate_percent_min", "rate_percent_max")):
+        criterion.setdefault("rate_basis", criterion.get("basis") or criterion.get("label") or "적용 기준")
+
+
+def basis_rule_for(criterion: dict) -> dict:
+    text = " ".join(str(criterion.get(key) or "") for key in ("basis", "condition", "label"))
+    for rule in CRITERIA_BASIS_RULES:
+        if any(match in text for match in rule["matches"]):
+            return rule
+    return DEFAULT_BASIS_EXPLANATION
+
+
+def add_criterion_basis_explanation(item: dict, criterion: dict) -> None:
+    rule = basis_rule_for(criterion)
+    for key in ("basis_category", "basis_definition", "basis_lookup", "selection_rule", "basis_source"):
+        value = rule.get(key)
+        if value:
+            criterion.setdefault(key, value)
+    criterion.setdefault("basis_source", criterion.get("source"))
+    basis_source = criterion.get("basis_source")
+    if basis_source:
+        extend_unique(item, "sources", [basis_source])
+
+
 def extend_unique(item: dict, key: str, values: list[str]) -> None:
     if not values:
         return
@@ -2057,6 +2521,8 @@ def enrich_criteria(item: dict) -> None:
     for criterion in item.get("criteria") or []:
         criterion.update(CRITERIA_PATCHES.get((item["id"], criterion.get("label")), {}))
         parse_structured_criteria_fields(criterion)
+        add_criteria_structure(criterion)
+        add_criterion_basis_explanation(item, criterion)
         add_criterion_law_reference(item, criterion)
         add_criterion_source_to_item(item, criterion)
 
@@ -2207,6 +2673,8 @@ def frontmatter(fields: dict) -> str:
         "sources",
         "criteria",
         "law_reference",
+        "recurrence",
+        "path_steps",
         "tags",
         "publisher",
         "url",
@@ -2215,6 +2683,8 @@ def frontmatter(fields: dict) -> str:
         "end_date",
     ]:
         value = fields.get(key)
+        if key in {"criteria", "path_steps"} and not value:
+            continue
         if value is not None:
             lines.append(f"{key}: {json.dumps(value, ensure_ascii=False)}")
     lines.append("---")
@@ -2234,6 +2704,12 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "label": "기준",
         "basis": "기준항목",
         "condition": "조건",
+        "criteria_kind": "기준 유형",
+        "basis_category": "선정기준 분류",
+        "basis_definition": "선정기준 설명",
+        "basis_lookup": "확인 방법",
+        "selection_rule": "선정 규칙",
+        "basis_source": "선정기준 출처",
         "rate_percent": "세율",
         "rate_percent_min": "최저세율",
         "rate_percent_max": "최고세율",
@@ -2279,8 +2755,13 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "note": "비고",
     }
     order = [
+        "criteria_kind",
         "basis",
+        "basis_category",
         "condition",
+        "basis_definition",
+        "basis_lookup",
+        "selection_rule",
         "law_reference",
         "amount_applicability",
         "threshold_krw_min",
@@ -2366,7 +2847,45 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         source_id = criterion.get("source")
         if source_id in all_items:
             pieces.append(f"출처: {obsidian_link(all_items, source_id)}")
+        basis_source_id = criterion.get("basis_source")
+        if basis_source_id in all_items and basis_source_id != source_id:
+            pieces.append(f"선정기준 출처: {obsidian_link(all_items, basis_source_id)}")
         body.append(f"- **{title}**: " + "; ".join(pieces))
+    body.append("")
+    return body
+
+
+def render_recurrence(item: dict) -> list[str]:
+    recurrence = item.get("recurrence")
+    if not recurrence:
+        return []
+    labels = {
+        "frequency": "반복 주기",
+        "anchor": "기준일",
+        "period": "대상 기간",
+        "start_rule": "시작 규칙",
+        "due_rule": "마감 규칙",
+        "special_rule": "특례",
+        "example": "예시",
+    }
+    body = ["## 반복 규칙", ""]
+    for key in ("frequency", "anchor", "period", "start_rule", "due_rule", "special_rule", "example"):
+        value = recurrence.get(key)
+        if value:
+            body.append(f"- **{labels[key]}**: {value}")
+    body.append("")
+    return body
+
+
+def render_path_steps(item: dict, all_items: dict[str, dict]) -> list[str]:
+    steps = item.get("path_steps") or []
+    if not steps:
+        return []
+    body = ["## 사용자 경로", ""]
+    for step in sorted(steps, key=lambda value: value["order"]):
+        target_id = step["target"]
+        target = obsidian_link(all_items, target_id) if target_id in all_items else f"`{target_id}`"
+        body.append(f"{step['order']}. **{step['label']}** → {target}: {step['reason']}")
     body.append("")
     return body
 
@@ -2375,6 +2894,8 @@ def render_note(item: dict, all_items: dict[str, dict]) -> str:
     body = [frontmatter(item), "", f"# {item['title']}", "", item["description"], ""]
     if item.get("law_reference"):
         body.extend(["## 근거 조항", "", item["law_reference"], ""])
+    body.extend(render_recurrence(item))
+    body.extend(render_path_steps(item, all_items))
     body.extend(render_criteria(item, all_items))
     for heading, key in [
         ("상위 항목", "parents"),
@@ -2474,6 +2995,10 @@ def default_item_fields(item: dict) -> dict:
     }
     if item.get("criteria"):
         result["criteria"] = item["criteria"]
+    if item.get("recurrence"):
+        result["recurrence"] = item["recurrence"]
+    if item.get("path_steps"):
+        result["path_steps"] = item["path_steps"]
     return {**item, **result}
 
 
@@ -2520,6 +3045,7 @@ def build_all_items() -> dict[str, dict]:
         )
         items[deadline_id]["start_date"] = deadline["start_date"]
         items[deadline_id]["end_date"] = deadline["end_date"]
+        items[deadline_id]["recurrence"] = DEADLINE_RECURRENCE_BY_ID[deadline_id]
     for source_id, source in SOURCES.items():
         items[source_id] = render_source(source_id, source)
     for custom_item in load_custom_items():
@@ -2603,7 +3129,7 @@ def write_index(items: dict[str, dict]) -> None:
 def write_export(items: dict[str, dict]) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
-        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04",
+        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.2",
         "basis_date": "2026-05-04",
         "manifests": {
             "national_tax_ids": NATIONAL_TAX_IDS,

@@ -35,6 +35,7 @@ REQUIRED_TYPES_WITH_SOURCES = {
     "corporate-tax-support",
     "support-program",
     "filing",
+    "scenario",
     "concept",
     "term",
     "deadline",
@@ -98,6 +99,34 @@ CRITERIA_DETAIL_KEYS = {
     "deadline_months_after_month_end_max",
     "deadline_relative",
     "deadline_rule",
+}
+CRITERIA_KINDS = {
+    "threshold",
+    "rate",
+    "limit",
+    "deduction",
+    "formula",
+    "eligibility",
+    "deadline",
+    "period",
+    "person",
+    "reference",
+}
+CRITERIA_REQUIRED_EXPLANATION_KEYS = (
+    "criteria_kind",
+    "basis_category",
+    "basis_definition",
+    "basis_lookup",
+    "selection_rule",
+    "basis_source",
+)
+DEADLINE_RECURRENCE_FREQUENCIES = {
+    "annual",
+    "semiannual",
+    "quarterly",
+    "monthly",
+    "event-based",
+    "one-time",
 }
 
 
@@ -169,6 +198,14 @@ def validate_criteria(items: dict[str, dict], errors: list[str]) -> None:
                     require(minimum <= maximum, f"{item_id}: criteria #{index} {label} min exceeds max", errors)
             has_detail = any(key in criterion for key in CRITERIA_DETAIL_KEYS)
             require(has_detail, f"{item_id}: criteria #{index} has no structured amount/rate/period/detail field", errors)
+            for key in CRITERIA_REQUIRED_EXPLANATION_KEYS:
+                require(bool(criterion.get(key)), f"{item_id}: criteria #{index} missing {key}", errors)
+            criteria_kind = criterion.get("criteria_kind")
+            if criteria_kind:
+                require(criteria_kind in CRITERIA_KINDS, f"{item_id}: criteria #{index} invalid criteria_kind {criteria_kind}", errors)
+            basis_source = criterion.get("basis_source")
+            if basis_source:
+                require(basis_source in items, f"{item_id}: criteria #{index} references missing basis_source {basis_source}", errors)
 
 
 def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> None:
@@ -185,6 +222,44 @@ def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> Non
             require(item.get("basis_year") is not None, f"{item_id}: missing basis_year", errors)
         if item.get("type") in ACTIONABLE_TYPES:
             require(bool(item.get("law_reference")), f"{item_id}: missing law_reference", errors)
+
+
+def validate_deadline_recurrence(items: dict[str, dict], errors: list[str]) -> None:
+    for item_id, item in items.items():
+        if item.get("type") != "deadline":
+            continue
+        recurrence = item.get("recurrence")
+        require(isinstance(recurrence, dict), f"{item_id}: deadline missing recurrence object", errors)
+        if not isinstance(recurrence, dict):
+            continue
+        frequency = recurrence.get("frequency")
+        require(frequency in DEADLINE_RECURRENCE_FREQUENCIES, f"{item_id}: invalid recurrence frequency {frequency}", errors)
+        require(bool(recurrence.get("anchor")), f"{item_id}: recurrence missing anchor", errors)
+        require(bool(recurrence.get("due_rule")), f"{item_id}: recurrence missing due_rule", errors)
+
+
+def validate_scenario_paths(items: dict[str, dict], errors: list[str]) -> None:
+    scenarios = [item for item in items.values() if item.get("type") == "scenario"]
+    require(bool(scenarios), "missing scenario nodes", errors)
+    for item in scenarios:
+        item_id = item["id"]
+        steps = item.get("path_steps") or []
+        require(isinstance(steps, list) and bool(steps), f"{item_id}: scenario missing path_steps", errors)
+        if not isinstance(steps, list):
+            continue
+        expected_orders = list(range(1, len(steps) + 1))
+        actual_orders = [step.get("order") for step in steps if isinstance(step, dict)]
+        require(actual_orders == expected_orders, f"{item_id}: path_steps order must be sequential from 1", errors)
+        for index, step in enumerate(steps, start=1):
+            if not isinstance(step, dict):
+                errors.append(f"{item_id}: path step #{index} must be an object")
+                continue
+            target_id = step.get("target")
+            require(bool(step.get("label")), f"{item_id}: path step #{index} missing label", errors)
+            require(bool(step.get("reason")), f"{item_id}: path step #{index} missing reason", errors)
+            require(bool(target_id), f"{item_id}: path step #{index} missing target", errors)
+            if target_id:
+                require(target_id in items, f"{item_id}: path step #{index} references missing target {target_id}", errors)
 
 
 def validate_bidirectional_links(items: dict[str, dict], errors: list[str]) -> None:
@@ -220,6 +295,8 @@ def main() -> int:
     validate_references(items, errors)
     validate_criteria(items, errors)
     validate_required_metadata(items, errors)
+    validate_deadline_recurrence(items, errors)
+    validate_scenario_paths(items, errors)
     validate_bidirectional_links(items, errors)
     validate_manifests(items, errors)
 
