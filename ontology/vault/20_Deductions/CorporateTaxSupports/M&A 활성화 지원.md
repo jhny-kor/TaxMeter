@@ -10,7 +10,7 @@ related: []
 terms: ["term.tax-credit", "term.tax-reduction"]
 deadlines: []
 sources: ["source.nts.corporate-tax.reliefs"]
-criteria: [{"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs"}]
+criteria: [{"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs", "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"}]
 law_reference: ""
 tags: ["corporate-tax-support"]
 ---
@@ -21,7 +21,7 @@ tags: ["corporate-tax-support"]
 
 ## 기준 내역
 
-- **기술혁신형 M&A**: 기준항목: 인수가액 중 기술가치 금액; 조건: 기술혁신형 합병·주식취득; 세액공제율: 10%; 출처: [[90_Sources/법인세 공제감면|법인세 공제감면]]
+- **기술혁신형 M&A**: 기준항목: 인수가액 중 기술가치 금액; 조건: 기술혁신형 합병·주식취득; 세액공제율: 10%; 금액·적용 산식: 인수가액 중 기술가치 금액 × 세액공제율 10%; 출처: [[90_Sources/법인세 공제감면|법인세 공제감면]]
 
 ## 상위 항목
 
