@@ -265,6 +265,13 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "중소기업, 모든 기업, 법인세법상 공제·감면과 과세이연 지원제도의 공식 목록 근거입니다.",
     },
+    "source.nts.corporate-tax.filing-procedure": {
+        "title": "법인세 신고절차",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
+        "basis_date": "2026-05-04 확인",
+        "description": "법인세 신고기한, 제출서류, 전자신고와 세무조정 절차의 공식 근거입니다.",
+    },
     "source.nts.eitc.intro": {
         "title": "근로장려금 소개",
         "publisher": "국세청",
@@ -460,6 +467,41 @@ SOURCES = {
         "url": "https://www.law.go.kr/법령/관세법/별표",
         "basis_date": "2026-05-03 확인",
         "description": "수입물품 품목분류별 관세율표와 품목별 세율 적용 근거입니다.",
+    },
+    "source.law.income-tax-act.deductions-credits": {
+        "title": "소득세법 공제·세액공제 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/소득세법",
+        "basis_date": "2026-05-04 확인",
+        "description": "인적공제, 연금보험료공제, 특별소득공제, 근로소득세액공제, 자녀세액공제, 연금계좌세액공제, 특별세액공제 등 소득세 공제 조문 근거입니다.",
+    },
+    "source.law.corporate-tax-act.credits": {
+        "title": "법인세법 세액공제 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/법인세법",
+        "basis_date": "2026-05-04 확인",
+        "description": "법인세 세율, 외국납부세액공제, 재해손실세액공제와 신고기한 등 법인세법상 조문 근거입니다.",
+    },
+    "source.law.inheritance-gift-tax-act.rates": {
+        "title": "상속세 및 증여세법 세율·신고 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/상속세및증여세법",
+        "basis_date": "2026-05-04 확인",
+        "description": "상속세·증여세 세율과 신고기한 조문 근거입니다.",
+    },
+    "source.law.value-added-tax-act.filing": {
+        "title": "부가가치세법 과세유형·신고 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/부가가치세법",
+        "basis_date": "2026-05-04 확인",
+        "description": "사업자등록, 일반·간이과세자 기준, 부가가치세 예정·확정신고와 납부기한 조문 근거입니다.",
+    },
+    "source.law.tax-special-treatment-restriction-act.reliefs": {
+        "title": "조세특례제한법 공제·감면 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/조세특례제한법",
+        "basis_date": "2026-05-04 확인",
+        "description": "창업중소기업, 중소기업특별세액감면, 연구·인력개발, 고용, 투자, 지역 이전, 정책성 세액공제·감면 조문의 법률상 근거입니다.",
     },
 }
 
@@ -717,6 +759,14 @@ DEADLINES = {
         "end_date": "2026-06-01",
         "sources": ["source.nts.income-tax.deadline"],
     },
+    "deadline.corporate-tax.return": {
+        "title": "법인세 과세표준 신고",
+        "description": "법인은 각 사업연도 종료일이 속하는 달의 말일부터 3개월 이내에 법인세 과세표준과 세액을 신고·납부하는 흐름으로 관리합니다.",
+        "basis_year": None,
+        "start_date": None,
+        "end_date": None,
+        "sources": ["source.nts.corporate-tax.filing-procedure", "source.law.corporate-tax-act.credits"],
+    },
     "deadline.year-end-settlement": {
         "title": "근로소득 연말정산",
         "description": "계속 근로자는 다음연도 2월분 근로소득 지급 시, 중도 퇴직자는 퇴직하는 달의 근로소득 지급 시 연말정산을 실시합니다.",
@@ -724,6 +774,14 @@ DEADLINES = {
         "start_date": None,
         "end_date": None,
         "sources": ["source.nts.year-end-settlement.calculation"],
+    },
+    "deadline.business-registration.application": {
+        "title": "사업자등록 신청기한",
+        "description": "신규사업자는 사업 개시 전 또는 사업 개시일부터 20일 이내에 사업자등록을 신청하는 흐름으로 관리합니다.",
+        "basis_year": None,
+        "start_date": None,
+        "end_date": None,
+        "sources": ["source.nts.business-registration.application", "source.law.value-added-tax-act.filing"],
     },
     "deadline.withholding.monthly": {
         "title": "원천세 신고 납부",
@@ -1166,7 +1224,7 @@ SME_SPECIAL_REDUCTION_CRITERIA = [
 
 
 GOOD_LANDLORD_REDUCTION_CRITERIA = [
-    {"label": "임대료 인하액", "basis": "상가건물 임대료 인하액", "condition": "소상공인 임차인 임대료 인하 등 요건 충족", "rate_percent": 70, "rate_label": "세액공제율", "note": "요건과 과세연도별 적용기한 확인 필요", "source": "source.nts.corporate-tax.reliefs"},
+    {"label": "임대료 인하액", "basis": "상가건물 임대료 인하액", "condition": "소상공인 임차인 임대료 인하 등 요건 충족", "rate_percent": 70, "rate_label": "세액공제율", "note": "적용기한은 과세연도별 조세특례제한법 개정에 따라 달라질 수 있음", "source": "source.nts.corporate-tax.reliefs"},
 ]
 
 
@@ -1698,6 +1756,311 @@ def unique(values: list[str]) -> list[str]:
     return result
 
 
+CORPORATE_SUPPORT_LAW_REFERENCES = {
+    "corporate.support.startup-sme-reduction": "조세특례제한법 제6조",
+    "corporate.support.sme-special-reduction": "조세특례제한법 제7조",
+    "corporate.support.tech-transfer-reduction": "조세특례제한법 제12조",
+    "corporate.support.winwin-payment-credit": "조세특례제한법 제7조의4",
+    "corporate.support.wage-increase-credit": "조세특례제한법 제29조의4",
+    "corporate.support.performance-sharing-credit": "조세특례제한법 제19조",
+    "corporate.support.employment-maintenance-credit": "조세특례제한법 제30조의3",
+    "corporate.support.social-insurance-credit": "조세특례제한법 제30조의4",
+    "corporate.support.minimum-tax-preference": "조세특례제한법 제132조",
+    "corporate.support.cooperation-credit": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문",
+    "corporate.support.rnd-credit": "조세특례제한법 제10조",
+    "corporate.support.rnd-grant-deferral": "조세특례제한법 제10조의2",
+    "corporate.support.rnd-zone-reduction": "조세특례제한법 제12조의2",
+    "corporate.support.ma-credit": "조세특례제한법 제12조의3",
+    "corporate.support.facility-investment-credit": "조세특례제한법 제24조",
+    "corporate.support.local-relocation-reduction": "조세특례제한법 제63조 및 제63조의2",
+    "corporate.support.agricultural-corporation-reduction": "조세특례제한법 제66조",
+    "corporate.support.industrial-complex-reduction": "조세특례제한법 제64조",
+    "corporate.support.social-enterprise-reduction": "조세특례제한법 제85조의6",
+    "corporate.support.jeju-zone-reduction": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문",
+    "corporate.support.enterprise-city-reduction": "조세특례제한법 제121조의17",
+    "corporate.support.e-filing-credit": "조세특례제한법 제104조의8",
+    "corporate.support.restructuring-deferral": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문",
+    "corporate.support.local-relocation-deferral": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문",
+    "corporate.support.good-landlord-credit": "조세특례제한법 제96조의3",
+    "corporate.support.crisis-area-startup-reduction": "조세특례제한법 제99조의9",
+    "corporate.support.disaster-loss-credit": "법인세법 제58조",
+    "corporate.support.foreign-tax-paid-credit": "법인세법 제57조",
+}
+
+
+LAW_REFERENCE_BY_ID = {
+    **{item_id: "지방세기본법 제8조 및 지방세법 세목별 세율 조문" for item_id in LOCAL_TAX_IDS},
+    **CORPORATE_SUPPORT_LAW_REFERENCES,
+    "tax.income": "국세기본법 제2조 제1호 및 소득세법 제55조",
+    "tax.corporate": "국세기본법 제2조 제1호 및 법인세법 제55조",
+    "tax.inheritance-and-gift": "국세기본법 제2조 제1호 및 상속세 및 증여세법 제26조",
+    "tax.inheritance": "상속세 및 증여세법 제26조 및 제67조",
+    "tax.gift": "상속세 및 증여세법 제26조 및 제68조",
+    "tax.comprehensive-real-estate": "종합부동산세법 제7조·제12조·제14조",
+    "tax.value-added": "부가가치세법 제29조·제30조 및 제48조·제49조",
+    "tax.income.comprehensive": "소득세법 제55조 및 제70조",
+    "tax.income.retirement": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문",
+    "tax.income.capital-gains": "소득세법 제92조·제104조·제105조·제110조",
+    "tax.individual-consumption": "개별소비세법 세율 조문",
+    "tax.transport-energy-environment": "교통·에너지·환경세법 세율 조문",
+    "tax.liquor": "주세법 세율 조문",
+    "tax.stamp": "인지세법 제3조",
+    "tax.securities-transaction": "증권거래세법 제8조",
+    "tax.education": "교육세법 제5조",
+    "tax.special-rural-development": "농어촌특별세법 제5조",
+    "deduction.personal": "소득세법 제50조 및 제51조",
+    "deduction.personal.basic": "소득세법 제50조",
+    "deduction.personal.additional": "소득세법 제51조",
+    "deduction.pension-insurance": "소득세법 제51조의3",
+    "deduction.special-income": "소득세법 제52조",
+    "deduction.health-insurance-premium": "소득세법 제52조",
+    "deduction.housing-funds": "소득세법 제52조",
+    "deduction.other-income": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
+    "deduction.personal-pension-savings": "조세특례제한법 개인연금저축 소득공제 조문",
+    "deduction.small-business-mutual-aid": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문",
+    "deduction.housing-savings": "조세특례제한법 주택마련저축 소득공제 조문",
+    "deduction.investment-association": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
+    "deduction.credit-card-use": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
+    "deduction.employee-stock-ownership": "조세특례제한법 우리사주조합 출연금 소득공제 조문",
+    "deduction.employment-maintenance-worker": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문",
+    "deduction.long-term-fund": "조세특례제한법 장기집합투자증권저축 소득공제 조문",
+    "deduction.youth-long-term-fund": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
+    "credit.earned-income": "소득세법 제59조",
+    "credit.child": "소득세법 제59조의2",
+    "credit.pension-account": "소득세법 제59조의3",
+    "credit.special-tax": "소득세법 제59조의4",
+    "credit.insurance-premium": "소득세법 제59조의4",
+    "credit.medical-expense": "소득세법 제59조의4",
+    "credit.education-expense": "소득세법 제59조의4",
+    "credit.donation": "소득세법 제59조의4",
+    "credit.monthly-rent": "조세특례제한법 월세액 세액공제 조문",
+    "credit.foreign-tax-paid": "법인세법 제57조 및 소득세법 제57조",
+    "credit.research-and-development": "조세특례제한법 제10조",
+    "credit.integrated-employment": "조세특례제한법 제29조의8",
+    "reduction.sme-employment-income": "조세특례제한법 제30조",
+    "reduction.startup-sme": "조세특례제한법 제6조",
+    "reduction.sme-special": "조세특례제한법 제7조",
+    "reduction.good-landlord": "조세특례제한법 제96조의3",
+    "filing.income-tax-return": "소득세법 제70조",
+    "filing.year-end-settlement": "소득세법 제137조 및 원천징수 연말정산 조문",
+    "filing.business-registration": "부가가치세법 제8조",
+    "filing.withholding-tax": "소득세법 제128조",
+    "filing.business-income-withholding": "소득세법 제127조 및 제129조",
+    "filing.vat-return": "부가가치세법 제48조·제49조 및 제67조",
+    "filing.capital-gains-return": "소득세법 제105조 및 제110조",
+    "filing.inheritance-tax-return": "상속세 및 증여세법 제67조",
+    "filing.gift-tax-return": "상속세 및 증여세법 제68조",
+    "filing.grant-application": "조세특례제한법 근로장려금·자녀장려금 신청 조문",
+}
+
+
+ITEM_SOURCE_PATCHES = {
+    **{item_id: ["source.law.local-tax-act.rates"] for item_id in LOCAL_TAX_IDS},
+    **{item_id: ["source.law.tax-special-treatment-restriction-act.reliefs"] for item_id in CORPORATE_SUPPORT_IDS},
+    **{item_id: ["source.law.income-tax-act.deductions-credits"] for item_id in DEDUCTION_CRITERIA_BY_ID},
+    "category.deductions-and-reliefs": ["source.law.income-tax-act.deductions-credits", "source.law.tax-special-treatment-restriction-act.reliefs"],
+    "category.income-deductions": ["source.law.income-tax-act.deductions-credits", "source.law.tax-special-treatment-restriction-act.reliefs"],
+    "category.tax-credits": ["source.law.income-tax-act.deductions-credits", "source.law.tax-special-treatment-restriction-act.reliefs"],
+    "category.tax-reductions": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "category.corporate-tax-supports": ["source.nts.corporate-tax.filing-procedure", "source.law.tax-special-treatment-restriction-act.reliefs"],
+    "tax.income": ["source.law.income-tax-act.deductions-credits"],
+    "tax.income.comprehensive": ["source.law.income-tax-act.deductions-credits"],
+    "tax.income.retirement": ["source.law.income-tax-act.deductions-credits"],
+    "tax.income.capital-gains": ["source.law.income-tax-act.deductions-credits"],
+    "tax.corporate": ["source.nts.corporate-tax.filing-procedure", "source.law.corporate-tax-act.credits"],
+    "tax.inheritance-and-gift": ["source.law.inheritance-gift-tax-act.rates"],
+    "tax.inheritance": ["source.law.inheritance-gift-tax-act.rates"],
+    "tax.gift": ["source.law.inheritance-gift-tax-act.rates"],
+    "tax.value-added": ["source.law.value-added-tax-act.filing"],
+    "concept.general-vat-taxpayer": ["source.law.value-added-tax-act.filing"],
+    "concept.simple-vat-taxpayer": ["source.law.value-added-tax-act.filing"],
+    "concept.vat-payment-exemption": ["source.law.value-added-tax-act.filing"],
+    "credit.earned-income": ["source.law.income-tax-act.deductions-credits"],
+    "credit.child": ["source.law.income-tax-act.deductions-credits"],
+    "credit.pension-account": ["source.law.income-tax-act.deductions-credits"],
+    "credit.special-tax": ["source.law.income-tax-act.deductions-credits"],
+    "credit.insurance-premium": ["source.law.income-tax-act.deductions-credits"],
+    "credit.medical-expense": ["source.law.income-tax-act.deductions-credits"],
+    "credit.education-expense": ["source.law.income-tax-act.deductions-credits"],
+    "credit.donation": ["source.law.income-tax-act.deductions-credits"],
+    "credit.monthly-rent": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "credit.foreign-tax-paid": ["source.law.corporate-tax-act.credits", "source.law.income-tax-act.deductions-credits"],
+    "credit.research-and-development": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "credit.integrated-employment": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "reduction.sme-employment-income": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "reduction.startup-sme": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "reduction.sme-special": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "reduction.good-landlord": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+    "corporate.support.disaster-loss-credit": ["source.law.corporate-tax-act.credits"],
+    "corporate.support.foreign-tax-paid-credit": ["source.law.corporate-tax-act.credits"],
+    "filing.income-tax-return": ["source.law.income-tax-act.deductions-credits"],
+    "filing.year-end-settlement": ["source.law.income-tax-act.deductions-credits"],
+    "filing.business-registration": ["source.law.value-added-tax-act.filing"],
+    "filing.withholding-tax": ["source.law.income-tax-act.deductions-credits"],
+    "filing.business-income-withholding": ["source.law.income-tax-act.deductions-credits"],
+    "filing.vat-return": ["source.law.value-added-tax-act.filing"],
+    "filing.capital-gains-return": ["source.law.income-tax-act.deductions-credits"],
+    "filing.inheritance-tax-return": ["source.law.inheritance-gift-tax-act.rates"],
+    "filing.gift-tax-return": ["source.law.inheritance-gift-tax-act.rates"],
+    "filing.grant-application": ["source.law.tax-special-treatment-restriction-act.reliefs"],
+}
+
+
+ITEM_DEADLINE_PATCHES = {
+    **{item_id: ["deadline.year-end-settlement"] for item_id in DEDUCTION_CRITERIA_BY_ID},
+    **{item_id: ["deadline.corporate-tax.return"] for item_id in CORPORATE_SUPPORT_IDS},
+    "category.income-deductions": ["deadline.year-end-settlement"],
+    "category.tax-credits": ["deadline.year-end-settlement"],
+    "category.tax-reductions": ["deadline.year-end-settlement", "deadline.corporate-tax.return"],
+    "category.corporate-tax-supports": ["deadline.corporate-tax.return"],
+    "tax.corporate": ["deadline.corporate-tax.return"],
+    "deduction.credit-card-use": ["deadline.year-end-settlement"],
+    "credit.earned-income": ["deadline.year-end-settlement"],
+    "credit.child": ["deadline.year-end-settlement"],
+    "credit.pension-account": ["deadline.year-end-settlement"],
+    "credit.special-tax": ["deadline.year-end-settlement"],
+    "credit.insurance-premium": ["deadline.year-end-settlement"],
+    "credit.medical-expense": ["deadline.year-end-settlement"],
+    "credit.education-expense": ["deadline.year-end-settlement"],
+    "credit.donation": ["deadline.year-end-settlement"],
+    "credit.monthly-rent": ["deadline.year-end-settlement"],
+    "credit.foreign-tax-paid": ["deadline.year-end-settlement", "deadline.corporate-tax.return"],
+    "credit.research-and-development": ["deadline.corporate-tax.return"],
+    "credit.integrated-employment": ["deadline.corporate-tax.return"],
+    "reduction.sme-employment-income": ["deadline.year-end-settlement"],
+    "reduction.startup-sme": ["deadline.corporate-tax.return"],
+    "reduction.sme-special": ["deadline.corporate-tax.return"],
+    "reduction.good-landlord": ["deadline.corporate-tax.return"],
+    "filing.business-registration": ["deadline.business-registration.application"],
+}
+
+
+CRITERIA_PATCHES = {
+    ("deduction.pension-insurance", "공적연금 근로자 부담금"): {"amount_formula": "국민연금 등 공적연금보험료 근로자 부담분 전액", "unlimited_amount": True},
+    ("deduction.health-insurance-premium", "국민건강보험·노인장기요양보험"): {"amount_formula": "본인 부담 건강보험·노인장기요양보험료 전액", "unlimited_amount": True},
+    ("deduction.health-insurance-premium", "고용보험"): {"amount_formula": "본인 부담 고용보험료 전액", "unlimited_amount": True},
+    ("credit.foreign-tax-paid", "외국납부세액공제 한도"): {"amount_formula": "min(외국납부세액, 국내 산출세액 × 국외원천소득 / 전체 과세표준)"},
+    ("credit.research-and-development", "일반 연구·인력개발비"): {"amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율", "rate_basis": "기업규모와 당기분·증가분 방식별 차등"},
+    ("credit.research-and-development", "신성장·원천기술"): {"amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율", "rate_basis": "신성장·원천기술 유형별 차등"},
+    ("credit.research-and-development", "국가전략기술"): {"amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율", "rate_basis": "국가전략기술 유형별 차등"},
+    ("credit.integrated-employment", "고용 증가 인원"): {"amount_formula": "상시근로자 증가 인원 × 기업규모·지역별 1인당 공제액", "rate_basis": "고용증가 인원별 정액공제"},
+    ("credit.integrated-employment", "우대 대상 고용"): {"amount_formula": "청년·장애인·경력단절자 등 우대 고용 증가 인원 × 우대 1인당 공제액", "rate_basis": "정책대상자별 정액공제"},
+    ("corporate.support.foreign-tax-paid-credit", "외국납부세액공제 한도"): {"amount_formula": "min(외국납부세액, 법인세 산출세액 × 국외원천소득 / 전체 과세표준)"},
+    ("corporate.support.rnd-credit", "일반 연구·인력개발비"): {"amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율", "rate_basis": "기업규모와 당기분·증가분 방식별 차등"},
+    ("corporate.support.rnd-credit", "신성장·원천기술"): {"amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율", "rate_basis": "신성장·원천기술 유형별 차등"},
+    ("corporate.support.rnd-credit", "국가전략기술"): {"amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율", "rate_basis": "국가전략기술 유형별 차등"},
+    ("corporate.support.rnd-grant-deferral", "연구개발출연금 과세이연"): {"amount_formula": "연구개발출연금 중 자산 취득·비용 지출 사용액을 익금불산입 후 사용 시점 익금산입"},
+    ("corporate.support.integrated-employment", "고용 증가 인원"): {"amount_formula": "상시근로자 증가 인원 × 기업규모·지역별 1인당 공제액"},
+    ("tax.income.retirement", "근속연수 5년 이하 공제"): {"years_of_service_max": 5, "per_year_deduction_krw": 1_000_000},
+    ("tax.income.retirement", "근속연수 10년 이하 공제"): {"years_of_service_min": 5, "years_of_service_max": 10, "base_deduction_krw": 5_000_000, "per_year_deduction_krw": 2_000_000},
+    ("tax.income.retirement", "근속연수 20년 이하 공제"): {"years_of_service_min": 10, "years_of_service_max": 20, "base_deduction_krw": 15_000_000, "per_year_deduction_krw": 2_500_000},
+    ("tax.income.retirement", "근속연수 20년 초과 공제"): {"years_of_service_min": 20, "base_deduction_krw": 40_000_000, "per_year_deduction_krw": 3_000_000},
+    ("filing.income-tax-return", "확정신고 기간"): {"deadline_start_month": 5, "deadline_start_day": 1, "deadline_end_month": 5, "deadline_end_day": 31},
+    ("filing.business-registration", "사업자등록 신청기한"): {"deadline_days_after_event": 20},
+    ("filing.withholding-tax", "원천세 월별 납부"): {"deadline_day": 10, "deadline_relative": "징수일이 속하는 달의 다음 달"},
+    ("filing.vat-return", "일반과세자 확정신고"): {"deadline_start_month": 7, "deadline_start_day": 1, "deadline_end_day": 25, "deadline_rule": "제1기 7월 1~25일, 제2기 다음 해 1월 1~25일"},
+    ("filing.vat-return", "간이과세자 연간 신고"): {"deadline_start_month": 1, "deadline_start_day": 1, "deadline_end_month": 1, "deadline_end_day": 25},
+    ("filing.capital-gains-return", "양도소득세 예정신고"): {"deadline_months_after_month_end": 2},
+    ("filing.capital-gains-return", "양도소득세 확정신고"): {"deadline_start_month": 5, "deadline_start_day": 1, "deadline_end_month": 5, "deadline_end_day": 31},
+    ("filing.inheritance-tax-return", "상속세 신고기한"): {"deadline_months_after_month_end_min": 6, "deadline_months_after_month_end_max": 9},
+    ("filing.gift-tax-return", "증여세 신고기한"): {"deadline_months_after_month_end": 3},
+    ("filing.grant-application", "근로·자녀장려금 정기신청"): {"deadline_month": 5},
+}
+
+
+def extend_unique(item: dict, key: str, values: list[str]) -> None:
+    if not values:
+        return
+    item[key] = unique((item.get(key) or []) + values)
+
+
+def add_item_source_and_deadline_metadata(item: dict) -> None:
+    item_id = item["id"]
+    extend_unique(item, "sources", ITEM_SOURCE_PATCHES.get(item_id, []))
+    extend_unique(item, "deadlines", ITEM_DEADLINE_PATCHES.get(item_id, []))
+
+
+def add_item_law_reference(item: dict) -> None:
+    if item.get("law_reference"):
+        return
+    law_reference = LAW_REFERENCE_BY_ID.get(item["id"])
+    if law_reference:
+        item["law_reference"] = law_reference
+
+
+def parse_structured_criteria_fields(criterion: dict) -> None:
+    label = criterion.get("label") or ""
+    basis = criterion.get("basis") or ""
+    condition = criterion.get("condition") or ""
+    text = f"{label} {basis} {condition}"
+
+    household_match = re.search(r"(\d+)인\s*가구", text)
+    if household_match:
+        criterion.setdefault("household_size", int(household_match.group(1)))
+
+    median_income_match = re.search(r"기준\s*중위소득\s*(\d+(?:\.\d+)?)%\s*이하", text)
+    if median_income_match:
+        criterion.setdefault("median_income_percent_max", float(median_income_match.group(1)))
+
+    age_range_match = re.search(r"(?:만\s*)?(\d+)세\s*이상\s*(\d+)세\s*이하", text)
+    if age_range_match:
+        criterion.setdefault("age_min", int(age_range_match.group(1)))
+        criterion.setdefault("age_max", int(age_range_match.group(2)))
+    else:
+        age_min_match = re.search(r"(?:만\s*)?(\d+)세\s*이상", text)
+        age_max_match = re.search(r"(?:만\s*)?(\d+)세\s*이하", text)
+        if age_min_match and "세대" not in text:
+            criterion.setdefault("age_min", int(age_min_match.group(1)))
+        if age_max_match and "세대" not in text:
+            criterion.setdefault("age_max", int(age_max_match.group(1)))
+    if criterion.get("age_min") is not None and criterion.get("age_max") is not None and criterion["age_min"] > criterion["age_max"]:
+        criterion.pop("age_min", None)
+        criterion.pop("age_max", None)
+
+    years_range_match = re.search(r"(\d+)년\s*초과\s*(\d+)년\s*이하", text)
+    if years_range_match:
+        criterion.setdefault("period_years_min", int(years_range_match.group(1)))
+        criterion.setdefault("period_years_max", int(years_range_match.group(2)))
+    elif "근속연수" not in text:
+        years_min_match = re.search(r"(\d+)년\s*이상", text)
+        years_max_match = re.search(r"(\d+)년\s*이내|최장\s*(\d+)년", text)
+        if years_min_match:
+            criterion.setdefault("period_years_min", int(years_min_match.group(1)))
+        if years_max_match:
+            criterion.setdefault("period_years_max", int(next(group for group in years_max_match.groups() if group)))
+        single_year_match = re.search(r"(?:가입기간|만기|감면기간)\D*(\d+)년", text)
+        if single_year_match:
+            criterion.setdefault("period_years", int(single_year_match.group(1)))
+
+    month_range_match = re.search(r"(\d+)개월\s*이상", text)
+    if month_range_match:
+        criterion.setdefault("period_months_min", int(month_range_match.group(1)))
+    month_max_match = re.search(r"(\d+)개월\s*이내|최장\s*(\d+)개월", text)
+    if month_max_match:
+        criterion.setdefault("period_months_max", int(next(group for group in month_max_match.groups() if group)))
+
+
+def add_criterion_law_reference(item: dict, criterion: dict) -> None:
+    if criterion.get("law_reference") or not item.get("law_reference"):
+        return
+    if item.get("type") in {"tax", "deduction", "tax-credit", "tax-reduction", "corporate-tax-support", "filing"}:
+        criterion["law_reference"] = item["law_reference"]
+
+
+def add_criterion_source_to_item(item: dict, criterion: dict) -> None:
+    source_id = criterion.get("source")
+    if source_id:
+        extend_unique(item, "sources", [source_id])
+
+
+def enrich_criteria(item: dict) -> None:
+    for criterion in item.get("criteria") or []:
+        criterion.update(CRITERIA_PATCHES.get((item["id"], criterion.get("label")), {}))
+        parse_structured_criteria_fields(criterion)
+        add_criterion_law_reference(item, criterion)
+        add_criterion_source_to_item(item, criterion)
+
+
 def normalize_graph(nodes: list[dict]) -> None:
     by_id = {item["id"]: item for item in nodes}
     for item in nodes:
@@ -1732,6 +2095,9 @@ def normalize_items(items: dict[str, dict]) -> None:
 
     for item in items.values():
         attach_default_criteria(item)
+        add_item_source_and_deadline_metadata(item)
+        add_item_law_reference(item)
+        enrich_criteria(item)
         for key in ("parents", "children", "related", "terms", "deadlines", "sources", "tags"):
             item[key] = unique(item.get(key) or [])
         normalize_criteria_rate_labels(item)
@@ -1871,6 +2237,7 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "rate_percent": "세율",
         "rate_percent_min": "최저세율",
         "rate_percent_max": "최고세율",
+        "rate_basis": "비율 기준",
         "progressive_deduction_krw": "누진공제",
         "threshold_krw": "기준금액",
         "threshold_krw_min": "하한",
@@ -1880,13 +2247,41 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "amount_applicability": "금액 기준 여부",
         "max_amount_krw": "최대금액",
         "deduction_krw": "공제액",
+        "base_deduction_krw": "기본공제액",
+        "per_year_deduction_krw": "연당 공제액",
         "limit_krw": "한도",
         "benefit": "혜택",
+        "age_min": "최소연령",
+        "age_max": "최대연령",
+        "household_size": "가구원 수",
+        "median_income_percent_max": "기준중위소득 상한",
+        "period_years": "기간",
+        "period_years_min": "최소기간",
+        "period_years_max": "최대기간",
+        "period_months_min": "최소기간",
+        "period_months_max": "최대기간",
+        "years_of_service_min": "최소 근속연수",
+        "years_of_service_max": "최대 근속연수",
+        "deadline_month": "기한 월",
+        "deadline_day": "기한 일",
+        "deadline_start_month": "기한 시작 월",
+        "deadline_start_day": "기한 시작 일",
+        "deadline_end_month": "기한 종료 월",
+        "deadline_end_day": "기한 종료 일",
+        "deadline_days_after_event": "기준일 후 일수",
+        "deadline_months_after_month_end": "월말 후 개월",
+        "deadline_months_after_month_end_min": "월말 후 최소 개월",
+        "deadline_months_after_month_end_max": "월말 후 최대 개월",
+        "deadline_relative": "상대 기한",
+        "deadline_rule": "기한 규칙",
+        "unlimited_amount": "한도 없음",
+        "law_reference": "근거 조항",
         "note": "비고",
     }
     order = [
         "basis",
         "condition",
+        "law_reference",
         "amount_applicability",
         "threshold_krw_min",
         "threshold_krw",
@@ -1894,12 +2289,39 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "rate_percent",
         "rate_percent_min",
         "rate_percent_max",
+        "rate_basis",
         "progressive_deduction_krw",
         "deduction_krw",
+        "base_deduction_krw",
+        "per_year_deduction_krw",
         "limit_krw",
         "amount_krw",
         "amount_formula",
         "max_amount_krw",
+        "age_min",
+        "age_max",
+        "household_size",
+        "median_income_percent_max",
+        "period_years",
+        "period_years_min",
+        "period_years_max",
+        "period_months_min",
+        "period_months_max",
+        "years_of_service_min",
+        "years_of_service_max",
+        "deadline_month",
+        "deadline_day",
+        "deadline_start_month",
+        "deadline_start_day",
+        "deadline_end_month",
+        "deadline_end_day",
+        "deadline_days_after_event",
+        "deadline_months_after_month_end",
+        "deadline_months_after_month_end_min",
+        "deadline_months_after_month_end_max",
+        "deadline_relative",
+        "deadline_rule",
+        "unlimited_amount",
         "benefit",
         "note",
     ]
@@ -1916,6 +2338,20 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
                 value = f"{int(value):,}원"
             elif key.startswith("rate_percent"):
                 value = f"{value}%"
+            elif key.startswith("median_income_percent"):
+                value = f"{value}%"
+            elif key in {"age_min", "age_max"}:
+                value = f"{value}세"
+            elif key in {"period_years", "period_years_min", "period_years_max", "years_of_service_min", "years_of_service_max"}:
+                value = f"{value}년"
+            elif key in {"period_months_min", "period_months_max", "deadline_months_after_month_end", "deadline_months_after_month_end_min", "deadline_months_after_month_end_max"}:
+                value = f"{value}개월"
+            elif key in {"deadline_month", "deadline_start_month", "deadline_end_month"}:
+                value = f"{value}월"
+            elif key in {"deadline_day", "deadline_start_day", "deadline_end_day", "deadline_days_after_event"}:
+                value = f"{value}일"
+            elif isinstance(value, bool):
+                value = "예" if value else "아니오"
             if key.startswith("rate_percent"):
                 rate_label = criterion.get("rate_label")
                 if rate_label and key == "rate_percent_min":
@@ -2167,8 +2603,8 @@ def write_index(items: dict[str, dict]) -> None:
 def write_export(items: dict[str, dict]) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
-        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02",
-        "basis_date": "2026-05-02",
+        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04",
+        "basis_date": "2026-05-04",
         "manifests": {
             "national_tax_ids": NATIONAL_TAX_IDS,
             "local_tax_ids": LOCAL_TAX_IDS,

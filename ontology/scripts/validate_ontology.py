@@ -39,6 +39,66 @@ REQUIRED_TYPES_WITH_SOURCES = {
     "term",
     "deadline",
 }
+CRITERIA_RANGE_PAIRS = (
+    ("threshold_krw_min", "threshold_krw_max", "threshold"),
+    ("rate_percent_min", "rate_percent_max", "rate percent"),
+    ("age_min", "age_max", "age"),
+    ("period_years_min", "period_years_max", "period years"),
+    ("period_months_min", "period_months_max", "period months"),
+    ("years_of_service_min", "years_of_service_max", "years of service"),
+    ("deadline_months_after_month_end_min", "deadline_months_after_month_end_max", "deadline months after month end"),
+)
+ACTIONABLE_TYPES = {
+    "tax",
+    "deduction",
+    "tax-credit",
+    "tax-reduction",
+    "corporate-tax-support",
+    "filing",
+}
+CRITERIA_DETAIL_KEYS = {
+    "threshold_krw",
+    "threshold_krw_min",
+    "threshold_krw_max",
+    "amount_krw",
+    "max_amount_krw",
+    "deduction_krw",
+    "base_deduction_krw",
+    "per_year_deduction_krw",
+    "limit_krw",
+    "progressive_deduction_krw",
+    "rate_percent",
+    "rate_percent_min",
+    "rate_percent_max",
+    "rate_basis",
+    "amount_formula",
+    "amount_applicability",
+    "unlimited_amount",
+    "benefit",
+    "age_min",
+    "age_max",
+    "household_size",
+    "median_income_percent_max",
+    "period_years",
+    "period_years_min",
+    "period_years_max",
+    "period_months_min",
+    "period_months_max",
+    "years_of_service_min",
+    "years_of_service_max",
+    "deadline_month",
+    "deadline_day",
+    "deadline_start_month",
+    "deadline_start_day",
+    "deadline_end_month",
+    "deadline_end_day",
+    "deadline_days_after_event",
+    "deadline_months_after_month_end",
+    "deadline_months_after_month_end_min",
+    "deadline_months_after_month_end_max",
+    "deadline_relative",
+    "deadline_rule",
+}
 
 
 def parse_frontmatter(path: Path) -> dict | None:
@@ -102,10 +162,13 @@ def validate_criteria(items: dict[str, dict], errors: list[str]) -> None:
             require(bool(source_id), f"{item_id}: criteria #{index} missing source", errors)
             if source_id:
                 require(source_id in items, f"{item_id}: criteria #{index} references missing source {source_id}", errors)
-            minimum = criterion.get("threshold_krw_min")
-            maximum = criterion.get("threshold_krw_max")
-            if minimum is not None and maximum is not None:
-                require(minimum <= maximum, f"{item_id}: criteria #{index} threshold min exceeds max", errors)
+            for minimum_key, maximum_key, label in CRITERIA_RANGE_PAIRS:
+                minimum = criterion.get(minimum_key)
+                maximum = criterion.get(maximum_key)
+                if minimum is not None and maximum is not None:
+                    require(minimum <= maximum, f"{item_id}: criteria #{index} {label} min exceeds max", errors)
+            has_detail = any(key in criterion for key in CRITERIA_DETAIL_KEYS)
+            require(has_detail, f"{item_id}: criteria #{index} has no structured amount/rate/period/detail field", errors)
 
 
 def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> None:
@@ -120,6 +183,8 @@ def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> Non
             require(bool(item.get("publisher")), f"{item_id}: missing source publisher", errors)
         if item.get("type") not in {"source", "deadline"}:
             require(item.get("basis_year") is not None, f"{item_id}: missing basis_year", errors)
+        if item.get("type") in ACTIONABLE_TYPES:
+            require(bool(item.get("law_reference")), f"{item_id}: missing law_reference", errors)
 
 
 def validate_bidirectional_links(items: dict[str, dict], errors: list[str]) -> None:

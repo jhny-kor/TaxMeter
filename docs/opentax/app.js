@@ -1,6 +1,6 @@
 const ONTOLOGY_DATA = {
-  "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.02",
-  "basis_date": "2026-05-02",
+  "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04",
+  "basis_date": "2026-05-04",
   "manifests": {
     "national_tax_ids": [
       "tax.income",
@@ -61,14 +61,14 @@ const ONTOLOGY_DATA = {
     ]
   },
   "summary": {
-    "item_count": 242,
-    "source_count": 63,
+    "item_count": 250,
+    "source_count": 69,
     "term_count": 30,
     "category_count": 13,
-    "deadline_count": 16,
+    "deadline_count": 18,
     "support_count": 12,
     "business_count": 4,
-    "relation_count": 1000,
+    "relation_count": 1176,
     "national_tax_count": 12,
     "local_tax_count": 11,
     "corporate_support_count": 28,
@@ -76,11 +76,11 @@ const ONTOLOGY_DATA = {
       "category": 13,
       "concept": 7,
       "corporate-tax-support": 28,
-      "deadline": 16,
+      "deadline": 18,
       "deduction": 17,
       "domain": 1,
       "filing": 10,
-      "source": 63,
+      "source": 69,
       "support-program": 12,
       "tax": 29,
       "tax-credit": 12,
@@ -205,9 +205,13 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.corporate-tax.return"
+      ],
       "sources": [
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.nts.corporate-tax.filing-procedure",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
       "tags": [
@@ -269,7 +273,9 @@ const ONTOLOGY_DATA = {
       "deadlines": [],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.law.income-tax-act.deductions-credits",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
       "tags": []
@@ -338,10 +344,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.deduction-limit"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.nts.year-end-settlement.deduction-limit"
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
       "tags": []
@@ -558,11 +568,15 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
         "source.nts.year-end-settlement.special-credit",
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.law.income-tax-act.deductions-credits",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
       "tags": []
@@ -589,10 +603,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-reduction"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement",
+        "deadline.corporate-tax.return"
+      ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
-        "source.nts.corporate-tax.reliefs"
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
       "law_reference": "",
       "tags": []
@@ -712,28 +730,32 @@ const ONTOLOGY_DATA = {
           "condition": "주택",
           "deduction_krw": 900000000,
           "note": "1세대 1주택자는 12억원",
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1세대 1주택자 주택 공제금액",
           "basis": "공시가격 합계액",
           "condition": "1세대 1주택자",
           "deduction_krw": 1200000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "종합합산토지 공제금액",
           "basis": "공시가격 합계액",
           "condition": "종합합산토지",
           "deduction_krw": 500000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "별도합산토지 공제금액",
           "basis": "공시가격 합계액",
           "condition": "별도합산토지",
           "deduction_krw": 8000000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -799,7 +821,8 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.vat.overview",
         "source.nts.vat.filing-duty",
-        "source.nts.business-registration.application"
+        "source.nts.business-registration.application",
+        "source.law.value-added-tax-act.filing"
       ],
       "law_reference": "",
       "tags": [],
@@ -810,7 +833,8 @@ const ONTOLOGY_DATA = {
           "condition": "1억400만원 이상",
           "threshold_krw_min": 104000000,
           "benefit": "일반과세자",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "일반과세자 세율",
@@ -819,6 +843,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
           "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "매출세액 × 적용비율 10%"
         }
       ]
@@ -854,7 +879,8 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.vat.overview",
         "source.nts.vat.filing-duty",
-        "source.nts.business-registration.application"
+        "source.nts.business-registration.application",
+        "source.law.value-added-tax-act.filing"
       ],
       "law_reference": "",
       "tags": [],
@@ -865,7 +891,8 @@ const ONTOLOGY_DATA = {
           "condition": "1억400만원 미만",
           "threshold_krw_max": 104000000,
           "benefit": "간이과세자",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "간이과세자 업종별 부가가치율",
@@ -875,6 +902,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
           "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
         {
@@ -883,7 +911,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서 발급",
           "threshold_krw_min": 48000000,
           "threshold_krw_max": 104000000,
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "간이과세자 납부의무 면제",
@@ -891,7 +920,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,800만원 미만",
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -918,7 +948,8 @@ const ONTOLOGY_DATA = {
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.vat.filing-duty"
+        "source.nts.vat.filing-duty",
+        "source.law.value-added-tax-act.filing"
       ],
       "law_reference": "",
       "tags": [],
@@ -929,7 +960,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,800만원 미만",
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -951,11 +983,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제66조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -967,6 +1002,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 100,
           "rate_label": "면제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제66조",
           "amount_formula": "영농조합법인 등 농업소득 × 면제율 100%"
         },
         {
@@ -976,6 +1012,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제66조",
           "amount_formula": "농업 외 소득 × 감면율 50%"
         }
       ]
@@ -998,11 +1035,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1014,6 +1054,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문",
           "amount_formula": "협력중소기업 지원 목적 출연금 등 × 세액공제율 10%"
         }
       ]
@@ -1036,11 +1077,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제99조의9",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1054,6 +1098,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "감면기간 및 지역별 요건 별도 확인",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제99조의9",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1076,11 +1121,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.corporate-tax-act.credits"
+      ],
+      "law_reference": "법인세법 제58조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1093,6 +1141,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "상실비율 문턱",
           "benefit": "산출세액에 재해상실비율을 곱해 공제",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "법인세법 제58조",
           "amount_formula": "재해상실자산가액 / 상실 전 자산총액 × 상실비율 문턱 20%"
         }
       ]
@@ -1115,11 +1164,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제104조의8",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1129,7 +1181,8 @@ const ONTOLOGY_DATA = {
           "basis": "법인세 전자신고",
           "condition": "법인이 직접 전자신고",
           "deduction_krw": 10000,
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제104조의8"
         }
       ]
     },
@@ -1151,11 +1204,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제30조의3",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1167,6 +1223,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제30조의3",
           "amount_formula": "임금감소액 또는 보전액 × 공제율 50%"
         }
       ]
@@ -1189,11 +1246,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제121조의17",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1206,6 +1266,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제121조의17",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1228,11 +1289,15 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.corporate-tax-consulting.2026"
+      ],
+      "law_reference": "조세특례제한법 제24조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1246,6 +1311,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "기본공제율",
           "note": "기업규모·투자자산 유형별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제24조",
           "amount_formula": "사업용 유형자산 등 투자금액 × 기본공제율 1%~10%"
         },
         {
@@ -1256,6 +1322,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가공제율",
           "note": "추가공제 한도는 기본공제 금액의 2배",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제24조",
           "amount_formula": "직전 3년 평균 투자액 초과분 × 추가공제율 10%"
         }
       ]
@@ -1280,11 +1347,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.corporate-tax-act.credits"
+      ],
+      "law_reference": "법인세법 제57조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1295,7 +1365,8 @@ const ONTOLOGY_DATA = {
           "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "min(외국납부세액, 법인세 산출세액 × 국외원천소득 / 전체 과세표준)",
+          "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
       ]
     },
@@ -1319,11 +1390,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제96조의3",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1334,8 +1408,9 @@ const ONTOLOGY_DATA = {
           "condition": "소상공인 임차인 임대료 인하 등 요건 충족",
           "rate_percent": 70,
           "rate_label": "세액공제율",
-          "note": "요건과 과세연도별 적용기한 확인 필요",
+          "note": "적용기한은 과세연도별 조세특례제한법 개정에 따라 달라질 수 있음",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
       ]
@@ -1358,11 +1433,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제64조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1375,6 +1453,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "감면기간 요건 별도 확인",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제64조",
           "amount_formula": "법인세 × 감면율 50%"
         }
       ]
@@ -1397,11 +1476,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1414,6 +1496,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1436,11 +1519,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1451,6 +1537,7 @@ const ONTOLOGY_DATA = {
           "condition": "지방이전 촉진 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -1473,11 +1560,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제63조 및 제63조의2",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1491,6 +1581,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "지역과 기간별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제63조 및 제63조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1513,11 +1604,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제12조의3",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1529,6 +1623,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제12조의3",
           "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"
         }
       ]
@@ -1551,11 +1646,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제132조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1567,6 +1665,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 7,
           "rate_label": "최저한세율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제132조",
           "amount_formula": "각종 감면 전 과세표준 × 최저한세율 7%"
         }
       ]
@@ -1589,11 +1688,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제19조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1605,6 +1707,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "세액공제율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제19조",
           "amount_formula": "성과공유 중소기업 경영성과급 지급액 × 세액공제율 15%"
         }
       ]
@@ -1627,11 +1730,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1642,6 +1748,7 @@ const ONTOLOGY_DATA = {
           "condition": "구조조정 및 재무구조개선 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -1666,11 +1773,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제10조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1681,7 +1791,9 @@ const ONTOLOGY_DATA = {
           "condition": "기업규모·증가분 방식별 공제율 적용",
           "benefit": "일반 R&D 세액공제",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율",
+          "rate_basis": "기업규모와 당기분·증가분 방식별 차등",
+          "law_reference": "조세특례제한법 제10조"
         },
         {
           "label": "신성장·원천기술",
@@ -1689,7 +1801,9 @@ const ONTOLOGY_DATA = {
           "condition": "해당 기술 연구개발비",
           "benefit": "우대 공제율 적용",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율",
+          "rate_basis": "신성장·원천기술 유형별 차등",
+          "law_reference": "조세특례제한법 제10조"
         },
         {
           "label": "국가전략기술",
@@ -1697,7 +1811,9 @@ const ONTOLOGY_DATA = {
           "condition": "반도체 등 국가전략기술 연구개발비",
           "benefit": "최고 우대 공제율 적용",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율",
+          "rate_basis": "국가전략기술 유형별 차등",
+          "law_reference": "조세특례제한법 제10조"
         }
       ]
     },
@@ -1719,11 +1835,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제10조의2",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1734,7 +1853,8 @@ const ONTOLOGY_DATA = {
           "condition": "연구개발 자산 취득 또는 비용 지출",
           "benefit": "익금불산입 후 사용 시점에 익금산입",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "연구개발출연금 중 자산 취득·비용 지출 사용액을 익금불산입 후 사용 시점 익금산입",
+          "law_reference": "조세특례제한법 제10조의2"
         }
       ]
     },
@@ -1756,11 +1876,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제12조의2",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1774,6 +1897,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제12조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1798,11 +1922,15 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.corporate-tax-consulting.2026"
+      ],
+      "law_reference": "조세특례제한법 제7조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1814,6 +1942,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
         {
@@ -1823,6 +1952,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
         {
@@ -1832,6 +1962,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
         {
@@ -1842,6 +1973,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 10,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
       ]
@@ -1864,11 +1996,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제85조의6",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1882,6 +2017,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제85조의6",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
@@ -1904,11 +2040,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제30조의4",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1922,6 +2061,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "청년·경력단절자 등 우대 대상과 기업규모별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제30조의4",
           "amount_formula": "고용증가인원의 사용자 부담 사회보험료 × 세액공제율 50%~100%"
         }
       ]
@@ -1946,11 +2086,15 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs",
+        "source.nts.corporate-tax-consulting.2026"
+      ],
+      "law_reference": "조세특례제한법 제6조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -1963,6 +2107,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
         {
@@ -1973,6 +2118,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
         {
@@ -1983,6 +2129,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
       ]
@@ -2005,11 +2152,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제12조",
       "tags": [
         "corporate-tax-support"
       ],
@@ -2021,6 +2171,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제12조",
           "amount_formula": "기술이전 소득 × 감면율 50%"
         },
         {
@@ -2030,6 +2181,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 25,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제12조",
           "amount_formula": "기술대여 소득 × 감면율 25%"
         }
       ]
@@ -2052,11 +2204,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제29조의4",
       "tags": [
         "corporate-tax-support"
       ],
@@ -2070,6 +2225,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "기업규모와 정규직 전환 여부별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제29조의4",
           "amount_formula": "직전 3년 평균 초과 임금증가분 × 세액공제율 5%~20%"
         }
       ]
@@ -2092,11 +2248,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제7조의4",
       "tags": [
         "corporate-tax-support"
       ],
@@ -2110,6 +2269,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "세액공제율",
           "note": "결제기한 구간별 차등",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제7조의4",
           "amount_formula": "상생결제 지급금액 × 세액공제율 0.1%~0.3%"
         }
       ]
@@ -2133,11 +2293,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제59조의2",
       "tags": [
         "tax-credit"
       ],
@@ -2147,14 +2310,18 @@ const ONTOLOGY_DATA = {
           "basis": "8세 이상 기본공제대상 자녀·손자녀",
           "condition": "1명",
           "deduction_krw": 250000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "age_min": 8,
+          "law_reference": "소득세법 제59조의2"
         },
         {
           "label": "자녀 2명",
           "basis": "8세 이상 기본공제대상 자녀·손자녀",
           "condition": "2명",
           "deduction_krw": 550000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "age_min": 8,
+          "law_reference": "소득세법 제59조의2"
         },
         {
           "label": "자녀 3명 이상",
@@ -2162,28 +2329,33 @@ const ONTOLOGY_DATA = {
           "condition": "3명 이상",
           "deduction_krw": 550000,
           "note": "2명을 초과하는 1명당 40만원 추가",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "age_min": 8,
+          "law_reference": "소득세법 제59조의2"
         },
         {
           "label": "출산·입양 첫째",
           "basis": "출산·입양 신고 자녀",
           "condition": "첫째",
           "deduction_krw": 300000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조의2"
         },
         {
           "label": "출산·입양 둘째",
           "basis": "출산·입양 신고 자녀",
           "condition": "둘째",
           "deduction_krw": 500000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조의2"
         },
         {
           "label": "출산·입양 셋째 이상",
           "basis": "출산·입양 신고 자녀",
           "condition": "셋째 이상",
           "deduction_krw": 700000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조의2"
         }
       ]
     },
@@ -2204,11 +2376,15 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.special-credit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.special-credit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.donation-credit"
+      ],
+      "law_reference": "소득세법 제59조의4",
       "tags": [
         "tax-credit"
       ],
@@ -2221,7 +2397,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 90.91,
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
-          "source": "source.nts.donation-credit"
+          "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4"
         },
         {
           "label": "정치자금 10만원 초과",
@@ -2230,6 +2407,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2239,6 +2417,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 30000000,
           "rate_percent": 25,
           "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2249,7 +2428,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 90.91,
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
-          "source": "source.nts.donation-credit"
+          "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4"
         },
         {
           "label": "특례·우리사주·일반 1천만원 이하",
@@ -2258,6 +2438,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 10000000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2267,6 +2448,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 10000000,
           "rate_percent": 30,
           "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
       ]
@@ -2288,11 +2470,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제59조",
       "tags": [
         "tax-credit"
       ],
@@ -2304,6 +2489,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1300000,
           "rate_percent": 55,
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조",
           "rate_label": "세액공제율"
         },
         {
@@ -2315,6 +2501,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "note": "715,000원 + 130만원 초과금액의 30%",
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조",
           "rate_label": "세액공제율"
         },
         {
@@ -2323,7 +2510,8 @@ const ONTOLOGY_DATA = {
           "condition": "3,300만원 이하",
           "threshold_krw_max": 33000000,
           "limit_krw": 740000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조"
         },
         {
           "label": "총급여 3,300만원 초과 7,000만원 이하 한도",
@@ -2333,7 +2521,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 70000000,
           "limit_krw": 660000,
           "note": "74만원-[(총급여액-3,300만원)×0.8%], 최소 66만원",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조"
         },
         {
           "label": "총급여 7,000만원 초과 1.2억원 이하 한도",
@@ -2343,7 +2532,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 120000000,
           "limit_krw": 500000,
           "note": "66만원-[(총급여액-7,000만원)×1/2], 최소 50만원",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조"
         },
         {
           "label": "총급여 1.2억원 초과 한도",
@@ -2352,7 +2542,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 120000000,
           "limit_krw": 200000,
           "note": "50만원-[(총급여액-1.2억원)×1/2], 최소 20만원",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조"
         }
       ]
     },
@@ -2373,11 +2564,15 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.special-credit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.special-credit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.education-expense-credit"
+      ],
+      "law_reference": "소득세법 제59조의4",
       "tags": [
         "tax-credit"
       ],
@@ -2388,6 +2583,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
         },
@@ -2398,6 +2594,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 3000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2407,6 +2604,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 9000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2416,6 +2614,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
         }
@@ -2440,11 +2639,16 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.year-end-settlement",
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.corporate-tax-act.credits",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "법인세법 제57조 및 소득세법 제57조",
       "tags": [
         "tax-credit"
       ],
@@ -2455,7 +2659,8 @@ const ONTOLOGY_DATA = {
           "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "min(외국납부세액, 법인세 산출세액 × 국외원천소득 / 전체 과세표준)",
+          "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
       ]
     },
@@ -2476,11 +2681,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.special-credit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.special-credit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제59조의4",
       "tags": [
         "tax-credit"
       ],
@@ -2492,6 +2700,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 12,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2501,6 +2710,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
       ]
@@ -2522,11 +2732,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제29조의8",
       "tags": [
         "tax-credit"
       ],
@@ -2537,7 +2750,9 @@ const ONTOLOGY_DATA = {
           "condition": "전년 대비 고용 증가",
           "benefit": "1인당 정액 세액공제",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "상시근로자 증가 인원 × 기업규모·지역별 1인당 공제액",
+          "rate_basis": "고용증가 인원별 정액공제",
+          "law_reference": "조세특례제한법 제29조의8"
         },
         {
           "label": "우대 대상 고용",
@@ -2545,7 +2760,9 @@ const ONTOLOGY_DATA = {
           "condition": "정책대상 근로자 고용 증가",
           "benefit": "일반 상시근로자보다 우대 공제액 적용",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "청년·장애인·경력단절자 등 우대 고용 증가 인원 × 우대 1인당 공제액",
+          "rate_basis": "정책대상자별 정액공제",
+          "law_reference": "조세특례제한법 제29조의8"
         }
       ]
     },
@@ -2567,11 +2784,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.eligibility-threshold"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.special-credit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.special-credit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제59조의4",
       "tags": [
         "tax-credit"
       ],
@@ -2583,6 +2803,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "의료비 지출액 × 세액공제율 3%"
         },
@@ -2593,6 +2814,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 7000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2601,6 +2823,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "해당 의료비 × 세액공제율 15%"
         },
@@ -2610,6 +2833,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "난임시술비 × 세액공제율 30%"
         }
@@ -2636,11 +2860,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.eligibility-threshold"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.monthly-rent-credit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.monthly-rent-credit",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 월세액 세액공제 조문",
       "tags": [
         "tax-credit"
       ],
@@ -2650,14 +2877,16 @@ const ONTOLOGY_DATA = {
           "basis": "총급여",
           "condition": "8,000만원 이하",
           "threshold_krw_max": 80000000,
-          "source": "source.nts.monthly-rent-credit"
+          "source": "source.nts.monthly-rent-credit",
+          "law_reference": "조세특례제한법 월세액 세액공제 조문"
         },
         {
           "label": "공제대상자 종합소득",
           "basis": "종합소득금액",
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
-          "source": "source.nts.monthly-rent-credit"
+          "source": "source.nts.monthly-rent-credit",
+          "law_reference": "조세특례제한법 월세액 세액공제 조문"
         },
         {
           "label": "17% 공제율",
@@ -2667,6 +2896,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 17,
           "limit_krw": 10000000,
           "source": "source.nts.monthly-rent-credit",
+          "law_reference": "조세특례제한법 월세액 세액공제 조문",
           "rate_label": "세액공제율"
         },
         {
@@ -2678,6 +2908,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "limit_krw": 10000000,
           "source": "source.nts.monthly-rent-credit",
+          "law_reference": "조세특례제한법 월세액 세액공제 조문",
           "rate_label": "세액공제율"
         },
         {
@@ -2685,7 +2916,8 @@ const ONTOLOGY_DATA = {
           "basis": "주택 규모·기준시가",
           "condition": "국민주택규모 또는 기준시가 4억원 이하",
           "threshold_krw_max": 400000000,
-          "source": "source.nts.monthly-rent-credit"
+          "source": "source.nts.monthly-rent-credit",
+          "law_reference": "조세특례제한법 월세액 세액공제 조문"
         }
       ]
     },
@@ -2707,11 +2939,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.eligibility-threshold"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제59조의3",
       "tags": [
         "tax-credit"
       ],
@@ -2725,6 +2960,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조의3",
           "rate_label": "세액공제율"
         },
         {
@@ -2736,6 +2972,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 12,
           "note": "연금저축 600만원, 퇴직연금 포함 900만원 한도",
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제59조의3",
           "rate_label": "세액공제율"
         }
       ]
@@ -2759,11 +2996,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제10조",
       "tags": [
         "tax-credit"
       ],
@@ -2774,7 +3014,9 @@ const ONTOLOGY_DATA = {
           "condition": "기업규모·증가분 방식별 공제율 적용",
           "benefit": "일반 R&D 세액공제",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "일반 연구·인력개발비 × 기업규모·증가분 방식별 공제율",
+          "rate_basis": "기업규모와 당기분·증가분 방식별 차등",
+          "law_reference": "조세특례제한법 제10조"
         },
         {
           "label": "신성장·원천기술",
@@ -2782,7 +3024,9 @@ const ONTOLOGY_DATA = {
           "condition": "해당 기술 연구개발비",
           "benefit": "우대 공제율 적용",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "신성장·원천기술 연구개발비 × 우대 공제율",
+          "rate_basis": "신성장·원천기술 유형별 차등",
+          "law_reference": "조세특례제한법 제10조"
         },
         {
           "label": "국가전략기술",
@@ -2790,7 +3034,9 @@ const ONTOLOGY_DATA = {
           "condition": "반도체 등 국가전략기술 연구개발비",
           "benefit": "최고 우대 공제율 적용",
           "source": "source.nts.corporate-tax.reliefs",
-          "amount_applicability": "정액 금액 기준 없음"
+          "amount_formula": "국가전략기술 연구개발비 × 최고 우대 공제율",
+          "rate_basis": "국가전략기술 유형별 차등",
+          "law_reference": "조세특례제한법 제10조"
         }
       ]
     },
@@ -2816,13 +3062,16 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-credit"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.year-end-settlement.special-credit",
         "source.nts.education-expense-credit",
-        "source.nts.donation-credit"
+        "source.nts.donation-credit",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제59조의4",
       "tags": [],
       "criteria": [
         {
@@ -2832,6 +3081,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 12,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2841,6 +3091,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 1000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2850,6 +3101,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "의료비 지출액 × 세액공제율 3%"
         },
@@ -2860,6 +3112,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 7000000,
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2868,6 +3121,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "해당 의료비 × 세액공제율 15%"
         },
@@ -2877,6 +3131,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "난임시술비 × 세액공제율 30%"
         },
@@ -2886,6 +3141,7 @@ const ONTOLOGY_DATA = {
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
         },
@@ -2896,6 +3152,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 3000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2905,6 +3162,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 9000000,
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         },
         {
@@ -2914,6 +3172,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율",
           "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
         },
@@ -2925,7 +3184,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 90.91,
           "rate_label": "세액공제율",
           "note": "100/110 세액공제",
-          "source": "source.nts.donation-credit"
+          "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4"
         },
         {
           "label": "정치자금 10만원 초과",
@@ -2934,9 +3194,35 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000,
           "rate_percent": 15,
           "source": "source.nts.donation-credit",
+          "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
       ]
+    },
+    {
+      "id": "deadline.business-registration.application",
+      "title": "사업자등록 신청기한",
+      "type": "deadline",
+      "description": "신규사업자는 사업 개시 전 또는 사업 개시일부터 20일 이내에 사업자등록을 신청하는 흐름으로 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.business-registration.application",
+        "source.law.value-added-tax-act.filing"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
     },
     {
       "id": "deadline.capital-gains.final",
@@ -2978,6 +3264,31 @@ const ONTOLOGY_DATA = {
       "deadlines": [],
       "sources": [
         "source.nts.capital-gains.deadline"
+      ],
+      "law_reference": "",
+      "tags": [
+        "deadline"
+      ],
+      "start_date": null,
+      "end_date": null
+    },
+    {
+      "id": "deadline.corporate-tax.return",
+      "title": "법인세 과세표준 신고",
+      "type": "deadline",
+      "description": "법인은 각 사업연도 종료일이 속하는 달의 말일부터 3개월 이내에 법인세 과세표준과 세액을 신고·납부하는 흐름으로 관리합니다.",
+      "folder": "50_Deadlines",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.nts.corporate-tax.filing-procedure",
+        "source.law.corporate-tax-act.credits"
       ],
       "law_reference": "",
       "tags": [
@@ -3344,12 +3655,14 @@ const ONTOLOGY_DATA = {
         "term.deduction-limit",
         "term.eligibility-threshold"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.credit-card-deduction",
         "source.nts.year-end-settlement.deduction-limit"
       ],
-      "law_reference": "",
+      "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3361,6 +3674,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 25,
           "note": "공제 대상 사용금액 산정 기준",
           "source": "source.nts.credit-card-deduction",
+          "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "신용카드 등 사용금액 × 소득공제율 25%"
         },
@@ -3370,6 +3684,7 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 신용카드",
           "rate_percent": 15,
           "source": "source.nts.credit-card-deduction",
+          "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "신용카드 사용금액 × 소득공제율 15%"
         },
@@ -3379,6 +3694,7 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 현금영수증·직불카드",
           "rate_percent": 30,
           "source": "source.nts.credit-card-deduction",
+          "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "현금영수증·직불카드 등 × 소득공제율 30%"
         },
@@ -3388,6 +3704,7 @@ const ONTOLOGY_DATA = {
           "condition": "총급여 25% 초과분 중 전통시장·대중교통",
           "rate_percent": 40,
           "source": "source.nts.credit-card-deduction",
+          "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "전통시장·대중교통 사용금액 × 소득공제율 40%"
         }
@@ -3411,11 +3728,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3425,14 +3745,16 @@ const ONTOLOGY_DATA = {
           "basis": "우리사주조합 출연금",
           "condition": "조합원 출연금",
           "limit_krw": 4000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
         },
         {
           "label": "벤처기업 우리사주조합 출연금",
           "basis": "우리사주조합 출연금",
           "condition": "벤처기업 조합원 출연금",
           "limit_krw": 15000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
         }
       ]
     },
@@ -3454,11 +3776,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3470,6 +3795,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 50,
           "limit_krw": 10000000,
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -3492,11 +3818,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제52조",
       "tags": [
         "income-deduction"
       ],
@@ -3507,7 +3836,9 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
-          "amount_formula": "본인 부담 보험료 전액"
+          "law_reference": "소득세법 제52조",
+          "amount_formula": "본인 부담 건강보험·노인장기요양보험료 전액",
+          "unlimited_amount": true
         },
         {
           "label": "고용보험",
@@ -3515,7 +3846,9 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
-          "amount_formula": "본인 부담 보험료 전액"
+          "law_reference": "소득세법 제52조",
+          "amount_formula": "본인 부담 고용보험료 전액",
+          "unlimited_amount": true
         }
       ]
     },
@@ -3537,11 +3870,16 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.housing-rent-principal-deduction",
+        "source.nts.housing-mortgage-interest-deduction"
+      ],
+      "law_reference": "소득세법 제52조",
       "tags": [
         "income-deduction"
       ],
@@ -3554,6 +3892,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 4000000,
           "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
           "source": "source.nts.housing-rent-principal-deduction",
+          "law_reference": "소득세법 제52조",
           "rate_label": "소득공제율"
         },
         {
@@ -3561,28 +3900,36 @@ const ONTOLOGY_DATA = {
           "basis": "이자상환액",
           "condition": "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
           "limit_krw": 6000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 10,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상",
           "limit_krw": 8000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상 우대",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
           "limit_krw": 18000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상 최우대",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상, 고정금리이고 비거치식 분할상환",
           "limit_krw": 20000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         }
       ]
     },
@@ -3604,11 +3951,15 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.housing-savings-deduction"
+      ],
+      "law_reference": "조세특례제한법 주택마련저축 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3618,7 +3969,8 @@ const ONTOLOGY_DATA = {
           "basis": "총급여액",
           "condition": "7,000만원 이하",
           "threshold_krw_max": 70000000,
-          "source": "source.nts.housing-savings-deduction"
+          "source": "source.nts.housing-savings-deduction",
+          "law_reference": "조세특례제한법 주택마련저축 소득공제 조문"
         },
         {
           "label": "납입액 공제",
@@ -3628,6 +3980,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 1200000,
           "source": "source.nts.housing-savings-deduction",
+          "law_reference": "조세특례제한법 주택마련저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -3650,11 +4003,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3665,6 +4021,7 @@ const ONTOLOGY_DATA = {
           "condition": "중소기업창업투자조합 등",
           "rate_percent": 10,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율",
           "amount_formula": "출자 또는 투자금액 × 소득공제율 10%"
         },
@@ -3675,6 +4032,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 30000000,
           "rate_percent": 100,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         },
         {
@@ -3685,6 +4043,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 70,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         },
         {
@@ -3694,6 +4053,7 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 50000000,
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -3716,11 +4076,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3733,6 +4096,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 2400000,
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -3765,12 +4129,15 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.deduction-limit"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.year-end-settlement.deduction-limit",
-        "source.nts.housing-savings-deduction"
+        "source.nts.housing-savings-deduction",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
       "tags": [],
       "criteria": [
         {
@@ -3778,7 +4145,8 @@ const ONTOLOGY_DATA = {
           "basis": "종합한도 적용 소득공제 합계",
           "condition": "2,500만원 초과액은 과세표준에 합산",
           "limit_krw": 25000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문"
         },
         {
           "label": "주택자금·주택마련저축",
@@ -3786,6 +4154,7 @@ const ONTOLOGY_DATA = {
           "condition": "종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -3794,6 +4163,7 @@ const ONTOLOGY_DATA = {
           "condition": "일부 벤처투자 예외를 제외하고 종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
           "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -3816,11 +4186,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제51조의3",
       "tags": [
         "income-deduction"
       ],
@@ -3831,7 +4204,9 @@ const ONTOLOGY_DATA = {
           "condition": "근로자가 부담한 공적연금보험료",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
-          "amount_formula": "국민연금 등 공적연금보험료 전액"
+          "amount_formula": "국민연금 등 공적연금보험료 근로자 부담분 전액",
+          "unlimited_amount": true,
+          "law_reference": "소득세법 제51조의3"
         }
       ]
     },
@@ -3855,11 +4230,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.income-deduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제50조 및 제51조",
       "tags": [],
       "criteria": [
         {
@@ -3867,7 +4245,8 @@ const ONTOLOGY_DATA = {
           "basis": "본인·배우자·부양가족",
           "condition": "기본공제 대상자",
           "deduction_krw": 1500000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "부양가족 소득요건",
@@ -3875,28 +4254,33 @@ const ONTOLOGY_DATA = {
           "condition": "100만원 이하",
           "threshold_krw_max": 1000000,
           "note": "근로소득만 있는 경우 총급여 500만원 이하",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "근로소득만 있는 부양가족",
           "basis": "총급여",
           "condition": "500만원 이하",
           "threshold_krw_max": 5000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "경로우대",
           "basis": "기본공제대상자",
           "condition": "70세 이상",
           "deduction_krw": 1000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "age_min": 70,
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "장애인",
           "basis": "기본공제대상자",
           "condition": "장애인",
           "deduction_krw": 2000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "부녀자",
@@ -3904,7 +4288,8 @@ const ONTOLOGY_DATA = {
           "condition": "3,000만원 이하 등 요건 충족",
           "threshold_krw_max": 30000000,
           "deduction_krw": 500000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "한부모",
@@ -3912,7 +4297,8 @@ const ONTOLOGY_DATA = {
           "condition": "기본공제대상 직계비속 또는 입양자 있음",
           "deduction_krw": 1000000,
           "note": "부녀자공제와 중복 시 한부모공제 적용",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
     },
@@ -3934,11 +4320,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 개인연금저축 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -3951,6 +4340,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 720000,
           "note": "연 180만원 납입 기준 최대 72만원 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "조세특례제한법 개인연금저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -3973,11 +4363,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제51조",
       "tags": [
         "income-deduction"
       ],
@@ -3987,14 +4380,17 @@ const ONTOLOGY_DATA = {
           "basis": "기본공제대상자",
           "condition": "70세 이상",
           "deduction_krw": 1000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "age_min": 70,
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "장애인",
           "basis": "기본공제대상자",
           "condition": "장애인",
           "deduction_krw": 2000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "부녀자",
@@ -4002,7 +4398,8 @@ const ONTOLOGY_DATA = {
           "condition": "3,000만원 이하 등 요건 충족",
           "threshold_krw_max": 30000000,
           "deduction_krw": 500000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "한부모",
@@ -4010,7 +4407,8 @@ const ONTOLOGY_DATA = {
           "condition": "기본공제대상 직계비속 또는 입양자 있음",
           "deduction_krw": 1000000,
           "note": "부녀자공제와 중복 시 한부모공제 적용",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
     },
@@ -4032,11 +4430,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "소득세법 제50조",
       "tags": [
         "income-deduction"
       ],
@@ -4046,7 +4447,8 @@ const ONTOLOGY_DATA = {
           "basis": "본인·배우자·부양가족",
           "condition": "기본공제 대상자",
           "deduction_krw": 1500000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "부양가족 소득요건",
@@ -4054,14 +4456,16 @@ const ONTOLOGY_DATA = {
           "condition": "100만원 이하",
           "threshold_krw_max": 1000000,
           "note": "근로소득만 있는 경우 총급여 500만원 이하",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         },
         {
           "label": "근로소득만 있는 부양가족",
           "basis": "총급여",
           "condition": "500만원 이하",
           "threshold_krw_max": 5000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제50조 및 제51조"
         }
       ]
     },
@@ -4083,11 +4487,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.deduction-limit"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.deduction-limit",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -4098,7 +4505,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,000만원 이하",
           "threshold_krw_max": 40000000,
           "limit_krw": 5000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         },
         {
           "label": "근로소득금액 4천만원 초과 1억원 이하",
@@ -4107,7 +4515,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 40000000,
           "threshold_krw_max": 100000000,
           "limit_krw": 3000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         },
         {
           "label": "근로소득금액 1억원 초과",
@@ -4115,7 +4524,8 @@ const ONTOLOGY_DATA = {
           "condition": "1억원 초과",
           "threshold_krw_min": 100000000,
           "limit_krw": 2000000,
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         }
       ]
     },
@@ -4140,14 +4550,17 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.deduction-limit"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.year-end-settlement"
+      ],
       "sources": [
         "source.nts.year-end-settlement.calculation",
         "source.nts.year-end-settlement.deduction-limit",
         "source.nts.housing-rent-principal-deduction",
-        "source.nts.housing-mortgage-interest-deduction"
+        "source.nts.housing-mortgage-interest-deduction",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제52조",
       "tags": [],
       "criteria": [
         {
@@ -4156,7 +4569,9 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
-          "amount_formula": "본인 부담 보험료 전액"
+          "law_reference": "소득세법 제52조",
+          "amount_formula": "본인 부담 건강보험·노인장기요양보험료 전액",
+          "unlimited_amount": true
         },
         {
           "label": "고용보험",
@@ -4164,7 +4579,9 @@ const ONTOLOGY_DATA = {
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
           "source": "source.nts.year-end-settlement.calculation",
-          "amount_formula": "본인 부담 보험료 전액"
+          "law_reference": "소득세법 제52조",
+          "amount_formula": "본인 부담 고용보험료 전액",
+          "unlimited_amount": true
         },
         {
           "label": "주택임차차입금 원리금",
@@ -4174,6 +4591,7 @@ const ONTOLOGY_DATA = {
           "limit_krw": 4000000,
           "note": "주택마련저축 공제금액과 합산 연 400만원 한도",
           "source": "source.nts.housing-rent-principal-deduction",
+          "law_reference": "소득세법 제52조",
           "rate_label": "소득공제율"
         },
         {
@@ -4181,28 +4599,36 @@ const ONTOLOGY_DATA = {
           "basis": "이자상환액",
           "condition": "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
           "limit_krw": 6000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 10,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상",
           "limit_krw": 8000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상 우대",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
           "limit_krw": 18000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         },
         {
           "label": "장기주택저당차입금 15년 이상 최우대",
           "basis": "이자상환액",
           "condition": "상환기간 15년 이상, 고정금리이고 비거치식 분할상환",
           "limit_krw": 20000000,
-          "source": "source.nts.housing-mortgage-interest-deduction"
+          "source": "source.nts.housing-mortgage-interest-deduction",
+          "period_years_min": 15,
+          "law_reference": "소득세법 제52조"
         }
       ]
     },
@@ -4224,11 +4650,14 @@ const ONTOLOGY_DATA = {
         "term.income-deduction",
         "term.tax-base"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.year-end-settlement.calculation"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
+      ],
+      "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
       "tags": [
         "income-deduction"
       ],
@@ -4238,7 +4667,8 @@ const ONTOLOGY_DATA = {
           "basis": "총급여 또는 종합소득금액",
           "condition": "총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하",
           "threshold_krw_max": 50000000,
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문"
         },
         {
           "label": "청년형 장기집합투자증권저축 납입액",
@@ -4248,6 +4678,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 40,
           "limit_krw": 2400000,
           "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
       ]
@@ -4282,9 +4713,10 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.business-income.withholding",
-        "source.nts.withholding.overview"
+        "source.nts.withholding.overview",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제127조 및 제129조",
       "tags": [
         "business-compliance"
       ],
@@ -4296,6 +4728,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 3,
           "note": "지방소득세는 별도 확인",
           "source": "source.nts.business-income.withholding",
+          "law_reference": "소득세법 제127조 및 제129조",
           "amount_formula": "원천징수 대상 사업소득 지급금액 × 적용비율 3%"
         }
       ]
@@ -4323,11 +4756,14 @@ const ONTOLOGY_DATA = {
         "term.general-vat-taxpayer",
         "term.simple-vat-taxpayer"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.business-registration.application"
+      "deadlines": [
+        "deadline.business-registration.application"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.business-registration.application",
+        "source.law.value-added-tax-act.filing"
+      ],
+      "law_reference": "부가가치세법 제8조",
       "tags": [
         "business-compliance"
       ],
@@ -4337,7 +4773,9 @@ const ONTOLOGY_DATA = {
           "basis": "사업 개시일",
           "condition": "사업 개시 전 또는 사업 개시일부터 20일 이내",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.business-registration.application"
+          "source": "source.nts.business-registration.application",
+          "deadline_days_after_event": 20,
+          "law_reference": "부가가치세법 제8조"
         }
       ]
     },
@@ -4371,9 +4809,10 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.capital-gains.overview",
-        "source.nts.capital-gains.deadline"
+        "source.nts.capital-gains.deadline",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제105조 및 제110조",
       "tags": [],
       "criteria": [
         {
@@ -4381,14 +4820,21 @@ const ONTOLOGY_DATA = {
           "basis": "양도일이 속하는 달의 말일",
           "condition": "자산 유형별 예정신고 기한 적용",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.capital-gains.deadline"
+          "source": "source.nts.capital-gains.deadline",
+          "deadline_months_after_month_end": 2,
+          "law_reference": "소득세법 제105조 및 제110조"
         },
         {
           "label": "양도소득세 확정신고",
           "basis": "과세기간 다음연도 5월",
           "condition": "예정신고 대상 외 확정신고 필요 여부 확인",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.capital-gains.deadline"
+          "source": "source.nts.capital-gains.deadline",
+          "deadline_start_month": 5,
+          "deadline_start_day": 1,
+          "deadline_end_month": 5,
+          "deadline_end_day": 31,
+          "law_reference": "소득세법 제105조 및 제110조"
         }
       ]
     },
@@ -4416,9 +4862,10 @@ const ONTOLOGY_DATA = {
         "deadline.gift.general"
       ],
       "sources": [
-        "source.nts.gift.deadline"
+        "source.nts.gift.deadline",
+        "source.law.inheritance-gift-tax-act.rates"
       ],
-      "law_reference": "",
+      "law_reference": "상속세 및 증여세법 제68조",
       "tags": [],
       "criteria": [
         {
@@ -4426,7 +4873,9 @@ const ONTOLOGY_DATA = {
           "basis": "증여받은 날이 속하는 달의 말일",
           "condition": "일반 증여 3개월",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.gift.deadline"
+          "source": "source.nts.gift.deadline",
+          "deadline_months_after_month_end": 3,
+          "law_reference": "상속세 및 증여세법 제68조"
         }
       ]
     },
@@ -4457,9 +4906,10 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.grant.eligibility",
-        "source.nts.grant.deadline"
+        "source.nts.grant.deadline",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
-      "law_reference": "",
+      "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문",
       "tags": [],
       "criteria": [
         {
@@ -4467,7 +4917,9 @@ const ONTOLOGY_DATA = {
           "basis": "2025년 귀속 소득",
           "condition": "2026년 5월 정기신청",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.grant.deadline"
+          "source": "source.nts.grant.deadline",
+          "deadline_month": 5,
+          "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문"
         }
       ]
     },
@@ -4495,9 +4947,10 @@ const ONTOLOGY_DATA = {
         "deadline.income-tax.2025-return"
       ],
       "sources": [
-        "source.nts.income-tax.deadline"
+        "source.nts.income-tax.deadline",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제70조",
       "tags": [],
       "criteria": [
         {
@@ -4505,7 +4958,12 @@ const ONTOLOGY_DATA = {
           "basis": "신고·납부기한",
           "condition": "다음연도 5월 1일부터 5월 31일까지",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.income-tax.deadline"
+          "source": "source.nts.income-tax.deadline",
+          "deadline_start_month": 5,
+          "deadline_start_day": 1,
+          "deadline_end_month": 5,
+          "deadline_end_day": 31,
+          "law_reference": "소득세법 제70조"
         }
       ]
     },
@@ -4534,9 +4992,10 @@ const ONTOLOGY_DATA = {
         "deadline.inheritance.nonresident"
       ],
       "sources": [
-        "source.nts.inheritance.overview"
+        "source.nts.inheritance.overview",
+        "source.law.inheritance-gift-tax-act.rates"
       ],
-      "law_reference": "",
+      "law_reference": "상속세 및 증여세법 제67조",
       "tags": [],
       "criteria": [
         {
@@ -4544,7 +5003,10 @@ const ONTOLOGY_DATA = {
           "basis": "상속개시일이 속하는 달의 말일",
           "condition": "거주자 6개월, 비거주자 9개월",
           "amount_applicability": "정액 금액 기준 없음",
-          "source": "source.nts.inheritance.overview"
+          "source": "source.nts.inheritance.overview",
+          "deadline_months_after_month_end_min": 6,
+          "deadline_months_after_month_end_max": 9,
+          "law_reference": "상속세 및 증여세법 제67조"
         }
       ]
     },
@@ -4585,9 +5047,10 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.vat.overview",
         "source.nts.vat.filing-duty",
-        "source.nts.tax-calendar.2026"
+        "source.nts.tax-calendar.2026",
+        "source.law.value-added-tax-act.filing"
       ],
-      "law_reference": "",
+      "law_reference": "부가가치세법 제48조·제49조 및 제67조",
       "tags": [],
       "criteria": [
         {
@@ -4595,14 +5058,24 @@ const ONTOLOGY_DATA = {
           "basis": "부가가치세 과세기간",
           "condition": "제1기·제2기 확정신고 납부",
           "amount_formula": "매출세액 - 매입세액 - 공제세액",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "deadline_start_month": 7,
+          "deadline_start_day": 1,
+          "deadline_end_day": 25,
+          "deadline_rule": "제1기 7월 1~25일, 제2기 다음 해 1월 1~25일",
+          "law_reference": "부가가치세법 제48조·제49조 및 제67조"
         },
         {
           "label": "간이과세자 연간 신고",
           "basis": "직전연도 공급대가",
           "condition": "간이과세자 과세기간 신고",
           "amount_formula": "매출액 × 업종별 부가가치율 × 10% - 공제세액",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "deadline_start_month": 1,
+          "deadline_start_day": 1,
+          "deadline_end_month": 1,
+          "deadline_end_day": 25,
+          "law_reference": "부가가치세법 제48조·제49조 및 제67조"
         }
       ]
     },
@@ -4637,9 +5110,10 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.nts.tax-calendar.2026",
         "source.nts.withholding.overview",
-        "source.nts.business-income.withholding"
+        "source.nts.business-income.withholding",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제128조",
       "tags": [],
       "criteria": [
         {
@@ -4647,7 +5121,10 @@ const ONTOLOGY_DATA = {
           "basis": "원천징수일",
           "condition": "징수일이 속하는 달의 다음달 10일까지",
           "amount_formula": "원천징수 대상 지급액 × 소득별 원천징수세율",
-          "source": "source.nts.withholding.overview"
+          "source": "source.nts.withholding.overview",
+          "deadline_day": 10,
+          "deadline_relative": "징수일이 속하는 달의 다음 달",
+          "law_reference": "소득세법 제128조"
         }
       ]
     },
@@ -4676,9 +5153,10 @@ const ONTOLOGY_DATA = {
         "deadline.year-end-settlement"
       ],
       "sources": [
-        "source.nts.year-end-settlement.calculation"
+        "source.nts.year-end-settlement.calculation",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문",
       "tags": [],
       "criteria": [
         {
@@ -4686,7 +5164,8 @@ const ONTOLOGY_DATA = {
           "basis": "근로소득세 확정 절차",
           "condition": "원천징수의무자가 해당 과세기간 근로소득세를 정산",
           "amount_formula": "결정세액 - 기납부세액",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문"
         }
       ]
     },
@@ -4757,7 +5236,8 @@ const ONTOLOGY_DATA = {
           "basis": "취득가액 또는 시가표준액",
           "condition": "부동산·차량 등 과세물건 취득",
           "amount_formula": "과세표준 × 과세대상별 취득세율",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4793,7 +5273,8 @@ const ONTOLOGY_DATA = {
           "basis": "차종·용도·배기량 또는 적재량",
           "condition": "자동차 보유",
           "amount_formula": "차종별 과세단위 × 지방세법상 단위세액",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4830,7 +5311,8 @@ const ONTOLOGY_DATA = {
           "condition": "경륜·경정·경마 등",
           "rate_percent": 10,
           "amount_formula": "발매금 총액 × 10%",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4868,7 +5350,8 @@ const ONTOLOGY_DATA = {
           "basis": "부가가치세액",
           "condition": "부가가치세와 연동",
           "amount_formula": "부가가치세액 × 지방세법상 지방소비세율",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4906,7 +5389,8 @@ const ONTOLOGY_DATA = {
           "basis": "취득세액·등록면허세액·레저세액 등",
           "condition": "지방교육재정 확충 목적",
           "amount_formula": "본세액 × 지방교육세율",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4945,7 +5429,8 @@ const ONTOLOGY_DATA = {
           "basis": "개인·법인 소득 과세표준",
           "condition": "소득세·법인세와 연결",
           "amount_formula": "지방소득세 과세표준 × 지방세법상 세율",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -4975,7 +5460,8 @@ const ONTOLOGY_DATA = {
       "deadlines": [],
       "sources": [
         "source.local-tax-framework-act.2026.article8",
-        "source.nts.real-estate-tax.faq"
+        "source.nts.real-estate-tax.faq",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
@@ -4989,7 +5475,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 60000000,
           "rate_percent": 0.1,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "주택 1억5천만원 이하",
@@ -4998,7 +5485,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 150000000,
           "rate_percent": 0.15,
           "progressive_deduction_krw": 30000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "주택 3억원 이하",
@@ -5007,7 +5495,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 300000000,
           "rate_percent": 0.25,
           "progressive_deduction_krw": 180000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "주택 3억원 초과",
@@ -5016,7 +5505,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 300000000,
           "rate_percent": 0.4,
           "progressive_deduction_krw": 630000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "종합합산 5천만원 이하",
@@ -5025,7 +5515,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 0.2,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "종합합산 1억원 이하",
@@ -5034,7 +5525,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "rate_percent": 0.3,
           "progressive_deduction_krw": 50000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "종합합산 1억원 초과",
@@ -5043,7 +5535,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000000,
           "rate_percent": 0.5,
           "progressive_deduction_krw": 250000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "별도합산 2억원 이하",
@@ -5052,7 +5545,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 200000000,
           "rate_percent": 0.2,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "별도합산 10억원 이하",
@@ -5061,7 +5555,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 0.3,
           "progressive_deduction_krw": 200000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         },
         {
           "label": "별도합산 10억원 초과",
@@ -5070,7 +5565,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 1000000000,
           "rate_percent": 0.4,
           "progressive_deduction_krw": 1200000,
-          "source": "source.nts.real-estate-tax.faq"
+          "source": "source.nts.real-estate-tax.faq",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -5106,7 +5602,8 @@ const ONTOLOGY_DATA = {
           "basis": "특정자원·특정부동산·소방분 과세표준",
           "condition": "지역자원 보호 또는 소방시설 재원 목적",
           "amount_formula": "과세대상별 과세표준 × 지방세법상 세율 또는 정액세",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -5142,7 +5639,8 @@ const ONTOLOGY_DATA = {
           "basis": "등록가액 또는 면허 종류",
           "condition": "등기·등록 또는 면허",
           "amount_formula": "등록가액 × 등록세율 또는 면허종별 정액세",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -5178,7 +5676,8 @@ const ONTOLOGY_DATA = {
           "basis": "개인분·사업소분·종업원분 과세표준",
           "condition": "지방자치단체 조례와 지방세법 기준 적용",
           "amount_formula": "개인분 정액세 또는 사업소 연면적·종업원 급여총액 기준 산식",
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -5214,7 +5713,8 @@ const ONTOLOGY_DATA = {
           "basis": "궐련 20개비",
           "condition": "궐련 담배 반출 또는 반입",
           "amount_krw": 1007,
-          "source": "source.law.local-tax-act.rates"
+          "source": "source.law.local-tax-act.rates",
+          "law_reference": "지방세기본법 제8조"
         }
       ]
     },
@@ -5238,11 +5738,14 @@ const ONTOLOGY_DATA = {
         "term.tax-credit",
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.corporate-tax.reliefs"
+      "deadlines": [
+        "deadline.corporate-tax.return"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.corporate-tax.reliefs",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제96조의3",
       "tags": [],
       "criteria": [
         {
@@ -5251,8 +5754,9 @@ const ONTOLOGY_DATA = {
           "condition": "소상공인 임차인 임대료 인하 등 요건 충족",
           "rate_percent": 70,
           "rate_label": "세액공제율",
-          "note": "요건과 과세연도별 적용기한 확인 필요",
+          "note": "적용기한은 과세연도별 조세특례제한법 개정에 따라 달라질 수 있음",
           "source": "source.nts.corporate-tax.reliefs",
+          "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
       ]
@@ -5274,11 +5778,14 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-reduction"
       ],
-      "deadlines": [],
-      "sources": [
-        "source.nts.sme-employment-income-reduction"
+      "deadlines": [
+        "deadline.year-end-settlement"
       ],
-      "law_reference": "",
+      "sources": [
+        "source.nts.sme-employment-income-reduction",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
+      ],
+      "law_reference": "조세특례제한법 제30조",
       "tags": [],
       "criteria": [
         {
@@ -5289,7 +5796,9 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "limit_krw": 2000000,
           "note": "감면기간 5년",
-          "source": "source.nts.sme-employment-income-reduction"
+          "source": "source.nts.sme-employment-income-reduction",
+          "age_max": 34,
+          "law_reference": "조세특례제한법 제30조"
         },
         {
           "label": "고령자",
@@ -5299,7 +5808,9 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "limit_krw": 2000000,
           "note": "감면기간 3년",
-          "source": "source.nts.sme-employment-income-reduction"
+          "source": "source.nts.sme-employment-income-reduction",
+          "age_min": 60,
+          "law_reference": "조세특례제한법 제30조"
         },
         {
           "label": "장애인·경력단절근로자",
@@ -5309,7 +5820,8 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "limit_krw": 2000000,
           "note": "감면기간 3년",
-          "source": "source.nts.sme-employment-income-reduction"
+          "source": "source.nts.sme-employment-income-reduction",
+          "law_reference": "조세특례제한법 제30조"
         }
       ]
     },
@@ -5332,12 +5844,15 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-reduction"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.corporate-tax.return"
+      ],
       "sources": [
         "source.nts.corporate-tax.reliefs",
-        "source.nts.corporate-tax-consulting.2026"
+        "source.nts.corporate-tax-consulting.2026",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
-      "law_reference": "",
+      "law_reference": "조세특례제한법 제7조",
       "tags": [],
       "criteria": [
         {
@@ -5347,6 +5862,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
         {
@@ -5356,6 +5872,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 30,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
         {
@@ -5365,6 +5882,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 15,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
         {
@@ -5375,6 +5893,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 10,
           "rate_label": "감면율",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
       ]
@@ -5398,12 +5917,15 @@ const ONTOLOGY_DATA = {
       "terms": [
         "term.tax-reduction"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.corporate-tax.return"
+      ],
       "sources": [
         "source.nts.corporate-tax.reliefs",
-        "source.nts.corporate-tax-consulting.2026"
+        "source.nts.corporate-tax-consulting.2026",
+        "source.law.tax-special-treatment-restriction-act.reliefs"
       ],
-      "law_reference": "",
+      "law_reference": "조세특례제한법 제6조",
       "tags": [],
       "criteria": [
         {
@@ -5414,6 +5936,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
         {
@@ -5424,6 +5947,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
         {
@@ -5434,6 +5958,7 @@ const ONTOLOGY_DATA = {
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
           "source": "source.nts.corporate-tax-consulting.2026",
+          "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
       ]
@@ -5727,6 +6252,30 @@ const ONTOLOGY_DATA = {
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.law.corporate-tax-act.credits",
+      "title": "법인세법 세액공제 조문",
+      "type": "source",
+      "description": "법인세 세율, 외국납부세액공제, 재해손실세액공제와 신고기한 등 법인세법상 조문 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/법인세법",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
       "id": "source.law.customs-tariff",
       "title": "관세법 관세율표",
       "type": "source",
@@ -5775,6 +6324,30 @@ const ONTOLOGY_DATA = {
       "basis_date": "2026-05-03 확인"
     },
     {
+      "id": "source.law.income-tax-act.deductions-credits",
+      "title": "소득세법 공제·세액공제 조문",
+      "type": "source",
+      "description": "인적공제, 연금보험료공제, 특별소득공제, 근로소득세액공제, 자녀세액공제, 연금계좌세액공제, 특별세액공제 등 소득세 공제 조문 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/소득세법",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
       "id": "source.law.individual-consumption-tax-act.rates",
       "title": "개별소비세법 세율 조문",
       "type": "source",
@@ -5797,6 +6370,30 @@ const ONTOLOGY_DATA = {
       "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/개별소비세법",
       "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.inheritance-gift-tax-act.rates",
+      "title": "상속세 및 증여세법 세율·신고 조문",
+      "type": "source",
+      "description": "상속세·증여세 세율과 신고기한 조문 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/상속세및증여세법",
+      "basis_date": "2026-05-04 확인"
     },
     {
       "id": "source.law.liquor-tax-act.rates",
@@ -5919,6 +6516,30 @@ const ONTOLOGY_DATA = {
       "basis_date": "2026-05-03 확인"
     },
     {
+      "id": "source.law.tax-special-treatment-restriction-act.reliefs",
+      "title": "조세특례제한법 공제·감면 조문",
+      "type": "source",
+      "description": "창업중소기업, 중소기업특별세액감면, 연구·인력개발, 고용, 투자, 지역 이전, 정책성 세액공제·감면 조문의 법률상 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/조세특례제한법",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
       "id": "source.law.transport-energy-environment-tax-act.rates",
       "title": "교통·에너지·환경세법 세율 조문",
       "type": "source",
@@ -5941,6 +6562,30 @@ const ONTOLOGY_DATA = {
       "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
       "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.value-added-tax-act.filing",
+      "title": "부가가치세법 과세유형·신고 조문",
+      "type": "source",
+      "description": "사업자등록, 일반·간이과세자 기준, 부가가치세 예정·확정신고와 납부기한 조문 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/부가가치세법",
+      "basis_date": "2026-05-04 확인"
     },
     {
       "id": "source.local-tax-framework-act.2026.article8",
@@ -6229,6 +6874,30 @@ const ONTOLOGY_DATA = {
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239070&mi=41093",
       "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.nts.corporate-tax.filing-procedure",
+      "title": "법인세 신고절차",
+      "type": "source",
+      "description": "법인세 신고기한, 제출서류, 전자신고와 세무조정 절차의 공식 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7975&mi=6549",
+      "basis_date": "2026-05-04 확인"
     },
     {
       "id": "source.nts.corporate-tax.rates",
@@ -6987,7 +7656,9 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 기준 중위소득 32% 이하",
           "threshold_krw_max": 820556,
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "household_size": 1,
+          "median_income_percent_max": 32.0
         },
         {
           "label": "2인 가구 선정·급여기준",
@@ -6995,7 +7666,9 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 기준 중위소득 32% 이하",
           "threshold_krw_max": 1343773,
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "household_size": 2,
+          "median_income_percent_max": 32.0
         },
         {
           "label": "3인 가구 선정·급여기준",
@@ -7003,7 +7676,9 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 기준 중위소득 32% 이하",
           "threshold_krw_max": 1714892,
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "household_size": 3,
+          "median_income_percent_max": 32.0
         },
         {
           "label": "4인 가구 선정·급여기준",
@@ -7011,7 +7686,9 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 기준 중위소득 32% 이하",
           "threshold_krw_max": 2078316,
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "household_size": 4,
+          "median_income_percent_max": 32.0
         },
         {
           "label": "5인 가구 선정·급여기준",
@@ -7019,7 +7696,9 @@ const ONTOLOGY_DATA = {
           "condition": "2026년 기준 중위소득 32% 이하",
           "threshold_krw_max": 2418150,
           "benefit": "생계급여 기준액에서 소득인정액 차감 지급",
-          "source": "source.govkr.basic-livelihood-benefit"
+          "source": "source.govkr.basic-livelihood-benefit",
+          "household_size": 5,
+          "median_income_percent_max": 32.0
         },
         {
           "label": "부양의무자 고소득 제외",
@@ -7338,6 +8017,7 @@ const ONTOLOGY_DATA = {
           "basis": "은행권 채무조정 프로그램",
           "condition": "3개월 이상 이용 중",
           "source": "source.kinfa.hessal-119",
+          "period_months_min": 3,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7421,7 +8101,9 @@ const ONTOLOGY_DATA = {
           "basis": "만 나이와 연소득",
           "condition": "19세 이상 34세 이하이면서 연소득 3,500만원 이하",
           "threshold_krw_max": 35000000,
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "age_min": 19,
+          "age_max": 34
         },
         {
           "label": "취업준비생",
@@ -7555,6 +8237,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 4.5,
           "rate_label": "금리",
           "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "period_months_min": 6,
           "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
@@ -7667,6 +8350,7 @@ const ONTOLOGY_DATA = {
           "basis": "채무조정 신청일 기준 연체채무",
           "condition": "5년 이상",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "period_years_min": 5,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7674,28 +8358,32 @@ const ONTOLOGY_DATA = {
           "basis": "2026년 기준중위소득 125%",
           "condition": "3,205,298원 이하",
           "threshold_krw_max": 3205298,
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "household_size": 1
         },
         {
           "label": "2인 가구 소득",
           "basis": "2026년 기준중위소득 125%",
           "condition": "5,249,115원 이하",
           "threshold_krw_max": 5249115,
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "household_size": 2
         },
         {
           "label": "3인 가구 소득",
           "basis": "2026년 기준중위소득 125%",
           "condition": "6,698,795원 이하",
           "threshold_krw_max": 6698795,
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "household_size": 3
         },
         {
           "label": "4인 가구 소득",
           "basis": "2026년 기준중위소득 125%",
           "condition": "8,118,423원 이하",
           "threshold_krw_max": 8118423,
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "household_size": 4
         },
         {
           "label": "채무감면",
@@ -7712,6 +8400,7 @@ const ONTOLOGY_DATA = {
           "basis": "상환기간",
           "condition": "최장 10년 이내 원금균등분할상환",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "period_years_max": 10,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7721,6 +8410,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 2,
           "rate_label": "유예이자율",
           "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "period_years_max": 3,
           "amount_formula": "유예기간·유예이자율 × 유예이자율 2%"
         }
       ]
@@ -7773,6 +8463,8 @@ const ONTOLOGY_DATA = {
           "condition": "19세 이상 34세 이하",
           "note": "청년기본법상 청년 기준",
           "source": "source.fsc.youth-future-savings",
+          "age_min": 19,
+          "age_max": 34,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7795,6 +8487,7 @@ const ONTOLOGY_DATA = {
           "condition": "200% 이하",
           "benefit": "일반형 가입 가능",
           "source": "source.fsc.youth-future-savings",
+          "median_income_percent_max": 200.0,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7817,6 +8510,7 @@ const ONTOLOGY_DATA = {
           "condition": "150% 이하",
           "benefit": "우대형 가입 가능",
           "source": "source.fsc.youth-future-savings",
+          "median_income_percent_max": 150.0,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7852,6 +8546,7 @@ const ONTOLOGY_DATA = {
           "condition": "3년",
           "benefit": "이자소득 비과세 특례 예정",
           "source": "source.fsc.youth-future-savings",
+          "period_years": 3,
           "amount_applicability": "정액 금액 기준 없음"
         }
       ]
@@ -7893,6 +8588,8 @@ const ONTOLOGY_DATA = {
           "condition": "19세 이상 34세 이하",
           "note": "병역이행기간은 최대 6년까지 차감",
           "source": "source.kinfa.youth-leap",
+          "age_min": 19,
+          "age_max": 34,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7915,6 +8612,7 @@ const ONTOLOGY_DATA = {
           "condition": "250% 이하",
           "benefit": "가입 대상",
           "source": "source.kinfa.youth-leap",
+          "median_income_percent_max": 250.0,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -7966,6 +8664,7 @@ const ONTOLOGY_DATA = {
           "basis": "신청일 기준 만 나이",
           "condition": "만 34세 이하",
           "source": "source.hf.special-rent-guarantee",
+          "age_max": 34,
           "amount_applicability": "정액 금액 기준 없음"
         },
         {
@@ -8037,28 +8736,32 @@ const ONTOLOGY_DATA = {
           "condition": "주택",
           "deduction_krw": 900000000,
           "note": "1세대 1주택자는 12억원",
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1세대 1주택자 주택 공제금액",
           "basis": "공시가격 합계액",
           "condition": "1세대 1주택자",
           "deduction_krw": 1200000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "종합합산토지 공제금액",
           "basis": "공시가격 합계액",
           "condition": "종합합산토지",
           "deduction_krw": 500000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "별도합산토지 공제금액",
           "basis": "공시가격 합계액",
           "condition": "별도합산토지",
           "deduction_krw": 8000000000,
-          "source": "source.nts.comprehensive-real-estate.overview"
+          "source": "source.nts.comprehensive-real-estate.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 3억원 이하",
@@ -8066,7 +8769,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 3억원 이하",
           "threshold_krw_max": 300000000,
           "rate_percent": 0.5,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 6억원 이하",
@@ -8074,7 +8778,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 6억원 이하",
           "threshold_krw_max": 600000000,
           "rate_percent": 0.7,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 12억원 이하",
@@ -8082,7 +8787,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 12억원 이하",
           "threshold_krw_max": 1200000000,
           "rate_percent": 1.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 25억원 이하",
@@ -8090,7 +8796,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 25억원 이하",
           "threshold_krw_max": 2500000000,
           "rate_percent": 1.3,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 50억원 이하",
@@ -8098,7 +8805,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 50억원 이하",
           "threshold_krw_max": 5000000000,
           "rate_percent": 1.5,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 94억원 이하",
@@ -8106,7 +8814,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 94억원 이하",
           "threshold_krw_max": 9400000000,
           "rate_percent": 2.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 2주택 이하 94억원 초과",
@@ -8114,7 +8823,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 2주택 이하, 94억원 초과",
           "threshold_krw_min": 9400000000,
           "rate_percent": 2.7,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 3주택 이상 25억원 이하",
@@ -8123,7 +8833,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 2500000000,
           "rate_percent": 2.0,
           "note": "3억원 이하 0.5%, 6억원 이하 0.7%, 12억원 이하 1.0%",
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 3주택 이상 50억원 이하",
@@ -8131,7 +8842,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 3주택 이상, 50억원 이하",
           "threshold_krw_max": 5000000000,
           "rate_percent": 3.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 3주택 이상 94억원 이하",
@@ -8139,7 +8851,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 3주택 이상, 94억원 이하",
           "threshold_krw_max": 9400000000,
           "rate_percent": 4.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "주택 3주택 이상 94억원 초과",
@@ -8147,7 +8860,8 @@ const ONTOLOGY_DATA = {
           "condition": "주택 3주택 이상, 94억원 초과",
           "threshold_krw_min": 9400000000,
           "rate_percent": 5.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "종합합산토지 15억원 이하",
@@ -8155,7 +8869,8 @@ const ONTOLOGY_DATA = {
           "condition": "종합합산토지 15억원 이하",
           "threshold_krw_max": 1500000000,
           "rate_percent": 1.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "종합합산토지 45억원 이하",
@@ -8163,7 +8878,8 @@ const ONTOLOGY_DATA = {
           "condition": "종합합산토지 45억원 이하",
           "threshold_krw_max": 4500000000,
           "rate_percent": 2.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "종합합산토지 45억원 초과",
@@ -8171,7 +8887,8 @@ const ONTOLOGY_DATA = {
           "condition": "종합합산토지 45억원 초과",
           "threshold_krw_min": 4500000000,
           "rate_percent": 3.0,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "별도합산토지 200억원 이하",
@@ -8179,7 +8896,8 @@ const ONTOLOGY_DATA = {
           "condition": "별도합산토지 200억원 이하",
           "threshold_krw_max": 20000000000,
           "rate_percent": 0.5,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "별도합산토지 400억원 이하",
@@ -8187,7 +8905,8 @@ const ONTOLOGY_DATA = {
           "condition": "별도합산토지 400억원 이하",
           "threshold_krw_max": 40000000000,
           "rate_percent": 0.6,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "별도합산토지 400억원 초과",
@@ -8195,7 +8914,8 @@ const ONTOLOGY_DATA = {
           "condition": "별도합산토지 400억원 초과",
           "threshold_krw_min": 40000000000,
           "rate_percent": 0.7,
-          "source": "source.nts.comprehensive-real-estate.rates"
+          "source": "source.nts.comprehensive-real-estate.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8223,10 +8943,14 @@ const ONTOLOGY_DATA = {
         "term.tax-rate",
         "term.progressive-deduction"
       ],
-      "deadlines": [],
+      "deadlines": [
+        "deadline.corporate-tax.return"
+      ],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.corporate-tax.rates"
+        "source.nts.corporate-tax.rates",
+        "source.nts.corporate-tax.filing-procedure",
+        "source.law.corporate-tax-act.credits"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -8241,7 +8965,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
-          "source": "source.nts.corporate-tax.rates"
+          "source": "source.nts.corporate-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "2억원 초과 200억원 이하",
@@ -8252,7 +8977,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 20,
           "progressive_deduction_krw": 20000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
-          "source": "source.nts.corporate-tax.rates"
+          "source": "source.nts.corporate-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "200억원 초과 3,000억원 이하",
@@ -8263,7 +8989,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 22,
           "progressive_deduction_krw": 420000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
-          "source": "source.nts.corporate-tax.rates"
+          "source": "source.nts.corporate-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "3,000억원 초과",
@@ -8273,7 +9000,8 @@ const ONTOLOGY_DATA = {
           "rate_percent": 25,
           "progressive_deduction_krw": 9420000000,
           "note": "2026.1.1. 이후 개시 사업연도 기준",
-          "source": "source.nts.corporate-tax.rates"
+          "source": "source.nts.corporate-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8308,7 +9036,8 @@ const ONTOLOGY_DATA = {
           "basis": "수입물품 과세가격",
           "condition": "품목분류별 관세율표 적용",
           "amount_formula": "과세가격 × 품목별 관세율",
-          "source": "source.law.customs-tariff"
+          "source": "source.law.customs-tariff",
+          "law_reference": "관세법 제14조"
         }
       ]
     },
@@ -8347,7 +9076,8 @@ const ONTOLOGY_DATA = {
           "basis": "개별소비세액·교통세액·금융보험업 수익금액 등",
           "condition": "교육세법상 납세의무자",
           "amount_formula": "교육세 과세표준 × 교육세법상 세율",
-          "source": "source.law.education-tax-act.article5"
+          "source": "source.law.education-tax-act.article5",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8379,9 +9109,10 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.gift.deadline",
-        "source.nts.gift.rates"
+        "source.nts.gift.rates",
+        "source.law.inheritance-gift-tax-act.rates"
       ],
-      "law_reference": "",
+      "law_reference": "상속세 및 증여세법 제26조 및 제68조",
       "tags": [],
       "criteria": [
         {
@@ -8391,7 +9122,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.gift.rates"
+          "source": "source.nts.gift.rates",
+          "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
           "label": "1억원 초과 5억원 이하",
@@ -8401,7 +9133,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
-          "source": "source.nts.gift.rates"
+          "source": "source.nts.gift.rates",
+          "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -8411,7 +9144,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
-          "source": "source.nts.gift.rates"
+          "source": "source.nts.gift.rates",
+          "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
           "label": "10억원 초과 30억원 이하",
@@ -8421,7 +9155,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 3000000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
-          "source": "source.nts.gift.rates"
+          "source": "source.nts.gift.rates",
+          "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         },
         {
           "label": "30억원 초과",
@@ -8430,7 +9165,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 3000000000,
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
-          "source": "source.nts.gift.rates"
+          "source": "source.nts.gift.rates",
+          "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         }
       ]
     },
@@ -8472,7 +9208,8 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.income-tax.rates"
+        "source.nts.income-tax.rates",
+        "source.law.income-tax-act.deductions-credits"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -8486,7 +9223,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 14000000,
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1,400만원 초과 5,000만원 이하",
@@ -8496,7 +9234,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5,000만원 초과 8,800만원 이하",
@@ -8506,7 +9245,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 88000000,
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "8,800만원 초과 1억5,000만원 이하",
@@ -8516,7 +9256,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 150000000,
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억5,000만원 초과 3억원 이하",
@@ -8526,7 +9267,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 300000000,
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "3억원 초과 5억원 이하",
@@ -8536,7 +9278,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -8546,7 +9289,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과",
@@ -8555,7 +9299,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 1000000000,
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8593,9 +9338,11 @@ const ONTOLOGY_DATA = {
         "source.national-tax-framework-act.2026.article2",
         "source.nts.capital-gains.overview",
         "source.nts.capital-gains.deadline",
-        "source.nts.capital-gains.rates"
+        "source.nts.capital-gains.rates",
+        "source.law.income-tax-act.deductions-credits",
+        "source.nts.income-tax.rates"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제92조·제104조·제105조·제110조",
       "tags": [],
       "criteria": [
         {
@@ -8605,7 +9352,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 14000000,
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1,400만원 초과 5,000만원 이하",
@@ -8615,7 +9363,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5,000만원 초과 8,800만원 이하",
@@ -8625,7 +9374,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 88000000,
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "8,800만원 초과 1억5,000만원 이하",
@@ -8635,7 +9385,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 150000000,
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억5,000만원 초과 3억원 이하",
@@ -8645,7 +9396,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 300000000,
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "3억원 초과 5억원 이하",
@@ -8655,7 +9407,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -8665,7 +9418,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과",
@@ -8674,7 +9428,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 1000000000,
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "국외 중소기업주식 등",
@@ -8682,6 +9437,7 @@ const ONTOLOGY_DATA = {
           "condition": "국외 중소기업주식 등",
           "rate_percent": 10,
           "source": "source.nts.capital-gains.rates",
+          "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         },
         {
@@ -8690,6 +9446,7 @@ const ONTOLOGY_DATA = {
           "condition": "국외 그 밖의 주식 등",
           "rate_percent": 20,
           "source": "source.nts.capital-gains.rates",
+          "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 20%"
         },
         {
@@ -8699,6 +9456,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "기본세율 20%에 한시적 탄력세율 적용",
           "source": "source.nts.capital-gains.rates",
+          "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         }
       ]
@@ -8732,9 +9490,10 @@ const ONTOLOGY_DATA = {
       ],
       "sources": [
         "source.nts.income-tax.deadline",
-        "source.nts.income-tax.rates"
+        "source.nts.income-tax.rates",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제55조 및 제70조",
       "tags": [],
       "criteria": [
         {
@@ -8744,7 +9503,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 14000000,
           "rate_percent": 6,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1,400만원 초과 5,000만원 이하",
@@ -8754,7 +9514,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 50000000,
           "rate_percent": 15,
           "progressive_deduction_krw": 1260000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5,000만원 초과 8,800만원 이하",
@@ -8764,7 +9525,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 88000000,
           "rate_percent": 24,
           "progressive_deduction_krw": 5760000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "8,800만원 초과 1억5,000만원 이하",
@@ -8774,7 +9536,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 150000000,
           "rate_percent": 35,
           "progressive_deduction_krw": 15440000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억5,000만원 초과 3억원 이하",
@@ -8784,7 +9547,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 300000000,
           "rate_percent": 38,
           "progressive_deduction_krw": 19940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "3억원 초과 5억원 이하",
@@ -8794,7 +9558,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 25940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -8804,7 +9569,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 42,
           "progressive_deduction_krw": 35940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과",
@@ -8813,7 +9579,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 1000000000,
           "rate_percent": 45,
           "progressive_deduction_krw": 65940000,
-          "source": "source.nts.income-tax.rates"
+          "source": "source.nts.income-tax.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8837,9 +9604,10 @@ const ONTOLOGY_DATA = {
       "deadlines": [],
       "sources": [
         "source.national-tax-framework-act.2026.article2",
-        "source.nts.retirement-income.calculation"
+        "source.nts.retirement-income.calculation",
+        "source.law.income-tax-act.deductions-credits"
       ],
-      "law_reference": "",
+      "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문",
       "tags": [],
       "criteria": [
         {
@@ -8847,35 +9615,57 @@ const ONTOLOGY_DATA = {
           "basis": "퇴직소득 과세표준",
           "condition": "2020년 이후 퇴직분",
           "amount_formula": "(과세표준 × 기본세율 - 누진공제액) ÷ 12 × 근속연수",
-          "source": "source.nts.retirement-income.calculation"
+          "source": "source.nts.retirement-income.calculation",
+          "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
           "label": "근속연수 5년 이하 공제",
           "basis": "근속연수공제",
           "condition": "5년 이하",
           "amount_formula": "근속연수 × 1,000,000원",
-          "source": "source.nts.retirement-income.calculation"
+          "source": "source.nts.retirement-income.calculation",
+          "years_of_service_max": 5,
+          "per_year_deduction_krw": 1000000,
+          "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
           "label": "근속연수 10년 이하 공제",
           "basis": "근속연수공제",
           "condition": "5년 초과 10년 이하",
           "amount_formula": "5,000,000원 + (근속연수 - 5년) × 2,000,000원",
-          "source": "source.nts.retirement-income.calculation"
+          "source": "source.nts.retirement-income.calculation",
+          "years_of_service_min": 5,
+          "years_of_service_max": 10,
+          "base_deduction_krw": 5000000,
+          "per_year_deduction_krw": 2000000,
+          "period_years_min": 5,
+          "period_years_max": 10,
+          "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
           "label": "근속연수 20년 이하 공제",
           "basis": "근속연수공제",
           "condition": "10년 초과 20년 이하",
           "amount_formula": "15,000,000원 + (근속연수 - 10년) × 2,500,000원",
-          "source": "source.nts.retirement-income.calculation"
+          "source": "source.nts.retirement-income.calculation",
+          "years_of_service_min": 10,
+          "years_of_service_max": 20,
+          "base_deduction_krw": 15000000,
+          "per_year_deduction_krw": 2500000,
+          "period_years_min": 10,
+          "period_years_max": 20,
+          "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         },
         {
           "label": "근속연수 20년 초과 공제",
           "basis": "근속연수공제",
           "condition": "20년 초과",
           "amount_formula": "40,000,000원 + (근속연수 - 20년) × 3,000,000원",
-          "source": "source.nts.retirement-income.calculation"
+          "source": "source.nts.retirement-income.calculation",
+          "years_of_service_min": 20,
+          "base_deduction_krw": 40000000,
+          "per_year_deduction_krw": 3000000,
+          "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         }
       ]
     },
@@ -8912,7 +9702,8 @@ const ONTOLOGY_DATA = {
           "basis": "과세가격 또는 과세수량",
           "condition": "개별소비세법상 과세물품·장소·행위",
           "amount_formula": "과세가격 × 품목별 세율 또는 과세수량 × 품목별 정액세",
-          "source": "source.law.individual-consumption-tax-act.rates"
+          "source": "source.law.individual-consumption-tax-act.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -8945,9 +9736,10 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.inheritance.overview",
-        "source.nts.inheritance.rates"
+        "source.nts.inheritance.rates",
+        "source.law.inheritance-gift-tax-act.rates"
       ],
-      "law_reference": "",
+      "law_reference": "상속세 및 증여세법 제26조 및 제67조",
       "tags": [],
       "criteria": [
         {
@@ -8957,7 +9749,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억원 초과 5억원 이하",
@@ -8967,7 +9760,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -8977,7 +9771,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과 30억원 이하",
@@ -8987,7 +9782,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 3000000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "30억원 초과",
@@ -8996,7 +9792,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 3000000000,
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9034,7 +9831,8 @@ const ONTOLOGY_DATA = {
         "source.nts.inheritance.overview",
         "source.nts.gift.deadline",
         "source.nts.inheritance.rates",
-        "source.nts.gift.rates"
+        "source.nts.gift.rates",
+        "source.law.inheritance-gift-tax-act.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -9048,7 +9846,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 100000000,
           "rate_percent": 10,
           "progressive_deduction_krw": 0,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억원 초과 5억원 이하",
@@ -9058,7 +9857,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 500000000,
           "rate_percent": 20,
           "progressive_deduction_krw": 10000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5억원 초과 10억원 이하",
@@ -9068,7 +9868,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 1000000000,
           "rate_percent": 30,
           "progressive_deduction_krw": 60000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과 30억원 이하",
@@ -9078,7 +9879,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_max": 3000000000,
           "rate_percent": 40,
           "progressive_deduction_krw": 160000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "30억원 초과",
@@ -9087,7 +9889,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 3000000000,
           "rate_percent": 50,
           "progressive_deduction_krw": 460000000,
-          "source": "source.nts.inheritance.rates"
+          "source": "source.nts.inheritance.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9124,7 +9927,8 @@ const ONTOLOGY_DATA = {
           "basis": "주류 가격 또는 출고수량",
           "condition": "주정·탁주·맥주·증류주 등 주류 종류별",
           "amount_formula": "과세표준 × 종가세율 또는 출고수량 × 종량세율",
-          "source": "source.law.liquor-tax-act.rates"
+          "source": "source.law.liquor-tax-act.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9165,7 +9969,8 @@ const ONTOLOGY_DATA = {
           "basis": "주권 등 양도가액",
           "condition": "주권 또는 지분 양도",
           "amount_formula": "양도가액 × 증권거래세법·시행령상 시장별 세율",
-          "source": "source.law.securities-transaction-tax-act.article8"
+          "source": "source.law.securities-transaction-tax-act.article8",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9202,7 +10007,8 @@ const ONTOLOGY_DATA = {
           "basis": "감면세액·증권거래금액·개별소비세액 등",
           "condition": "농어촌특별세법상 납세의무자",
           "amount_formula": "과세표준 × 농어촌특별세법상 세율",
-          "source": "source.law.special-rural-development-tax-act.article5"
+          "source": "source.law.special-rural-development-tax-act.article5",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9239,7 +10045,8 @@ const ONTOLOGY_DATA = {
           "basis": "부동산 등 소유권 이전 과세문서 기재금액",
           "condition": "1천만원 이하",
           "amount_krw": 0,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1천만원 초과 3천만원 이하",
@@ -9248,7 +10055,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 10000000,
           "threshold_krw_max": 30000000,
           "amount_krw": 20000,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "3천만원 초과 5천만원 이하",
@@ -9257,7 +10065,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 30000000,
           "threshold_krw_max": 50000000,
           "amount_krw": 40000,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "5천만원 초과 1억원 이하",
@@ -9266,7 +10075,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 50000000,
           "threshold_krw_max": 100000000,
           "amount_krw": 70000,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "1억원 초과 10억원 이하",
@@ -9275,7 +10085,8 @@ const ONTOLOGY_DATA = {
           "threshold_krw_min": 100000000,
           "threshold_krw_max": 1000000000,
           "amount_krw": 150000,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "10억원 초과",
@@ -9283,7 +10094,8 @@ const ONTOLOGY_DATA = {
           "condition": "10억원 초과",
           "threshold_krw_min": 1000000000,
           "amount_krw": 350000,
-          "source": "source.law.stamp-tax-act.article3"
+          "source": "source.law.stamp-tax-act.article3",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9320,7 +10132,8 @@ const ONTOLOGY_DATA = {
           "basis": "과세물품 수량",
           "condition": "휘발유·경유 등 법정 과세물품",
           "amount_formula": "과세물품 수량 × 물품별 정액세율",
-          "source": "source.law.transport-energy-environment-tax-act.rates"
+          "source": "source.law.transport-energy-environment-tax-act.rates",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
@@ -9364,7 +10177,8 @@ const ONTOLOGY_DATA = {
       "sources": [
         "source.national-tax-framework-act.2026.article2",
         "source.nts.vat.overview",
-        "source.nts.vat.filing-duty"
+        "source.nts.vat.filing-duty",
+        "source.law.value-added-tax-act.filing"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
@@ -9377,7 +10191,8 @@ const ONTOLOGY_DATA = {
           "condition": "1억400만원 이상",
           "threshold_krw_min": 104000000,
           "benefit": "일반과세자",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "간이과세자 매출 기준",
@@ -9385,7 +10200,8 @@ const ONTOLOGY_DATA = {
           "condition": "1억400만원 미만",
           "threshold_krw_max": 104000000,
           "benefit": "간이과세자",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "일반과세자 세율",
@@ -9394,6 +10210,7 @@ const ONTOLOGY_DATA = {
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
           "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "매출세액 × 적용비율 10%"
         },
         {
@@ -9404,6 +10221,7 @@ const ONTOLOGY_DATA = {
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
           "source": "source.nts.vat.overview",
+          "law_reference": "국세기본법 제2조 제1호",
           "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
         {
@@ -9412,7 +10230,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서 발급",
           "threshold_krw_min": 48000000,
           "threshold_krw_max": 104000000,
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호"
         },
         {
           "label": "간이과세자 납부의무 면제",
@@ -9420,7 +10239,8 @@ const ONTOLOGY_DATA = {
           "condition": "4,800만원 미만",
           "threshold_krw_max": 48000000,
           "benefit": "납부세액 납부의무 면제 가능",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "law_reference": "국세기본법 제2조 제1호"
         }
       ]
     },
