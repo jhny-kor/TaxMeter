@@ -35,6 +35,20 @@ npx @modelcontextprotocol/inspector@latest
 
 ## Deploy
 
+Create a Cloudflare API token with at least:
+
+- Account: Workers Scripts: Edit
+- Account: Account Settings: Read
+- User: User Details: Read
+- User: Memberships: Read
+
+Store the token locally in `.env`:
+
+```sh
+CLOUDFLARE_API_TOKEN=...
+CLOUDFLARE_ACCOUNT_ID=...
+```
+
 ```sh
 cd cloudflare/opentax-mcp
 npx wrangler login
