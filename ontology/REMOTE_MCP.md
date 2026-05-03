@@ -90,6 +90,18 @@ OpenTax에서 ISA 비과세 한도와 출처를 찾아주세요.
 OpenTax에서 보험료 공제 기준을 fetch해서 설명해주세요.
 ```
 
+## App Directory Preparation
+
+OpenTax public app submission assets are under `docs/opentax`:
+
+- `APP_DIRECTORY_SUBMISSION.md`: review checklist, descriptions, tool summary, golden prompt set
+- `app-directory-metadata.json`: copy-ready app listing metadata
+- `privacy.html`: public privacy policy
+- `terms.html`: public terms
+- `support.html`: support and health-check page
+
+Keep these pages current before submitting OpenTax to the ChatGPT App Directory.
+
 ## Official References
 
 - Cloudflare remote MCP server guide:
