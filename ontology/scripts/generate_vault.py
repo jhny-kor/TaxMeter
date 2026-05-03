@@ -195,6 +195,13 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "양도소득세 기본세율, 보유기간·자산 유형별 세율, 국외주식·파생상품 세율 근거입니다.",
     },
+    "source.nts.capital-gains.basic-deduction": {
+        "title": "양도소득 기본공제 신고서식",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
+        "basis_date": "2026-05-03 확인",
+        "description": "양도소득기본공제가 국내 부동산, 국내 주식 등, 국외 부동산, 국외 주식 등, 파생상품별로 각각 2,500,000원 적용된다는 신고서식 근거입니다.",
+    },
     "source.nts.inheritance.overview": {
         "title": "상속세 개요",
         "publisher": "국세청",
@@ -370,12 +377,89 @@ SOURCES = {
         "basis_date": "2026-05-02 확인",
         "description": "새도약기금 관련 5년 이상 장기연체채권 특별채무조정의 2026년 기준중위소득 125%, 채무감면, 분할상환, 상환유예 근거입니다.",
     },
+    "source.nts.retirement-income.calculation": {
+        "title": "퇴직소득세 계산방법",
+        "publisher": "국세청",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
+        "basis_date": "2026-05-03 확인",
+        "description": "퇴직소득금액, 근속연수공제, 환산급여, 환산급여공제, 과세표준, 환산산출세액, 산출세액 계산 구조와 근속연수별 공제금액 근거입니다.",
+    },
     "source.fsc.isa.policy": {
         "title": "ISA 정책문답",
         "publisher": "금융위원회",
         "url": "https://www.fsc.go.kr/po020201/27339",
         "basis_date": "2026-05-02 확인",
-        "description": "개인종합자산관리계좌(ISA)의 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다.",
+        "description": "개인종합자산관리계좌(ISA)의 연 2,000만원 납입한도, 순소득 200만원 비과세, 초과분 분리과세 등 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다.",
+    },
+    "source.moef.isa.tax-benefit": {
+        "title": "ISA 세제혜택 설명",
+        "publisher": "기획재정부·대한민국 정책브리핑",
+        "url": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
+        "basis_date": "2026-05-03 확인",
+        "description": "ISA 계좌 순소득 200만원, 서민·농어민형 400만원 비과세와 초과분 9% 저율 분리과세 근거입니다.",
+    },
+    "source.law.local-tax-act.rates": {
+        "title": "지방세법 세율 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/지방세법",
+        "basis_date": "2026-05-03 확인",
+        "description": "취득세, 등록면허세, 레저세, 담배소비세, 지방소비세, 주민세, 지방소득세, 자동차세, 지역자원시설세, 지방교육세의 세율·세액 산식 근거입니다.",
+    },
+    "source.law.stamp-tax-act.article3": {
+        "title": "인지세법 제3조",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/인지세법/제3조",
+        "basis_date": "2026-05-03 확인",
+        "description": "과세문서와 문서 기재금액별 인지세액 근거입니다.",
+    },
+    "source.law.securities-transaction-tax-act.article8": {
+        "title": "증권거래세법 제8조",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/증권거래세법/제8조",
+        "basis_date": "2026-05-03 확인",
+        "description": "주권 양도 시 증권거래세 과세표준과 세율 적용 근거입니다.",
+    },
+    "source.law.education-tax-act.article5": {
+        "title": "교육세법 제5조",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/교육세법/제5조",
+        "basis_date": "2026-05-03 확인",
+        "description": "교육세 과세표준과 세율 근거입니다.",
+    },
+    "source.law.special-rural-development-tax-act.article5": {
+        "title": "농어촌특별세법 제5조",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
+        "basis_date": "2026-05-03 확인",
+        "description": "농어촌특별세 과세표준과 세율 근거입니다.",
+    },
+    "source.law.individual-consumption-tax-act.rates": {
+        "title": "개별소비세법 세율 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/개별소비세법",
+        "basis_date": "2026-05-03 확인",
+        "description": "과세물품, 과세장소, 과세유흥장소, 영업행위별 개별소비세 세율과 정액세 근거입니다.",
+    },
+    "source.law.transport-energy-environment-tax-act.rates": {
+        "title": "교통·에너지·환경세법 세율 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
+        "basis_date": "2026-05-03 확인",
+        "description": "휘발유, 경유 등 과세물품별 교통·에너지·환경세 정액세율 근거입니다.",
+    },
+    "source.law.liquor-tax-act.rates": {
+        "title": "주세법 세율 조문",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/주세법",
+        "basis_date": "2026-05-03 확인",
+        "description": "주류 종류별 주세 종가세·종량세 세율 근거입니다.",
+    },
+    "source.law.customs-tariff": {
+        "title": "관세법 관세율표",
+        "publisher": "국가법령정보센터",
+        "url": "https://www.law.go.kr/법령/관세법/별표",
+        "basis_date": "2026-05-03 확인",
+        "description": "수입물품 품목분류별 관세율표와 품목별 세율 적용 근거입니다.",
     },
 }
 
@@ -1291,6 +1375,160 @@ LONG_TERM_DELINQUENT_DEBT_ADJUSTMENT_CRITERIA = [
 ]
 
 
+NO_FIXED_AMOUNT = "정액 금액 기준 없음"
+RATE_ONLY_AMOUNT = "비율 기준이며 고정 원화 금액 없음"
+
+
+RETIREMENT_INCOME_TAX_CRITERIA = [
+    {"label": "퇴직소득세 계산 산식", "basis": "퇴직소득 과세표준", "condition": "2020년 이후 퇴직분", "amount_formula": "(과세표준 × 기본세율 - 누진공제액) ÷ 12 × 근속연수", "source": "source.nts.retirement-income.calculation"},
+    {"label": "근속연수 5년 이하 공제", "basis": "근속연수공제", "condition": "5년 이하", "amount_formula": "근속연수 × 1,000,000원", "source": "source.nts.retirement-income.calculation"},
+    {"label": "근속연수 10년 이하 공제", "basis": "근속연수공제", "condition": "5년 초과 10년 이하", "amount_formula": "5,000,000원 + (근속연수 - 5년) × 2,000,000원", "source": "source.nts.retirement-income.calculation"},
+    {"label": "근속연수 20년 이하 공제", "basis": "근속연수공제", "condition": "10년 초과 20년 이하", "amount_formula": "15,000,000원 + (근속연수 - 10년) × 2,500,000원", "source": "source.nts.retirement-income.calculation"},
+    {"label": "근속연수 20년 초과 공제", "basis": "근속연수공제", "condition": "20년 초과", "amount_formula": "40,000,000원 + (근속연수 - 20년) × 3,000,000원", "source": "source.nts.retirement-income.calculation"},
+]
+
+
+STAMP_TAX_CRITERIA = [
+    {"label": "1천만원 이하", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "1천만원 이하", "amount_krw": 0, "source": "source.law.stamp-tax-act.article3"},
+    {"label": "1천만원 초과 3천만원 이하", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "1천만원 초과 3천만원 이하", "threshold_krw_min": 10_000_000, "threshold_krw_max": 30_000_000, "amount_krw": 20_000, "source": "source.law.stamp-tax-act.article3"},
+    {"label": "3천만원 초과 5천만원 이하", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "3천만원 초과 5천만원 이하", "threshold_krw_min": 30_000_000, "threshold_krw_max": 50_000_000, "amount_krw": 40_000, "source": "source.law.stamp-tax-act.article3"},
+    {"label": "5천만원 초과 1억원 이하", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "5천만원 초과 1억원 이하", "threshold_krw_min": 50_000_000, "threshold_krw_max": 100_000_000, "amount_krw": 70_000, "source": "source.law.stamp-tax-act.article3"},
+    {"label": "1억원 초과 10억원 이하", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "1억원 초과 10억원 이하", "threshold_krw_min": 100_000_000, "threshold_krw_max": 1_000_000_000, "amount_krw": 150_000, "source": "source.law.stamp-tax-act.article3"},
+    {"label": "10억원 초과", "basis": "부동산 등 소유권 이전 과세문서 기재금액", "condition": "10억원 초과", "threshold_krw_min": 1_000_000_000, "amount_krw": 350_000, "source": "source.law.stamp-tax-act.article3"},
+]
+
+
+NATIONAL_SPECIAL_TAX_CRITERIA_BY_ID = {
+    "tax.income.retirement": RETIREMENT_INCOME_TAX_CRITERIA,
+    "tax.individual-consumption": [
+        {"label": "과세물품·장소별 세율", "basis": "과세가격 또는 과세수량", "condition": "개별소비세법상 과세물품·장소·행위", "amount_formula": "과세가격 × 품목별 세율 또는 과세수량 × 품목별 정액세", "source": "source.law.individual-consumption-tax-act.rates"},
+    ],
+    "tax.transport-energy-environment": [
+        {"label": "유류 등 과세물품별 정액세", "basis": "과세물품 수량", "condition": "휘발유·경유 등 법정 과세물품", "amount_formula": "과세물품 수량 × 물품별 정액세율", "source": "source.law.transport-energy-environment-tax-act.rates"},
+    ],
+    "tax.liquor": [
+        {"label": "주류 종류별 세율", "basis": "주류 가격 또는 출고수량", "condition": "주정·탁주·맥주·증류주 등 주류 종류별", "amount_formula": "과세표준 × 종가세율 또는 출고수량 × 종량세율", "source": "source.law.liquor-tax-act.rates"},
+    ],
+    "tax.stamp": STAMP_TAX_CRITERIA,
+    "tax.securities-transaction": [
+        {"label": "주권 양도 거래", "basis": "주권 등 양도가액", "condition": "주권 또는 지분 양도", "amount_formula": "양도가액 × 증권거래세법·시행령상 시장별 세율", "source": "source.law.securities-transaction-tax-act.article8"},
+    ],
+    "tax.education": [
+        {"label": "교육세 부가 과세", "basis": "개별소비세액·교통세액·금융보험업 수익금액 등", "condition": "교육세법상 납세의무자", "amount_formula": "교육세 과세표준 × 교육세법상 세율", "source": "source.law.education-tax-act.article5"},
+    ],
+    "tax.special-rural-development": [
+        {"label": "농어촌특별세 부가 과세", "basis": "감면세액·증권거래금액·개별소비세액 등", "condition": "농어촌특별세법상 납세의무자", "amount_formula": "과세표준 × 농어촌특별세법상 세율", "source": "source.law.special-rural-development-tax-act.article5"},
+    ],
+    "tax.customs": [
+        {"label": "수입물품 관세", "basis": "수입물품 과세가격", "condition": "품목분류별 관세율표 적용", "amount_formula": "과세가격 × 품목별 관세율", "source": "source.law.customs-tariff"},
+    ],
+}
+
+
+LOCAL_TAX_CRITERIA_BY_ID = {
+    "local.acquisition": [
+        {"label": "취득세 산식", "basis": "취득가액 또는 시가표준액", "condition": "부동산·차량 등 과세물건 취득", "amount_formula": "과세표준 × 과세대상별 취득세율", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.registration-license": [
+        {"label": "등록면허세 산식", "basis": "등록가액 또는 면허 종류", "condition": "등기·등록 또는 면허", "amount_formula": "등록가액 × 등록세율 또는 면허종별 정액세", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.leisure": [
+        {"label": "레저세 세율", "basis": "승자투표권·승마투표권 발매금 총액", "condition": "경륜·경정·경마 등", "rate_percent": 10, "amount_formula": "발매금 총액 × 10%", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.tobacco-consumption": [
+        {"label": "궐련 담배소비세", "basis": "궐련 20개비", "condition": "궐련 담배 반출 또는 반입", "amount_krw": 1_007, "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.local-consumption": [
+        {"label": "지방소비세 산식", "basis": "부가가치세액", "condition": "부가가치세와 연동", "amount_formula": "부가가치세액 × 지방세법상 지방소비세율", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.resident": [
+        {"label": "주민세 산식", "basis": "개인분·사업소분·종업원분 과세표준", "condition": "지방자치단체 조례와 지방세법 기준 적용", "amount_formula": "개인분 정액세 또는 사업소 연면적·종업원 급여총액 기준 산식", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.local-income": [
+        {"label": "지방소득세 산식", "basis": "개인·법인 소득 과세표준", "condition": "소득세·법인세와 연결", "amount_formula": "지방소득세 과세표준 × 지방세법상 세율", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.automobile": [
+        {"label": "자동차세 산식", "basis": "차종·용도·배기량 또는 적재량", "condition": "자동차 보유", "amount_formula": "차종별 과세단위 × 지방세법상 단위세액", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.regional-resource-facility": [
+        {"label": "지역자원시설세 산식", "basis": "특정자원·특정부동산·소방분 과세표준", "condition": "지역자원 보호 또는 소방시설 재원 목적", "amount_formula": "과세대상별 과세표준 × 지방세법상 세율 또는 정액세", "source": "source.law.local-tax-act.rates"},
+    ],
+    "local.local-education": [
+        {"label": "지방교육세 부가 과세", "basis": "취득세액·등록면허세액·레저세액 등", "condition": "지방교육재정 확충 목적", "amount_formula": "본세액 × 지방교육세율", "source": "source.law.local-tax-act.rates"},
+    ],
+}
+
+
+CONCEPT_CRITERIA_BY_ID = {
+    "concept.capital-gains.calculation-flow": [
+        {"label": "양도소득 과세표준 산식", "basis": "양도가액·취득가액·필요경비·공제", "condition": "양도소득이 발생한 경우", "amount_formula": "양도가액 - 취득가액 - 필요경비 - 장기보유특별공제 - 양도소득 기본공제", "source": "source.nts.capital-gains.overview"},
+        {"label": "양도소득 기본공제", "basis": "자산군별 양도소득금액", "condition": "해당 과세기간 자산군별 적용", "deduction_krw": 2_500_000, "source": "source.nts.capital-gains.basic-deduction"},
+    ],
+    "concept.capital-gains.stock-basic-deduction": [
+        {"label": "주식 등 양도소득 기본공제", "basis": "주식 등 양도소득금액", "condition": "해당 과세기간 주식 등 그룹", "deduction_krw": 2_500_000, "source": "source.nts.capital-gains.basic-deduction"},
+    ],
+    "concept.cre-tax-base-date": [
+        {"label": "과세기준일", "basis": "보유일 기준", "condition": "매년 6월 1일 현재 보유", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.comprehensive-real-estate.overview"},
+    ],
+}
+
+
+FILING_CRITERIA_BY_ID = {
+    "filing.income-tax-return": [
+        {"label": "확정신고 기간", "basis": "신고·납부기한", "condition": "다음연도 5월 1일부터 5월 31일까지", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.income-tax.deadline"},
+    ],
+    "filing.year-end-settlement": [
+        {"label": "연말정산 계산", "basis": "근로소득세 확정 절차", "condition": "원천징수의무자가 해당 과세기간 근로소득세를 정산", "amount_formula": "결정세액 - 기납부세액", "source": "source.nts.year-end-settlement.calculation"},
+    ],
+    "filing.business-registration": [
+        {"label": "사업자등록 신청기한", "basis": "사업 개시일", "condition": "사업 개시 전 또는 사업 개시일부터 20일 이내", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.business-registration.application"},
+    ],
+    "filing.withholding-tax": [
+        {"label": "원천세 월별 납부", "basis": "원천징수일", "condition": "징수일이 속하는 달의 다음달 10일까지", "amount_formula": "원천징수 대상 지급액 × 소득별 원천징수세율", "source": "source.nts.withholding.overview"},
+    ],
+    "filing.vat-return": [
+        {"label": "일반과세자 확정신고", "basis": "부가가치세 과세기간", "condition": "제1기·제2기 확정신고 납부", "amount_formula": "매출세액 - 매입세액 - 공제세액", "source": "source.nts.vat.filing-duty"},
+        {"label": "간이과세자 연간 신고", "basis": "직전연도 공급대가", "condition": "간이과세자 과세기간 신고", "amount_formula": "매출액 × 업종별 부가가치율 × 10% - 공제세액", "source": "source.nts.vat.filing-duty"},
+    ],
+    "filing.capital-gains-return": [
+        {"label": "양도소득세 예정신고", "basis": "양도일이 속하는 달의 말일", "condition": "자산 유형별 예정신고 기한 적용", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.capital-gains.deadline"},
+        {"label": "양도소득세 확정신고", "basis": "과세기간 다음연도 5월", "condition": "예정신고 대상 외 확정신고 필요 여부 확인", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.capital-gains.deadline"},
+    ],
+    "filing.inheritance-tax-return": [
+        {"label": "상속세 신고기한", "basis": "상속개시일이 속하는 달의 말일", "condition": "거주자 6개월, 비거주자 9개월", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.inheritance.overview"},
+    ],
+    "filing.gift-tax-return": [
+        {"label": "증여세 신고기한", "basis": "증여받은 날이 속하는 달의 말일", "condition": "일반 증여 3개월", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.gift.deadline"},
+    ],
+    "filing.grant-application": [
+        {"label": "근로·자녀장려금 정기신청", "basis": "2025년 귀속 소득", "condition": "2026년 5월 정기신청", "amount_applicability": NO_FIXED_AMOUNT, "source": "source.nts.grant.deadline"},
+    ],
+}
+
+
+ISA_CRITERIA = [
+    {"label": "연 납입한도", "basis": "ISA 납입금", "condition": "연간 납입한도", "limit_krw": 20_000_000, "source": "source.fsc.isa.policy"},
+    {"label": "총 납입한도", "basis": "ISA 납입금", "condition": "5년 누적 한도", "limit_krw": 100_000_000, "source": "source.fsc.isa.policy"},
+    {"label": "일반형 비과세", "basis": "계좌 순소득", "condition": "일반형 ISA", "limit_krw": 2_000_000, "benefit": "한도 내 비과세", "source": "source.moef.isa.tax-benefit"},
+    {"label": "서민·농어민형 비과세", "basis": "계좌 순소득", "condition": "서민·농어민형 ISA", "limit_krw": 4_000_000, "benefit": "한도 내 비과세", "source": "source.moef.isa.tax-benefit"},
+    {"label": "비과세 초과분 분리과세", "basis": "비과세 한도 초과 순소득", "condition": "비과세 한도 초과분", "rate_percent": 9, "rate_label": "분리과세율", "amount_formula": "비과세 한도 초과 순소득 × 9%", "source": "source.moef.isa.tax-benefit"},
+]
+
+
+SUPPORT_CRITERIA_BY_ID = {
+    "support.isa": ISA_CRITERIA,
+}
+
+
+ITEM_CRITERIA_BY_ID = {
+    **NATIONAL_SPECIAL_TAX_CRITERIA_BY_ID,
+    **LOCAL_TAX_CRITERIA_BY_ID,
+    **CONCEPT_CRITERIA_BY_ID,
+    **FILING_CRITERIA_BY_ID,
+    **SUPPORT_CRITERIA_BY_ID,
+}
+
+
 NODES = [
     node(
         "kr-tax-system",
@@ -1493,9 +1731,11 @@ def normalize_items(items: dict[str, dict]) -> None:
                 related.setdefault("related", []).append(item["id"])
 
     for item in items.values():
+        attach_default_criteria(item)
         for key in ("parents", "children", "related", "terms", "deadlines", "sources", "tags"):
             item[key] = unique(item.get(key) or [])
         normalize_criteria_rate_labels(item)
+        add_missing_amount_metadata(item)
 
 
 def default_criteria_rate_label(item: dict) -> str | None:
@@ -1520,6 +1760,67 @@ def normalize_criteria_rate_labels(item: dict) -> None:
             continue
         if any(key in criterion for key in ("rate_percent", "rate_percent_min", "rate_percent_max")):
             criterion["rate_label"] = label
+
+
+AMOUNT_DETAIL_KEYS = {
+    "threshold_krw",
+    "threshold_krw_min",
+    "threshold_krw_max",
+    "amount_krw",
+    "max_amount_krw",
+    "deduction_krw",
+    "limit_krw",
+    "progressive_deduction_krw",
+    "amount_formula",
+    "amount_applicability",
+}
+
+
+def attach_default_criteria(item: dict) -> None:
+    if item.get("criteria"):
+        return
+    criteria = globals().get("ITEM_CRITERIA_BY_ID", {}).get(item["id"])
+    if not criteria:
+        return
+    item["criteria"] = criteria
+    for criterion in criteria:
+        source_id = criterion.get("source")
+        if source_id and source_id not in item.get("sources", []):
+            item.setdefault("sources", []).append(source_id)
+
+
+def criterion_has_amount_detail(criterion: dict) -> bool:
+    return any(key in criterion for key in AMOUNT_DETAIL_KEYS)
+
+
+def rate_text(criterion: dict) -> str | None:
+    if "rate_percent" in criterion:
+        return f"{criterion['rate_percent']}%"
+    if "rate_percent_min" in criterion and "rate_percent_max" in criterion:
+        return f"{criterion['rate_percent_min']}%~{criterion['rate_percent_max']}%"
+    if "rate_percent_min" in criterion:
+        return f"{criterion['rate_percent_min']}% 이상"
+    if "rate_percent_max" in criterion:
+        return f"{criterion['rate_percent_max']}% 이하"
+    return None
+
+
+def add_missing_amount_metadata(item: dict) -> None:
+    for criterion in item.get("criteria") or []:
+        if criterion_has_amount_detail(criterion):
+            continue
+        rate = rate_text(criterion)
+        basis = criterion.get("basis") or criterion.get("label") or "기준금액"
+        if rate:
+            rate_label = criterion.get("rate_label") or default_criteria_rate_label(item) or "적용비율"
+            if rate_label in {"금리", "보증료율", "LTV", "DTI"}:
+                criterion["amount_applicability"] = RATE_ONLY_AMOUNT
+            else:
+                criterion["amount_formula"] = f"{basis} × {rate_label} {rate}"
+        elif "전액" in (criterion.get("benefit") or ""):
+            criterion["amount_formula"] = f"{basis} 전액"
+        else:
+            criterion["amount_applicability"] = NO_FIXED_AMOUNT
 
 
 def frontmatter(fields: dict) -> str:
@@ -1575,6 +1876,8 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "threshold_krw_min": "하한",
         "threshold_krw_max": "상한",
         "amount_krw": "금액",
+        "amount_formula": "금액·적용 산식",
+        "amount_applicability": "금액 기준 여부",
         "max_amount_krw": "최대금액",
         "deduction_krw": "공제액",
         "limit_krw": "한도",
@@ -1584,6 +1887,7 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
     order = [
         "basis",
         "condition",
+        "amount_applicability",
         "threshold_krw_min",
         "threshold_krw",
         "threshold_krw_max",
@@ -1594,6 +1898,7 @@ def render_criteria(item: dict, all_items: dict[str, dict]) -> list[str]:
         "deduction_krw",
         "limit_krw",
         "amount_krw",
+        "amount_formula",
         "max_amount_krw",
         "benefit",
         "note",

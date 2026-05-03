@@ -561,10 +561,27 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.capital-gains.overview"
+        "source.nts.capital-gains.overview",
+        "source.nts.capital-gains.basic-deduction"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "양도소득 과세표준 산식",
+          "basis": "양도가액·취득가액·필요경비·공제",
+          "condition": "양도소득이 발생한 경우",
+          "amount_formula": "양도가액 - 취득가액 - 필요경비 - 장기보유특별공제 - 양도소득 기본공제",
+          "source": "source.nts.capital-gains.overview"
+        },
+        {
+          "label": "양도소득 기본공제",
+          "basis": "자산군별 양도소득금액",
+          "condition": "해당 과세기간 자산군별 적용",
+          "deduction_krw": 2500000,
+          "source": "source.nts.capital-gains.basic-deduction"
+        }
+      ]
     },
     {
       "id": "concept.capital-gains.stock-basic-deduction",
@@ -588,10 +605,20 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.nts.capital-gains.overview"
+        "source.nts.capital-gains.overview",
+        "source.nts.capital-gains.basic-deduction"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "주식 등 양도소득 기본공제",
+          "basis": "주식 등 양도소득금액",
+          "condition": "해당 과세기간 주식 등 그룹",
+          "deduction_krw": 2500000,
+          "source": "source.nts.capital-gains.basic-deduction"
+        }
+      ]
     },
     {
       "id": "concept.cre-deduction-thresholds",
@@ -676,7 +703,16 @@
         "source.nts.comprehensive-real-estate.overview"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "과세기준일",
+          "basis": "보유일 기준",
+          "condition": "매년 6월 1일 현재 보유",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.comprehensive-real-estate.overview"
+        }
+      ]
     },
     {
       "id": "concept.general-vat-taxpayer",
@@ -724,7 +760,8 @@
           "condition": "매출액에 기본세율 적용",
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "amount_formula": "매출세액 × 적용비율 10%"
         }
       ]
     },
@@ -779,7 +816,8 @@
           "rate_percent_min": 15,
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
         {
           "label": "간이과세자 예정신고 대상",
@@ -870,7 +908,8 @@
           "condition": "농업법인 요건 충족",
           "rate_percent": 100,
           "rate_label": "면제율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "영농조합법인 등 농업소득 × 면제율 100%"
         },
         {
           "label": "농업 외 소득",
@@ -878,7 +917,8 @@
           "condition": "한도 내 감면",
           "rate_percent": 50,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "농업 외 소득 × 감면율 50%"
         }
       ]
     },
@@ -915,7 +955,8 @@
           "condition": "상생협력 지원 요건 충족",
           "rate_percent": 10,
           "rate_label": "세액공제율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "협력중소기업 지원 목적 출연금 등 × 세액공제율 10%"
         }
       ]
     },
@@ -954,7 +995,8 @@
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "note": "감면기간 및 지역별 요건 별도 확인",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -992,7 +1034,8 @@
           "rate_percent": 20,
           "rate_label": "상실비율 문턱",
           "benefit": "산출세액에 재해상실비율을 곱해 공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "재해상실자산가액 / 상실 전 자산총액 × 상실비율 문턱 20%"
         }
       ]
     },
@@ -1065,7 +1108,8 @@
           "condition": "고용유지 요건 충족",
           "rate_percent": 50,
           "rate_label": "공제율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "임금감소액 또는 보전액 × 공제율 50%"
         }
       ]
     },
@@ -1103,7 +1147,8 @@
           "rate_percent_min": 50,
           "rate_percent_max": 100,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -1142,7 +1187,8 @@
           "rate_percent_max": 10,
           "rate_label": "기본공제율",
           "note": "기업규모·투자자산 유형별 차등",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "사업용 유형자산 등 투자금액 × 기본공제율 1%~10%"
         },
         {
           "label": "투자증가분 추가공제",
@@ -1151,7 +1197,8 @@
           "rate_percent": 10,
           "rate_label": "추가공제율",
           "note": "추가공제 한도는 기본공제 금액의 2배",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "직전 3년 평균 투자액 초과분 × 추가공제율 10%"
         }
       ]
     },
@@ -1189,7 +1236,8 @@
           "basis": "국외원천소득 관련 외국납부세액",
           "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -1229,7 +1277,8 @@
           "rate_percent": 70,
           "rate_label": "세액공제율",
           "note": "요건과 과세연도별 적용기한 확인 필요",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
       ]
     },
@@ -1267,7 +1316,8 @@
           "rate_percent": 50,
           "rate_label": "감면율",
           "note": "감면기간 요건 별도 확인",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%"
         }
       ]
     },
@@ -1305,7 +1355,8 @@
           "rate_percent_min": 50,
           "rate_percent_max": 100,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -1341,7 +1392,8 @@
           "basis": "지방이전 관련 양도차익 등",
           "condition": "지방이전 촉진 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -1380,7 +1432,8 @@
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "note": "지역과 기간별 차등",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -1417,7 +1470,8 @@
           "condition": "기술혁신형 합병·주식취득",
           "rate_percent": 10,
           "rate_label": "세액공제율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"
         }
       ]
     },
@@ -1454,7 +1508,8 @@
           "condition": "중소기업",
           "rate_percent": 7,
           "rate_label": "최저한세율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "각종 감면 전 과세표준 × 최저한세율 7%"
         }
       ]
     },
@@ -1491,7 +1546,8 @@
           "condition": "성과공유기업 요건 충족",
           "rate_percent": 15,
           "rate_label": "세액공제율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "성과공유 중소기업 경영성과급 지급액 × 세액공제율 15%"
         }
       ]
     },
@@ -1527,7 +1583,8 @@
           "basis": "양도차익 등",
           "condition": "구조조정 및 재무구조개선 요건 충족",
           "benefit": "손금산입 또는 익금불산입으로 과세이연",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -1565,21 +1622,24 @@
           "basis": "연구·인력개발비",
           "condition": "기업규모·증가분 방식별 공제율 적용",
           "benefit": "일반 R&D 세액공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "신성장·원천기술",
           "basis": "신성장·원천기술 연구개발비",
           "condition": "해당 기술 연구개발비",
           "benefit": "우대 공제율 적용",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "국가전략기술",
           "basis": "국가전략기술 연구개발비",
           "condition": "반도체 등 국가전략기술 연구개발비",
           "benefit": "최고 우대 공제율 적용",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -1615,7 +1675,8 @@
           "basis": "연구개발출연금 등",
           "condition": "연구개발 자산 취득 또는 비용 지출",
           "benefit": "익금불산입 후 사용 시점에 익금산입",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -1654,7 +1715,8 @@
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -1693,7 +1755,8 @@
           "condition": "소기업, 수도권 내 제조업·출판업 등",
           "rate_percent": 20,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
         {
           "label": "소기업 수도권 외 제조업 등",
@@ -1701,7 +1764,8 @@
           "condition": "소기업, 수도권 외 제조업·출판업 등",
           "rate_percent": 30,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
         {
           "label": "중기업 수도권 외 제조업 등",
@@ -1709,7 +1773,8 @@
           "condition": "중기업, 수도권 외 제조업 등",
           "rate_percent": 15,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
         {
           "label": "도소매·의료업 등",
@@ -1718,7 +1783,8 @@
           "rate_percent_min": 5,
           "rate_percent_max": 10,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
       ]
     },
@@ -1757,7 +1823,8 @@
           "rate_percent_max": 100,
           "rate_label": "감면율",
           "note": "일반적으로 3년 100%, 이후 2년 50% 구조",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "법인세 × 감면율 50%~100%"
         }
       ]
     },
@@ -1796,7 +1863,8 @@
           "rate_percent_max": 100,
           "rate_label": "세액공제율",
           "note": "청년·경력단절자 등 우대 대상과 기업규모별 차등",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "고용증가인원의 사용자 부담 사회보험료 × 세액공제율 50%~100%"
         }
       ]
     },
@@ -1836,7 +1904,8 @@
           "rate_percent": 50,
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
         {
           "label": "2026년 이후 청년·생계형 창업",
@@ -1845,7 +1914,8 @@
           "rate_percent": 100,
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
         {
           "label": "상시근로자 증가 추가감면",
@@ -1854,7 +1924,8 @@
           "rate_percent": 100,
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
       ]
     },
@@ -1891,7 +1962,8 @@
           "condition": "중소기업 기술이전",
           "rate_percent": 50,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "기술이전 소득 × 감면율 50%"
         },
         {
           "label": "기술대여 소득",
@@ -1899,7 +1971,8 @@
           "condition": "중소기업 기술대여",
           "rate_percent": 25,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "기술대여 소득 × 감면율 25%"
         }
       ]
     },
@@ -1938,7 +2011,8 @@
           "rate_percent_max": 20,
           "rate_label": "세액공제율",
           "note": "기업규모와 정규직 전환 여부별 차등",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "직전 3년 평균 초과 임금증가분 × 세액공제율 5%~20%"
         }
       ]
     },
@@ -1977,7 +2051,8 @@
           "rate_percent_max": 0.3,
           "rate_label": "세액공제율",
           "note": "결제기한 구간별 차등",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "상생결제 지급금액 × 세액공제율 0.1%~0.3%"
         }
       ]
     },
@@ -2255,7 +2330,8 @@
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
         },
         {
           "label": "취학전·초중고 교육비",
@@ -2282,7 +2358,8 @@
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
         }
       ]
     },
@@ -2319,7 +2396,8 @@
           "basis": "국외원천소득 관련 외국납부세액",
           "condition": "국내 산출세액 중 국외원천소득 비율 상당액 한도",
           "benefit": "외국납부세액과 한도액 중 작은 금액 공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -2400,14 +2478,16 @@
           "basis": "상시근로자 증가 인원",
           "condition": "전년 대비 고용 증가",
           "benefit": "1인당 정액 세액공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "우대 대상 고용",
           "basis": "청년·장애인·경력단절자 등",
           "condition": "정책대상 근로자 고용 증가",
           "benefit": "일반 상시근로자보다 우대 공제액 적용",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -2445,7 +2525,8 @@
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "의료비 지출액 × 세액공제율 3%"
         },
         {
           "label": "일반 의료비",
@@ -2462,7 +2543,8 @@
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "해당 의료비 × 세액공제율 15%"
         },
         {
           "label": "난임시술비",
@@ -2470,7 +2552,8 @@
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "난임시술비 × 세액공제율 30%"
         }
       ]
     },
@@ -2632,21 +2715,24 @@
           "basis": "연구·인력개발비",
           "condition": "기업규모·증가분 방식별 공제율 적용",
           "benefit": "일반 R&D 세액공제",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "신성장·원천기술",
           "basis": "신성장·원천기술 연구개발비",
           "condition": "해당 기술 연구개발비",
           "benefit": "우대 공제율 적용",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "국가전략기술",
           "basis": "국가전략기술 연구개발비",
           "condition": "반도체 등 국가전략기술 연구개발비",
           "benefit": "최고 우대 공제율 적용",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -2706,7 +2792,8 @@
           "rate_percent": 3,
           "note": "초과분이 공제대상 의료비",
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "의료비 지출액 × 세액공제율 3%"
         },
         {
           "label": "일반 의료비",
@@ -2723,7 +2810,8 @@
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "해당 의료비 × 세액공제율 15%"
         },
         {
           "label": "난임시술비",
@@ -2731,7 +2819,8 @@
           "condition": "한도 없음",
           "rate_percent": 30,
           "source": "source.nts.year-end-settlement.special-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "난임시술비 × 세액공제율 30%"
         },
         {
           "label": "본인 교육비",
@@ -2739,7 +2828,8 @@
           "condition": "한도 없음",
           "rate_percent": 15,
           "source": "source.nts.education-expense-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "근로자 본인 교육비 × 세액공제율 15%"
         },
         {
           "label": "취학전·초중고 교육비",
@@ -2766,7 +2856,8 @@
           "rate_percent": 15,
           "note": "한도 없음",
           "source": "source.nts.education-expense-credit",
-          "rate_label": "세액공제율"
+          "rate_label": "세액공제율",
+          "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
         },
         {
           "label": "정치자금 10만원 이하",
@@ -3212,7 +3303,8 @@
           "rate_percent": 25,
           "note": "공제 대상 사용금액 산정 기준",
           "source": "source.nts.credit-card-deduction",
-          "rate_label": "소득공제율"
+          "rate_label": "소득공제율",
+          "amount_formula": "신용카드 등 사용금액 × 소득공제율 25%"
         },
         {
           "label": "신용카드 공제율",
@@ -3220,7 +3312,8 @@
           "condition": "총급여 25% 초과분 중 신용카드",
           "rate_percent": 15,
           "source": "source.nts.credit-card-deduction",
-          "rate_label": "소득공제율"
+          "rate_label": "소득공제율",
+          "amount_formula": "신용카드 사용금액 × 소득공제율 15%"
         },
         {
           "label": "현금영수증·직불카드 공제율",
@@ -3228,7 +3321,8 @@
           "condition": "총급여 25% 초과분 중 현금영수증·직불카드",
           "rate_percent": 30,
           "source": "source.nts.credit-card-deduction",
-          "rate_label": "소득공제율"
+          "rate_label": "소득공제율",
+          "amount_formula": "현금영수증·직불카드 등 × 소득공제율 30%"
         },
         {
           "label": "전통시장·대중교통 공제율",
@@ -3236,7 +3330,8 @@
           "condition": "총급여 25% 초과분 중 전통시장·대중교통",
           "rate_percent": 40,
           "source": "source.nts.credit-card-deduction",
-          "rate_label": "소득공제율"
+          "rate_label": "소득공제율",
+          "amount_formula": "전통시장·대중교통 사용금액 × 소득공제율 40%"
         }
       ]
     },
@@ -3353,14 +3448,16 @@
           "basis": "본인 부담 보험료",
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "amount_formula": "본인 부담 보험료 전액"
         },
         {
           "label": "고용보험",
           "basis": "본인 부담 보험료",
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "amount_formula": "본인 부담 보험료 전액"
         }
       ]
     },
@@ -3510,7 +3607,8 @@
           "condition": "중소기업창업투자조합 등",
           "rate_percent": 10,
           "source": "source.nts.year-end-settlement.deduction-limit",
-          "rate_label": "소득공제율"
+          "rate_label": "소득공제율",
+          "amount_formula": "출자 또는 투자금액 × 소득공제율 10%"
         },
         {
           "label": "벤처기업 등 3천만원 이하",
@@ -3629,14 +3727,16 @@
           "basis": "주택자금공제와 주택마련저축",
           "condition": "종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "투자·우리사주·장기저축",
           "basis": "중소기업창업투자조합 출자 등, 우리사주조합 출연금, 장기집합투자증권저축",
           "condition": "일부 벤처투자 예외를 제외하고 종합한도 적용 대상",
           "benefit": "종합한도 내 소득공제",
-          "source": "source.nts.year-end-settlement.deduction-limit"
+          "source": "source.nts.year-end-settlement.deduction-limit",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -3672,7 +3772,8 @@
           "basis": "국민연금 등 공적연금보험료",
           "condition": "근로자가 부담한 공적연금보험료",
           "benefit": "전액 소득공제",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "amount_formula": "국민연금 등 공적연금보험료 전액"
         }
       ]
     },
@@ -3996,14 +4097,16 @@
           "basis": "본인 부담 보험료",
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "amount_formula": "본인 부담 보험료 전액"
         },
         {
           "label": "고용보험",
           "basis": "본인 부담 보험료",
           "condition": "근로제공기간 중 부담분",
           "benefit": "전액 소득공제",
-          "source": "source.nts.year-end-settlement.calculation"
+          "source": "source.nts.year-end-settlement.calculation",
+          "amount_formula": "본인 부담 보험료 전액"
         },
         {
           "label": "주택임차차입금 원리금",
@@ -4134,7 +4237,8 @@
           "condition": "사업소득 지급 시",
           "rate_percent": 3,
           "note": "지방소득세는 별도 확인",
-          "source": "source.nts.business-income.withholding"
+          "source": "source.nts.business-income.withholding",
+          "amount_formula": "원천징수 대상 사업소득 지급금액 × 적용비율 3%"
         }
       ]
     },
@@ -4168,6 +4272,15 @@
       "law_reference": "",
       "tags": [
         "business-compliance"
+      ],
+      "criteria": [
+        {
+          "label": "사업자등록 신청기한",
+          "basis": "사업 개시일",
+          "condition": "사업 개시 전 또는 사업 개시일부터 20일 이내",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.business-registration.application"
+        }
       ]
     },
     {
@@ -4203,7 +4316,23 @@
         "source.nts.capital-gains.deadline"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "양도소득세 예정신고",
+          "basis": "양도일이 속하는 달의 말일",
+          "condition": "자산 유형별 예정신고 기한 적용",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.capital-gains.deadline"
+        },
+        {
+          "label": "양도소득세 확정신고",
+          "basis": "과세기간 다음연도 5월",
+          "condition": "예정신고 대상 외 확정신고 필요 여부 확인",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.capital-gains.deadline"
+        }
+      ]
     },
     {
       "id": "filing.gift-tax-return",
@@ -4232,7 +4361,16 @@
         "source.nts.gift.deadline"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "증여세 신고기한",
+          "basis": "증여받은 날이 속하는 달의 말일",
+          "condition": "일반 증여 3개월",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.gift.deadline"
+        }
+      ]
     },
     {
       "id": "filing.grant-application",
@@ -4264,7 +4402,16 @@
         "source.nts.grant.deadline"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "근로·자녀장려금 정기신청",
+          "basis": "2025년 귀속 소득",
+          "condition": "2026년 5월 정기신청",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.grant.deadline"
+        }
+      ]
     },
     {
       "id": "filing.income-tax-return",
@@ -4293,7 +4440,16 @@
         "source.nts.income-tax.deadline"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "확정신고 기간",
+          "basis": "신고·납부기한",
+          "condition": "다음연도 5월 1일부터 5월 31일까지",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.income-tax.deadline"
+        }
+      ]
     },
     {
       "id": "filing.inheritance-tax-return",
@@ -4323,7 +4479,16 @@
         "source.nts.inheritance.overview"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "상속세 신고기한",
+          "basis": "상속개시일이 속하는 달의 말일",
+          "condition": "거주자 6개월, 비거주자 9개월",
+          "amount_applicability": "정액 금액 기준 없음",
+          "source": "source.nts.inheritance.overview"
+        }
+      ]
     },
     {
       "id": "filing.vat-return",
@@ -4365,7 +4530,23 @@
         "source.nts.tax-calendar.2026"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "일반과세자 확정신고",
+          "basis": "부가가치세 과세기간",
+          "condition": "제1기·제2기 확정신고 납부",
+          "amount_formula": "매출세액 - 매입세액 - 공제세액",
+          "source": "source.nts.vat.filing-duty"
+        },
+        {
+          "label": "간이과세자 연간 신고",
+          "basis": "직전연도 공급대가",
+          "condition": "간이과세자 과세기간 신고",
+          "amount_formula": "매출액 × 업종별 부가가치율 × 10% - 공제세액",
+          "source": "source.nts.vat.filing-duty"
+        }
+      ]
     },
     {
       "id": "filing.withholding-tax",
@@ -4401,7 +4582,16 @@
         "source.nts.business-income.withholding"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "원천세 월별 납부",
+          "basis": "원천징수일",
+          "condition": "징수일이 속하는 달의 다음달 10일까지",
+          "amount_formula": "원천징수 대상 지급액 × 소득별 원천징수세율",
+          "source": "source.nts.withholding.overview"
+        }
+      ]
     },
     {
       "id": "filing.year-end-settlement",
@@ -4431,7 +4621,16 @@
         "source.nts.year-end-settlement.calculation"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "연말정산 계산",
+          "basis": "근로소득세 확정 절차",
+          "condition": "원천징수의무자가 해당 과세기간 근로소득세를 정산",
+          "amount_formula": "결정세액 - 기납부세액",
+          "source": "source.nts.year-end-settlement.calculation"
+        }
+      ]
     },
     {
       "id": "kr-tax-system",
@@ -4487,11 +4686,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "취득세 산식",
+          "basis": "취득가액 또는 시가표준액",
+          "condition": "부동산·차량 등 과세물건 취득",
+          "amount_formula": "과세표준 × 과세대상별 취득세율",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4513,11 +4722,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "자동차세 산식",
+          "basis": "차종·용도·배기량 또는 적재량",
+          "condition": "자동차 보유",
+          "amount_formula": "차종별 과세단위 × 지방세법상 단위세액",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4539,11 +4758,22 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "레저세 세율",
+          "basis": "승자투표권·승마투표권 발매금 총액",
+          "condition": "경륜·경정·경마 등",
+          "rate_percent": 10,
+          "amount_formula": "발매금 총액 × 10%",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4567,11 +4797,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "지방소비세 산식",
+          "basis": "부가가치세액",
+          "condition": "부가가치세와 연동",
+          "amount_formula": "부가가치세액 × 지방세법상 지방소비세율",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4595,11 +4835,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "지방교육세 부가 과세",
+          "basis": "취득세액·등록면허세액·레저세액 등",
+          "condition": "지방교육재정 확충 목적",
+          "amount_formula": "본세액 × 지방교육세율",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4624,11 +4874,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "지방소득세 산식",
+          "basis": "개인·법인 소득 과세표준",
+          "condition": "소득세·법인세와 연결",
+          "amount_formula": "지방소득세 과세표준 × 지방세법상 세율",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4775,11 +5035,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "지역자원시설세 산식",
+          "basis": "특정자원·특정부동산·소방분 과세표준",
+          "condition": "지역자원 보호 또는 소방시설 재원 목적",
+          "amount_formula": "과세대상별 과세표준 × 지방세법상 세율 또는 정액세",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4801,11 +5071,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "등록면허세 산식",
+          "basis": "등록가액 또는 면허 종류",
+          "condition": "등기·등록 또는 면허",
+          "amount_formula": "등록가액 × 등록세율 또는 면허종별 정액세",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4827,11 +5107,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "주민세 산식",
+          "basis": "개인분·사업소분·종업원분 과세표준",
+          "condition": "지방자치단체 조례와 지방세법 기준 적용",
+          "amount_formula": "개인분 정액세 또는 사업소 연면적·종업원 급여총액 기준 산식",
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4853,11 +5143,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.local-tax-framework-act.2026.article8"
+        "source.local-tax-framework-act.2026.article8",
+        "source.law.local-tax-act.rates"
       ],
       "law_reference": "지방세기본법 제8조",
       "tags": [
         "local-tax"
+      ],
+      "criteria": [
+        {
+          "label": "궐련 담배소비세",
+          "basis": "궐련 20개비",
+          "condition": "궐련 담배 반출 또는 반입",
+          "amount_krw": 1007,
+          "source": "source.law.local-tax-act.rates"
+        }
       ]
     },
     {
@@ -4894,7 +5194,8 @@
           "rate_percent": 70,
           "rate_label": "세액공제율",
           "note": "요건과 과세연도별 적용기한 확인 필요",
-          "source": "source.nts.corporate-tax.reliefs"
+          "source": "source.nts.corporate-tax.reliefs",
+          "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
       ]
     },
@@ -4987,7 +5288,8 @@
           "condition": "소기업, 수도권 내 제조업·출판업 등",
           "rate_percent": 20,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 20%"
         },
         {
           "label": "소기업 수도권 외 제조업 등",
@@ -4995,7 +5297,8 @@
           "condition": "소기업, 수도권 외 제조업·출판업 등",
           "rate_percent": 30,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 30%"
         },
         {
           "label": "중기업 수도권 외 제조업 등",
@@ -5003,7 +5306,8 @@
           "condition": "중기업, 수도권 외 제조업 등",
           "rate_percent": 15,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 15%"
         },
         {
           "label": "도소매·의료업 등",
@@ -5012,7 +5316,8 @@
           "rate_percent_min": 5,
           "rate_percent_max": 10,
           "rate_label": "감면율",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
       ]
     },
@@ -5050,7 +5355,8 @@
           "rate_percent": 50,
           "rate_label": "감면율",
           "note": "최초 소득발생 과세연도와 이후 4년",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "법인세 또는 소득세 × 감면율 50%"
         },
         {
           "label": "2026년 이후 청년·생계형 창업",
@@ -5059,7 +5365,8 @@
           "rate_percent": 100,
           "rate_label": "감면율",
           "note": "수도권 과밀억제권역 50%, 수도권 75% 등 지역별 차등",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "법인세 또는 소득세 × 감면율 100%"
         },
         {
           "label": "상시근로자 증가 추가감면",
@@ -5068,7 +5375,8 @@
           "rate_percent": 100,
           "rate_label": "추가감면 산식",
           "note": "상시근로자 증가율 × 100%",
-          "source": "source.nts.corporate-tax-consulting.2026"
+          "source": "source.nts.corporate-tax-consulting.2026",
+          "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
       ]
     },
@@ -5124,7 +5432,7 @@
       "id": "source.fsc.isa.policy",
       "title": "ISA 정책문답",
       "type": "source",
-      "description": "개인종합자산관리계좌(ISA)의 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다.",
+      "description": "개인종합자산관리계좌(ISA)의 연 2,000만원 납입한도, 순소득 200만원 비과세, 초과분 분리과세 등 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다.",
       "folder": "90_Sources",
       "basis_year": null,
       "effective_date": null,
@@ -5361,6 +5669,222 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.law.customs-tariff",
+      "title": "관세법 관세율표",
+      "type": "source",
+      "description": "수입물품 품목분류별 관세율표와 품목별 세율 적용 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/관세법/별표",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.education-tax-act.article5",
+      "title": "교육세법 제5조",
+      "type": "source",
+      "description": "교육세 과세표준과 세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/교육세법/제5조",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.individual-consumption-tax-act.rates",
+      "title": "개별소비세법 세율 조문",
+      "type": "source",
+      "description": "과세물품, 과세장소, 과세유흥장소, 영업행위별 개별소비세 세율과 정액세 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/개별소비세법",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.liquor-tax-act.rates",
+      "title": "주세법 세율 조문",
+      "type": "source",
+      "description": "주류 종류별 주세 종가세·종량세 세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/주세법",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.local-tax-act.rates",
+      "title": "지방세법 세율 조문",
+      "type": "source",
+      "description": "취득세, 등록면허세, 레저세, 담배소비세, 지방소비세, 주민세, 지방소득세, 자동차세, 지역자원시설세, 지방교육세의 세율·세액 산식 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/지방세법",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.securities-transaction-tax-act.article8",
+      "title": "증권거래세법 제8조",
+      "type": "source",
+      "description": "주권 양도 시 증권거래세 과세표준과 세율 적용 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/증권거래세법/제8조",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.special-rural-development-tax-act.article5",
+      "title": "농어촌특별세법 제5조",
+      "type": "source",
+      "description": "농어촌특별세 과세표준과 세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/농어촌특별세법/제5조",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.stamp-tax-act.article3",
+      "title": "인지세법 제3조",
+      "type": "source",
+      "description": "과세문서와 문서 기재금액별 인지세액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/인지세법/제3조",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
+      "id": "source.law.transport-energy-environment-tax-act.rates",
+      "title": "교통·에너지·환경세법 세율 조문",
+      "type": "source",
+      "description": "휘발유, 경유 등 과세물품별 교통·에너지·환경세 정액세율 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국가법령정보센터"
+      ],
+      "publisher": "국가법령정보센터",
+      "url": "https://www.law.go.kr/법령/교통ㆍ에너지ㆍ환경세법",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
       "id": "source.local-tax-framework-act.2026.article8",
       "title": "지방세기본법 제8조",
       "type": "source",
@@ -5383,6 +5907,30 @@
       "publisher": "국가법령정보센터",
       "url": "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1000903169",
       "basis_date": "시행 2026-02-05"
+    },
+    {
+      "id": "source.moef.isa.tax-benefit",
+      "title": "ISA 세제혜택 설명",
+      "type": "source",
+      "description": "ISA 계좌 순소득 200만원, 서민·농어민형 400만원 비과세와 초과분 9% 저율 분리과세 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "기획재정부·대한민국 정책브리핑"
+      ],
+      "publisher": "기획재정부·대한민국 정책브리핑",
+      "url": "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193",
+      "basis_date": "2026-05-03 확인"
     },
     {
       "id": "source.national-tax-framework-act.2026.article2",
@@ -5455,6 +6003,30 @@
       "publisher": "국세청",
       "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7777&mi=2444",
       "basis_date": "2026-05-02 확인"
+    },
+    {
+      "id": "source.nts.capital-gains.basic-deduction",
+      "title": "양도소득 기본공제 신고서식",
+      "type": "source",
+      "description": "양도소득기본공제가 국내 부동산, 국내 주식 등, 국외 부동산, 국외 주식 등, 파생상품별로 각각 2,500,000원 적용된다는 신고서식 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/tax/sub/1.2.3.%EC%96%91%EB%8F%84%EC%86%8C%EB%93%9D%EA%B3%BC%EC%84%B8%ED%91%9C%EC%A4%80%20%EC%8B%A0%EA%B3%A0%20%EB%B0%8F%20%EB%82%A9%EB%B6%80%EA%B3%84%EC%82%B0%EC%84%9C.html",
+      "basis_date": "2026-05-03 확인"
     },
     {
       "id": "source.nts.capital-gains.deadline",
@@ -6105,6 +6677,30 @@
       "basis_date": "2026-05-02 확인"
     },
     {
+      "id": "source.nts.retirement-income.calculation",
+      "title": "퇴직소득세 계산방법",
+      "type": "source",
+      "description": "퇴직소득금액, 근속연수공제, 환산급여, 환산급여공제, 과세표준, 환산산출세액, 산출세액 계산 구조와 근속연수별 공제금액 근거입니다.",
+      "folder": "90_Sources",
+      "basis_year": null,
+      "effective_date": null,
+      "expiration_date": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "law_reference": "",
+      "tags": [
+        "official-source",
+        "국세청"
+      ],
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7880&mi=6444",
+      "basis_date": "2026-05-03 확인"
+    },
+    {
       "id": "source.nts.sme-employment-income-reduction",
       "title": "중소기업 취업자 소득세 감면",
       "type": "source",
@@ -6433,7 +7029,8 @@
           "basis": "자녀 연령",
           "condition": "18세 미만 부양자녀",
           "benefit": "자녀장려금 대상",
-          "source": "source.nts.ctc.intro"
+          "source": "source.nts.ctc.intro",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "재산요건",
@@ -6539,7 +7136,8 @@
           "condition": "최대 70%",
           "rate_percent": 70,
           "rate_label": "LTV",
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
           "label": "DTI",
@@ -6547,7 +7145,8 @@
           "condition": "최대 60%",
           "rate_percent": 60,
           "rate_label": "DTI",
-          "source": "source.hf.didimdol-loan"
+          "source": "source.hf.didimdol-loan",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
           "label": "2026년 5월 금리",
@@ -6556,7 +7155,8 @@
           "rate_percent_min": 2.85,
           "rate_percent_max": 4.15,
           "rate_label": "금리",
-          "source": "source.hf.didimdol-rate.2026-05"
+          "source": "source.hf.didimdol-rate.2026-05",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
     },
@@ -6679,13 +7279,15 @@
           "label": "채무조정 이용기간",
           "basis": "은행권 채무조정 프로그램",
           "condition": "3개월 이상 이용 중",
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "성실상환",
           "basis": "상환상태",
           "condition": "신청일 현재 연체 중이 아님",
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "연매출",
@@ -6709,7 +7311,8 @@
           "rate_percent_min": 6,
           "rate_percent_max": 7,
           "rate_label": "금리",
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
           "label": "보증료",
@@ -6717,7 +7320,8 @@
           "condition": "연 0.5%",
           "rate_percent": 0.5,
           "rate_label": "보증료율",
-          "source": "source.kinfa.hessal-119"
+          "source": "source.kinfa.hessal-119",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
     },
@@ -6765,19 +7369,22 @@
           "label": "취업준비생",
           "basis": "지원대상",
           "condition": "대학(원)생, 학점은행제 수강자, 미취업청년",
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "사회초년생",
           "basis": "지원대상",
           "condition": "중소기업에 1년 이하 재직 중",
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "청년사업자",
           "basis": "지원대상",
           "condition": "창업 1년 이하 저소득 청년 개인사업자",
-          "source": "source.kinfa.hessal-loan-youth"
+          "source": "source.kinfa.hessal-loan-youth",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "동일인 한도",
@@ -6840,7 +7447,8 @@
           "basis": "개인신용평점",
           "condition": "하위 20%",
           "benefit": "신청 대상",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "소득요건",
@@ -6853,7 +7461,8 @@
           "label": "필수 이수·가입",
           "basis": "사전요건",
           "condition": "금융교육 이수 또는 복지멤버십 가입",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "대출한도",
@@ -6869,7 +7478,8 @@
           "condition": "일반",
           "rate_percent": 12.5,
           "rate_label": "금리",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
           "label": "사회적배려대상자 금리",
@@ -6877,7 +7487,8 @@
           "condition": "사회적배려대상자",
           "rate_percent": 9.9,
           "rate_label": "금리",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         },
         {
           "label": "완제자 재대출 금리",
@@ -6885,7 +7496,8 @@
           "condition": "6개월 이상 이용 후 완제자 재대출",
           "rate_percent": 4.5,
           "rate_label": "금리",
-          "source": "source.kinfa.illegal-private-finance-prevention-loan"
+          "source": "source.kinfa.illegal-private-finance-prevention-loan",
+          "amount_applicability": "비율 기준이며 고정 원화 금액 없음"
         }
       ]
     },
@@ -6910,12 +7522,54 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.fsc.isa.policy"
+        "source.fsc.isa.policy",
+        "source.moef.isa.tax-benefit"
       ],
       "law_reference": "",
       "tags": [
         "policy-finance",
         "tax-preferred-account"
+      ],
+      "criteria": [
+        {
+          "label": "연 납입한도",
+          "basis": "ISA 납입금",
+          "condition": "연간 납입한도",
+          "limit_krw": 20000000,
+          "source": "source.fsc.isa.policy"
+        },
+        {
+          "label": "총 납입한도",
+          "basis": "ISA 납입금",
+          "condition": "5년 누적 한도",
+          "limit_krw": 100000000,
+          "source": "source.fsc.isa.policy"
+        },
+        {
+          "label": "일반형 비과세",
+          "basis": "계좌 순소득",
+          "condition": "일반형 ISA",
+          "limit_krw": 2000000,
+          "benefit": "한도 내 비과세",
+          "source": "source.moef.isa.tax-benefit"
+        },
+        {
+          "label": "서민·농어민형 비과세",
+          "basis": "계좌 순소득",
+          "condition": "서민·농어민형 ISA",
+          "limit_krw": 4000000,
+          "benefit": "한도 내 비과세",
+          "source": "source.moef.isa.tax-benefit"
+        },
+        {
+          "label": "비과세 초과분 분리과세",
+          "basis": "비과세 한도 초과 순소득",
+          "condition": "비과세 한도 초과분",
+          "rate_percent": 9,
+          "rate_label": "분리과세율",
+          "amount_formula": "비과세 한도 초과 순소득 × 9%",
+          "source": "source.moef.isa.tax-benefit"
+        }
       ]
     },
     {
@@ -6954,7 +7608,8 @@
           "label": "연체기간",
           "basis": "채무조정 신청일 기준 연체채무",
           "condition": "5년 이상",
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "1인 가구 소득",
@@ -6991,13 +7646,15 @@
           "rate_percent_min": 30,
           "rate_percent_max": 80,
           "rate_label": "감면율",
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "amount_formula": "연체이자·이자·원금 × 감면율 30%~80%"
         },
         {
           "label": "분할상환",
           "basis": "상환기간",
           "condition": "최장 10년 이내 원금균등분할상환",
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "상환유예",
@@ -7005,7 +7662,8 @@
           "condition": "최장 3년 이내 유예, 유예이자율 연 2%",
           "rate_percent": 2,
           "rate_label": "유예이자율",
-          "source": "source.ccrs.long-term-delinquent-debt-adjustment"
+          "source": "source.ccrs.long-term-delinquent-debt-adjustment",
+          "amount_formula": "유예기간·유예이자율 × 유예이자율 2%"
         }
       ]
     },
@@ -7048,14 +7706,16 @@
           "basis": "상품 출시",
           "condition": "2026년 6월 출시 예정",
           "benefit": "청년 자산형성 적금",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "가입연령",
           "basis": "만 나이",
           "condition": "19세 이상 34세 이하",
           "note": "청년기본법상 청년 기준",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "일반형 개인소득",
@@ -7076,7 +7736,8 @@
           "basis": "기준 중위소득",
           "condition": "200% 이하",
           "benefit": "일반형 가입 가능",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "우대형 개인소득",
@@ -7097,7 +7758,8 @@
           "basis": "기준 중위소득",
           "condition": "150% 이하",
           "benefit": "우대형 가입 가능",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "월 납입한도",
@@ -7113,7 +7775,8 @@
           "rate_percent": 6,
           "rate_label": "기여금비율",
           "benefit": "정부기여금 매칭",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_formula": "월 납입금 × 기여금비율 6%"
         },
         {
           "label": "우대형 기여금",
@@ -7122,14 +7785,16 @@
           "rate_percent": 12,
           "rate_label": "기여금비율",
           "benefit": "정부기여금 매칭",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_formula": "월 납입금 × 기여금비율 12%"
         },
         {
           "label": "만기",
           "basis": "가입기간",
           "condition": "3년",
           "benefit": "이자소득 비과세 특례 예정",
-          "source": "source.fsc.youth-future-savings"
+          "source": "source.fsc.youth-future-savings",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -7169,7 +7834,8 @@
           "basis": "계좌개설일 기준 만 나이",
           "condition": "19세 이상 34세 이하",
           "note": "병역이행기간은 최대 6년까지 차감",
-          "source": "source.kinfa.youth-leap"
+          "source": "source.kinfa.youth-leap",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "개인소득 총급여",
@@ -7190,14 +7856,16 @@
           "basis": "가구원 수별 기준 중위소득",
           "condition": "250% 이하",
           "benefit": "가입 대상",
-          "source": "source.kinfa.youth-leap"
+          "source": "source.kinfa.youth-leap",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "금융소득종합과세 제외",
           "basis": "직전 3개 과세기간",
           "condition": "금융소득종합과세 대상 이력 없음",
           "benefit": "가입 가능",
-          "source": "source.kinfa.youth-leap"
+          "source": "source.kinfa.youth-leap",
+          "amount_applicability": "정액 금액 기준 없음"
         }
       ]
     },
@@ -7239,7 +7907,8 @@
           "label": "무주택 청년 연령",
           "basis": "신청일 기준 만 나이",
           "condition": "만 34세 이하",
-          "source": "source.hf.special-rent-guarantee"
+          "source": "source.hf.special-rent-guarantee",
+          "amount_applicability": "정액 금액 기준 없음"
         },
         {
           "label": "무주택 청년 소득",
@@ -7570,10 +8239,20 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.customs-act.2026.article14"
+        "source.customs-act.2026.article14",
+        "source.law.customs-tariff"
       ],
       "law_reference": "관세법 제14조",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "수입물품 관세",
+          "basis": "수입물품 과세가격",
+          "condition": "품목분류별 관세율표 적용",
+          "amount_formula": "과세가격 × 품목별 관세율",
+          "source": "source.law.customs-tariff"
+        }
+      ]
     },
     {
       "id": "tax.education",
@@ -7597,11 +8276,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.education-tax-act.article5"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "교육세 부가 과세",
+          "basis": "개별소비세액·교통세액·금융보험업 수익금액 등",
+          "condition": "교육세법상 납세의무자",
+          "amount_formula": "교육세 과세표준 × 교육세법상 세율",
+          "source": "source.law.education-tax-act.article5"
+        }
       ]
     },
     {
@@ -7934,14 +8623,16 @@
           "basis": "양도소득 과세표준",
           "condition": "국외 중소기업주식 등",
           "rate_percent": 10,
-          "source": "source.nts.capital-gains.rates"
+          "source": "source.nts.capital-gains.rates",
+          "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         },
         {
           "label": "국외 그 밖의 주식 등",
           "basis": "양도소득 과세표준",
           "condition": "국외 그 밖의 주식 등",
           "rate_percent": 20,
-          "source": "source.nts.capital-gains.rates"
+          "source": "source.nts.capital-gains.rates",
+          "amount_formula": "양도소득 과세표준 × 적용비율 20%"
         },
         {
           "label": "파생상품 등",
@@ -7949,7 +8640,8 @@
           "condition": "2018.4.1. 이후 양도분",
           "rate_percent": 10,
           "note": "기본세율 20%에 한시적 탄력세율 적용",
-          "source": "source.nts.capital-gains.rates"
+          "source": "source.nts.capital-gains.rates",
+          "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         }
       ]
     },
@@ -8086,10 +8778,48 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.nts.retirement-income.calculation"
       ],
       "law_reference": "",
-      "tags": []
+      "tags": [],
+      "criteria": [
+        {
+          "label": "퇴직소득세 계산 산식",
+          "basis": "퇴직소득 과세표준",
+          "condition": "2020년 이후 퇴직분",
+          "amount_formula": "(과세표준 × 기본세율 - 누진공제액) ÷ 12 × 근속연수",
+          "source": "source.nts.retirement-income.calculation"
+        },
+        {
+          "label": "근속연수 5년 이하 공제",
+          "basis": "근속연수공제",
+          "condition": "5년 이하",
+          "amount_formula": "근속연수 × 1,000,000원",
+          "source": "source.nts.retirement-income.calculation"
+        },
+        {
+          "label": "근속연수 10년 이하 공제",
+          "basis": "근속연수공제",
+          "condition": "5년 초과 10년 이하",
+          "amount_formula": "5,000,000원 + (근속연수 - 5년) × 2,000,000원",
+          "source": "source.nts.retirement-income.calculation"
+        },
+        {
+          "label": "근속연수 20년 이하 공제",
+          "basis": "근속연수공제",
+          "condition": "10년 초과 20년 이하",
+          "amount_formula": "15,000,000원 + (근속연수 - 10년) × 2,500,000원",
+          "source": "source.nts.retirement-income.calculation"
+        },
+        {
+          "label": "근속연수 20년 초과 공제",
+          "basis": "근속연수공제",
+          "condition": "20년 초과",
+          "amount_formula": "40,000,000원 + (근속연수 - 20년) × 3,000,000원",
+          "source": "source.nts.retirement-income.calculation"
+        }
+      ]
     },
     {
       "id": "tax.individual-consumption",
@@ -8111,11 +8841,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.individual-consumption-tax-act.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "과세물품·장소별 세율",
+          "basis": "과세가격 또는 과세수량",
+          "condition": "개별소비세법상 과세물품·장소·행위",
+          "amount_formula": "과세가격 × 품목별 세율 또는 과세수량 × 품목별 정액세",
+          "source": "source.law.individual-consumption-tax-act.rates"
+        }
       ]
     },
     {
@@ -8313,11 +9053,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.liquor-tax-act.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "주류 종류별 세율",
+          "basis": "주류 가격 또는 출고수량",
+          "condition": "주정·탁주·맥주·증류주 등 주류 종류별",
+          "amount_formula": "과세표준 × 종가세율 또는 출고수량 × 종량세율",
+          "source": "source.law.liquor-tax-act.rates"
+        }
       ]
     },
     {
@@ -8344,11 +9094,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.securities-transaction-tax-act.article8"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "주권 양도 거래",
+          "basis": "주권 등 양도가액",
+          "condition": "주권 또는 지분 양도",
+          "amount_formula": "양도가액 × 증권거래세법·시행령상 시장별 세율",
+          "source": "source.law.securities-transaction-tax-act.article8"
+        }
       ]
     },
     {
@@ -8371,11 +9131,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.special-rural-development-tax-act.article5"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "농어촌특별세 부가 과세",
+          "basis": "감면세액·증권거래금액·개별소비세액 등",
+          "condition": "농어촌특별세법상 납세의무자",
+          "amount_formula": "과세표준 × 농어촌특별세법상 세율",
+          "source": "source.law.special-rural-development-tax-act.article5"
+        }
       ]
     },
     {
@@ -8398,11 +9168,65 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.stamp-tax-act.article3"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "1천만원 이하",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "1천만원 이하",
+          "amount_krw": 0,
+          "source": "source.law.stamp-tax-act.article3"
+        },
+        {
+          "label": "1천만원 초과 3천만원 이하",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "1천만원 초과 3천만원 이하",
+          "threshold_krw_min": 10000000,
+          "threshold_krw_max": 30000000,
+          "amount_krw": 20000,
+          "source": "source.law.stamp-tax-act.article3"
+        },
+        {
+          "label": "3천만원 초과 5천만원 이하",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "3천만원 초과 5천만원 이하",
+          "threshold_krw_min": 30000000,
+          "threshold_krw_max": 50000000,
+          "amount_krw": 40000,
+          "source": "source.law.stamp-tax-act.article3"
+        },
+        {
+          "label": "5천만원 초과 1억원 이하",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "5천만원 초과 1억원 이하",
+          "threshold_krw_min": 50000000,
+          "threshold_krw_max": 100000000,
+          "amount_krw": 70000,
+          "source": "source.law.stamp-tax-act.article3"
+        },
+        {
+          "label": "1억원 초과 10억원 이하",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "1억원 초과 10억원 이하",
+          "threshold_krw_min": 100000000,
+          "threshold_krw_max": 1000000000,
+          "amount_krw": 150000,
+          "source": "source.law.stamp-tax-act.article3"
+        },
+        {
+          "label": "10억원 초과",
+          "basis": "부동산 등 소유권 이전 과세문서 기재금액",
+          "condition": "10억원 초과",
+          "threshold_krw_min": 1000000000,
+          "amount_krw": 350000,
+          "source": "source.law.stamp-tax-act.article3"
+        }
       ]
     },
     {
@@ -8425,11 +9249,21 @@
       ],
       "deadlines": [],
       "sources": [
-        "source.national-tax-framework-act.2026.article2"
+        "source.national-tax-framework-act.2026.article2",
+        "source.law.transport-energy-environment-tax-act.rates"
       ],
       "law_reference": "국세기본법 제2조 제1호",
       "tags": [
         "national-tax"
+      ],
+      "criteria": [
+        {
+          "label": "유류 등 과세물품별 정액세",
+          "basis": "과세물품 수량",
+          "condition": "휘발유·경유 등 법정 과세물품",
+          "amount_formula": "과세물품 수량 × 물품별 정액세율",
+          "source": "source.law.transport-energy-environment-tax-act.rates"
+        }
       ]
     },
     {
@@ -8501,7 +9335,8 @@
           "condition": "매출액에 기본세율 적용",
           "rate_percent": 10,
           "note": "영세율 적용 대상은 0%",
-          "source": "source.nts.vat.filing-duty"
+          "source": "source.nts.vat.filing-duty",
+          "amount_formula": "매출세액 × 적용비율 10%"
         },
         {
           "label": "간이과세자 업종별 부가가치율",
@@ -8510,7 +9345,8 @@
           "rate_percent_min": 15,
           "rate_percent_max": 40,
           "note": "납부세액은 매출액 × 업종별 부가가치율 × 10% - 공제세액",
-          "source": "source.nts.vat.overview"
+          "source": "source.nts.vat.overview",
+          "amount_formula": "업종별 부가가치율 × 적용비율 15%~40%"
         },
         {
           "label": "간이과세자 예정신고 대상",
