@@ -1,0 +1,55 @@
+# opentax-mcp
+
+`opentax-mcp` is a Cloudflare Worker Remote MCP adapter for OpenTax.
+
+It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
+
+- `search`: search OpenTax tax, deduction, support, filing, concept, deadline, and source nodes.
+- `fetch`: fetch one OpenTax item with criteria, source URLs, and neighboring node ids.
+
+The Worker reads the canonical OpenTax JSON export from:
+
+```text
+https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json
+```
+
+## Local Development
+
+```sh
+cd cloudflare/opentax-mcp
+npm install
+npm run dev
+```
+
+Local MCP endpoint:
+
+```text
+http://localhost:8787/mcp
+```
+
+Test with MCP Inspector:
+
+```sh
+npx @modelcontextprotocol/inspector@latest
+```
+
+## Deploy
+
+```sh
+cd cloudflare/opentax-mcp
+npx wrangler login
+npm run deploy
+```
+
+The deployed MCP endpoint will be:
+
+```text
+https://opentax-mcp.<cloudflare-account>.workers.dev/mcp
+```
+
+## ChatGPT Connector
+
+Register the deployed `/mcp` URL as a custom MCP connector in ChatGPT.
+
+Recommended first deployment is public and read-only. If write tools are added
+later, add OAuth or Cloudflare Access before exposing them.
