@@ -156,6 +156,21 @@ MCP 설정에서 다음 값을 사용합니다.
 }
 ```
 
+## ChatGPT / 원격 MCP
+
+ChatGPT에서 직접 연결하려면 로컬 stdio 서버가 아니라 HTTPS 원격 MCP 서버가
+필요합니다. Cloudflare Workers용 읽기 전용 어댑터는
+`cloudflare/opentax-mcp`에 있습니다.
+
+배포 이름은 `opentax-mcp`이며, 배포 후 ChatGPT 커넥터에는 다음 형태의 URL을
+등록합니다.
+
+```text
+https://opentax-mcp.<cloudflare-account>.workers.dev/mcp
+```
+
+상세 절차는 [REMOTE_MCP.md](REMOTE_MCP.md)를 봅니다.
+
 ## 제공 도구
 
 - `opentax_search`

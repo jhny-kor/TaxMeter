@@ -1,0 +1,8 @@
+name = "opentax-mcp"
+main = "src/index.ts"
+compatibility_date = "2026-05-03"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+OPENTAX_JSON_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json"
+OPENTAX_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/"

@@ -1,0 +1,22 @@
+{
+  "name": "opentax-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker Remote MCP adapter for OpenTax",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "agents": "^0.12.3",
+    "zod": "^4.1.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260418.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.43.0"
+  }
+}
