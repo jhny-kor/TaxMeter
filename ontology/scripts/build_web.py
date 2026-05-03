@@ -363,6 +363,11 @@ def build_html(data: dict, summary: dict) -> str:
 
           <footer class="site-footer">
             <span>OpenTax</span>
+            <nav aria-label="OpenTax 정책 문서">
+              <a href="./privacy.html">개인정보처리방침</a>
+              <a href="./terms.html">이용약관</a>
+              <a href="./support.html">지원</a>
+            </nav>
             <span>검증 기준일 {basis_date}</span>
           </footer>
 
@@ -1300,6 +1305,7 @@ def build_css() -> str:
 
         .site-footer {
           display: flex;
+          align-items: center;
           justify-content: space-between;
           gap: 20px;
           width: min(var(--max), calc(100% - 40px));
@@ -1308,6 +1314,57 @@ def build_css() -> str:
           color: var(--muted);
           border-top: 1px solid var(--line);
           font-size: 13px;
+          font-weight: 680;
+        }
+
+        .site-footer nav {
+          display: flex;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .site-footer a {
+          color: var(--ink);
+        }
+
+        .site-footer a:hover,
+        .site-footer a:focus-visible {
+          color: var(--cyan);
+          outline: none;
+        }
+
+        .legal-page {
+          width: min(860px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 72px 0 40px;
+        }
+
+        .legal-page h1 {
+          max-width: none;
+          margin-bottom: 18px;
+          font-size: 44px;
+          line-height: 1.08;
+        }
+
+        .legal-page h2 {
+          margin: 42px 0 12px;
+          font-size: 24px;
+        }
+
+        .legal-page p,
+        .legal-page li {
+          color: var(--muted);
+        }
+
+        .legal-page a {
+          color: var(--cyan);
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+
+        .legal-meta {
+          color: var(--faint);
+          font-size: 14px;
           font-weight: 680;
         }
 
@@ -1456,6 +1513,7 @@ def build_css() -> str:
 
           .site-footer {
             flex-direction: column;
+            align-items: flex-start;
           }
         }
         """

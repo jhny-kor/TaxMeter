@@ -8,10 +8,10 @@ parents: ["category.corporate-tax-supports"]
 children: []
 related: []
 terms: ["term.tax-credit", "term.tax-reduction"]
-deadlines: []
-sources: ["source.nts.corporate-tax.reliefs"]
-criteria: [{"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs", "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"}]
-law_reference: ""
+deadlines: ["deadline.corporate-tax.return"]
+sources: ["source.nts.corporate-tax.reliefs", "source.law.tax-special-treatment-restriction-act.reliefs"]
+criteria: [{"label": "기술혁신형 M&A", "basis": "인수가액 중 기술가치 금액", "condition": "기술혁신형 합병·주식취득", "rate_percent": 10, "rate_label": "세액공제율", "source": "source.nts.corporate-tax.reliefs", "law_reference": "조세특례제한법 제12조의3", "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"}]
+law_reference: "조세특례제한법 제12조의3"
 tags: ["corporate-tax-support"]
 ---
 
@@ -19,9 +19,13 @@ tags: ["corporate-tax-support"]
 
 기술혁신형 합병·주식취득 인수가액 중 기술가치 금액에 대한 법인세 공제입니다.
 
+## 근거 조항
+
+조세특례제한법 제12조의3
+
 ## 기준 내역
 
-- **기술혁신형 M&A**: 기준항목: 인수가액 중 기술가치 금액; 조건: 기술혁신형 합병·주식취득; 세액공제율: 10%; 금액·적용 산식: 인수가액 중 기술가치 금액 × 세액공제율 10%; 출처: [[90_Sources/법인세 공제감면|법인세 공제감면]]
+- **기술혁신형 M&A**: 기준항목: 인수가액 중 기술가치 금액; 조건: 기술혁신형 합병·주식취득; 근거 조항: 조세특례제한법 제12조의3; 세액공제율: 10%; 금액·적용 산식: 인수가액 중 기술가치 금액 × 세액공제율 10%; 출처: [[90_Sources/법인세 공제감면|법인세 공제감면]]
 
 ## 상위 항목
 
@@ -32,9 +36,14 @@ tags: ["corporate-tax-support"]
 - [[40_Terms/세액공제|세액공제]]
 - [[40_Terms/세액감면|세액감면]]
 
+## 기한
+
+- [[50_Deadlines/법인세 과세표준 신고|법인세 과세표준 신고]]
+
 ## 근거·출처
 
 - [[90_Sources/법인세 공제감면|법인세 공제감면]]: https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7987&mi=6561
+- [[90_Sources/조세특례제한법 공제·감면 조문|조세특례제한법 공제·감면 조문]]: https://www.law.go.kr/법령/조세특례제한법
 
 ## 온톨로지 ID
 
