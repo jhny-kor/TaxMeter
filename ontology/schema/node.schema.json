@@ -555,6 +555,69 @@
         "string",
         "null"
       ]
+    },
+    "jurisdiction": {
+      "type": "string"
+    },
+    "jurisdiction_code": {
+      "type": "string"
+    },
+    "gov24_service_id": {
+      "type": "string"
+    },
+    "gov24_service_seq": {
+      "type": "string"
+    },
+    "source_record_id": {
+      "type": "string"
+    },
+    "source_modified_at": {
+      "type": "string"
+    },
+    "source_collected_at": {
+      "type": "string"
+    },
+    "status_check_url": {
+      "type": "string"
+    },
+    "application_deadline_text": {
+      "type": "string"
+    },
+    "application_method": {
+      "type": "string"
+    },
+    "application_process": {
+      "type": "string"
+    },
+    "receiving_agency": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "string"
+    },
+    "required_documents_text": {
+      "type": "string"
+    },
+    "legal_basis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "promulgation_date": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
     }
   }
 }
