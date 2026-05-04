@@ -36,10 +36,19 @@ REQUIRED_TYPES_WITH_SOURCES = {
     "support-program",
     "filing",
     "scenario",
+    "life-expense",
+    "life-income",
+    "life-event",
+    "eligibility-rule",
+    "required-document",
+    "application-channel",
+    "conflict-rule",
     "concept",
     "term",
     "deadline",
 }
+LIFE_MAPPING_TYPES = {"life-expense", "life-income", "life-event"}
+LIFE_SUPPORT_TYPES = {"eligibility-rule", "required-document", "application-channel", "conflict-rule"}
 CRITERIA_RANGE_PAIRS = (
     ("threshold_krw_min", "threshold_krw_max", "threshold"),
     ("rate_percent_min", "rate_percent_max", "rate percent"),
@@ -224,6 +233,23 @@ def validate_required_metadata(items: dict[str, dict], errors: list[str]) -> Non
             require(bool(item.get("law_reference")), f"{item_id}: missing law_reference", errors)
 
 
+def validate_freshness_metadata(items: dict[str, dict], errors: list[str]) -> None:
+    valid_abolition = {"active", "abolished", "sunset", "unknown"}
+    valid_revision = {"none_announced", "planned", "temporary", "check_source"}
+    for item_id, item in items.items():
+        item_type = item.get("type")
+        if item_type != "source":
+            require(bool(item.get("reviewed_at")), f"{item_id}: missing reviewed_at", errors)
+            require(item.get("abolition_status") in valid_abolition, f"{item_id}: invalid abolition_status", errors)
+            require(item.get("revision_status") in valid_revision, f"{item_id}: invalid revision_status", errors)
+        if item_type in REQUIRED_TYPES_WITH_SOURCES:
+            require(bool(item.get("source_urls")), f"{item_id}: missing source_urls", errors)
+            require(bool(item.get("source_basis_dates")), f"{item_id}: missing source_basis_dates", errors)
+        if item_type == "source":
+            require(bool(item.get("source_urls")), f"{item_id}: source missing source_urls", errors)
+            require(bool(item.get("source_basis_dates")), f"{item_id}: source missing source_basis_dates", errors)
+
+
 def validate_deadline_recurrence(items: dict[str, dict], errors: list[str]) -> None:
     for item_id, item in items.items():
         if item.get("type") != "deadline":
@@ -262,6 +288,46 @@ def validate_scenario_paths(items: dict[str, dict], errors: list[str]) -> None:
                 require(target_id in items, f"{item_id}: path step #{index} references missing target {target_id}", errors)
 
 
+def validate_life_language_mapping(items: dict[str, dict], errors: list[str]) -> None:
+    life_nodes = [item for item in items.values() if item.get("type") in LIFE_MAPPING_TYPES]
+    require(bool(life_nodes), "missing life-language mapping nodes", errors)
+    for item in life_nodes:
+        item_id = item["id"]
+        phrases = item.get("life_phrases") or []
+        candidates = item.get("official_candidates") or []
+        questions = item.get("eligibility_questions") or []
+        require(isinstance(phrases, list) and bool(phrases), f"{item_id}: missing life_phrases", errors)
+        require(isinstance(candidates, list) and bool(candidates), f"{item_id}: missing official_candidates", errors)
+        require(isinstance(questions, list) and bool(questions), f"{item_id}: missing eligibility_questions", errors)
+        for index, candidate in enumerate(candidates, start=1):
+            if not isinstance(candidate, dict):
+                errors.append(f"{item_id}: official candidate #{index} must be an object")
+                continue
+            target_id = candidate.get("target")
+            confidence = candidate.get("confidence")
+            require(bool(target_id), f"{item_id}: official candidate #{index} missing target", errors)
+            if target_id:
+                require(target_id in items, f"{item_id}: official candidate #{index} references missing target {target_id}", errors)
+            require(isinstance(confidence, (int, float)) and 0 <= confidence <= 1, f"{item_id}: official candidate #{index} invalid confidence", errors)
+            require(bool(candidate.get("reason")), f"{item_id}: official candidate #{index} missing reason", errors)
+            require(bool(candidate.get("required_checks")), f"{item_id}: official candidate #{index} missing required_checks", errors)
+        expected_orders = list(range(1, len(questions) + 1))
+        actual_orders = [question.get("order") for question in questions if isinstance(question, dict)]
+        require(actual_orders == expected_orders, f"{item_id}: eligibility_questions order must be sequential from 1", errors)
+        for index, question in enumerate(questions, start=1):
+            if not isinstance(question, dict):
+                errors.append(f"{item_id}: eligibility question #{index} must be an object")
+                continue
+            require(bool(question.get("question")), f"{item_id}: eligibility question #{index} missing question", errors)
+            target_id = question.get("target")
+            if target_id:
+                require(target_id in items, f"{item_id}: eligibility question #{index} references missing target {target_id}", errors)
+
+    for item_id, item in items.items():
+        if item.get("type") in LIFE_SUPPORT_TYPES:
+            require(bool(item.get("related")), f"{item_id}: support node should relate to an official item or life node", errors)
+
+
 def validate_bidirectional_links(items: dict[str, dict], errors: list[str]) -> None:
     for item_id, item in items.items():
         for child_id in item.get("children") or []:
@@ -295,8 +361,10 @@ def main() -> int:
     validate_references(items, errors)
     validate_criteria(items, errors)
     validate_required_metadata(items, errors)
+    validate_freshness_metadata(items, errors)
     validate_deadline_recurrence(items, errors)
     validate_scenario_paths(items, errors)
+    validate_life_language_mapping(items, errors)
     validate_bidirectional_links(items, errors)
     validate_manifests(items, errors)
 

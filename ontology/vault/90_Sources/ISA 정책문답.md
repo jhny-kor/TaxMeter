@@ -3,6 +3,11 @@ id: "source.fsc.isa.policy"
 title: "ISA 정책문답"
 type: "source"
 description: "개인종합자산관리계좌(ISA)의 연 2,000만원 납입한도, 순소득 200만원 비과세, 초과분 분리과세 등 세제지원과 가입 제한을 이해하기 위한 정책 근거입니다."
+reviewed_at: "2026-05-04"
+source_urls: ["https://www.fsc.go.kr/po020201/27339"]
+source_basis_dates: ["2026-05-02 확인"]
+abolition_status: "active"
+revision_status: "none_announced"
 parents: []
 children: []
 related: []

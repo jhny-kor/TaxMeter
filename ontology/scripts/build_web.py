@@ -26,6 +26,14 @@ TYPE_LABELS = {
     "support-program": "정책지원",
     "filing": "신고 절차",
     "scenario": "사용자 경로",
+    "life-expense": "생활비 표현",
+    "life-income": "생활소득 표현",
+    "life-event": "생활사건 표현",
+    "official-tax-item": "공식 항목",
+    "eligibility-rule": "요건 규칙",
+    "required-document": "필요서류",
+    "application-channel": "신청 경로",
+    "conflict-rule": "충돌 규칙",
     "concept": "판정 개념",
     "term": "용어",
     "deadline": "기한",
@@ -63,6 +71,8 @@ def summarize(data: dict) -> dict:
         "category_count": counts["category"],
         "deadline_count": counts["deadline"],
         "scenario_count": counts["scenario"],
+        "life_language_count": counts["life-expense"] + counts["life-income"] + counts["life-event"],
+        "rule_count": counts["eligibility-rule"] + counts["conflict-rule"],
         "support_count": counts["support-program"],
         "business_count": 4,
         "relation_count": relation_count,
@@ -171,6 +181,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div><strong>{summary["local_tax_count"]}</strong><span>지방세 세목</span></div>
               <div><strong>{summary["corporate_support_count"]}</strong><span>법인세 지원</span></div>
               <div><strong>{summary["scenario_count"]}</strong><span>사용자 경로</span></div>
+              <div><strong>{summary["life_language_count"]}</strong><span>생활어</span></div>
               <div><strong>{summary["source_count"]}</strong><span>공식 출처</span></div>
             </section>
 
@@ -712,7 +723,7 @@ def build_css() -> str:
 
         .metrics {
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
+          grid-template-columns: repeat(6, 1fr);
           gap: 1px;
           overflow: hidden;
           margin-top: -8px;
@@ -1535,6 +1546,14 @@ def type_role(type_: str) -> str:
         "support-program": "장려금, 세제지원 계좌, 금융·복지 지원",
         "filing": "신고·납부·신청 절차",
         "scenario": "사용자 사례별 curated 탐색 경로",
+        "life-expense": "월세, 병원비, 카드값처럼 사용자가 말하는 생활비 표현",
+        "life-income": "부업, 프리랜서, 3.3%처럼 사용자가 말하는 소득 표현",
+        "life-event": "퇴사, 이직, 첫 신고처럼 사용자가 말하는 사건 표현",
+        "official-tax-item": "생활어 후보가 연결되는 공식 세금·공제 항목",
+        "eligibility-rule": "공식 항목 적용 여부를 판단하는 요건 질문 규칙",
+        "required-document": "신청·공제 판단에 필요한 증빙서류",
+        "application-channel": "홈택스, 회사 제출 등 실제 신청·제출 경로",
+        "conflict-rule": "중복공제, 제외, 이월 제한 등 충돌 판단 규칙",
         "concept": "판정 기준을 설명하는 개념 노드",
         "term": "그래프 해석에 필요한 용어",
         "deadline": "기준연도별 신고·납부·지급 기한",
@@ -1585,6 +1604,7 @@ def build_js(data: dict, summary: dict) -> str:
             { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
             { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
             { id: "scenarios", label: "사용자 경로", test: (item) => item.type === "scenario" || hasAncestor(item, "category.user-scenarios") },
+            { id: "life", label: "생활어", test: (item) => ["life-expense", "life-income", "life-event", "eligibility-rule", "required-document", "application-channel", "conflict-rule"].includes(item.type) || hasAncestor(item, "category.life-language") },
             { id: "terms", label: "용어·기준", test: (item) => ["term", "concept"].includes(item.type) },
             { id: "sources", label: "출처", test: (item) => item.type === "source" }
           ];
@@ -1607,6 +1627,11 @@ def build_js(data: dict, summary: dict) -> str:
               JSON.stringify(item.criteria || []),
               JSON.stringify(item.recurrence || {}),
               JSON.stringify(item.path_steps || []),
+              JSON.stringify(item.life_phrases || []),
+              JSON.stringify(item.official_candidates || []),
+              JSON.stringify(item.eligibility_questions || []),
+              JSON.stringify(item.source_urls || []),
+              JSON.stringify(item.source_basis_dates || []),
               item.law_reference,
               item.publisher,
               item.url,
@@ -1888,6 +1913,81 @@ def build_js(data: dict, summary: dict) -> str:
             `;
           }
 
+          function freshnessBlock(item) {
+            const rows = [
+              ["기준연도", item.basis_year || "해당 없음"],
+              ["시행일", item.effective_date || "출처별 확인"],
+              ["만료일", item.expiration_date || "없음"],
+              ["확인일", item.reviewed_at || "출처별 확인"],
+              ["폐지 여부", item.abolition_status || "active"],
+              ["개정 예정 여부", item.revision_status || "none_announced"]
+            ];
+            const sourceUrls = (item.source_urls || [])
+              .map((url) => `<a class="relation-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(url)}</a>`)
+              .join("");
+            const basisDates = (item.source_basis_dates || []).map((date) => escapeHtml(date)).join(", ");
+            return `
+              <div class="criteria-block">
+                <h4>최신성 메타데이터</h4>
+                <ul>
+                  <li><div>${rows.map(([label, value]) => `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`).join("")}</div></li>
+                  ${basisDates ? `<li><strong>출처 확인일</strong><div><span>${basisDates}</span></div></li>` : ""}
+                  ${sourceUrls ? `<li><strong>출처 URL</strong><p>${sourceUrls}</p></li>` : ""}
+                </ul>
+              </div>
+            `;
+          }
+
+          function lifeMappingBlock(item) {
+            const phrases = item.life_phrases || [];
+            const candidates = item.official_candidates || [];
+            const questions = item.eligibility_questions || [];
+            if (!phrases.length && !candidates.length && !questions.length) return "";
+            const phraseHtml = phrases.length ? `
+              <li>
+                <strong>생활어 사전</strong>
+                <div>${phrases.map((phrase) => `<span>${escapeHtml(phrase)}</span>`).join("")}</div>
+              </li>
+            ` : "";
+            const candidateHtml = candidates.length ? candidates
+              .slice()
+              .sort((a, b) => b.confidence - a.confidence)
+              .map((candidate) => {
+                const target = byId.get(candidate.target);
+                const targetButton = target ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(target.id)}">${escapeHtml(target.title)}</button>` : `<span class="relation-link">${escapeHtml(candidate.target)}</span>`;
+                const checks = (candidate.required_checks || []).join(", ");
+                return `
+                  <li>
+                    <strong>공식 후보 ${escapeHtml(candidate.confidence_label || "")} ${(candidate.confidence * 100).toFixed(0)}%</strong>
+                    <div><span>${escapeHtml(candidate.reason)}</span>${checks ? `<span>추가 확인: <strong>${escapeHtml(checks)}</strong></span>` : ""}</div>
+                    <p>${targetButton}</p>
+                  </li>
+                `;
+              })
+              .join("") : "";
+            const questionHtml = questions.length ? questions
+              .slice()
+              .sort((a, b) => a.order - b.order)
+              .map((question) => {
+                const target = question.target ? byId.get(question.target) : null;
+                const targetButton = target ? `<button class="relation-link" type="button" data-select-item="${escapeHtml(target.id)}">${escapeHtml(target.title)}</button>` : "";
+                return `
+                  <li>
+                    <strong>${escapeHtml(question.order)}. ${escapeHtml(question.question)}</strong>
+                    <div>${question.criterion ? `<span>판단 기준: <strong>${escapeHtml(question.criterion)}</strong></span>` : ""}${question.answer_type ? `<span>답변 유형: <strong>${escapeHtml(question.answer_type)}</strong></span>` : ""}</div>
+                    ${targetButton ? `<p>${targetButton}</p>` : ""}
+                  </li>
+                `;
+              })
+              .join("") : "";
+            return `
+              <div class="criteria-block">
+                <h4>생활어 판단 로직</h4>
+                <ul>${phraseHtml}${candidateHtml}${questionHtml}</ul>
+              </div>
+            `;
+          }
+
           function renderDetail() {
             const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
             if (!item) {
@@ -1909,6 +2009,8 @@ def build_js(data: dict, summary: dict) -> str:
             const criteriaHtml = criteriaBlock(item.criteria);
             const recurrenceHtml = recurrenceBlock(item.recurrence);
             const pathStepsHtml = pathStepsBlock(item.path_steps);
+            const freshnessHtml = freshnessBlock(item);
+            const lifeMappingHtml = lifeMappingBlock(item);
 
             detailEl.innerHTML = `
               <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
@@ -1920,6 +2022,8 @@ def build_js(data: dict, summary: dict) -> str:
                 <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
                 <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
               </div>
+              ${freshnessHtml}
+              ${lifeMappingHtml}
               ${recurrenceHtml}
               ${pathStepsHtml}
               ${criteriaHtml}

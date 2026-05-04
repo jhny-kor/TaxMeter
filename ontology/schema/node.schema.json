@@ -37,6 +37,14 @@
         "support-program",
         "filing",
         "scenario",
+        "life-expense",
+        "life-income",
+        "life-event",
+        "official-tax-item",
+        "eligibility-rule",
+        "required-document",
+        "application-channel",
+        "conflict-rule",
         "concept",
         "term",
         "deadline",
@@ -63,6 +71,42 @@
       "type": [
         "string",
         "null"
+      ]
+    },
+    "reviewed_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_basis_dates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "abolition_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "abolished",
+        "sunset",
+        "unknown"
+      ]
+    },
+    "revision_status": {
+      "type": "string",
+      "enum": [
+        "none_announced",
+        "planned",
+        "temporary",
+        "check_source"
       ]
     },
     "parents": {
@@ -403,6 +447,83 @@
           "reason": {
             "type": "string",
             "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "life_phrases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "official_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "target",
+          "confidence",
+          "reason"
+        ],
+        "properties": {
+          "target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "confidence_label": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_checks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "eligibility_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "order",
+          "question"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "answer_type": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "criterion": {
+            "type": "string"
+          },
+          "required_for": {
+            "type": "string"
           }
         },
         "additionalProperties": false
