@@ -16,9 +16,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VAULT = ROOT / "vault"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
+CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
+LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 
 
 SOURCES = {
@@ -49,6 +51,13 @@ SOURCES = {
         "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7870&mi=2312",
         "basis_date": "2026-05-02 확인",
         "description": "연말정산 계산 단계와 인적공제, 연금보험료공제, 특별소득공제, 세액감면, 세액공제의 구조 근거입니다.",
+    },
+    LOCAL_SUPPORTS_SOURCE_ID: {
+        "title": "정부24 보조금24 전체 혜택",
+        "publisher": "정부24",
+        "url": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+        "basis_date": "2026-05-04 확인",
+        "description": "중앙부처, 지방자치단체, 공공기관 등이 제공하는 보조금24 전체 혜택 목록과 상세정보의 공식 원천입니다. 지자체 지원금은 이 목록의 관할기관, 서비스 ID, 수정일, 신청기한, 자치법규 링크를 근거로 갱신합니다.",
     },
     "source.nts.year-end-settlement.deduction-limit": {
         "title": "근로소득 과세표준과 산출세액",
@@ -781,6 +790,7 @@ def corporate_support(id_: str, title: str, description: str, **kwargs) -> dict:
 TERMS = {
     "term.national-tax": ("국세", "국가가 부과하는 조세 중 국세기본법 제2조가 열거한 세목입니다.", ["source.national-tax-framework-act.2026.article2"]),
     "term.local-tax": ("지방세", "지방자치단체가 과세권을 가지며 지방세기본법상 세목과 자치단체 세목 배분에 따라 관리되는 세금입니다.", ["source.local-tax-framework-act.2026.article8"]),
+    "term.local-government-support": ("지자체 지원금", "지방자치단체가 조례, 공고, 예산사업 또는 보조금24 등록 서비스를 근거로 주민·사업자·가구에 제공하는 현금, 현물, 바우처, 감면, 서비스 지원입니다.", [LOCAL_SUPPORTS_SOURCE_ID]),
     "term.tax-law": ("세법", "국세의 종목과 세율을 정하는 법률과 국세기본법이 세법으로 묶는 관련 법률 체계입니다.", ["source.national-tax-framework-act.2026.article2"]),
     "term.withholding": ("원천징수", "소득을 지급하는 자가 세법에 따라 세금을 미리 징수해 납부하는 방식입니다.", ["source.national-tax-framework-act.2026.article2", "source.nts.year-end-settlement.calculation"]),
     "term.tax-period": ("과세기간", "세법에 따라 과세표준 계산의 기초가 되는 기간입니다.", ["source.national-tax-framework-act.2026.article2"]),
@@ -1824,7 +1834,8 @@ NODES = [
     node("category.local-ordinary-taxes", "지방 보통세", "category", "지방세 중 특정 목적세가 아닌 보통세 세목 묶음입니다.", "10_Taxes/Local", parents=["category.local-taxes"], children=["local.acquisition", "local.registration-license", "local.leisure", "local.tobacco-consumption", "local.local-consumption", "local.resident", "local.local-income", "local.property", "local.automobile"], sources=["source.local-tax-framework-act.2026.article8"], terms=["term.local-tax"]),
     node("category.local-purpose-taxes", "지방 목적세", "category", "지방세 중 특정 재원 목적을 위해 부과되는 목적세 세목 묶음입니다.", "10_Taxes/Local", parents=["category.local-taxes"], children=["local.regional-resource-facility", "local.local-education"], sources=["source.local-tax-framework-act.2026.article8"], terms=["term.local-tax"]),
     node("category.deductions-and-reliefs", "공제·감면", "category", "과세표준을 줄이는 소득공제, 산출세액에서 차감하는 세액공제, 정책 목적의 세액감면과 법인세 조세지원 항목입니다.", "20_Deductions", parents=["kr-tax-system"], children=["category.income-deductions", "category.tax-credits", "category.tax-reductions", "category.corporate-tax-supports"], sources=["source.nts.year-end-settlement.calculation", "source.nts.corporate-tax.reliefs"], terms=["term.income-deduction", "term.tax-credit", "term.tax-reduction"]),
-    node("category.policy-supports", "정책지원금·세제지원 계좌", "category", "국세청 현금성 지원금, 정부24 복지급여, 금융위원회·금융공공기관의 자산형성·서민금융·주거금융·채무조정 지원을 학습용으로 묶은 항목입니다.", "30_Supports", parents=["kr-tax-system"], children=["support.earned-income-tax-credit", "support.child-tax-credit", "support.basic-livelihood-benefit", "support.youth-future-savings", "support.youth-leap-account", "support.isa", "support.illegal-private-finance-prevention-loan", "support.hessal-loan-youth", "support.hessal-119", "support.didimdol-loan", "support.youth-special-rent-guarantee", "support.long-term-delinquent-debt-adjustment"], sources=["source.nts.eitc.intro", "source.nts.ctc.intro", "source.govkr.basic-livelihood-benefit", "source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.kinfa.illegal-private-finance-prevention-loan", "source.kinfa.hessal-loan-youth", "source.kinfa.hessal-119", "source.hf.didimdol-loan", "source.hf.special-rent-guarantee", "source.ccrs.long-term-delinquent-debt-adjustment", "source.fsc.isa.policy"], terms=["term.total-income", "term.gross-pay", "term.property-requirement", "term.eligibility-threshold", "term.median-income", "term.policy-finance", "term.policy-loan", "term.debt-adjustment"]),
+    node("category.policy-supports", "정책지원금·세제지원 계좌", "category", "국세청 현금성 지원금, 정부24 복지급여, 지자체 지원금, 금융위원회·금융공공기관의 자산형성·서민금융·주거금융·채무조정 지원을 학습용으로 묶은 항목입니다.", "30_Supports", parents=["kr-tax-system"], children=["support.earned-income-tax-credit", "support.child-tax-credit", "support.basic-livelihood-benefit", "support.youth-future-savings", "support.youth-leap-account", "support.isa", "support.illegal-private-finance-prevention-loan", "support.hessal-loan-youth", "support.hessal-119", "support.didimdol-loan", "support.youth-special-rent-guarantee", "support.long-term-delinquent-debt-adjustment", "category.local-government-supports"], sources=["source.nts.eitc.intro", "source.nts.ctc.intro", "source.govkr.basic-livelihood-benefit", "source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.kinfa.illegal-private-finance-prevention-loan", "source.kinfa.hessal-loan-youth", "source.kinfa.hessal-119", "source.hf.didimdol-loan", "source.hf.special-rent-guarantee", "source.ccrs.long-term-delinquent-debt-adjustment", "source.fsc.isa.policy", LOCAL_SUPPORTS_SOURCE_ID], terms=["term.total-income", "term.gross-pay", "term.property-requirement", "term.eligibility-threshold", "term.median-income", "term.policy-finance", "term.policy-loan", "term.debt-adjustment", "term.local-government-support"]),
+    node("category.local-government-supports", "지자체 지원금", "category", "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 전체입니다. 각 지원금은 서비스 ID, 상세 URL, 관할기관, 원문 수정일, 신청기한, 법령·자치법규 링크를 근거로 보존합니다.", "30_Supports/LocalGovernment", parents=["category.policy-supports"], sources=[LOCAL_SUPPORTS_SOURCE_ID], terms=["term.local-government-support"], tags=["local-government-supports", "gov24"]),
     node("category.business-tax-compliance", "사업자 세무", "category", "개인사업자와 원천징수의무자가 사업자등록, 부가가치세, 원천세 신고·납부에서 확인해야 하는 실무 흐름입니다.", "60_Business", parents=["kr-tax-system"], children=["filing.business-registration", "filing.vat-return", "filing.withholding-tax", "filing.business-income-withholding"], sources=["source.nts.business-registration.application", "source.nts.vat.filing-duty", "source.nts.withholding.overview", "source.nts.business-income.withholding"], terms=["term.general-vat-taxpayer", "term.simple-vat-taxpayer", "term.withholding-obligor"]),
     node("category.filing-calendar", "신고·납부·신청 기한", "category", "세목과 지원제도에 연결되는 기준연도별 기한입니다.", "50_Deadlines", parents=["kr-tax-system"], children=["filing.income-tax-return", "filing.year-end-settlement", "filing.withholding-tax", "filing.vat-return", "filing.capital-gains-return", "filing.inheritance-tax-return", "filing.gift-tax-return", "filing.grant-application"], sources=["source.nts.income-tax.deadline", "source.nts.tax-calendar.2026", "source.nts.grant.deadline", "source.nts.capital-gains.deadline", "source.nts.inheritance.overview", "source.nts.gift.deadline"], terms=["term.deadline", "term.deadline-special-rule"]),
     node("category.user-scenarios", "사용자 사례별 경로", "category", "근로자, 개인사업자, 주택 보유자, 청년, 법인 담당자처럼 실제 사용자가 출발점으로 삼을 수 있는 curated 탐색 경로입니다.", "70_Scenarios", parents=["kr-tax-system"], children=["scenario.employee.year-end-settlement", "scenario.sole-proprietor.compliance", "scenario.homeowner.real-estate-tax", "scenario.real-estate-transfer", "scenario.inheritance-gift", "scenario.youth-policy-support", "scenario.corporate-tax-manager"], sources=["source.nts.year-end-settlement.calculation", "source.nts.vat.filing-duty", "source.nts.real-estate-tax.faq", "source.nts.grant.eligibility"], terms=["term.employee", "term.publicly-notified-price", "term.deadline"]),
@@ -3015,10 +3026,19 @@ def add_criterion_source_to_item(item: dict, criterion: dict) -> None:
         extend_unique(item, "sources", [source_id])
 
 
+def is_generated_local_government_support(item: dict) -> bool:
+    return (
+        item.get("type") == "support-program"
+        and "local-government-support" in (item.get("tags") or [])
+        and "generated" in (item.get("tags") or [])
+    )
+
+
 def enrich_criteria(item: dict) -> None:
     for criterion in item.get("criteria") or []:
         criterion.update(CRITERIA_PATCHES.get((item["id"], criterion.get("label")), {}))
-        parse_structured_criteria_fields(criterion)
+        if not is_generated_local_government_support(item):
+            parse_structured_criteria_fields(criterion)
         add_criteria_structure(criterion)
         add_criterion_basis_explanation(item, criterion)
         add_criterion_law_reference(item, criterion)
@@ -3187,6 +3207,21 @@ def frontmatter(fields: dict) -> str:
         "basis_date",
         "start_date",
         "end_date",
+        "jurisdiction",
+        "jurisdiction_code",
+        "gov24_service_id",
+        "gov24_service_seq",
+        "source_record_id",
+        "source_modified_at",
+        "source_collected_at",
+        "status_check_url",
+        "application_deadline_text",
+        "application_method",
+        "application_process",
+        "receiving_agency",
+        "contact",
+        "required_documents_text",
+        "legal_basis",
     ]:
         value = fields.get(key)
         if key in {"criteria", "path_steps", "life_phrases", "official_candidates", "eligibility_questions", "source_urls", "source_basis_dates"} and not value:
@@ -3404,12 +3439,32 @@ def render_freshness(item: dict) -> list[str]:
         ("확인일", item.get("reviewed_at")),
         ("폐지 여부", item.get("abolition_status")),
         ("개정 예정 여부", item.get("revision_status")),
+        ("관할기관", item.get("jurisdiction")),
+        ("정부24 서비스 ID", item.get("gov24_service_id")),
+        ("정부24 서비스 순번", item.get("gov24_service_seq")),
+        ("원문 수정일", item.get("source_modified_at")),
+        ("원문 수집일", item.get("source_collected_at")),
+        ("신청기한 원문", item.get("application_deadline_text")),
+        ("신청방식", item.get("application_method")),
+        ("접수기관", item.get("receiving_agency")),
+        ("문의처", item.get("contact")),
     ]
     lines = [f"- **{label}**: {value}" for label, value in values if value not in (None, "", [])]
+    if item.get("status_check_url"):
+        lines.append(f"- **상태 확인 URL**: {item['status_check_url']}")
     if item.get("source_urls"):
         lines.append("- **출처 URL**: " + ", ".join(item["source_urls"]))
     if item.get("source_basis_dates"):
         lines.append("- **출처 확인일**: " + ", ".join(item["source_basis_dates"]))
+    if item.get("legal_basis"):
+        basis_lines = []
+        for basis in item["legal_basis"]:
+            if isinstance(basis, dict):
+                title = basis.get("title") or basis.get("name") or "근거"
+                url = basis.get("url")
+                basis_lines.append(f"{title}: {url}" if url else title)
+        if basis_lines:
+            lines.append("- **법령·자치법규 근거**: " + " / ".join(basis_lines))
     if not lines:
         return []
     return ["## 최신성 메타데이터", "", *lines, ""]
@@ -3582,17 +3637,20 @@ def default_item_fields(item: dict) -> dict:
 
 
 def load_custom_items() -> list[dict]:
-    if not CUSTOM_ITEMS_PATH.exists():
+    if not CUSTOM_DIR.exists():
         return []
 
-    payload = json.loads(CUSTOM_ITEMS_PATH.read_text(encoding="utf-8"))
-    if isinstance(payload, list):
-        raw_items = payload
-    else:
-        raw_items = payload.get("items", [])
-    if not isinstance(raw_items, list):
-        raise ValueError(f"{CUSTOM_ITEMS_PATH} must contain an items array")
-    return [dict(item) for item in raw_items]
+    items: list[dict] = []
+    for path in sorted(CUSTOM_DIR.glob("*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(payload, list):
+            raw_items = payload
+        else:
+            raw_items = payload.get("items", [])
+        if not isinstance(raw_items, list):
+            raise ValueError(f"{path} must contain an items array")
+        items.extend(dict(item) for item in raw_items)
+    return items
 
 
 def attach_source_metadata(items: dict[str, dict]) -> None:
@@ -3674,7 +3732,11 @@ def build_all_items() -> dict[str, dict]:
 
 
 def expected_note_path(item: dict) -> Path:
-    return VAULT / item["folder"] / f"{slug(item['title'])}.md"
+    filename = slug(item["title"])
+    service_seq = item.get("gov24_service_seq")
+    if "local-government-support" in (item.get("tags") or []) and service_seq:
+        filename = f"{filename[:110].rstrip()} {service_seq}"
+    return VAULT / item["folder"] / f"{filename}.md"
 
 
 def generated_note_id(path: Path) -> str | None:
@@ -3741,7 +3803,7 @@ def write_index(items: dict[str, dict]) -> None:
 def write_export(items: dict[str, dict]) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
-        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.3",
+        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.4",
         "basis_date": "2026-05-04",
         "manifests": {
             "national_tax_ids": NATIONAL_TAX_IDS,

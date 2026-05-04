@@ -1920,19 +1920,36 @@ def build_js(data: dict, summary: dict) -> str:
               ["만료일", item.expiration_date || "없음"],
               ["확인일", item.reviewed_at || "출처별 확인"],
               ["폐지 여부", item.abolition_status || "active"],
-              ["개정 예정 여부", item.revision_status || "none_announced"]
+              ["개정 예정 여부", item.revision_status || "none_announced"],
+              ["관할기관", item.jurisdiction || ""],
+              ["정부24 서비스 ID", item.gov24_service_id || ""],
+              ["정부24 서비스 순번", item.gov24_service_seq || ""],
+              ["원문 수정일", item.source_modified_at || ""],
+              ["원문 수집일", item.source_collected_at || ""],
+              ["신청기한 원문", item.application_deadline_text || ""],
+              ["신청방식", item.application_method || ""],
+              ["접수기관", item.receiving_agency || ""],
+              ["문의처", item.contact || ""]
             ];
+            const visibleRows = rows.filter(([, value]) => value !== "" && value !== null && value !== undefined);
             const sourceUrls = (item.source_urls || [])
               .map((url) => `<a class="relation-link" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">${escapeHtml(url)}</a>`)
               .join("");
+            const statusCheckUrl = item.status_check_url ? `<a class="relation-link" href="${escapeHtml(item.status_check_url)}" target="_blank" rel="noreferrer">${escapeHtml(item.status_check_url)}</a>` : "";
             const basisDates = (item.source_basis_dates || []).map((date) => escapeHtml(date)).join(", ");
+            const legalBasis = (item.legal_basis || [])
+              .map((basis) => basis && basis.url ? `<a class="relation-link" href="${escapeHtml(basis.url)}" target="_blank" rel="noreferrer">${escapeHtml(basis.title || basis.url)}</a>` : escapeHtml((basis && (basis.title || basis.name)) || ""))
+              .filter(Boolean)
+              .join("");
             return `
               <div class="criteria-block">
                 <h4>최신성 메타데이터</h4>
                 <ul>
-                  <li><div>${rows.map(([label, value]) => `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`).join("")}</div></li>
+                  <li><div>${visibleRows.map(([label, value]) => `<span>${escapeHtml(label)}: <strong>${escapeHtml(value)}</strong></span>`).join("")}</div></li>
+                  ${statusCheckUrl ? `<li><strong>상태 확인 URL</strong><p>${statusCheckUrl}</p></li>` : ""}
                   ${basisDates ? `<li><strong>출처 확인일</strong><div><span>${basisDates}</span></div></li>` : ""}
                   ${sourceUrls ? `<li><strong>출처 URL</strong><p>${sourceUrls}</p></li>` : ""}
+                  ${legalBasis ? `<li><strong>법령·자치법규 근거</strong><p>${legalBasis}</p></li>` : ""}
                 </ul>
               </div>
             `;

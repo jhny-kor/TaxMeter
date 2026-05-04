@@ -137,13 +137,25 @@ DEADLINE_RECURRENCE_FREQUENCIES = {
     "event-based",
     "one-time",
 }
+LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
+    "jurisdiction",
+    "gov24_service_id",
+    "gov24_service_seq",
+    "source_record_id",
+    "source_modified_at",
+    "source_collected_at",
+    "status_check_url",
+)
 
 
 def parse_frontmatter(path: Path) -> dict | None:
     text = path.read_text(encoding="utf-8")
     if not text.startswith("---\n"):
         raise ValueError(f"{path}: missing frontmatter")
-    _, frontmatter, _ = text.split("---", 2)
+    parts = text.split("\n---\n", 1)
+    if len(parts) != 2:
+        raise ValueError(f"{path}: missing closing frontmatter")
+    frontmatter = parts[0][4:]
     result: dict = {}
     for raw_line in frontmatter.strip().splitlines():
         if ": " not in raw_line:
@@ -328,6 +340,24 @@ def validate_life_language_mapping(items: dict[str, dict], errors: list[str]) ->
             require(bool(item.get("related")), f"{item_id}: support node should relate to an official item or life node", errors)
 
 
+def validate_local_government_supports(items: dict[str, dict], errors: list[str]) -> None:
+    local_supports = [
+        item for item in items.values()
+        if item.get("type") == "support-program" and "local-government-support" in (item.get("tags") or [])
+    ]
+    for item in local_supports:
+        item_id = item["id"]
+        require("category.local-government-supports" in (item.get("parents") or []), f"{item_id}: missing local-government support category parent", errors)
+        require("source.gov24.benefit-plus.local-supports" in (item.get("sources") or []), f"{item_id}: missing Gov24 Benefit Plus source", errors)
+        for field in LOCAL_GOV_SUPPORT_REQUIRED_FIELDS:
+            require(bool(item.get(field)), f"{item_id}: missing {field}", errors)
+        status_url = item.get("status_check_url") or ""
+        require(status_url.startswith("https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl"), f"{item_id}: invalid status_check_url", errors)
+        source_urls = item.get("source_urls") or []
+        require(status_url in source_urls, f"{item_id}: status_check_url must be included in source_urls", errors)
+        require(item.get("revision_status") in {"check_source", "temporary"}, f"{item_id}: local support should require future source checking", errors)
+
+
 def validate_bidirectional_links(items: dict[str, dict], errors: list[str]) -> None:
     for item_id, item in items.items():
         for child_id in item.get("children") or []:
@@ -365,6 +395,7 @@ def main() -> int:
     validate_deadline_recurrence(items, errors)
     validate_scenario_paths(items, errors)
     validate_life_language_mapping(items, errors)
+    validate_local_government_supports(items, errors)
     validate_bidirectional_links(items, errors)
     validate_manifests(items, errors)
 

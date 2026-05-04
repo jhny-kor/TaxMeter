@@ -1,0 +1,85 @@
+---
+id: "support.local-gov.gov24.2159018"
+title: "소상공인 자영업자 빅데이터 기반 디지털 Back-Office 플랫폼 (재단법인경기도시장상권진흥원)"
+type: "support-program"
+description: "재단법인경기도시장상권진흥원 관할 지자체 지원금입니다."
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2159018&bnefType=all&svcId=O00045700025", "https://www.law.go.kr/자치법규/경기도시장상권진흥원 설립 및 운영 조례/(6194,20190618)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-02-10", "수집일 2026-05-04", "2026-05-04 확인"]
+abolition_status: "active"
+revision_status: "check_source"
+parents: ["category.local-government-supports"]
+children: []
+related: ["category.local-government-supports"]
+terms: ["term.local-government-support"]
+deadlines: []
+sources: ["source.gov24.benefit-plus.local-supports"]
+criteria: [{"label": "지원대상", "basis": "지원대상", "condition": "경기도 내 소상공인 자영업자, 도-시군 공무원, 경기도 유관기관, 지원사업 담당자 등", "source": "source.gov24.benefit-plus.local-supports", "criteria_kind": "eligibility", "basis_category": "local-government-support", "basis_definition": "지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.", "basis_lookup": "정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.", "selection_rule": "사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.", "basis_source": "source.gov24.benefit-plus.local-supports", "amount_applicability": "지원대상 자체는 정액 금액 기준이 아니며, 금액은 지원내용 원문을 확인합니다."}, {"label": "신청기한", "basis": "신청기한", "condition": "신청불필요", "source": "source.gov24.benefit-plus.local-supports", "criteria_kind": "deadline", "basis_category": "local-government-support", "basis_definition": "지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.", "basis_lookup": "정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.", "selection_rule": "사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.", "basis_source": "source.gov24.benefit-plus.local-supports", "deadline_rule": "신청불필요", "amount_applicability": "정액 금액 기준 없음"}, {"label": "지원내용", "basis": "지원내용", "condition": "도내 유관 기관별 고유 사무에 따라 산재된 온라인 플랫폼을 빅데이터 기반 통합 플랫폼으로 유관기능 연계 및 고도화 구축, 통합서비스 제공을 위한인프라 구축, 딥러닝을 위한 경기도-시군-유관기관 통합데이터 적재 분석, 시군 및 기관 연계를 위한 데이터 협업 및 저장소 구축", "source": "source.gov24.benefit-plus.local-supports", "criteria_kind": "reference", "basis_category": "local-government-support", "basis_definition": "지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.", "basis_lookup": "정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.", "selection_rule": "사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.", "basis_source": "source.gov24.benefit-plus.local-supports", "amount_applicability": "정액·정률·한도 금액은 지자체 원문 지원내용에 명시된 경우에만 적용합니다."}]
+law_reference: ""
+tags: ["local-government-support", "gov24", "generated", "기타(교육)", "custom-overlay"]
+jurisdiction: "재단법인경기도시장상권진흥원"
+jurisdiction_code: "경기도"
+gov24_service_id: "O00045700025"
+gov24_service_seq: "2159018"
+source_record_id: "2159018"
+source_modified_at: "2026-02-10"
+source_collected_at: "2026-05-04"
+status_check_url: "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2159018&bnefType=all&svcId=O00045700025"
+application_deadline_text: "신청불필요"
+application_method: "기타"
+application_process: "해당 서비스는 신청없이 자격대상자에게 자동적으로 제공됩니다."
+receiving_agency: ""
+contact: "상권정보화팀(031-5181-7220)"
+required_documents_text: ""
+legal_basis: [{"title": "경기도시장상권진흥원 설립 및 운영 조례", "kind": "자치법규", "url": "https://www.law.go.kr/자치법규/경기도시장상권진흥원 설립 및 운영 조례/(6194,20190618)", "promulgation_date": "20190618"}]
+---
+
+# 소상공인 자영업자 빅데이터 기반 디지털 Back-Office 플랫폼 (재단법인경기도시장상권진흥원)
+
+재단법인경기도시장상권진흥원 관할 지자체 지원금입니다.
+
+## 최신성 메타데이터
+
+- **기준연도**: 2026
+- **확인일**: 2026-05-04
+- **폐지 여부**: active
+- **개정 예정 여부**: check_source
+- **관할기관**: 재단법인경기도시장상권진흥원
+- **정부24 서비스 ID**: O00045700025
+- **정부24 서비스 순번**: 2159018
+- **원문 수정일**: 2026-02-10
+- **원문 수집일**: 2026-05-04
+- **신청기한 원문**: 신청불필요
+- **신청방식**: 기타
+- **문의처**: 상권정보화팀(031-5181-7220)
+- **상태 확인 URL**: https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2159018&bnefType=all&svcId=O00045700025
+- **출처 URL**: https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2159018&bnefType=all&svcId=O00045700025, https://www.law.go.kr/자치법규/경기도시장상권진흥원 설립 및 운영 조례/(6194,20190618), https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList
+- **출처 확인일**: 정부24 원문 수정일 2026-02-10, 수집일 2026-05-04, 2026-05-04 확인
+- **법령·자치법규 근거**: 경기도시장상권진흥원 설립 및 운영 조례: https://www.law.go.kr/자치법규/경기도시장상권진흥원 설립 및 운영 조례/(6194,20190618)
+
+## 기준 내역
+
+- **지원대상**: 기준 유형: eligibility; 기준항목: 지원대상; 선정기준 분류: local-government-support; 조건: 경기도 내 소상공인 자영업자, 도-시군 공무원, 경기도 유관기관, 지원사업 담당자 등; 선정기준 설명: 지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.; 확인 방법: 정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.; 선정 규칙: 사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.; 금액 기준 여부: 지원대상 자체는 정액 금액 기준이 아니며, 금액은 지원내용 원문을 확인합니다.; 출처: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+- **신청기한**: 기준 유형: deadline; 기준항목: 신청기한; 선정기준 분류: local-government-support; 조건: 신청불필요; 선정기준 설명: 지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.; 확인 방법: 정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.; 선정 규칙: 사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.; 금액 기준 여부: 정액 금액 기준 없음; 기한 규칙: 신청불필요; 출처: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+- **지원내용**: 기준 유형: reference; 기준항목: 지원내용; 선정기준 분류: local-government-support; 조건: 도내 유관 기관별 고유 사무에 따라 산재된 온라인 플랫폼을 빅데이터 기반 통합 플랫폼으로 유관기능 연계 및 고도화 구축, 통합서비스 제공을 위한인프라 구축, 딥러닝을 위한 경기도-시군-유관기관 통합데이터 적재 분석, 시군 및 기관 연계를 위한 데이터 협업 및 저장소 구축; 선정기준 설명: 지방자치단체가 보조금24에 등록한 지원금의 대상, 선정기준, 신청기한, 지원내용 기준입니다.; 확인 방법: 정부24 보조금24 상세 페이지의 지원대상, 선정기준, 신청기한, 지원내용, 제출서류, 관할기관, 수정일을 확인합니다.; 선정 규칙: 사용자 조건이 지원대상과 선정기준에 맞고 신청기한 내 필요서류를 제출할 수 있으면 후보 지원금으로 분류합니다.; 금액 기준 여부: 정액·정률·한도 금액은 지자체 원문 지원내용에 명시된 경우에만 적용합니다.; 출처: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## 상위 항목
+
+- [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+
+## 관련 항목
+
+- [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+
+## 관련 용어
+
+- [[40_Terms/지자체 지원금|지자체 지원금]]
+
+## 근거·출처
+
+- [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]: https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList
+
+## 온톨로지 ID
+
+`support.local-gov.gov24.2159018`
