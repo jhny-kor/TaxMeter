@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 from collections import Counter
 from pathlib import Path
 from textwrap import dedent
@@ -12,7 +13,9 @@ from textwrap import dedent
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ONTOLOGY_ROOT = REPO_ROOT / "ontology"
 EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-tax-ontology-2026.json"
+LOCAL_SUPPORT_EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-local-government-supports-2026.json"
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
+WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-2026.json"
 
 
 TYPE_LABELS = {
@@ -106,6 +109,8 @@ def build_html(data: dict, summary: dict) -> str:
     policy_count = child_count(items_by_id, "category.policy-supports")
     filing_count = child_count(items_by_id, "category.filing-calendar")
     business_count = child_count(items_by_id, "category.business-tax-compliance")
+    local_export = (data.get("split_exports") or {}).get("local_government_supports") or {}
+    local_support_count = local_export.get("item_count", 0)
 
     return dedent(
         f"""\
@@ -363,14 +368,21 @@ def build_html(data: dict, summary: dict) -> str:
             <section class="section export" id="export" aria-labelledby="export-title">
               <div class="section-heading">
                 <h2 id="export-title">JSON Export</h2>
-                <p>앱, MCP 서버, 웹 페이지가 동일한 export 파일을 기준으로 움직입니다.</p>
+                <p>핵심 세금 온톨로지와 대용량 지자체 지원금 스냅샷을 분리해 배포합니다.</p>
               </div>
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/korea-tax-ontology-2026.json</strong>
-                  <span>{version} · {summary["relation_count"]} graph links</span>
+                  <span>{version} · 핵심 {summary["item_count"]} nodes · {summary["relation_count"]} graph links</span>
                 </div>
                 <button class="button primary" type="button" data-download-json>JSON 다운로드</button>
+              </div>
+              <div class="export-panel">
+                <div>
+                  <strong>ontology/exports/korea-local-government-supports-2026.json</strong>
+                  <span>정부24 보조금24 지자체 지원금 {local_support_count}개 · 별도 스냅샷</span>
+                </div>
+                <a class="button secondary" href="./{WEB_LOCAL_SUPPORT_EXPORT_FILENAME}" download>지자체 지원금 JSON</a>
               </div>
             </section>
           </main>
@@ -1567,6 +1579,7 @@ def build_js(data: dict, summary: dict) -> str:
         "version": data["version"],
         "basis_date": data["basis_date"],
         "manifests": data["manifests"],
+        "split_exports": data.get("split_exports", {}),
         "summary": summary,
         "type_labels": TYPE_LABELS,
         "type_roles": {type_: type_role(type_) for type_ in TYPE_LABELS},
@@ -2084,6 +2097,7 @@ def build_js(data: dict, summary: dict) -> str:
               version: ONTOLOGY_DATA.version,
               basis_date: ONTOLOGY_DATA.basis_date,
               manifests: ONTOLOGY_DATA.manifests,
+              split_exports: ONTOLOGY_DATA.split_exports,
               items: ONTOLOGY_DATA.items
             };
             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
@@ -2146,6 +2160,8 @@ def main() -> int:
     (WEB_ROOT / "index.html").write_text(build_html(data, summary), encoding="utf-8")
     (WEB_ROOT / "styles.css").write_text(build_css(), encoding="utf-8")
     (WEB_ROOT / "app.js").write_text(build_js(data, summary), encoding="utf-8")
+    if LOCAL_SUPPORT_EXPORT_PATH.exists():
+        shutil.copyfile(LOCAL_SUPPORT_EXPORT_PATH, WEB_ROOT / WEB_LOCAL_SUPPORT_EXPORT_FILENAME)
     print(f"Built {WEB_ROOT.relative_to(REPO_ROOT)} from {EXPORT_PATH.relative_to(REPO_ROOT)}")
     return 0
 

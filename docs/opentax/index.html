@@ -41,7 +41,7 @@
                   <button class="button secondary" type="button" data-download-json>JSON export</button>
                 </div>
                 <dl class="hero-meta">
-                  <div><dt>version</dt><dd>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.4</dd></div>
+                  <div><dt>version</dt><dd>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.05.1</dd></div>
                   <div><dt>basis date</dt><dd>2026-05-04</dd></div>
                 </dl>
               </div>
@@ -49,7 +49,7 @@
               <div class="graph-panel hero-graph" aria-label="온톨로지 상위 그래프">
                 <button class="graph-node root" type="button" data-select-item="kr-tax-system">
                   <strong>OpenTax</strong>
-                  <span>8194 nodes</span>
+                  <span>374 nodes</span>
                 </button>
                 <button class="graph-node national" type="button" data-select-item="category.national-taxes"><strong>국세</strong><span>12 세목</span></button>
 <button class="graph-node local" type="button" data-select-item="category.local-taxes"><strong>지방세</strong><span>11 세목</span></button>
@@ -71,7 +71,7 @@
             </section>
 
             <section class="metrics section" aria-label="온톨로지 요약 수치">
-              <div><strong>8194</strong><span>검증 노드</span></div>
+              <div><strong>374</strong><span>검증 노드</span></div>
               <div><strong>12</strong><span>국세 세목</span></div>
               <div><strong>11</strong><span>지방세 세목</span></div>
               <div><strong>28</strong><span>법인세 지원</span></div>
@@ -258,14 +258,21 @@
             <section class="section export" id="export" aria-labelledby="export-title">
               <div class="section-heading">
                 <h2 id="export-title">JSON Export</h2>
-                <p>앱, MCP 서버, 웹 페이지가 동일한 export 파일을 기준으로 움직입니다.</p>
+                <p>핵심 세금 온톨로지와 대용량 지자체 지원금 스냅샷을 분리해 배포합니다.</p>
               </div>
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/korea-tax-ontology-2026.json</strong>
-                  <span>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.4 · 49035 graph links</span>
+                  <span>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.05.1 · 핵심 374 nodes · 2115 graph links</span>
                 </div>
                 <button class="button primary" type="button" data-download-json>JSON 다운로드</button>
+              </div>
+              <div class="export-panel">
+                <div>
+                  <strong>ontology/exports/korea-local-government-supports-2026.json</strong>
+                  <span>정부24 보조금24 지자체 지원금 7820개 · 별도 스냅샷</span>
+                </div>
+                <a class="button secondary" href="./korea-local-government-supports-2026.json" download>지자체 지원금 JSON</a>
               </div>
             </section>
           </main>

@@ -146,6 +146,7 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
     "source_collected_at",
     "status_check_url",
 )
+LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-2026.json"
 
 
 def parse_frontmatter(path: Path) -> dict | None:
@@ -358,6 +359,29 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
         require(item.get("revision_status") in {"check_source", "temporary"}, f"{item_id}: local support should require future source checking", errors)
 
 
+def validate_local_government_support_split(items: dict[str, dict], errors: list[str]) -> None:
+    main_local_supports = [
+        item_id for item_id, item in items.items()
+        if item.get("type") == "support-program" and "local-government-support" in (item.get("tags") or [])
+    ]
+    require(not main_local_supports, f"main ontology should not include local-government support nodes: {len(main_local_supports)} found", errors)
+    require(LOCAL_SUPPORT_EXPORT_PATH.exists(), f"missing local support split export {LOCAL_SUPPORT_EXPORT_PATH}", errors)
+    if not LOCAL_SUPPORT_EXPORT_PATH.exists():
+        return
+
+    payload = json.loads(LOCAL_SUPPORT_EXPORT_PATH.read_text(encoding="utf-8"))
+    local_items = payload.get("items") or []
+    reference_items = payload.get("reference_items") or []
+    require(isinstance(local_items, list) and bool(local_items), "local support export has no items", errors)
+    require(payload.get("item_count") == len(local_items), "local support export item_count mismatch", errors)
+    local_by_id = {item["id"]: item for item in local_items if isinstance(item, dict) and item.get("id")}
+    reference_by_id = {item["id"]: item for item in reference_items if isinstance(item, dict) and item.get("id")}
+    require(len(local_by_id) == len(local_items), "local support export has duplicate or invalid item ids", errors)
+    merged = {**items, **reference_by_id, **local_by_id}
+    validate_references(merged, errors)
+    validate_local_government_supports(merged, errors)
+
+
 def validate_bidirectional_links(items: dict[str, dict], errors: list[str]) -> None:
     for item_id, item in items.items():
         for child_id in item.get("children") or []:
@@ -395,7 +419,7 @@ def main() -> int:
     validate_deadline_recurrence(items, errors)
     validate_scenario_paths(items, errors)
     validate_life_language_mapping(items, errors)
-    validate_local_government_supports(items, errors)
+    validate_local_government_support_split(items, errors)
     validate_bidirectional_links(items, errors)
     validate_manifests(items, errors)
 
