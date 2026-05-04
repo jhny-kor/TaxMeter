@@ -11,7 +11,7 @@ abolition_status: "active"
 revision_status: "none_announced"
 parents: ["category.policy-supports"]
 children: []
-related: ["tax.income"]
+related: ["tax.income", "concept.financial-income-comprehensive-taxation"]
 terms: ["term.tax-credit"]
 deadlines: []
 sources: ["source.fsc.isa.policy", "source.moef.isa.tax-benefit"]
@@ -48,6 +48,7 @@ tags: ["policy-finance", "tax-preferred-account"]
 ## 관련 항목
 
 - [[10_Taxes/National/소득세|소득세]]
+- [[40_Terms/Concepts/금융소득 종합과세 확인|금융소득 종합과세 확인]]
 
 ## 관련 용어
 

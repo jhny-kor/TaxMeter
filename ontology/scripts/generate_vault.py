@@ -18,6 +18,7 @@ VAULT = ROOT / "vault"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
+CURRENT_BASIS_YEAR = 2026
 
 
 SOURCES = {
@@ -3596,12 +3597,19 @@ def load_custom_items() -> list[dict]:
 
 def attach_source_metadata(items: dict[str, dict]) -> None:
     for item in items.values():
-        item.setdefault("reviewed_at", CURRENT_REVIEW_DATE)
-        item.setdefault("abolition_status", "active")
-        item.setdefault("revision_status", "none_announced")
+        if item.get("type") not in {"source", "deadline"} and item.get("basis_year") is None:
+            item["basis_year"] = CURRENT_BASIS_YEAR
+        if not item.get("reviewed_at"):
+            item["reviewed_at"] = CURRENT_REVIEW_DATE
+        if not item.get("abolition_status"):
+            item["abolition_status"] = "active"
+        if not item.get("revision_status"):
+            item["revision_status"] = "none_announced"
         if item.get("type") == "source":
-            item.setdefault("source_urls", [item["url"]] if item.get("url") else [])
-            item.setdefault("source_basis_dates", [item["basis_date"]] if item.get("basis_date") else [])
+            if not item.get("source_urls") and item.get("url"):
+                item["source_urls"] = [item["url"]]
+            if not item.get("source_basis_dates") and item.get("basis_date"):
+                item["source_basis_dates"] = [item["basis_date"]]
             continue
         source_urls: list[str] = []
         source_basis_dates: list[str] = []
@@ -3733,7 +3741,7 @@ def write_index(items: dict[str, dict]) -> None:
 def write_export(items: dict[str, dict]) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
-        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.2",
+        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.3",
         "basis_date": "2026-05-04",
         "manifests": {
             "national_tax_ids": NATIONAL_TAX_IDS,

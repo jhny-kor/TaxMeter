@@ -1,3 +1,756 @@
 {
-  "items": []
+  "items": [
+    {
+      "id": "source.nts.income-tax.overview",
+      "title": "종합소득세 개요",
+      "type": "source",
+      "description": "종합소득세 계산 흐름, 금융·사업·근로·연금·기타소득 합산, 소득공제·세액공제·가산세 항목의 공식 개요입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7666&mi=2224",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.nts.income-tax.additional-tax",
+      "title": "종합소득세 가산세",
+      "type": "source",
+      "description": "종합소득세 무신고, 과소신고, 장부 기록·보관 불성실, 납부지연 가산세율 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7668&mi=2228",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.nts.vat.additional-tax",
+      "title": "부가가치세 가산세",
+      "type": "source",
+      "description": "부가가치세 무신고, 과소신고, 납부지연, 영세율 과세표준 신고불성실, 미등록 가산세율 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7697&mi=2405",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.nts.capital-gains.additional-tax",
+      "title": "양도소득세 가산세",
+      "type": "source",
+      "description": "양도소득세 신고불성실, 납부지연, 기장불성실, 환산취득가액 가산세율 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7712&mi=2313",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.nts.payment-statement.deadlines",
+      "title": "지급명세서 제출",
+      "type": "source",
+      "description": "근로·퇴직·사업·종교인·연금계좌 지급명세서, 간이지급명세서, 일용근로소득, 금융·기타소득 지급명세서 제출기한 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=8631&mi=12242",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.korea.youth-monthly-rent.2026",
+      "title": "2026년 청년월세 지원 신청 안내",
+      "type": "source",
+      "description": "2026년 청년월세 지원사업의 신청기간, 월 최대 20만원, 최장 24개월, 19~34세, 소득·재산 기준, 신청경로 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "대한민국 정책브리핑",
+      "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148961092",
+      "basis_date": "2026-03-19"
+    },
+    {
+      "id": "source.myhome.youth-monthly-rent.2026",
+      "title": "마이홈 청년월세지원 자가진단",
+      "type": "source",
+      "description": "청년월세지원의 청년가구·원가구 범위, 제외대상, 2026년 기준 중위소득 60%·100%, 재산 기준, 임차료 환산 기준 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "마이홈포털",
+      "url": "https://www.myhome.go.kr/hws/portal/dgn/selectSelfDiagnosisYouthHousView.do",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.myhome.housing-benefit.2026",
+      "title": "2026년 주거급여",
+      "type": "source",
+      "description": "2026년 주거급여 선정기준, 가구원 수별 기준 중위소득 48%, 급지·가구원 수별 기준임대료, 자가가구 수선비용 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "마이홈포털",
+      "url": "https://www.myhome.go.kr/hws/portal/cont/selectHousingBenefitView.do",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.mohw.beneficiary-selection.2026",
+      "title": "2026년 기초생활보장 수급자 선정기준",
+      "type": "source",
+      "description": "2026년 기준 중위소득과 생계·의료·주거·교육급여 선정기준의 보건복지부 공식 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "보건복지부",
+      "url": "https://www.mohw.go.kr/menu.es?mid=a10708010300",
+      "basis_date": "최종수정일 2026-03 확인"
+    },
+    {
+      "id": "source.mohw.parent-benefit.2026",
+      "title": "부모급여",
+      "type": "source",
+      "description": "2세 미만 아동 대상 부모급여, 0세 월 100만원, 1세 월 50만원, 방문·복지로 신청 경로 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "보건복지부",
+      "url": "https://www.mohw.go.kr/menu.es?mid=a10711030600",
+      "basis_date": "최종수정일 2026-03-25"
+    },
+    {
+      "id": "source.mohw.child-allowance.2026",
+      "title": "아동수당 지급",
+      "type": "source",
+      "description": "만 9세 미만 아동 대상 아동수당, 지역별 월 10만~13만원, 방문·복지로 신청 경로 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "보건복지부",
+      "url": "https://www.mohw.go.kr/menu.es?mid=a10711030100",
+      "basis_date": "최종수정일 2026-03-31"
+    },
+    {
+      "id": "source.mohw.first-meeting-voucher",
+      "title": "첫만남이용권 지원",
+      "type": "source",
+      "description": "2024년 이후 출생아 첫째 200만원, 둘째 이상 300만원 국민행복카드 바우처, 사용기간과 신청서류 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "보건복지부",
+      "url": "https://www.mohw.go.kr/menu.es?mid=a10711020100",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "source.bizinfo.small-business-policy-fund.2026",
+      "title": "2026년 중소벤처기업부 소상공인 정책자금 융자사업 변경 공고",
+      "type": "source",
+      "description": "2026년 소상공인 정책자금 융자사업의 지원대상, 일반·특별·긴급 경영안정자금, 신용취약자금, 대환대출, 재도전특별자금, 청년고용연계자금, 성장기반자금 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "기업마당",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120930",
+      "basis_date": "2026-04-17"
+    },
+    {
+      "id": "source.bizinfo.small-business-support.2026",
+      "title": "2026년 중소벤처기업부 소상공인 지원사업 통합 공고",
+      "type": "source",
+      "description": "2026년 소상공인 지원사업의 기업가형 소상공인 육성, 성장 지원, 소공인 특화, 지역상권, 디지털 역량, 경영부담 완화, 재기지원 분야 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "기업마당",
+      "url": "https://bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117016",
+      "basis_date": "2025-12-30"
+    },
+    {
+      "id": "source.bizinfo.small-business-management-voucher.2026",
+      "title": "소상공인 경영안정 바우처 지원사업",
+      "type": "source",
+      "description": "2025년 연 매출액 0원 초과 1억400만원 미만 영업 중 소상공인에게 25만원 한도 바우처를 지원하는 2026년 사업 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "기업마당",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000117908",
+      "basis_date": "2026-01-28"
+    },
+    {
+      "id": "source.bizinfo.small-business-leap.2026",
+      "title": "2026년 소상공인 도약 지원사업",
+      "type": "source",
+      "description": "로컬기업육성·강한소상공인 성장 사업을 통한 소상공인 사업화, 홍보·마케팅, 유형별 특화프로그램 지원 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "기업마당",
+      "url": "https://www.bizinfo.go.kr/sii/siia/selectSIIA200Detail.do?pblancId=PBLN_000000000120120",
+      "basis_date": "2026-03-30"
+    },
+    {
+      "id": "source.korea.youth-job-leap.2026",
+      "title": "2026년 청년일자리도약장려금",
+      "type": "source",
+      "description": "청년 정규직 채용 후 6개월 이상 고용 유지 시 기업과 청년에게 최대 720만원을 지원하는 2026년 청년일자리도약장려금 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "대한민국 정책브리핑",
+      "url": "https://www.korea.kr/multi/visualNewsView.do?newsId=148961581",
+      "basis_date": "2026-04 확인"
+    },
+    {
+      "id": "application-channel.bokjiro",
+      "title": "복지로 온라인 신청",
+      "type": "application-channel",
+      "description": "부모급여, 아동수당, 첫만남이용권, 청년월세지원 등 복지·주거 현금성 지원을 온라인으로 신청하는 경로입니다.",
+      "folder": "83_Channels",
+      "parents": ["category.application-channels"],
+      "related": ["support.parent-benefit", "support.child-allowance", "support.first-meeting-voucher", "support.youth-monthly-rent-special"],
+      "sources": ["source.mohw.parent-benefit.2026", "source.mohw.child-allowance.2026", "source.mohw.first-meeting-voucher", "source.korea.youth-monthly-rent.2026"],
+      "tags": ["application-channel", "welfare"]
+    },
+    {
+      "id": "application-channel.gov24-subsidy24",
+      "title": "정부24·보조금24 확인",
+      "type": "application-channel",
+      "description": "정부24와 보조금24에서 중앙·지자체 지원금 신청 가능 여부와 민원·증명 발급 경로를 확인하는 채널입니다.",
+      "folder": "83_Channels",
+      "parents": ["category.application-channels"],
+      "related": ["support.first-meeting-voucher", "support.housing-benefit", "support.youth-monthly-rent-special"],
+      "sources": ["source.mohw.first-meeting-voucher", "source.myhome.housing-benefit.2026"],
+      "tags": ["application-channel", "gov24"]
+    },
+    {
+      "id": "application-channel.myhome",
+      "title": "마이홈 주거지원 자가진단",
+      "type": "application-channel",
+      "description": "청년월세, 주거급여, 청년·신혼부부 주거지원의 자격과 신청 경로를 확인하는 주거지원 안내 채널입니다.",
+      "folder": "83_Channels",
+      "parents": ["category.application-channels"],
+      "related": ["support.youth-monthly-rent-special", "support.housing-benefit", "support.youth-special-rent-guarantee"],
+      "sources": ["source.myhome.youth-monthly-rent.2026", "source.myhome.housing-benefit.2026"],
+      "tags": ["application-channel", "housing"]
+    },
+    {
+      "id": "application-channel.small-business-24",
+      "title": "소상공인24 온라인 신청",
+      "type": "application-channel",
+      "description": "소상공인 지원사업, 경영안정 바우처, 도약 지원사업 등 소상공인 대상 정부 지원을 온라인으로 신청·확인하는 채널입니다.",
+      "folder": "83_Channels",
+      "parents": ["category.application-channels"],
+      "related": ["support.small-business-management-stability-voucher", "support.small-business-leap"],
+      "sources": ["source.bizinfo.small-business-support.2026", "source.bizinfo.small-business-management-voucher.2026", "source.bizinfo.small-business-leap.2026"],
+      "tags": ["application-channel", "small-business"]
+    },
+    {
+      "id": "application-channel.small-business-policy-fund-site",
+      "title": "소상공인정책자금 사이트",
+      "type": "application-channel",
+      "description": "소상공인 정책자금 직접대출·대리대출 신청, 융자대상 확인, 정책자금 기준금리와 신청 공고를 확인하는 채널입니다.",
+      "folder": "83_Channels",
+      "parents": ["category.application-channels"],
+      "related": ["support.small-business-policy-fund"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026"],
+      "tags": ["application-channel", "small-business", "policy-loan"]
+    },
+    {
+      "id": "required-document.birth-registration",
+      "title": "출생신고·주민등록 확인자료",
+      "type": "required-document",
+      "description": "출생아 대상 첫만남이용권, 부모급여, 아동수당에서 아동의 출생신고와 주민등록번호 부여 여부를 확인하는 자료입니다.",
+      "folder": "82_Documents",
+      "parents": ["category.required-documents"],
+      "related": ["support.first-meeting-voucher", "support.parent-benefit", "support.child-allowance"],
+      "sources": ["source.mohw.first-meeting-voucher", "source.mohw.parent-benefit.2026", "source.mohw.child-allowance.2026"],
+      "tags": ["required-document", "childcare"]
+    },
+    {
+      "id": "required-document.rental-contract-support",
+      "title": "월세지원 임대차계약·납부자료",
+      "type": "required-document",
+      "description": "청년월세지원과 주거급여에서 실제 임차관계, 월세액, 보증금, 주소지를 확인하는 임대차계약서와 월세 납부 증빙입니다.",
+      "folder": "82_Documents",
+      "parents": ["category.required-documents"],
+      "related": ["support.youth-monthly-rent-special", "support.housing-benefit", "required-document.lease-contract", "required-document.rent-payment-proof"],
+      "sources": ["source.myhome.youth-monthly-rent.2026", "source.myhome.housing-benefit.2026"],
+      "tags": ["required-document", "housing"]
+    },
+    {
+      "id": "required-document.small-business-registration",
+      "title": "소상공인 사업자등록·매출 확인자료",
+      "type": "required-document",
+      "description": "소상공인 정책자금과 바우처 지원에서 영업 중 소상공인 여부, 연 매출액, 사업장 상태를 확인하는 사업자등록증명과 매출자료입니다.",
+      "folder": "82_Documents",
+      "parents": ["category.required-documents"],
+      "related": ["support.small-business-policy-fund", "support.small-business-management-stability-voucher", "filing.business-registration"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026", "source.bizinfo.small-business-management-voucher.2026"],
+      "tags": ["required-document", "small-business"]
+    },
+    {
+      "id": "required-document.tax-payment-status",
+      "title": "국세·지방세 체납 여부 확인자료",
+      "type": "required-document",
+      "description": "소상공인 정책자금 등 사업자 지원에서 세금 체납 여부를 확인하기 위해 국세·지방세 납세증명 또는 체납 상태를 확인하는 자료입니다.",
+      "folder": "82_Documents",
+      "parents": ["category.required-documents"],
+      "related": ["support.small-business-policy-fund", "eligibility-rule.tax-delinquency-exclusion"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026"],
+      "tags": ["required-document", "small-business", "tax-compliance"]
+    },
+    {
+      "id": "eligibility-rule.median-income-support",
+      "title": "기준 중위소득 기반 지원금 판정",
+      "type": "eligibility-rule",
+      "description": "주거급여, 청년월세, 생계급여처럼 가구원 수별 기준 중위소득 비율로 대상 여부를 판단하는 공통 규칙입니다.",
+      "folder": "81_Rules/Eligibility",
+      "parents": ["category.eligibility-rules"],
+      "related": ["support.housing-benefit", "support.youth-monthly-rent-special", "support.basic-livelihood-benefit"],
+      "sources": ["source.mohw.beneficiary-selection.2026", "source.myhome.housing-benefit.2026", "source.myhome.youth-monthly-rent.2026"],
+      "tags": ["eligibility-rule", "median-income"]
+    },
+    {
+      "id": "eligibility-rule.youth-rent-income-asset",
+      "title": "청년월세 소득·재산 요건",
+      "type": "eligibility-rule",
+      "description": "청년월세지원에서 청년가구와 원가구의 기준 중위소득, 총재산가액, 무주택·분리거주 여부를 함께 판단하는 규칙입니다.",
+      "folder": "81_Rules/Eligibility",
+      "parents": ["category.eligibility-rules"],
+      "related": ["support.youth-monthly-rent-special", "life-expense.monthly-rent-support"],
+      "sources": ["source.korea.youth-monthly-rent.2026", "source.myhome.youth-monthly-rent.2026"],
+      "criteria": [
+        {"label": "청년 연령", "basis": "만 나이", "condition": "19세 이상 34세 이하", "age_min": 19, "age_max": 34, "source": "source.korea.youth-monthly-rent.2026"},
+        {"label": "청년가구 소득", "basis": "기준 중위소득", "condition": "60% 이하", "median_income_percent_max": 60, "threshold_krw_max": 1538543, "note": "1인 가구 2026년 기준", "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "원가구 소득", "basis": "기준 중위소득", "condition": "100% 이하", "median_income_percent_max": 100, "threshold_krw_max": 2564238, "note": "1인 가구 2026년 기준", "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "청년가구 재산", "basis": "총재산가액", "condition": "1.22억원 이하", "threshold_krw_max": 122000000, "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "원가구 재산", "basis": "총재산가액", "condition": "4.7억원 이하", "threshold_krw_max": 470000000, "source": "source.myhome.youth-monthly-rent.2026"}
+      ],
+      "tags": ["eligibility-rule", "youth", "housing"]
+    },
+    {
+      "id": "eligibility-rule.small-business-basic",
+      "title": "소상공인 기본 지원대상 판정",
+      "type": "eligibility-rule",
+      "description": "소상공인 정책자금과 지원사업에서 소상공인기본법상 소상공인 여부, 정상 영업 여부, 세부사업별 대상 여부를 먼저 확인하는 규칙입니다.",
+      "folder": "81_Rules/Eligibility",
+      "parents": ["category.eligibility-rules"],
+      "related": ["support.small-business-policy-fund", "support.small-business-management-stability-voucher", "support.small-business-leap"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026", "source.bizinfo.small-business-support.2026"],
+      "tags": ["eligibility-rule", "small-business"]
+    },
+    {
+      "id": "eligibility-rule.tax-delinquency-exclusion",
+      "title": "세금 체납 소상공인 지원 제한",
+      "type": "eligibility-rule",
+      "description": "소상공인 정책자금에서 세금을 체납 중인 소상공인이 융자 제한 대상이 될 수 있는지 확인하는 규칙입니다.",
+      "folder": "81_Rules/Eligibility",
+      "parents": ["category.eligibility-rules"],
+      "related": ["support.small-business-policy-fund", "required-document.tax-payment-status"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026"],
+      "tags": ["eligibility-rule", "small-business", "tax-compliance"]
+    },
+    {
+      "id": "eligibility-rule.child-age",
+      "title": "아동 연령 기반 양육지원 판정",
+      "type": "eligibility-rule",
+      "description": "부모급여, 아동수당, 첫만남이용권에서 아동의 월령·나이·출생신고 여부로 지원대상을 판정하는 규칙입니다.",
+      "folder": "81_Rules/Eligibility",
+      "parents": ["category.eligibility-rules"],
+      "related": ["support.parent-benefit", "support.child-allowance", "support.first-meeting-voucher"],
+      "sources": ["source.mohw.parent-benefit.2026", "source.mohw.child-allowance.2026", "source.mohw.first-meeting-voucher"],
+      "tags": ["eligibility-rule", "childcare"]
+    },
+    {
+      "id": "conflict-rule.youth-rent-cash-support-duplicate",
+      "title": "청년월세 현금성 월세지원 중복 제한",
+      "type": "conflict-rule",
+      "description": "국토부 또는 지자체 현금성 월세지원사업을 이미 받고 있거나 청년월세 한시 특별지원을 24개월 수혜한 경우 제외대상인지 확인하는 중복 제한 규칙입니다.",
+      "folder": "81_Rules/Conflicts",
+      "parents": ["category.conflict-rules"],
+      "related": ["support.youth-monthly-rent-special", "life-expense.monthly-rent-support"],
+      "sources": ["source.myhome.youth-monthly-rent.2026", "source.korea.youth-monthly-rent.2026"],
+      "tags": ["conflict-rule", "housing", "duplicate-support"]
+    },
+    {
+      "id": "conflict-rule.parent-benefit-childcare-service",
+      "title": "부모급여 보육료·돌봄 바우처 조정",
+      "type": "conflict-rule",
+      "description": "부모급여가 현금 또는 보육료·종일제 돌봄 바우처 방식으로 지급될 수 있으므로 실제 지급방식과 중복 신청 여부를 확인하는 규칙입니다.",
+      "folder": "81_Rules/Conflicts",
+      "parents": ["category.conflict-rules"],
+      "related": ["support.parent-benefit", "application-channel.bokjiro"],
+      "sources": ["source.mohw.parent-benefit.2026"],
+      "tags": ["conflict-rule", "childcare"]
+    },
+    {
+      "id": "concept.additional-tax.general",
+      "title": "가산세 공통 리스크",
+      "type": "concept",
+      "description": "신고기한을 놓치거나 과소신고·미납부가 발생했을 때 종합소득세, 부가가치세, 양도소득세에서 추가 부담이 생기는 가산세 리스크입니다.",
+      "folder": "40_Terms/Concepts",
+      "parents": ["category.filing-calendar"],
+      "related": ["filing.income-tax-return", "filing.vat-return", "filing.capital-gains-return", "tax.income.comprehensive", "tax.value-added", "tax.income.capital-gains"],
+      "sources": ["source.nts.income-tax.additional-tax", "source.nts.vat.additional-tax", "source.nts.capital-gains.additional-tax"],
+      "criteria": [
+        {"label": "종합소득세 무신고", "basis": "무신고납부세액", "condition": "신고기한까지 신고하지 않은 경우", "rate_percent": 20, "source": "source.nts.income-tax.additional-tax"},
+        {"label": "종합소득세 과소신고", "basis": "과소신고납부세액", "condition": "과세표준 또는 세액을 과소신고한 경우", "rate_percent": 10, "source": "source.nts.income-tax.additional-tax"},
+        {"label": "종합소득세 납부지연", "basis": "미납·미달납부세액", "condition": "납부기한 다음날부터 자진납부일 또는 고지일까지", "rate_percent": 0.022, "rate_label": "1일 이자율", "amount_formula": "미납세액 × 경과일수 × 2.2/10,000", "source": "source.nts.income-tax.additional-tax"},
+        {"label": "부가가치세 영세율 신고불성실", "basis": "무·과소신고 영세율 과세표준", "condition": "영세율 과세표준을 무신고 또는 과소신고한 경우", "rate_percent": 0.5, "source": "source.nts.vat.additional-tax"},
+        {"label": "부가가치세 미등록", "basis": "공급가액 또는 공급대가", "condition": "사업자등록을 하지 않은 경우", "rate_percent_min": 0.5, "rate_percent_max": 1, "note": "간이과세자는 공급대가 0.5%, 일반은 공급가액 1%", "source": "source.nts.vat.additional-tax"},
+        {"label": "양도소득세 단순무신고", "basis": "무신고 납부세액", "condition": "신고기한까지 양도소득세를 신고하지 않은 경우", "rate_percent": 20, "source": "source.nts.capital-gains.additional-tax"},
+        {"label": "양도소득세 환산취득가액", "basis": "환산취득가액 건물분", "condition": "건물 신축·증축 취득 후 5년 이내 양도", "rate_percent": 5, "source": "source.nts.capital-gains.additional-tax"}
+      ],
+      "tags": ["tax-risk", "additional-tax"]
+    },
+    {
+      "id": "filing.payment-statement-submission",
+      "title": "지급명세서 제출",
+      "type": "filing",
+      "description": "근로·퇴직·사업·종교인·연금계좌, 일용근로, 간이지급명세서, 이자·배당·기타소득 지급자료를 제출기한별로 관리하는 원천징수 후속 신고입니다.",
+      "folder": "50_Deadlines",
+      "parents": ["category.filing-calendar", "filing.withholding-tax"],
+      "related": ["filing.business-income-withholding", "life-income.freelance-income", "life-income.side-job-income"],
+      "terms": ["term.withholding", "term.withholding-obligor", "term.deadline"],
+      "sources": ["source.nts.payment-statement.deadlines", "source.nts.withholding.deadlines"],
+      "law_reference": "소득세법 지급명세서 제출 조문",
+      "criteria": [
+        {"label": "근로·퇴직·사업·종교인·연금계좌", "basis": "소득지급시기", "condition": "1월~12월 지급분", "deadline_month": 3, "deadline_day": 10, "source": "source.nts.payment-statement.deadlines"},
+        {"label": "일용근로소득", "basis": "지급일", "condition": "지급일이 속하는 달의 다음달 말일", "deadline_relative": "지급월 다음달 말일", "amount_applicability": "정액 금액 기준 없음", "source": "source.nts.payment-statement.deadlines"},
+        {"label": "간이지급명세서 근로소득 상반기", "basis": "1월~6월 지급분", "condition": "7월 말일까지", "deadline_month": 7, "deadline_relative": "상반기 다음 달 말일", "source": "source.nts.payment-statement.deadlines"},
+        {"label": "간이지급명세서 근로소득 하반기", "basis": "7월~12월 지급분", "condition": "다음연도 1월 말일까지", "deadline_month": 1, "deadline_relative": "하반기 다음 해 1월 말일", "source": "source.nts.payment-statement.deadlines"},
+        {"label": "이자·배당·기타소득 등", "basis": "1월~12월 지급분", "condition": "다음연도 2월 말일까지", "deadline_month": 2, "deadline_relative": "다음연도 2월 말일", "source": "source.nts.payment-statement.deadlines"}
+      ],
+      "tags": ["filing", "withholding", "deadline"]
+    },
+    {
+      "id": "concept.financial-income-comprehensive-taxation",
+      "title": "금융소득 종합과세 확인",
+      "type": "concept",
+      "description": "이자·배당소득이 원천징수로 끝나는지, 종합소득 과세표준에 합산되는지 판단하는 금융소득 확인 노드입니다.",
+      "folder": "40_Terms/Concepts",
+      "parents": ["tax.income.comprehensive"],
+      "related": ["support.youth-leap-account", "support.isa", "tax.income.comprehensive"],
+      "terms": ["term.total-income"],
+      "sources": ["source.nts.income-tax.overview", "source.nts.financial-income"],
+      "criteria": [
+        {"label": "원천징수된 금융소득", "basis": "이자·배당소득 지급 방식", "condition": "원천징수된 경우 분리과세 또는 종합과세 여부 확인", "amount_applicability": "정액 금액 기준 없음", "source": "source.nts.financial-income"},
+        {"label": "원천징수되지 않은 금융소득", "basis": "이자·배당소득 지급 방식", "condition": "원천징수되지 않은 경우 종합소득 과세표준에 합산", "amount_applicability": "정액 금액 기준 없음", "source": "source.nts.financial-income"}
+      ],
+      "tags": ["concept", "financial-income"]
+    },
+    {
+      "id": "source.nts.financial-income",
+      "title": "금융(이자·배당)소득",
+      "type": "source",
+      "description": "이자·배당소득의 범위, 원천징수, 종합과세와 분리과세 구분 근거입니다.",
+      "folder": "90_Sources",
+      "publisher": "국세청",
+      "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7896&mi=6471",
+      "basis_date": "2026-05-04 확인"
+    },
+    {
+      "id": "support.housing-benefit",
+      "title": "주거급여",
+      "type": "support-program",
+      "description": "소득인정액이 기준 중위소득 48% 이하인 가구에 임차료 또는 자가 수선비를 지원하는 주거비 지원 제도입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.basic-livelihood-benefit", "support.youth-monthly-rent-special", "life-expense.monthly-rent-support"],
+      "terms": ["term.median-income", "term.eligibility-threshold"],
+      "sources": ["source.myhome.housing-benefit.2026", "source.mohw.beneficiary-selection.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "1인 가구 선정기준", "basis": "소득인정액", "condition": "기준 중위소득 48% 이하", "household_size": 1, "median_income_percent_max": 48, "threshold_krw_max": 1230834, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "2인 가구 선정기준", "basis": "소득인정액", "condition": "기준 중위소득 48% 이하", "household_size": 2, "median_income_percent_max": 48, "threshold_krw_max": 2015660, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "3인 가구 선정기준", "basis": "소득인정액", "condition": "기준 중위소득 48% 이하", "household_size": 3, "median_income_percent_max": 48, "threshold_krw_max": 2572337, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "4인 가구 선정기준", "basis": "소득인정액", "condition": "기준 중위소득 48% 이하", "household_size": 4, "median_income_percent_max": 48, "threshold_krw_max": 3117474, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "서울 1인 기준임대료", "basis": "임차급여 기준임대료", "condition": "서울 1인 가구", "limit_krw": 369000, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "자가가구 경보수", "basis": "수선유지급여", "condition": "경보수 3년 주기", "limit_krw": 5900000, "period_years": 3, "source": "source.myhome.housing-benefit.2026"},
+        {"label": "자가가구 대보수", "basis": "수선유지급여", "condition": "대보수 7년 주기", "limit_krw": 16010000, "period_years": 7, "source": "source.myhome.housing-benefit.2026"}
+      ],
+      "tags": ["cash-support", "housing", "welfare"]
+    },
+    {
+      "id": "support.youth-monthly-rent-special",
+      "title": "청년월세 지원사업",
+      "type": "support-program",
+      "description": "부모와 따로 거주하는 19~34세 무주택 청년에게 월세를 월 최대 20만원씩 최장 24개월 지원하는 주거비 지원사업입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["credit.monthly-rent", "support.housing-benefit", "life-expense.monthly-rent-support", "conflict-rule.youth-rent-cash-support-duplicate"],
+      "terms": ["term.median-income", "term.eligibility-threshold", "term.policy-finance"],
+      "sources": ["source.korea.youth-monthly-rent.2026", "source.myhome.youth-monthly-rent.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "지원금액", "basis": "월세 지원액", "condition": "월 최대 20만원", "limit_krw": 200000, "source": "source.korea.youth-monthly-rent.2026"},
+        {"label": "지원기간", "basis": "지원개월", "condition": "최장 24개월", "period_months_max": 24, "source": "source.korea.youth-monthly-rent.2026"},
+        {"label": "연령", "basis": "만 나이", "condition": "19세 이상 34세 이하", "age_min": 19, "age_max": 34, "source": "source.korea.youth-monthly-rent.2026"},
+        {"label": "청년가구 소득", "basis": "기준 중위소득", "condition": "60% 이하", "median_income_percent_max": 60, "threshold_krw_max": 1538543, "note": "1인 가구 2026년 기준", "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "원가구 소득", "basis": "기준 중위소득", "condition": "100% 이하", "median_income_percent_max": 100, "threshold_krw_max": 2564238, "note": "1인 가구 2026년 기준", "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "청년가구 재산", "basis": "총재산가액", "condition": "1.22억원 이하", "threshold_krw_max": 122000000, "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "원가구 재산", "basis": "총재산가액", "condition": "4.7억원 이하", "threshold_krw_max": 470000000, "source": "source.myhome.youth-monthly-rent.2026"},
+        {"label": "월환산임차료", "basis": "보증금과 월임차료", "condition": "월임차료 70만원 초과 시 환산", "threshold_krw_min": 700000, "amount_formula": "(보증금 × 5.5%) ÷ 12 + 월임차료", "source": "source.myhome.youth-monthly-rent.2026"}
+      ],
+      "tags": ["cash-support", "housing", "youth"]
+    },
+    {
+      "id": "support.parent-benefit",
+      "title": "부모급여",
+      "type": "support-program",
+      "description": "0~23개월 아동의 영아기 돌봄과 출산·양육 소득 손실 보전을 위해 현금 또는 바우처로 지급되는 양육 지원입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.child-allowance", "support.first-meeting-voucher", "life-event.childbirth-parenting", "conflict-rule.parent-benefit-childcare-service"],
+      "terms": ["term.eligibility-threshold"],
+      "sources": ["source.mohw.parent-benefit.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "0세 아동", "basis": "아동 월령", "condition": "0세", "age_min": 0, "age_max": 0, "amount_krw": 1000000, "note": "월 지급액", "source": "source.mohw.parent-benefit.2026"},
+        {"label": "1세 아동", "basis": "아동 월령", "condition": "1세", "age_min": 1, "age_max": 1, "amount_krw": 500000, "note": "월 지급액", "source": "source.mohw.parent-benefit.2026"},
+        {"label": "지원대상", "basis": "아동 나이", "condition": "2세 미만 0~23개월", "period_months_max": 23, "source": "source.mohw.parent-benefit.2026"}
+      ],
+      "tags": ["cash-support", "childcare"]
+    },
+    {
+      "id": "support.child-allowance",
+      "title": "아동수당",
+      "type": "support-program",
+      "description": "아동 양육 부담 경감과 아동 복지 증진을 위해 만 9세 미만 모든 아동에게 월 단위로 지급하는 지원금입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.parent-benefit", "support.first-meeting-voucher", "life-event.childbirth-parenting"],
+      "terms": ["term.eligibility-threshold"],
+      "sources": ["source.mohw.child-allowance.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "지원대상", "basis": "아동 나이", "condition": "만 9세 미만", "age_max": 8, "source": "source.mohw.child-allowance.2026"},
+        {"label": "기본 월 지급액", "basis": "아동 1인당 월 지급액", "condition": "수도권 기본", "amount_krw": 100000, "source": "source.mohw.child-allowance.2026"},
+        {"label": "지역 우대 월 지급액", "basis": "아동 1인당 월 지급액", "condition": "비수도권·인구감소지역 등", "amount_krw": 130000, "note": "공식 안내상 월 10만~13만원 범위", "source": "source.mohw.child-allowance.2026"}
+      ],
+      "tags": ["cash-support", "childcare"]
+    },
+    {
+      "id": "support.first-meeting-voucher",
+      "title": "첫만남이용권",
+      "type": "support-program",
+      "description": "출생 초기 아동 양육비 부담을 줄이기 위해 출생아에게 국민행복카드 바우처로 지급하는 출산 지원입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.parent-benefit", "support.child-allowance", "life-event.childbirth-parenting"],
+      "sources": ["source.mohw.first-meeting-voucher"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "첫째아", "basis": "출생순위", "condition": "첫째 출생아", "amount_krw": 2000000, "source": "source.mohw.first-meeting-voucher"},
+        {"label": "둘째 이상", "basis": "출생순위", "condition": "둘째 이상 출생아", "amount_krw": 3000000, "source": "source.mohw.first-meeting-voucher"},
+        {"label": "사용기간", "basis": "아동 출생일", "condition": "아동 출생일로부터 1년", "period_years": 1, "source": "source.mohw.first-meeting-voucher"},
+        {"label": "신청 가능 출생아", "basis": "출생신고와 주민등록번호", "condition": "출생신고되어 정상적으로 주민등록번호를 부여받은 아동", "amount_applicability": "정액 금액 기준 없음", "source": "source.mohw.first-meeting-voucher"}
+      ],
+      "tags": ["voucher", "childcare", "birth"]
+    },
+    {
+      "id": "support.small-business-policy-fund",
+      "title": "소상공인 정책자금",
+      "type": "support-program",
+      "description": "소상공인의 경영안정, 재도전, 대환, 청년고용연계, 성장기반 투자를 지원하는 2026년 정책자금 융자사업입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["tax.income.comprehensive", "tax.value-added", "support.hessal-119", "life-event.small-business-operating-funds"],
+      "terms": ["term.policy-finance", "term.policy-loan", "term.eligibility-threshold"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "공통 대상", "basis": "지원대상", "condition": "소상공인기본법상 소상공인", "amount_applicability": "정액 금액 기준 없음", "source": "source.bizinfo.small-business-policy-fund.2026"},
+        {"label": "운전자금 통합한도", "basis": "정책자금 대출잔액과 신규대출 예정액", "condition": "기업당 운전자금 5억원 이내", "limit_krw": 500000000, "source": "source.bizinfo.small-business-policy-fund.2026"},
+        {"label": "시설자금 포함 통합한도", "basis": "정책자금 대출잔액과 신규대출 예정액", "condition": "시설자금 포함 10억원 이내", "limit_krw": 1000000000, "source": "source.bizinfo.small-business-policy-fund.2026"},
+        {"label": "대환대출 대상 고금리", "basis": "기존 금융권 대출금리", "condition": "7% 이상 고금리 대출", "rate_percent_min": 7, "rate_label": "기존대출 금리", "source": "source.bizinfo.small-business-policy-fund.2026"},
+        {"label": "대환대출 금리", "basis": "전환 후 정책자금 금리", "condition": "고정 4.5%", "rate_percent": 4.5, "rate_label": "대출금리", "source": "source.bizinfo.small-business-policy-fund.2026"},
+        {"label": "성실상환 우대금리", "basis": "소진공 직접대출 성실상환", "condition": "최근 3년 이내 연속 10일 이상 연체 이력 없이 상환", "rate_percent": 0.3, "rate_label": "금리우대", "source": "source.bizinfo.small-business-policy-fund.2026"}
+      ],
+      "tags": ["policy-finance", "loan", "small-business"]
+    },
+    {
+      "id": "support.small-business-management-stability-voucher",
+      "title": "소상공인 경영안정 바우처",
+      "type": "support-program",
+      "description": "영세 소상공인의 공과금, 4대 보험료, 차량연료비, 전통시장 화재공제료 부담을 낮추는 2026년 경영안정 바우처입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.small-business-policy-fund", "life-event.small-business-operating-funds"],
+      "terms": ["term.eligibility-threshold"],
+      "sources": ["source.bizinfo.small-business-management-voucher.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "연 매출 하한", "basis": "2025년 연 매출액", "condition": "0원 초과", "threshold_krw_min": 1, "source": "source.bizinfo.small-business-management-voucher.2026"},
+        {"label": "연 매출 상한", "basis": "2025년 연 매출액", "condition": "1억400만원 미만", "threshold_krw_max": 104000000, "source": "source.bizinfo.small-business-management-voucher.2026"},
+        {"label": "지원한도", "basis": "소상공인 1개사당 바우처", "condition": "25만원 한도", "limit_krw": 250000, "source": "source.bizinfo.small-business-management-voucher.2026"}
+      ],
+      "tags": ["voucher", "small-business"]
+    },
+    {
+      "id": "support.small-business-leap",
+      "title": "소상공인 도약 지원사업",
+      "type": "support-program",
+      "description": "정상 영업 중인 소상공인을 대상으로 로컬기업 육성, 강한소상공인 성장, 신제품 개발, 비즈니스모델 고도화, 홍보·마케팅 등을 지원하는 사업입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["support.small-business-policy-fund", "life-event.small-business-operating-funds"],
+      "terms": ["term.eligibility-threshold"],
+      "sources": ["source.bizinfo.small-business-leap.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "신청대상", "basis": "사업장 상태", "condition": "신청일 현재 정상적으로 영업 중인 소상공인", "amount_applicability": "정액 금액 기준 없음", "source": "source.bizinfo.small-business-leap.2026"},
+        {"label": "신청기간", "basis": "공고 신청기간", "condition": "2026년 4월 1일~4월 24일", "deadline_start_month": 4, "deadline_start_day": 1, "deadline_end_month": 4, "deadline_end_day": 24, "source": "source.bizinfo.small-business-leap.2026"}
+      ],
+      "tags": ["small-business", "growth-support"]
+    },
+    {
+      "id": "support.youth-job-leap-incentive",
+      "title": "청년일자리도약장려금",
+      "type": "support-program",
+      "description": "청년을 정규직으로 채용하고 6개월 이상 고용 유지하는 기업과 청년을 지원하는 2026년 고용 장려금입니다.",
+      "folder": "30_Supports",
+      "parents": ["category.policy-supports"],
+      "related": ["credit.integrated-employment", "corporate.support.social-insurance-credit", "support.small-business-policy-fund"],
+      "terms": ["term.eligibility-threshold"],
+      "sources": ["source.korea.youth-job-leap.2026"],
+      "basis_year": 2026,
+      "criteria": [
+        {"label": "고용유지 요건", "basis": "정규직 청년 채용 후 고용유지", "condition": "6개월 이상 고용 유지", "period_months_min": 6, "source": "source.korea.youth-job-leap.2026"},
+        {"label": "지원금액", "basis": "기업과 청년 지원금", "condition": "최대 720만원/년", "limit_krw": 7200000, "source": "source.korea.youth-job-leap.2026"},
+        {"label": "월 환산 지원금", "basis": "월 지원금", "condition": "월 60만원", "amount_krw": 600000, "source": "source.korea.youth-job-leap.2026"}
+      ],
+      "tags": ["employment-support", "youth", "business"]
+    },
+    {
+      "id": "life-expense.monthly-rent-support",
+      "title": "월세지원·주거비 부담",
+      "type": "life-expense",
+      "description": "월세지원, 주거비, 청년월세, 월세 보조처럼 세액공제뿐 아니라 현금성 주거지원 후보까지 함께 판단해야 하는 생활어입니다.",
+      "folder": "80_LifeLanguage/Expenses",
+      "parents": ["category.life-expenses"],
+      "related": ["support.youth-monthly-rent-special", "support.housing-benefit", "credit.monthly-rent", "conflict-rule.youth-rent-cash-support-duplicate"],
+      "sources": ["source.korea.youth-monthly-rent.2026", "source.myhome.youth-monthly-rent.2026", "source.nts.monthly-rent-credit"],
+      "tags": ["life-language", "housing", "support"],
+      "life_phrases": ["월세지원", "월세 지원금", "청년월세", "월세 보조", "주거비 지원", "월세 부담", "자취 월세 지원"],
+      "official_candidates": [
+        {"target": "support.youth-monthly-rent-special", "confidence": 0.88, "confidence_label": "높음", "reason": "청년월세·월세지원금 표현은 청년월세 지원사업 후보일 가능성이 큽니다.", "required_checks": ["만 19~34세", "부모와 별도 거주", "무주택", "청년가구·원가구 소득", "재산 기준", "중복 월세지원 여부"]},
+        {"target": "support.housing-benefit", "confidence": 0.68, "confidence_label": "중간", "reason": "저소득 주거비 부담 표현은 주거급여 후보도 함께 확인해야 합니다.", "required_checks": ["가구원 수", "소득인정액", "임차가구 또는 자가가구", "기준임대료"]},
+        {"target": "credit.monthly-rent", "confidence": 0.62, "confidence_label": "중간", "reason": "근로자가 월세를 냈다는 표현은 월세액 세액공제 후보와도 연결됩니다.", "required_checks": ["근로자 여부", "총급여", "무주택", "전입신고", "계약서·이체내역"]}
+      ],
+      "eligibility_questions": [
+        {"order": 1, "question": "만 19세 이상 34세 이하 청년인가요?", "answer_type": "boolean", "target": "eligibility-rule.youth-rent-income-asset", "criterion": "연령"},
+        {"order": 2, "question": "부모와 별도로 거주하는 무주택 청년인가요?", "answer_type": "boolean", "target": "eligibility-rule.homeless-household", "criterion": "거주·무주택"},
+        {"order": 3, "question": "청년가구와 원가구의 소득·재산 기준을 확인했나요?", "answer_type": "boolean", "target": "eligibility-rule.youth-rent-income-asset", "criterion": "소득·재산"},
+        {"order": 4, "question": "국토부나 지자체 현금성 월세지원을 이미 받고 있나요?", "answer_type": "boolean", "target": "conflict-rule.youth-rent-cash-support-duplicate", "criterion": "중복지원"},
+        {"order": 5, "question": "월세액 세액공제도 함께 판단해야 하는 근로자인가요?", "answer_type": "boolean", "target": "credit.monthly-rent", "criterion": "세액공제 후보"}
+      ]
+    },
+    {
+      "id": "life-event.childbirth-parenting",
+      "title": "출산·육아 지원",
+      "type": "life-event",
+      "description": "아기 태어남, 출산지원금, 육아수당, 부모급여처럼 출생·영아·아동 양육 단계에서 받을 수 있는 지원금을 찾는 생활사건입니다.",
+      "folder": "80_LifeLanguage/Events",
+      "parents": ["category.life-events"],
+      "related": ["support.first-meeting-voucher", "support.parent-benefit", "support.child-allowance", "application-channel.bokjiro"],
+      "sources": ["source.mohw.first-meeting-voucher", "source.mohw.parent-benefit.2026", "source.mohw.child-allowance.2026"],
+      "tags": ["life-language", "childcare", "support"],
+      "life_phrases": ["출산지원금", "아기 지원금", "육아수당", "부모급여", "아동수당", "첫만남이용권", "애기 낳았어요", "아이 키우는 지원"],
+      "official_candidates": [
+        {"target": "support.first-meeting-voucher", "confidence": 0.86, "confidence_label": "높음", "reason": "출산지원금·첫만남 표현은 첫만남이용권 후보입니다.", "required_checks": ["출생신고", "출생순위", "사용기간", "국민행복카드"]},
+        {"target": "support.parent-benefit", "confidence": 0.84, "confidence_label": "높음", "reason": "0~23개월 영아 양육비 표현은 부모급여 후보입니다.", "required_checks": ["아동 월령", "현금 또는 바우처 지급 방식", "복지로 신청"]},
+        {"target": "support.child-allowance", "confidence": 0.78, "confidence_label": "중간", "reason": "아동수당·아이 지원 표현은 만 9세 미만 아동수당 후보입니다.", "required_checks": ["아동 나이", "지역별 지급액", "신청 경로"]}
+      ],
+      "eligibility_questions": [
+        {"order": 1, "question": "아동이 출생신고되어 주민등록번호를 부여받았나요?", "answer_type": "boolean", "target": "required-document.birth-registration", "criterion": "출생확인"},
+        {"order": 2, "question": "첫째아인가요, 둘째 이상인가요?", "answer_type": "choice", "target": "support.first-meeting-voucher", "criterion": "출생순위"},
+        {"order": 3, "question": "아동이 0~23개월인가요?", "answer_type": "boolean", "target": "support.parent-benefit", "criterion": "부모급여"},
+        {"order": 4, "question": "아동이 만 9세 미만인가요?", "answer_type": "boolean", "target": "support.child-allowance", "criterion": "아동수당"},
+        {"order": 5, "question": "복지로 또는 행정복지센터 신청 경로를 선택했나요?", "answer_type": "choice", "target": "application-channel.bokjiro", "criterion": "신청경로"}
+      ]
+    },
+    {
+      "id": "life-event.small-business-operating-funds",
+      "title": "소상공인 운영자금·지원금",
+      "type": "life-event",
+      "description": "사업자금, 운영자금, 소상공인 지원금, 바우처처럼 세금신고와 사업자 지원 제도를 함께 판단해야 하는 생활사건입니다.",
+      "folder": "80_LifeLanguage/Events",
+      "parents": ["category.life-events"],
+      "related": ["support.small-business-policy-fund", "support.small-business-management-stability-voucher", "support.small-business-leap", "tax.value-added", "tax.income.comprehensive"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026", "source.bizinfo.small-business-management-voucher.2026", "source.bizinfo.small-business-leap.2026"],
+      "tags": ["life-language", "small-business", "support"],
+      "life_phrases": ["소상공인 지원금", "사업자금", "운영자금", "가게 지원", "자영업자 대출", "정책자금", "경영안정 바우처", "소상공인 바우처"],
+      "official_candidates": [
+        {"target": "support.small-business-policy-fund", "confidence": 0.86, "confidence_label": "높음", "reason": "정책자금·운영자금 표현은 소상공인 정책자금 후보입니다.", "required_checks": ["소상공인 여부", "자금 목적", "대출잔액", "세금 체납 여부", "직접대출·대리대출"]},
+        {"target": "support.small-business-management-stability-voucher", "confidence": 0.74, "confidence_label": "중간", "reason": "공과금·4대보험료 부담 표현은 경영안정 바우처 후보입니다.", "required_checks": ["2025년 연 매출", "영업 중 여부", "사용처"]},
+        {"target": "tax.value-added", "confidence": 0.5, "confidence_label": "낮음", "reason": "사업자 지원 판단 전에 부가가치세 과세유형과 신고 상태도 함께 확인해야 합니다.", "required_checks": ["사업자등록", "일반·간이과세", "체납 여부"]}
+      ],
+      "eligibility_questions": [
+        {"order": 1, "question": "현재 정상 영업 중인 소상공인인가요?", "answer_type": "boolean", "target": "eligibility-rule.small-business-basic", "criterion": "지원대상"},
+        {"order": 2, "question": "운전자금, 대환, 재도전, 성장기반 중 필요한 자금 목적은 무엇인가요?", "answer_type": "choice", "target": "support.small-business-policy-fund", "criterion": "자금유형"},
+        {"order": 3, "question": "국세나 지방세 체납이 있나요?", "answer_type": "boolean", "target": "eligibility-rule.tax-delinquency-exclusion", "criterion": "제외대상"},
+        {"order": 4, "question": "2025년 연 매출이 1억400만원 미만인가요?", "answer_type": "boolean", "target": "support.small-business-management-stability-voucher", "criterion": "바우처 매출요건"},
+        {"order": 5, "question": "소상공인24 또는 정책자금 사이트에서 신청할 예정인가요?", "answer_type": "choice", "target": "application-channel.small-business-policy-fund-site", "criterion": "신청경로"}
+      ]
+    },
+    {
+      "id": "scenario.youth-monthly-rent-support",
+      "title": "청년 월세지원 판단 경로",
+      "type": "scenario",
+      "description": "자취 월세 부담을 말한 청년에게 월세액 세액공제와 청년월세 지원사업, 주거급여 후보를 분리해 판단하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "parents": ["category.user-scenarios"],
+      "related": ["life-expense.monthly-rent-support", "support.youth-monthly-rent-special", "support.housing-benefit", "credit.monthly-rent"],
+      "sources": ["source.korea.youth-monthly-rent.2026", "source.myhome.youth-monthly-rent.2026", "source.nts.monthly-rent-credit"],
+      "tags": ["scenario", "youth", "housing"],
+      "path_steps": [
+        {"order": 1, "label": "생활어 분류", "target": "life-expense.monthly-rent-support", "reason": "월세지원·자취 월세 표현을 세액공제와 현금성 지원 후보로 나눕니다."},
+        {"order": 2, "label": "청년월세 지원", "target": "support.youth-monthly-rent-special", "reason": "만 19~34세, 무주택, 소득·재산, 중복지원 여부를 확인합니다."},
+        {"order": 3, "label": "주거급여 후보", "target": "support.housing-benefit", "reason": "소득인정액이 기준 중위소득 48% 이하인지 확인합니다."},
+        {"order": 4, "label": "월세액 세액공제", "target": "credit.monthly-rent", "reason": "근로자라면 연말정산 월세액 세액공제 조건도 별도로 판단합니다."},
+        {"order": 5, "label": "신청 채널", "target": "application-channel.bokjiro", "reason": "복지로·행정복지센터 신청 경로로 연결합니다."}
+      ]
+    },
+    {
+      "id": "scenario.childbirth-parenting-benefits",
+      "title": "출산·양육 지원금 판단 경로",
+      "type": "scenario",
+      "description": "출산 또는 육아 지원을 묻는 사용자가 첫만남이용권, 부모급여, 아동수당을 출생순위와 아동 월령 기준으로 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "parents": ["category.user-scenarios"],
+      "related": ["life-event.childbirth-parenting", "support.first-meeting-voucher", "support.parent-benefit", "support.child-allowance"],
+      "sources": ["source.mohw.first-meeting-voucher", "source.mohw.parent-benefit.2026", "source.mohw.child-allowance.2026"],
+      "tags": ["scenario", "childcare", "support"],
+      "path_steps": [
+        {"order": 1, "label": "생활사건 분류", "target": "life-event.childbirth-parenting", "reason": "출산지원금·부모급여·아동수당 표현을 공식 지원 후보로 연결합니다."},
+        {"order": 2, "label": "출생 확인", "target": "required-document.birth-registration", "reason": "출생신고와 주민등록번호 부여 여부를 확인합니다."},
+        {"order": 3, "label": "첫만남이용권", "target": "support.first-meeting-voucher", "reason": "첫째 200만원, 둘째 이상 300만원 바우처를 확인합니다."},
+        {"order": 4, "label": "부모급여·아동수당", "target": "support.parent-benefit", "reason": "0~23개월 부모급여와 만 9세 미만 아동수당을 나이 기준으로 확인합니다."},
+        {"order": 5, "label": "복지로 신청", "target": "application-channel.bokjiro", "reason": "온라인 복지로 또는 주민센터 신청으로 연결합니다."}
+      ]
+    },
+    {
+      "id": "scenario.small-business-policy-fund",
+      "title": "소상공인 정책자금·바우처 판단 경로",
+      "type": "scenario",
+      "description": "자영업자·소상공인이 운영자금, 바우처, 도약 지원사업을 찾을 때 사업자등록, 매출, 체납, 자금 목적을 순서대로 판단하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "parents": ["category.user-scenarios"],
+      "related": ["life-event.small-business-operating-funds", "support.small-business-policy-fund", "support.small-business-management-stability-voucher"],
+      "sources": ["source.bizinfo.small-business-policy-fund.2026", "source.bizinfo.small-business-management-voucher.2026", "source.bizinfo.small-business-leap.2026"],
+      "tags": ["scenario", "small-business", "support"],
+      "path_steps": [
+        {"order": 1, "label": "생활사건 분류", "target": "life-event.small-business-operating-funds", "reason": "사업자금·소상공인 지원금 표현을 정책자금과 바우처 후보로 분류합니다."},
+        {"order": 2, "label": "소상공인 여부", "target": "eligibility-rule.small-business-basic", "reason": "정상 영업 중인 소상공인인지 확인합니다."},
+        {"order": 3, "label": "세금 체납", "target": "eligibility-rule.tax-delinquency-exclusion", "reason": "정책자금 융자 제한 사유가 될 수 있는 체납 여부를 확인합니다."},
+        {"order": 4, "label": "정책자금", "target": "support.small-business-policy-fund", "reason": "운전자금, 대환대출, 재도전, 성장기반 자금 중 맞는 유형을 고릅니다."},
+        {"order": 5, "label": "바우처", "target": "support.small-business-management-stability-voucher", "reason": "연 매출 1억400만원 미만이면 경영안정 바우처 후보를 확인합니다."}
+      ]
+    },
+    {
+      "id": "scenario.tax-penalty-risk",
+      "title": "신고 지연·가산세 리스크 경로",
+      "type": "scenario",
+      "description": "신고기한을 놓쳤거나 과소신고·미납부가 의심될 때 종합소득세, 부가가치세, 양도소득세 가산세 후보를 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "parents": ["category.user-scenarios"],
+      "related": ["concept.additional-tax.general", "filing.income-tax-return", "filing.vat-return", "filing.capital-gains-return"],
+      "sources": ["source.nts.income-tax.additional-tax", "source.nts.vat.additional-tax", "source.nts.capital-gains.additional-tax"],
+      "tags": ["scenario", "additional-tax", "deadline"],
+      "path_steps": [
+        {"order": 1, "label": "세목 구분", "target": "concept.additional-tax.general", "reason": "종합소득세, 부가가치세, 양도소득세 중 어떤 신고가 지연됐는지 구분합니다."},
+        {"order": 2, "label": "신고기한 확인", "target": "category.filing-calendar", "reason": "원래 법정신고기한과 기한의 특례를 확인합니다."},
+        {"order": 3, "label": "무신고·과소신고", "target": "concept.additional-tax.general", "reason": "무신고 20%, 과소신고 10% 등 세목별 가산세율을 확인합니다."},
+        {"order": 4, "label": "납부지연", "target": "concept.additional-tax.general", "reason": "미납세액과 경과일수 기준의 납부지연 가산세를 확인합니다."}
+      ]
+    },
+    {
+      "id": "scenario.payment-statement-submission",
+      "title": "지급명세서 제출 경로",
+      "type": "scenario",
+      "description": "프리랜서·부업·직원 급여를 지급한 사업자가 원천세 신고 후 지급명세서 제출기한을 놓치지 않도록 확인하는 경로입니다.",
+      "folder": "70_Scenarios",
+      "parents": ["category.user-scenarios"],
+      "related": ["filing.payment-statement-submission", "filing.withholding-tax", "life-income.freelance-income", "life-income.side-job-income"],
+      "sources": ["source.nts.payment-statement.deadlines", "source.nts.withholding.deadlines"],
+      "tags": ["scenario", "withholding", "deadline"],
+      "path_steps": [
+        {"order": 1, "label": "소득 지급 여부", "target": "filing.withholding-tax", "reason": "근로·사업·기타·일용 소득을 지급했는지 확인합니다."},
+        {"order": 2, "label": "원천세 신고", "target": "filing.withholding-tax", "reason": "다음 달 10일 또는 반기별 납부 기한을 확인합니다."},
+        {"order": 3, "label": "지급명세서", "target": "filing.payment-statement-submission", "reason": "소득 종류별 지급명세서 제출기한을 확인합니다."},
+        {"order": 4, "label": "프리랜서 자료", "target": "life-income.freelance-income", "reason": "3.3% 사업소득 지급자료와 종합소득세 신고자료의 연결을 확인합니다."}
+      ]
+    }
+  ]
 }
