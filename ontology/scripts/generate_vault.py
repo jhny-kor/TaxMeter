@@ -10,17 +10,22 @@ from __future__ import annotations
 
 import json
 import re
+from copy import deepcopy
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 VAULT = ROOT / "vault"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
+LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-2026.json"
 CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
+LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
+LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
+LOCAL_SUPPORT_EXPORT_RELATIVE_PATH = "ontology/exports/korea-local-government-supports-2026.json"
 
 
 SOURCES = {
@@ -3731,6 +3736,57 @@ def build_all_items() -> dict[str, dict]:
     return items
 
 
+REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
+
+
+def local_government_support_ids(items: dict[str, dict]) -> set[str]:
+    return {item_id for item_id, item in items.items() if is_generated_local_government_support(item)}
+
+
+def core_items_without_local_supports(items: dict[str, dict]) -> dict[str, dict]:
+    local_ids = local_government_support_ids(items)
+    core_items: dict[str, dict] = {}
+    for item_id, item in items.items():
+        if item_id in local_ids:
+            continue
+        cloned = deepcopy(item)
+        for key in REFERENCE_KEYS:
+            cloned[key] = [target_id for target_id in cloned.get(key) or [] if target_id not in local_ids]
+        if item_id == LOCAL_SUPPORT_CATEGORY_ID:
+            cloned["description"] = (
+                "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 묶음입니다. "
+                f"개별 지자체 지원금 {len(local_ids)}개는 메인 온톨로지에서 분리해 "
+                f"{LOCAL_SUPPORT_EXPORT_RELATIVE_PATH}에 별도 보관합니다."
+            )
+            cloned["children"] = []
+        core_items[item_id] = cloned
+    return core_items
+
+
+def local_support_export_items(items: dict[str, dict]) -> list[dict]:
+    return [
+        deepcopy(item)
+        for item in items.values()
+        if is_generated_local_government_support(item)
+    ]
+
+
+def local_support_reference_items(items: dict[str, dict]) -> list[dict]:
+    reference_ids = (LOCAL_SUPPORT_CATEGORY_ID, LOCAL_SUPPORTS_SOURCE_ID, LOCAL_SUPPORT_TERM_ID)
+    references = []
+    local_ids = local_government_support_ids(items)
+    for item_id in reference_ids:
+        if item_id not in items:
+            continue
+        cloned = deepcopy(items[item_id])
+        if item_id == LOCAL_SUPPORT_CATEGORY_ID:
+            cloned["parents"] = []
+            cloned["related"] = []
+            cloned["children"] = sorted(local_ids)
+        references.append(cloned)
+    return references
+
+
 def expected_note_path(item: dict) -> Path:
     filename = slug(item["title"])
     service_seq = item.get("gov24_service_seq")
@@ -3739,16 +3795,22 @@ def expected_note_path(item: dict) -> Path:
     return VAULT / item["folder"] / f"{filename}.md"
 
 
-def generated_note_id(path: Path) -> str | None:
+def frontmatter_text_for(path: Path) -> str | None:
     try:
         text = path.read_text(encoding="utf-8")
     except UnicodeDecodeError:
         return None
     if not text.startswith("---\n"):
         return None
-    try:
-        _, frontmatter_text, _ = text.split("---", 2)
-    except ValueError:
+    parts = text.split("\n---\n", 1)
+    if len(parts) != 2:
+        return None
+    return parts[0][4:]
+
+
+def generated_note_id(path: Path) -> str | None:
+    frontmatter_text = frontmatter_text_for(path)
+    if frontmatter_text is None:
         return None
     for raw_line in frontmatter_text.strip().splitlines():
         if raw_line.startswith("id: "):
@@ -3757,17 +3819,17 @@ def generated_note_id(path: Path) -> str | None:
 
 
 def is_custom_overlay_note(path: Path) -> bool:
-    try:
-        text = path.read_text(encoding="utf-8")
-    except UnicodeDecodeError:
-        return False
-    if not text.startswith("---\n"):
-        return False
-    try:
-        _, frontmatter_text, _ = text.split("---", 2)
-    except ValueError:
+    frontmatter_text = frontmatter_text_for(path)
+    if frontmatter_text is None:
         return False
     return "custom-overlay" in frontmatter_text
+
+
+def is_generated_local_government_note(path: Path) -> bool:
+    frontmatter_text = frontmatter_text_for(path)
+    if frontmatter_text is None:
+        return False
+    return '"local-government-support"' in frontmatter_text and '"generated"' in frontmatter_text
 
 
 def remove_stale_generated_notes(items: dict[str, dict]) -> None:
@@ -3777,7 +3839,7 @@ def remove_stale_generated_notes(items: dict[str, dict]) -> None:
         note_id = generated_note_id(path)
         if note_id in item_ids and path.resolve() not in expected_paths:
             path.unlink()
-        elif note_id not in item_ids and is_custom_overlay_note(path):
+        elif note_id not in item_ids and (is_custom_overlay_note(path) or is_generated_local_government_note(path)):
             path.unlink()
 
 
@@ -3800,28 +3862,60 @@ def write_index(items: dict[str, dict]) -> None:
     index.write_text(render_note(root, items), encoding="utf-8")
 
 
-def write_export(items: dict[str, dict]) -> None:
+def write_export(items: dict[str, dict], *, local_support_count: int) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
-        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.04.4",
+        "version": "KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.05.1",
         "basis_date": "2026-05-04",
         "manifests": {
             "national_tax_ids": NATIONAL_TAX_IDS,
             "local_tax_ids": LOCAL_TAX_IDS,
             "corporate_support_ids": CORPORATE_SUPPORT_IDS,
         },
+        "split_exports": {
+            "local_government_supports": {
+                "path": LOCAL_SUPPORT_EXPORT_RELATIVE_PATH,
+                "item_count": local_support_count,
+                "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+                "description": "정부24 보조금24 기준 지자체 지원금은 메인 온톨로지에서 분리한 별도 파일입니다.",
+            }
+        },
         "items": sorted(items.values(), key=lambda item: item["id"]),
     }
     EXPORT_PATH.write_text(json.dumps(export, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def write_local_support_export(items: dict[str, dict]) -> int:
+    local_items = sorted(local_support_export_items(items), key=lambda item: item["id"])
+    reference_items = sorted(local_support_reference_items(items), key=lambda item: item["id"])
+    export = {
+        "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-2026.05.04.1",
+        "basis_date": "2026-05-04",
+        "generated_from": "ontology/custom/gov24-local-supports.generated.json",
+        "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
+        "source_api": "https://plus.gov.kr/api/portal/v1.0/api/benefitPlus",
+        "item_count": len(local_items),
+        "reference_items": reference_items,
+        "items": local_items,
+    }
+    LOCAL_SUPPORT_EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LOCAL_SUPPORT_EXPORT_PATH.write_text(
+        json.dumps(export, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    return len(local_items)
+
+
 def main() -> None:
-    items = build_all_items()
-    write_markdown(items)
-    write_index(items)
-    write_export(items)
-    print(f"Generated {len(items)} ontology notes into {VAULT}")
+    all_items = build_all_items()
+    core_items = core_items_without_local_supports(all_items)
+    local_support_count = write_local_support_export(all_items)
+    write_markdown(core_items)
+    write_index(core_items)
+    write_export(core_items, local_support_count=local_support_count)
+    print(f"Generated {len(core_items)} ontology notes into {VAULT}")
     print(f"Exported {EXPORT_PATH}")
+    print(f"Exported {LOCAL_SUPPORT_EXPORT_PATH}")
 
 
 if __name__ == "__main__":
