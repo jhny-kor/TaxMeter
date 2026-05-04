@@ -4,6 +4,11 @@ title: "개인종합자산관리계좌 ISA"
 type: "support-program"
 description: "개인이 예·적금, 펀드, 파생결합증권 등을 한 계좌에서 운용하며 세제혜택을 받을 수 있는 정책성 금융계좌입니다."
 basis_year: 2026
+reviewed_at: "2026-05-04"
+source_urls: ["https://www.fsc.go.kr/po020201/27339", "https://www.korea.kr/briefing/actuallyView.do?newsId=148874193"]
+source_basis_dates: ["2026-05-02 확인", "2026-05-03 확인"]
+abolition_status: "active"
+revision_status: "none_announced"
 parents: ["category.policy-supports"]
 children: []
 related: ["tax.income"]
@@ -18,6 +23,15 @@ tags: ["policy-finance", "tax-preferred-account"]
 # 개인종합자산관리계좌 ISA
 
 개인이 예·적금, 펀드, 파생결합증권 등을 한 계좌에서 운용하며 세제혜택을 받을 수 있는 정책성 금융계좌입니다.
+
+## 최신성 메타데이터
+
+- **기준연도**: 2026
+- **확인일**: 2026-05-04
+- **폐지 여부**: active
+- **개정 예정 여부**: none_announced
+- **출처 URL**: https://www.fsc.go.kr/po020201/27339, https://www.korea.kr/briefing/actuallyView.do?newsId=148874193
+- **출처 확인일**: 2026-05-02 확인, 2026-05-03 확인
 
 ## 기준 내역
 

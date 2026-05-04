@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VAULT = ROOT / "vault"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
+CURRENT_REVIEW_DATE = "2026-05-04"
 
 
 SOURCES = {
@@ -117,6 +118,20 @@ SOURCES = {
         "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=239025",
         "basis_date": "2026-05-02 확인",
         "description": "월세액 세액공제의 총급여, 종합소득금액, 주택, 전입신고, 한도 조건 근거입니다.",
+    },
+    "source.call.nts.medical-expense-documents": {
+        "title": "의료비 세액공제 증빙서류",
+        "publisher": "국세상담센터",
+        "url": "https://call.nts.go.kr/call/qna/selectQnaInfo.do?ctgId=CTG11786&mi=1441",
+        "basis_date": "2026-05-04 확인",
+        "description": "의료비 지급명세서, 진료비·약제비 납입확인서, 안경·콘택트렌즈 영수증 등 의료비 세액공제 증빙서류 근거입니다.",
+    },
+    "source.hometax.main": {
+        "title": "홈택스",
+        "publisher": "국세청",
+        "url": "https://www.hometax.go.kr",
+        "basis_date": "2026-05-04 확인",
+        "description": "연말정산 간소화, 종합소득세 신고, 부가가치세 신고 등 국세 신고·증명·신청의 전자 신청 채널입니다.",
     },
     "source.nts.credit-card-deduction": {
         "title": "신용카드 등 사용금액 소득공제",
@@ -598,6 +613,11 @@ def node(
     basis_year: int | None = 2026,
     effective_date: str | None = None,
     expiration_date: str | None = None,
+    reviewed_at: str | None = CURRENT_REVIEW_DATE,
+    source_urls: list[str] | None = None,
+    source_basis_dates: list[str] | None = None,
+    abolition_status: str = "active",
+    revision_status: str = "none_announced",
     parents: list[str] | None = None,
     children: list[str] | None = None,
     related: list[str] | None = None,
@@ -608,6 +628,9 @@ def node(
     law_reference: str = "",
     recurrence: dict | None = None,
     path_steps: list[dict] | None = None,
+    life_phrases: list[str] | None = None,
+    official_candidates: list[dict] | None = None,
+    eligibility_questions: list[dict] | None = None,
     tags: list[str] | None = None,
 ) -> dict:
     item = {
@@ -619,6 +642,11 @@ def node(
         "basis_year": basis_year,
         "effective_date": effective_date,
         "expiration_date": expiration_date,
+        "reviewed_at": reviewed_at,
+        "source_urls": source_urls or [],
+        "source_basis_dates": source_basis_dates or [],
+        "abolition_status": abolition_status,
+        "revision_status": revision_status,
         "parents": parents or [],
         "children": children or [],
         "related": related or [],
@@ -634,6 +662,12 @@ def node(
         item["recurrence"] = recurrence
     if path_steps:
         item["path_steps"] = path_steps
+    if life_phrases:
+        item["life_phrases"] = life_phrases
+    if official_candidates:
+        item["official_candidates"] = official_candidates
+    if eligibility_questions:
+        item["eligibility_questions"] = eligibility_questions
     return item
 
 
@@ -1744,6 +1778,33 @@ ITEM_CRITERIA_BY_ID = {
 }
 
 
+def candidate(target: str, confidence: float, reason: str, checks: list[str], confidence_label: str | None = None) -> dict:
+    if confidence_label is None:
+        confidence_label = "높음" if confidence >= 0.8 else "중간" if confidence >= 0.55 else "낮음"
+    return {
+        "target": target,
+        "confidence": confidence,
+        "confidence_label": confidence_label,
+        "reason": reason,
+        "required_checks": checks,
+    }
+
+
+def question(order: int, text: str, target: str | None = None, criterion: str | None = None, answer_type: str = "boolean", required_for: str | None = None) -> dict:
+    result = {
+        "order": order,
+        "question": text,
+        "answer_type": answer_type,
+    }
+    if target:
+        result["target"] = target
+    if criterion:
+        result["criterion"] = criterion
+    if required_for:
+        result["required_for"] = required_for
+    return result
+
+
 NODES = [
     node(
         "kr-tax-system",
@@ -2026,6 +2087,442 @@ NODES.extend([
             {"order": 2, "label": "신고기한", "target": "deadline.corporate-tax.return", "reason": "사업연도 종료일이 속하는 달의 말일부터 3개월 이내 신고·납부 반복 규칙을 확인합니다."},
             {"order": 3, "label": "공제·감면 목록", "target": "category.corporate-tax-supports", "reason": "중소기업, R&D, 고용, 투자, 지역 이전 등 법인세 지원제도를 검토합니다."},
             {"order": 4, "label": "세액공제 한도·산식", "target": "credit.foreign-tax-paid", "reason": "외국납부세액공제처럼 산식 기반 한도는 criteria의 금액·적용 산식으로 확인합니다."},
+        ],
+    ),
+])
+
+
+NODES.extend([
+    node(
+        "category.life-language",
+        "생활어 매핑",
+        "category",
+        "사용자가 실제로 말하는 월세, 병원비, 카드값, 청약, 부업 같은 생활어를 공식 세금·공제·지원 항목 후보와 요건 질문으로 번역하는 레이어입니다.",
+        "80_LifeLanguage",
+        parents=["kr-tax-system"],
+        children=[
+            "category.life-expenses",
+            "category.life-incomes",
+            "category.life-events",
+            "category.eligibility-rules",
+            "category.required-documents",
+            "category.application-channels",
+            "category.conflict-rules",
+        ],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.monthly-rent-credit", "source.hometax.main"],
+        tags=["life-language", "mapping-layer"],
+    ),
+    node("category.life-expenses", "생활비 표현", "category", "월세, 병원비, 카드값, 교육비, 기부금, 청약처럼 사용자가 지출 성격으로 말하는 생활어입니다.", "80_LifeLanguage/Expenses", parents=["category.life-language"], sources=["source.nts.year-end-settlement.calculation"], tags=["life-language"]),
+    node("category.life-incomes", "생활소득 표현", "category", "부업, 프리랜서, 3.3%, 투잡처럼 사용자가 소득 발생 방식으로 말하는 생활어입니다.", "80_LifeLanguage/Incomes", parents=["category.life-language"], sources=["source.nts.income-tax.deadline", "source.nts.business-income.withholding"], tags=["life-language"]),
+    node("category.life-events", "생활사건 표현", "category", "퇴사, 이직, 첫 부가세 신고처럼 사건이나 상황으로 시작하는 사용자 표현입니다.", "80_LifeLanguage/Events", parents=["category.life-language"], sources=["source.nts.year-end-settlement.calculation", "source.nts.vat.filing-duty"], tags=["life-language"]),
+    node("category.eligibility-rules", "요건 질문 규칙", "category", "생활어를 공식 항목 후보로 연결한 뒤 실제 적용 여부를 판단하기 위해 사용자에게 묻는 요건 규칙입니다.", "81_Rules/Eligibility", parents=["category.life-language"], sources=["source.nts.year-end-settlement.calculation"], tags=["eligibility-rule"]),
+    node("category.required-documents", "필요서류", "category", "공제·지원·신고 신청에서 사용자가 준비해야 하는 증빙서류 노드입니다.", "82_Documents", parents=["category.life-language"], sources=["source.nts.year-end-settlement.calculation"], tags=["required-document"]),
+    node("category.application-channels", "신청 경로", "category", "회사 연말정산, 홈택스, 정부24 등 사용자가 실제로 제출하거나 신청하는 경로입니다.", "83_Channels", parents=["category.life-language"], sources=["source.hometax.main"], tags=["application-channel"]),
+    node("category.conflict-rules", "중복·충돌 규칙", "category", "같은 지출이나 가구 기준이 여러 공제와 충돌하거나 중복 제한을 받는지 확인하는 규칙입니다.", "81_Rules/Conflicts", parents=["category.life-language"], sources=["source.nts.year-end-settlement.calculation"], tags=["conflict-rule"]),
+
+    node("required-document.lease-contract", "임대차계약증서 사본", "required-document", "월세액 세액공제와 주택임차차입금 원리금 상환액 공제에서 임차 사실과 주소지를 확인하는 계약서 사본입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.monthly-rent", "deduction.housing-funds"], sources=["source.nts.monthly-rent-credit", "source.nts.housing-rent-principal-deduction"], tags=["required-document", "housing"]),
+    node("required-document.rent-payment-proof", "월세 지급 증빙", "required-document", "계좌이체 영수증, 무통장입금증 등 실제 월세액 지급 사실을 확인하는 증빙입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.monthly-rent"], sources=["source.nts.monthly-rent-credit"], tags=["required-document", "housing"]),
+    node("required-document.resident-registration-copy", "주민등록표등본", "required-document", "임대차계약증서상 주소지와 주민등록표상 주소지가 같은지, 무주택 세대 요건을 확인하는 서류입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.monthly-rent", "deduction.housing-funds", "deduction.housing-savings"], sources=["source.nts.monthly-rent-credit", "source.nts.housing-rent-principal-deduction", "source.nts.housing-savings-deduction"], tags=["required-document", "housing"]),
+    node("required-document.medical-expense-statement", "의료비 지급명세서", "required-document", "의료비 세액공제를 신청할 때 본인이 작성하는 의료비 지출 명세서입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.medical-expense"], sources=["source.call.nts.medical-expense-documents"], tags=["required-document", "medical"]),
+    node("required-document.medical-receipt", "진료비·약제비 영수증", "required-document", "의료기관과 약국에 지급한 의료비를 확인하는 납입확인서, 계산서, 영수증입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.medical-expense"], sources=["source.call.nts.medical-expense-documents"], tags=["required-document", "medical"]),
+    node("required-document.eyeglasses-receipt", "시력교정용 안경 영수증", "required-document", "안경·콘택트렌즈 구입비가 시력교정용임을 확인하기 위해 사용자 성명과 안경사 확인이 들어간 영수증입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.medical-expense"], sources=["source.call.nts.medical-expense-documents"], tags=["required-document", "medical"]),
+    node("required-document.donation-receipt", "기부금 영수증", "required-document", "기부금 세액공제를 위해 기부금단체 또는 간소화 서비스에서 확인하는 기부금 영수증과 기부금명세서입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.donation"], sources=["source.nts.donation-credit"], tags=["required-document", "donation"]),
+    node("required-document.education-payment-certificate", "교육비 납입증명서", "required-document", "교육비 세액공제를 위해 연말정산 간소화 서비스 또는 교육기관에서 확인하는 교육비 납입증명서입니다.", "82_Documents", parents=["category.required-documents"], related=["credit.education-expense"], sources=["source.nts.education-expense-credit"], tags=["required-document", "education"]),
+    node("required-document.housing-savings-payment-certificate", "주택마련저축 납입증명서", "required-document", "주택청약저축·주택청약종합저축 납입액 소득공제를 위해 금융회사 또는 간소화 서비스에서 확인하는 납입증명서 또는 통장 사본입니다.", "82_Documents", parents=["category.required-documents"], related=["deduction.housing-savings"], sources=["source.nts.housing-savings-deduction"], tags=["required-document", "housing"]),
+
+    node("application-channel.company-year-end-settlement", "회사 연말정산 제출", "application-channel", "근로자가 회사에 소득·세액공제 증빙을 제출하고 원천징수의무자가 다음연도 2월분 근로소득 지급 시 정산하는 경로입니다.", "83_Channels", parents=["category.application-channels"], related=["filing.year-end-settlement"], deadlines=["deadline.year-end-settlement"], sources=["source.nts.year-end-settlement.calculation"], tags=["application-channel", "year-end-settlement"]),
+    node("application-channel.hometax-simplification", "홈택스 연말정산 간소화", "application-channel", "연말정산 공제자료를 조회하고 누락 자료는 발급기관 증빙으로 보완하는 전자 확인 경로입니다.", "83_Channels", parents=["category.application-channels"], related=["filing.year-end-settlement"], sources=["source.hometax.main", "source.nts.year-end-settlement.calculation"], tags=["application-channel", "hometax"]),
+    node("application-channel.hometax-income-tax", "홈택스 종합소득세 신고", "application-channel", "근로 외 소득, 프리랜서 사업소득, 부업 소득 등을 종합소득세 확정신고로 제출하는 전자 신고 경로입니다.", "83_Channels", parents=["category.application-channels"], related=["filing.income-tax-return"], deadlines=["deadline.income-tax.2025-return"], sources=["source.hometax.main", "source.nts.income-tax.deadline"], tags=["application-channel", "hometax"]),
+    node("application-channel.hometax-vat", "홈택스 부가가치세 신고", "application-channel", "일반과세자·간이과세자가 과세기간별 부가가치세 신고서를 제출하는 전자 신고 경로입니다.", "83_Channels", parents=["category.application-channels"], related=["filing.vat-return"], deadlines=["deadline.vat.periodic", "deadline.vat.simplified.annual"], sources=["source.hometax.main", "source.nts.vat.filing-duty"], tags=["application-channel", "hometax"]),
+
+    node("eligibility-rule.homeless-household", "무주택 세대 요건", "eligibility-rule", "주택 관련 공제·지원에서 과세기간 종료일 또는 신청일 기준 주택 보유 여부와 세대주·세대원 지위를 확인하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.monthly-rent", "deduction.housing-savings", "support.youth-special-rent-guarantee"], sources=["source.nts.monthly-rent-credit", "source.nts.housing-savings-deduction", "source.hf.special-rent-guarantee"], tags=["eligibility-rule", "housing"]),
+    node("eligibility-rule.gross-pay-income-threshold", "총급여·종합소득 요건", "eligibility-rule", "근로소득자의 총급여와 종합소득금액을 각각 확인해 공제율, 한도, 지원대상 여부를 나누는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.monthly-rent", "credit.pension-account", "deduction.housing-savings"], sources=["source.nts.monthly-rent-credit", "source.nts.year-end-settlement.calculation", "source.nts.housing-savings-deduction"], tags=["eligibility-rule", "income"]),
+    node("eligibility-rule.monthly-rent-address-match", "월세 주소 일치 요건", "eligibility-rule", "월세액 세액공제에서 임대차계약증서 주소지와 주민등록표상 주소지가 같고 전입신고가 되어 있는지 확인하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.monthly-rent"], sources=["source.nts.monthly-rent-credit"], tags=["eligibility-rule", "monthly-rent"]),
+    node("eligibility-rule.monthly-rent-house-standard", "월세 주택요건", "eligibility-rule", "월세액 세액공제에서 국민주택규모 또는 기준시가 4억원 이하 주택, 주거용 오피스텔, 고시원 여부를 확인하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.monthly-rent"], sources=["source.nts.monthly-rent-credit"], tags=["eligibility-rule", "monthly-rent"]),
+    node("eligibility-rule.medical-expense-floor", "의료비 총급여 3% 초과 요건", "eligibility-rule", "의료비 세액공제에서 총급여액의 3%를 초과한 지출인지 먼저 확인하는 문턱 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.medical-expense"], sources=["source.nts.year-end-settlement.special-credit"], tags=["eligibility-rule", "medical"]),
+    node("eligibility-rule.credit-card-floor", "신용카드 등 총급여 25% 초과 요건", "eligibility-rule", "신용카드·체크카드·현금영수증 사용금액 합계가 총급여액의 25%를 초과하는지 확인하는 소득공제 문턱 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["deduction.credit-card-use"], sources=["source.nts.credit-card-deduction"], tags=["eligibility-rule", "card"]),
+    node("eligibility-rule.education-dependent-type", "교육비 대상자 구분", "eligibility-rule", "본인, 취학전 아동, 초·중·고등학생, 대학생, 장애인 특수교육비 등 대상자 유형별 교육비 한도를 구분하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.education-expense"], sources=["source.nts.education-expense-credit"], tags=["eligibility-rule", "education"]),
+    node("eligibility-rule.donation-type", "기부금 유형 구분", "eligibility-rule", "정치자금, 고향사랑, 특례, 우리사주조합, 일반기부금을 구분해 공제율·공제한도·이월 여부를 판단하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["credit.donation"], sources=["source.nts.donation-credit"], tags=["eligibility-rule", "donation"]),
+    node("eligibility-rule.housing-savings-employee-household", "주택마련저축 근로자·무주택 요건", "eligibility-rule", "주택마련저축 소득공제에서 총급여 7,000만원 이하 근로자, 무주택 세대주 또는 배우자, 본인 명의 저축 여부를 확인하는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["deduction.housing-savings"], sources=["source.nts.housing-savings-deduction"], tags=["eligibility-rule", "housing"]),
+    node("eligibility-rule.vat-taxpayer-type", "부가가치세 과세유형 판정", "eligibility-rule", "사업자등록과 신고 단계에서 일반과세자, 간이과세자, 간이과세자 납부의무 면제, 예정신고 예외를 매출 기준으로 나누는 규칙입니다.", "81_Rules/Eligibility", parents=["category.eligibility-rules"], related=["tax.value-added", "concept.simple-vat-taxpayer", "concept.vat-payment-exemption"], sources=["source.nts.vat.overview", "source.nts.vat.filing-duty"], tags=["eligibility-rule", "vat"]),
+
+    node("conflict-rule.monthly-rent-household-duplicate", "월세 세대원 중복 확인", "conflict-rule", "월세액 세액공제를 세대원이 받으려면 세대주가 주택 관련 공제를 받지 않았는지 확인해야 하는 중복 판단 규칙입니다.", "81_Rules/Conflicts", parents=["category.conflict-rules"], related=["credit.monthly-rent", "deduction.housing-funds", "deduction.housing-savings"], sources=["source.nts.monthly-rent-credit"], tags=["conflict-rule", "monthly-rent"]),
+    node("conflict-rule.donation-carryover", "기부금 이월공제 제한", "conflict-rule", "정치자금·고향사랑·우리사주조합 기부금은 이월공제 대상이 아니고, 특례·일반기부금은 이월분과 당해연도 지출 순서를 확인해야 하는 규칙입니다.", "81_Rules/Conflicts", parents=["category.conflict-rules"], related=["credit.donation"], sources=["source.nts.donation-credit"], tags=["conflict-rule", "donation"]),
+    node("conflict-rule.education-nongrad", "대학원생 교육비 제외", "conflict-rule", "부양가족 교육비에서 대학원생 일반교육비는 공제대상이 아니므로 대학생·본인·장애인 특수교육비와 구분해야 하는 규칙입니다.", "81_Rules/Conflicts", parents=["category.conflict-rules"], related=["credit.education-expense"], sources=["source.nts.education-expense-credit"], tags=["conflict-rule", "education"]),
+
+    node(
+        "life-expense.monthly-rent",
+        "월세·방값",
+        "life-expense",
+        "월세, 방값, 자취방, 원룸비처럼 주거 임차료를 뜻하는 생활어를 월세액 세액공제 후보로 연결합니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["credit.monthly-rent", "eligibility-rule.monthly-rent-address-match", "required-document.lease-contract", "application-channel.company-year-end-settlement"],
+        sources=["source.nts.monthly-rent-credit", "source.hometax.main"],
+        tags=["life-language", "expense", "monthly-rent"],
+        life_phrases=["월세", "방값", "자취방", "원룸비", "고시원비", "오피스텔 월세"],
+        official_candidates=[
+            candidate("credit.monthly-rent", 0.9, "주거용 임차료 표현은 공식 항목상 월세액 세액공제와 직접 연결됩니다.", ["무주택 여부", "총급여 또는 종합소득금액", "전입신고와 주소 일치", "주택 규모 또는 기준시가", "임대차계약서와 지급 증빙"]),
+            candidate("deduction.housing-funds", 0.45, "월세가 아니라 전세자금 대출 원리금 상환액을 말한 경우 주택자금공제 후보가 됩니다.", ["대출 원리금 상환 여부", "국민주택규모", "무주택 세대주 또는 세대원 여부"]),
+        ],
+        eligibility_questions=[
+            question(1, "과세기간 종료일 기준 무주택 세대의 세대주 또는 요건을 충족한 세대원인가요?", "eligibility-rule.homeless-household", "무주택 세대"),
+            question(2, "총급여가 8,000만원 이하이거나 종합소득금액이 7,000만원 이하인가요?", "eligibility-rule.gross-pay-income-threshold", "소득요건"),
+            question(3, "임대차계약증서 주소와 주민등록표상 주소가 같고 전입신고가 되어 있나요?", "eligibility-rule.monthly-rent-address-match", "전입·주소 일치"),
+            question(4, "임차 주택이 국민주택규모 또는 기준시가 4억원 이하인가요?", "eligibility-rule.monthly-rent-house-standard", "주택요건"),
+            question(5, "임대차계약서, 주민등록표등본, 월세 이체내역을 준비할 수 있나요?", "required-document.lease-contract", "필요서류"),
+        ],
+    ),
+    node(
+        "life-expense.medical-costs",
+        "병원비·약값",
+        "life-expense",
+        "병원비, 약값, 치과비, 안경값처럼 의료비 지출을 뜻하는 생활어를 의료비 세액공제 후보로 연결합니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["credit.medical-expense", "eligibility-rule.medical-expense-floor", "required-document.medical-receipt", "required-document.eyeglasses-receipt"],
+        sources=["source.nts.year-end-settlement.special-credit", "source.call.nts.medical-expense-documents"],
+        tags=["life-language", "expense", "medical"],
+        life_phrases=["병원비", "약값", "치과비", "안경값", "렌즈값", "난임시술비", "의료비"],
+        official_candidates=[
+            candidate("credit.medical-expense", 0.88, "의료기관·약국·시력교정용 안경 등 의료 지출 표현은 의료비 세액공제 후보입니다.", ["총급여 3% 초과 여부", "공제대상자 범위", "일반 의료비 한도", "난임시술비·본인 등 한도 예외", "증빙서류"]),
+        ],
+        eligibility_questions=[
+            question(1, "해당 의료비가 총급여액의 3%를 초과하나요?", "eligibility-rule.medical-expense-floor", "총급여 3% 초과"),
+            question(2, "본인, 기본공제대상자, 6세 이하, 65세 이상, 장애인, 난임시술비 중 어느 유형인가요?", "credit.medical-expense", "대상자·비용 유형", "choice"),
+            question(3, "진료비·약제비 영수증 또는 의료비 지급명세서를 준비할 수 있나요?", "required-document.medical-receipt", "필요서류"),
+            question(4, "안경·콘택트렌즈라면 시력교정용임을 확인한 영수증이 있나요?", "required-document.eyeglasses-receipt", "안경 증빙"),
+        ],
+    ),
+    node(
+        "life-expense.card-spending",
+        "카드값·체크카드·현금영수증",
+        "life-expense",
+        "카드값, 체크카드, 현금영수증, 대중교통비, 전통시장 사용액을 신용카드 등 사용금액 소득공제 후보로 연결합니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["deduction.credit-card-use", "eligibility-rule.credit-card-floor", "application-channel.hometax-simplification"],
+        sources=["source.nts.credit-card-deduction", "source.hometax.main"],
+        tags=["life-language", "expense", "card"],
+        life_phrases=["카드값", "신용카드", "체크카드", "현금영수증", "대중교통비", "전통시장", "도서공연비"],
+        official_candidates=[
+            candidate("deduction.credit-card-use", 0.86, "결제수단별 소비 지출은 공식 항목상 신용카드 등 사용금액 소득공제 후보입니다.", ["총급여 25% 초과 여부", "결제수단 구분", "전통시장·대중교통 등 추가공제 구분", "공제한도"]),
+        ],
+        eligibility_questions=[
+            question(1, "신용카드 등 사용금액 합계가 총급여액의 25%를 초과하나요?", "eligibility-rule.credit-card-floor", "최저사용금액"),
+            question(2, "지출이 신용카드, 체크카드, 현금영수증, 전통시장, 대중교통 중 어디에 해당하나요?", "deduction.credit-card-use", "공제율 구분", "choice"),
+            question(3, "연말정산 간소화 자료에 조회되지 않는 사용액이 있나요?", "application-channel.hometax-simplification", "자료 확인"),
+        ],
+    ),
+    node(
+        "life-expense.education-costs",
+        "학원비·등록금·어린이집비",
+        "life-expense",
+        "학원비, 등록금, 어린이집비처럼 교육 관련 지출을 교육비 세액공제 후보로 연결하고 대상자 유형을 먼저 묻습니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["credit.education-expense", "eligibility-rule.education-dependent-type", "required-document.education-payment-certificate"],
+        sources=["source.nts.education-expense-credit"],
+        tags=["life-language", "expense", "education"],
+        life_phrases=["학원비", "등록금", "어린이집비", "유치원비", "대학등록금", "교복비", "교육비"],
+        official_candidates=[
+            candidate("credit.education-expense", 0.84, "교육기관·대학·취학전 아동 교육비 표현은 교육비 세액공제 후보입니다.", ["대상자 유형", "대학원생 제외 여부", "1명당 한도", "교육비 납입증명서"]),
+        ],
+        eligibility_questions=[
+            question(1, "교육비 대상자가 본인, 취학전 아동, 초·중·고등학생, 대학생, 장애인 특수교육비 중 어디에 해당하나요?", "eligibility-rule.education-dependent-type", "대상자 유형", "choice"),
+            question(2, "부양가족 교육비라면 기본공제대상자 요건을 충족하나요?", "deduction.personal.basic", "부양가족 요건"),
+            question(3, "교육비 납입증명서를 준비할 수 있나요?", "required-document.education-payment-certificate", "필요서류"),
+            question(4, "대학원생 일반교육비처럼 제외되는 항목은 아닌가요?", "conflict-rule.education-nongrad", "제외 항목"),
+        ],
+    ),
+    node(
+        "life-expense.donation",
+        "기부·후원·고향사랑기부",
+        "life-expense",
+        "기부, 후원, 고향사랑기부, 정치후원금 같은 표현을 기부금 세액공제 후보로 연결하고 기부금 유형을 구분합니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["credit.donation", "eligibility-rule.donation-type", "required-document.donation-receipt", "conflict-rule.donation-carryover"],
+        sources=["source.nts.donation-credit"],
+        tags=["life-language", "expense", "donation"],
+        life_phrases=["기부", "후원", "고향사랑기부", "정치후원금", "종교단체 기부", "후원금", "기부금"],
+        official_candidates=[
+            candidate("credit.donation", 0.89, "기부·후원 표현은 공식 항목상 기부금 세액공제 후보이며 유형별 공제율과 이월 여부가 갈립니다.", ["기부금 유형", "본인 또는 기본공제대상자 지출 여부", "공제한도", "이월공제 가능 여부", "기부금 영수증"]),
+        ],
+        eligibility_questions=[
+            question(1, "기부금이 정치자금, 고향사랑, 특례, 우리사주조합, 일반기부금 중 어디에 해당하나요?", "eligibility-rule.donation-type", "기부금 유형", "choice"),
+            question(2, "본인이 낸 기부금인가요, 기본공제대상자가 낸 기부금인가요?", "credit.donation", "공제대상자", "choice"),
+            question(3, "기부금 영수증 또는 기부금명세서를 준비할 수 있나요?", "required-document.donation-receipt", "필요서류"),
+            question(4, "이월기부금이 있거나 정치자금·고향사랑처럼 이월 제한이 있는 유형인가요?", "conflict-rule.donation-carryover", "이월공제 제한"),
+        ],
+    ),
+    node(
+        "life-expense.housing-subscription",
+        "청약·주택청약·청약통장",
+        "life-expense",
+        "청약, 주택청약, 청약통장 납입액을 주택마련저축 소득공제 후보로 연결합니다.",
+        "80_LifeLanguage/Expenses",
+        parents=["category.life-expenses"],
+        related=["deduction.housing-savings", "eligibility-rule.housing-savings-employee-household", "required-document.housing-savings-payment-certificate"],
+        sources=["source.nts.housing-savings-deduction"],
+        tags=["life-language", "expense", "housing"],
+        life_phrases=["청약", "주택청약", "청약통장", "주택청약종합저축", "청년우대형 청약"],
+        official_candidates=[
+            candidate("deduction.housing-savings", 0.87, "청약저축 납입액 표현은 공식 항목상 주택마련저축 소득공제 후보입니다.", ["총급여 7,000만원 이하 근로자", "무주택 세대주 또는 배우자", "본인 명의 저축", "연 납입액 한도", "납입증명서"]),
+        ],
+        eligibility_questions=[
+            question(1, "총급여액 7,000만원 이하 근로자인가요?", "eligibility-rule.housing-savings-employee-household", "소득·근로자 요건"),
+            question(2, "과세연도 중 주택을 소유하지 않은 세대의 세대주 또는 배우자인가요?", "eligibility-rule.homeless-household", "무주택 요건"),
+            question(3, "본인 명의 주택마련저축에 납입했나요?", "deduction.housing-savings", "저축 명의"),
+            question(4, "납입증명서 또는 통장 사본을 준비할 수 있나요?", "required-document.housing-savings-payment-certificate", "필요서류"),
+        ],
+    ),
+    node(
+        "life-income.freelance-income",
+        "프리랜서·3.3%",
+        "life-income",
+        "프리랜서, 3.3%, 강사료, 원고료처럼 원천징수 대상 사업소득 또는 기타소득으로 들어오는 생활어를 종합소득세 신고 후보로 연결합니다.",
+        "80_LifeLanguage/Incomes",
+        parents=["category.life-incomes"],
+        related=["filing.business-income-withholding", "tax.income.comprehensive", "application-channel.hometax-income-tax"],
+        deadlines=["deadline.income-tax.2025-return", "deadline.withholding.monthly"],
+        sources=["source.nts.business-income.withholding", "source.nts.income-tax.deadline", "source.hometax.main"],
+        tags=["life-language", "income", "freelance"],
+        life_phrases=["프리랜서", "3.3%", "강사료", "원고료", "외주", "용역비", "사업소득"],
+        official_candidates=[
+            candidate("filing.business-income-withholding", 0.78, "3.3% 원천징수 표현은 사업소득 원천징수 흐름일 가능성이 큽니다.", ["지급자가 원천징수했는지", "사업소득인지 기타소득인지", "지급명세서 제출 여부"]),
+            candidate("tax.income.comprehensive", 0.82, "프리랜서 소득은 다음연도 종합소득세 확정신고에서 합산 여부를 확인해야 합니다.", ["수입금액", "필요경비", "원천징수세액", "다른 소득 합산 여부"]),
+        ],
+        eligibility_questions=[
+            question(1, "지급받을 때 3.3% 원천징수가 되었나요?", "filing.business-income-withholding", "원천징수 여부"),
+            question(2, "소득 유형이 사업소득인가요, 기타소득인가요?", "tax.income.comprehensive", "소득 구분", "choice"),
+            question(3, "다음연도 5월 종합소득세 확정신고 대상인지 확인했나요?", "application-channel.hometax-income-tax", "신고 경로"),
+        ],
+    ),
+    node(
+        "life-income.side-job-income",
+        "부업·투잡 소득",
+        "life-income",
+        "직장인이 부업, 투잡, 플랫폼 소득을 얻은 경우 근로소득 연말정산만으로 끝나는지 종합소득세 신고가 필요한지 판단하는 생활어 노드입니다.",
+        "80_LifeLanguage/Incomes",
+        parents=["category.life-incomes"],
+        related=["scenario.employee.side-job-income", "tax.income.comprehensive", "filing.year-end-settlement"],
+        deadlines=["deadline.year-end-settlement", "deadline.income-tax.2025-return"],
+        sources=["source.nts.income-tax.deadline", "source.nts.year-end-settlement.calculation"],
+        tags=["life-language", "income", "side-job"],
+        life_phrases=["부업", "투잡", "겸업", "배달수입", "플랫폼 수입", "유튜브 수익", "블로그 수익"],
+        official_candidates=[
+            candidate("tax.income.comprehensive", 0.82, "근로소득 외 사업·기타소득이 있으면 종합소득세 합산 여부를 확인해야 합니다.", ["근로소득 외 소득 종류", "원천징수 여부", "필요경비", "확정신고 대상 여부"]),
+            candidate("filing.year-end-settlement", 0.55, "근로소득 자체는 회사 연말정산으로 정산되지만 부업 소득은 별도 판단이 필요합니다.", ["근로소득만 있는지", "회사 연말정산 완료 여부"]),
+        ],
+        eligibility_questions=[
+            question(1, "근로소득 외에 사업소득, 기타소득, 금융소득 중 어떤 소득이 있나요?", "tax.income.comprehensive", "소득 구분", "choice"),
+            question(2, "부업 소득에 대해 원천징수영수증 또는 지급명세서를 확인할 수 있나요?", "source.nts.employee-income-statement", "소득자료 확인"),
+            question(3, "회사 연말정산 후 다음연도 5월 종합소득세 신고가 필요한지 확인했나요?", "application-channel.hometax-income-tax", "신고 경로"),
+        ],
+    ),
+    node(
+        "life-event.first-vat-return",
+        "첫 부가세 신고",
+        "life-event",
+        "처음 사업을 시작한 사용자가 사업자등록, 일반·간이과세자 구분, 신고기한과 납부의무 면제를 순서대로 판단하는 생활사건 노드입니다.",
+        "80_LifeLanguage/Events",
+        parents=["category.life-events"],
+        related=["filing.business-registration", "filing.vat-return", "eligibility-rule.vat-taxpayer-type", "application-channel.hometax-vat"],
+        deadlines=["deadline.business-registration.application", "deadline.vat.periodic"],
+        sources=["source.nts.business-registration.application", "source.nts.vat.filing-duty", "source.hometax.main"],
+        tags=["life-language", "event", "vat"],
+        life_phrases=["첫 부가세", "부가세 처음", "개업 후 부가세", "사업자 첫 신고", "간이과세 신고"],
+        official_candidates=[
+            candidate("filing.vat-return", 0.86, "개업 후 첫 부가세라는 표현은 부가가치세 신고 납부 절차 후보입니다.", ["사업자등록일", "과세유형", "과세기간", "간이과세자 납부면제", "예정신고 예외"]),
+            candidate("concept.simple-vat-taxpayer", 0.7, "간이과세 여부를 먼저 묻는 경우 과세유형 판정 후보가 됩니다.", ["직전연도 공급대가", "세금계산서 발급 여부", "간이과세 배제 업종"]),
+        ],
+        eligibility_questions=[
+            question(1, "사업자등록을 했거나 사업 개시일부터 20일 이내인가요?", "filing.business-registration", "사업자등록"),
+            question(2, "일반과세자와 간이과세자 중 어느 유형인가요?", "eligibility-rule.vat-taxpayer-type", "과세유형", "choice"),
+            question(3, "직전연도 공급대가가 4,800만원 미만인 간이과세자인가요?", "concept.vat-payment-exemption", "납부의무 면제"),
+            question(4, "신고는 홈택스 부가가치세 신고 경로로 진행할 예정인가요?", "application-channel.hometax-vat", "신청 경로"),
+        ],
+    ),
+])
+
+
+NODES.extend([
+    node(
+        "scenario.employee.thirties-year-end-settlement",
+        "30대 직장인 연말정산 경로",
+        "scenario",
+        "30대 근로자가 카드 사용, 월세, 청약, 의료비, 기부금 등 생활비 표현에서 공식 연말정산 공제 후보로 이동하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["scenario.employee.year-end-settlement", "life-expense.card-spending", "life-expense.monthly-rent", "life-expense.housing-subscription"],
+        terms=["term.employee", "term.income-deduction", "term.tax-credit"],
+        deadlines=["deadline.year-end-settlement"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.monthly-rent-credit", "source.nts.credit-card-deduction"],
+        tags=["scenario", "employee", "life-language"],
+        path_steps=[
+            {"order": 1, "label": "근로자 여부", "target": "term.employee", "reason": "연말정산 대상 근로소득자인지 먼저 확인합니다."},
+            {"order": 2, "label": "카드값", "target": "life-expense.card-spending", "reason": "총급여 25% 초과 여부와 결제수단별 공제율을 확인합니다."},
+            {"order": 3, "label": "월세·방값", "target": "life-expense.monthly-rent", "reason": "무주택, 소득, 전입신고, 주택요건과 필요서류를 확인합니다."},
+            {"order": 4, "label": "청약통장", "target": "life-expense.housing-subscription", "reason": "총급여 7,000만원 이하 근로자와 무주택 세대 요건을 확인합니다."},
+            {"order": 5, "label": "회사 제출", "target": "application-channel.company-year-end-settlement", "reason": "간소화 자료와 누락 증빙을 회사 연말정산 경로로 제출합니다."},
+        ],
+    ),
+    node(
+        "scenario.freelancer.income-tax",
+        "프리랜서 종합소득세 경로",
+        "scenario",
+        "프리랜서가 3.3% 원천징수, 수입금액, 필요경비, 종합소득세 확정신고를 순서대로 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["life-income.freelance-income", "filing.business-income-withholding", "tax.income.comprehensive"],
+        deadlines=["deadline.income-tax.2025-return"],
+        sources=["source.nts.business-income.withholding", "source.nts.income-tax.deadline", "source.hometax.main"],
+        tags=["scenario", "freelancer", "income-tax"],
+        path_steps=[
+            {"order": 1, "label": "3.3% 소득 확인", "target": "life-income.freelance-income", "reason": "프리랜서 표현을 사업소득 원천징수와 종합소득세 후보로 연결합니다."},
+            {"order": 2, "label": "원천징수 확인", "target": "filing.business-income-withholding", "reason": "지급자가 원천징수한 소득세와 지방소득세를 확인합니다."},
+            {"order": 3, "label": "종합소득세 계산", "target": "tax.income.comprehensive", "reason": "사업소득과 다른 소득을 합산해 과세표준과 세율을 확인합니다."},
+            {"order": 4, "label": "홈택스 신고", "target": "application-channel.hometax-income-tax", "reason": "다음연도 5월 확정신고 경로로 연결합니다."},
+        ],
+    ),
+    node(
+        "scenario.employee.side-job-income",
+        "직장인 부업 소득 신고 경로",
+        "scenario",
+        "직장인이 근로소득 외 부업·플랫폼 소득을 얻었을 때 연말정산과 종합소득세 신고를 분리해 판단하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["life-income.side-job-income", "filing.year-end-settlement", "tax.income.comprehensive"],
+        deadlines=["deadline.year-end-settlement", "deadline.income-tax.2025-return"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.income-tax.deadline"],
+        tags=["scenario", "employee", "side-job"],
+        path_steps=[
+            {"order": 1, "label": "근로소득 정산", "target": "filing.year-end-settlement", "reason": "회사에서 근로소득 연말정산을 먼저 진행합니다."},
+            {"order": 2, "label": "부업 소득 구분", "target": "life-income.side-job-income", "reason": "사업소득·기타소득·금융소득 등 근로 외 소득 종류를 구분합니다."},
+            {"order": 3, "label": "종합소득세 합산", "target": "tax.income.comprehensive", "reason": "근로 외 소득을 다음연도 5월 신고해야 하는지 확인합니다."},
+            {"order": 4, "label": "전자 신고", "target": "application-channel.hometax-income-tax", "reason": "필요하면 홈택스 종합소득세 신고로 연결합니다."},
+        ],
+    ),
+    node(
+        "scenario.monthly-rent-tenant-credit",
+        "월세 거주자 세액공제 경로",
+        "scenario",
+        "자취방·원룸 월세를 낸 근로자가 월세액 세액공제 적용 가능성과 필요서류를 판단하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["life-expense.monthly-rent", "credit.monthly-rent", "conflict-rule.monthly-rent-household-duplicate"],
+        sources=["source.nts.monthly-rent-credit"],
+        tags=["scenario", "monthly-rent", "tenant"],
+        path_steps=[
+            {"order": 1, "label": "생활어 입력", "target": "life-expense.monthly-rent", "reason": "월세·방값 표현을 월세액 세액공제 후보로 매핑합니다."},
+            {"order": 2, "label": "공식 항목", "target": "credit.monthly-rent", "reason": "총급여, 종합소득금액, 주택, 공제율, 한도를 확인합니다."},
+            {"order": 3, "label": "주소·무주택", "target": "eligibility-rule.monthly-rent-address-match", "reason": "전입신고와 주소 일치, 무주택 세대 요건을 확인합니다."},
+            {"order": 4, "label": "필요서류", "target": "required-document.rent-payment-proof", "reason": "주민등록표등본, 임대차계약서, 지급 증빙을 준비합니다."},
+        ],
+    ),
+    node(
+        "scenario.homeless-youth-support",
+        "무주택 청년 지원금 경로",
+        "scenario",
+        "무주택 청년이 청년미래적금, 청년도약계좌, 특례전세자금보증, 디딤돌대출을 나이·소득·주택 기준으로 비교하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["scenario.youth-policy-support", "support.youth-future-savings", "support.youth-leap-account", "support.youth-special-rent-guarantee"],
+        sources=["source.fsc.youth-future-savings", "source.kinfa.youth-leap", "source.hf.special-rent-guarantee"],
+        tags=["scenario", "youth", "housing-support"],
+        path_steps=[
+            {"order": 1, "label": "무주택 여부", "target": "eligibility-rule.homeless-household", "reason": "주거 지원과 청약·월세 공제의 기본 주택 보유 기준을 확인합니다."},
+            {"order": 2, "label": "자산형성", "target": "support.youth-future-savings", "reason": "2026년 예정 청년미래적금의 나이·소득·납입한도를 확인합니다."},
+            {"order": 3, "label": "정책계좌", "target": "support.youth-leap-account", "reason": "청년도약계좌의 개인소득, 가구소득, 금융소득종합과세 제외 요건을 확인합니다."},
+            {"order": 4, "label": "전세 보증", "target": "support.youth-special-rent-guarantee", "reason": "무주택 청년 특례전세자금보증의 소득과 한도를 확인합니다."},
+        ],
+    ),
+    node(
+        "scenario.first-vat-return",
+        "개인사업자 첫 부가세 신고 경로",
+        "scenario",
+        "처음 부가가치세를 신고하는 개인사업자가 사업자등록, 과세유형, 신고기한, 홈택스 제출을 확인하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["life-event.first-vat-return", "filing.vat-return", "concept.simple-vat-taxpayer"],
+        deadlines=["deadline.vat.periodic", "deadline.vat.simplified.annual"],
+        sources=["source.nts.vat.filing-duty", "source.nts.business-registration.application"],
+        tags=["scenario", "vat", "business"],
+        path_steps=[
+            {"order": 1, "label": "생활사건", "target": "life-event.first-vat-return", "reason": "첫 부가세 신고 표현을 신고 절차 후보로 매핑합니다."},
+            {"order": 2, "label": "과세유형", "target": "eligibility-rule.vat-taxpayer-type", "reason": "일반과세자·간이과세자·납부의무 면제를 매출 기준으로 판단합니다."},
+            {"order": 3, "label": "신고기한", "target": "filing.vat-return", "reason": "과세기간별 신고·납부 기한을 확인합니다."},
+            {"order": 4, "label": "홈택스", "target": "application-channel.hometax-vat", "reason": "전자 신고 채널로 연결합니다."},
+        ],
+    ),
+    node(
+        "scenario.simple-vat-taxpayer-decision",
+        "간이과세자 신고 여부 판단 경로",
+        "scenario",
+        "간이과세자가 신고는 해야 하는지, 납부의무 면제나 예정신고 예외가 있는지 매출 기준으로 판단하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["concept.simple-vat-taxpayer", "concept.vat-payment-exemption", "filing.vat-return"],
+        deadlines=["deadline.vat.simplified.annual", "deadline.vat.simplified.preliminary"],
+        sources=["source.nts.vat.filing-duty", "source.nts.vat.overview"],
+        tags=["scenario", "vat", "simple-taxpayer"],
+        path_steps=[
+            {"order": 1, "label": "간이과세 기준", "target": "concept.simple-vat-taxpayer", "reason": "직전 1년 매출액 1억400만원 미만 여부를 확인합니다."},
+            {"order": 2, "label": "납부의무 면제", "target": "concept.vat-payment-exemption", "reason": "직전연도 공급대가 4,800만원 미만인지 확인합니다."},
+            {"order": 3, "label": "예정신고 예외", "target": "deadline.vat.simplified.preliminary", "reason": "세금계산서 발급 등 예정신고 대상인지 확인합니다."},
+            {"order": 4, "label": "연간 신고", "target": "deadline.vat.simplified.annual", "reason": "다음해 1월 확정신고·납부 기한을 확인합니다."},
+        ],
+    ),
+    node(
+        "scenario.resigned-worker-year-end-settlement",
+        "퇴사자 연말정산 경로",
+        "scenario",
+        "중도 퇴사자가 퇴직월 정산, 누락 공제, 다음연도 종합소득세 신고 보완 여부를 판단하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["filing.year-end-settlement", "application-channel.hometax-income-tax"],
+        deadlines=["deadline.year-end-settlement", "deadline.income-tax.2025-return"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.income-tax.deadline"],
+        tags=["scenario", "employee", "resigned"],
+        path_steps=[
+            {"order": 1, "label": "퇴직월 정산", "target": "filing.year-end-settlement", "reason": "중도 퇴직자는 퇴직하는 달의 근로소득 지급 시 정산되는 흐름을 확인합니다."},
+            {"order": 2, "label": "누락 공제 확인", "target": "category.tax-credits", "reason": "월세, 의료비, 기부금 등 퇴사 당시 반영하지 못한 공제 후보를 확인합니다."},
+            {"order": 3, "label": "종합소득세 보완", "target": "application-channel.hometax-income-tax", "reason": "누락 공제 또는 다른 소득이 있으면 다음연도 5월 신고에서 보완합니다."},
+        ],
+    ),
+    node(
+        "scenario.job-change-year-end-settlement",
+        "이직자 연말정산 경로",
+        "scenario",
+        "이직자가 전 직장 근로소득 자료와 현 직장 연말정산을 합쳐 누락 없이 정산하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["filing.year-end-settlement", "source.nts.employee-income-statement", "application-channel.company-year-end-settlement"],
+        deadlines=["deadline.year-end-settlement"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.employee-income-statement"],
+        tags=["scenario", "employee", "job-change"],
+        path_steps=[
+            {"order": 1, "label": "전 직장 소득자료", "target": "source.nts.employee-income-statement", "reason": "전 직장의 근로소득 원천징수영수증 또는 지급명세서 자료를 확인합니다."},
+            {"order": 2, "label": "현 직장 제출", "target": "application-channel.company-year-end-settlement", "reason": "현 직장 연말정산에 전 직장 소득자료와 공제자료를 함께 제출합니다."},
+            {"order": 3, "label": "누락 보완", "target": "application-channel.hometax-income-tax", "reason": "전 직장 자료를 반영하지 못한 경우 다음연도 종합소득세 신고로 보완합니다."},
+        ],
+    ),
+    node(
+        "scenario.dual-income-personal-deduction",
+        "맞벌이 부부 인적공제 판단 경로",
+        "scenario",
+        "맞벌이 부부가 배우자·부양가족 기본공제, 자녀, 의료비·교육비·기부금 공제를 누구에게 배분할지 판단하는 경로입니다.",
+        "70_Scenarios",
+        parents=["category.user-scenarios"],
+        related=["deduction.personal", "credit.child", "credit.medical-expense", "credit.education-expense", "credit.donation"],
+        sources=["source.nts.year-end-settlement.calculation", "source.nts.year-end-settlement.special-credit"],
+        tags=["scenario", "employee", "dual-income"],
+        path_steps=[
+            {"order": 1, "label": "부양가족 소득요건", "target": "deduction.personal.basic", "reason": "연간 소득금액 100만원 이하 등 기본공제 대상 여부를 먼저 확인합니다."},
+            {"order": 2, "label": "자녀 공제", "target": "credit.child", "reason": "자녀 세액공제를 어느 근로자가 적용할지 확인합니다."},
+            {"order": 3, "label": "특별세액공제", "target": "credit.special-tax", "reason": "의료비·교육비·기부금의 지출자와 대상자 요건을 확인합니다."},
+            {"order": 4, "label": "회사 제출", "target": "application-channel.company-year-end-settlement", "reason": "배분 결과에 맞게 각 회사 연말정산 자료를 제출합니다."},
         ],
     ),
 ])
@@ -2665,6 +3162,11 @@ def frontmatter(fields: dict) -> str:
         "basis_year",
         "effective_date",
         "expiration_date",
+        "reviewed_at",
+        "source_urls",
+        "source_basis_dates",
+        "abolition_status",
+        "revision_status",
         "parents",
         "children",
         "related",
@@ -2675,6 +3177,9 @@ def frontmatter(fields: dict) -> str:
         "law_reference",
         "recurrence",
         "path_steps",
+        "life_phrases",
+        "official_candidates",
+        "eligibility_questions",
         "tags",
         "publisher",
         "url",
@@ -2683,7 +3188,7 @@ def frontmatter(fields: dict) -> str:
         "end_date",
     ]:
         value = fields.get(key)
-        if key in {"criteria", "path_steps"} and not value:
+        if key in {"criteria", "path_steps", "life_phrases", "official_candidates", "eligibility_questions", "source_urls", "source_basis_dates"} and not value:
             continue
         if value is not None:
             lines.append(f"{key}: {json.dumps(value, ensure_ascii=False)}")
@@ -2890,10 +3395,66 @@ def render_path_steps(item: dict, all_items: dict[str, dict]) -> list[str]:
     return body
 
 
+def render_freshness(item: dict) -> list[str]:
+    values = [
+        ("기준연도", item.get("basis_year")),
+        ("시행일", item.get("effective_date")),
+        ("만료일", item.get("expiration_date")),
+        ("확인일", item.get("reviewed_at")),
+        ("폐지 여부", item.get("abolition_status")),
+        ("개정 예정 여부", item.get("revision_status")),
+    ]
+    lines = [f"- **{label}**: {value}" for label, value in values if value not in (None, "", [])]
+    if item.get("source_urls"):
+        lines.append("- **출처 URL**: " + ", ".join(item["source_urls"]))
+    if item.get("source_basis_dates"):
+        lines.append("- **출처 확인일**: " + ", ".join(item["source_basis_dates"]))
+    if not lines:
+        return []
+    return ["## 최신성 메타데이터", "", *lines, ""]
+
+
+def render_life_mapping(item: dict, all_items: dict[str, dict]) -> list[str]:
+    phrases = item.get("life_phrases") or []
+    candidates = item.get("official_candidates") or []
+    questions = item.get("eligibility_questions") or []
+    if not phrases and not candidates and not questions:
+        return []
+
+    body = ["## 생활어 판단 로직", ""]
+    if phrases:
+        body.extend(["### 생활어 사전", "", ", ".join(f"`{phrase}`" for phrase in phrases), ""])
+    if candidates:
+        body.extend(["### 공식 항목 후보", ""])
+        for candidate in sorted(candidates, key=lambda value: value.get("confidence", 0), reverse=True):
+            target_id = candidate["target"]
+            target = obsidian_link(all_items, target_id) if target_id in all_items else f"`{target_id}`"
+            confidence = f"{candidate['confidence']:.2f}"
+            label = candidate.get("confidence_label")
+            confidence_text = f"{confidence} ({label})" if label else confidence
+            body.append(f"- {target}: 신뢰도 {confidence_text}; {candidate['reason']}")
+            checks = candidate.get("required_checks") or []
+            if checks:
+                body.append("  - 추가 확인: " + ", ".join(checks))
+        body.append("")
+    if questions:
+        body.extend(["### 요건 질문", ""])
+        for question in sorted(questions, key=lambda value: value["order"]):
+            target_id = question.get("target")
+            target = obsidian_link(all_items, target_id) if target_id in all_items else None
+            suffix = f" → {target}" if target else ""
+            criterion = f" ({question['criterion']})" if question.get("criterion") else ""
+            body.append(f"{question['order']}. {question['question']}{criterion}{suffix}")
+        body.append("")
+    return body
+
+
 def render_note(item: dict, all_items: dict[str, dict]) -> str:
     body = [frontmatter(item), "", f"# {item['title']}", "", item["description"], ""]
     if item.get("law_reference"):
         body.extend(["## 근거 조항", "", item["law_reference"], ""])
+    body.extend(render_freshness(item))
+    body.extend(render_life_mapping(item, all_items))
     body.extend(render_recurrence(item))
     body.extend(render_path_steps(item, all_items))
     body.extend(render_criteria(item, all_items))
@@ -2932,6 +3493,11 @@ def render_source(source_id: str, source: dict) -> dict:
         "basis_year": None,
         "effective_date": None,
         "expiration_date": None,
+        "reviewed_at": CURRENT_REVIEW_DATE,
+        "source_urls": [source["url"]],
+        "source_basis_dates": [source["basis_date"]],
+        "abolition_status": "active",
+        "revision_status": "none_announced",
         "parents": [],
         "children": [],
         "related": [],
@@ -2949,6 +3515,7 @@ def render_source(source_id: str, source: dict) -> dict:
 def render_source_note(item: dict) -> str:
     fields = {key: item.get(key) for key in [
         "id", "title", "type", "description", "basis_year", "effective_date", "expiration_date",
+        "reviewed_at", "source_urls", "source_basis_dates", "abolition_status", "revision_status",
         "parents", "children", "related", "terms", "deadlines", "sources", "law_reference",
         "tags", "publisher", "url", "basis_date"
     ]}
@@ -2984,6 +3551,11 @@ def default_item_fields(item: dict) -> dict:
         "basis_year": item.get("basis_year"),
         "effective_date": item.get("effective_date"),
         "expiration_date": item.get("expiration_date"),
+        "reviewed_at": item.get("reviewed_at"),
+        "source_urls": item.get("source_urls") or [],
+        "source_basis_dates": item.get("source_basis_dates") or [],
+        "abolition_status": item.get("abolition_status") or "active",
+        "revision_status": item.get("revision_status") or "none_announced",
         "parents": item.get("parents") or [],
         "children": item.get("children") or [],
         "related": item.get("related") or [],
@@ -2999,6 +3571,12 @@ def default_item_fields(item: dict) -> dict:
         result["recurrence"] = item["recurrence"]
     if item.get("path_steps"):
         result["path_steps"] = item["path_steps"]
+    if item.get("life_phrases"):
+        result["life_phrases"] = item["life_phrases"]
+    if item.get("official_candidates"):
+        result["official_candidates"] = item["official_candidates"]
+    if item.get("eligibility_questions"):
+        result["eligibility_questions"] = item["eligibility_questions"]
     return {**item, **result}
 
 
@@ -3014,6 +3592,31 @@ def load_custom_items() -> list[dict]:
     if not isinstance(raw_items, list):
         raise ValueError(f"{CUSTOM_ITEMS_PATH} must contain an items array")
     return [dict(item) for item in raw_items]
+
+
+def attach_source_metadata(items: dict[str, dict]) -> None:
+    for item in items.values():
+        item.setdefault("reviewed_at", CURRENT_REVIEW_DATE)
+        item.setdefault("abolition_status", "active")
+        item.setdefault("revision_status", "none_announced")
+        if item.get("type") == "source":
+            item.setdefault("source_urls", [item["url"]] if item.get("url") else [])
+            item.setdefault("source_basis_dates", [item["basis_date"]] if item.get("basis_date") else [])
+            continue
+        source_urls: list[str] = []
+        source_basis_dates: list[str] = []
+        for source_id in item.get("sources") or []:
+            source = items.get(source_id)
+            if not source:
+                continue
+            url = source.get("url")
+            basis_date = source.get("basis_date")
+            if url and url not in source_urls:
+                source_urls.append(url)
+            if basis_date and basis_date not in source_basis_dates:
+                source_basis_dates.append(basis_date)
+        item["source_urls"] = unique((item.get("source_urls") or []) + source_urls)
+        item["source_basis_dates"] = unique((item.get("source_basis_dates") or []) + source_basis_dates)
 
 
 def build_all_items() -> dict[str, dict]:
@@ -3058,6 +3661,7 @@ def build_all_items() -> dict[str, dict]:
             custom_item["tags"] = unique((custom_item.get("tags") or []) + ["custom-overlay"])
             items[item_id] = default_item_fields(custom_item)
     normalize_items(items)
+    attach_source_metadata(items)
     return items
 
 
