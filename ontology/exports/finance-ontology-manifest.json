@@ -3,6 +3,7 @@
   "basis_date": "2026-05-05",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "item_count": 10605,
   "exports": [
     {
       "id": "tax-ontology",

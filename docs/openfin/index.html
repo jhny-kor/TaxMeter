@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenFin | Integrated Finance Ontology</title>
+  <meta name="description" content="세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합한 OpenFin GitHub Pages 탐색기">
+  <meta name="theme-color" content="#05080d">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="OpenFin 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>OpenFin</span>
+    </a>
+    <nav class="top-nav" aria-label="주요 섹션">
+      <a href="#graph">Graph</a>
+      <a href="#exports">Exports</a>
+      <a href="#mcp">MCP</a>
+      <a href="#explorer">Explorer</a>
+    </nav>
+    <div class="header-actions">
+      <a href="https://github.com/jhny-kor/TaxMeter" rel="noreferrer" target="_blank">GitHub</a>
+      <a href="https://finance-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">Health</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero section" id="overview">
+      <div class="hero-copy">
+        <p class="eyebrow">TaxMeter Ontology Surface</p>
+        <h1>OpenFin</h1>
+        <p class="hero-lede">
+          세금, 지자체 지원금, 카드, 은행, 보험 데이터를 하나의 금융 온톨로지로 묶고
+          GitHub Pages와 읽기 전용 MCP가 같은 manifest를 바라보게 만든 공개 탐색면입니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#graph">통합 그래프 보기</a>
+          <a class="button secondary" href="#explorer">온톨로지 탐색</a>
+        </div>
+        <dl class="hero-meta">
+          <div><dt>version</dt><dd data-version>로딩 중</dd></div>
+          <div><dt>basis date</dt><dd data-basis-date>로딩 중</dd></div>
+          <div><dt>MCP endpoint</dt><dd><a href="https://finance-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">finance-mcp.y2kthr.workers.dev/mcp</a></dd></div>
+        </dl>
+      </div>
+
+      <div class="hero-map" aria-label="OpenFin 상위 그래프">
+        <svg class="graph-lines" viewBox="0 0 720 460" aria-hidden="true">
+          <path d="M360 230 C350 125 305 90 190 80"/>
+          <path d="M360 230 C425 112 472 85 584 92"/>
+          <path d="M360 230 C220 205 153 210 88 244"/>
+          <path d="M360 230 C500 202 568 212 650 248"/>
+          <path d="M360 230 C352 326 395 382 520 382"/>
+          <path class="dashed" d="M360 230 C360 306 336 352 274 394"/>
+        </svg>
+        <button class="graph-node root" type="button" data-domain="all">
+          <strong>Finance Manifest</strong>
+          <span data-total-items>10,605 items</span>
+        </button>
+        <button class="graph-node tax" type="button" data-domain="tax"><strong>Tax</strong><span data-domain-count="tax">374</span></button>
+        <button class="graph-node local" type="button" data-domain="local-government-supports"><strong>Local Supports</strong><span data-domain-count="local-government-supports">7,820</span></button>
+        <button class="graph-node card" type="button" data-domain="card-products"><strong>Cards</strong><span data-domain-count="card-products">1,008</span></button>
+        <button class="graph-node bank" type="button" data-domain="bank-products"><strong>Banks</strong><span data-domain-count="bank-products">1,049</span></button>
+        <button class="graph-node insurance" type="button" data-domain="insurance-products"><strong>Insurance</strong><span data-domain-count="insurance-products">358</span></button>
+        <a class="graph-node mcp" href="https://finance-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">
+          <strong>OpenFin MCP</strong>
+          <span>read-only tools</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="metrics section" aria-label="OpenFin 요약 수치">
+      <div><strong data-total-items-plain>10,605</strong><span>통합 항목</span></div>
+      <div><strong data-export-count>5</strong><span>도메인 export</span></div>
+      <div><strong data-product-count>2,374</strong><span>금융 상품</span></div>
+      <div><strong data-local-count>7,820</strong><span>지자체 지원금</span></div>
+      <div><strong data-basis-date-short>2026-05-05</strong><span>최종 기준일</span></div>
+    </section>
+
+    <section class="section split-section" aria-labelledby="why-title">
+      <div class="section-heading">
+        <p class="eyebrow">Why This Exists</p>
+        <h2 id="why-title">소개 페이지가 아니라 데이터 운영판</h2>
+        <p>
+          참고 사이트의 어두운 톤, 큰 첫 화면, 아키텍처 설명, 탐색기를 반영하되
+          OpenFin의 실제 manifest와 MCP 사용 흐름을 중심으로 내용을 다시 구성했습니다.
+        </p>
+      </div>
+      <div class="comparison-grid">
+        <article>
+          <h3>기존 금융 정보의 문제</h3>
+          <ul>
+            <li>세금, 복지, 카드 혜택, 은행 금리, 보험 조건이 서로 다른 기관과 파일에 흩어져 있습니다.</li>
+            <li>상품명, 우대조건, 한도, 기준일은 자주 바뀌므로 앱과 AI가 같은 기준을 읽어야 합니다.</li>
+            <li>원문 출처와 수집일이 빠지면 금융·세무 답변의 검증 가능성이 떨어집니다.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>OpenFin에 반영한 방식</h3>
+          <ul>
+            <li>5개 export를 manifest로 묶고 도메인별 item_count와 product_count를 첫 화면에 노출합니다.</li>
+            <li>각 노드는 ID, 타입, 설명, provider, criteria, source_urls, 이웃 노드를 유지합니다.</li>
+            <li>GitHub Pages 탐색기와 Cloudflare MCP가 같은 export를 읽도록 연결했습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section graph-section" id="graph" aria-labelledby="graph-title">
+      <div class="section-heading">
+        <p class="eyebrow">Major Nodes</p>
+        <h2 id="graph-title">큰 노드 중심 그래프</h2>
+        <p>현재 통합 온톨로지의 상위 도메인입니다. 노드를 누르면 해당 export를 로드하고 탐색기로 이동합니다.</p>
+      </div>
+      <div class="major-map">
+        <svg viewBox="0 0 1040 520" aria-hidden="true">
+          <path d="M520 238 190 118"/>
+          <path d="M520 238 850 118"/>
+          <path d="M520 238 154 344"/>
+          <path d="M520 238 884 342"/>
+          <path d="M520 238 520 444"/>
+          <path class="dashed" d="M520 238 520 86"/>
+        </svg>
+        <button class="map-node manifest" data-domain="all">
+          <strong>Finance Manifest</strong>
+          <span data-version-short>KR-FINANCE-ONTOLOGY</span>
+        </button>
+        <button class="map-node tax" data-domain="tax"><strong>세금·공제</strong><span data-domain-count="tax">374</span></button>
+        <button class="map-node local" data-domain="local-government-supports"><strong>지자체 지원금</strong><span data-domain-count="local-government-supports">7,820</span></button>
+        <button class="map-node card" data-domain="card-products"><strong>카드 상품</strong><span data-domain-count="card-products">1,008</span></button>
+        <button class="map-node bank" data-domain="bank-products"><strong>은행 상품</strong><span data-domain-count="bank-products">1,049</span></button>
+        <button class="map-node insurance" data-domain="insurance-products"><strong>보험 상품</strong><span data-domain-count="insurance-products">358</span></button>
+        <a class="map-node mcp" href="#mcp"><strong>MCP</strong><span>search · fetch · exports</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="exports" aria-labelledby="exports-title">
+      <div class="section-heading row-heading">
+        <div>
+          <p class="eyebrow">Exports</p>
+          <h2 id="exports-title">통합 manifest가 로드하는 파일</h2>
+          <p>각 카드의 수치는 현재 JSON manifest에서 읽어옵니다.</p>
+        </div>
+        <a class="text-link" href="../opentax/finance-ontology-manifest.json" target="_blank" rel="noreferrer">manifest JSON 열기</a>
+      </div>
+      <div class="export-grid" data-export-grid>
+        <article class="export-card skeleton"><span></span><strong>manifest 로딩 중</strong><p>GitHub Pages JSON을 확인하고 있습니다.</p></article>
+      </div>
+    </section>
+
+    <section class="section flow" id="mcp" aria-labelledby="mcp-title">
+      <div class="section-heading">
+        <p class="eyebrow">Read-only MCP</p>
+        <h2 id="mcp-title">같은 데이터를 MCP에서 검색</h2>
+        <p>Cloudflare Worker는 canonical manifest를 읽고 `search`, `fetch`, `exports` 도구를 제공합니다.</p>
+      </div>
+      <div class="pipeline">
+        <div><strong>GitHub JSON</strong><span>ontology/exports</span></div>
+        <div><strong>Pages Mirror</strong><span>/opentax/*.json</span></div>
+        <div><strong>Cloudflare MCP</strong><span>finance-mcp worker</span></div>
+        <div><strong>AI Client</strong><span>read-only search/fetch</span></div>
+      </div>
+      <div class="mcp-grid">
+        <article>
+          <h3>exports</h3>
+          <p>통합 버전, 기준일, 총 항목 수, export 목록을 반환합니다.</p>
+        </article>
+        <article>
+          <h3>search</h3>
+          <p>세금, 지원금, 카드, 은행, 보험 노드를 질의어와 타입으로 검색합니다.</p>
+        </article>
+        <article>
+          <h3>fetch</h3>
+          <p>ID 또는 웹 URL 해시로 criteria, 출처, 이웃 노드까지 한 항목을 조회합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section improvements" aria-labelledby="improvements-title">
+      <div class="section-heading">
+        <p class="eyebrow">Content Additions</p>
+        <h2 id="improvements-title">추가하면 좋은 내용과 반영 방식</h2>
+        <p>현재 온톨로지를 기준으로 웹과 MCP에서 바로 가치가 커지는 확장 항목입니다.</p>
+      </div>
+      <div class="improvement-grid">
+        <article>
+          <h3>데이터 신뢰도 배지</h3>
+          <p>각 노드에 공식 API, 기관 페이지, 수기 overlay, 기준일 만료 여부를 배지로 표시합니다.</p>
+          <span>반영: `source_urls`, `source_basis_dates`, `revision_status`를 상세 패널과 MCP fetch 응답에서 동일하게 노출</span>
+        </article>
+        <article>
+          <h3>상품 비교 축</h3>
+          <p>카드 혜택률, 예적금 금리, 대출 평균금리, 보험 수익률처럼 도메인별 비교 가능한 값을 별도 표로 빼냅니다.</p>
+          <span>반영: `criteria`와 `options`의 수치 필드를 normalize하여 product metric index 생성</span>
+        </article>
+        <article>
+          <h3>사용자 시나리오 경로</h3>
+          <p>청년, 소상공인, 주택 임차인, 연말정산 근로자처럼 실제 탐색 목적별 출발점을 만듭니다.</p>
+          <span>반영: `scenario.*` 노드와 `path_steps`를 추가하고 연관 노드 ID를 검증</span>
+        </article>
+        <article>
+          <h3>변경 이력</h3>
+          <p>금리·혜택·세제 기준이 언제 바뀌었는지 Git diff와 수집일 기준으로 비교할 수 있게 합니다.</p>
+          <span>반영: manifest version별 export hash, changed item count, ended product count를 별도 manifest에 기록</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section explorer-shell" id="explorer" aria-labelledby="explorer-title">
+      <div class="section-heading row-heading">
+        <div>
+          <p class="eyebrow">Explorer</p>
+          <h2 id="explorer-title">온톨로지 탐색기</h2>
+          <p>도메인을 선택하면 해당 JSON을 브라우저에서 로드합니다. 전체 로드는 1만 개 이상이므로 필요할 때만 실행합니다.</p>
+        </div>
+        <div class="load-actions">
+          <button class="button secondary" type="button" data-load-all>전체 인덱스 로딩</button>
+        </div>
+      </div>
+      <div class="explorer-toolbar">
+        <label class="search-field">
+          <span class="visually-hidden">검색어</span>
+          <input type="search" data-search placeholder="검색어를 입력하세요. 예: 청년, 전월실적, 신용대출, 보험료">
+        </label>
+        <select data-type-filter aria-label="타입 필터">
+          <option value="">모든 타입</option>
+        </select>
+      </div>
+      <div class="domain-tabs" data-domain-tabs></div>
+      <div class="explorer-grid">
+        <aside class="result-list" aria-label="검색 결과">
+          <div class="result-summary" data-result-summary>도메인을 선택해 데이터를 로드하세요.</div>
+          <div data-results></div>
+        </aside>
+        <article class="detail-panel" data-detail-panel>
+          <p class="empty-state">왼쪽 결과를 선택하면 기준, 출처, 상품 메타데이터, 연결 노드를 확인할 수 있습니다.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 TaxMeter</span>
+    <a href="https://github.com/jhny-kor/TaxMeter" rel="noreferrer" target="_blank">GitHub</a>
+    <a href="../opentax/">OpenTax</a>
+    <a href="https://finance-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">MCP Health</a>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
