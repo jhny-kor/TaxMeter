@@ -161,6 +161,22 @@ SOURCES = {
         "비씨카드와 회원사의 체크카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.",
         "2026-05-05 확인",
     ),
+    "source.samsungcard.credit-card-list": source_node(
+        "source.samsungcard.credit-card-list",
+        "삼성카드 신용카드 상품",
+        "삼성카드",
+        "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001",
+        "삼성카드 신용카드 상품명, 상품코드, 주요혜택, 카드 이미지와 상세페이지 링크를 제공하는 공식 WCMS 카드 목록입니다.",
+        "2026-05-05 확인",
+    ),
+    "source.samsungcard.check-card-list": source_node(
+        "source.samsungcard.check-card-list",
+        "삼성카드 체크카드 상품",
+        "삼성카드",
+        "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001",
+        "삼성카드 체크카드 상품명, 상품코드, 주요혜택, 카드 이미지와 상세페이지 링크를 제공하는 공식 WCMS 카드 목록입니다.",
+        "2026-05-05 확인",
+    ),
     "source.einsmarket.insurance": source_node(
         "source.einsmarket.insurance",
         "온라인 보험슈퍼마켓 보험다모아",
@@ -201,6 +217,8 @@ CARD_SOURCE_IDS = [
     "source.kbcard.card-list",
     "source.bccard.credit-card-list",
     "source.bccard.check-card-list",
+    "source.samsungcard.credit-card-list",
+    "source.samsungcard.check-card-list",
 ]
 
 
