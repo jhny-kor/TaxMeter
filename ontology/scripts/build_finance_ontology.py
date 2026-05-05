@@ -472,6 +472,8 @@ def insurance_items() -> list[dict]:
     items.extend(generated)
     return attach_source_metadata([
         *items,
+        SOURCES["source.fss.finlife.api"],
+        SOURCES["source.fss.finlife.web"],
         SOURCES["source.einsmarket.insurance"],
         SOURCES["source.klia.insurance-disclosure"],
         SOURCES["source.knia.insurance-disclosure"],
