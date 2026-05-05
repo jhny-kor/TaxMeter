@@ -40,8 +40,8 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 12,
-      "product_count": 0,
+      "item_count": 1049,
+      "product_count": 1037,
       "description": "예금·적금·대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
@@ -50,8 +50,8 @@
       "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
-      "item_count": 13,
-      "product_count": 0,
+      "item_count": 358,
+      "product_count": 343,
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     }
   ]
