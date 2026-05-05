@@ -37,6 +37,11 @@ BC_CREDIT_MAIN_URL = "https://www.bccard.com/app/card/CreditCardMain.do"
 BC_CHECK_MAIN_URL = "https://www.bccard.com/app/card/CheckCardMain.do"
 BC_CREDIT_SEARCH_URL = "https://www.bccard.com/app/card/CreditSearch.do"
 BC_CHECK_SEARCH_URL = "https://www.bccard.com/app/card/CheckSearch.do"
+SAMSUNG_CREDIT_LIST_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001"
+SAMSUNG_CHECK_LIST_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001"
+SAMSUNG_CREDIT_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoRecommend001.json"
+SAMSUNG_CHECK_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoCheckcard001_01.json"
+SAMSUNG_DETAIL_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001"
 COLLECTED_AT = date.today().isoformat()
 
 
@@ -747,6 +752,81 @@ def crawl_bc_cards(timeout: int, sleep_seconds: float, limit_pages: int | None) 
     return sorted(items.values(), key=lambda item: item["id"])
 
 
+def samsung_image_url(record: dict[str, Any]) -> str:
+    image_info = record.get("imgInfo") or {}
+    multi_images = image_info.get("multiImg") or []
+    if multi_images:
+        return absolute_url(multi_images[0].get("imgSrc"), "https://static11.samsungcard.com")
+    return absolute_url(image_info.get("pcImg1"), "https://static11.samsungcard.com")
+
+
+def collect_samsung_credit_records(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    records: dict[str, dict[str, Any]] = {}
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            code = clean_text(value.get("bgdPcd"))
+            title = clean_text(value.get("cardTitle"))
+            if code and title:
+                record = records.setdefault(
+                    code,
+                    {
+                        "bgdPcd": code,
+                        "cardTitle": title,
+                        "benefit": [],
+                        "imgInfo": value.get("imgInfo") or {},
+                    },
+                )
+                if not record.get("imgInfo") and value.get("imgInfo"):
+                    record["imgInfo"] = value["imgInfo"]
+                benefits = value.get("benefit") or []
+                if value.get("title"):
+                    benefits = [*benefits, value["title"]]
+                record["benefit"] = unique([*(record.get("benefit") or []), *(clean_text(benefit) for benefit in benefits)])
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    visit(payload)
+    return sorted(records.values(), key=lambda record: record["bgdPcd"])
+
+
+def crawl_samsung_cards(timeout: int) -> list[dict]:
+    configs = (
+        ("credit-card", "source.samsungcard.credit-card-list", "삼성카드 신용카드 상품", SAMSUNG_CREDIT_JSON_URL, SAMSUNG_CREDIT_LIST_URL),
+        ("check-card", "source.samsungcard.check-card-list", "삼성카드 체크카드 상품", SAMSUNG_CHECK_JSON_URL, SAMSUNG_CHECK_LIST_URL),
+    )
+    items: dict[str, dict] = {}
+    for product_kind, source_id, source_title, json_url, list_url in configs:
+        payload = json.loads(fetch_text(json_url, timeout=timeout, headers={"accept": "application/json"}))
+        records = collect_samsung_credit_records(payload.get("wcmsJson") or payload) if product_kind == "credit-card" else payload.get("bgdPcdList") or []
+        for record in records:
+            code = clean_text(record.get("bgdPcd"))
+            if not code:
+                continue
+            detail_url = f"{SAMSUNG_DETAIL_URL}?{urllib.parse.urlencode({'code': code})}"
+            item = item_from_official_card(
+                provider="삼성카드",
+                provider_code=slug("삼성카드"),
+                product_name=clean_text(record.get("cardTitle")),
+                product_kind=product_kind,
+                source_id=source_id,
+                source_title=source_title,
+                source_api=json_url,
+                source_record_id=f"samsungcard:{product_kind}:{code}",
+                detail_url=detail_url,
+                benefits=[clean_text(benefit) for benefit in record.get("benefit") or []],
+                raw=record,
+                image_url=samsung_image_url(record),
+                official_product_code=code,
+            )
+            item["source_urls"] = unique([*(item.get("source_urls") or []), list_url])
+            items[item["id"]] = item
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
 def dedupe_dicts(values: list[dict[str, Any]]) -> list[dict[str, Any]]:
     seen: set[str] = set()
     result: list[dict[str, Any]] = []
@@ -832,6 +912,7 @@ def main() -> int:
     parser.add_argument("--skip-carddamoa", action="store_true", help="Skip 여신금융협회 카드다모아 crawl")
     parser.add_argument("--skip-kb-card", action="store_true", help="Skip KB국민카드 official card list crawl")
     parser.add_argument("--skip-bc-card", action="store_true", help="Skip 비씨카드 official card list crawl")
+    parser.add_argument("--skip-samsung-card", action="store_true", help="Skip 삼성카드 official WCMS card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
     args = parser.parse_args()
 
@@ -843,12 +924,14 @@ def main() -> int:
         card_items.extend(crawl_kb_cards(args.timeout, args.sleep, args.limit_pages))
     if not args.skip_bc_card:
         card_items.extend(crawl_bc_cards(args.timeout, args.sleep, args.limit_pages))
+    if not args.skip_samsung_card:
+        card_items.extend(crawl_samsung_cards(args.timeout))
     if card_items:
         write_generated(
             "card",
             merge_card_items(card_items),
             version_prefix="OFFICIAL",
-            source=[CARDDAMOA_PAGE_URL, KB_CARD_LIST_URL, BC_CREDIT_MAIN_URL, BC_CHECK_MAIN_URL],
+            source=[CARDDAMOA_PAGE_URL, KB_CARD_LIST_URL, BC_CREDIT_MAIN_URL, BC_CHECK_MAIN_URL, SAMSUNG_CREDIT_LIST_URL, SAMSUNG_CHECK_LIST_URL],
         )
         imported_any = True
 
