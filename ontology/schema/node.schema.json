@@ -46,6 +46,16 @@
         "application-channel",
         "conflict-rule",
         "concept",
+        "financial-product",
+        "card-product",
+        "bank-product",
+        "insurance-product",
+        "financial-institution",
+        "financial-product-rule",
+        "product-benefit",
+        "product-fee",
+        "product-coverage",
+        "product-channel",
         "term",
         "deadline",
         "source"
@@ -187,7 +197,10 @@
               "deadline",
               "period",
               "person",
-              "reference"
+              "reference",
+              "fee",
+              "coverage",
+              "product-benefit"
             ]
           },
           "basis_category": {
@@ -247,6 +260,62 @@
           },
           "rate_percent": {
             "type": "number",
+            "minimum": 0
+          },
+          "interest_rate_percent": {
+            "type": "number",
+            "minimum": 0
+          },
+          "interest_rate_percent_min": {
+            "type": "number",
+            "minimum": 0
+          },
+          "interest_rate_percent_max": {
+            "type": "number",
+            "minimum": 0
+          },
+          "fee_rate_percent": {
+            "type": "number",
+            "minimum": 0
+          },
+          "fee_amount_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "monthly_limit_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "annual_fee_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "previous_month_spend_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "premium_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "coverage_amount_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "loan_limit_krw": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "term_months": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "term_months_min": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "term_months_max": {
+            "type": "integer",
             "minimum": 0
           },
           "rate_percent_min": {
@@ -576,6 +645,73 @@
     },
     "source_collected_at": {
       "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "provider_code": {
+      "type": "string"
+    },
+    "financial_sector": {
+      "type": "string"
+    },
+    "product_code": {
+      "type": "string"
+    },
+    "product_kind": {
+      "type": "string"
+    },
+    "product_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "ended",
+        "suspended",
+        "unknown"
+      ]
+    },
+    "sales_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "ended",
+        "suspended",
+        "unknown"
+      ]
+    },
+    "disclosure_month": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "collected_at": {
+      "type": "string"
+    },
+    "source_api": {
+      "type": "string"
+    },
+    "raw": {
+      "type": [
+        "object",
+        "array",
+        "string",
+        "number",
+        "boolean",
+        "null"
+      ]
+    },
+    "options": {
+      "type": "array"
+    },
+    "benefits": {
+      "type": "array"
+    },
+    "fees": {
+      "type": "array"
+    },
+    "coverage": {
+      "type": "array"
     },
     "status_check_url": {
       "type": "string"

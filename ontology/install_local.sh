@@ -13,6 +13,6 @@ python3 -m venv .venv
 python -m pip install --upgrade pip setuptools
 python -m pip install -e .
 
-echo "Installed opentax-mcp into $(pwd)/.venv"
+echo "Installed finance-mcp into $(pwd)/.venv"
 echo "Use this MCP command in clients:"
-echo "$(pwd)/.venv/bin/opentax-mcp"
+echo "$(pwd)/.venv/bin/finance-mcp"

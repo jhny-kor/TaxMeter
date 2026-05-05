@@ -417,11 +417,17 @@ TOOLS: dict[str, dict[str, Any]] = {
 
 
 PRIMARY_TOOL_PREFIX = "opentax_"
+FINANCE_TOOL_PREFIX = "finance_"
 LEGACY_TOOL_PREFIX = "tax_ontology_"
 
 
 for tool_name, definition in list(TOOLS.items()):
     if tool_name.startswith(PRIMARY_TOOL_PREFIX):
+        finance_name = FINANCE_TOOL_PREFIX + tool_name[len(PRIMARY_TOOL_PREFIX):]
+        TOOLS[finance_name] = {
+            **definition,
+            "description": f"Finance alias for `{tool_name}`. {definition['description']}",
+        }
         legacy_name = LEGACY_TOOL_PREFIX + tool_name[len(PRIMARY_TOOL_PREFIX):]
         TOOLS[legacy_name] = {
             **definition,
@@ -430,6 +436,8 @@ for tool_name, definition in list(TOOLS.items()):
 
 
 def normalize_tool_name(name: str) -> str:
+    if name.startswith(FINANCE_TOOL_PREFIX):
+        return PRIMARY_TOOL_PREFIX + name[len(FINANCE_TOOL_PREFIX):]
     if name.startswith(LEGACY_TOOL_PREFIX):
         return PRIMARY_TOOL_PREFIX + name[len(LEGACY_TOOL_PREFIX):]
     return name
@@ -497,7 +505,7 @@ def handle_request(message: dict[str, Any]) -> None:
             {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "opentax-mcp", "version": "0.1.0"},
+                "serverInfo": {"name": "finance", "version": "0.2.0"},
             },
         )
         return
@@ -542,7 +550,7 @@ def main() -> None:
             if "message" in locals() and isinstance(message, dict) and "id" in message:
                 respond(message["id"], error={"code": -32603, "message": str(exc)})
             else:
-                print(f"opentax-mcp error: {exc}", file=sys.stderr)
+                print(f"finance mcp error: {exc}", file=sys.stderr)
 
 
 if __name__ == "__main__":

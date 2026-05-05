@@ -1,8 +1,8 @@
 {
-  "name": "opentax-mcp",
-  "version": "0.1.0",
+  "name": "finance-mcp",
+  "version": "0.2.0",
   "private": true,
-  "description": "Cloudflare Worker Remote MCP adapter for OpenTax",
+  "description": "Cloudflare Worker Remote MCP adapter for Finance ontology",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",

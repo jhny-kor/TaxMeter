@@ -1,28 +1,39 @@
-# OpenTax Remote MCP on Cloudflare
+# Finance Remote MCP on Cloudflare
 
-This guide deploys the read-only OpenTax remote MCP adapter to Cloudflare
-Workers under the service name `opentax-mcp`.
+This guide deploys the read-only Finance remote MCP adapter to Cloudflare
+Workers under the service name `finance-mcp`.
 
 ## What It Provides
 
 The Worker is in `cloudflare/opentax-mcp` and exposes:
 
-- `search`: searches OpenTax items.
-- `fetch`: returns one OpenTax item with criteria, source URLs, and graph neighbors.
+- `search`: searches tax, support, card, bank, insurance, deadline, term, and source nodes.
+- `fetch`: returns one ontology item with criteria, product metadata, source URLs, and graph neighbors.
+- `exports`: lists the ontology JSON files loaded through the manifest.
 
 It intentionally does not expose write tools. Keep writes in the local stdio MCP
 server until authentication and authorization are added.
 
 ## Data Source
 
-By default the Worker reads the canonical JSON export from GitHub:
+By default the Worker reads the canonical manifest from GitHub:
 
 ```text
-https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json
+https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json
 ```
 
-Override it in `cloudflare/opentax-mcp/wrangler.toml` if you later host the JSON
-from GitHub Pages, R2, or another static endpoint.
+The manifest points to split exports such as:
+
+```text
+ontology/exports/korea-tax-ontology-2026.json
+ontology/exports/korea-local-government-supports-ontology-2026.json
+ontology/exports/korea-card-products-ontology-2026.json
+ontology/exports/korea-bank-products-ontology-2026.json
+ontology/exports/korea-insurance-products-ontology-2026.json
+```
+
+Override `FINANCE_MANIFEST_URL` in `cloudflare/opentax-mcp/wrangler.toml` if you
+later host the JSON from GitHub Pages, R2, or another static endpoint.
 
 ## Local Test
 
@@ -69,14 +80,13 @@ CLOUDFLARE_ACCOUNT_ID=...
 
 ```sh
 cd cloudflare/opentax-mcp
-npx wrangler login
 npm run deploy
 ```
 
 The deployed endpoint will look like:
 
 ```text
-https://opentax-mcp.<cloudflare-account>.workers.dev/mcp
+https://finance-mcp.<cloudflare-account>.workers.dev/mcp
 ```
 
 ## ChatGPT
@@ -87,26 +97,19 @@ Use the connector by asking questions such as:
 
 ```text
 OpenTax에서 ISA 비과세 한도와 출처를 찾아주세요.
-OpenTax에서 보험료 공제 기준을 fetch해서 설명해주세요.
+finance에서 체크카드 전월실적과 월 혜택 한도 항목을 찾아주세요.
+finance에서 은행 적금 우대금리 기준을 찾아주세요.
 ```
 
-## App Directory Preparation
+## Finance Product Imports
 
-OpenTax public app submission assets are under `docs/opentax`:
+금융상품 실데이터는 변동성이 크므로 세금 온톨로지와 별도 export로 둡니다.
+금감원 금융상품한눈에 API 키가 있으면 다음 순서로 갱신합니다.
 
-- `APP_DIRECTORY_SUBMISSION.md`: review checklist, descriptions, tool summary, golden prompt set
-- `app-directory-metadata.json`: copy-ready app listing metadata
-- `privacy.html`: public privacy policy
-- `terms.html`: public terms
-- `support.html`: support and health-check page
+```sh
+FINLIFE_API_KEY=... python3 ontology/scripts/import_finance_products.py
+python3 ontology/scripts/build_finance_ontology.py
+```
 
-Keep these pages current before submitting OpenTax to the ChatGPT App Directory.
-
-## Official References
-
-- Cloudflare remote MCP server guide:
-  https://developers.cloudflare.com/agents/guides/remote-mcp-server/
-- Cloudflare `createMcpHandler` API:
-  https://developers.cloudflare.com/agents/api-reference/mcp-handler-api/
-- OpenAI MCP documentation:
-  https://platform.openai.com/docs/mcp/
+카드와 보험은 여신금융협회, 보험다모아, 생명보험협회, 손해보험협회 공시
+원천을 별도 crawler로 붙이면 같은 generated JSON 형식으로 합쳐집니다.

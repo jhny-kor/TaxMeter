@@ -1,0 +1,365 @@
+{
+  "version": "KR-BANK-PRODUCTS-ONTOLOGY-2026.05.05.1",
+  "basis_date": "2026-05-05",
+  "domain": "bank-products",
+  "ontology_kind": "bank-products-ontology",
+  "generated_from": "ontology/custom/finance/bank-products.generated.json",
+  "generated_file_exists": false,
+  "product_count": 0,
+  "crawl_status": "awaiting_official_api_or_scrape",
+  "crawl_note": "금융상품 실데이터는 공식 API 키 또는 공시 페이지 스크레이프 결과가 있을 때 생성됩니다. 상품 노드가 생성되면 provider, product_code, product_status, collected_at, source_record_id, source_urls, source_basis_dates 필드를 필수로 보존합니다.",
+  "items": [
+    {
+      "id": "category.finance.credit-loan-products",
+      "title": "개인신용대출 상품",
+      "type": "category",
+      "description": "개인신용대출의 신용점수 구간별 금리, 평균금리, 대출한도, 상환방식을 관리합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "credit-loan"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "category.finance.deposit-products",
+      "title": "정기예금 상품",
+      "type": "category",
+      "description": "예치기간별 기본금리, 최고우대금리, 가입한도와 가입대상 조건을 관리합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "deposit"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "category.finance.mortgage-loan-products",
+      "title": "주택담보대출 상품",
+      "type": "category",
+      "description": "금리유형, 상환방식, 최저·최고금리, 중도상환수수료, 대출한도 조건을 관리합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "mortgage-loan"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "category.finance.rent-loan-products",
+      "title": "전세자금대출 상품",
+      "type": "category",
+      "description": "전세자금 대출의 금리, 보증·담보 조건, 대출한도, 상환방식과 신청대상을 관리합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "rent-loan"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "category.finance.savings-products",
+      "title": "적금 상품",
+      "type": "category",
+      "description": "정액적립·자유적립 방식, 기간별 기본금리, 최고우대금리, 납입한도와 우대조건을 관리합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "saving"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "finance.bank-products-ontology",
+      "title": "은행상품 온톨로지",
+      "type": "domain",
+      "description": "정기예금, 적금, 주택담보대출, 전세자금대출, 개인신용대출의 금리, 우대조건, 가입한도, 수수료, 판매상태를 구조화하는 금융상품 온톨로지입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [
+        "category.finance.deposit-products",
+        "category.finance.savings-products",
+        "category.finance.mortgage-loan-products",
+        "category.finance.rent-loan-products",
+        "category.finance.credit-loan-products"
+      ],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api",
+        "source.fss.finlife.web",
+        "source.easylaw.finance-product-disclosure"
+      ],
+      "tags": [
+        "finance-ontology",
+        "bank-products-ontology"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/",
+        "https://finlife.fss.or.kr/",
+        "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "source.easylaw.finance-product-disclosure",
+      "title": "금융상품 비교공시 범위",
+      "type": "source",
+      "description": "금융상품 비교공시 항목에 이자율, 보험료, 수수료, 중도상환수수료율, 위험등급, 공시시점 등이 포함된다는 근거입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "찾기쉬운 생활법령정보",
+      "url": "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771",
+      "basis_date": "2026-05-05 확인",
+      "source_urls": [
+        "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "source.fss.finlife.api",
+      "title": "금융감독원 금융상품통합비교공시 금융상품한눈에 API",
+      "type": "source",
+      "description": "금융회사, 정기예금, 적금, 연금저축, 주택담보대출, 전세자금대출, 개인신용대출 상품의 공식 비교공시 API 원천입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "금융감독원",
+      "url": "https://finlife.fss.or.kr/finlifeapi/",
+      "basis_date": "2026-05-05 확인",
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "source.fss.finlife.web",
+      "title": "금융상품통합비교공시 금융상품한눈에",
+      "type": "source",
+      "description": "예금, 적금, 대출, 연금저축 등 금융상품 비교공시를 제공하는 금융감독원 공식 웹 표면입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "금융감독원",
+      "url": "https://finlife.fss.or.kr/",
+      "basis_date": "2026-05-05 확인",
+      "source_urls": [
+        "https://finlife.fss.or.kr/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "term.bank.base-interest-rate",
+      "title": "기본금리",
+      "type": "term",
+      "description": "우대조건을 적용하기 전 금융상품에 표시되는 기본 이자율입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "rate"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "term.bank.early-repayment-fee",
+      "title": "중도상환수수료",
+      "type": "term",
+      "description": "대출 만기 전 원금을 상환할 때 적용될 수 있는 수수료율 또는 산식입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api",
+        "source.easylaw.finance-product-disclosure"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "fee"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/",
+        "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    },
+    {
+      "id": "term.bank.preferential-interest-rate",
+      "title": "우대금리",
+      "type": "term",
+      "description": "급여이체, 자동이체, 카드실적, 마케팅 동의 등 조건 충족 시 더해질 수 있는 이자율입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-05-05",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "rate"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/"
+      ],
+      "source_basis_dates": [
+        "2026-05-05 확인"
+      ]
+    }
+  ]
+}

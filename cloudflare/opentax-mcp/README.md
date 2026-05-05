@@ -1,16 +1,27 @@
-# opentax-mcp
+# finance-mcp
 
-`opentax-mcp` is a Cloudflare Worker Remote MCP adapter for OpenTax.
+`finance-mcp` is a Cloudflare Worker Remote MCP adapter for the Finance ontology.
 
 It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
 
-- `search`: search OpenTax tax, deduction, support, filing, concept, deadline, and source nodes.
-- `fetch`: fetch one OpenTax item with criteria, source URLs, and neighboring node ids.
+- `search`: search tax, deduction, support, local-government support, card, bank, insurance, filing, concept, deadline, and source nodes.
+- `fetch`: fetch one ontology item with criteria, product metadata, source URLs, and neighboring node ids.
+- `exports`: list ontology exports loaded by the MCP adapter.
 
-The Worker reads the canonical OpenTax JSON export from:
+The Worker reads the canonical manifest from:
 
 ```text
-https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json
+https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json
+```
+
+The manifest can point to separate ontology JSON files, for example:
+
+```text
+ontology/exports/korea-tax-ontology-2026.json
+ontology/exports/korea-local-government-supports-ontology-2026.json
+ontology/exports/korea-card-products-ontology-2026.json
+ontology/exports/korea-bank-products-ontology-2026.json
+ontology/exports/korea-insurance-products-ontology-2026.json
 ```
 
 ## Local Development
@@ -51,14 +62,13 @@ CLOUDFLARE_ACCOUNT_ID=...
 
 ```sh
 cd cloudflare/opentax-mcp
-npx wrangler login
 npm run deploy
 ```
 
 The deployed MCP endpoint will be:
 
 ```text
-https://opentax-mcp.<cloudflare-account>.workers.dev/mcp
+https://finance-mcp.<cloudflare-account>.workers.dev/mcp
 ```
 
 ## ChatGPT Connector
@@ -68,15 +78,16 @@ Register the deployed `/mcp` URL as a custom MCP connector in ChatGPT.
 Recommended first deployment is public and read-only. If write tools are added
 later, add OAuth or Cloudflare Access before exposing them.
 
-## App Directory Preparation
+## Finance Product Imports
 
-Public submission assets live in the GitHub Pages OpenTax site:
+Finance products are split from the tax ontology because product values change
+frequently. Use the official importer when a FinLife API key is available:
 
-- App submission pack: `docs/opentax/APP_DIRECTORY_SUBMISSION.md`
-- Listing metadata: `docs/opentax/app-directory-metadata.json`
-- Privacy policy: `https://jhny-kor.github.io/TaxMeter/opentax/privacy.html`
-- Terms: `https://jhny-kor.github.io/TaxMeter/opentax/terms.html`
-- Support: `https://jhny-kor.github.io/TaxMeter/opentax/support.html`
+```sh
+FINLIFE_API_KEY=... python3 ontology/scripts/import_finance_products.py
+python3 ontology/scripts/build_finance_ontology.py
+```
 
-Before submitting to the ChatGPT App Directory, run the golden prompt set in
-ChatGPT Developer Mode on web and mobile.
+The generated product nodes must keep provider, product code, sale status,
+collected date, source URLs, and source basis dates so stale or ended products
+can be checked later.

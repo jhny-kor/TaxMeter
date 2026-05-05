@@ -146,7 +146,7 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
     "source_collected_at",
     "status_check_url",
 )
-LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-2026.json"
+LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
 
 
 def parse_frontmatter(path: Path) -> dict | None:

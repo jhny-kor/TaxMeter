@@ -13,9 +13,16 @@ from textwrap import dedent
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ONTOLOGY_ROOT = REPO_ROOT / "ontology"
 EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-tax-ontology-2026.json"
-LOCAL_SUPPORT_EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-local-government-supports-2026.json"
+LOCAL_SUPPORT_EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
+FINANCE_MANIFEST_PATH = ONTOLOGY_ROOT / "exports" / "finance-ontology-manifest.json"
+FINANCE_EXPORT_FILENAMES = (
+    "finance-ontology-manifest.json",
+    "korea-card-products-ontology-2026.json",
+    "korea-bank-products-ontology-2026.json",
+    "korea-insurance-products-ontology-2026.json",
+)
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
-WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-2026.json"
+WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-ontology-2026.json"
 
 
 TYPE_LABELS = {
@@ -368,7 +375,7 @@ def build_html(data: dict, summary: dict) -> str:
             <section class="section export" id="export" aria-labelledby="export-title">
               <div class="section-heading">
                 <h2 id="export-title">JSON Export</h2>
-                <p>핵심 세금 온톨로지와 대용량 지자체 지원금 스냅샷을 분리해 배포합니다.</p>
+                <p>핵심 세금 온톨로지, 대용량 지자체 지원금 온톨로지, 금융상품 온톨로지를 분리해 배포합니다.</p>
               </div>
               <div class="export-panel">
                 <div>
@@ -379,10 +386,17 @@ def build_html(data: dict, summary: dict) -> str:
               </div>
               <div class="export-panel">
                 <div>
-                  <strong>ontology/exports/korea-local-government-supports-2026.json</strong>
-                  <span>정부24 보조금24 지자체 지원금 {local_support_count}개 · 별도 스냅샷</span>
+                  <strong>ontology/exports/korea-local-government-supports-ontology-2026.json</strong>
+                  <span>정부24 보조금24 지자체 지원금 {local_support_count}개 · 별도 온톨로지</span>
                 </div>
                 <a class="button secondary" href="./{WEB_LOCAL_SUPPORT_EXPORT_FILENAME}" download>지자체 지원금 JSON</a>
+              </div>
+              <div class="export-panel">
+                <div>
+                  <strong>ontology/exports/finance-ontology-manifest.json</strong>
+                  <span>카드·은행·보험 상품 온톨로지 manifest · Cloudflare finance MCP 로딩 기준</span>
+                </div>
+                <a class="button secondary" href="./finance-ontology-manifest.json" download>Finance manifest</a>
               </div>
             </section>
           </main>
@@ -2160,8 +2174,13 @@ def main() -> int:
     (WEB_ROOT / "index.html").write_text(build_html(data, summary), encoding="utf-8")
     (WEB_ROOT / "styles.css").write_text(build_css(), encoding="utf-8")
     (WEB_ROOT / "app.js").write_text(build_js(data, summary), encoding="utf-8")
+    shutil.copyfile(EXPORT_PATH, WEB_ROOT / EXPORT_PATH.name)
     if LOCAL_SUPPORT_EXPORT_PATH.exists():
         shutil.copyfile(LOCAL_SUPPORT_EXPORT_PATH, WEB_ROOT / WEB_LOCAL_SUPPORT_EXPORT_FILENAME)
+    for filename in FINANCE_EXPORT_FILENAMES:
+        source = ONTOLOGY_ROOT / "exports" / filename
+        if source.exists():
+            shutil.copyfile(source, WEB_ROOT / filename)
     print(f"Built {WEB_ROOT.relative_to(REPO_ROOT)} from {EXPORT_PATH.relative_to(REPO_ROOT)}")
     return 0
 

@@ -2,7 +2,7 @@ import { createMcpHandler } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 
-type OpenTaxItem = {
+type FinanceItem = {
   id: string;
   title: string;
   type: string;
@@ -20,23 +20,61 @@ type OpenTaxItem = {
   deadlines?: string[];
   sources?: string[];
   tags?: string[];
+  provider?: string;
+  provider_code?: string;
+  financial_sector?: string;
+  product_code?: string;
+  product_kind?: string;
+  product_status?: string;
+  sales_status?: string;
+  source_urls?: string[];
+  source_basis_dates?: string[];
 };
 
-type OpenTaxExport = {
+type OntologyExport = {
   version: string;
   basis_date: string;
-  items: OpenTaxItem[];
+  domain?: string;
+  items: FinanceItem[];
+  reference_items?: FinanceItem[];
 };
 
-type CachedExport = {
-  data: OpenTaxExport;
+type ManifestEntry = {
+  id: string;
+  domain: string;
+  path: string;
+  url?: string;
+  web_url?: string;
+  item_count?: number;
+  product_count?: number;
+  description?: string;
+};
+
+type FinanceManifest = {
+  version: string;
+  basis_date: string;
+  name: string;
+  description?: string;
+  exports: ManifestEntry[];
+};
+
+type FinanceGraph = {
+  version: string;
+  basis_date: string;
+  manifest: FinanceManifest;
+  exports: ManifestEntry[];
+  items: FinanceItem[];
+};
+
+type CachedGraph = {
+  data: FinanceGraph;
   loadedAt: number;
 };
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
-const DEFAULT_OPENTAX_JSON_URL =
-  "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-ontology-2026.json";
-const DEFAULT_OPENTAX_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
+const DEFAULT_FINANCE_MANIFEST_URL =
+  "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json";
+const DEFAULT_FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
 const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const READ_ONLY_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
@@ -45,7 +83,7 @@ const READ_ONLY_TOOL_ANNOTATIONS = {
   openWorldHint: false,
 } as const;
 
-let cachedExport: CachedExport | undefined;
+let cachedGraph: CachedGraph | undefined;
 
 function jsonText(value: unknown): string {
   return JSON.stringify(value, null, 2);
@@ -62,12 +100,19 @@ function queryTokens(query: string): string[] {
     .filter(Boolean);
 }
 
-function itemUrl(env: Env, itemId: string): string {
-  const baseUrl = env.OPENTAX_WEB_BASE_URL || DEFAULT_OPENTAX_WEB_BASE_URL;
-  return `${baseUrl.replace(/\/?$/, "/")}#${encodeURIComponent(itemId)}`;
+function financeManifestUrl(env: Env): string {
+  return env.FINANCE_MANIFEST_URL || DEFAULT_FINANCE_MANIFEST_URL;
 }
 
-function itemSearchText(item: OpenTaxItem): string {
+function financeWebBaseUrl(env: Env): string {
+  return env.FINANCE_WEB_BASE_URL || DEFAULT_FINANCE_WEB_BASE_URL;
+}
+
+function itemUrl(env: Env, itemId: string): string {
+  return `${financeWebBaseUrl(env).replace(/\/?$/, "/")}#${encodeURIComponent(itemId)}`;
+}
+
+function itemSearchText(item: FinanceItem): string {
   return [
     item.id,
     item.title,
@@ -75,15 +120,24 @@ function itemSearchText(item: OpenTaxItem): string {
     item.description,
     item.law_reference,
     item.url,
+    item.publisher,
+    item.provider,
+    item.provider_code,
+    item.financial_sector,
+    item.product_code,
+    item.product_kind,
+    item.product_status,
+    item.sales_status,
     ...(item.tags ?? []),
     ...(item.sources ?? []),
+    ...(item.source_urls ?? []),
   ]
     .filter(Boolean)
     .join(" ")
     .toLocaleLowerCase("ko-KR");
 }
 
-function scoreItem(item: OpenTaxItem, query: string): number {
+function scoreItem(item: FinanceItem, query: string): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
   const text = itemSearchText(item);
@@ -113,37 +167,69 @@ function scoreItem(item: OpenTaxItem, query: string): number {
   return 0;
 }
 
-async function loadOpenTax(env: Env): Promise<OpenTaxExport> {
-  const now = Date.now();
-  if (cachedExport && now - cachedExport.loadedAt < CACHE_TTL_MS) {
-    return cachedExport.data;
-  }
-
-  const exportUrl = env.OPENTAX_JSON_URL || DEFAULT_OPENTAX_JSON_URL;
-  const response = await fetch(exportUrl, {
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url, {
     headers: {
       accept: "application/json",
-      "user-agent": "opentax-mcp-cloudflare-worker",
+      "user-agent": "finance-mcp-cloudflare-worker",
     },
   });
 
   if (!response.ok) {
-    throw new Error(`OpenTax export fetch failed: ${response.status} ${response.statusText}`);
+    throw new Error(`Finance ontology fetch failed: ${url} ${response.status} ${response.statusText}`);
   }
 
-  const data = (await response.json()) as OpenTaxExport;
-  cachedExport = { data, loadedAt: now };
+  return (await response.json()) as T;
+}
+
+function resolveExportUrl(entry: ManifestEntry, manifestUrl: string): string {
+  if (entry.url) {
+    return entry.url;
+  }
+  return new URL(entry.path, manifestUrl).toString();
+}
+
+async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
+  const now = Date.now();
+  if (cachedGraph && now - cachedGraph.loadedAt < CACHE_TTL_MS) {
+    return cachedGraph.data;
+  }
+
+  const manifestUrl = financeManifestUrl(env);
+  const manifest = await fetchJson<FinanceManifest>(manifestUrl);
+  const itemsById = new Map<string, FinanceItem>();
+
+  for (const entry of manifest.exports) {
+    const exportUrl = resolveExportUrl(entry, manifestUrl);
+    const payload = await fetchJson<OntologyExport>(exportUrl);
+    for (const item of [...(payload.reference_items ?? []), ...(payload.items ?? [])]) {
+      if (!itemsById.has(item.id)) {
+        itemsById.set(item.id, item);
+      }
+    }
+  }
+
+  const data = {
+    version: manifest.version,
+    basis_date: manifest.basis_date,
+    manifest,
+    exports: manifest.exports,
+    items: [...itemsById.values()].sort((a, b) => a.id.localeCompare(b.id, "ko-KR")),
+  };
+  cachedGraph = { data, loadedAt: now };
   return data;
 }
 
-function indexItems(data: OpenTaxExport): Map<string, OpenTaxItem> {
+function indexItems(data: FinanceGraph): Map<string, FinanceItem> {
   return new Map(data.items.map((item) => [item.id, item]));
 }
 
 function resolveItemId(rawId: string): string {
   const trimmed = rawId.trim();
-  if (trimmed.startsWith("opentax://")) {
-    return trimmed.slice("opentax://".length);
+  for (const prefix of ["finance://", "opentax://"]) {
+    if (trimmed.startsWith(prefix)) {
+      return trimmed.slice(prefix.length);
+    }
   }
 
   try {
@@ -153,45 +239,45 @@ function resolveItemId(rawId: string): string {
       return hashId;
     }
   } catch {
-    // Not a URL; use the raw value as an OpenTax id.
+    // Not a URL; use the raw value as an ontology id.
   }
 
   return trimmed;
 }
 
-function sourceItems(item: OpenTaxItem, itemsById: Map<string, OpenTaxItem>): OpenTaxItem[] {
+function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): FinanceItem[] {
   return (item.sources ?? [])
     .map((sourceId) => itemsById.get(sourceId))
-    .filter((source): source is OpenTaxItem => Boolean(source));
+    .filter((source): source is FinanceItem => Boolean(source));
 }
 
 function createServer(env: Env): McpServer {
   const server = new McpServer({
-    name: "opentax-mcp",
-    version: "0.1.0",
+    name: "finance",
+    version: "0.2.0",
   });
 
   server.registerTool(
     "search",
     {
-      title: "Search OpenTax",
+      title: "Search Finance Ontology",
       description:
-        "Use this when the user needs to find Korean tax, deduction, policy support, filing deadline, term, or official-source nodes in OpenTax. Do not use for personalized tax, legal, or financial advice.",
+        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
       inputSchema: {
-        query: z.string().min(1).describe("Search query, for example '보험료 공제 한도' or 'support.isa'."),
+        query: z.string().min(1).describe("Search query, for example '보험료 공제 한도', '청년 월세', '체크카드 전월실적', or 'bank-products'."),
         type: z
           .string()
           .optional()
-          .describe("Optional OpenTax item type filter, for example 'tax' or 'support-program'."),
+          .describe("Optional ontology item type filter, for example 'tax', 'support-program', 'card-product', 'bank-product', or 'insurance-product'."),
         limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
       },
       annotations: {
-        title: "Search OpenTax",
+        title: "Search Finance Ontology",
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
     async ({ query, type, limit }) => {
-      const data = await loadOpenTax(env);
+      const data = await loadFinanceGraph(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
 
@@ -205,6 +291,9 @@ function createServer(env: Env): McpServer {
           id: item.id,
           title: item.title,
           type: item.type,
+          provider: item.provider,
+          product_kind: item.product_kind,
+          product_status: item.product_status,
           url: itemUrl(env, item.id),
           score,
           text: item.description ?? "",
@@ -231,25 +320,25 @@ function createServer(env: Env): McpServer {
   server.registerTool(
     "fetch",
     {
-      title: "Fetch OpenTax Item",
+      title: "Fetch Finance Ontology Item",
       description:
-        "Use this when the user needs one exact OpenTax node with criteria, official sources, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, or financial advice.",
+        "Use this when the user needs one exact finance ontology node with criteria, product metadata, official sources, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, accounting, or financial advice.",
       inputSchema: {
-        id: z.string().min(1).describe("OpenTax item id, opentax:// id, or OpenTax web URL with hash id."),
+        id: z.string().min(1).describe("Ontology item id, finance:// id, opentax:// id, or web URL with hash id."),
       },
       annotations: {
-        title: "Fetch OpenTax Item",
+        title: "Fetch Finance Ontology Item",
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
     async ({ id }) => {
-      const data = await loadOpenTax(env);
+      const data = await loadFinanceGraph(env);
       const itemsById = indexItems(data);
       const itemId = resolveItemId(id);
       const item = itemsById.get(itemId);
 
       if (!item) {
-        throw new Error(`OpenTax item not found: ${id}`);
+        throw new Error(`Finance ontology item not found: ${id}`);
       }
 
       const sources = sourceItems(item, itemsById).map((source) => ({
@@ -269,6 +358,13 @@ function createServer(env: Env): McpServer {
         description: item.description,
         basis_year: item.basis_year,
         law_reference: item.law_reference,
+        provider: item.provider,
+        provider_code: item.provider_code,
+        financial_sector: item.financial_sector,
+        product_code: item.product_code,
+        product_kind: item.product_kind,
+        product_status: item.product_status,
+        sales_status: item.sales_status,
         criteria: item.criteria ?? [],
         neighbors: {
           parents: item.parents ?? [],
@@ -278,9 +374,43 @@ function createServer(env: Env): McpServer {
           deadlines: item.deadlines ?? [],
           sources: item.sources ?? [],
         },
+        source_urls: item.source_urls ?? [],
+        source_basis_dates: item.source_basis_dates ?? [],
         sources,
       };
 
+      return {
+        structuredContent: payload,
+        content: [
+          {
+            type: "text",
+            text: jsonText(payload),
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    "exports",
+    {
+      title: "List Finance Ontology Exports",
+      description:
+        "Use this to see which ontology exports the finance MCP loads, including tax, local-government support, card, bank, and insurance product ontologies.",
+      inputSchema: {},
+      annotations: {
+        title: "List Finance Ontology Exports",
+        ...READ_ONLY_TOOL_ANNOTATIONS,
+      },
+    },
+    async () => {
+      const data = await loadFinanceGraph(env);
+      const payload = {
+        version: data.version,
+        basis_date: data.basis_date,
+        item_count: data.items.length,
+        exports: data.exports,
+      };
       return {
         structuredContent: payload,
         content: [
@@ -298,10 +428,10 @@ function createServer(env: Env): McpServer {
 
 function healthResponse(env: Env): Response {
   return Response.json({
-    name: "opentax-mcp",
+    name: "finance",
     status: "ok",
     mcp_endpoint: "/mcp",
-    opentax_json_url: env.OPENTAX_JSON_URL || DEFAULT_OPENTAX_JSON_URL,
+    finance_manifest_url: financeManifestUrl(env),
   });
 }
 

@@ -26,7 +26,20 @@
 
    ```text
    ontology/exports/korea-tax-ontology-2026.json
+   ontology/exports/korea-local-government-supports-ontology-2026.json
+   ontology/exports/finance-ontology-manifest.json
    ```
+
+5. 금융상품 온톨로지 생성
+
+   ```sh
+   python3 ontology/scripts/import_finance_products.py --skip-finlife
+   python3 ontology/scripts/build_finance_ontology.py
+   python3 ontology/scripts/validate_finance_ontology.py
+   ```
+
+   금감원 금융상품한눈에 실상품 데이터까지 수집하려면 `FINLIFE_API_KEY`를
+   설정하고 `--skip-finlife` 없이 실행합니다.
 
 ## MCP 사용
 
@@ -42,7 +55,7 @@ python3 ontology/mcp_server.py
 Codex 등록 예시:
 
 ```toml
-[mcp_servers.opentax]
+[mcp_servers.finance]
 command = "python3"
 args = ["/path/to/TaxMeter/ontology/mcp_server.py"]
 enabled = true
@@ -51,18 +64,18 @@ startup_timeout_sec = 10
 
 제공 도구:
 
-- `opentax_search`: 항목 검색.
-- `opentax_get_item`: ID로 항목 메타데이터 조회.
-- `opentax_read_note`: ID 또는 vault 상대경로로 Obsidian 노트 읽기.
-- `opentax_neighbors`: 상위/하위/관련/용어/기한/출처 이웃 조회.
-- `opentax_sources`: 항목의 근거 출처와 URL 조회.
-- `opentax_validate`: vault 검증 실행.
-- `opentax_export_summary`: JSON export 요약.
-- `opentax_add_or_update_item`: custom overlay 항목 추가 또는 교체.
-- `opentax_patch_item`: built-in 또는 custom 항목을 custom overlay로 수정.
-- `opentax_delete_custom_item`: custom overlay 항목 삭제.
+- `finance_search`: 항목 검색.
+- `finance_get_item`: ID로 항목 메타데이터 조회.
+- `finance_read_note`: ID 또는 vault 상대경로로 Obsidian 노트 읽기.
+- `finance_neighbors`: 상위/하위/관련/용어/기한/출처 이웃 조회.
+- `finance_sources`: 항목의 근거 출처와 URL 조회.
+- `finance_validate`: vault 검증 실행.
+- `finance_export_summary`: JSON export 요약.
+- `finance_add_or_update_item`: custom overlay 항목 추가 또는 교체.
+- `finance_patch_item`: built-in 또는 custom 항목을 custom overlay로 수정.
+- `finance_delete_custom_item`: custom overlay 항목 삭제.
 
-기존 클라이언트 호환을 위해 `tax_ontology_*` 도구명도 legacy alias로 유지합니다.
+기존 클라이언트 호환을 위해 `opentax_*`, `tax_ontology_*` 도구명도 legacy alias로 유지합니다.
 
 쓰기 도구는 기본 공식 데이터 정의를 직접 바꾸지 않고
 `ontology/custom/items.json`에 overlay를 저장한 뒤 vault와 JSON export를
