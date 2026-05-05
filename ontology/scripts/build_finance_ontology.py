@@ -137,6 +137,30 @@ SOURCES = {
         "카드사별 신용카드·체크카드 혜택, 전월실적, 할인·적립 조건을 비교하기 위한 공식 카드 비교 표면입니다.",
         "2026-05-05 확인",
     ),
+    "source.kbcard.card-list": source_node(
+        "source.kbcard.card-list",
+        "KB국민카드 카드한눈에보기",
+        "KB국민카드",
+        "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+        "KB국민카드 신용카드·체크카드 상품명, 상품코드, 주요혜택, 상세페이지 링크를 제공하는 발급사 공식 카드 목록입니다.",
+        "2026-05-05 확인",
+    ),
+    "source.bccard.credit-card-list": source_node(
+        "source.bccard.credit-card-list",
+        "비씨카드 신용카드 상품",
+        "비씨카드",
+        "https://www.bccard.com/app/card/CreditCardMain.do",
+        "비씨카드와 회원사의 신용카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.",
+        "2026-05-05 확인",
+    ),
+    "source.bccard.check-card-list": source_node(
+        "source.bccard.check-card-list",
+        "비씨카드 체크카드 상품",
+        "비씨카드",
+        "https://www.bccard.com/app/card/CheckCardMain.do",
+        "비씨카드와 회원사의 체크카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.",
+        "2026-05-05 확인",
+    ),
     "source.einsmarket.insurance": source_node(
         "source.einsmarket.insurance",
         "온라인 보험슈퍼마켓 보험다모아",
@@ -170,6 +194,14 @@ SOURCES = {
         "2026-05-05 확인",
     ),
 }
+
+CARD_SOURCE_IDS = [
+    "source.crefia.card-products",
+    "source.crefia.carddamoa",
+    "source.kbcard.card-list",
+    "source.bccard.credit-card-list",
+    "source.bccard.check-card-list",
+]
 
 
 def attach_source_metadata(items: list[dict]) -> list[dict]:
@@ -232,9 +264,9 @@ def card_items() -> list[dict]:
             "finance.card-products-ontology",
             "카드상품 온톨로지",
             "domain",
-            "신용카드·체크카드의 전월실적, 할인·적립률, 월 한도, 제외 조건, 연회비, 판매상태를 구조화하는 금융상품 온톨로지입니다.",
+            "신용카드·체크카드의 전월실적, 할인·적립률, 월 한도, 제외 조건, 연회비, 판매상태를 구조화하는 금융상품 온톨로지입니다. 카드다모아 대표상품과 발급사 공식 전체 목록을 함께 보존합니다.",
             children=["category.finance.credit-cards", "category.finance.check-cards"],
-            sources=["source.crefia.card-products", "source.crefia.carddamoa", "source.easylaw.finance-product-disclosure"],
+            sources=[*CARD_SOURCE_IDS, "source.easylaw.finance-product-disclosure"],
             tags=["finance-ontology", "card-products-ontology"],
         ),
         node(
@@ -243,7 +275,7 @@ def card_items() -> list[dict]:
             "category",
             "신용공여 기능이 있는 카드상품의 연회비, 전월실적, 할인·적립 혜택, 한도와 제외조건을 관리합니다.",
             parents=["finance.card-products-ontology"],
-            sources=["source.crefia.card-products", "source.crefia.carddamoa"],
+            sources=CARD_SOURCE_IDS,
             tags=["card-products-ontology", "credit-card"],
         ),
         node(
@@ -252,7 +284,7 @@ def card_items() -> list[dict]:
             "category",
             "결제계좌 잔액 범위에서 쓰는 체크카드 상품의 캐시백, 할인, 전월실적, 월 한도와 제외조건을 관리합니다.",
             parents=["finance.card-products-ontology"],
-            sources=["source.crefia.card-products", "source.crefia.carddamoa"],
+            sources=CARD_SOURCE_IDS,
             tags=["card-products-ontology", "check-card"],
         ),
         node(
@@ -260,7 +292,7 @@ def card_items() -> list[dict]:
             "전월실적",
             "term",
             "카드 혜택 적용 여부를 판단할 때 카드사가 정한 직전 월 이용금액 기준입니다. 실적 제외 항목이 별도로 존재할 수 있습니다.",
-            sources=["source.crefia.card-products", "source.crefia.carddamoa"],
+            sources=CARD_SOURCE_IDS,
             tags=["card-products-ontology", "benefit-criterion"],
         ),
         node(
@@ -268,7 +300,7 @@ def card_items() -> list[dict]:
             "월 혜택 한도",
             "term",
             "할인, 캐시백, 포인트 적립 등 카드 혜택이 한 달에 적용되는 최대 금액 또는 횟수입니다.",
-            sources=["source.crefia.card-products", "source.crefia.carddamoa"],
+            sources=CARD_SOURCE_IDS,
             tags=["card-products-ontology", "benefit-limit"],
         ),
         node(
@@ -276,12 +308,12 @@ def card_items() -> list[dict]:
             "실적·혜택 제외 항목",
             "term",
             "세금, 공과금, 상품권, 아파트관리비, 보험료 등 카드사가 실적 또는 혜택 산정에서 제외할 수 있는 항목입니다.",
-            sources=["source.crefia.card-products", "source.crefia.carddamoa"],
+            sources=CARD_SOURCE_IDS,
             tags=["card-products-ontology", "exclusion"],
         ),
     ]
     items.extend(generated)
-    return attach_source_metadata([*items, SOURCES["source.crefia.card-products"], SOURCES["source.crefia.carddamoa"], SOURCES["source.easylaw.finance-product-disclosure"]])
+    return attach_source_metadata([*items, *(SOURCES[source_id] for source_id in CARD_SOURCE_IDS), SOURCES["source.easylaw.finance-product-disclosure"]])
 
 
 def bank_items() -> list[dict]:

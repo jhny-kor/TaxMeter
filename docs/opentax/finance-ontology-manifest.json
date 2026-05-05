@@ -30,8 +30,8 @@
       "path": "ontology/exports/korea-card-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-card-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
-      "item_count": 54,
-      "product_count": 45,
+      "item_count": 862,
+      "product_count": 850,
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
