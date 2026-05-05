@@ -585,6 +585,90 @@ button {
   line-height: 1.55;
 }
 
+.connector-guide {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1.08fr);
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.connector-endpoint,
+.connector-steps li {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.connector-endpoint {
+  display: grid;
+  gap: 14px;
+  padding: 24px;
+}
+
+.connector-endpoint h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.connector-endpoint code {
+  display: block;
+  padding: 14px;
+  border: 1px solid rgba(66, 216, 232, 0.36);
+  border-radius: 6px;
+  background: rgba(4, 28, 44, 0.72);
+  color: var(--cyan);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+
+.connector-endpoint p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.connector-steps {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: connector-step;
+}
+
+.connector-steps li {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  min-height: 86px;
+  padding: 18px 18px 18px 58px;
+  counter-increment: connector-step;
+}
+
+.connector-steps li::before {
+  content: counter(connector-step);
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(56, 167, 255, 0.72);
+  border-radius: 999px;
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.connector-steps strong {
+  color: var(--text);
+}
+
+.connector-steps span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .mcp-grid {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -980,6 +1064,10 @@ button {
     font-size: 4.8rem;
   }
 
+  .section-heading h2 {
+    font-size: 2.35rem;
+  }
+
   .hero-map,
   .major-map {
     display: grid;
@@ -1038,6 +1126,10 @@ button {
 
   .pipeline div:not(:last-child)::after {
     display: none;
+  }
+
+  .connector-guide {
+    grid-template-columns: 1fr;
   }
 
   .improvement-grid {
