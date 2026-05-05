@@ -87,10 +87,10 @@
     <section class="section split-section" aria-labelledby="why-title">
       <div class="section-heading">
         <p class="eyebrow">Why This Exists</p>
-        <h2 id="why-title">소개 페이지가 아니라 데이터 운영판</h2>
+        <h2 id="why-title">OpenFin의 운영 목적</h2>
         <p>
-          참고 사이트의 어두운 톤, 큰 첫 화면, 아키텍처 설명, 탐색기를 반영하되
-          OpenFin의 실제 manifest와 MCP 사용 흐름을 중심으로 내용을 다시 구성했습니다.
+          OpenFin은 금융·세금 데이터를 보여주는 소개 페이지가 아니라, 앱과 AI가 같은 기준을
+          읽도록 만드는 운영용 온톨로지 표면입니다.
         </p>
       </div>
       <div class="comparison-grid">
@@ -157,28 +157,52 @@
 
     <section class="section flow" id="mcp" aria-labelledby="mcp-title">
       <div class="section-heading">
-        <p class="eyebrow">Read-only MCP</p>
-        <h2 id="mcp-title">같은 데이터를 MCP에서 검색</h2>
-        <p>Cloudflare Worker는 canonical manifest를 읽고 `search`, `fetch`, `exports` 도구를 제공합니다.</p>
+        <p class="eyebrow">ChatGPT Connector</p>
+        <h2 id="mcp-title">ChatGPT에 OpenFin MCP 연결하기</h2>
+        <p>
+          OpenFin MCP는 읽기 전용 서버입니다. ChatGPT의 Connectors에서 아래 MCP URL을 추가하면
+          세금, 지원금, 카드, 은행, 보험 온톨로지를 ChatGPT 대화 안에서 검색하고 조회할 수 있습니다.
+        </p>
       </div>
       <div class="pipeline">
         <div><strong>GitHub JSON</strong><span>ontology/exports</span></div>
         <div><strong>Pages Mirror</strong><span>/opentax/*.json</span></div>
         <div><strong>Cloudflare MCP</strong><span>finance-mcp worker</span></div>
-        <div><strong>AI Client</strong><span>read-only search/fetch</span></div>
+        <div><strong>ChatGPT</strong><span>Connectors에서 사용</span></div>
+      </div>
+      <div class="connector-guide">
+        <article class="connector-endpoint">
+          <h3>붙여 넣을 MCP 서버 URL</h3>
+          <code>https://finance-mcp.y2kthr.workers.dev/mcp</code>
+          <p>읽기 전용 도구만 제공합니다: `search`, `fetch`, `exports`.</p>
+        </article>
+        <ol class="connector-steps">
+          <li>
+            <strong>ChatGPT 설정 열기</strong>
+            <span>Settings → Connectors → Advanced에서 Developer mode를 켭니다.</span>
+          </li>
+          <li>
+            <strong>원격 MCP 서버 추가</strong>
+            <span>Connectors 탭에서 새 MCP 서버를 추가하고 위 URL을 입력합니다.</span>
+          </li>
+          <li>
+            <strong>대화에서 커넥터 선택</strong>
+            <span>질문할 때 OpenFin 커넥터를 선택하고 “청년 월세 지원”, “체크카드 전월실적”, “신용대출 금리”처럼 검색합니다.</span>
+          </li>
+        </ol>
       </div>
       <div class="mcp-grid">
         <article>
           <h3>exports</h3>
-          <p>통합 버전, 기준일, 총 항목 수, export 목록을 반환합니다.</p>
+          <p>OpenFin이 현재 읽는 5개 export, 기준일, 총 항목 수를 확인합니다.</p>
         </article>
         <article>
           <h3>search</h3>
-          <p>세금, 지원금, 카드, 은행, 보험 노드를 질의어와 타입으로 검색합니다.</p>
+          <p>사용자 질문을 기준으로 세금, 지원금, 카드, 은행, 보험 노드를 찾습니다.</p>
         </article>
         <article>
           <h3>fetch</h3>
-          <p>ID 또는 웹 URL 해시로 criteria, 출처, 이웃 노드까지 한 항목을 조회합니다.</p>
+          <p>선택한 노드의 기준, 출처, 상품 메타데이터, 연결 노드를 자세히 조회합니다.</p>
         </article>
       </div>
     </section>
