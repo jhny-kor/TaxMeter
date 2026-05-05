@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "opentax-mcp"
-version = "0.1.0"
-description = "Standalone stdio MCP server for the OpenTax Obsidian vault"
+name = "finance-mcp"
+version = "0.2.0"
+description = "Standalone stdio MCP server for the Finance ontology vault"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }
@@ -15,6 +15,10 @@ authors = [
 dependencies = []
 
 [project.scripts]
+finance-mcp = "tax_ontology_mcp.server:main"
+finance-build-ontology = "tax_ontology_mcp.scripts.build_finance_ontology:main"
+finance-import-products = "tax_ontology_mcp.scripts.import_finance_products:main"
+finance-validate = "tax_ontology_mcp.scripts.validate_finance_ontology:main"
 opentax-mcp = "tax_ontology_mcp.server:main"
 opentax-generate = "tax_ontology_mcp.scripts.generate_vault:main"
 opentax-validate = "tax_ontology_mcp.scripts.validate_ontology:main"
@@ -30,6 +34,7 @@ include-package-data = true
 [tool.setuptools.package-data]
 tax_ontology_mcp = [
   "custom/*.json",
+  "custom/finance/*.json",
   "exports/*.json",
   "schema/*.json",
   "vault/**/*.md"

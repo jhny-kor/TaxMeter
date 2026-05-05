@@ -1,15 +1,15 @@
 {
   "app_name": "OpenTax",
   "submission_status": "draft",
-  "mcp_endpoint": "https://opentax-mcp.y2kthr.workers.dev/mcp",
-  "health_endpoint": "https://opentax-mcp.y2kthr.workers.dev/health",
+  "mcp_endpoint": "https://finance-mcp.y2kthr.workers.dev/mcp",
+  "health_endpoint": "https://finance-mcp.y2kthr.workers.dev/health",
   "homepage_url": "https://jhny-kor.github.io/TaxMeter/opentax/",
   "privacy_policy_url": "https://jhny-kor.github.io/TaxMeter/opentax/privacy.html",
   "terms_url": "https://jhny-kor.github.io/TaxMeter/opentax/terms.html",
   "support_url": "https://jhny-kor.github.io/TaxMeter/opentax/support.html",
   "repository_url": "https://github.com/jhny-kor/TaxMeter",
-  "short_description": "Search Korean tax, deduction, policy support, filing deadline, and official-source nodes from the OpenTax ontology.",
-  "long_description": "OpenTax connects Korean tax items, deductions, credits, policy support programs, filing deadlines, terms, and official source references into a read-only ontology. Use it to find criteria, thresholds, legal references, deadlines, and source URLs with traceable node IDs.",
+  "short_description": "Search Korean tax, support, card, bank, insurance, filing deadline, and official-source nodes from the Finance ontology.",
+  "long_description": "OpenTax connects Korean tax items, deductions, credits, policy support programs, filing deadlines, card products, bank products, insurance products, terms, and official source references into read-only ontologies. Use it to find criteria, thresholds, legal references, product status, deadlines, and source URLs with traceable node IDs.",
   "audience": [
     "Korean taxpayers researching tax and support criteria",
     "Developers building tax-aware assistants or apps",
@@ -21,10 +21,10 @@
     "uses_cookies": false,
     "tool_input_categories": [
       "search query",
-      "OpenTax node id or URL"
+      "Finance ontology node id or URL"
     ],
     "tool_output_categories": [
-      "public OpenTax ontology records",
+      "public Finance ontology records",
       "official source URLs",
       "criteria, thresholds, dates, and graph neighbors"
     ]
@@ -32,16 +32,16 @@
   "tools": [
     {
       "name": "search",
-      "title": "Search OpenTax",
-      "description": "Use this when the user needs to find Korean tax, deduction, policy support, filing deadline, term, or official-source nodes in OpenTax. Do not use for personalized tax, legal, or financial advice.",
+      "title": "Search Finance Ontology",
+      "description": "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
       "readOnlyHint": true,
       "destructiveHint": false,
       "openWorldHint": false
     },
     {
       "name": "fetch",
-      "title": "Fetch OpenTax Item",
-      "description": "Use this when the user needs one exact OpenTax node with criteria, official sources, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, or financial advice.",
+      "title": "Fetch Finance Ontology Item",
+      "description": "Use this when the user needs one exact Finance ontology node with criteria, official sources, product metadata, and graph neighbors after an id or URL is known. Do not use for personalized tax, legal, accounting, or financial advice.",
       "readOnlyHint": true,
       "destructiveHint": false,
       "openWorldHint": false
@@ -79,7 +79,7 @@
     }
   ],
   "submission_notes": [
-    "OpenTax is read-only and does not provide personalized tax, legal, accounting, or financial advice.",
+    "Finance MCP is read-only and does not provide personalized tax, legal, accounting, or financial advice.",
     "No OAuth is required for the current public ontology lookup flow.",
     "Tool responses should avoid internal request IDs, log IDs, auth tokens, or user identifiers."
   ]

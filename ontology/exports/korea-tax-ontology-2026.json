@@ -62,7 +62,7 @@
   },
   "split_exports": {
     "local_government_supports": {
-      "path": "ontology/exports/korea-local-government-supports-2026.json",
+      "path": "ontology/exports/korea-local-government-supports-ontology-2026.json",
       "item_count": 7820,
       "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
       "description": "정부24 보조금24 기준 지자체 지원금은 메인 온톨로지에서 분리한 별도 파일입니다."
@@ -1065,7 +1065,7 @@
       "id": "category.local-government-supports",
       "title": "지자체 지원금",
       "type": "category",
-      "description": "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 묶음입니다. 개별 지자체 지원금 7820개는 메인 온톨로지에서 분리해 ontology/exports/korea-local-government-supports-2026.json에 별도 보관합니다.",
+      "description": "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 묶음입니다. 개별 지자체 지원금 7820개는 메인 온톨로지에서 분리해 ontology/exports/korea-local-government-supports-ontology-2026.json에 별도 보관합니다.",
       "folder": "30_Supports/LocalGovernment",
       "basis_year": 2026,
       "effective_date": null,

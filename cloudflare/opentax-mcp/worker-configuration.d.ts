@@ -1,5 +1,5 @@
 interface Env {
-  OPENTAX_JSON_URL: string;
-  OPENTAX_WEB_BASE_URL: string;
+  FINANCE_MANIFEST_URL: string;
+  FINANCE_WEB_BASE_URL: string;
   OPENAI_APPS_CHALLENGE_TOKEN?: string;
 }

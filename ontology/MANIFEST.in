@@ -1,6 +1,7 @@
 include README.md
 include MCP_INSTALL.md
 include custom/*.json
+recursive-include custom/finance *.json
 include exports/*.json
 include schema/*.json
 recursive-include vault *.md

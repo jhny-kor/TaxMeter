@@ -17,7 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 VAULT = ROOT / "vault"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
-LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-2026.json"
+LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
 CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
@@ -25,7 +25,7 @@ CURRENT_BASIS_YEAR = 2026
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
-LOCAL_SUPPORT_EXPORT_RELATIVE_PATH = "ontology/exports/korea-local-government-supports-2026.json"
+LOCAL_SUPPORT_EXPORT_RELATIVE_PATH = "ontology/exports/korea-local-government-supports-ontology-2026.json"
 
 
 SOURCES = {
@@ -3889,7 +3889,7 @@ def write_local_support_export(items: dict[str, dict]) -> int:
     local_items = sorted(local_support_export_items(items), key=lambda item: item["id"])
     reference_items = sorted(local_support_reference_items(items), key=lambda item: item["id"])
     export = {
-        "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-2026.05.04.1",
+        "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-ONTOLOGY-2026.05.05.1",
         "basis_date": "2026-05-04",
         "generated_from": "ontology/custom/gov24-local-supports.generated.json",
         "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",

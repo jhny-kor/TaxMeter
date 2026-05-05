@@ -1,13 +1,13 @@
 # OpenTax ChatGPT App Directory Submission Pack
 
 Status: draft  
-Last updated: 2026-05-03
+Last updated: 2026-05-05
 
 ## App Identity
 
 - Name: OpenTax
-- Public MCP URL: `https://opentax-mcp.y2kthr.workers.dev/mcp`
-- Health URL: `https://opentax-mcp.y2kthr.workers.dev/health`
+- Public MCP URL: `https://finance-mcp.y2kthr.workers.dev/mcp`
+- Health URL: `https://finance-mcp.y2kthr.workers.dev/health`
 - Homepage: `https://jhny-kor.github.io/TaxMeter/opentax/`
 - Privacy policy: `https://jhny-kor.github.io/TaxMeter/opentax/privacy.html`
 - Terms: `https://jhny-kor.github.io/TaxMeter/opentax/terms.html`
@@ -16,14 +16,15 @@ Last updated: 2026-05-03
 
 ## Short Description
 
-Search Korean tax, deduction, policy support, filing deadline, and official-source nodes from the OpenTax ontology.
+Search Korean tax, support, card, bank, insurance, filing deadline, and official-source nodes from the Finance ontology.
 
 ## Long Description
 
 OpenTax connects Korean tax items, deductions, credits, policy support
-programs, filing deadlines, terms, and official source references into a
-read-only ontology. Use it to find criteria, thresholds, legal references,
-deadlines, and source URLs with traceable node IDs.
+programs, filing deadlines, card products, bank products, insurance products,
+terms, and official source references into read-only ontologies. Use it to find
+criteria, thresholds, legal references, product status, deadlines, and source
+URLs with traceable node IDs.
 
 OpenTax is not a personalized tax, legal, accounting, or financial adviser.
 Users should verify official sources before filing, applying, paying, or making
@@ -33,16 +34,16 @@ financial decisions.
 
 ### `search`
 
-- Purpose: Find OpenTax items by ID, title, description, type, tag, source, or law reference.
+- Purpose: Find Finance ontology items by ID, title, description, type, tag, source, product metadata, or law reference.
 - Inputs: `query`, optional `type`, optional `limit`.
 - Output: matching item IDs, titles, types, web URLs, scores, and short text.
 - Hints: `readOnlyHint: true`, `destructiveHint: false`, `openWorldHint: false`.
 
 ### `fetch`
 
-- Purpose: Fetch one exact OpenTax node with criteria, official sources, and graph neighbors.
-- Inputs: `id` as OpenTax ID, `opentax://` ID, or OpenTax web URL hash.
-- Output: node metadata, criteria, related IDs, deadlines, source IDs, and source URLs.
+- Purpose: Fetch one exact Finance ontology node with criteria, official sources, product metadata, and graph neighbors.
+- Inputs: `id` as Finance ontology ID, `finance://` ID, `opentax://` ID, or OpenTax web URL hash.
+- Output: node metadata, product metadata, criteria, related IDs, deadlines, source IDs, and source URLs.
 - Hints: `readOnlyHint: true`, `destructiveHint: false`, `openWorldHint: false`.
 
 ## Data Handling Summary
@@ -52,7 +53,7 @@ financial decisions.
 - Cookies used by OpenTax: no
 - User inputs processed: search query, node ID, or OpenTax URL passed through ChatGPT tool calls
 - User-related data returned: none intentionally
-- Public data returned: OpenTax ontology records and official source URLs
+- Public data returned: Finance ontology records and official source URLs
 - Infrastructure: GitHub Pages, GitHub raw content, Cloudflare Workers
 
 ## Golden Prompt Set
@@ -61,6 +62,7 @@ financial decisions.
 | --- | --- | --- |
 | OpenTax에서 보험료 공제 한도를 찾아서 출처와 함께 설명해주세요. | `search`, then `fetch` | Insurance premium deduction criteria and official source URLs. |
 | OpenTax에서 ISA 비과세 한도와 근거를 찾아주세요. | `search`, then `fetch` | ISA criteria and official source URLs. |
+| finance에서 체크카드 전월실적과 월 혜택 한도 항목을 찾아주세요. | `search`, then `fetch` | Card product ontology terms and official card disclosure source URLs. |
 | OpenTax에서 근로장려금 신청 기준을 조회하고 공식 출처를 보여주세요. | `search`, then `fetch` | Earned income tax credit criteria and official source URLs. |
 | 오늘 서울 날씨 알려줘. | none | OpenTax should not be called for unrelated weather queries. |
 
