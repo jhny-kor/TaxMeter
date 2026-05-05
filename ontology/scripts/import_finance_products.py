@@ -9,6 +9,7 @@ items under ontology/custom/finance/.
 from __future__ import annotations
 
 import argparse
+from html import unescape
 import json
 import os
 import re
@@ -30,6 +31,12 @@ OUT_DIR = ROOT / "custom" / "finance"
 FINLIFE_API_BASE = "https://finlife.fss.or.kr/finlifeapi"
 CARDDAMOA_PAGE_URL = "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList"
 CARDDAMOA_LIST_URL = "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList/schList"
+KB_CARD_LIST_URL = "https://card.kbcard.com/CRD/DVIEW/HCAM0101"
+KB_CARD_DETAIL_URL = "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076"
+BC_CREDIT_MAIN_URL = "https://www.bccard.com/app/card/CreditCardMain.do"
+BC_CHECK_MAIN_URL = "https://www.bccard.com/app/card/CheckCardMain.do"
+BC_CREDIT_SEARCH_URL = "https://www.bccard.com/app/card/CreditSearch.do"
+BC_CHECK_SEARCH_URL = "https://www.bccard.com/app/card/CheckSearch.do"
 COLLECTED_AT = date.today().isoformat()
 
 
@@ -99,6 +106,34 @@ FINLIFE_ENDPOINTS = (
     },
 )
 
+CARD_KIND_META = {
+    "credit-card": {
+        "category": "category.finance.credit-cards",
+        "label": "신용카드",
+    },
+    "check-card": {
+        "category": "category.finance.check-cards",
+        "label": "체크카드",
+    },
+}
+
+BC_MEMBER_PROVIDERS = {
+    "020": "우리카드",
+    "023": "SC제일은행",
+    "025": "하나카드",
+    "011": "NH농협카드",
+    "003": "IBK기업은행",
+    "006": "KB국민카드",
+    "031": "iM뱅크",
+    "032": "부산은행",
+    "039": "BNK경남은행",
+    "036": "한국씨티은행",
+    "021": "신한카드",
+    "007": "Sh수협은행",
+    "034": "광주은행",
+    "050": "BC바로카드",
+}
+
 
 def slug(value: str) -> str:
     normalized = re.sub(r"[^0-9a-zA-Z가-힣]+", "-", value.strip().lower())
@@ -114,6 +149,41 @@ def unique(values: list[str]) -> list[str]:
             seen.add(value)
             result.append(value)
     return result
+
+
+def clean_text(value: Any) -> str:
+    text = "" if value is None else str(value)
+    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", unescape(text)).strip()
+
+
+def absolute_url(value: Any, base_url: str) -> str:
+    text = clean_text(value)
+    if not text:
+        return ""
+    if text.startswith("//"):
+        return f"https:{text}"
+    return urllib.parse.urljoin(base_url, text)
+
+
+def fetch_text(url: str, *, timeout: int, data: dict[str, Any] | None = None, headers: dict[str, str] | None = None) -> str:
+    encoded_data = None
+    if data is not None:
+        encoded_data = urllib.parse.urlencode({key: "" if value is None else str(value) for key, value in data.items()}).encode("utf-8")
+    request = urllib.request.Request(
+        url,
+        data=encoded_data,
+        headers={
+            "accept": "text/html,application/json;q=0.9,*/*;q=0.8",
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "user-agent": "opentax-finance-ontology-importer/1.0",
+            **(headers or {}),
+        },
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        charset = response.headers.get_content_charset() or "utf-8"
+        return response.read().decode(charset, errors="replace")
 
 
 def fetch_json(endpoint: str, api_key: str, group_code: str, page_no: int, timeout: int) -> dict[str, Any]:
@@ -291,19 +361,27 @@ def rate_criteria(option: dict[str, Any], source_id: str) -> list[dict[str, Any]
     return criteria
 
 
-def benefit_criteria(text: str, source_id: str) -> list[dict[str, Any]]:
+def benefit_criteria(
+    text: str,
+    source_id: str,
+    *,
+    basis: str = "카드다모아 주요혜택",
+    basis_definition: str = "여신금융협회 카드다모아가 카드사 주력상품별로 공시한 주요 혜택 설명입니다.",
+    basis_lookup: str = "카드다모아 resultList의 itemBenefit 필드입니다.",
+    rate_basis: str = "카드다모아 주요혜택 문구",
+) -> list[dict[str, Any]]:
     cleaned = re.sub(r"\s+", " ", text or "").strip()
     if not cleaned:
         return []
     criterion: dict[str, Any] = {
         "label": "카드 혜택",
-        "basis": "카드다모아 주요혜택",
+        "basis": basis,
         "condition": cleaned,
         "source": source_id,
         "criteria_kind": "product-benefit",
         "basis_category": "카드상품 혜택",
-        "basis_definition": "여신금융협회 카드다모아가 카드사 주력상품별로 공시한 주요 혜택 설명입니다.",
-        "basis_lookup": "카드다모아 resultList의 itemBenefit 필드입니다.",
+        "basis_definition": basis_definition,
+        "basis_lookup": basis_lookup,
         "selection_rule": "동일 카드상품의 혜택 설명을 원문 중심으로 보존하고, 퍼센트가 명시된 경우 rate_percent도 함께 기록합니다.",
         "basis_source": source_id,
         "benefit": cleaned,
@@ -312,7 +390,7 @@ def benefit_criteria(text: str, source_id: str) -> list[dict[str, Any]]:
     if rate_match:
         criterion["rate_percent"] = float(rate_match.group(1))
         criterion["rate_label"] = "혜택률"
-        criterion["rate_basis"] = "카드다모아 주요혜택 문구"
+        criterion["rate_basis"] = rate_basis
     return [criterion]
 
 
@@ -456,6 +534,82 @@ def item_from_carddamoa(card_type: str, record: dict[str, Any]) -> dict:
     }
 
 
+def item_from_official_card(
+    *,
+    provider: str,
+    product_name: str,
+    product_kind: str,
+    source_id: str,
+    source_title: str,
+    source_api: str,
+    source_record_id: str,
+    detail_url: str,
+    benefits: list[str],
+    raw: dict[str, Any],
+    image_url: str = "",
+    provider_code: str | None = None,
+    official_product_code: str | None = None,
+    product_status: str = "active",
+    sales_status: str = "active",
+) -> dict:
+    provider = clean_text(provider) or "카드사 미상"
+    product_name = clean_text(product_name) or "카드상품명 미상"
+    provider_code = provider_code or slug(provider)
+    product_code_basis = f"{product_name}-{official_product_code}" if official_product_code else product_name
+    product_code = slug(product_code_basis)
+    category_id = CARD_KIND_META[product_kind]["category"]
+    product_type_label = CARD_KIND_META[product_kind]["label"]
+    criteria: list[dict[str, Any]] = []
+    cleaned_benefits = [clean_text(benefit) for benefit in benefits]
+    for benefit in unique(cleaned_benefits):
+        criteria.extend(
+            benefit_criteria(
+                benefit,
+                source_id,
+                basis=f"{source_title} 주요혜택",
+                basis_definition=f"{provider} 공식 카드상품 목록에서 제공한 {product_type_label} 혜택 설명입니다.",
+                basis_lookup="발급사 공식 목록의 상품명, 상품코드, 주요혜택 문구를 기준으로 확인합니다.",
+                rate_basis=f"{source_title} 주요혜택 문구",
+            )
+        )
+    return {
+        "id": f"finance.card.{product_kind}.{provider_code}.{product_code}",
+        "title": f"{provider} {product_name}",
+        "type": "card-product",
+        "description": f"{source_title}에 공시된 {provider}의 {product_type_label} 상품 '{product_name}'입니다.",
+        "basis_year": int(COLLECTED_AT[:4]),
+        "reviewed_at": COLLECTED_AT,
+        "abolition_status": "active" if product_status == "active" else "sunset",
+        "revision_status": "check_source",
+        "parents": [category_id],
+        "children": [],
+        "related": [],
+        "terms": ["term.card.previous-month-spend", "term.card.monthly-benefit-limit", "term.card.excluded-spend"],
+        "deadlines": [],
+        "sources": [source_id, "source.crefia.card-products"],
+        "tags": ["finance-product", "generated", "card-products", product_kind, "issuer-official"],
+        "criteria": criteria,
+        "provider": provider,
+        "provider_code": provider_code,
+        "financial_sector": "카드",
+        "product_code": product_code,
+        "official_product_code": official_product_code,
+        "product_kind": product_kind,
+        "product_status": product_status,
+        "sales_status": sales_status,
+        "disclosure_month": None,
+        "collected_at": COLLECTED_AT,
+        "source_api": source_api,
+        "source_record_id": source_record_id,
+        "source_record_ids": [source_record_id],
+        "source_urls": unique([source_api, detail_url, image_url]),
+        "source_basis_dates": [f"{COLLECTED_AT} 수집"],
+        "benefits": [{"kind": "main", "text": benefit} for benefit in unique(cleaned_benefits)],
+        "image_url": image_url,
+        "raw": raw,
+    }
+
+
 def crawl_carddamoa(timeout: int) -> list[dict]:
     items: dict[str, dict] = {}
     for card_type in ("01", "02"):
@@ -464,6 +618,166 @@ def crawl_carddamoa(timeout: int) -> list[dict]:
             item = item_from_carddamoa(card_type, record)
             items[item["id"]] = item
     return sorted(items.values(), key=lambda item: item["id"])
+
+
+def parse_kb_card_list(html: str) -> list[dict[str, str]]:
+    records: list[dict[str, str]] = []
+    for block in re.findall(r'<li class="card-box__item">(.*?)</li>', html, flags=re.DOTALL):
+        code_match = re.search(r"fnVwCardDetail\('([^']+)'\)", block)
+        name_match = re.search(r'<h3 class="tit-dep4">(.*?)</h3>', block, flags=re.DOTALL)
+        if not code_match or not name_match:
+            continue
+        badges = [clean_text(text) for text in re.findall(r'<span class="badge[^"]*">(.*?)</span>', block, flags=re.DOTALL)]
+        image_match = re.search(r'<img[^>]+src="([^"]+)"', block)
+        records.append(
+            {
+                "code": clean_text(code_match.group(1)),
+                "name": clean_text(name_match.group(1)),
+                "benefit": " / ".join(unique(badges)),
+                "image_url": absolute_url(image_match.group(1), KB_CARD_LIST_URL) if image_match else "",
+            }
+        )
+    return records
+
+
+def crawl_kb_cards(timeout: int, sleep_seconds: float, limit_pages: int | None) -> list[dict]:
+    first_url = f"{KB_CARD_LIST_URL}?{urllib.parse.urlencode({'mainCC': 'a', 'pageNo': '1', 'searchwrd': ''})}"
+    first_html = fetch_text(first_url, timeout=timeout)
+    total_page_match = re.search(r'id=["\']totalPage["\']\s+value=["\'](\d+)', first_html)
+    total_pages = int(total_page_match.group(1)) if total_page_match else 1
+    if limit_pages is not None:
+        total_pages = min(total_pages, limit_pages)
+
+    items: dict[str, dict] = {}
+    for page_no in range(1, total_pages + 1):
+        if page_no == 1:
+            html = first_html
+        else:
+            url = f"{KB_CARD_LIST_URL}?{urllib.parse.urlencode({'mainCC': 'b', 'pageNo': str(page_no), 'searchwrd': ''})}"
+            html = fetch_text(url, timeout=timeout)
+        for record in parse_kb_card_list(html):
+            product_kind = "check-card" if "체크" in record["name"] else "credit-card"
+            detail_url = f"{KB_CARD_DETAIL_URL}?{urllib.parse.urlencode({'mainCC': 'a', 'cooperationcode': record['code']})}"
+            item = item_from_official_card(
+                provider="KB국민카드",
+                provider_code=slug("KB국민카드"),
+                product_name=record["name"],
+                product_kind=product_kind,
+                source_id="source.kbcard.card-list",
+                source_title="KB국민카드 카드한눈에보기",
+                source_api=KB_CARD_LIST_URL,
+                source_record_id=f"kbcard:{record['code']}",
+                detail_url=detail_url,
+                benefits=[record["benefit"]],
+                raw=record,
+                image_url=record["image_url"],
+                official_product_code=record["code"],
+            )
+            items[item["id"]] = item
+        if sleep_seconds and page_no < total_pages:
+            time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
+def bc_provider(record: dict[str, Any]) -> tuple[str, str]:
+    member_code = clean_text(record.get("mbNo"))
+    provider = BC_MEMBER_PROVIDERS.get(member_code, "비씨카드")
+    return provider, slug(provider)
+
+
+def bc_product_name(record: dict[str, Any]) -> str:
+    name = clean_text(record.get("cardGdsNm"))
+    return re.sub(r"^\[[^\]]+\]\s*", "", name).strip() or name
+
+
+def bc_card_image_url(record: dict[str, Any]) -> str:
+    return absolute_url(record.get("CARD_GDS_IMG"), BC_CREDIT_MAIN_URL)
+
+
+def crawl_bc_cards(timeout: int, sleep_seconds: float, limit_pages: int | None) -> list[dict]:
+    configs = (
+        ("credit-card", "source.bccard.credit-card-list", "비씨카드 신용카드 상품", BC_CREDIT_SEARCH_URL, BC_CREDIT_MAIN_URL),
+        ("check-card", "source.bccard.check-card-list", "비씨카드 체크카드 상품", BC_CHECK_SEARCH_URL, BC_CHECK_MAIN_URL),
+    )
+    items: dict[str, dict] = {}
+    for product_kind, source_id, source_title, api_url, detail_base_url in configs:
+        page_no = 1
+        while True:
+            payload_text = fetch_text(
+                api_url,
+                timeout=timeout,
+                data={"retKey": "json", "pageNo": page_no},
+                headers={"accept": "application/json"},
+            )
+            payload = json.loads(payload_text)
+            for record in payload.get("CARDGDS") or []:
+                provider, provider_code = bc_provider(record)
+                product_name = bc_product_name(record)
+                official_code = clean_text(record.get("affiFirmNo") or record.get("cardGdsNo"))
+                detail_url = f"{detail_base_url}?{urllib.parse.urlencode({'gdsno': record.get('affiFirmNo') or '', 'mbkNo': record.get('mbNo') or ''})}"
+                benefits = [
+                    clean_text(record.get("mainBnftCtnt")),
+                    clean_text(record.get("mainBnftCtnt2")),
+                    clean_text(record.get("mainBnftCtnt3")),
+                ]
+                item = item_from_official_card(
+                    provider=provider,
+                    provider_code=provider_code,
+                    product_name=product_name,
+                    product_kind=product_kind,
+                    source_id=source_id,
+                    source_title=source_title,
+                    source_api=api_url,
+                    source_record_id=f"bccard:{product_kind}:{record.get('mbNo') or ''}:{official_code}",
+                    detail_url=detail_url,
+                    benefits=benefits,
+                    raw=record,
+                    image_url=bc_card_image_url(record),
+                    official_product_code=official_code,
+                )
+                items[item["id"]] = item
+            max_pages = int(payload.get("PAGE_COUNT") or page_no)
+            if page_no >= max_pages:
+                break
+            if limit_pages is not None and page_no >= limit_pages:
+                break
+            page_no += 1
+            if sleep_seconds:
+                time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
+def dedupe_dicts(values: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[str] = set()
+    result: list[dict[str, Any]] = []
+    for value in values:
+        key = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
+        if key in seen:
+            continue
+        seen.add(key)
+        result.append(value)
+    return result
+
+
+def merge_card_items(items: list[dict]) -> list[dict]:
+    merged: dict[str, dict] = {}
+    for item in items:
+        item_id = item["id"]
+        if item_id not in merged:
+            merged[item_id] = item
+            continue
+        existing = merged[item_id]
+        for key in ("children", "related", "terms", "deadlines", "sources", "tags", "source_urls", "source_basis_dates", "source_record_ids"):
+            existing[key] = unique([*(existing.get(key) or []), *(item.get(key) or [])])
+        existing["criteria"] = dedupe_dicts([*(existing.get("criteria") or []), *(item.get("criteria") or [])])
+        existing["benefits"] = dedupe_dicts([*(existing.get("benefits") or []), *(item.get("benefits") or [])])
+        raw_records = [*(existing.get("raw_records") or []), existing.get("raw"), item.get("raw")]
+        existing["raw_records"] = [record for record in raw_records if record]
+        if not existing.get("image_url") and item.get("image_url"):
+            existing["image_url"] = item["image_url"]
+        if not existing.get("official_product_code") and item.get("official_product_code"):
+            existing["official_product_code"] = item["official_product_code"]
+    return sorted(merged.values(), key=lambda item: item["id"])
 
 
 def crawl_finlife(api_key: str, *, timeout: int, sleep_seconds: float, limit_pages: int | None) -> dict[str, list[dict]]:
@@ -496,12 +810,12 @@ def crawl_finlife(api_key: str, *, timeout: int, sleep_seconds: float, limit_pag
     return {domain: sorted(items.values(), key=lambda item: item["id"]) for domain, items in by_domain.items()}
 
 
-def write_generated(domain: str, items: list[dict]) -> None:
+def write_generated(domain: str, items: list[dict], *, version_prefix: str = "FINLIFE", source: str | list[str] = "https://finlife.fss.or.kr/finlifeapi/") -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUT_DIR / f"{domain}-products.generated.json"
     payload = {
-        "version": f"FINLIFE-{domain.upper()}-PRODUCTS-{COLLECTED_AT}",
-        "source": "https://finlife.fss.or.kr/finlifeapi/",
+        "version": f"{version_prefix}-{domain.upper()}-PRODUCTS-{COLLECTED_AT}",
+        "source": source,
         "collected_at": COLLECTED_AT,
         "item_count": len(items),
         "items": items,
@@ -516,13 +830,26 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--sleep", type=float, default=0.2)
     parser.add_argument("--skip-carddamoa", action="store_true", help="Skip 여신금융협회 카드다모아 crawl")
+    parser.add_argument("--skip-kb-card", action="store_true", help="Skip KB국민카드 official card list crawl")
+    parser.add_argument("--skip-bc-card", action="store_true", help="Skip 비씨카드 official card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
     args = parser.parse_args()
 
     imported_any = False
+    card_items: list[dict] = []
     if not args.skip_carddamoa:
-        card_items = crawl_carddamoa(args.timeout)
-        write_generated("card", card_items)
+        card_items.extend(crawl_carddamoa(args.timeout))
+    if not args.skip_kb_card:
+        card_items.extend(crawl_kb_cards(args.timeout, args.sleep, args.limit_pages))
+    if not args.skip_bc_card:
+        card_items.extend(crawl_bc_cards(args.timeout, args.sleep, args.limit_pages))
+    if card_items:
+        write_generated(
+            "card",
+            merge_card_items(card_items),
+            version_prefix="OFFICIAL",
+            source=[CARDDAMOA_PAGE_URL, KB_CARD_LIST_URL, BC_CREDIT_MAIN_URL, BC_CHECK_MAIN_URL],
+        )
         imported_any = True
 
     api_key = os.environ.get("FINLIFE_API_KEY", "").strip()
