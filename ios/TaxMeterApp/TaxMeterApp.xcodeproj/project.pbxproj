@@ -11,6 +11,7 @@
 		1F0F6282F3FC30917646194E /* TaxMeterDraftComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C77602A2D46FF4745DC7FFB /* TaxMeterDraftComponents.swift */; };
 		3D2652A9C9BC80B254CAD6D6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127F978CC64600759ED5A28 /* DashboardView.swift */; };
 		475DCB1D57E352435D45220E /* TaxMeterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */; };
+		4B8A9274D2005283F0C7F7B2 /* korea-tax-ontology-2026.json in Resources */ = {isa = PBXBuildFile; fileRef = 981CBF7FA560980830B3B663 /* korea-tax-ontology-2026.json */; };
 		6386F3C710591326B1908511 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25EB96A1547F910A074A5648 /* Assets.xcassets */; };
 		A097F2D960E7C26F282B618B /* TaxMeterTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E83EE86D12EAB774CD54EBE /* TaxMeterTheme.swift */; };
 		A7A92331E7CE1DAE5587BFF2 /* TaxMeterHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADBAF3A05A1D52C107345E3 /* TaxMeterHomeView.swift */; };
@@ -32,6 +33,7 @@
 		3ADBAF3A05A1D52C107345E3 /* TaxMeterHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterHomeView.swift; sourceTree = "<group>"; };
 		3F8E1E034C2C09BA60F5F352 /* BaselineCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaselineCardView.swift; sourceTree = "<group>"; };
 		8E83EE86D12EAB774CD54EBE /* TaxMeterTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterTheme.swift; sourceTree = "<group>"; };
+		981CBF7FA560980830B3B663 /* korea-tax-ontology-2026.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "korea-tax-ontology-2026.json"; sourceTree = "<group>"; };
 		9AD1A0375D7CD246EB8AAD3F /* TaxMeter */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaxMeter; path = ../..; sourceTree = SOURCE_ROOT; };
 		C7BD0C78EC53C2C24F62BBB1 /* TaxMeterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxMeterApp.swift; sourceTree = "<group>"; };
 		CB0EE625A2487C460F60310B /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		5CC092059FE2A3D0BFB82C82 /* Ontology */ = {
+			isa = PBXGroup;
+			children = (
+				981CBF7FA560980830B3B663 /* korea-tax-ontology-2026.json */,
+			);
+			path = Ontology;
+			sourceTree = "<group>";
+		};
 		9866881589575A148F84D1B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +131,7 @@
 			children = (
 				25EB96A1547F910A074A5648 /* Assets.xcassets */,
 				D8177DC190D75663B751222B /* App */,
+				5CC092059FE2A3D0BFB82C82 /* Ontology */,
 				1CF199B57321BBA2BB624E80 /* ViewModels */,
 				AF18F52BDB6FC022AF83C0BC /* Views */,
 			);
@@ -189,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6386F3C710591326B1908511 /* Assets.xcassets in Resources */,
+				4B8A9274D2005283F0C7F7B2 /* korea-tax-ontology-2026.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +299,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.taxmeter.app;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -370,6 +383,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.taxmeter.app;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.10;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

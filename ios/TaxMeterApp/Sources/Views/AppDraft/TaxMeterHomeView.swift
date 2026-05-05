@@ -1,19 +1,20 @@
 import SwiftUI
 
 struct TaxMeterHomeView: View {
-    @State private var selectedCategoryID = TaxMeterDraftData.categories.first?.id ?? "income"
+    @State private var selectedCategoryID = TaxMeterDraftData.categories.first?.id ?? "category.tax-credits"
 
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
 
-    private var selectedCategory: DraftCategory {
-        TaxMeterDraftData.categories.first { $0.id == selectedCategoryID } ?? TaxMeterDraftData.categories[0]
+    private var selectedCategory: DraftCategory? {
+        TaxMeterDraftData.categories.first { $0.id == selectedCategoryID } ?? TaxMeterDraftData.categories.first
     }
 
     private var filteredItems: [DraftTaxItem] {
-        TaxMeterDraftData.taxItems.filter { $0.categoryID == selectedCategoryID }
+        guard let selectedCategory else { return [] }
+        return TaxMeterDraftData.taxItems.filter { $0.categoryID == selectedCategory.id }
     }
 
     var body: some View {
@@ -27,18 +28,22 @@ struct TaxMeterHomeView: View {
                         selectedCategoryID: $selectedCategoryID
                     )
 
-                    DraftSectionHeaderView(
-                        title: selectedCategory.title,
-                        caption: "항목을 선택하면 예시 기준선 위치와 초과 표시 방식을 확인합니다."
-                    )
+                    if let selectedCategory {
+                        DraftSectionHeaderView(
+                            title: selectedCategory.title,
+                            caption: "항목별 확인 가능 정보와 기준선을 선택해 살펴봅니다."
+                        )
 
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(filteredItems) { item in
-                            NavigationLink(value: item) {
-                                DraftTaxItemTileView(item: item)
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            ForEach(filteredItems) { item in
+                                NavigationLink(value: item) {
+                                    DraftTaxItemTileView(item: item)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                    } else {
+                        OntologyUnavailableCardView()
                     }
 
                     GuidanceNoticeView()
@@ -55,6 +60,23 @@ struct TaxMeterHomeView: View {
     }
 }
 
+private struct OntologyUnavailableCardView: View {
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "exclamationmark.triangle")
+                .foregroundStyle(Color.taxMeterAmber)
+                .padding(.top, 1)
+
+            Text("번들에 포함된 tax ontology를 읽지 못했습니다. 앱 리소스에 korea-tax-ontology-2026.json이 포함되어야 합니다.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(14)
+        .background(.white.opacity(0.72), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+    }
+}
+
 private struct HomeHeaderView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
@@ -65,7 +87,7 @@ private struct HomeHeaderView: View {
                     .font(.system(.title2, design: .rounded, weight: .bold))
                     .foregroundStyle(Color.taxMeterInk)
 
-                Text("예시 값이 어느 기준선에 가까운지 항목별로 미리 봅니다.")
+                Text("온톨로지 기준선과 확인 경로를 항목별로 봅니다.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -87,12 +109,12 @@ private struct HomeHeaderView: View {
                     )
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("개인 자산 설정")
+            .accessibilityLabel("확인 설정")
         }
     }
 }
 
-private struct CategoryTabsView: View {
+struct CategoryTabsView: View {
     let categories: [DraftCategory]
     @Binding var selectedCategoryID: String
 
@@ -143,6 +165,21 @@ private struct DraftTaxItemTileView: View {
                     .font(.system(size: 30, weight: .semibold))
                     .foregroundStyle(Color.taxMeterInk)
                     .symbolRenderingMode(.hierarchical)
+
+                VStack {
+                    HStack {
+                        Spacer()
+
+                        Text("\(item.criteria.count)")
+                            .font(.caption2.weight(.bold))
+                            .foregroundStyle(Color.taxMeterInk)
+                            .frame(width: 24, height: 24)
+                            .background(.white.opacity(0.76), in: Circle())
+                    }
+
+                    Spacer()
+                }
+                .padding(8)
             }
             .frame(height: 82)
 
@@ -156,8 +193,19 @@ private struct DraftTaxItemTileView: View {
                 Text(item.subtitle)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .lineLimit(2)
+                    .lineLimit(1)
                     .fixedSize(horizontal: false, vertical: true)
+
+                Text(item.mainCheckSummary)
+                    .font(.caption2.weight(.medium))
+                    .foregroundStyle(Color.taxMeterInk.opacity(0.62))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.78)
+
+                Text("\(item.checkLinks.count)개 확인 경로")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(Color.taxMeterInk.opacity(0.5))
+                    .lineLimit(1)
             }
         }
         .padding(12)
@@ -178,7 +226,7 @@ private struct GuidanceNoticeView: View {
                 .foregroundStyle(Color.taxMeterAmber)
                 .padding(.top, 1)
 
-            Text("현재 화면은 샘플 데이터로 구성된 UI 초안입니다. 실제 서비스에서는 사용자가 직접 확인해 입력한 자료만 기준으로 사용합니다.")
+            Text("카테고리와 항목은 tax ontology 노드와 공식 출처를 기준으로 구성됩니다. 실제 계산에는 사용자가 확인해 저장한 입력값만 사용합니다.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

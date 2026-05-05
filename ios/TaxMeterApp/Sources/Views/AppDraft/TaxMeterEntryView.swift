@@ -36,7 +36,7 @@ private struct TaxMeterSplashView: View {
                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                         .foregroundStyle(Color.taxMeterInk)
 
-                    Text("내 기준선과 자산 확인을 한 화면에서")
+                    Text("온톨로지 기준선과 확인 경로를 한 화면에서")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
