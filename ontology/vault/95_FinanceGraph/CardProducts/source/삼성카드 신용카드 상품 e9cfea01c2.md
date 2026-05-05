@@ -1,0 +1,27 @@
+---
+materialized_id: "source.samsungcard.credit-card-list"
+title: "삼성카드 신용카드 상품"
+type: "source"
+domain: "card-products"
+basis_year: null
+reviewed_at: null
+source_export: "korea-card-products-ontology-2026.json"
+source_urls: ["https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001"]
+source_basis_dates: ["2026-05-05 확인"]
+tags: ["graph-materialized", "card-products", "official-source", "finance-source"]
+---
+
+# 삼성카드 신용카드 상품
+
+삼성카드 신용카드 상품명, 상품코드, 주요혜택, 카드 이미지와 상세페이지 링크를 제공하는 공식 WCMS 카드 목록입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `source.samsungcard.credit-card-list`
+- Type: `source`
+
+## Relations
+
+## Source URLs
+- https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001

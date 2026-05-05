@@ -1,0 +1,42 @@
+---
+materialized_id: "support.local-gov.gov24.1005418"
+title: "저소득층 자녀 통학교통비 지급 (전북특별자치도 완주군)"
+type: "support-program"
+domain: "local-government-supports"
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_export: "korea-local-government-supports-ontology-2026.json"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005418&bnefType=all&svcId=472000000120", "https://www.law.go.kr/자치법규/완주군 저소득주민 생활안정을 위한 특별지원 조례/(3447,20251113)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-05-04", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
+---
+
+# 저소득층 자녀 통학교통비 지급 (전북특별자치도 완주군)
+
+전북특별자치도 완주군 관할 지자체 지원금입니다. 경제적으로 어려운 가정의 고등학생에게 통학 교통비를 지원해 안정적으로 학교에 다닐 수 있도록 돕는 제도예요. 교통비 부담을 줄여 학업에 집중할 수 있습니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `support.local-gov.gov24.1005418`
+- Type: `support-program`
+- jurisdiction: 전북특별자치도 완주군
+- application_method: 오프라인
+- receiving_agency: 주민센터
+- contact: 사회복지과(063-290-2181)
+- source_modified_at: 2026-04-28
+- source_collected_at: 2026-05-04
+
+## Relations
+- parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- terms: [[40_Terms/지자체 지원금|지자체 지원금]]
+- sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## Status Check
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005418&bnefType=all&svcId=472000000120
+
+## Source URLs
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005418&bnefType=all&svcId=472000000120
+- https://www.law.go.kr/자치법규/완주군 저소득주민 생활안정을 위한 특별지원 조례/(3447,20251113)
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

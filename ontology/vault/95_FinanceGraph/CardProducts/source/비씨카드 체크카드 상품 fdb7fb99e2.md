@@ -1,0 +1,27 @@
+---
+materialized_id: "source.bccard.check-card-list"
+title: "비씨카드 체크카드 상품"
+type: "source"
+domain: "card-products"
+basis_year: null
+reviewed_at: null
+source_export: "korea-card-products-ontology-2026.json"
+source_urls: ["https://www.bccard.com/app/card/CheckCardMain.do"]
+source_basis_dates: ["2026-05-05 확인"]
+tags: ["graph-materialized", "card-products", "official-source", "finance-source"]
+---
+
+# 비씨카드 체크카드 상품
+
+비씨카드와 회원사의 체크카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `source.bccard.check-card-list`
+- Type: `source`
+
+## Relations
+
+## Source URLs
+- https://www.bccard.com/app/card/CheckCardMain.do

@@ -1,0 +1,32 @@
+---
+materialized_id: "finance.bank.rent-loan.0010026.212020111"
+title: "중소기업은행 IBK전세대출 (SGI)"
+type: "bank-product"
+domain: "bank-products"
+basis_year: 2026
+reviewed_at: "2026-05-05"
+source_export: "korea-bank-products-ontology-2026.json"
+source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/rentHouseLoanProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
+source_basis_dates: ["2026-05-05 수집", "202604", "2026-05-05 확인"]
+tags: ["graph-materialized", "bank-products", "finance-product", "generated", "bank", "rent-loan", "020000"]
+---
+
+# 중소기업은행 IBK전세대출 (SGI)
+
+중소기업은행의 전세자금대출 상품 'IBK전세대출 (SGI)' 공시 정보입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `finance.bank.rent-loan.0010026.212020111`
+- Type: `bank-product`
+- provider: 중소기업은행
+
+## Relations
+- parents: [[95_FinanceGraph/BankProducts/category/전세자금대출 상품 ad4153ff61|전세자금대출 상품]]
+- sources: [[95_FinanceGraph/InsuranceProducts/source/금융감독원 금융상품통합비교공시 금융상품한눈에 API 873a2ddd6d|금융감독원 금융상품통합비교공시 금융상품한눈에 API]]
+
+## Source URLs
+- https://finlife.fss.or.kr/
+- https://finlife.fss.or.kr/finlifeapi/rentHouseLoanProductsSearch.json
+- https://finlife.fss.or.kr/finlifeapi/

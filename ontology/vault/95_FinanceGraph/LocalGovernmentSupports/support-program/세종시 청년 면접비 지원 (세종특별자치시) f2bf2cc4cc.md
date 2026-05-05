@@ -1,0 +1,42 @@
+---
+materialized_id: "support.local-gov.gov24.2128545"
+title: "세종시 청년 면접비 지원 (세종특별자치시)"
+type: "support-program"
+domain: "local-government-supports"
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_export: "korea-local-government-supports-ontology-2026.json"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128545&bnefType=all&svcId=569000000389", "https://www.law.go.kr/법령/10ㆍ27법난 피해자의 명예회복 등에 관한 법률/(19592,20230808)", "https://www.jobaram.com/", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2025-11-27", "수집일 2026-05-04", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
+---
+
+# 세종시 청년 면접비 지원 (세종특별자치시)
+
+세종특별자치시 관할 지자체 지원금입니다. 세종시 청년이 구직 과정에서 면접 참여 비용을 지원받을 수 있도록 합니다. 구직 활동 부담을 줄이고 취업 기회를 확대합니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `support.local-gov.gov24.2128545`
+- Type: `support-program`
+- jurisdiction: 세종특별자치시
+- application_method: 온라인
+- contact: 세종특별자치시청(0000)
+- source_modified_at: 2025-11-27
+- source_collected_at: 2026-05-04
+
+## Relations
+- parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- terms: [[40_Terms/지자체 지원금|지자체 지원금]]
+- sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## Status Check
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128545&bnefType=all&svcId=569000000389
+
+## Source URLs
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128545&bnefType=all&svcId=569000000389
+- https://www.law.go.kr/법령/10ㆍ27법난 피해자의 명예회복 등에 관한 법률/(19592,20230808)
+- https://www.jobaram.com/
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

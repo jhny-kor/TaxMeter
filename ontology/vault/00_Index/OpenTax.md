@@ -9,14 +9,14 @@ source_urls: ["https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq
 source_basis_dates: ["시행 2026-01-01", "시행 2026-02-05"]
 abolition_status: "active"
 revision_status: "none_announced"
-parents: []
+parents: ["openfin"]
 children: ["category.national-taxes", "category.customs", "category.local-taxes", "category.deductions-and-reliefs", "category.policy-supports", "category.business-tax-compliance", "category.filing-calendar", "category.user-scenarios", "category.life-language"]
 related: []
 terms: ["term.national-tax", "term.local-tax", "term.tax-law"]
 deadlines: []
 sources: ["source.national-tax-framework-act.2026.article2", "source.local-tax-framework-act.2026.article8"]
 law_reference: ""
-tags: ["root"]
+tags: ["root", "openfin-ontology"]
 ---
 
 # OpenTax
