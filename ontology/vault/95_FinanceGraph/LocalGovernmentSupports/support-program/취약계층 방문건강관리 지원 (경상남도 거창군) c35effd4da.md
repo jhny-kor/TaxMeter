@@ -1,0 +1,42 @@
+---
+materialized_id: "support.local-gov.gov24.1003251"
+title: "취약계층 방문건강관리 지원 (경상남도 거창군)"
+type: "support-program"
+domain: "local-government-supports"
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_export: "korea-local-government-supports-ontology-2026.json"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003251&bnefType=all&svcId=547000000119", "https://www.law.go.kr/법령/지역보건법/(19903,20240102)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-05-04", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(돌봄)", "custom-overlay"]
+---
+
+# 취약계층 방문건강관리 지원 (경상남도 거창군)
+
+경상남도 거창군 관할 지자체 지원금입니다. 건강관리가 어려운 독거노인, 저소득층, 장애인 가구 등을 대상으로 간호사와 영양사 등이 직접 가정을 방문해 건강상담, 질병예방, 투약관리 등을 제공합니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `support.local-gov.gov24.1003251`
+- Type: `support-program`
+- jurisdiction: 경상남도 거창군
+- application_method: 온오프라인
+- receiving_agency: 보건소
+- contact: 거창군보건소(055-940-8343)
+- source_modified_at: 2026-04-27
+- source_collected_at: 2026-05-04
+
+## Relations
+- parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- terms: [[40_Terms/지자체 지원금|지자체 지원금]]
+- sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## Status Check
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003251&bnefType=all&svcId=547000000119
+
+## Source URLs
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003251&bnefType=all&svcId=547000000119
+- https://www.law.go.kr/법령/지역보건법/(19903,20240102)
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

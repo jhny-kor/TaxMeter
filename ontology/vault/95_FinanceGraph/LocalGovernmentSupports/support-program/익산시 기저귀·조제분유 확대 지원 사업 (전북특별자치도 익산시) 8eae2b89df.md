@@ -1,0 +1,43 @@
+---
+materialized_id: "support.local-gov.gov24.1004465"
+title: "익산시 기저귀·조제분유 확대 지원 사업 (전북특별자치도 익산시)"
+type: "support-program"
+domain: "local-government-supports"
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_export: "korea-local-government-supports-ontology-2026.json"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004465&bnefType=all&svcId=468000000127", "https://www.law.go.kr/법령/저출산ㆍ고령사회기본법/(20112,20240123)", "http://www.bokjiro.go.kr", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-02-03", "수집일 2026-05-04", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
+---
+
+# 익산시 기저귀·조제분유 확대 지원 사업 (전북특별자치도 익산시)
+
+전북특별자치도 익산시 관할 지자체 지원금입니다. 경제적 부담이 큰 출산 가정에게 기저귀와 조제분유를 지원하여 초기 육아 비용을 줄이고 아기 건강관리와 양육 지원을 강화합니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `support.local-gov.gov24.1004465`
+- Type: `support-program`
+- jurisdiction: 전북특별자치도 익산시
+- application_method: 온오프라인
+- receiving_agency: 주민센터, 보건소
+- contact: 보건지원과(063-859-4812)
+- source_modified_at: 2026-02-03
+- source_collected_at: 2026-05-04
+
+## Relations
+- parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- terms: [[40_Terms/지자체 지원금|지자체 지원금]]
+- sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## Status Check
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004465&bnefType=all&svcId=468000000127
+
+## Source URLs
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004465&bnefType=all&svcId=468000000127
+- https://www.law.go.kr/법령/저출산ㆍ고령사회기본법/(20112,20240123)
+- http://www.bokjiro.go.kr
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

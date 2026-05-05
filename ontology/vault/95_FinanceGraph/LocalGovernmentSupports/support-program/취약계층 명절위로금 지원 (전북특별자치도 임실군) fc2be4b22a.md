@@ -1,0 +1,44 @@
+---
+materialized_id: "support.local-gov.gov24.1005107"
+title: "취약계층 명절위로금 지원 (전북특별자치도 임실군)"
+type: "support-program"
+domain: "local-government-supports"
+basis_year: 2026
+reviewed_at: "2026-05-04"
+source_export: "korea-local-government-supports-ontology-2026.json"
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005107&bnefType=all&svcId=476000000135", "https://www.law.go.kr/자치법규/임실군 취약계층 상품권 지원 조례/(2604,20220110)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-05-04", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
+---
+
+# 취약계층 명절위로금 지원 (전북특별자치도 임실군)
+
+전북특별자치도 임실군 관할 지자체 지원금입니다. 경제적으로 어려운 취약계층의 명절 생활 안정을 돕기 위해 위로금을 지원하는 제도입니다. 
+가구당 연 1회, 명절 전 일정 금액을 지급하며, 생활비와 명절 준비에 활용할 수 있습니다. 
+대상 가구는 경제적 부담을 줄이고, 따뜻한 명절을 보낼 수 있습니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `support.local-gov.gov24.1005107`
+- Type: `support-program`
+- jurisdiction: 전북특별자치도 임실군
+- application_method: 오프라인
+- receiving_agency: 주민센터
+- contact: 임실군청 주민복지과(063-640-2084)
+- source_modified_at: 2026-05-04
+- source_collected_at: 2026-05-04
+
+## Relations
+- parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
+- terms: [[40_Terms/지자체 지원금|지자체 지원금]]
+- sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
+
+## Status Check
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005107&bnefType=all&svcId=476000000135
+
+## Source URLs
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005107&bnefType=all&svcId=476000000135
+- https://www.law.go.kr/자치법규/임실군 취약계층 상품권 지원 조례/(2604,20220110)
+- https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList
