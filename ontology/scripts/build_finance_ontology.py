@@ -33,6 +33,7 @@ MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
     "bank": CUSTOM_FINANCE_DIR / "bank-products.generated.json",
+    "policy_loan": CUSTOM_FINANCE_DIR / "policy-loan-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
 }
 
@@ -509,6 +510,7 @@ def card_items() -> list[dict]:
 
 def bank_items() -> list[dict]:
     generated = load_generated("bank")
+    policy_generated = load_generated("policy_loan")
     items = [
         node(
             "finance.bank-products-ontology",
@@ -602,7 +604,7 @@ def bank_items() -> list[dict]:
             "category.finance.policy-loan-products",
             "서민금융·정책대출 상품",
             "category",
-            "서민금융진흥원과 정책금융기관의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 정보를 관리할 추가 수집 후보입니다.",
+            "서민금융진흥원과 정책금융기관의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 정보를 관리합니다. DATA_GO_KR_SERVICE_KEY가 있으면 대출상품한눈에 API 상품 행을 생성합니다.",
             parents=["finance.bank-products-ontology"],
             sources=[
                 "source.data.go.kr.kinfa-loan-products",
@@ -612,7 +614,7 @@ def bank_items() -> list[dict]:
                 "source.hf.bogeumjari-loan",
                 "source.fss.finlife.web",
             ],
-            tags=["bank-products-ontology", "policy-loan", "candidate-import"],
+            tags=["bank-products-ontology", "policy-loan", "api-import-ready"],
         ),
         node(
             "category.finance.specialized-credit-loan-products",
@@ -848,6 +850,7 @@ def bank_items() -> list[dict]:
         ),
     ]
     items.extend(generated)
+    items.extend(policy_generated)
     return attach_source_metadata([
         *items,
         SOURCES["source.fss.finlife.api"],

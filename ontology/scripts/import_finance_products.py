@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Import finance products from official disclosure sources.
 
-The first supported source is the Financial Supervisory Service FinLife API.
-Set FINLIFE_API_KEY to crawl all supported pages and emit generated ontology
-items under ontology/custom/finance/.
+Set FINLIFE_API_KEY and DATA_GO_KR_SERVICE_KEY to crawl supported official
+disclosure APIs and emit generated ontology items under ontology/custom/finance/.
 """
 
 from __future__ import annotations
@@ -18,6 +17,7 @@ import sys
 import tempfile
 import time
 from http.cookiejar import CookieJar
+import xml.etree.ElementTree as ET
 import urllib.parse
 import urllib.request
 from datetime import date
@@ -42,6 +42,8 @@ SAMSUNG_CHECK_LIST_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCC
 SAMSUNG_CREDIT_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoRecommend001.json"
 SAMSUNG_CHECK_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoCheckcard001_01.json"
 SAMSUNG_DETAIL_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001"
+KINFA_LOAN_API_URL = "https://apis.data.go.kr/B553701/LoanProductSearchingInfo/LoanProductSearchingInfo/getLoanProductSearchingInfo"
+KINFA_LOAN_DOC_URL = "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
 COLLECTED_AT = date.today().isoformat()
 LOCAL_ENV = REPO_ROOT / ".env"
 
@@ -515,6 +517,173 @@ def item_from_finlife(config: dict[str, Any], group_code: str, base: dict[str, A
     }
 
 
+def xml_child_text(parent: ET.Element, name: str) -> str:
+    child = parent.find(name)
+    return clean_text(child.text if child is not None else "")
+
+
+def kinfa_service_key(value: str) -> str:
+    return value if "%" in value else urllib.parse.quote(value, safe="")
+
+
+def fetch_kinfa_policy_loan_xml(service_key: str, page_no: int, rows: int, timeout: int) -> str:
+    params = urllib.parse.urlencode({"pageNo": str(page_no), "numOfRows": str(rows), "type": "xml"})
+    url = f"{KINFA_LOAN_API_URL}?serviceKey={kinfa_service_key(service_key)}&{params}"
+    request = urllib.request.Request(url, headers={"user-agent": "opentax-finance-ontology-importer/1.0"})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return response.read().decode("utf-8", errors="replace")
+
+
+def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[dict[str, Any]]:
+    criteria: list[dict[str, Any]] = []
+    if record.get("lnLmt"):
+        criteria.append(
+            {
+                "label": "대출한도",
+                "basis": "서민금융진흥원 대출상품한눈에",
+                "condition": record["lnLmt"],
+                "source": source_id,
+                "criteria_kind": "limit",
+                "basis_category": "정책대출 한도",
+                "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
+                "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
+                "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
+                "basis_source": source_id,
+            }
+        )
+    if record.get("irt"):
+        criterion: dict[str, Any] = {
+            "label": "대출금리",
+            "basis": record.get("irtCtg") or "서민금융진흥원 대출상품한눈에",
+            "condition": record["irt"],
+            "source": source_id,
+            "criteria_kind": "rate",
+            "basis_category": "정책대출 금리",
+            "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 금리 필드입니다.",
+            "basis_lookup": "LoanProductSearchingInfo item.irt",
+            "selection_rule": "금리 문구를 원문 보존하고 숫자 퍼센트가 있으면 rate_percent도 기록합니다.",
+            "basis_source": source_id,
+            "rate_label": "대출금리",
+            "rate_basis": record.get("irtCtg") or "공시 금리",
+        }
+        rate_match = re.search(r"(\d+(?:\.\d+)?)", record["irt"])
+        if rate_match:
+            criterion["rate_percent"] = float(rate_match.group(1))
+        criteria.append(criterion)
+    eligibility = unique([record.get("trgt", ""), record.get("tgtFltr", ""), record.get("suprTgtDtlCond", "")])
+    if eligibility:
+        criteria.append(
+            {
+                "label": "지원대상",
+                "basis": "서민금융진흥원 대출상품한눈에",
+                "condition": " / ".join(eligibility),
+                "source": source_id,
+                "criteria_kind": "eligibility",
+                "basis_category": "정책대출 대상",
+                "basis_definition": "상품별 대상과 상세 지원조건입니다.",
+                "basis_lookup": "LoanProductSearchingInfo item.trgt, item.tgtFltr, item.suprTgtDtlCond",
+                "selection_rule": "대상 조건 필드를 합쳐 검색 가능한 조건으로 보존합니다.",
+                "basis_source": source_id,
+            }
+        )
+    return criteria
+
+
+def item_from_kinfa_policy_loan(record: dict[str, str]) -> dict:
+    product_name = record.get("finPrdNm") or "정책대출 상품명 미상"
+    provider = record.get("ofrInstNm") or record.get("hdlInst") or "제공기관 미상"
+    sequence = record.get("seq") or slug(f"{provider}-{product_name}")
+    source_id = "source.data.go.kr.kinfa-loan-products"
+    detail_urls = unique([KINFA_LOAN_DOC_URL, record.get("rltSite", "")])
+    return {
+        "id": f"finance.bank.policy-loan.kinfa-api.{slug(sequence)}",
+        "title": f"{provider} {product_name}",
+        "type": "bank-product",
+        "description": f"서민금융진흥원 대출상품한눈에 API에 공시된 정책대출 상품 '{product_name}'입니다.",
+        "basis_year": int(COLLECTED_AT[:4]),
+        "reviewed_at": COLLECTED_AT,
+        "abolition_status": "active",
+        "revision_status": "check_source",
+        "parents": ["category.finance.policy-loan-products"],
+        "children": [],
+        "related": [],
+        "terms": ["term.bank.loan-purpose", "term.bank.repayment-method"],
+        "deadlines": [],
+        "sources": [source_id],
+        "tags": unique(["finance-product", "generated", "bank", "policy-loan", "kinfa", record.get("prdCtg", ""), record.get("usge", "")]),
+        "criteria": kinfa_policy_loan_criteria(record, source_id),
+        "provider": provider,
+        "provider_code": slug(provider),
+        "financial_sector": record.get("instCtg") or "정책금융",
+        "product_code": sequence,
+        "product_kind": "policy-loan",
+        "product_status": "active",
+        "sales_status": "active",
+        "collected_at": COLLECTED_AT,
+        "source_api": KINFA_LOAN_API_URL,
+        "source_record_id": f"kinfa-loan-products:{sequence}",
+        "source_urls": detail_urls,
+        "source_basis_dates": [f"{COLLECTED_AT} 수집", "공공데이터포털 연 1회 업데이트"],
+        "raw": record,
+        "options": [
+            {
+                "loan_limit": record.get("lnLmt"),
+                "rate": record.get("irt"),
+                "rate_type": record.get("irtCtg"),
+                "purpose": record.get("usge"),
+                "total_loan_period_years": record.get("maxTotLnTrm"),
+                "repayment_method": record.get("rdptMthd"),
+                "handling_institution": record.get("hdlInst"),
+                "guarantee_institution": record.get("grnInst"),
+                "operating_period": record.get("prdOprPrid"),
+                "application_method": record.get("jnMthd"),
+                "early_repayment_fee": record.get("rpymdCfe"),
+            }
+        ],
+    }
+
+
+def parse_kinfa_policy_loan_xml(payload: str) -> tuple[list[dict], int, int, int]:
+    root = ET.fromstring(payload)
+    header = root.find("header")
+    if header is None:
+        header = root
+    result_code = xml_child_text(header, "resultCode")
+    if result_code and result_code != "00":
+        result_msg = xml_child_text(header, "resultMsg")
+        raise RuntimeError(f"KINFA policy loan API returned {result_code}: {result_msg}")
+    body = root.find("body")
+    if body is None:
+        body = root
+    page_no = int(xml_child_text(body, "pageNo") or "1")
+    rows = int(xml_child_text(body, "numOfRows") or "0")
+    total = int(xml_child_text(body, "totalCount") or "0")
+    records: list[dict] = []
+    for item in body.findall(".//item"):
+        records.append({child.tag: clean_text(child.text) for child in list(item)})
+    return records, page_no, rows, total
+
+
+def crawl_kinfa_policy_loans(service_key: str, *, timeout: int, sleep_seconds: float, limit_pages: int | None) -> list[dict]:
+    rows = 100
+    page_no = 1
+    items: dict[str, dict] = {}
+    while True:
+        payload = fetch_kinfa_policy_loan_xml(service_key, page_no, rows, timeout)
+        records, current_page, page_rows, total = parse_kinfa_policy_loan_xml(payload)
+        for record in records:
+            item = item_from_kinfa_policy_loan(record)
+            items[item["id"]] = item
+        if not records or current_page * max(page_rows, 1) >= total:
+            break
+        if limit_pages is not None and page_no >= limit_pages:
+            break
+        page_no += 1
+        if sleep_seconds:
+            time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
 def item_from_carddamoa(card_type: str, record: dict[str, Any]) -> dict:
     product_kind = "credit-card" if card_type == "01" else "check-card"
     product_type_label = "신용카드" if card_type == "01" else "체크카드"
@@ -979,6 +1148,7 @@ def main() -> int:
     parser.add_argument("--skip-bc-card", action="store_true", help="Skip 비씨카드 official card list crawl")
     parser.add_argument("--skip-samsung-card", action="store_true", help="Skip 삼성카드 official WCMS card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
+    parser.add_argument("--skip-kinfa-policy-loans", action="store_true", help="Skip 서민금융진흥원 대출상품한눈에 공공데이터 API crawl")
     parser.add_argument("--allow-shrink", action="store_true", help="Allow generated files to shrink when an upstream source returns fewer products")
     args = parser.parse_args()
 
@@ -1009,6 +1179,18 @@ def main() -> int:
         imported_any = True
     elif not args.skip_finlife:
         print("FINLIFE_API_KEY is not set; skipped Financial Supervisory Service FinLife API crawl.", file=sys.stderr)
+
+    data_go_kr_key = os.environ.get("DATA_GO_KR_SERVICE_KEY", "").strip()
+    if not args.skip_kinfa_policy_loans and data_go_kr_key:
+        write_generated(
+            "policy-loan",
+            crawl_kinfa_policy_loans(data_go_kr_key, timeout=args.timeout, sleep_seconds=args.sleep, limit_pages=args.limit_pages),
+            version_prefix="OFFICIAL",
+            source=[KINFA_LOAN_DOC_URL, KINFA_LOAN_API_URL],
+        )
+        imported_any = True
+    elif not args.skip_kinfa_policy_loans:
+        print("DATA_GO_KR_SERVICE_KEY is not set; skipped KINFA policy loan API crawl.", file=sys.stderr)
 
     if not imported_any:
         print("No finance source was imported.", file=sys.stderr)
