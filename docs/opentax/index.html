@@ -22,8 +22,9 @@
               <a href="#overview">개요</a>
               <a href="#graph">그래프</a>
               <a href="#flow">데이터 흐름</a>
+              <a href="#browser">금융상품</a>
               <a href="#roadmap">로드맵</a>
-              <a href="#browser">탐색</a>
+              <a href="#sources">출처</a>
             </nav>
           </header>
 
@@ -49,7 +50,7 @@
               <div class="graph-panel hero-graph" aria-label="온톨로지 상위 그래프">
                 <button class="graph-node root" type="button" data-select-item="kr-tax-system">
                   <strong>OpenTax</strong>
-                  <span>374 nodes</span>
+                  <span>2834 nodes</span>
                 </button>
                 <button class="graph-node national" type="button" data-select-item="category.national-taxes"><strong>국세</strong><span>12 세목</span></button>
 <button class="graph-node local" type="button" data-select-item="category.local-taxes"><strong>지방세</strong><span>11 세목</span></button>
@@ -71,13 +72,14 @@
             </section>
 
             <section class="metrics section" aria-label="온톨로지 요약 수치">
-              <div><strong>374</strong><span>검증 노드</span></div>
+              <div><strong>2834</strong><span>검증 노드</span></div>
               <div><strong>12</strong><span>국세 세목</span></div>
               <div><strong>11</strong><span>지방세 세목</span></div>
               <div><strong>28</strong><span>법인세 지원</span></div>
               <div><strong>22</strong><span>사용자 경로</span></div>
               <div><strong>12</strong><span>생활어</span></div>
-              <div><strong>93</strong><span>공식 출처</span></div>
+              <div><strong>117</strong><span>공식 출처</span></div>
+              <div><strong>2394</strong><span>금융상품</span></div>
             </section>
 
             <section class="section split-section" aria-labelledby="why-title">
@@ -236,7 +238,7 @@
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="m21 21-4.3-4.3M10.7 18a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                       </svg>
-                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 사업자등록" data-search>
+                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 신용카드, 전세대출" data-search>
                     </label>
                     <span class="result-count" data-result-count></span>
                   </div>
@@ -263,7 +265,7 @@
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/korea-tax-ontology-2026.json</strong>
-                  <span>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.05.1 · 핵심 374 nodes · 2115 graph links</span>
+                  <span>KR-TAX-OBSIDIAN-ONTOLOGY-2026.05.05.1 · 핵심 2834 nodes · 13501 graph links</span>
                 </div>
                 <button class="button primary" type="button" data-download-json>JSON 다운로드</button>
               </div>
@@ -277,7 +279,7 @@
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/finance-ontology-manifest.json</strong>
-                  <span>카드·은행·보험 상품 온톨로지 manifest · Cloudflare finance MCP 로딩 기준</span>
+                  <span>카드·은행·대출·보험 상품 2394개 · 출처 확인일 2026-07-02 · 상품 수집일 카드 2026-07-02 · 은행·대출 2026-07-02 · 보험 2026-05-05</span>
                 </div>
                 <a class="button secondary" href="./finance-ontology-manifest.json" download>Finance manifest</a>
               </div>
@@ -291,7 +293,7 @@
               <a href="./terms.html">이용약관</a>
               <a href="./support.html">지원</a>
             </nav>
-            <span>검증 기준일 2026-05-04</span>
+            <span>세금 기준일 2026-05-04 · 금융 출처 확인일 2026-07-02 · 금융상품 수집일 카드 2026-07-02 · 은행·대출 2026-07-02 · 보험 2026-05-05</span>
           </footer>
 
           <script src="./app.js"></script>
