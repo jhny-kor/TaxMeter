@@ -176,6 +176,33 @@ def parse_expiration_date(text: str) -> str | None:
         return None
 
 
+def support_status_fields(deadline_text: str, expiration_date: str | None, reviewed_at: str) -> dict[str, Any]:
+    compact_deadline = deadline_text.replace(" ", "")
+    if "상시" in compact_deadline:
+        return {
+            "status": "active",
+            "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
+            "status_confidence": "confirmed",
+        }
+    if expiration_date:
+        if expiration_date < reviewed_at:
+            return {
+                "status": "closed",
+                "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at}보다 이전입니다.",
+                "status_confidence": "derived",
+            }
+        return {
+            "status": "active",
+            "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at} 이후입니다.",
+            "status_confidence": "derived",
+        }
+    return {
+        "status": "unknown",
+        "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
+        "status_confidence": "unverified",
+    }
+
+
 def criterion(label: str, basis: str, condition: str, *, kind: str, detail_key: str, detail_value: str) -> dict[str, Any]:
     result = {
         "label": label,
@@ -286,6 +313,13 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     description = f"{jurisdiction} 관할 지자체 지원금입니다. {intro}" if intro else f"{jurisdiction} 관할 지자체 지원금입니다."
     source_basis_dates = [f"정부24 원문 수정일 {mod_date}" if mod_date else f"정부24 원문 수집일 {collected_at}", f"수집일 {collected_at}"]
     support_type = clean_text(detail.get("sportFr"))
+    expiration_date = parse_expiration_date(deadline_text)
+    status_fields = support_status_fields(deadline_text, expiration_date, collected_at)
+    abolition_status = {
+        "active": "active",
+        "closed": "sunset",
+        "unknown": "unknown",
+    }[status_fields["status"]]
     tags = ["local-government-support", "gov24", "generated"]
     if support_type:
         tags.append(support_type)
@@ -296,14 +330,14 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "description": description,
         "folder": "30_Supports/LocalGovernment",
         "basis_year": 2026,
-        "expiration_date": parse_expiration_date(deadline_text),
+        "expiration_date": expiration_date,
         "reviewed_at": collected_at,
         "source_urls": list(dict.fromkeys(source_urls)),
         "source_basis_dates": list(dict.fromkeys(source_basis_dates)),
-        "abolition_status": "active",
+        "abolition_status": abolition_status,
         "revision_status": "check_source",
         "parents": [LOCAL_SUPPORT_CATEGORY_ID],
-        "related": [LOCAL_SUPPORT_CATEGORY_ID],
+        "related": [],
         "terms": ["term.local-government-support"],
         "sources": [SOURCE_ID],
         "criteria": build_criteria(detail),
@@ -315,6 +349,12 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "source_record_id": service_seq,
         "source_modified_at": mod_date,
         "source_collected_at": collected_at,
+        "effective_from": None,
+        "effective_to": expiration_date if status_fields["status"] == "closed" else None,
+        "application_open_from": None,
+        "application_open_to": expiration_date,
+        "last_verified_at": collected_at,
+        **status_fields,
         "status_check_url": status_url,
         "application_deadline_text": deadline_text,
         "application_method": application_method,

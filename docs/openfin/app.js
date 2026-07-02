@@ -55,6 +55,7 @@ async function init() {
   try {
     state.manifest = await fetchJson(DATA_BASE + MANIFEST_FILE);
     updateManifestUI();
+    renderOperationalSummary();
     renderExportCards();
     renderDomainTabs();
 
@@ -137,6 +138,7 @@ function renderExportCards() {
       const meta = domainMeta(entry.domain);
       const filename = fileNameFromEntry(entry);
       const collectionDates = collectionDatesForEntry(entry);
+      const quality = qualityLine(entry.quality_summary);
       return `
         <article class="export-card ${meta.className}">
           <span class="domain-chip">${escapeHtml(meta.label)}</span>
@@ -147,6 +149,7 @@ function renderExportCards() {
           </div>
           <p>${escapeHtml(entry.description || meta.summary)}</p>
           <p>${formatNumber(entry.product_count || 0)} product nodes · 수집일 ${escapeHtml(collectionDates || "미기록")} · ${escapeHtml(filename)}</p>
+          ${quality ? `<p>${escapeHtml(quality)}</p>` : ""}
           <button type="button" data-load-domain="${escapeHtml(entry.domain)}">탐색기에 로드</button>
         </article>
       `;
@@ -283,7 +286,7 @@ function renderResults() {
   const sourceItems = currentItems();
   const filtered = sourceItems
     .map((item, index) => ({ item, index, score: scoreItem(item, query) }))
-    .filter(({ item, score }) => (!query || score > 0) && (!type || item.type === type))
+    .filter(({ item, score }) => (!query || score > 0) && (!type || item.type === type) && isSearchVisible(item, query))
     .sort((a, b) => (query ? b.score - a.score : a.index - b.index) || a.item.title.localeCompare(b.item.title, "ko-KR"));
   const visible = filtered.slice(0, MAX_RESULTS);
 
@@ -308,12 +311,14 @@ function resultSummary(filteredCount, sourceCount, visibleCount) {
 
 function resultItemHtml(item) {
   const meta = domainMeta(item.__domain);
+  const status = item.status || item.product_status || item.abolition_status || "";
   return `
     <button type="button" class="result-item" data-select-id="${escapeAttribute(item.id)}">
       <strong>${escapeHtml(item.title || item.id)}</strong>
       <div class="item-meta">
         <span>${escapeHtml(meta.label)}</span>
         <span>${escapeHtml(item.type || "unknown")}</span>
+        ${status ? `<span class="status-chip ${escapeAttribute(statusClass(status))}">${escapeHtml(status)}</span>` : ""}
         ${item.provider ? `<span>${escapeHtml(item.provider)}</span>` : ""}
       </div>
       <p>${escapeHtml(item.description || "설명이 없습니다.")}</p>
@@ -362,11 +367,21 @@ function renderDetail(item) {
     ["financial_sector", "Sector"],
     ["product_kind", "Product kind"],
     ["product_code", "Product code"],
+    ["status", "Status"],
+    ["status_reason", "Status reason"],
+    ["status_confidence", "Status confidence"],
     ["product_status", "Product status"],
     ["sales_status", "Sales status"],
+    ["recommendation_status", "Recommendation"],
+    ["effective_from", "Effective from"],
+    ["effective_to", "Effective to"],
+    ["application_open_from", "Application from"],
+    ["application_open_to", "Application to"],
     ["disclosure_month", "Disclosure"],
     ["basis_year", "Basis year"],
     ["reviewed_at", "Reviewed"],
+    ["last_verified_at", "Last verified"],
+    ["source_modified_at", "Source modified"],
     ["jurisdiction", "Jurisdiction"],
     ["law_reference", "Law"],
     ["source_api", "Source API"],
@@ -548,6 +563,13 @@ function scoreItem(item, query) {
     item.product_kind,
     item.product_code,
     item.jurisdiction,
+    item.status,
+    item.status_reason,
+    item.status_confidence,
+    item.recommendation_status,
+    structuredSearchText(item.criteria, 4),
+    structuredSearchText(item.options, 3),
+    structuredSearchText(item.benefits, 3),
     ...(item.tags || []),
     ...(item.sources || []),
     ...(item.source_urls || []),
@@ -563,6 +585,73 @@ function scoreItem(item, query) {
   if (tokens.length > 1 && matched === tokens.length) return 30 + matched;
   if (matched) return 10 + matched;
   return 0;
+}
+
+function renderOperationalSummary() {
+  const container = document.querySelector("[data-operational-summary]");
+  if (!container) return;
+  const risks = state.manifest.source_access_risks || [];
+  const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
+  const activeInsuranceGap = state.manifest.quality_summary?.finance_exports?.insurance?.active_insurance_without_criteria ?? 0;
+  const riskLines = risks.slice(0, 5).map((risk) => `${risk.source_id}: ${risk.status}`).join(" · ");
+  const qualityLines = financeExports
+    .map((entry) => `${domainMeta(entry.domain).label} ${qualityLine(entry.quality_summary)}`)
+    .filter((line) => line.trim())
+    .join(" · ");
+  container.innerHTML = `
+    <article>
+      <h3>상태 게이트</h3>
+      <p>active 보험상품 criteria 빈 값 ${formatNumber(activeInsuranceGap)}건. 종료·불확실 상품은 기본 검색과 추천 후보에서 제외합니다.</p>
+    </article>
+    <article>
+      <h3>출처 접근 리스크</h3>
+      <p>${escapeHtml(riskLines || "현재 manifest에 기록된 출처 접근 리스크가 없습니다.")}</p>
+    </article>
+    <article>
+      <h3>품질 요약</h3>
+      <p>${escapeHtml(qualityLines || "품질 요약 로딩 전입니다.")}</p>
+    </article>
+  `;
+}
+
+function qualityLine(summary) {
+  if (!summary) return "";
+  const counts = summary.status_counts || {};
+  const active = counts.active || 0;
+  const closed = counts.closed || counts.ended || 0;
+  const unknown = counts.unknown || 0;
+  const referenceOnly = summary.reference_only_products || 0;
+  return `active ${formatNumber(active)} · closed ${formatNumber(closed)} · unknown ${formatNumber(unknown)} · reference_only ${formatNumber(referenceOnly)}`;
+}
+
+function isSearchVisible(item, query) {
+  if (!isInactiveOrUnverified(item)) return true;
+  return hasInactiveIntent(query);
+}
+
+function isInactiveOrUnverified(item) {
+  const status = normalize(item.status || item.product_status || item.abolition_status || "");
+  const recommendation = normalize(item.recommendation_status || "");
+  return ["closed", "ended", "sunset", "unknown", "suspended"].includes(status) || recommendation === "reference_only";
+}
+
+function hasInactiveIntent(query) {
+  return /(종료|판매중단|중단|만료|unknown|closed|ended|reference|보류|불확실)/i.test(query);
+}
+
+function statusClass(status) {
+  const normalized = normalize(status);
+  if (normalized === "active") return "status-active";
+  if (["closed", "ended", "sunset"].includes(normalized)) return "status-closed";
+  return "status-unknown";
+}
+
+function structuredSearchText(value, limit) {
+  if (!Array.isArray(value) || !value.length) return "";
+  return value
+    .slice(0, limit)
+    .map((entry) => stringifyValue(entry))
+    .join(" ");
 }
 
 function markActiveDomainTab() {

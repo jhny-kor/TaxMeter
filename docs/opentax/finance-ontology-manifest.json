@@ -1,42 +1,105 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.02.1",
-  "basis_date": "2026-07-02",
-  "source_review_date": "2026-07-02",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.1",
+  "basis_date": "2026-07-03",
+  "source_review_date": "2026-07-03",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "quality_summary": {
+    "committee_remediation": {
+      "status_fields_added": true,
+      "expired_local_support_active_gate": true,
+      "active_insurance_without_criteria_gate": true,
+      "status_aware_search_required": true
+    },
+    "finance_exports": {
+      "card": {
+        "product_count": 1006,
+        "status_counts": {
+          "active": 650,
+          "unknown": 356
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 356,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "bank": {
+        "product_count": 10743,
+        "status_counts": {
+          "active": 10732,
+          "unknown": 11
+        },
+        "active_products_without_criteria": 112,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 11,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "insurance": {
+        "product_count": 343,
+        "status_counts": {
+          "unknown": 343
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 343,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      }
+    }
+  },
   "source_access_risks": [
     {
       "source_id": "source.kdic.insured-products",
-      "status": "requires_data_go_kr_application",
-      "last_checked": "2026-07-02",
-      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-      "mitigation": "예금자보호 금융상품 API 활용신청 후 별도 generated snapshot으로 수집합니다."
+      "status": "live_imported",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
+      "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
-      "status": "requires_data_go_kr_application",
-      "last_checked": "2026-07-02",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-03",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-      "mitigation": "정책대출 취급기관 API 승인 후 기존 policy-loan 상품의 취급기관 상세로 연결합니다."
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-support-centers",
-      "status": "requires_data_go_kr_application",
-      "last_checked": "2026-07-02",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-03",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-      "mitigation": "서민금융통합지원센터 API 승인 후 상담센터·미소금융 지점 노드로 분리합니다."
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-products",
-      "status": "candidate",
-      "last_checked": "2026-07-02",
+      "status": "approved_by_user_endpoint_mapping_pending",
+      "last_checked": "2026-07-03",
       "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
       "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-performance",
-      "status": "candidate",
-      "last_checked": "2026-07-02",
+      "status": "approved_by_user_metric_source",
+      "last_checked": "2026-07-03",
       "last_observed_result": "official metadata reviewed; not a product-row source",
       "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
     }
@@ -50,8 +113,10 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json",
       "item_count": 374,
       "product_count": 0,
-      "source_review_date": "2026-07-02",
+      "source_review_date": "2026-07-03",
       "product_collection_dates": [],
+      "quality_summary": {},
+      "export_checksum": null,
       "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
     },
     {
@@ -62,8 +127,10 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json",
       "item_count": 7820,
       "product_count": 0,
-      "source_review_date": "2026-07-02",
+      "source_review_date": "2026-07-03",
       "product_collection_dates": [],
+      "quality_summary": {},
+      "export_checksum": null,
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -74,10 +141,29 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
       "item_count": 1029,
       "product_count": 1006,
-      "source_review_date": "2026-07-02",
+      "source_review_date": "2026-07-03",
       "product_collection_dates": [
         "2026-07-02"
       ],
+      "quality_summary": {
+        "product_count": 1006,
+        "status_counts": {
+          "active": 650,
+          "unknown": 356
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 356,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "7a50d736e8e9eee1f4bb0e4611f16022df67995d7cd462d357163ada08bcf62f",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -86,12 +172,32 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 1407,
-      "product_count": 1363,
-      "source_review_date": "2026-07-02",
+      "item_count": 10787,
+      "product_count": 10743,
+      "source_review_date": "2026-07-03",
       "product_collection_dates": [
-        "2026-07-02"
+        "2026-07-02",
+        "2026-07-03"
       ],
+      "quality_summary": {
+        "product_count": 10743,
+        "status_counts": {
+          "active": 10732,
+          "unknown": 11
+        },
+        "active_products_without_criteria": 112,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 11,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "3e5dd16cac8b8213fc6affebf336c3e42e066c1b072d1d8573ac660faf819f27",
       "description": "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
@@ -102,10 +208,28 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
       "item_count": 358,
       "product_count": 343,
-      "source_review_date": "2026-07-02",
+      "source_review_date": "2026-07-03",
       "product_collection_dates": [
         "2026-05-05"
       ],
+      "quality_summary": {
+        "product_count": 343,
+        "status_counts": {
+          "unknown": 343
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 343,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "86748d3caf3b3bbeadfb889972ec9e32044f4a09444777ada647e101b8410fd7",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     }
   ]

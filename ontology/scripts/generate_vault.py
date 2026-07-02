@@ -22,6 +22,7 @@ CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-03"
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
@@ -3763,9 +3764,58 @@ def core_items_without_local_supports(items: dict[str, dict]) -> dict[str, dict]
     return core_items
 
 
+def local_support_status_fields(item: dict) -> dict:
+    deadline_text = str(item.get("application_deadline_text") or "")
+    compact_deadline = deadline_text.replace(" ", "")
+    expiration_date = item.get("expiration_date")
+    if "상시" in compact_deadline:
+        return {
+            "status": "active",
+            "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
+            "status_confidence": "confirmed",
+        }
+    if expiration_date:
+        if str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE:
+            return {
+                "status": "closed",
+                "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE}보다 이전입니다.",
+                "status_confidence": "derived",
+            }
+        return {
+            "status": "active",
+            "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE} 이후입니다.",
+            "status_confidence": "derived",
+        }
+    return {
+        "status": "unknown",
+        "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
+        "status_confidence": "unverified",
+    }
+
+
+def enrich_local_support_status(item: dict) -> dict:
+    enriched = deepcopy(item)
+    status_fields = local_support_status_fields(enriched)
+    status = status_fields["status"]
+    enriched.update(status_fields)
+    enriched["reviewed_at"] = enriched.get("reviewed_at") or LOCAL_SUPPORT_STATUS_REVIEW_DATE
+    enriched["last_verified_at"] = LOCAL_SUPPORT_STATUS_REVIEW_DATE
+    enriched["effective_from"] = enriched.get("effective_from")
+    enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
+    enriched["application_open_from"] = enriched.get("application_open_from")
+    enriched["application_open_to"] = enriched.get("application_open_to") or enriched.get("expiration_date")
+    enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[status]
+    enriched["related"] = [
+        target_id
+        for target_id in enriched.get("related") or []
+        if target_id != LOCAL_SUPPORT_CATEGORY_ID
+    ]
+    return enriched
+
+
 def local_support_export_items(items: dict[str, dict]) -> list[dict]:
     return [
-        deepcopy(item)
+        enrich_local_support_status(item)
         for item in items.values()
         if is_generated_local_government_support(item)
     ]
@@ -3785,6 +3835,23 @@ def local_support_reference_items(items: dict[str, dict]) -> list[dict]:
             cloned["children"] = sorted(local_ids)
         references.append(cloned)
     return references
+
+
+def local_support_quality_summary(local_items: list[dict]) -> dict:
+    status_counts: dict[str, int] = {}
+    expired_active = 0
+    for item in local_items:
+        status = str(item.get("status") or "unknown")
+        status_counts[status] = status_counts.get(status, 0) + 1
+        expiration_date = item.get("expiration_date")
+        if status == "active" and expiration_date and str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE:
+            expired_active += 1
+    return {
+        "status_review_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
+        "status_counts": dict(sorted(status_counts.items())),
+        "expired_active_local_supports": expired_active,
+        "unknown_status_local_supports": status_counts.get("unknown", 0),
+    }
 
 
 def expected_note_path(item: dict) -> Path:
@@ -3891,10 +3958,12 @@ def write_local_support_export(items: dict[str, dict]) -> int:
     export = {
         "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-ONTOLOGY-2026.05.05.1",
         "basis_date": "2026-05-04",
+        "status_review_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
         "generated_from": "ontology/custom/gov24-local-supports.generated.json",
         "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
         "source_api": "https://plus.gov.kr/api/portal/v1.0/api/benefitPlus",
         "item_count": len(local_items),
+        "quality_summary": local_support_quality_summary(local_items),
         "reference_items": reference_items,
         "items": local_items,
     }

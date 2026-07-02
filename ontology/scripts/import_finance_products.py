@@ -44,6 +44,8 @@ SAMSUNG_CHECK_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/perso
 SAMSUNG_DETAIL_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001"
 KINFA_LOAN_API_URL = "https://apis.data.go.kr/B553701/LoanProductSearchingInfo/LoanProductSearchingInfo/getLoanProductSearchingInfo"
 KINFA_LOAN_DOC_URL = "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
+KDIC_INSURED_PRODUCTS_API_URL = "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008"
+KDIC_INSURED_PRODUCTS_DOC_URL = "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
 COLLECTED_AT = date.today().isoformat()
 LOCAL_ENV = REPO_ROOT / ".env"
 
@@ -541,6 +543,13 @@ def kinfa_service_key(value: str) -> str:
     return value if "%" in value else urllib.parse.quote(value, safe="")
 
 
+def compact_yyyymmdd(value: str) -> str:
+    text = clean_text(value)
+    if not re.fullmatch(r"\d{8}", text):
+        return text
+    return f"{text[:4]}-{text[4:6]}-{text[6:8]}"
+
+
 def fetch_kinfa_policy_loan_xml(service_key: str, page_no: int, rows: int, timeout: int) -> str:
     params = urllib.parse.urlencode({"pageNo": str(page_no), "numOfRows": str(rows), "type": "xml"})
     url = f"{KINFA_LOAN_API_URL}?serviceKey={kinfa_service_key(service_key)}&{params}"
@@ -700,6 +709,148 @@ def crawl_kinfa_policy_loans(service_key: str, *, timeout: int, sleep_seconds: f
         records, current_page, page_rows, total = parse_kinfa_policy_loan_xml(payload)
         for record in records:
             item = item_from_kinfa_policy_loan(record)
+            items[item["id"]] = item
+        if not records or current_page * max(page_rows, 1) >= total:
+            break
+        if limit_pages is not None and page_no >= limit_pages:
+            break
+        page_no += 1
+        if sleep_seconds:
+            time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
+def fetch_kdic_insured_products_json(service_key: str, page_no: int, rows: int, timeout: int) -> dict[str, Any]:
+    params = urllib.parse.urlencode({"pageNo": str(page_no), "numOfRows": str(rows), "resultType": "json"})
+    url = f"{KDIC_INSURED_PRODUCTS_API_URL}?ServiceKey={kinfa_service_key(service_key)}&{params}"
+    request = urllib.request.Request(
+        url,
+        headers={
+            "accept": "application/json",
+            "user-agent": "opentax-finance-ontology-importer/1.0",
+        },
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def parse_kdic_insured_products(payload: dict[str, Any]) -> tuple[list[dict[str, str]], int, int, int]:
+    root = payload.get("getProductList") or payload.get("response") or payload
+    header = root.get("header") if isinstance(root, dict) else None
+    result_code = str((header or {}).get("resultCode") or "00")
+    if result_code != "00":
+        raise RuntimeError(f"KDIC insured products API returned {result_code}: {(header or {}).get('resultMsg')}")
+    body = root.get("body") if isinstance(root, dict) and isinstance(root.get("body"), dict) else root
+    raw_items = body.get("item") if isinstance(body, dict) else []
+    if raw_items is None and isinstance(body, dict):
+        items_wrapper = body.get("items")
+        if isinstance(items_wrapper, dict):
+            raw_items = items_wrapper.get("item")
+    if isinstance(raw_items, dict):
+        raw_items = [raw_items]
+    records: list[dict[str, str]] = []
+    for raw_item in raw_items or []:
+        if not isinstance(raw_item, dict):
+            continue
+        records.append({str(key): clean_text(value) for key, value in raw_item.items()})
+    page_no = int(str(body.get("pageNo") or "1")) if isinstance(body, dict) else 1
+    rows = int(str(body.get("numOfRows") or "0")) if isinstance(body, dict) else 0
+    total = int(str(body.get("totalCount") or "0")) if isinstance(body, dict) else 0
+    return records, page_no, rows, total
+
+
+def item_from_kdic_insured_product(record: dict[str, str]) -> dict:
+    provider = clean_text(record.get("fncIstNm")) or "금융회사 미상"
+    product_name = clean_text(record.get("prdNm")) or "예금자보호 금융상품명 미상"
+    sequence = clean_text(record.get("num")) or slug(f"{provider}-{product_name}-{record.get('regDate', '')}")
+    discontinued_at = compact_yyyymmdd(record.get("prdSalDscnDt", ""))
+    registered_at = compact_yyyymmdd(record.get("regDate", ""))
+    status = "ended" if discontinued_at else "active"
+    source_id = "source.kdic.insured-products"
+    condition = f"{provider} '{product_name}'은 예금보험공사 보호대상 금융상품 목록에 등재되어 있습니다."
+    if discontinued_at:
+        condition = f"{condition} 상품판매중단일자는 {discontinued_at}입니다."
+    criterion: dict[str, Any] = {
+        "label": "예금자보호 등록",
+        "basis": "예금보험공사 예금자보호 금융상품",
+        "condition": condition,
+        "source": source_id,
+        "criteria_kind": "consumer-protection",
+        "basis_category": "예금자보호",
+        "basis_definition": "예금보험공사 보호대상 금융상품 조회 서비스의 금융회사명, 상품명, 상품판매중단일자 필드입니다.",
+        "basis_lookup": "GetInsuredProductService202008 item.fncIstNm, item.prdNm, item.prdSalDscnDt, item.regDate",
+        "selection_rule": "금융회사명과 상품명을 기준으로 보호대상 등재 여부를 확인하고, 상품판매중단일자가 있으면 추천·기본검색 대상에서 제외합니다.",
+        "basis_source": source_id,
+        "protection_status": "listed",
+    }
+    if discontinued_at:
+        criterion["sales_discontinued_date"] = discontinued_at
+    source_basis_dates = [f"{COLLECTED_AT} 수집"]
+    if registered_at:
+        source_basis_dates.append(f"등록일 {registered_at}")
+    if discontinued_at:
+        source_basis_dates.append(f"상품판매중단일자 {discontinued_at}")
+    return {
+        "id": f"finance.bank.deposit-protection.kdic.{slug(provider)}.{slug(product_name)}.{slug(sequence)}",
+        "title": f"{provider} {product_name}",
+        "type": "bank-product",
+        "description": f"예금보험공사 예금자보호 금융상품 API에 등재된 {provider}의 보호대상 금융상품 '{product_name}'입니다.",
+        "basis_year": int(COLLECTED_AT[:4]),
+        "reviewed_at": COLLECTED_AT,
+        "abolition_status": "active" if status == "active" else "sunset",
+        "revision_status": "check_source",
+        "parents": ["category.finance.deposit-protection-products"],
+        "children": [],
+        "related": [],
+        "terms": ["term.finance.deposit-protection-status"],
+        "deadlines": [],
+        "sources": [source_id],
+        "tags": unique(["finance-product", "generated", "bank", "deposit-protection", "kdic", status]),
+        "criteria": [criterion],
+        "provider": provider,
+        "provider_code": slug(provider),
+        "financial_sector": "예금자보호",
+        "product_code": f"kdic-{sequence}",
+        "product_kind": "deposit-protection",
+        "product_status": status,
+        "sales_status": status,
+        "effective_from": registered_at or None,
+        "effective_to": discontinued_at or None,
+        "collected_at": COLLECTED_AT,
+        "source_api": KDIC_INSURED_PRODUCTS_API_URL,
+        "source_record_id": f"kdic-insured-products:{sequence}",
+        "source_urls": [KDIC_INSURED_PRODUCTS_DOC_URL],
+        "source_basis_dates": source_basis_dates,
+        "options": [
+            {
+                "financial_company": provider,
+                "product_name": product_name,
+                "registration_date": registered_at,
+                "sales_discontinued_date": discontinued_at,
+                "protection_status": "listed",
+            }
+        ],
+    }
+
+
+def crawl_kdic_insured_products(
+    service_key: str,
+    *,
+    timeout: int,
+    sleep_seconds: float,
+    limit_pages: int | None,
+    include_ended: bool,
+) -> list[dict]:
+    rows = 5000
+    page_no = 1
+    items: dict[str, dict] = {}
+    while True:
+        payload = fetch_kdic_insured_products_json(service_key, page_no, rows, timeout)
+        records, current_page, page_rows, total = parse_kdic_insured_products(payload)
+        for record in records:
+            if clean_text(record.get("prdSalDscnDt")) and not include_ended:
+                continue
+            item = item_from_kdic_insured_product(record)
             items[item["id"]] = item
         if not records or current_page * max(page_rows, 1) >= total:
             break
@@ -1176,6 +1327,8 @@ def main() -> int:
     parser.add_argument("--skip-samsung-card", action="store_true", help="Skip 삼성카드 official WCMS card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
     parser.add_argument("--skip-kinfa-policy-loans", action="store_true", help="Skip 서민금융진흥원 대출상품한눈에 공공데이터 API crawl")
+    parser.add_argument("--skip-kdic-insured-products", action="store_true", help="Skip 예금보험공사 예금자보호 금융상품 API crawl")
+    parser.add_argument("--include-kdic-ended-products", action="store_true", help="Include KDIC rows with 상품판매중단일자; default keeps current rows only")
     parser.add_argument("--allow-shrink", action="store_true", help="Allow generated files to shrink when an upstream source returns fewer products")
     args = parser.parse_args()
 
@@ -1218,6 +1371,24 @@ def main() -> int:
         imported_any = True
     elif not args.skip_kinfa_policy_loans:
         print("DATA_GO_KR_SERVICE_KEY is not set; skipped KINFA policy loan API crawl.", file=sys.stderr)
+
+    if not args.skip_kdic_insured_products and data_go_kr_key:
+        write_generated(
+            "deposit-protection",
+            crawl_kdic_insured_products(
+                data_go_kr_key,
+                timeout=args.timeout,
+                sleep_seconds=args.sleep,
+                limit_pages=args.limit_pages,
+                include_ended=args.include_kdic_ended_products,
+            ),
+            allow_shrink=args.allow_shrink,
+            version_prefix="OFFICIAL",
+            source=[KDIC_INSURED_PRODUCTS_DOC_URL, KDIC_INSURED_PRODUCTS_API_URL],
+        )
+        imported_any = True
+    elif not args.skip_kdic_insured_products:
+        print("DATA_GO_KR_SERVICE_KEY is not set; skipped KDIC insured products API crawl.", file=sys.stderr)
 
     if not imported_any:
         print("No finance source was imported.", file=sys.stderr)

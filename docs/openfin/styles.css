@@ -379,6 +379,7 @@ button {
 .flow,
 .improvements,
 .explorer-shell,
+.operational-status,
 #exports {
   padding: 96px 0 0;
 }
@@ -419,6 +420,7 @@ button {
 }
 
 .comparison-grid,
+.operational-status,
 .mcp-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -426,12 +428,33 @@ button {
 }
 
 .comparison-grid article,
+.operational-status article,
 .mcp-grid article,
 .improvement-grid article,
 .export-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
+}
+
+.operational-status {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.operational-status article {
+  padding: 22px;
+}
+
+.operational-status h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.operational-status p {
+  margin: 0;
+  color: var(--soft);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 
 .comparison-grid article {
@@ -852,6 +875,21 @@ button {
   font-size: 0.76rem;
 }
 
+.item-meta .status-active {
+  border-color: rgba(127, 227, 109, 0.42);
+  color: var(--green);
+}
+
+.item-meta .status-closed {
+  border-color: rgba(255, 116, 107, 0.42);
+  color: var(--coral);
+}
+
+.item-meta .status-unknown {
+  border-color: rgba(247, 183, 51, 0.42);
+  color: var(--amber);
+}
+
 .detail-panel {
   padding: 24px;
 }
@@ -1018,6 +1056,7 @@ button {
   .metrics,
   .export-grid,
   .pipeline,
+  .operational-status,
   .improvement-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1114,7 +1153,8 @@ button {
     gap: 4px;
   }
 
-  .comparison-grid {
+  .comparison-grid,
+  .operational-status {
     grid-template-columns: 1fr;
   }
 
@@ -1152,7 +1192,8 @@ button {
 }
 
 @media (max-width: 560px) {
-  .metrics {
+  .metrics,
+  .operational-status {
     grid-template-columns: 1fr;
   }
 
