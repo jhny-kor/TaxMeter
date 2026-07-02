@@ -435,9 +435,21 @@ def limit_criteria(base: dict[str, Any], source_id: str) -> list[dict[str, Any]]
     return criteria
 
 
+def disclosure_has_ended(end_day: str) -> bool:
+    value = end_day.strip()
+    if not value or value in {"99991231", "99999999"}:
+        return False
+    if not re.fullmatch(r"\d{8}", value):
+        return False
+    try:
+        disclosed_until = date(int(value[:4]), int(value[4:6]), int(value[6:8]))
+    except ValueError:
+        return False
+    return disclosed_until < date.fromisoformat(COLLECTED_AT)
+
+
 def status_from_base(base: dict[str, Any]) -> str:
-    end_day = str(base.get("dcls_end_day") or "").strip()
-    if end_day and end_day not in {"99991231", "99999999"}:
+    if disclosure_has_ended(str(base.get("dcls_end_day") or "")):
         return "ended"
     return "active"
 
