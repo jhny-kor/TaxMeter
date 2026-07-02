@@ -236,6 +236,12 @@ button {
   overflow-wrap: anywhere;
 }
 
+.hero-meta dd[data-product-collection-dates] {
+  overflow-wrap: normal;
+  word-break: keep-all;
+  line-height: 1.35;
+}
+
 .hero-map {
   position: relative;
   min-height: 560px;

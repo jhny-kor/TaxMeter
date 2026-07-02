@@ -19,13 +19,13 @@ const DOMAIN_META = {
     label: "카드 상품",
     short: "Cards",
     className: "card",
-    summary: "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건",
+    summary: "신용카드·체크카드 혜택, 카드대출, 리볼빙, 전월실적, 한도",
   },
   "bank-products": {
-    label: "은행 상품",
+    label: "예금·대출 상품",
     short: "Banks",
     className: "bank",
-    summary: "예금·적금·대출 금리, 한도, 수수료, 우대조건",
+    summary: "예금·적금·대출, 정책대출, 리스·할부금융 금리와 한도",
   },
   "insurance-products": {
     label: "보험 상품",
@@ -106,11 +106,15 @@ function updateManifestUI() {
   const productItems = exports.reduce((sum, item) => sum + Number(item.product_count || 0), 0);
   const localCount = exports.find((item) => item.domain === "local-government-supports")?.item_count || 0;
   const versionShort = String(manifest.version || "").replace("-2026.05.05.1", "");
+  const sourceReviewDate = manifest.source_review_date || manifest.basis_date || "unknown";
+  const productCollectionDates = financeCollectionLabel(manifest);
 
   setText("[data-version]", manifest.version || "unknown");
   setText("[data-version-short]", versionShort || "KR-FINANCE-ONTOLOGY");
   setText("[data-basis-date]", manifest.basis_date || "unknown");
   setText("[data-basis-date-short]", manifest.basis_date || "unknown");
+  setText("[data-source-review-date]", sourceReviewDate);
+  setText("[data-product-collection-dates]", productCollectionDates || "미기록");
   setText("[data-total-items]", `${formatNumber(totalItems)} items`);
   setText("[data-total-items-plain]", formatNumber(totalItems));
   setText("[data-export-count]", formatNumber(exports.length));
@@ -132,6 +136,7 @@ function renderExportCards() {
     .map((entry) => {
       const meta = domainMeta(entry.domain);
       const filename = fileNameFromEntry(entry);
+      const collectionDates = collectionDatesForEntry(entry);
       return `
         <article class="export-card ${meta.className}">
           <span class="domain-chip">${escapeHtml(meta.label)}</span>
@@ -141,7 +146,7 @@ function renderExportCards() {
             <span>items</span>
           </div>
           <p>${escapeHtml(entry.description || meta.summary)}</p>
-          <p>${formatNumber(entry.product_count || 0)} product nodes · ${escapeHtml(filename)}</p>
+          <p>${formatNumber(entry.product_count || 0)} product nodes · 수집일 ${escapeHtml(collectionDates || "미기록")} · ${escapeHtml(filename)}</p>
           <button type="button" data-load-domain="${escapeHtml(entry.domain)}">탐색기에 로드</button>
         </article>
       `;
@@ -154,6 +159,26 @@ function renderExportCards() {
       document.querySelector("#explorer")?.scrollIntoView({ block: "start" });
     });
   });
+}
+
+function financeCollectionLabel(manifest) {
+  const labels = {
+    "card-products": "카드",
+    "bank-products": "은행·대출",
+    "insurance-products": "보험",
+  };
+  return (manifest.exports || [])
+    .filter((entry) => Number(entry.product_count || 0) > 0)
+    .map((entry) => {
+      const dates = collectionDatesForEntry(entry);
+      return dates ? `${labels[entry.domain] || entry.domain} ${dates}` : "";
+    })
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function collectionDatesForEntry(entry) {
+  return [...new Set(entry.product_collection_dates || [])].join(", ");
 }
 
 function renderLoadingTabs() {

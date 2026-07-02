@@ -21,6 +21,11 @@ FINANCE_EXPORT_FILENAMES = (
     "korea-bank-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
 )
+FINANCE_DATA_FILENAMES = (
+    "korea-card-products-ontology-2026.json",
+    "korea-bank-products-ontology-2026.json",
+    "korea-insurance-products-ontology-2026.json",
+)
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
 WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-ontology-2026.json"
 
@@ -48,6 +53,9 @@ TYPE_LABELS = {
     "term": "용어",
     "deadline": "기한",
     "source": "공식 출처",
+    "card-product": "카드상품",
+    "bank-product": "은행·대출상품",
+    "insurance-product": "보험상품",
 }
 
 
@@ -64,6 +72,75 @@ MAJOR_NODES = [
 
 def load_export() -> dict:
     return json.loads(EXPORT_PATH.read_text(encoding="utf-8"))
+
+
+def web_finance_item(item: dict) -> dict:
+    return {key: value for key, value in item.items() if key not in {"raw", "raw_records"}}
+
+
+def load_finance_items() -> list[dict]:
+    items: list[dict] = []
+    for filename in FINANCE_DATA_FILENAMES:
+        path = ONTOLOGY_ROOT / "exports" / filename
+        if not path.exists():
+            continue
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        items.extend(web_finance_item(item) for item in payload.get("items") or [])
+    return items
+
+
+def dedupe_items(items: list[dict]) -> list[dict]:
+    by_id: dict[str, dict] = {}
+    for item in items:
+        item_id = item.get("id")
+        if item_id and item_id not in by_id:
+            by_id[item_id] = item
+    return sorted(by_id.values(), key=lambda item: str(item.get("id", "")))
+
+
+def finance_collection_label(manifest: dict) -> str:
+    labels = {
+        "card-products-ontology": "카드",
+        "bank-products-ontology": "은행·대출",
+        "insurance-products-ontology": "보험",
+    }
+    parts = []
+    for export in manifest.get("exports") or []:
+        label = labels.get(export.get("id"))
+        if not label or not export.get("product_count"):
+            continue
+        dates = export.get("product_collection_dates") or []
+        parts.append(f"{label} {', '.join(dates) if dates else '미기록'}")
+    return " · ".join(parts)
+
+
+def enrich_summary(summary: dict, items: list[dict]) -> dict:
+    counts = Counter(item["type"] for item in items if item.get("type"))
+    finance_source_review_date = None
+    finance_product_collection_dates = ""
+    if FINANCE_MANIFEST_PATH.exists():
+        finance_manifest = json.loads(FINANCE_MANIFEST_PATH.read_text(encoding="utf-8"))
+        finance_source_review_date = finance_manifest.get("source_review_date") or finance_manifest.get("basis_date")
+        finance_product_collection_dates = finance_collection_label(finance_manifest)
+    relation_count = sum(
+        len(item.get(key, []))
+        for item in items
+        for key in ("parents", "children", "related", "terms", "deadlines", "sources")
+    )
+    summary.update(
+        {
+            "item_count": len(items),
+            "source_count": counts["source"],
+            "term_count": counts["term"],
+            "category_count": counts["category"],
+            "finance_source_review_date": finance_source_review_date,
+            "finance_product_collection_dates": finance_product_collection_dates,
+            "finance_product_count": counts["card-product"] + counts["bank-product"] + counts["insurance-product"],
+            "relation_count": relation_count,
+            "type_counts": dict(sorted(counts.items())),
+        }
+    )
+    return summary
 
 
 def summarize(data: dict) -> dict:
@@ -111,6 +188,8 @@ def graph_node_html(item_id: str, class_name: str, label: str, meta: str) -> str
 def build_html(data: dict, summary: dict) -> str:
     version = data["version"]
     basis_date = data["basis_date"]
+    finance_source_review_date = summary.get("finance_source_review_date") or basis_date
+    finance_product_collection_dates = summary.get("finance_product_collection_dates") or "미기록"
     items_by_id = item_map(data)
     major_nodes = "\n".join(graph_node_html(*node) for node in MAJOR_NODES)
     policy_count = child_count(items_by_id, "category.policy-supports")
@@ -145,8 +224,9 @@ def build_html(data: dict, summary: dict) -> str:
               <a href="#overview">개요</a>
               <a href="#graph">그래프</a>
               <a href="#flow">데이터 흐름</a>
+              <a href="#browser">금융상품</a>
               <a href="#roadmap">로드맵</a>
-              <a href="#browser">탐색</a>
+              <a href="#sources">출처</a>
             </nav>
           </header>
 
@@ -195,6 +275,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div><strong>{summary["scenario_count"]}</strong><span>사용자 경로</span></div>
               <div><strong>{summary["life_language_count"]}</strong><span>생활어</span></div>
               <div><strong>{summary["source_count"]}</strong><span>공식 출처</span></div>
+              <div><strong>{summary["finance_product_count"]}</strong><span>금융상품</span></div>
             </section>
 
             <section class="section split-section" aria-labelledby="why-title">
@@ -353,7 +434,7 @@ def build_html(data: dict, summary: dict) -> str:
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="m21 21-4.3-4.3M10.7 18a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                       </svg>
-                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 사업자등록" data-search>
+                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 신용카드, 전세대출" data-search>
                     </label>
                     <span class="result-count" data-result-count></span>
                   </div>
@@ -394,7 +475,7 @@ def build_html(data: dict, summary: dict) -> str:
               <div class="export-panel">
                 <div>
                   <strong>ontology/exports/finance-ontology-manifest.json</strong>
-                  <span>카드·은행·보험 상품 온톨로지 manifest · Cloudflare finance MCP 로딩 기준</span>
+                  <span>카드·은행·대출·보험 상품 {summary["finance_product_count"]}개 · 출처 확인일 {finance_source_review_date} · 상품 수집일 {finance_product_collection_dates}</span>
                 </div>
                 <a class="button secondary" href="./finance-ontology-manifest.json" download>Finance manifest</a>
               </div>
@@ -408,7 +489,7 @@ def build_html(data: dict, summary: dict) -> str:
               <a href="./terms.html">이용약관</a>
               <a href="./support.html">지원</a>
             </nav>
-            <span>검증 기준일 {basis_date}</span>
+            <span>세금 기준일 {basis_date} · 금융 출처 확인일 {finance_source_review_date} · 금융상품 수집일 {finance_product_collection_dates}</span>
           </footer>
 
           <script src="./app.js"></script>
@@ -1584,11 +1665,14 @@ def type_role(type_: str) -> str:
         "term": "그래프 해석에 필요한 용어",
         "deadline": "기준연도별 신고·납부·지급 기한",
         "source": "법률·기관별 공식 근거 URL",
+        "card-product": "신용카드·체크카드 상품별 혜택, 전월실적, 한도, 공식 상세 링크",
+        "bank-product": "예금·적금·대출 상품별 금리, 한도, 상환방식, 신용점수 구간 옵션",
+        "insurance-product": "보험·연금 상품별 보험료, 보장, 약관·공시 출처",
     }
     return roles.get(type_, "온톨로지 노드")
 
 
-def build_js(data: dict, summary: dict) -> str:
+def build_js(data: dict, summary: dict, items: list[dict]) -> str:
     payload = {
         "version": data["version"],
         "basis_date": data["basis_date"],
@@ -1597,9 +1681,9 @@ def build_js(data: dict, summary: dict) -> str:
         "summary": summary,
         "type_labels": TYPE_LABELS,
         "type_roles": {type_: type_role(type_) for type_ in TYPE_LABELS},
-        "items": data["items"],
+        "items": items,
     }
-    data_json = json.dumps(payload, ensure_ascii=False, indent=2)
+    data_json = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     script = dedent(
         """\
         const ONTOLOGY_DATA = __DATA__;
@@ -1628,6 +1712,7 @@ def build_js(data: dict, summary: dict) -> str:
             { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
             { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
             { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
+            { id: "finance", label: "금융상품", test: (item) => ["card-product", "bank-product", "insurance-product"].includes(item.type) || (item.tags || []).includes("finance-ontology") || (item.tags || []).some((tag) => String(tag).includes("products-ontology")) },
             { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
             { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
             { id: "scenarios", label: "사용자 경로", test: (item) => item.type === "scenario" || hasAncestor(item, "category.user-scenarios") },
@@ -1662,6 +1747,17 @@ def build_js(data: dict, summary: dict) -> str:
               item.law_reference,
               item.publisher,
               item.url,
+              item.provider,
+              item.provider_code,
+              item.financial_sector,
+              item.product_code,
+              item.official_product_code,
+              item.product_kind,
+              item.product_status,
+              item.sales_status,
+              item.collected_at,
+              JSON.stringify(item.benefits || []),
+              JSON.stringify(item.options || []),
               ...(item.tags || [])
             ].join(" ").toLowerCase();
           }
@@ -2032,6 +2128,101 @@ def build_js(data: dict, summary: dict) -> str:
             `;
           }
 
+          function metaGrid(item) {
+            const rows = [
+              ["기준연도", item.basis_year || "해당 없음"],
+              ["법령 근거", item.law_reference || "출처 노드 참조"],
+              ["공급기관", item.provider || ""],
+              ["금융권역", item.financial_sector || ""],
+              ["상품종류", item.product_kind || ""],
+              ["상품코드", item.official_product_code || item.product_code || ""],
+              ["판매상태", item.sales_status || item.product_status || ""],
+              ["수집일", item.collected_at || ""],
+              ["공시월", item.disclosure_month || ""],
+              ["폴더", item.folder || "-"],
+              ["태그", (item.tags || []).join(", ") || "-"]
+            ].filter(([, value]) => value !== "" && value !== null && value !== undefined);
+            return `
+              <div class="meta-grid">
+                ${rows.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
+              </div>
+            `;
+          }
+
+          function productBenefitsBlock(benefits) {
+            if (!benefits || !benefits.length) return "";
+            const items = benefits.slice(0, 8).map((benefit) => `
+              <li>
+                <strong>${escapeHtml(benefit.kind || "benefit")}</strong>
+                <div><span>${escapeHtml(benefit.text || benefit)}</span></div>
+              </li>
+            `).join("");
+            return `
+              <div class="criteria-block">
+                <h4>상품 혜택·특징</h4>
+                <ul>${items}</ul>
+              </div>
+            `;
+          }
+
+          function optionLabel(key) {
+            const labels = {
+              dcls_month: "공시월",
+              save_trm: "기간",
+              intr_rate_type_nm: "금리유형",
+              intr_rate: "기본금리",
+              intr_rate2: "최고우대금리",
+              lend_rate_type_nm: "대출금리유형",
+              lend_rate_min: "최저금리",
+              lend_rate_max: "최고금리",
+              rpay_type_nm: "상환방식",
+              crdt_lend_rate_type_nm: "신용대출 금리유형",
+              crdt_grad_1: "900점 초과",
+              crdt_grad_4: "801~900점",
+              crdt_grad_5: "701~800점",
+              crdt_grad_6: "601~700점",
+              crdt_grad_10: "501~600점",
+              crdt_grad_11: "401~500점",
+              crdt_grad_12: "301~400점",
+              crdt_grad_13: "300점 이하",
+              crdt_grad_avg: "평균",
+              eligibility: "지원대상",
+              loan_limit: "대출한도",
+              purpose: "자금용도",
+              rate: "금리",
+              repayment_method: "상환방식",
+              maturity: "대출기간",
+              fee: "수수료",
+              ltv_dti: "LTV·DTI"
+            };
+            return labels[key] || key;
+          }
+
+          function productOptionsBlock(options) {
+            if (!options || !options.length) return "";
+            const items = options.slice(0, 10).map((option, index) => {
+              const title = option.crdt_lend_rate_type_nm || option.intr_rate_type_nm || option.lend_rate_type_nm || option.rpay_type_nm || `옵션 ${index + 1}`;
+              const details = Object.entries(option)
+                .filter(([, value]) => value !== "" && value !== null && value !== undefined)
+                .slice(0, 14)
+                .map(([key, value]) => `<span>${escapeHtml(optionLabel(key))}: <strong>${escapeHtml(value)}</strong></span>`)
+                .join("");
+              return `
+                <li>
+                  <strong>${escapeHtml(title)}</strong>
+                  <div>${details}</div>
+                </li>
+              `;
+            }).join("");
+            const overflow = options.length > 10 ? `<li><div><span>추가 옵션: <strong>${escapeHtml(options.length - 10)}개는 JSON export에서 확인</strong></span></div></li>` : "";
+            return `
+              <div class="criteria-block">
+                <h4>상품 옵션</h4>
+                <ul>${items}${overflow}</ul>
+              </div>
+            `;
+          }
+
           function renderDetail() {
             const item = byId.get(state.selectedId) || byId.get("kr-tax-system") || items[0];
             if (!item) {
@@ -2055,18 +2246,17 @@ def build_js(data: dict, summary: dict) -> str:
             const pathStepsHtml = pathStepsBlock(item.path_steps);
             const freshnessHtml = freshnessBlock(item);
             const lifeMappingHtml = lifeMappingBlock(item);
+            const benefitsHtml = productBenefitsBlock(item.benefits);
+            const optionsHtml = productOptionsBlock(item.options);
 
             detailEl.innerHTML = `
               <div class="detail-kicker">${escapeHtml(typeLabels[item.type] || item.type)} · ${escapeHtml(item.id)}</div>
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.description)}</p>
-              <div class="meta-grid">
-                <div><span>기준연도</span><strong>${escapeHtml(item.basis_year || "해당 없음")}</strong></div>
-                <div><span>법령 근거</span><strong>${escapeHtml(item.law_reference || "출처 노드 참조")}</strong></div>
-                <div><span>폴더</span><strong>${escapeHtml(item.folder || "-")}</strong></div>
-                <div><span>태그</span><strong>${escapeHtml((item.tags || []).join(", ") || "-")}</strong></div>
-              </div>
+              ${metaGrid(item)}
               ${freshnessHtml}
+              ${benefitsHtml}
+              ${optionsHtml}
               ${lifeMappingHtml}
               ${recurrenceHtml}
               ${pathStepsHtml}
@@ -2169,11 +2359,13 @@ def build_js(data: dict, summary: dict) -> str:
 
 def main() -> int:
     data = load_export()
-    summary = summarize(data)
+    finance_items = load_finance_items()
+    items = dedupe_items([*data["items"], *finance_items])
+    summary = enrich_summary(summarize(data), items)
     WEB_ROOT.mkdir(parents=True, exist_ok=True)
     (WEB_ROOT / "index.html").write_text(build_html(data, summary), encoding="utf-8")
     (WEB_ROOT / "styles.css").write_text(build_css(), encoding="utf-8")
-    (WEB_ROOT / "app.js").write_text(build_js(data, summary), encoding="utf-8")
+    (WEB_ROOT / "app.js").write_text(build_js(data, summary, items), encoding="utf-8")
     shutil.copyfile(EXPORT_PATH, WEB_ROOT / EXPORT_PATH.name)
     if LOCAL_SUPPORT_EXPORT_PATH.exists():
         shutil.copyfile(LOCAL_SUPPORT_EXPORT_PATH, WEB_ROOT / WEB_LOCAL_SUPPORT_EXPORT_FILENAME)

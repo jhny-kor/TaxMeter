@@ -1,9 +1,9 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.05.05.1",
-  "basis_date": "2026-05-05",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.02.1",
+  "basis_date": "2026-07-02",
+  "source_review_date": "2026-07-02",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
-  "item_count": 10605,
   "exports": [
     {
       "id": "tax-ontology",
@@ -13,6 +13,8 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json",
       "item_count": 374,
       "product_count": 0,
+      "source_review_date": "2026-07-02",
+      "product_collection_dates": [],
       "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
     },
     {
@@ -23,6 +25,8 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json",
       "item_count": 7820,
       "product_count": 0,
+      "source_review_date": "2026-07-02",
+      "product_collection_dates": [],
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -31,8 +35,12 @@
       "path": "ontology/exports/korea-card-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-card-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
-      "item_count": 1008,
-      "product_count": 994,
+      "item_count": 1029,
+      "product_count": 1006,
+      "source_review_date": "2026-07-02",
+      "product_collection_dates": [
+        "2026-07-02"
+      ],
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -41,9 +49,13 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 1049,
-      "product_count": 1037,
-      "description": "예금·적금·대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
+      "item_count": 1079,
+      "product_count": 1045,
+      "source_review_date": "2026-07-02",
+      "product_collection_dates": [
+        "2026-07-02"
+      ],
+      "description": "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
       "id": "insurance-products-ontology",
@@ -53,6 +65,10 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
       "item_count": 358,
       "product_count": 343,
+      "source_review_date": "2026-07-02",
+      "product_collection_dates": [
+        "2026-05-05"
+      ],
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     }
   ]

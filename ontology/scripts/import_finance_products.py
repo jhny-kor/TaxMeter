@@ -43,6 +43,7 @@ SAMSUNG_CREDIT_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/pers
 SAMSUNG_CHECK_JSON_URL = "https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoCheckcard001_01.json"
 SAMSUNG_DETAIL_URL = "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001"
 COLLECTED_AT = date.today().isoformat()
+LOCAL_ENV = REPO_ROOT / ".env"
 
 
 FINLIFE_GROUPS = {
@@ -110,6 +111,19 @@ FINLIFE_ENDPOINTS = (
         "title": "연금저축",
     },
 )
+
+
+def load_local_env(path: Path) -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if key and key not in os.environ:
+            os.environ[key] = value.strip().strip('"').strip("'")
 
 CARD_KIND_META = {
     "credit-card": {
@@ -890,9 +904,46 @@ def crawl_finlife(api_key: str, *, timeout: int, sleep_seconds: float, limit_pag
     return {domain: sorted(items.values(), key=lambda item: item["id"]) for domain, items in by_domain.items()}
 
 
-def write_generated(domain: str, items: list[dict], *, version_prefix: str = "FINLIFE", source: str | list[str] = "https://finlife.fss.or.kr/finlifeapi/") -> None:
+def existing_item_count(path: Path) -> int | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    item_count = payload.get("item_count")
+    if isinstance(item_count, int):
+        return item_count
+    items = payload.get("items")
+    if isinstance(items, list):
+        return len(items)
+    return None
+
+
+def should_preserve_existing(path: Path, new_count: int, *, allow_shrink: bool) -> bool:
+    if allow_shrink:
+        return False
+    previous_count = existing_item_count(path)
+    if previous_count is None or previous_count == 0 or new_count >= previous_count:
+        return False
+    return new_count * 10 < previous_count * 8
+
+
+def write_generated(
+    domain: str,
+    items: list[dict],
+    *,
+    allow_shrink: bool = False,
+    version_prefix: str = "FINLIFE",
+    source: str | list[str] = "https://finlife.fss.or.kr/finlifeapi/",
+) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUT_DIR / f"{domain}-products.generated.json"
+    if should_preserve_existing(path, len(items), allow_shrink=allow_shrink):
+        previous_count = existing_item_count(path)
+        print(
+            f"kept {path.relative_to(REPO_ROOT)} ({previous_count} existing items; source returned {len(items)})",
+            file=sys.stderr,
+        )
+        return
     payload = {
         "version": f"{version_prefix}-{domain.upper()}-PRODUCTS-{COLLECTED_AT}",
         "source": source,
@@ -905,6 +956,8 @@ def write_generated(domain: str, items: list[dict], *, version_prefix: str = "FI
 
 
 def main() -> int:
+    load_local_env(LOCAL_ENV)
+
     parser = argparse.ArgumentParser(description="Import finance products from official disclosure APIs")
     parser.add_argument("--limit-pages", type=int, default=None, help="Limit pages per endpoint/group for smoke tests")
     parser.add_argument("--timeout", type=int, default=30)
@@ -914,6 +967,7 @@ def main() -> int:
     parser.add_argument("--skip-bc-card", action="store_true", help="Skip 비씨카드 official card list crawl")
     parser.add_argument("--skip-samsung-card", action="store_true", help="Skip 삼성카드 official WCMS card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
+    parser.add_argument("--allow-shrink", action="store_true", help="Allow generated files to shrink when an upstream source returns fewer products")
     args = parser.parse_args()
 
     imported_any = False
@@ -938,8 +992,8 @@ def main() -> int:
     api_key = os.environ.get("FINLIFE_API_KEY", "").strip()
     if not args.skip_finlife and api_key:
         imported = crawl_finlife(api_key, timeout=args.timeout, sleep_seconds=args.sleep, limit_pages=args.limit_pages)
-        write_generated("bank", imported.get("bank", []))
-        write_generated("insurance", imported.get("insurance", []))
+        write_generated("bank", imported.get("bank", []), allow_shrink=args.allow_shrink)
+        write_generated("insurance", imported.get("insurance", []), allow_shrink=args.allow_shrink)
         imported_any = True
     elif not args.skip_finlife:
         print("FINLIFE_API_KEY is not set; skipped Financial Supervisory Service FinLife API crawl.", file=sys.stderr)
