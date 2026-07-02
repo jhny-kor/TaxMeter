@@ -522,6 +522,21 @@ def xml_child_text(parent: ET.Element, name: str) -> str:
     return clean_text(child.text if child is not None else "")
 
 
+def record_key(value: str) -> str:
+    return re.sub(r"[^0-9a-z]+", "", value.lower())
+
+
+def record_value(record: dict[str, str], *names: str) -> str:
+    for name in names:
+        direct = record.get(name)
+        if direct:
+            return direct
+        normalized = record.get(record_key(name))
+        if normalized:
+            return normalized
+    return ""
+
+
 def kinfa_service_key(value: str) -> str:
     return value if "%" in value else urllib.parse.quote(value, safe="")
 
@@ -536,12 +551,13 @@ def fetch_kinfa_policy_loan_xml(service_key: str, page_no: int, rows: int, timeo
 
 def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[dict[str, Any]]:
     criteria: list[dict[str, Any]] = []
-    if record.get("lnLmt"):
+    loan_limit = record_value(record, "lnLmt")
+    if loan_limit:
         criteria.append(
             {
                 "label": "대출한도",
                 "basis": "서민금융진흥원 대출상품한눈에",
-                "condition": record["lnLmt"],
+                "condition": loan_limit,
                 "source": source_id,
                 "criteria_kind": "limit",
                 "basis_category": "정책대출 한도",
@@ -551,11 +567,13 @@ def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[d
                 "basis_source": source_id,
             }
         )
-    if record.get("irt"):
+    interest_rate = record_value(record, "irt")
+    interest_rate_type = record_value(record, "irtCtg")
+    if interest_rate:
         criterion: dict[str, Any] = {
             "label": "대출금리",
-            "basis": record.get("irtCtg") or "서민금융진흥원 대출상품한눈에",
-            "condition": record["irt"],
+            "basis": interest_rate_type or "서민금융진흥원 대출상품한눈에",
+            "condition": interest_rate,
             "source": source_id,
             "criteria_kind": "rate",
             "basis_category": "정책대출 금리",
@@ -564,13 +582,17 @@ def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[d
             "selection_rule": "금리 문구를 원문 보존하고 숫자 퍼센트가 있으면 rate_percent도 기록합니다.",
             "basis_source": source_id,
             "rate_label": "대출금리",
-            "rate_basis": record.get("irtCtg") or "공시 금리",
+            "rate_basis": interest_rate_type or "공시 금리",
         }
-        rate_match = re.search(r"(\d+(?:\.\d+)?)", record["irt"])
+        rate_match = re.search(r"(\d+(?:\.\d+)?)", interest_rate)
         if rate_match:
             criterion["rate_percent"] = float(rate_match.group(1))
         criteria.append(criterion)
-    eligibility = unique([record.get("trgt", ""), record.get("tgtFltr", ""), record.get("suprTgtDtlCond", "")])
+    eligibility = unique([
+        record_value(record, "trgt"),
+        record_value(record, "tgtFltr"),
+        record_value(record, "suprTgtDtlCond"),
+    ])
     if eligibility:
         criteria.append(
             {
@@ -590,11 +612,11 @@ def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[d
 
 
 def item_from_kinfa_policy_loan(record: dict[str, str]) -> dict:
-    product_name = record.get("finPrdNm") or "정책대출 상품명 미상"
-    provider = record.get("ofrInstNm") or record.get("hdlInst") or "제공기관 미상"
-    sequence = record.get("seq") or slug(f"{provider}-{product_name}")
+    product_name = record_value(record, "finPrdNm") or "정책대출 상품명 미상"
+    provider = record_value(record, "ofrInstNm", "hdlInst") or "제공기관 미상"
+    sequence = record_value(record, "seq") or slug(f"{provider}-{product_name}")
     source_id = "source.data.go.kr.kinfa-loan-products"
-    detail_urls = unique([KINFA_LOAN_DOC_URL, record.get("rltSite", "")])
+    detail_urls = unique([KINFA_LOAN_DOC_URL, record_value(record, "rltSite")])
     return {
         "id": f"finance.bank.policy-loan.kinfa-api.{slug(sequence)}",
         "title": f"{provider} {product_name}",
@@ -610,11 +632,11 @@ def item_from_kinfa_policy_loan(record: dict[str, str]) -> dict:
         "terms": ["term.bank.loan-purpose", "term.bank.repayment-method"],
         "deadlines": [],
         "sources": [source_id],
-        "tags": unique(["finance-product", "generated", "bank", "policy-loan", "kinfa", record.get("prdCtg", ""), record.get("usge", "")]),
+        "tags": unique(["finance-product", "generated", "bank", "policy-loan", "kinfa", record_value(record, "prdCtg"), record_value(record, "usge")]),
         "criteria": kinfa_policy_loan_criteria(record, source_id),
         "provider": provider,
         "provider_code": slug(provider),
-        "financial_sector": record.get("instCtg") or "정책금융",
+        "financial_sector": record_value(record, "instCtg") or "정책금융",
         "product_code": sequence,
         "product_kind": "policy-loan",
         "product_status": "active",
@@ -627,17 +649,17 @@ def item_from_kinfa_policy_loan(record: dict[str, str]) -> dict:
         "raw": record,
         "options": [
             {
-                "loan_limit": record.get("lnLmt"),
-                "rate": record.get("irt"),
-                "rate_type": record.get("irtCtg"),
-                "purpose": record.get("usge"),
-                "total_loan_period_years": record.get("maxTotLnTrm"),
-                "repayment_method": record.get("rdptMthd"),
-                "handling_institution": record.get("hdlInst"),
-                "guarantee_institution": record.get("grnInst"),
-                "operating_period": record.get("prdOprPrid"),
-                "application_method": record.get("jnMthd"),
-                "early_repayment_fee": record.get("rpymdCfe"),
+                "loan_limit": record_value(record, "lnLmt"),
+                "rate": record_value(record, "irt"),
+                "rate_type": record_value(record, "irtCtg"),
+                "purpose": record_value(record, "usge"),
+                "total_loan_period_years": record_value(record, "maxTotLnTrm"),
+                "repayment_method": record_value(record, "rdptMthd"),
+                "handling_institution": record_value(record, "hdlInst"),
+                "guarantee_institution": record_value(record, "grnInst"),
+                "operating_period": record_value(record, "prdOprPrid"),
+                "application_method": record_value(record, "jnMthd"),
+                "early_repayment_fee": record_value(record, "rpymdCfe"),
             }
         ],
     }
@@ -660,7 +682,12 @@ def parse_kinfa_policy_loan_xml(payload: str) -> tuple[list[dict], int, int, int
     total = int(xml_child_text(body, "totalCount") or "0")
     records: list[dict] = []
     for item in body.findall(".//item"):
-        records.append({child.tag: clean_text(child.text) for child in list(item)})
+        record: dict[str, str] = {}
+        for child in list(item):
+            text = clean_text(child.text)
+            record[child.tag] = text
+            record[record_key(child.tag)] = text
+        records.append(record)
     return records, page_no, rows, total
 
 
