@@ -858,7 +858,7 @@
       "id": "category.finance.policy-loan-products",
       "title": "서민금융·정책대출 상품",
       "type": "category",
-      "description": "서민금융진흥원과 정책금융기관의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 정보를 관리할 추가 수집 후보입니다.",
+      "description": "서민금융진흥원과 정책금융기관의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 정보를 관리합니다. DATA_GO_KR_SERVICE_KEY가 있으면 대출상품한눈에 API 상품 행을 생성합니다.",
       "basis_year": 2026,
       "reviewed_at": "2026-07-02",
       "abolition_status": "active",
@@ -886,7 +886,7 @@
       "tags": [
         "bank-products-ontology",
         "policy-loan",
-        "candidate-import"
+        "api-import-ready"
       ],
       "source_urls": [
         "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
