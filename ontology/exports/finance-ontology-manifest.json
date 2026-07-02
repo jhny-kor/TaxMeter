@@ -4,6 +4,43 @@
   "source_review_date": "2026-07-02",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "source_access_risks": [
+    {
+      "source_id": "source.kdic.insured-products",
+      "status": "requires_data_go_kr_application",
+      "last_checked": "2026-07-02",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "예금자보호 금융상품 API 활용신청 후 별도 generated snapshot으로 수집합니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "status": "requires_data_go_kr_application",
+      "last_checked": "2026-07-02",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "정책대출 취급기관 API 승인 후 기존 policy-loan 상품의 취급기관 상세로 연결합니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "status": "requires_data_go_kr_application",
+      "last_checked": "2026-07-02",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "서민금융통합지원센터 API 승인 후 상담센터·미소금융 지점 노드로 분리합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-products",
+      "status": "candidate",
+      "last_checked": "2026-07-02",
+      "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
+      "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-performance",
+      "status": "candidate",
+      "last_checked": "2026-07-02",
+      "last_observed_result": "official metadata reviewed; not a product-row source",
+      "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
+    }
+  ],
   "exports": [
     {
       "id": "tax-ontology",
@@ -49,7 +86,7 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 1397,
+      "item_count": 1407,
       "product_count": 1363,
       "source_review_date": "2026-07-02",
       "product_collection_dates": [

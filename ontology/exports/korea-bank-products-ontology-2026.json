@@ -652,6 +652,42 @@
       ]
     },
     {
+      "id": "category.finance.deposit-protection-products",
+      "title": "예금자보호 금융상품",
+      "type": "category",
+      "description": "예금보험공사 보호대상 금융상품 API로 상품명, 금융회사명, 상품판매중단일자를 보강할 후보입니다. 현재 DATA_GO_KR_SERVICE_KEY는 이 서비스에서 403이므로 별도 활용신청 후 수집합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-07-02",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.finance.deposit-protection-status",
+        "term.finance.source-approval-risk"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.kdic.insured-products"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "deposit-protection",
+        "candidate-import",
+        "requires-data-go-kr-approval",
+        "risk-control"
+      ],
+      "source_urls": [
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
       "id": "category.finance.installment-finance-products",
       "title": "할부금융 상품",
       "type": "category",
@@ -867,6 +903,7 @@
         "finance.bank-products-ontology"
       ],
       "children": [
+        "category.finance.policy-loan-service-network",
         "finance.bank.policy-loan.kinfa.hessal-loan-youth",
         "finance.bank.policy-loan.kinfa.illegal-private-finance-prevention",
         "finance.bank.rent-loan.myhome.support-lease-loan",
@@ -1213,6 +1250,45 @@
         "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
         "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
         "https://finlife.fss.or.kr/"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "category.finance.policy-loan-service-network",
+      "title": "정책대출 취급기관·상담센터",
+      "type": "category",
+      "description": "정책대출 상품 자체가 아니라 취급기관, 주소, 상담센터, 미소금융 지점 정보를 보강하는 후보입니다. 현재 키는 관련 공공데이터 API에서 403이므로 승인 후 상품 상세의 신청·방문 경로로 연결합니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-07-02",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology",
+        "category.finance.policy-loan-products"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.finance.source-approval-risk"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.data.go.kr.kinfa-loan-handling-agencies",
+        "source.data.go.kr.kinfa-support-centers"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "policy-loan",
+        "service-network",
+        "candidate-import",
+        "requires-data-go-kr-approval",
+        "risk-control"
+      ],
+      "source_urls": [
+        "https://www.data.go.kr/data/15074508/openapi.do",
+        "https://www.data.go.kr/data/15037733/openapi.do"
       ],
       "source_basis_dates": [
         "2026-07-02 확인"
@@ -1673,6 +1749,52 @@
       ]
     },
     {
+      "id": "category.finance.source-risk-controls",
+      "title": "금융 데이터 수집 리스크 통제",
+      "type": "category",
+      "description": "API 활용신청, 403 응답, 업데이트 주기, 상품 수 급감, 출처 수집일 누락을 추적하는 운영 노드입니다. 승인되지 않은 API는 상품 수에 섞지 않고 후보 출처와 manifest 리스크에 남깁니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-07-02",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [
+        "finance.bank-products-ontology"
+      ],
+      "children": [],
+      "related": [],
+      "terms": [
+        "term.finance.source-approval-risk"
+      ],
+      "deadlines": [],
+      "sources": [
+        "source.fss.finlife.api",
+        "source.data.go.kr.kinfa-loan-products",
+        "source.fsc.inclusive-finance-products",
+        "source.fsc.inclusive-finance-performance",
+        "source.data.go.kr.kinfa-loan-handling-agencies",
+        "source.data.go.kr.kinfa-support-centers",
+        "source.kdic.insured-products"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "data-quality",
+        "risk-control",
+        "source-access"
+      ],
+      "source_urls": [
+        "https://finlife.fss.or.kr/finlifeapi/",
+        "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "https://www.data.go.kr/data/15094787/openapi.do",
+        "https://www.data.go.kr/data/15094801/openapi.do",
+        "https://www.data.go.kr/data/15074508/openapi.do",
+        "https://www.data.go.kr/data/15037733/openapi.do",
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
       "id": "category.finance.specialized-credit-loan-products",
       "title": "여신전문금융 신용대출 상품",
       "type": "category",
@@ -1724,18 +1846,28 @@
         "category.finance.credit-loan-products",
         "category.finance.business-loan-products",
         "category.finance.policy-loan-products",
+        "category.finance.deposit-protection-products",
+        "category.finance.policy-loan-service-network",
+        "category.finance.source-risk-controls",
         "category.finance.specialized-credit-loan-products",
         "category.finance.installment-finance-products",
         "category.finance.lease-finance-products"
       ],
       "related": [],
-      "terms": [],
+      "terms": [
+        "term.finance.source-approval-risk",
+        "term.finance.deposit-protection-status"
+      ],
       "deadlines": [],
       "sources": [
         "source.fss.finlife.api",
         "source.fss.finlife.web",
         "source.fsc.business-loan-comparison",
         "source.data.go.kr.kinfa-loan-products",
+        "source.fsc.inclusive-finance-products",
+        "source.data.go.kr.kinfa-loan-handling-agencies",
+        "source.data.go.kr.kinfa-support-centers",
+        "source.kdic.insured-products",
         "source.kinfa.hessal-loan-youth",
         "source.kinfa.illegal-private-finance-prevention-loan",
         "source.myhome.support-lease-loan",
@@ -1748,13 +1880,18 @@
       ],
       "tags": [
         "finance-ontology",
-        "bank-products-ontology"
+        "bank-products-ontology",
+        "source-risk-tracked"
       ],
       "source_urls": [
         "https://finlife.fss.or.kr/finlifeapi/",
         "https://finlife.fss.or.kr/",
         "https://www.fsc.go.kr/no010101/83693",
         "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "https://www.data.go.kr/data/15094787/openapi.do",
+        "https://www.data.go.kr/data/15074508/openapi.do",
+        "https://www.data.go.kr/data/15037733/openapi.do",
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
         "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
         "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
         "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
@@ -339581,10 +339718,36 @@
       ]
     },
     {
+      "id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "title": "서민금융진흥원 서민대출상품 취급기관 정보 서비스",
+      "type": "source",
+      "description": "서민대출상품별 기관명, 법인번호, 금융기관주소, 상품명 등 취급기관 정보를 제공하는 API 후보입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "공공데이터포털",
+      "url": "https://www.data.go.kr/data/15074508/openapi.do",
+      "basis_date": "2026-07-02 확인",
+      "source_urls": [
+        "https://www.data.go.kr/data/15074508/openapi.do"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
       "id": "source.data.go.kr.kinfa-loan-products",
       "title": "서민금융진흥원 대출상품한눈에 정보 서비스",
       "type": "source",
-      "description": "서민금융·정책금융 대출상품의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 등을 비교 조회하는 공공데이터 API 후보입니다.",
+      "description": "서민금융·정책금융 대출상품의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 등을 비교 조회하는 공공데이터 API입니다.",
       "basis_year": null,
       "parents": [],
       "children": [],
@@ -339601,6 +339764,32 @@
       "basis_date": "2026-07-02 확인",
       "source_urls": [
         "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "source.data.go.kr.kinfa-support-centers",
+      "title": "서민금융진흥원 서민금융통합지원센터 현황",
+      "type": "source",
+      "description": "서민금융통합지원센터와 미소금융 지점의 지역, 지점명, 주소, 전화번호를 제공하는 API 후보입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "공공데이터포털",
+      "url": "https://www.data.go.kr/data/15037733/openapi.do",
+      "basis_date": "2026-07-02 확인",
+      "source_urls": [
+        "https://www.data.go.kr/data/15037733/openapi.do"
       ],
       "source_basis_dates": [
         "2026-07-02 확인"
@@ -339653,6 +339842,58 @@
       "basis_date": "2026-07-02 확인",
       "source_urls": [
         "https://www.fsc.go.kr/no010101/83693"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "source.fsc.inclusive-finance-performance",
+      "title": "금융위원회 서민금융지원실적정보",
+      "type": "source",
+      "description": "미소금융·햇살론 등 정책서민금융상품의 지원금액, 이용자 수, 지역·성별·연령대별 실적 API 후보입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "공공데이터포털",
+      "url": "https://www.data.go.kr/data/15094801/openapi.do",
+      "basis_date": "2026-07-02 확인",
+      "source_urls": [
+        "https://www.data.go.kr/data/15094801/openapi.do"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "source.fsc.inclusive-finance-products",
+      "title": "금융위원회 서민금융상품기본정보",
+      "type": "source",
+      "description": "서민금융 한눈에 기반의 서민금융 대출상품, 자산형성상품, 사회적 금융 상품 명칭·지원대상·금리·한도·상환방식 API 후보입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "공공데이터포털",
+      "url": "https://www.data.go.kr/data/15094787/openapi.do",
+      "basis_date": "2026-07-02 확인",
+      "source_urls": [
+        "https://www.data.go.kr/data/15094787/openapi.do"
       ],
       "source_basis_dates": [
         "2026-07-02 확인"
@@ -339731,6 +339972,32 @@
       "basis_date": "2026-07-02 확인",
       "source_urls": [
         "https://www.hf.go.kr/ko/sub01/sub01_01_02.do"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "source.kdic.insured-products",
+      "title": "예금보험공사 예금자보호 금융상품",
+      "type": "source",
+      "description": "금융회사별 예금자보호 대상 금융상품명, 금융회사명, 상품판매중단일자, 등록일을 제공하는 예금자보호 리스크 보강 API 후보입니다.",
+      "basis_year": null,
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [],
+      "tags": [
+        "official-source",
+        "finance-source"
+      ],
+      "publisher": "공공데이터포털",
+      "url": "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
+      "basis_date": "2026-07-02 확인",
+      "source_urls": [
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
       ],
       "source_basis_dates": [
         "2026-07-02 확인"
@@ -339995,6 +340262,35 @@
       ]
     },
     {
+      "id": "term.finance.deposit-protection-status",
+      "title": "예금자보호 여부",
+      "type": "term",
+      "description": "예금보험공사 보호대상 금융상품 목록에 등재됐는지와 상품판매중단일자가 있는지를 확인하는 소비자 보호 기준입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-07-02",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.kdic.insured-products"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "deposit-protection",
+        "consumer-protection"
+      ],
+      "source_urls": [
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
       "id": "term.finance.early-termination-fee",
       "title": "중도해지수수료",
       "type": "term",
@@ -340108,6 +340404,44 @@
       "source_urls": [
         "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd",
         "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60"
+      ],
+      "source_basis_dates": [
+        "2026-07-02 확인"
+      ]
+    },
+    {
+      "id": "term.finance.source-approval-risk",
+      "title": "공공데이터 API 승인 리스크",
+      "type": "term",
+      "description": "공공데이터포털 API가 자동승인으로 표시되더라도 서비스별 활용신청이 없으면 403 또는 인증 오류가 날 수 있어, 승인 전에는 후보 출처로만 보존하는 운영 리스크입니다.",
+      "basis_year": 2026,
+      "reviewed_at": "2026-07-02",
+      "abolition_status": "active",
+      "revision_status": "check_source",
+      "parents": [],
+      "children": [],
+      "related": [],
+      "terms": [],
+      "deadlines": [],
+      "sources": [
+        "source.data.go.kr.kinfa-loan-products",
+        "source.fsc.inclusive-finance-products",
+        "source.data.go.kr.kinfa-loan-handling-agencies",
+        "source.data.go.kr.kinfa-support-centers",
+        "source.kdic.insured-products"
+      ],
+      "tags": [
+        "bank-products-ontology",
+        "data-quality",
+        "source-access",
+        "risk-control"
+      ],
+      "source_urls": [
+        "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+        "https://www.data.go.kr/data/15094787/openapi.do",
+        "https://www.data.go.kr/data/15074508/openapi.do",
+        "https://www.data.go.kr/data/15037733/openapi.do",
+        "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
       ],
       "source_basis_dates": [
         "2026-07-02 확인"
