@@ -147,6 +147,8 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
     "status_check_url",
 )
 LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-03"
+LOCAL_SUPPORT_VALID_STATUSES = {"active", "closed", "unknown"}
 
 
 def parse_frontmatter(path: Path) -> dict | None:
@@ -350,8 +352,16 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
         item_id = item["id"]
         require("category.local-government-supports" in (item.get("parents") or []), f"{item_id}: missing local-government support category parent", errors)
         require("source.gov24.benefit-plus.local-supports" in (item.get("sources") or []), f"{item_id}: missing Gov24 Benefit Plus source", errors)
+        require("category.local-government-supports" not in (item.get("related") or []), f"{item_id}: local category must not be duplicated in related", errors)
         for field in LOCAL_GOV_SUPPORT_REQUIRED_FIELDS:
             require(bool(item.get(field)), f"{item_id}: missing {field}", errors)
+        require(item.get("status") in LOCAL_SUPPORT_VALID_STATUSES, f"{item_id}: invalid status", errors)
+        require(bool(item.get("status_reason")), f"{item_id}: missing status_reason", errors)
+        require(bool(item.get("status_confidence")), f"{item_id}: missing status_confidence", errors)
+        require(bool(item.get("last_verified_at")), f"{item_id}: missing last_verified_at", errors)
+        expiration_date = item.get("expiration_date")
+        if item.get("status") == "active" and expiration_date:
+            require(str(expiration_date) >= LOCAL_SUPPORT_STATUS_REVIEW_DATE, f"{item_id}: expired local support marked active", errors)
         status_url = item.get("status_check_url") or ""
         require(status_url.startswith("https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl"), f"{item_id}: invalid status_check_url", errors)
         source_urls = item.get("source_urls") or []
@@ -374,6 +384,8 @@ def validate_local_government_support_split(items: dict[str, dict], errors: list
     reference_items = payload.get("reference_items") or []
     require(isinstance(local_items, list) and bool(local_items), "local support export has no items", errors)
     require(payload.get("item_count") == len(local_items), "local support export item_count mismatch", errors)
+    quality = payload.get("quality_summary") or {}
+    require(quality.get("expired_active_local_supports") == 0, "local support export has expired active supports", errors)
     local_by_id = {item["id"]: item for item in local_items if isinstance(item, dict) and item.get("id")}
     reference_by_id = {item["id"]: item for item in reference_items if isinstance(item, dict) and item.get("id")}
     require(len(local_by_id) == len(local_items), "local support export has duplicate or invalid item ids", errors)

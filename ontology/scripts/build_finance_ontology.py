@@ -9,6 +9,7 @@ source-specific disclosure fields for later stale/closed-product checks.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Iterable
@@ -20,8 +21,9 @@ EXPORT_DIR = ROOT / "exports"
 CUSTOM_FINANCE_DIR = ROOT / "custom" / "finance"
 DOCS_ROOT = REPO_ROOT / "docs" / "opentax"
 
-CURRENT_REVIEW_DATE = "2026-07-02"
+CURRENT_REVIEW_DATE = "2026-07-03"
 CURRENT_BASIS_YEAR = 2026
+DISCLOSURE_STALE_BEFORE = "202401"
 RAW_BASE_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main"
 WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax"
 
@@ -34,6 +36,7 @@ GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
     "bank": CUSTOM_FINANCE_DIR / "bank-products.generated.json",
     "policy_loan": CUSTOM_FINANCE_DIR / "policy-loan-products.generated.json",
+    "deposit_protection": CUSTOM_FINANCE_DIR / "deposit-protection-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
 }
 
@@ -113,7 +116,7 @@ SOURCES = {
         "금융감독원",
         "https://finlife.fss.or.kr/finlifeapi/",
         "금융회사, 정기예금, 적금, 연금저축, 주택담보대출, 전세자금대출, 개인신용대출 상품의 공식 비교공시 API 원천입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.fss.finlife.web": source_node(
         "source.fss.finlife.web",
@@ -121,7 +124,7 @@ SOURCES = {
         "금융감독원",
         "https://finlife.fss.or.kr/",
         "예금, 적금, 대출, 연금저축 등 금융상품 비교공시를 제공하는 금융감독원 공식 웹 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.fsc.business-loan-comparison": source_node(
         "source.fsc.business-loan-comparison",
@@ -129,7 +132,7 @@ SOURCES = {
         "금융위원회",
         "https://www.fsc.go.kr/no010101/83693",
         "금융상품 한눈에의 개인사업자 대출상품 비교공시 신설, 자금용도·가입대상·대출종류·필요금액 등 검색조건과 상세정보 제공 근거입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.data.go.kr.kinfa-loan-products": source_node(
         "source.data.go.kr.kinfa-loan-products",
@@ -137,7 +140,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
         "서민금융·정책금융 대출상품의 대출한도, 금리구분, 대출용도, 총 대출기간, 취급기관 등을 비교 조회하는 공공데이터 API입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.fsc.inclusive-finance-products": source_node(
         "source.fsc.inclusive-finance-products",
@@ -145,7 +148,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15094787/openapi.do",
         "서민금융 한눈에 기반의 서민금융 대출상품, 자산형성상품, 사회적 금융 상품 명칭·지원대상·금리·한도·상환방식 API 후보입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.fsc.inclusive-finance-performance": source_node(
         "source.fsc.inclusive-finance-performance",
@@ -153,7 +156,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15094801/openapi.do",
         "미소금융·햇살론 등 정책서민금융상품의 지원금액, 이용자 수, 지역·성별·연령대별 실적 API 후보입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.data.go.kr.kinfa-loan-handling-agencies": source_node(
         "source.data.go.kr.kinfa-loan-handling-agencies",
@@ -161,7 +164,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15074508/openapi.do",
         "서민대출상품별 기관명, 법인번호, 금융기관주소, 상품명 등 취급기관 정보를 제공하는 API 후보입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.data.go.kr.kinfa-support-centers": source_node(
         "source.data.go.kr.kinfa-support-centers",
@@ -169,7 +172,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15037733/openapi.do",
         "서민금융통합지원센터와 미소금융 지점의 지역, 지점명, 주소, 전화번호를 제공하는 API 후보입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.kdic.insured-products": source_node(
         "source.kdic.insured-products",
@@ -177,7 +180,7 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y",
         "금융회사별 예금자보호 대상 금융상품명, 금융회사명, 상품판매중단일자, 등록일을 제공하는 예금자보호 리스크 보강 API 후보입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.kinfa.hessal-loan-youth": source_node(
         "source.kinfa.hessal-loan-youth",
@@ -185,7 +188,7 @@ SOURCES = {
         "서민금융진흥원",
         "https://www.kinfa.or.kr/financialProduct/hessalLoanYoos.do",
         "청년·대학생 대상 햇살론유스의 지원대상, 보증한도, 보증기간, 대출금리와 보증료율 공식 안내입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.kinfa.illegal-private-finance-prevention-loan": source_node(
         "source.kinfa.illegal-private-finance-prevention-loan",
@@ -193,7 +196,7 @@ SOURCES = {
         "서민금융진흥원",
         "https://www.kinfa.or.kr/financialProduct/smallLivingLoan.do",
         "대부업 이용도 어려운 저신용·저소득자 생계비 대출의 지원대상, 금리, 한도, 상환방식 공식 안내입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.myhome.support-lease-loan": source_node(
         "source.myhome.support-lease-loan",
@@ -201,7 +204,7 @@ SOURCES = {
         "마이홈포털",
         "https://www.myhome.go.kr/hws/portal/cont/selectSupLeaseLoanView.do",
         "근로자·서민 주거 안정을 위한 버팀목전세대출의 대상, 금리, 한도, 기간, 우대금리 공식 안내입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.hf.bogeumjari-loan": source_node(
         "source.hf.bogeumjari-loan",
@@ -209,7 +212,7 @@ SOURCES = {
         "한국주택금융공사",
         "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
         "보금자리론의 신청대상, 대출요건, 한도, 만기, 상환방식과 특성별 상품 공식 안내입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.card-lending-products": source_node(
         "source.crefia.card-lending-products",
@@ -217,7 +220,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardLendingProd",
         "단기카드대출(현금서비스)과 장기카드대출(카드론)의 기간, 한도, 이용방법, 수수료율과 유의사항을 설명하는 공식 공시입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.card-loan-revolving-rates": source_node(
         "source.crefia.card-loan-revolving-rates",
@@ -225,7 +228,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/creditcard/creditcardDisclosureDetail20?cgcMode=20",
         "현금서비스, 카드론, 결제성 리볼빙의 신용점수별 금리·수수료율 비교공시 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.fsc.revolving-service-improvement": source_node(
         "source.fsc.revolving-service-improvement",
@@ -233,7 +236,7 @@ SOURCES = {
         "금융위원회",
         "https://www.fsc.go.kr/no010101/78357",
         "결제성 리볼빙 서비스의 설명의무, 수수료율 안내·공시 강화, 건전한 이용 유도 기준을 정리한 금융위원회 보도자료입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.lease-installment-products": source_node(
         "source.crefia.lease-installment-products",
@@ -241,7 +244,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/financialProdInfo/leaseProd",
         "자동차리스와 자동차·주택·가전·기계류·기타 할부 상품 공시 범위를 설명하는 공식 금융상품정보 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.auto-lease-disclosure": source_node(
         "source.crefia.auto-lease-disclosure",
@@ -249,7 +252,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/quota/quotaFinancingDisclosureDetail60?ifgcMode=60",
         "자동차리스 금융상품의 리스료, 보증금·잔존가치 조건, 중도해지수수료 비교공시 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.credit-loan-products": source_node(
         "source.crefia.credit-loan-products",
@@ -257,7 +260,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/financialProdInfo/creditLendingProd",
         "여신전문금융회사 신용대출과 민간중금리대출의 의미, 요건, 이용방법을 설명하는 공식 금융상품정보 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.credit-loan-rate-disclosure": source_node(
         "source.crefia.credit-loan-rate-disclosure",
@@ -265,7 +268,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/creditloan/creditloanDisclosureDetail11",
         "여신전문금융회사 신용대출상품의 신용점수 구간별 평균금리 비교공시 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.card-products": source_node(
         "source.crefia.card-products",
@@ -273,7 +276,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd",
         "신용카드와 체크카드 상품의 기본 공시 및 카드상품 비교 원천입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.crefia.carddamoa": source_node(
         "source.crefia.carddamoa",
@@ -281,7 +284,7 @@ SOURCES = {
         "여신금융협회",
         "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList",
         "카드사별 신용카드·체크카드 혜택, 전월실적, 할인·적립 조건을 비교하기 위한 공식 카드 비교 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.kbcard.card-list": source_node(
         "source.kbcard.card-list",
@@ -289,7 +292,7 @@ SOURCES = {
         "KB국민카드",
         "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
         "KB국민카드 신용카드·체크카드 상품명, 상품코드, 주요혜택, 상세페이지 링크를 제공하는 발급사 공식 카드 목록입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.bccard.credit-card-list": source_node(
         "source.bccard.credit-card-list",
@@ -297,7 +300,7 @@ SOURCES = {
         "비씨카드",
         "https://www.bccard.com/app/card/CreditCardMain.do",
         "비씨카드와 회원사의 신용카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.bccard.check-card-list": source_node(
         "source.bccard.check-card-list",
@@ -305,7 +308,7 @@ SOURCES = {
         "비씨카드",
         "https://www.bccard.com/app/card/CheckCardMain.do",
         "비씨카드와 회원사의 체크카드 상품명, 발급사, 상품코드, 주요혜택을 제공하는 공식 카드 목록입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.samsungcard.credit-card-list": source_node(
         "source.samsungcard.credit-card-list",
@@ -313,7 +316,7 @@ SOURCES = {
         "삼성카드",
         "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001",
         "삼성카드 신용카드 상품명, 상품코드, 주요혜택, 카드 이미지와 상세페이지 링크를 제공하는 공식 WCMS 카드 목록입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.samsungcard.check-card-list": source_node(
         "source.samsungcard.check-card-list",
@@ -321,7 +324,7 @@ SOURCES = {
         "삼성카드",
         "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001",
         "삼성카드 체크카드 상품명, 상품코드, 주요혜택, 카드 이미지와 상세페이지 링크를 제공하는 공식 WCMS 카드 목록입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.einsmarket.insurance": source_node(
         "source.einsmarket.insurance",
@@ -329,7 +332,7 @@ SOURCES = {
         "보험다모아",
         "https://www.e-insmarket.or.kr/",
         "자동차보험, 실손의료보험, 여행자보험, 연금 등 보험상품 보험료 비교를 제공하는 공식 보험 비교 표면입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.klia.insurance-disclosure": source_node(
         "source.klia.insurance-disclosure",
@@ -337,7 +340,7 @@ SOURCES = {
         "생명보험협회",
         "https://pub.insure.or.kr/",
         "생명보험 상품 공시와 보장성 상품·변액보험 등 생명보험 상품 정보를 확인하는 공식 공시실입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.knia.insurance-disclosure": source_node(
         "source.knia.insurance-disclosure",
@@ -345,7 +348,7 @@ SOURCES = {
         "손해보험협회",
         "https://kpub.knia.or.kr/",
         "손해보험 상품 공시, 보험료 비교, 판매상태 확인을 위한 손해보험 업권 공시 원천입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
     "source.easylaw.finance-product-disclosure": source_node(
         "source.easylaw.finance-product-disclosure",
@@ -353,7 +356,7 @@ SOURCES = {
         "찾기쉬운 생활법령정보",
         "https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=1&cciNo=1&cnpClsNo=1&csmSeq=1771",
         "금융상품 비교공시 항목에 이자율, 보험료, 수수료, 중도상환수수료율, 위험등급, 공시시점 등이 포함된다는 근거입니다.",
-        "2026-07-02 확인",
+        "2026-07-03 확인",
     ),
 }
 
@@ -551,6 +554,7 @@ def card_items() -> list[dict]:
 def bank_items() -> list[dict]:
     generated = load_generated("bank")
     policy_generated = load_generated("policy_loan")
+    deposit_protection_generated = load_generated("deposit_protection")
     items = [
         node(
             "finance.bank-products-ontology",
@@ -668,21 +672,21 @@ def bank_items() -> list[dict]:
             "category.finance.deposit-protection-products",
             "예금자보호 금융상품",
             "category",
-            "예금보험공사 보호대상 금융상품 API로 상품명, 금융회사명, 상품판매중단일자를 보강할 후보입니다. 현재 DATA_GO_KR_SERVICE_KEY는 이 서비스에서 403이므로 별도 활용신청 후 수집합니다.",
+            "예금보험공사 보호대상 금융상품 API에서 상품명, 금융회사명, 등록일을 수집합니다. 상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 필요할 때 별도 재수집 옵션으로 이력 확인합니다.",
             parents=["finance.bank-products-ontology"],
             sources=["source.kdic.insured-products"],
             terms=["term.finance.deposit-protection-status", "term.finance.source-approval-risk"],
-            tags=["bank-products-ontology", "deposit-protection", "candidate-import", "requires-data-go-kr-approval", "risk-control"],
+            tags=["bank-products-ontology", "deposit-protection", "api-import-ready", "consumer-protection", "risk-control"],
         ),
         node(
             "category.finance.policy-loan-service-network",
             "정책대출 취급기관·상담센터",
             "category",
-            "정책대출 상품 자체가 아니라 취급기관, 주소, 상담센터, 미소금융 지점 정보를 보강하는 후보입니다. 현재 키는 관련 공공데이터 API에서 403이므로 승인 후 상품 상세의 신청·방문 경로로 연결합니다.",
+            "정책대출 상품 자체가 아니라 취급기관, 주소, 상담센터, 미소금융 지점 정보를 보강하는 후보입니다. 활용신청 완료 후에도 현재 키는 관련 공공데이터 API에서 403이므로 권한 전파가 확인될 때까지 상품 상세에 섞지 않습니다.",
             parents=["finance.bank-products-ontology", "category.finance.policy-loan-products"],
             sources=["source.data.go.kr.kinfa-loan-handling-agencies", "source.data.go.kr.kinfa-support-centers"],
             terms=["term.finance.source-approval-risk"],
-            tags=["bank-products-ontology", "policy-loan", "service-network", "candidate-import", "requires-data-go-kr-approval", "risk-control"],
+            tags=["bank-products-ontology", "policy-loan", "service-network", "candidate-import", "live-403", "risk-control"],
         ),
         node(
             "category.finance.source-risk-controls",
@@ -959,6 +963,7 @@ def bank_items() -> list[dict]:
     ]
     items.extend(generated)
     items.extend(policy_generated)
+    items.extend(deposit_protection_generated)
     return attach_source_metadata([
         *items,
         SOURCES["source.fss.finlife.api"],
@@ -1087,6 +1092,134 @@ def insurance_items() -> list[dict]:
     ])
 
 
+def disclosure_months(item: dict) -> list[str]:
+    months: list[str] = []
+    disclosure_month = item.get("disclosure_month")
+    if disclosure_month:
+        months.append(str(disclosure_month))
+    for option in item.get("options") or []:
+        if isinstance(option, dict) and option.get("dcls_month"):
+            months.append(str(option["dcls_month"]))
+    return sorted({month for month in months if month})
+
+
+def has_product_conditions(item: dict) -> bool:
+    return bool(item.get("criteria") or item.get("options") or item.get("benefits"))
+
+
+def active_status_reason(item: dict) -> str:
+    source_dates = ", ".join(str(value) for value in item.get("source_basis_dates") or [])
+    if source_dates:
+        return f"공식 출처 수집 기준으로 판매·공시 상태를 확인했습니다: {source_dates}"
+    return "공식 출처 수집 기준으로 판매·공시 상태를 확인했습니다."
+
+
+def enrich_operational_status(items: list[dict]) -> list[dict]:
+    for item in items:
+        item_type = item.get("type")
+        if item_type not in {"card-product", "bank-product", "insurance-product"}:
+            continue
+
+        raw_status = str(item.get("product_status") or item.get("sales_status") or item.get("status") or "unknown")
+        status = raw_status if raw_status in {"active", "ended", "suspended", "unknown"} else "unknown"
+        status_reason = item.get("status_reason") or active_status_reason(item)
+        status_confidence = item.get("status_confidence") or "confirmed"
+        flags = list(item.get("quality_flags") or [])
+        missing_fields = list(item.get("missing_required_fields") or [])
+        months = disclosure_months(item)
+
+        if status == "active" and not has_product_conditions(item):
+            status = "unknown"
+            status_reason = "상품 비교·추천에 필요한 criteria/options/benefits가 비어 있어 현재 판매 중으로 단정하지 않습니다."
+            status_confidence = "insufficient"
+            flags.append("missing_product_conditions")
+            missing_fields.append("criteria_or_options")
+
+        if item_type == "insurance-product":
+            if status == "active" and not item.get("criteria"):
+                status = "unknown"
+                status_reason = "보험상품은 보장·보험료·면책·갱신 등 판단 기준이 비어 있어 active로 노출하지 않습니다."
+                status_confidence = "insufficient"
+                flags.append("missing_insurance_criteria")
+                missing_fields.append("criteria")
+            latest_month = max(months) if months else ""
+            if status == "active" and latest_month and latest_month < DISCLOSURE_STALE_BEFORE:
+                status = "unknown"
+                status_reason = f"최신 공시월이 {latest_month}로 오래되어 현재 판매 중으로 단정하지 않습니다."
+                status_confidence = "stale"
+                flags.append("stale_disclosure_month")
+
+        if status == "ended" or item.get("effective_to"):
+            item["product_status"] = "ended"
+            item["sales_status"] = "ended"
+            item["status"] = "closed"
+            item["status_reason"] = item.get("status_reason") or "공식 출처에 종료일 또는 판매중단일자가 있어 기본 검색·추천 대상에서 제외합니다."
+            item["status_confidence"] = item.get("status_confidence") or "confirmed"
+            item["recommendation_status"] = "reference_only"
+        elif status == "active":
+            item["product_status"] = "active"
+            item["sales_status"] = "active"
+            item["status"] = "active"
+            item["status_reason"] = status_reason
+            item["status_confidence"] = status_confidence
+            item["recommendation_status"] = "eligible_for_listing"
+        else:
+            item["product_status"] = status
+            item["sales_status"] = status
+            item["status"] = status
+            item["status_reason"] = status_reason
+            item["status_confidence"] = status_confidence
+            item["recommendation_status"] = "reference_only"
+
+        item["effective_from"] = item.get("effective_from")
+        item["effective_to"] = item.get("effective_to")
+        item["application_open_from"] = item.get("application_open_from")
+        item["application_open_to"] = item.get("application_open_to")
+        item["last_verified_at"] = item.get("last_verified_at") or CURRENT_REVIEW_DATE
+        item["source_modified_at"] = item.get("source_modified_at") or (max(months) if months else None)
+        item["quality_flags"] = unique([str(flag) for flag in flags])
+        item["missing_required_fields"] = unique([str(field) for field in missing_fields])
+    return items
+
+
+def export_quality_summary(items: list[dict], product_type: str) -> dict:
+    products = [item for item in items if item.get("type") == product_type]
+    status_counts: dict[str, int] = {}
+    for product in products:
+        status = str(product.get("status") or product.get("product_status") or "unknown")
+        status_counts[status] = status_counts.get(status, 0) + 1
+    stale_count = sum(1 for product in products if "stale_disclosure_month" in (product.get("quality_flags") or []))
+    return {
+        "product_count": len(products),
+        "status_counts": dict(sorted(status_counts.items())),
+        "active_products_without_criteria": sum(
+            1 for product in products
+            if product.get("status") == "active" and not product.get("criteria")
+        ),
+        "active_products_without_conditions": sum(
+            1 for product in products
+            if product.get("status") == "active" and not has_product_conditions(product)
+        ),
+        "active_insurance_without_criteria": sum(
+            1 for product in products
+            if product.get("type") == "insurance-product" and product.get("status") == "active" and not product.get("criteria")
+        ),
+        "stale_disclosure_products": stale_count,
+        "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
+        "quality_gate": {
+            "expired_active_local_supports": "validated in korea-local-government-supports export",
+            "active_insurance_without_criteria_must_be_zero": True,
+            "active_products_without_conditions_must_be_zero": True,
+            "stale_active_disclosure_products_must_be_zero": True,
+        },
+    }
+
+
+def payload_checksum(payload: dict) -> str:
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def normalize_links(items: list[dict]) -> list[dict]:
     by_id = {item["id"]: item for item in items}
     for item in items:
@@ -1102,13 +1235,14 @@ def normalize_links(items: list[dict]) -> list[dict]:
 
 
 def write_export(path: Path, version: str, domain: str, items: list[dict], product_type: str, generated_domain: str) -> dict:
-    normalized = normalize_links(items)
+    normalized = normalize_links(enrich_operational_status(items))
     product_count = product_counts(normalized, product_type)
     product_collection_dates = sorted({
         item["collected_at"]
         for item in normalized
         if item.get("type") == product_type and item.get("collected_at")
     })
+    quality_summary = export_quality_summary(normalized, product_type)
     payload = {
         "version": version,
         "basis_date": CURRENT_REVIEW_DATE,
@@ -1117,8 +1251,10 @@ def write_export(path: Path, version: str, domain: str, items: list[dict], produ
         "domain": domain,
         "ontology_kind": f"{domain}-ontology",
         **generated_status(generated_domain, product_count),
+        "quality_summary": quality_summary,
         "items": normalized,
     }
+    payload["export_checksum"] = payload_checksum(payload)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
@@ -1126,6 +1262,8 @@ def write_export(path: Path, version: str, domain: str, items: list[dict], produ
         "item_count": len(normalized),
         "product_count": product_count,
         "product_collection_dates": product_collection_dates,
+        "quality_summary": quality_summary,
+        "export_checksum": payload["export_checksum"],
     }
 
 
@@ -1137,6 +1275,8 @@ def export_entry(
     product_count: int,
     description: str,
     product_collection_dates: list[str] | None = None,
+    quality_summary: dict | None = None,
+    export_checksum: str | None = None,
 ) -> dict:
     return {
         "id": id_,
@@ -1148,6 +1288,8 @@ def export_entry(
         "product_count": product_count,
         "source_review_date": CURRENT_REVIEW_DATE,
         "product_collection_dates": product_collection_dates or [],
+        "quality_summary": quality_summary or {},
+        "export_checksum": export_checksum,
         "description": description,
     }
 
@@ -1163,43 +1305,55 @@ def write_manifest(results: dict[str, dict]) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.02.1",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "name": "finance",
         "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+        "quality_summary": {
+            "committee_remediation": {
+                "status_fields_added": True,
+                "expired_local_support_active_gate": True,
+                "active_insurance_without_criteria_gate": True,
+                "status_aware_search_required": True,
+            },
+            "finance_exports": {
+                key: value.get("quality_summary", {})
+                for key, value in results.items()
+            },
+        },
         "source_access_risks": [
             {
                 "source_id": "source.kdic.insured-products",
-                "status": "requires_data_go_kr_application",
+                "status": "live_imported",
                 "last_checked": CURRENT_REVIEW_DATE,
-                "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-                "mitigation": "예금자보호 금융상품 API 활용신청 후 별도 generated snapshot으로 수집합니다.",
+                "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
+                "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다.",
             },
             {
                 "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
-                "status": "requires_data_go_kr_application",
+                "status": "approved_by_user_but_live_403",
                 "last_checked": CURRENT_REVIEW_DATE,
                 "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-                "mitigation": "정책대출 취급기관 API 승인 후 기존 policy-loan 상품의 취급기관 상세로 연결합니다.",
+                "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다.",
             },
             {
                 "source_id": "source.data.go.kr.kinfa-support-centers",
-                "status": "requires_data_go_kr_application",
+                "status": "approved_by_user_but_live_403",
                 "last_checked": CURRENT_REVIEW_DATE,
                 "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
-                "mitigation": "서민금융통합지원센터 API 승인 후 상담센터·미소금융 지점 노드로 분리합니다.",
+                "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다.",
             },
             {
                 "source_id": "source.fsc.inclusive-finance-products",
-                "status": "candidate",
+                "status": "approved_by_user_endpoint_mapping_pending",
                 "last_checked": CURRENT_REVIEW_DATE,
                 "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
                 "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다.",
             },
             {
                 "source_id": "source.fsc.inclusive-finance-performance",
-                "status": "candidate",
+                "status": "approved_by_user_metric_source",
                 "last_checked": CURRENT_REVIEW_DATE,
                 "last_observed_result": "official metadata reviewed; not a product-row source",
                 "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다.",
@@ -1230,6 +1384,8 @@ def write_manifest(results: dict[str, dict]) -> None:
                 results["card"]["product_count"],
                 "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다.",
                 results["card"]["product_collection_dates"],
+                results["card"].get("quality_summary"),
+                results["card"].get("export_checksum"),
             ),
             export_entry(
                 "bank-products-ontology",
@@ -1239,6 +1395,8 @@ def write_manifest(results: dict[str, dict]) -> None:
                 results["bank"]["product_count"],
                 "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다.",
                 results["bank"]["product_collection_dates"],
+                results["bank"].get("quality_summary"),
+                results["bank"].get("export_checksum"),
             ),
             export_entry(
                 "insurance-products-ontology",
@@ -1248,6 +1406,8 @@ def write_manifest(results: dict[str, dict]) -> None:
                 results["insurance"]["product_count"],
                 "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다.",
                 results["insurance"]["product_collection_dates"],
+                results["insurance"].get("quality_summary"),
+                results["insurance"].get("export_checksum"),
             ),
         ],
     }
@@ -1261,7 +1421,7 @@ def main() -> int:
     results = {
         "card": write_export(
             CARD_EXPORT,
-            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.02.1",
+            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.03.1",
             "card-products",
             card_items(),
             "card-product",
@@ -1269,7 +1429,7 @@ def main() -> int:
         ),
         "bank": write_export(
             BANK_EXPORT,
-            "KR-BANK-PRODUCTS-ONTOLOGY-2026.07.02.1",
+            "KR-BANK-PRODUCTS-ONTOLOGY-2026.07.03.1",
             "bank-products",
             bank_items(),
             "bank-product",
@@ -1277,7 +1437,7 @@ def main() -> int:
         ),
         "insurance": write_export(
             INSURANCE_EXPORT,
-            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.02.1",
+            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.03.1",
             "insurance-products",
             insurance_items(),
             "insurance-product",

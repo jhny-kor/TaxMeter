@@ -14,6 +14,8 @@ MANIFEST = EXPORT_DIR / "finance-ontology-manifest.json"
 
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
+VALID_OPERATIONAL_STATUSES = {"active", "closed", "ended", "suspended", "unknown"}
+DISCLOSURE_STALE_BEFORE = "202401"
 REQUIRED_PRODUCT_FIELDS = (
     "provider",
     "provider_code",
@@ -25,6 +27,13 @@ REQUIRED_PRODUCT_FIELDS = (
     "source_urls",
     "source_basis_dates",
     "collected_at",
+)
+REQUIRED_OPERATIONAL_FIELDS = (
+    "status",
+    "status_reason",
+    "status_confidence",
+    "last_verified_at",
+    "recommendation_status",
 )
 
 
@@ -77,10 +86,28 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
         item_id = item["id"]
         for field in REQUIRED_PRODUCT_FIELDS:
             require(bool(item.get(field)), f"{export_id}:{item_id}: missing {field}", errors)
+        for field in REQUIRED_OPERATIONAL_FIELDS:
+            require(item.get(field) not in {None, ""}, f"{export_id}:{item_id}: missing {field}", errors)
         require(item.get("product_status") in {"active", "ended", "suspended", "unknown"}, f"{export_id}:{item_id}: invalid product_status", errors)
         require(item.get("sales_status") in {"active", "ended", "suspended", "unknown"}, f"{export_id}:{item_id}: invalid sales_status", errors)
+        require(item.get("status") in VALID_OPERATIONAL_STATUSES, f"{export_id}:{item_id}: invalid status", errors)
         criteria = item.get("criteria") or []
+        options = item.get("options") or []
+        benefits = item.get("benefits") or []
         require(isinstance(criteria, list), f"{export_id}:{item_id}: criteria must be a list", errors)
+        require(isinstance(options, list), f"{export_id}:{item_id}: options must be a list when present", errors)
+        if item.get("status") == "active":
+            require(bool(criteria or options or benefits), f"{export_id}:{item_id}: active product has no criteria/options/benefits", errors)
+        if item.get("type") == "insurance-product" and item.get("status") == "active":
+            require(bool(criteria), f"{export_id}:{item_id}: active insurance product has empty criteria", errors)
+        disclosure_months = []
+        if item.get("disclosure_month"):
+            disclosure_months.append(str(item["disclosure_month"]))
+        for option in options:
+            if isinstance(option, dict) and option.get("dcls_month"):
+                disclosure_months.append(str(option["dcls_month"]))
+        if item.get("status") == "active" and disclosure_months:
+            require(max(disclosure_months) >= DISCLOSURE_STALE_BEFORE, f"{export_id}:{item_id}: active product has stale disclosure month", errors)
         for index, criterion in enumerate(criteria, start=1):
             require(bool(criterion.get("source")), f"{export_id}:{item_id}: criteria #{index} missing source", errors)
             require(bool(criterion.get("basis_source")), f"{export_id}:{item_id}: criteria #{index} missing basis_source", errors)
@@ -108,6 +135,9 @@ def validate_manifest(errors: list[str]) -> list[dict]:
         require(path.exists(), f"{export_id}: missing export file {path_text}", errors)
         require(bool(entry.get("url")), f"{export_id}: missing raw url", errors)
         require(bool(entry.get("web_url")), f"{export_id}: missing web url", errors)
+        if entry.get("domain", "").endswith("products"):
+            require(bool(entry.get("quality_summary")), f"{export_id}: missing quality_summary", errors)
+            require(bool(entry.get("export_checksum")), f"{export_id}: missing export_checksum", errors)
     return exports
 
 

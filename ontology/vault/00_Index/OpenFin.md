@@ -10,8 +10,8 @@ source_basis_dates: ["2026-05-05 확인", "2026-05-05 확인"]
 abolition_status: "active"
 revision_status: "check_source"
 parents: []
-children: ["kr-tax-system", "category.local-government-supports", "ontology.card-products", "ontology.bank-products", "ontology.insurance-products"]
-related: []
+children: ["ontology.card-products", "ontology.bank-products", "ontology.insurance-products"]
+related: ["kr-tax-system", "category.local-government-supports"]
 terms: []
 deadlines: []
 sources: []

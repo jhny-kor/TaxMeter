@@ -64,12 +64,12 @@
         </svg>
         <button class="graph-node root" type="button" data-domain="all">
           <strong>Finance Manifest</strong>
-          <span data-total-items>10,988 items</span>
+          <span data-total-items>20,368 items</span>
         </button>
         <button class="graph-node tax" type="button" data-domain="tax"><strong>Tax</strong><span data-domain-count="tax">374</span></button>
         <button class="graph-node local" type="button" data-domain="local-government-supports"><strong>Local Supports</strong><span data-domain-count="local-government-supports">7,820</span></button>
         <button class="graph-node card" type="button" data-domain="card-products"><strong>Cards</strong><span data-domain-count="card-products">1,029</span></button>
-        <button class="graph-node bank" type="button" data-domain="bank-products"><strong>Banks</strong><span data-domain-count="bank-products">1,407</span></button>
+        <button class="graph-node bank" type="button" data-domain="bank-products"><strong>Banks</strong><span data-domain-count="bank-products">10,787</span></button>
         <button class="graph-node insurance" type="button" data-domain="insurance-products"><strong>Insurance</strong><span data-domain-count="insurance-products">358</span></button>
         <a class="graph-node mcp" href="https://finance-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">
           <strong>OpenFin MCP</strong>
@@ -79,11 +79,18 @@
     </section>
 
     <section class="metrics section" aria-label="OpenFin 요약 수치">
-      <div><strong data-total-items-plain>10,988</strong><span>통합 항목</span></div>
+      <div><strong data-total-items-plain>20,368</strong><span>통합 항목</span></div>
       <div><strong data-export-count>5</strong><span>도메인 export</span></div>
-      <div><strong data-product-count>2,712</strong><span>금융 상품</span></div>
+      <div><strong data-product-count>12,092</strong><span>금융 상품</span></div>
       <div><strong data-local-count>7,820</strong><span>지자체 지원금</span></div>
-      <div><strong data-basis-date-short>2026-07-02</strong><span>최종 기준일</span></div>
+      <div><strong data-basis-date-short>2026-07-03</strong><span>최종 기준일</span></div>
+    </section>
+
+    <section class="section operational-status" aria-label="운영 품질 상태" data-operational-summary>
+      <article>
+        <h3>상태 게이트</h3>
+        <p>manifest 품질 요약을 로딩 중입니다.</p>
+      </article>
     </section>
 
     <section class="section split-section" aria-labelledby="why-title">
@@ -137,7 +144,7 @@
         <button class="map-node tax" data-domain="tax"><strong>세금·공제</strong><span data-domain-count="tax">374</span></button>
         <button class="map-node local" data-domain="local-government-supports"><strong>지자체 지원금</strong><span data-domain-count="local-government-supports">7,820</span></button>
         <button class="map-node card" data-domain="card-products"><strong>카드 상품</strong><span data-domain-count="card-products">1,029</span></button>
-        <button class="map-node bank" data-domain="bank-products"><strong>예금·대출 상품</strong><span data-domain-count="bank-products">1,407</span></button>
+        <button class="map-node bank" data-domain="bank-products"><strong>예금·대출 상품</strong><span data-domain-count="bank-products">10,787</span></button>
         <button class="map-node insurance" data-domain="insurance-products"><strong>보험 상품</strong><span data-domain-count="insurance-products">358</span></button>
         <a class="map-node mcp" href="#mcp"><strong>MCP</strong><span>search · fetch · exports</span></a>
       </div>
@@ -222,9 +229,14 @@
           <span>반영: 공공데이터포털 서민금융진흥원_대출상품한눈에 정보 서비스, 2026-07-02 수집</span>
         </article>
         <article>
-          <h3>예금자보호·취급기관 후보</h3>
-          <p>예금보험공사 예금자보호 금융상품, 서민대출 취급기관, 서민금융통합지원센터 API를 다음 수집 후보로 분리했습니다.</p>
-          <span>대비: 현재 키는 해당 서비스에서 403이므로 활용신청 전까지 상품 수에 섞지 않고 manifest 리스크로 추적</span>
+          <h3>예금자보호 상품</h3>
+          <p>예금보험공사 예금자보호 금융상품 API를 수집해 금융회사별 보호대상 상품과 판매중단일자를 확인할 수 있게 했습니다.</p>
+          <span>반영: 판매중단일자가 있는 행은 closed/reference_only로 표시하고 기본 검색과 추천 후보에서 제외</span>
+        </article>
+        <article>
+          <h3>취급기관·센터 리스크</h3>
+          <p>서민대출 취급기관과 서민금융통합지원센터 API는 신청 완료 후에도 현재 키로 403이므로 상품 상세에 섞지 않고 리스크로 추적합니다.</p>
+          <span>대비: 권한 전파 확인 후 정책대출의 신청·방문 경로 노드로 연결</span>
         </article>
         <article>
           <h3>카드대출·리볼빙</h3>
