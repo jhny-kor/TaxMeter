@@ -30,6 +30,7 @@ WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax"
 CARD_EXPORT = EXPORT_DIR / "korea-card-products-ontology-2026.json"
 BANK_EXPORT = EXPORT_DIR / "korea-bank-products-ontology-2026.json"
 INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
+REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 
 GENERATED_FILES = {
@@ -38,6 +39,7 @@ GENERATED_FILES = {
     "policy_loan": CUSTOM_FINANCE_DIR / "policy-loan-products.generated.json",
     "deposit_protection": CUSTOM_FINANCE_DIR / "deposit-protection-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
+    "reference": CUSTOM_FINANCE_DIR / "finance-reference.generated.json",
 }
 
 
@@ -134,6 +136,46 @@ SOURCES = {
         "금융상품 한눈에의 개인사업자 대출상품 비교공시 신설, 자금용도·가입대상·대출종류·필요금액 등 검색조건과 상세정보 제공 근거입니다.",
         "2026-07-03 확인",
     ),
+    "source.fsc.financial-company-basic": source_node(
+        "source.fsc.financial-company-basic",
+        "금융위원회 금융회사기본정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15043232/openapi.do",
+        "금융회사명, 대표자명, 사업자등록번호, 설립일자, 주소, 전화번호, 상장·폐지일자, 회계감사의견 등 금융회사 개요 정보를 제공하는 공식 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.fsc.financial-company-credit": source_node(
+        "source.fsc.financial-company-credit",
+        "금융위원회 금융회사재무신용정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15059594/openapi.do",
+        "금융회사 재무·신용 정보를 상품 제공자 리스크 축으로 연결하기 위한 공식 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.fsc.domestic-bank-statistics": source_node(
+        "source.fsc.domestic-bank-statistics",
+        "금융위원회 금융통계국내은행정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15061304/openapi.do",
+        "국내은행 일반현황, 재무현황, 주요 경영지표, 주요 영업활동을 제공하는 공식 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.bok.ecos": source_node(
+        "source.bok.ecos",
+        "한국은행 ECOS Open API",
+        "한국은행",
+        "https://ecos.bok.or.kr/api/",
+        "기준금리, 시장금리, 환율 등 금융상품 비교에 필요한 기준 지표를 제공하는 한국은행 경제통계 Open API입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.fsc.cofix-overview": source_node(
+        "source.fsc.cofix-overview",
+        "COFIX 공시와 자금조달비용지수 설명",
+        "금융위원회",
+        "https://www.fsc.go.kr/po010101/70494",
+        "COFIX가 은행 자금조달 관련 정보를 기초로 산출되고 주택담보대출 등에 활용된다는 기준금리 해석 근거입니다.",
+        "2026-07-03 확인",
+    ),
     "source.data.go.kr.kinfa-loan-products": source_node(
         "source.data.go.kr.kinfa-loan-products",
         "서민금융진흥원 대출상품한눈에 정보 서비스",
@@ -156,6 +198,14 @@ SOURCES = {
         "공공데이터포털",
         "https://www.data.go.kr/data/15094801/openapi.do",
         "미소금융·햇살론 등 정책서민금융상품의 지원금액, 이용자 수, 지역·성별·연령대별 실적 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.hf.bogeumjari-openapi": source_node(
+        "source.hf.bogeumjari-openapi",
+        "한국주택금융공사 u-보금자리론대출정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15082039/openapi.do?recommendDataYn=Y",
+        "u-보금자리론 대출정보를 정책 주택담보대출 상품의 API 후보로 보존합니다.",
         "2026-07-03 확인",
     ),
     "source.data.go.kr.kinfa-loan-handling-agencies": source_node(
@@ -358,12 +408,44 @@ SOURCES = {
         "생명보험협회 변액보험 펀드별 기준가, 순자산, 설정일자, 운용회사 정보를 제공하는 API 후보입니다.",
         "2026-07-03 확인",
     ),
+    "source.fsc.fund-products-basic": source_node(
+        "source.fsc.fund-products-basic",
+        "금융위원회 펀드상품기본정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15094792/openapi.do",
+        "금융투자협회 펀드표준코드 기반의 펀드 명칭, 코드, 운용사, 펀드유형 정보를 제공하는 공식 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.fsc.retirement-pension-basic": source_node(
+        "source.fsc.retirement-pension-basic",
+        "금융위원회 퇴직연금기본정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15094798/openapi.do",
+        "퇴직연금 상품·운용 관련 기본정보를 투자상품 축으로 연결하기 위한 공식 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
     "source.knia.insurance-disclosure": source_node(
         "source.knia.insurance-disclosure",
         "손해보험협회 공시실",
         "손해보험협회",
         "https://kpub.knia.or.kr/",
         "손해보험 상품 공시, 보험료 비교, 판매상태 확인을 위한 손해보험 업권 공시 원천입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.knia.claim-nonpayment": source_node(
+        "source.knia.claim-nonpayment",
+        "손해보험협회 보험금부지급률/청구이후 해지비율",
+        "손해보험협회",
+        "https://consumer.knia.or.kr/disclosure/item/07.do",
+        "손해보험사별 보험금 부지급률과 청구 이후 해지비율을 보험상품 리스크 신호로 연결하기 위한 공식 공시 표면입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.knia.mis-selling": source_node(
+        "source.knia.mis-selling",
+        "손해보험협회 불완전판매비율",
+        "손해보험협회",
+        "https://consumer.knia.or.kr/disclosure/item/04.do",
+        "손해보험사별·상품별 불완전판매비율을 판매채널 리스크 신호로 연결하기 위한 공식 공시 표면입니다.",
         "2026-07-03 확인",
     ),
     "source.easylaw.finance-product-disclosure": source_node(
@@ -438,6 +520,254 @@ def generated_status(domain: str, product_count: int) -> dict:
 
 def product_counts(items: list[dict], product_type: str) -> int:
     return sum(1 for item in items if item.get("type") == product_type)
+
+
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
+PRODUCT_EXPORTS = (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT)
+REFERENCE_SOURCE_IDS = [
+    "source.fsc.financial-company-basic",
+    "source.fsc.financial-company-credit",
+    "source.fsc.domestic-bank-statistics",
+    "source.bok.ecos",
+    "source.fsc.cofix-overview",
+    "source.knia.claim-nonpayment",
+    "source.knia.mis-selling",
+    "source.fsc.fund-products-basic",
+    "source.fsc.retirement-pension-basic",
+    "source.fsc.inclusive-finance-products",
+    "source.fsc.inclusive-finance-performance",
+    "source.hf.bogeumjari-openapi",
+    "source.data.go.kr.kinfa-loan-products",
+    "source.data.go.kr.kinfa-loan-handling-agencies",
+    "source.data.go.kr.kinfa-support-centers",
+]
+
+
+def load_product_export_items() -> list[dict]:
+    items: list[dict] = []
+    for path in PRODUCT_EXPORTS:
+        if not path.exists():
+            continue
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        items.extend(
+            dict(item)
+            for item in payload.get("items") or []
+            if item.get("type") in PRODUCT_TYPES
+        )
+    return items
+
+
+def provider_id(provider: str) -> str:
+    digest = hashlib.sha1(provider.encode("utf-8")).hexdigest()[:12]
+    return f"finance.provider.{digest}"
+
+
+def provider_registry_nodes(products: list[dict]) -> list[dict]:
+    providers: dict[str, dict] = {}
+    for product in products:
+        provider = str(product.get("provider") or "").strip()
+        if not provider:
+            continue
+        entry = providers.setdefault(
+            provider,
+            {
+                "count": 0,
+                "sectors": set(),
+                "kinds": set(),
+                "statuses": set(),
+                "samples": [],
+            },
+        )
+        entry["count"] += 1
+        for key, target in (
+            ("financial_sector", "sectors"),
+            ("product_kind", "kinds"),
+            ("status", "statuses"),
+        ):
+            value = product.get(key)
+            if value:
+                entry[target].add(str(value))
+        if len(entry["samples"]) < 5 and product.get("id"):
+            entry["samples"].append(str(product["id"]))
+
+    return [
+        node(
+            provider_id(provider),
+            provider,
+            "financial-provider",
+            f"OpenFin 상품 export에서 {data['count']}개 금융상품의 제공자로 확인된 금융회사·기관입니다.",
+            parents=["category.finance.financial-provider-registry"],
+            sources=["source.fsc.financial-company-basic", "source.fsc.financial-company-credit"],
+            tags=["finance-reference-ontology", "financial-provider"],
+            covered_product_count=data["count"],
+            covered_product_sectors=sorted(data["sectors"]),
+            covered_product_kinds=sorted(data["kinds"]),
+            observed_product_statuses=sorted(data["statuses"]),
+            sample_product_ids=data["samples"],
+        )
+        for provider, data in sorted(providers.items(), key=lambda item: (-item[1]["count"], item[0]))
+    ]
+
+
+def finance_reference_items() -> list[dict]:
+    products = load_product_export_items()
+    items = [
+        node(
+            "finance.reference-ontology",
+            "금융 기준정보 온톨로지",
+            "domain",
+            "금융상품을 한 MCP에서 비교·판정하기 위해 금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶는 기준정보 온톨로지입니다.",
+            children=[
+                "category.finance.financial-provider-registry",
+                "category.finance.benchmark-rates",
+                "category.finance.insurance-risk-signals",
+                "category.finance.investment-products",
+                "category.finance.policy-finance-reference",
+                "category.finance.source-health",
+            ],
+            sources=REFERENCE_SOURCE_IDS,
+            tags=["finance-reference-ontology", "openfin-ontology"],
+        ),
+        node(
+            "category.finance.financial-provider-registry",
+            "금융회사 레지스트리",
+            "category",
+            "상품 제공자 문자열을 금융회사 개요·재무·신용정보와 연결하기 위한 기준 축입니다.",
+            parents=["finance.reference-ontology"],
+            sources=["source.fsc.financial-company-basic", "source.fsc.financial-company-credit", "source.fsc.domestic-bank-statistics"],
+            terms=["term.finance.provider-risk"],
+            tags=["finance-reference-ontology", "provider-registry"],
+        ),
+        node(
+            "category.finance.benchmark-rates",
+            "기준금리·시장지표",
+            "category",
+            "예금·대출·투자상품 수익률을 설명할 때 기준선으로 쓰는 한국은행 기준금리, 시장금리, COFIX, 환율 지표입니다.",
+            parents=["finance.reference-ontology"],
+            sources=["source.bok.ecos", "source.fsc.cofix-overview"],
+            tags=["finance-reference-ontology", "benchmark-rate"],
+        ),
+        node(
+            "category.finance.insurance-risk-signals",
+            "보험 리스크 신호",
+            "category",
+            "보험상품 추천 전 확인해야 하는 불완전판매율, 보험금 부지급률, 청구 이후 해지비율, 손해보험 공시 출처입니다.",
+            parents=["finance.reference-ontology"],
+            sources=["source.knia.claim-nonpayment", "source.knia.mis-selling", "source.knia.insurance-disclosure"],
+            terms=["term.finance.provider-risk"],
+            tags=["finance-reference-ontology", "insurance-risk"],
+        ),
+        node(
+            "category.finance.investment-products",
+            "투자상품 후보",
+            "category",
+            "펀드, 퇴직연금, 변액보험 펀드처럼 예금·대출·보험과 함께 비교될 수 있는 투자성 금융상품 후보입니다.",
+            parents=["finance.reference-ontology"],
+            sources=["source.fsc.fund-products-basic", "source.fsc.retirement-pension-basic", "source.fsc.variable-insurance-info"],
+            tags=["finance-reference-ontology", "investment-products", "candidate-import"],
+        ),
+        node(
+            "category.finance.policy-finance-reference",
+            "정책금융 기준정보",
+            "category",
+            "서민금융상품, 정책 주택대출, 취급기관, 상담센터, 지원실적을 기존 대출상품과 연결하기 위한 기준 축입니다.",
+            parents=["finance.reference-ontology"],
+            sources=[
+                "source.fsc.inclusive-finance-products",
+                "source.fsc.inclusive-finance-performance",
+                "source.hf.bogeumjari-openapi",
+                "source.data.go.kr.kinfa-loan-products",
+                "source.data.go.kr.kinfa-loan-handling-agencies",
+                "source.data.go.kr.kinfa-support-centers",
+            ],
+            tags=["finance-reference-ontology", "policy-finance"],
+        ),
+        node(
+            "category.finance.source-health",
+            "출처 접근 상태",
+            "category",
+            "API 활용신청, 403, endpoint mapping, WAF, 수집 성공일을 상품 노드와 분리해 추적하는 운영 기준 축입니다.",
+            parents=["finance.reference-ontology"],
+            sources=REFERENCE_SOURCE_IDS,
+            tags=["finance-reference-ontology", "source-health", "risk-control"],
+        ),
+        node(
+            "term.finance.provider-risk",
+            "금융회사 리스크",
+            "term",
+            "상품 제공자의 재무·신용, 경영지표, 불완전판매, 부지급률, 제재·폐지 여부를 상품 비교 전에 확인하는 리스크 축입니다.",
+            sources=["source.fsc.financial-company-basic", "source.fsc.financial-company-credit", "source.knia.claim-nonpayment", "source.knia.mis-selling"],
+            tags=["finance-reference-ontology", "risk-signal"],
+        ),
+        node(
+            "term.finance.benchmark-rate",
+            "기준금리",
+            "term",
+            "상품 금리나 수익률을 단독 숫자가 아니라 시점별 시장 기준선과 함께 해석하기 위한 비교 기준입니다.",
+            sources=["source.bok.ecos", "source.fsc.cofix-overview"],
+            tags=["finance-reference-ontology", "benchmark-rate"],
+        ),
+        node(
+            "term.finance.status-event",
+            "상품 상태 변경 이벤트",
+            "term",
+            "신규, 조건변경, 판매중단, 만료, 폐지처럼 금융상품의 현재 추천 가능성을 바꾸는 상태 전이입니다.",
+            sources=REFERENCE_SOURCE_IDS,
+            tags=["finance-reference-ontology", "status-event"],
+        ),
+        node(
+            "finance.benchmark-rate.bok-base-rate",
+            "한국은행 기준금리",
+            "benchmark-rate",
+            "예금·대출 금리와 금융시장 금리 해석의 기준선으로 쓰는 한국은행 정책금리 지표입니다.",
+            parents=["category.finance.benchmark-rates"],
+            sources=["source.bok.ecos"],
+            terms=["term.finance.benchmark-rate"],
+            tags=["finance-reference-ontology", "benchmark-rate", "bok"],
+        ),
+        node(
+            "finance.benchmark-rate.cofix",
+            "COFIX",
+            "benchmark-rate",
+            "은행 자금조달비용을 기초로 산출되어 주택담보대출 등 변동금리 대출의 기준으로 쓰이는 지표입니다.",
+            parents=["category.finance.benchmark-rates"],
+            sources=["source.fsc.cofix-overview"],
+            terms=["term.finance.benchmark-rate"],
+            tags=["finance-reference-ontology", "benchmark-rate", "loan-rate"],
+        ),
+        node(
+            "finance.benchmark-rate.krw-exchange-rate",
+            "원화 환율 지표",
+            "benchmark-rate",
+            "외화예금, 해외카드, 해외투자상품 비교에서 필요한 원화 기준 환율 지표입니다.",
+            parents=["category.finance.benchmark-rates"],
+            sources=["source.bok.ecos"],
+            terms=["term.finance.benchmark-rate"],
+            tags=["finance-reference-ontology", "benchmark-rate", "fx"],
+        ),
+        node(
+            "finance.risk-signal.insurance-nonpayment-rate",
+            "보험금 부지급률",
+            "risk-signal",
+            "보험회사별 보험금 부지급률과 청구 이후 해지비율을 상품 상세의 제공자 리스크로 연결하기 위한 신호입니다.",
+            parents=["category.finance.insurance-risk-signals"],
+            sources=["source.knia.claim-nonpayment"],
+            terms=["term.finance.provider-risk"],
+            tags=["finance-reference-ontology", "insurance-risk"],
+        ),
+        node(
+            "finance.risk-signal.insurance-mis-selling-rate",
+            "보험 불완전판매비율",
+            "risk-signal",
+            "채널별·상품별 불완전판매비율을 보험상품 추천 전 확인하는 판매품질 신호입니다.",
+            parents=["category.finance.insurance-risk-signals"],
+            sources=["source.knia.mis-selling"],
+            terms=["term.finance.provider-risk"],
+            tags=["finance-reference-ontology", "insurance-risk"],
+        ),
+    ]
+    items.extend(provider_registry_nodes(products))
+    return attach_source_metadata([*items, *(SOURCES[source_id] for source_id in REFERENCE_SOURCE_IDS), SOURCES["source.knia.insurance-disclosure"], SOURCES["source.fsc.variable-insurance-info"]])
 
 
 def card_items() -> list[dict]:
@@ -1323,11 +1653,11 @@ def write_manifest(results: dict[str, dict]) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.2",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.3",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "name": "finance",
-        "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+        "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
         "quality_summary": {
             "committee_remediation": {
                 "status_fields_added": True,
@@ -1397,6 +1727,20 @@ def write_manifest(results: dict[str, dict]) -> None:
                 "last_observed_result": "official metadata reviewed; not a product-row source",
                 "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다.",
             },
+            {
+                "source_id": "source.bok.ecos",
+                "status": "reference_source_added_key_required",
+                "last_checked": CURRENT_REVIEW_DATE,
+                "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
+                "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다.",
+            },
+            {
+                "source_id": "source.fsc.financial-company-basic",
+                "status": "reference_source_added",
+                "last_checked": CURRENT_REVIEW_DATE,
+                "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
+                "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다.",
+            },
         ],
         "exports": [
             export_entry(
@@ -1448,11 +1792,22 @@ def write_manifest(results: dict[str, dict]) -> None:
                 results["insurance"].get("quality_summary"),
                 results["insurance"].get("export_checksum"),
             ),
+            export_entry(
+                "finance-reference-ontology",
+                "finance-reference",
+                results["reference"]["path"],
+                results["reference"]["item_count"],
+                results["reference"]["product_count"],
+                "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다.",
+                results["reference"]["product_collection_dates"],
+                results["reference"].get("quality_summary"),
+                results["reference"].get("export_checksum"),
+            ),
         ],
     }
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, MANIFEST_EXPORT):
+    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, MANIFEST_EXPORT):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -1483,10 +1838,19 @@ def main() -> int:
             "insurance",
         ),
     }
+    results["reference"] = write_export(
+        REFERENCE_EXPORT,
+        "KR-FINANCE-REFERENCE-ONTOLOGY-2026.07.03.1",
+        "finance-reference",
+        finance_reference_items(),
+        "finance-reference",
+        "reference",
+    )
     write_manifest(results)
     print(f"Exported {CARD_EXPORT}")
     print(f"Exported {BANK_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")
+    print(f"Exported {REFERENCE_EXPORT}")
     print(f"Exported {MANIFEST_EXPORT}")
     return 0
 
