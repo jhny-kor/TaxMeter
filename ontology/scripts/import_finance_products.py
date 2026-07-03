@@ -46,6 +46,7 @@ KINFA_LOAN_API_URL = "https://apis.data.go.kr/B553701/LoanProductSearchingInfo/L
 KINFA_LOAN_DOC_URL = "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
 KDIC_INSURED_PRODUCTS_API_URL = "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008"
 KDIC_INSURED_PRODUCTS_DOC_URL = "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+KLIA_ASSURANCE_LIST_URL = "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do"
 COLLECTED_AT = date.today().isoformat()
 LOCAL_ENV = REPO_ROOT / ".env"
 
@@ -115,6 +116,20 @@ FINLIFE_ENDPOINTS = (
         "title": "연금저축",
     },
 )
+
+KLIA_ASSURANCE_GROUPS = {
+    "024400010001": ("whole-life", "종신보험", "category.finance.protection-insurance-products"),
+    "024400010002": ("term-life", "정기보험", "category.finance.protection-insurance-products"),
+    "024400010003": ("disease", "질병보험", "category.finance.protection-insurance-products"),
+    "024400010004": ("cancer", "암보험", "category.finance.protection-insurance-products"),
+    "024400010005": ("ci", "CI보험", "category.finance.protection-insurance-products"),
+    "024400010006": ("accident", "상해보험", "category.finance.protection-insurance-products"),
+    "024400010007": ("children", "어린이보험", "category.finance.protection-insurance-products"),
+    "024400010008": ("indemnity-health", "실손의료보험", "category.finance.indemnity-health-insurance-products"),
+    "024400010009": ("dental", "치아보험", "category.finance.protection-insurance-products"),
+    "024400010010": ("dementia-care", "간병/치매보험", "category.finance.protection-insurance-products"),
+    "024400010011": ("other-protection", "기타 보장성보험", "category.finance.protection-insurance-products"),
+}
 
 
 def load_local_env(path: Path) -> None:
@@ -517,6 +532,186 @@ def item_from_finlife(config: dict[str, Any], group_code: str, base: dict[str, A
         "raw": base,
         "options": options,
     }
+
+
+def klia_list_url(group_code: str, page_no: int) -> str:
+    return f"{KLIA_ASSURANCE_LIST_URL}?{urllib.parse.urlencode({'search_prodGroup': group_code, 'pageIndex': page_no, 'pageUnit': 20})}"
+
+
+def hidden_label(block: str, prefix: str, product_code: str) -> str:
+    match = re.search(rf'id="{re.escape(prefix)}_{re.escape(product_code)}"[^>]*>(.*?)</label>', block, flags=re.DOTALL)
+    return clean_text(match.group(1)) if match else ""
+
+
+def field_near_comment(block: str, label: str) -> str:
+    before = re.search(rf"<td[^>]*>(.*?)</td>\s*<!--\s*{re.escape(label)}\s*-->", block, flags=re.DOTALL)
+    if before:
+        return clean_text(before.group(1))
+    after = re.search(rf"<!--\s*{re.escape(label)}\s*-->\s*(.*?)</td>", block, flags=re.DOTALL)
+    return clean_text(after.group(1)) if after else ""
+
+
+def first_number(value: str) -> float | int | None:
+    match = re.search(r"\d[\d,]*(?:\.\d+)?", value)
+    if not match:
+        return None
+    return number_or_none(match.group(0))
+
+
+def klia_product_blocks(html: str) -> list[str]:
+    markers = list(re.finditer(r'<input type="checkbox" name="listAprChk"[^>]+value="([^"]+)"', html))
+    blocks: list[str] = []
+    for index, marker in enumerate(markers):
+        end = markers[index + 1].start() if index + 1 < len(markers) else html.find("</tbody>", marker.start())
+        blocks.append(html[marker.start(): end if end > marker.start() else len(html)])
+    return blocks
+
+
+def klia_coverage_names(block: str) -> list[str]:
+    names = [
+        clean_text(value)
+        for value in re.findall(r'<td class="insureOpRate t_left[^"]*"[^>]*>\s*<div[^>]*>(.*?)</div>', block, flags=re.DOTALL)
+    ]
+    return unique([name for name in names if name and name != "-"])
+
+
+def klia_item_from_block(group_code: str, block: str) -> dict | None:
+    match = re.search(r'name="listAprChk"[^>]+value="([^"]+)"', block)
+    if not match:
+        return None
+    product_code = match.group(1)
+    product_kind, group_label, category = KLIA_ASSURANCE_GROUPS[group_code]
+    provider = hidden_label(block, "l_memberNm", product_code) or "생명보험사 미상"
+    product_name = hidden_label(block, "l_prodNm", product_code) or "보험상품명 미상"
+    detail_match = re.search(r'<a href="([^"]+)"[^>]+상품정보', block)
+    detail_url = unescape(detail_match.group(1)) if detail_match else KLIA_ASSURANCE_LIST_URL
+    sale_date = field_near_comment(block, "판매일자")
+    renewal = field_near_comment(block, "갱신여부")
+    premium_amount = field_near_comment(block, "보험료:가입금액")
+    premium_male = first_number(field_near_comment(block, "보험료:남자"))
+    premium_female = first_number(field_near_comment(block, "보험료:여자"))
+    price_index_male = first_number(field_near_comment(block, "보험가격지수:남자"))
+    price_index_female = first_number(field_near_comment(block, "보험가격지수:여자"))
+    coverages = klia_coverage_names(block)
+    criteria: list[dict[str, Any]] = []
+    if coverages:
+        criteria.append(
+            {
+                "label": "주요 보장",
+                "basis": f"생명보험협회 {group_label} 상품비교공시",
+                "condition": " / ".join(coverages[:8]),
+                "source": "source.klia.insurance-disclosure",
+                "criteria_kind": "coverage",
+                "basis_category": "보험상품 보장내용",
+                "basis_definition": "생명보험협회 공시실의 보장내용 및 보험료 표에 표시된 담보·급부명입니다.",
+                "basis_lookup": "compareDis/prodCompare/assurance/listNew.do의 상품 행별 보장내용 셀입니다.",
+                "selection_rule": "상품별 공시 표에서 중복 담보명을 제거하고 대표 보장을 보존합니다.",
+                "basis_source": "source.klia.insurance-disclosure",
+                "benefit": " / ".join(coverages[:8]),
+            }
+        )
+    if premium_male is not None or premium_female is not None:
+        criteria.append(
+            {
+                "label": "표준 보험료",
+                "basis": f"생명보험협회 {group_label} 상품비교공시",
+                "condition": f"남자 {premium_male or '-'}원, 여자 {premium_female or '-'}원",
+                "source": "source.klia.insurance-disclosure",
+                "criteria_kind": "premium",
+                "basis_category": "보험상품 보험료",
+                "basis_definition": "협회 비교공시 표의 성별 기준 보험료입니다. 실제 보험료는 가입조건에 따라 달라질 수 있습니다.",
+                "basis_lookup": "상품 행의 보험료 남자/여자 셀입니다.",
+                "selection_rule": "표에 공시된 기준 보험료를 상품 비교용 수치로 보존합니다.",
+                "basis_source": "source.klia.insurance-disclosure",
+                "premium_male_krw": premium_male,
+                "premium_female_krw": premium_female,
+            }
+        )
+    if renewal:
+        criteria.append(
+            {
+                "label": "갱신 조건",
+                "basis": f"생명보험협회 {group_label} 상품비교공시",
+                "condition": renewal,
+                "source": "source.klia.insurance-disclosure",
+                "criteria_kind": "renewal",
+                "basis_category": "보험상품 갱신여부",
+                "basis_definition": "협회 비교공시 표의 갱신여부입니다.",
+                "basis_lookup": "상품 행의 갱신여부 셀입니다.",
+                "selection_rule": "갱신형/비갱신형 구분을 상품 상태 판단 보조값으로 보존합니다.",
+                "basis_source": "source.klia.insurance-disclosure",
+            }
+        )
+    return {
+        "id": f"finance.insurance.klia.{product_kind}.{slug(provider)}.{slug(product_code)}",
+        "title": f"{provider} {product_name}",
+        "type": "insurance-product",
+        "description": f"생명보험협회 공시실에 등재된 {provider}의 {group_label} 상품 '{product_name}'입니다.",
+        "basis_year": int(COLLECTED_AT[:4]),
+        "reviewed_at": COLLECTED_AT,
+        "abolition_status": "active",
+        "revision_status": "check_source",
+        "parents": [category],
+        "children": [],
+        "related": [],
+        "terms": ["term.insurance.coverage", "term.insurance.renewal"],
+        "deadlines": [],
+        "sources": ["source.klia.insurance-disclosure"],
+        "tags": unique(["finance-product", "generated", "insurance", "klia", product_kind, group_code]),
+        "criteria": criteria,
+        "benefits": [{"kind": "coverage", "text": coverage} for coverage in coverages[:20]],
+        "provider": provider,
+        "provider_code": slug(provider),
+        "financial_sector": "생명보험",
+        "product_code": product_code,
+        "product_kind": product_kind,
+        "product_status": "active",
+        "sales_status": "active",
+        "collected_at": COLLECTED_AT,
+        "effective_from": sale_date or None,
+        "source_modified_at": sale_date or None,
+        "source_api": KLIA_ASSURANCE_LIST_URL,
+        "source_record_id": f"klia-assurance:{group_code}:{product_code}",
+        "source_urls": unique([klia_list_url(group_code, 1), detail_url]),
+        "source_basis_dates": unique([f"{COLLECTED_AT} 수집", sale_date]),
+        "options": [
+            {
+                "group": group_label,
+                "coverage": coverages[:20],
+                "premium_amount": premium_amount,
+                "premium_male_krw": premium_male,
+                "premium_female_krw": premium_female,
+                "price_index_male": price_index_male,
+                "price_index_female": price_index_female,
+                "renewal": renewal,
+                "sale_date": sale_date,
+            }
+        ],
+    }
+
+
+def crawl_klia_assurance(timeout: int, sleep_seconds: float, limit_pages: int | None) -> list[dict]:
+    items: dict[str, dict] = {}
+    for group_code in KLIA_ASSURANCE_GROUPS:
+        page_no = 1
+        max_page = 1
+        while page_no <= max_page:
+            html = fetch_text(klia_list_url(group_code, page_no), timeout=timeout, headers={"accept": "text/html"})
+            blocks = klia_product_blocks(html)
+            if not blocks:
+                break
+            for block in blocks:
+                item = klia_item_from_block(group_code, block)
+                if item:
+                    items[item["id"]] = item
+            page_numbers = [int(value) for value in re.findall(r"fn_page\((\d+)\)", html)]
+            max_page = min(max(page_numbers or [page_no]), limit_pages or 9999)
+            if page_no >= max_page:
+                break
+            page_no += 1
+            if sleep_seconds:
+                time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
 
 
 def xml_child_text(parent: ET.Element, name: str) -> str:
@@ -1326,6 +1521,7 @@ def main() -> int:
     parser.add_argument("--skip-bc-card", action="store_true", help="Skip 비씨카드 official card list crawl")
     parser.add_argument("--skip-samsung-card", action="store_true", help="Skip 삼성카드 official WCMS card list crawl")
     parser.add_argument("--skip-finlife", action="store_true", help="Skip 금융감독원 FinLife API crawl")
+    parser.add_argument("--skip-klia-insurance", action="store_true", help="Skip 생명보험협회 보장성 보험상품 공시 crawl")
     parser.add_argument("--skip-kinfa-policy-loans", action="store_true", help="Skip 서민금융진흥원 대출상품한눈에 공공데이터 API crawl")
     parser.add_argument("--skip-kdic-insured-products", action="store_true", help="Skip 예금보험공사 예금자보호 금융상품 API crawl")
     parser.add_argument("--include-kdic-ended-products", action="store_true", help="Include KDIC rows with 상품판매중단일자; default keeps current rows only")
@@ -1333,6 +1529,7 @@ def main() -> int:
     args = parser.parse_args()
 
     imported_any = False
+    insurance_items: list[dict] = []
     card_items: list[dict] = []
     if not args.skip_carddamoa:
         card_items.extend(crawl_carddamoa(args.timeout))
@@ -1355,10 +1552,23 @@ def main() -> int:
     if not args.skip_finlife and api_key:
         imported = crawl_finlife(api_key, timeout=args.timeout, sleep_seconds=args.sleep, limit_pages=args.limit_pages)
         write_generated("bank", imported.get("bank", []), allow_shrink=args.allow_shrink)
-        write_generated("insurance", imported.get("insurance", []), allow_shrink=args.allow_shrink)
+        insurance_items.extend(imported.get("insurance", []))
         imported_any = True
     elif not args.skip_finlife:
         print("FINLIFE_API_KEY is not set; skipped Financial Supervisory Service FinLife API crawl.", file=sys.stderr)
+
+    if not args.skip_klia_insurance:
+        insurance_items.extend(crawl_klia_assurance(args.timeout, args.sleep, args.limit_pages))
+
+    if insurance_items:
+        write_generated(
+            "insurance",
+            insurance_items,
+            allow_shrink=args.allow_shrink,
+            version_prefix="OFFICIAL",
+            source=["https://finlife.fss.or.kr/finlifeapi/", KLIA_ASSURANCE_LIST_URL],
+        )
+        imported_any = True
 
     data_go_kr_key = os.environ.get("DATA_GO_KR_SERVICE_KEY", "").strip()
     if not args.skip_kinfa_policy_loans and data_go_kr_key:

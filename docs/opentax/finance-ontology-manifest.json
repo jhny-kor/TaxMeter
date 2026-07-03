@@ -1,5 +1,5 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.1",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.2",
   "basis_date": "2026-07-03",
   "source_review_date": "2026-07-03",
   "name": "finance",
@@ -49,15 +49,15 @@
         }
       },
       "insurance": {
-        "product_count": 343,
+        "product_count": 1055,
         "status_counts": {
-          "unknown": 343
+          "active": 1055
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 343,
+        "reference_only_products": 0,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -74,6 +74,27 @@
       "last_checked": "2026-07-03",
       "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
       "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
+    },
+    {
+      "source_id": "source.klia.insurance-disclosure",
+      "status": "live_imported",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1055",
+      "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
+      "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
+      "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
@@ -206,22 +227,22 @@
       "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
-      "item_count": 358,
-      "product_count": 343,
+      "item_count": 1072,
+      "product_count": 1055,
       "source_review_date": "2026-07-03",
       "product_collection_dates": [
-        "2026-05-05"
+        "2026-07-03"
       ],
       "quality_summary": {
-        "product_count": 343,
+        "product_count": 1055,
         "status_counts": {
-          "unknown": 343
+          "active": 1055
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 343,
+        "reference_only_products": 0,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -229,7 +250,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "86748d3caf3b3bbeadfb889972ec9e32044f4a09444777ada647e101b8410fd7",
+      "export_checksum": "549202be393a5b374e6b21c3ba9780de0dd286bef19de638279716219814381e",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     }
   ]

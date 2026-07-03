@@ -392,6 +392,8 @@ function renderDetail(item) {
     <h3>${escapeHtml(item.title || item.id)}</h3>
     <p class="detail-description">${escapeHtml(item.description || "설명이 없습니다.")}</p>
     ${kv.length ? renderKvGrid(kv) : ""}
+    ${renderStructuredFacts("상품 혜택·보장", item.benefits)}
+    ${renderStructuredFacts("조건·유의사항", item.conditions)}
     ${renderCriteria(item.criteria)}
     ${renderOptions(item.options)}
     ${renderPills("Tags", item.tags)}
@@ -463,6 +465,27 @@ function renderOptions(options) {
   return `
     <section class="detail-section">
       <h4>Product Options</h4>
+      <div class="criteria-list">${rows.join("")}${more}</div>
+    </section>
+  `;
+}
+
+function renderStructuredFacts(title, facts) {
+  if (!Array.isArray(facts) || !facts.length) return "";
+  const rows = facts.slice(0, 8).map((fact) => {
+    const label = fact?.kind || fact?.label || fact?.criteria_kind || "항목";
+    const body = fact?.text || fact?.condition || fact?.benefit || stringifyValue(fact);
+    return `
+      <article>
+        <strong>${escapeHtml(label)}</strong>
+        <p>${escapeHtml(body)}</p>
+      </article>
+    `;
+  });
+  const more = facts.length > 8 ? `<p class="empty-state">외 ${formatNumber(facts.length - 8)}개 항목은 원본 JSON에서 확인할 수 있습니다.</p>` : "";
+  return `
+    <section class="detail-section">
+      <h4>${escapeHtml(title)}</h4>
       <div class="criteria-list">${rows.join("")}${more}</div>
     </section>
   `;
