@@ -562,6 +562,37 @@ def provider_id(provider: str) -> str:
     return f"finance.provider.{digest}"
 
 
+def semantic_product_related(item: dict) -> list[str]:
+    related: list[str] = ["category.finance.source-health"]
+    provider = str(item.get("provider") or "").strip()
+    if provider:
+        related.extend([provider_id(provider), "category.finance.financial-provider-registry"])
+
+    if item.get("type") == "card-product":
+        related.extend([
+            "term.card.previous-month-spend",
+            "term.card.monthly-benefit-limit",
+            "term.card.excluded-spend",
+        ])
+    elif item.get("type") == "bank-product":
+        product_context = " ".join([
+            str(item.get("product_kind") or "").lower(),
+            " ".join(str(tag).lower() for tag in item.get("tags") or []),
+            str(item.get("title") or "").lower(),
+        ])
+        related.extend(["category.finance.benchmark-rates", "finance.benchmark-rate.bok-base-rate"])
+        if any(keyword in product_context for keyword in ("loan", "대출", "mortgage", "주택", "전세", "credit", "신용")):
+            related.append("finance.benchmark-rate.cofix")
+    elif item.get("type") == "insurance-product":
+        related.extend([
+            "category.finance.insurance-risk-signals",
+            "finance.risk-signal.insurance-nonpayment-rate",
+            "finance.risk-signal.insurance-mis-selling-rate",
+            "term.finance.provider-risk",
+        ])
+    return unique(related)
+
+
 def provider_registry_nodes(products: list[dict]) -> list[dict]:
     providers: dict[str, dict] = {}
     for product in products:
@@ -1527,6 +1558,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         item["source_modified_at"] = item.get("source_modified_at") or (max(months) if months else None)
         item["quality_flags"] = unique([str(flag) for flag in flags])
         item["missing_required_fields"] = unique([str(field) for field in missing_fields])
+        item["related"] = unique([*(item.get("related") or []), *semantic_product_related(item)])
     return items
 
 
@@ -1548,6 +1580,11 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             1 for product in products
             if product.get("status") == "active" and not has_product_conditions(product)
         ),
+        "products_without_related": sum(1 for product in products if not product.get("related")),
+        "active_products_without_related": sum(
+            1 for product in products
+            if product.get("status") == "active" and not product.get("related")
+        ),
         "active_insurance_without_criteria": sum(
             1 for product in products
             if product.get("type") == "insurance-product" and product.get("status") == "active" and not product.get("criteria")
@@ -1558,6 +1595,7 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             "expired_active_local_supports": "validated in korea-local-government-supports export",
             "active_insurance_without_criteria_must_be_zero": True,
             "active_products_without_conditions_must_be_zero": True,
+            "active_products_without_related_must_be_zero": True,
             "stale_active_disclosure_products_must_be_zero": True,
         },
     }
@@ -1664,6 +1702,8 @@ def write_manifest(results: dict[str, dict]) -> None:
                 "expired_local_support_active_gate": True,
                 "active_insurance_without_criteria_gate": True,
                 "status_aware_search_required": True,
+                "cross_export_reference_validation": True,
+                "semantic_product_related_edges_added": True,
             },
             "finance_exports": {
                 key: value.get("quality_summary", {})

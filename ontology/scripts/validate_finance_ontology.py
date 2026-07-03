@@ -55,10 +55,9 @@ def item_map(items: list[dict]) -> dict[str, dict]:
     return result
 
 
-def validate_item_basics(export_id: str, items: list[dict], errors: list[str]) -> None:
+def validate_item_basics(export_id: str, items: list[dict], global_items: dict[str, dict], errors: list[str]) -> None:
     ids = [item.get("id") for item in items]
     require(len(ids) == len(set(ids)), f"{export_id}: duplicate item ids", errors)
-    by_id = item_map(items)
     for item in items:
         item_id = item.get("id", "<missing>")
         require(bool(item.get("title")), f"{export_id}:{item_id}: missing title", errors)
@@ -76,7 +75,7 @@ def validate_item_basics(export_id: str, items: list[dict], errors: list[str]) -
             require(bool(item.get("publisher")), f"{export_id}:{item_id}: source missing publisher", errors)
         for key in REFERENCE_KEYS:
             for target_id in item.get(key) or []:
-                require(target_id in by_id, f"{export_id}:{item_id}: {key} references missing id {target_id}", errors)
+                require(target_id in global_items, f"{export_id}:{item_id}: {key} references missing id {target_id}", errors)
 
 
 def validate_products(export_id: str, items: list[dict], expected_product_count: int, errors: list[str]) -> None:
@@ -98,6 +97,7 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
         require(isinstance(options, list), f"{export_id}:{item_id}: options must be a list when present", errors)
         if item.get("status") == "active":
             require(bool(criteria or options or benefits), f"{export_id}:{item_id}: active product has no criteria/options/benefits", errors)
+            require(bool(item.get("related")), f"{export_id}:{item_id}: active product has no semantic related links", errors)
         if item.get("type") == "insurance-product" and item.get("status") == "active":
             require(bool(criteria), f"{export_id}:{item_id}: active insurance product has empty criteria", errors)
         disclosure_months = []
@@ -144,6 +144,8 @@ def validate_manifest(errors: list[str]) -> list[dict]:
 def main() -> int:
     errors: list[str] = []
     exports = validate_manifest(errors)
+    loaded_exports: list[tuple[dict, list[dict]]] = []
+    global_items: dict[str, dict] = {}
     for entry in exports:
         path_text = entry.get("path")
         if not path_text:
@@ -156,7 +158,12 @@ def main() -> int:
         if payload.get("reference_items"):
             items = [*(payload.get("reference_items") or []), *items]
         require(isinstance(items, list) and bool(items), f"{entry.get('id')}: export has no items", errors)
-        validate_item_basics(entry.get("id", path.name), items, errors)
+        loaded_exports.append((entry, items))
+        global_items.update(item_map(items))
+
+    for entry, items in loaded_exports:
+        path = ROOT.parent / str(entry.get("path"))
+        validate_item_basics(entry.get("id", path.name), items, global_items, errors)
         validate_products(entry.get("id", path.name), items, int(entry.get("product_count") or 0), errors)
 
     if errors:
