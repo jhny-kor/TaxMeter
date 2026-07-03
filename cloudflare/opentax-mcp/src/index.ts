@@ -13,6 +13,8 @@ type FinanceItem = {
   url?: string;
   law_reference?: string;
   criteria?: unknown[];
+  options?: unknown[];
+  benefits?: unknown[];
   parents?: string[];
   children?: string[];
   related?: string[];
@@ -25,6 +27,7 @@ type FinanceItem = {
   financial_sector?: string;
   product_code?: string;
   product_kind?: string;
+  search_type?: string;
   product_status?: string;
   sales_status?: string;
   source_urls?: string[];
@@ -76,6 +79,8 @@ const DEFAULT_FINANCE_MANIFEST_URL =
   "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json";
 const DEFAULT_FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
 const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
+const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
+const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 const READ_ONLY_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
@@ -126,8 +131,12 @@ function itemSearchText(item: FinanceItem): string {
     item.financial_sector,
     item.product_code,
     item.product_kind,
+    item.search_type,
     item.product_status,
     item.sales_status,
+    structuredSearchText(item.criteria),
+    structuredSearchText(item.options),
+    structuredSearchText(item.benefits),
     ...(item.tags ?? []),
     ...(item.sources ?? []),
     ...(item.source_urls ?? []),
@@ -137,34 +146,45 @@ function itemSearchText(item: FinanceItem): string {
     .toLocaleLowerCase("ko-KR");
 }
 
+function structuredSearchText(value: unknown[] | undefined): string {
+  return (value ?? []).slice(0, 4).map((entry) => JSON.stringify(entry)).join(" ");
+}
+
 function scoreItem(item: FinanceItem, query: string): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
+  const searchType = normalizeQuery(item.search_type ?? item.product_kind ?? "");
   const text = itemSearchText(item);
   const tokens = queryTokens(query);
+  const rateIntent = RATE_QUERY_RE.test(query);
 
+  if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) {
+    return 0;
+  }
+
+  let score = 0;
   if (normalizedId === query || normalizedTitle === query) {
-    return 100;
-  }
-  if (normalizedId.includes(query)) {
-    return 80;
-  }
-  if (normalizedTitle.includes(query)) {
-    return 70;
-  }
-  if (text.includes(query)) {
-    return 40;
+    score = 100;
+  } else if (normalizedId.includes(query)) {
+    score = 80;
+  } else if (normalizedTitle.includes(query)) {
+    score = 70;
+  } else if (text.includes(query)) {
+    score = 40;
   }
   if (tokens.length > 1) {
     const matchedTokens = tokens.filter((token) => text.includes(token));
-    if (matchedTokens.length === tokens.length) {
-      return 30 + matchedTokens.length;
+    if (!score && matchedTokens.length === tokens.length) {
+      score = 30 + matchedTokens.length;
     }
-    if (matchedTokens.length > 0) {
-      return 10 + matchedTokens.length;
+    if (!score && matchedTokens.length > 0) {
+      score = 10 + matchedTokens.length;
     }
   }
-  return 0;
+  if (rateIntent && ["deposit", "saving", "loan"].includes(searchType)) {
+    score += 20;
+  }
+  return score;
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -293,6 +313,7 @@ function createServer(env: Env): McpServer {
           type: item.type,
           provider: item.provider,
           product_kind: item.product_kind,
+          search_type: item.search_type,
           product_status: item.product_status,
           url: itemUrl(env, item.id),
           score,
@@ -363,6 +384,7 @@ function createServer(env: Env): McpServer {
         financial_sector: item.financial_sector,
         product_code: item.product_code,
         product_kind: item.product_kind,
+        search_type: item.search_type,
         product_status: item.product_status,
         sales_status: item.sales_status,
         criteria: item.criteria ?? [],

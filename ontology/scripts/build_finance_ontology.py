@@ -593,6 +593,73 @@ def semantic_product_related(item: dict) -> list[str]:
     return unique(related)
 
 
+def bank_search_type(item: dict) -> str | None:
+    if item.get("type") != "bank-product":
+        return None
+    kind = str(item.get("product_kind") or "").lower()
+    tags = {str(tag).lower() for tag in item.get("tags") or []}
+    if kind == "deposit-protection" or "deposit-protection" in tags:
+        return "deposit-protection"
+    if kind in {"deposit", "time-deposit"} or "deposit" in tags:
+        return "deposit"
+    if kind in {"saving", "savings"} or "saving" in tags:
+        return "saving"
+    if "loan" in kind or any("loan" in tag for tag in tags):
+        return "loan"
+    return kind or None
+
+
+def enrich_card_benefits(item: dict) -> None:
+    if item.get("type") != "card-product":
+        return
+    for benefit in item.get("benefits") or []:
+        if not isinstance(benefit, dict):
+            continue
+        benefit.setdefault("previous_month_spend_min_krw", None)
+        benefit.setdefault("monthly_benefit_limit_krw", None)
+        benefit.setdefault("per_transaction_limit_krw", None)
+        benefit.setdefault("excluded_spend", [])
+        missing = []
+        for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend"):
+            value = benefit.get(key)
+            if value is None or value == "" or value == []:
+                missing.append(key)
+        benefit["condition_completeness"] = "incomplete" if missing else "complete"
+        benefit["missing_condition_fields"] = missing
+
+
+def enrich_insurance_coverage(item: dict) -> None:
+    if item.get("type") != "insurance-product":
+        return
+    criteria = [criterion for criterion in item.get("criteria") or [] if isinstance(criterion, dict)]
+    premium = next((criterion for criterion in criteria if criterion.get("criteria_kind") == "premium"), {})
+    renewal = next((criterion for criterion in criteria if criterion.get("criteria_kind") == "renewal"), {})
+    renewal_text = str(renewal.get("condition") or "")
+    renewal_type = None
+    if "비갱신" in renewal_text:
+        renewal_type = "non_renewable"
+    elif "갱신" in renewal_text:
+        renewal_type = "renewable"
+    for criterion in criteria:
+        if criterion.get("criteria_kind") != "coverage":
+            continue
+        criterion.setdefault("coverage_name", criterion.get("benefit") or criterion.get("condition") or criterion.get("label"))
+        criterion.setdefault("coverage_amount_krw", None)
+        criterion.setdefault("premium_male_krw", premium.get("premium_male_krw"))
+        criterion.setdefault("premium_female_krw", premium.get("premium_female_krw"))
+        criterion.setdefault("renewal_type", renewal_type)
+        criterion.setdefault("renewal_cycle_years", None)
+        criterion.setdefault("waiting_period_days", None)
+        criterion.setdefault("reduction_period_days", None)
+        missing = [
+            key
+            for key in ("coverage_amount_krw", "renewal_cycle_years", "waiting_period_days", "reduction_period_days")
+            if criterion.get(key) is None
+        ]
+        criterion["condition_completeness"] = "incomplete" if missing else "complete"
+        criterion["missing_condition_fields"] = missing
+
+
 def provider_registry_nodes(products: list[dict]) -> list[dict]:
     providers: dict[str, dict] = {}
     for product in products:
@@ -1559,6 +1626,12 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         item["quality_flags"] = unique([str(flag) for flag in flags])
         item["missing_required_fields"] = unique([str(field) for field in missing_fields])
         item["related"] = unique([*(item.get("related") or []), *semantic_product_related(item)])
+        search_type = bank_search_type(item)
+        if search_type:
+            item["search_type"] = search_type
+            item["rate_search_eligible"] = search_type != "deposit-protection"
+        enrich_card_benefits(item)
+        enrich_insurance_coverage(item)
     return items
 
 
@@ -1585,6 +1658,21 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             1 for product in products
             if product.get("status") == "active" and not product.get("related")
         ),
+        "card_benefits_with_incomplete_conditions": sum(
+            1
+            for product in products
+            for benefit in product.get("benefits") or []
+            if isinstance(benefit, dict) and benefit.get("condition_completeness") == "incomplete"
+        ),
+        "insurance_coverages_with_incomplete_conditions": sum(
+            1
+            for product in products
+            for criterion in product.get("criteria") or []
+            if isinstance(criterion, dict)
+            and criterion.get("criteria_kind") == "coverage"
+            and criterion.get("condition_completeness") == "incomplete"
+        ),
+        "deposit_protection_products": sum(1 for product in products if product.get("search_type") == "deposit-protection"),
         "active_insurance_without_criteria": sum(
             1 for product in products
             if product.get("type") == "insurance-product" and product.get("status") == "active" and not product.get("criteria")

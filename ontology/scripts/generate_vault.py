@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import re
 from copy import deepcopy
+from datetime import date
 from pathlib import Path
 
 
@@ -22,7 +23,7 @@ CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
-LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-03"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-04"
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
@@ -3764,10 +3765,31 @@ def core_items_without_local_supports(items: dict[str, dict]) -> dict[str, dict]
     return core_items
 
 
+LOCAL_SUPPORT_DATE_RE = re.compile(r"(?:(\d{4})\s*[.\-/년]\s*)?(\d{1,2})\s*[.\-/월]\s*(\d{1,2})")
+
+
+def local_support_application_dates(deadline_text: str) -> tuple[str | None, str | None]:
+    dates: list[str] = []
+    latest_year: str | None = None
+    for match in LOCAL_SUPPORT_DATE_RE.finditer(deadline_text):
+        year_text, month_text, day_text = match.groups()
+        latest_year = year_text or latest_year
+        if latest_year is None:
+            continue
+        try:
+            dates.append(date(int(latest_year), int(month_text), int(day_text)).isoformat())
+        except ValueError:
+            continue
+    if not dates:
+        return None, None
+    return dates[0], max(dates)
+
+
 def local_support_status_fields(item: dict) -> dict:
     deadline_text = str(item.get("application_deadline_text") or "")
     compact_deadline = deadline_text.replace(" ", "")
-    expiration_date = item.get("expiration_date")
+    _, application_open_to = local_support_application_dates(deadline_text)
+    expiration_date = application_open_to or item.get("expiration_date")
     if "상시" in compact_deadline:
         return {
             "status": "active",
@@ -3795,15 +3817,19 @@ def local_support_status_fields(item: dict) -> dict:
 
 def enrich_local_support_status(item: dict) -> dict:
     enriched = deepcopy(item)
+    application_open_from, application_open_to = local_support_application_dates(str(enriched.get("application_deadline_text") or ""))
     status_fields = local_support_status_fields(enriched)
     status = status_fields["status"]
     enriched.update(status_fields)
+    enriched["expiration_date"] = application_open_to or enriched.get("expiration_date")
     enriched["reviewed_at"] = enriched.get("reviewed_at") or LOCAL_SUPPORT_STATUS_REVIEW_DATE
     enriched["last_verified_at"] = LOCAL_SUPPORT_STATUS_REVIEW_DATE
     enriched["effective_from"] = enriched.get("effective_from")
     enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
-    enriched["application_open_from"] = enriched.get("application_open_from")
-    enriched["application_open_to"] = enriched.get("application_open_to") or enriched.get("expiration_date")
+    enriched["application_open_from"] = enriched.get("application_open_from") or application_open_from
+    enriched["application_open_to"] = enriched.get("application_open_to") or application_open_to or enriched.get("expiration_date")
+    enriched["application_status"] = {"active": "open", "closed": "closed", "unknown": "unknown"}[status]
+    enriched["is_currently_applicable"] = status == "active"
     enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[status]
     enriched["related"] = [
         target_id
@@ -3839,18 +3865,23 @@ def local_support_reference_items(items: dict[str, dict]) -> list[dict]:
 
 def local_support_quality_summary(local_items: list[dict]) -> dict:
     status_counts: dict[str, int] = {}
+    application_status_counts: dict[str, int] = {}
     expired_active = 0
     for item in local_items:
         status = str(item.get("status") or "unknown")
         status_counts[status] = status_counts.get(status, 0) + 1
+        application_status = str(item.get("application_status") or "unknown")
+        application_status_counts[application_status] = application_status_counts.get(application_status, 0) + 1
         expiration_date = item.get("expiration_date")
         if status == "active" and expiration_date and str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE:
             expired_active += 1
     return {
         "status_review_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
         "status_counts": dict(sorted(status_counts.items())),
+        "application_status_counts": dict(sorted(application_status_counts.items())),
         "expired_active_local_supports": expired_active,
         "unknown_status_local_supports": status_counts.get("unknown", 0),
+        "currently_applicable_local_supports": sum(1 for item in local_items if item.get("is_currently_applicable") is True),
     }
 
 

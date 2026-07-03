@@ -17,6 +17,9 @@
     "active_products_without_conditions": 0,
     "products_without_related": 0,
     "active_products_without_related": 0,
+    "card_benefits_with_incomplete_conditions": 0,
+    "insurance_coverages_with_incomplete_conditions": 0,
+    "deposit_protection_products": 0,
     "active_insurance_without_criteria": 0,
     "stale_disclosure_products": 0,
     "reference_only_products": 0,
@@ -23815,5 +23818,5 @@
       ]
     }
   ],
-  "export_checksum": "7771afa8d0fdf239ad72827f1455a12e51bcc04f35bec833ca9bf3a6a3ce7e87"
+  "export_checksum": "e6a77ae9d88d931dca6eb28120841bc7c659eef2877de873e59a921b9ef6c39c"
 }

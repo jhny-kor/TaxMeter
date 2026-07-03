@@ -15,6 +15,7 @@ MANIFEST = EXPORT_DIR / "finance-ontology-manifest.json"
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
 VALID_OPERATIONAL_STATUSES = {"active", "closed", "ended", "suspended", "unknown"}
+VALID_BANK_SEARCH_TYPES = {"deposit", "saving", "loan", "deposit-protection", "lease-finance", "installment-finance"}
 DISCLOSURE_STALE_BEFORE = "202401"
 REQUIRED_PRODUCT_FIELDS = (
     "provider",
@@ -100,6 +101,21 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
             require(bool(item.get("related")), f"{export_id}:{item_id}: active product has no semantic related links", errors)
         if item.get("type") == "insurance-product" and item.get("status") == "active":
             require(bool(criteria), f"{export_id}:{item_id}: active insurance product has empty criteria", errors)
+        if item.get("type") == "bank-product":
+            require(item.get("search_type") in VALID_BANK_SEARCH_TYPES, f"{export_id}:{item_id}: invalid search_type", errors)
+        if item.get("type") == "card-product":
+            for index, benefit in enumerate(benefits, start=1):
+                if not isinstance(benefit, dict):
+                    errors.append(f"{export_id}:{item_id}: benefit #{index} must be an object")
+                    continue
+                for field in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend", "condition_completeness"):
+                    require(field in benefit, f"{export_id}:{item_id}: benefit #{index} missing {field}", errors)
+        if item.get("type") == "insurance-product":
+            for index, criterion in enumerate(criteria, start=1):
+                if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
+                    continue
+                for field in ("coverage_name", "coverage_amount_krw", "premium_male_krw", "premium_female_krw", "renewal_type", "renewal_cycle_years", "waiting_period_days", "reduction_period_days", "condition_completeness"):
+                    require(field in criterion, f"{export_id}:{item_id}: coverage #{index} missing {field}", errors)
         disclosure_months = []
         if item.get("disclosure_month"):
             disclosure_months.append(str(item["disclosure_month"]))
