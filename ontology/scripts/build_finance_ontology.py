@@ -1731,7 +1731,7 @@ def write_export(path: Path, version: str, domain: str, items: list[dict], produ
     }
     payload["export_checksum"] = payload_checksum(payload)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     return {
         "path": str(path.relative_to(REPO_ROOT)),
         "item_count": len(normalized),
@@ -1877,7 +1877,7 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
         "items": sorted(indexed, key=lambda item: item["id"]),
     }
     payload["export_checksum"] = payload_checksum(payload)
-    SEARCH_INDEX_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    SEARCH_INDEX_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     return {
         "path": str(SEARCH_INDEX_EXPORT.relative_to(REPO_ROOT)),
         "item_count": len(indexed),

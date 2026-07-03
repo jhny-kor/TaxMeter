@@ -24,12 +24,6 @@ FINANCE_EXPORT_FILENAMES = (
     "korea-insurance-products-ontology-2026.json",
     "korea-finance-reference-ontology-2026.json",
 )
-FINANCE_DATA_FILENAMES = (
-    "korea-card-products-ontology-2026.json",
-    "korea-bank-products-ontology-2026.json",
-    "korea-insurance-products-ontology-2026.json",
-    "korea-finance-reference-ontology-2026.json",
-)
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
 WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-ontology-2026.json"
 
@@ -81,21 +75,6 @@ def load_export() -> dict:
     return json.loads(EXPORT_PATH.read_text(encoding="utf-8"))
 
 
-def web_finance_item(item: dict) -> dict:
-    return {key: value for key, value in item.items() if key not in {"raw", "raw_records"}}
-
-
-def load_finance_items() -> list[dict]:
-    items: list[dict] = []
-    for filename in FINANCE_DATA_FILENAMES:
-        path = ONTOLOGY_ROOT / "exports" / filename
-        if not path.exists():
-            continue
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        items.extend(web_finance_item(item) for item in payload.get("items") or [])
-    return items
-
-
 def dedupe_items(items: list[dict]) -> list[dict]:
     by_id: dict[str, dict] = {}
     for item in items:
@@ -129,6 +108,13 @@ def enrich_summary(summary: dict, items: list[dict]) -> dict:
         finance_manifest = json.loads(FINANCE_MANIFEST_PATH.read_text(encoding="utf-8"))
         finance_source_review_date = finance_manifest.get("source_review_date") or finance_manifest.get("basis_date")
         finance_product_collection_dates = finance_collection_label(finance_manifest)
+        finance_product_count = sum(
+            int(export.get("product_count") or 0)
+            for export in finance_manifest.get("exports") or []
+            if export.get("domain") in {"card-products", "bank-products", "insurance-products"}
+        )
+    else:
+        finance_product_count = counts["card-product"] + counts["bank-product"] + counts["insurance-product"]
     relation_count = sum(
         len(item.get(key, []))
         for item in items
@@ -142,7 +128,7 @@ def enrich_summary(summary: dict, items: list[dict]) -> dict:
             "category_count": counts["category"],
             "finance_source_review_date": finance_source_review_date,
             "finance_product_collection_dates": finance_product_collection_dates,
-            "finance_product_count": counts["card-product"] + counts["bank-product"] + counts["insurance-product"],
+            "finance_product_count": finance_product_count,
             "relation_count": relation_count,
             "type_counts": dict(sorted(counts.items())),
         }
@@ -441,7 +427,7 @@ def build_html(data: dict, summary: dict) -> str:
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="m21 21-4.3-4.3M10.7 18a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                       </svg>
-                      <input type="search" placeholder="예: 부가가치세, 청년도약계좌, 신용카드, 전세대출" data-search>
+                      <input type="search" placeholder="예: 부가가치세, 월세, 의료비, 청년도약계좌" data-search>
                     </label>
                     <span class="result-count" data-result-count></span>
                   </div>
@@ -1719,7 +1705,6 @@ def build_js(data: dict, summary: dict, items: list[dict]) -> str:
             { id: "taxes", label: "세목", test: (item) => item.type === "tax" || hasAncestor(item, "category.national-taxes") || hasAncestor(item, "category.local-taxes") || hasAncestor(item, "category.customs") },
             { id: "reliefs", label: "공제·감면", test: (item) => ["deduction", "tax-credit", "tax-reduction", "corporate-tax-support"].includes(item.type) || hasAncestor(item, "category.deductions-and-reliefs") },
             { id: "supports", label: "정책지원", test: (item) => item.type === "support-program" || hasAncestor(item, "category.policy-supports") },
-            { id: "finance", label: "금융상품", test: (item) => ["card-product", "bank-product", "insurance-product"].includes(item.type) || (item.tags || []).includes("finance-ontology") || (item.tags || []).some((tag) => String(tag).includes("products-ontology")) },
             { id: "business", label: "사업자", test: (item) => hasAncestor(item, "category.business-tax-compliance") },
             { id: "filing", label: "신고기한", test: (item) => ["filing", "deadline"].includes(item.type) || hasAncestor(item, "category.filing-calendar") },
             { id: "scenarios", label: "사용자 경로", test: (item) => item.type === "scenario" || hasAncestor(item, "category.user-scenarios") },
@@ -2366,8 +2351,7 @@ def build_js(data: dict, summary: dict, items: list[dict]) -> str:
 
 def main() -> int:
     data = load_export()
-    finance_items = load_finance_items()
-    items = dedupe_items([*data["items"], *finance_items])
+    items = dedupe_items(data["items"])
     summary = enrich_summary(summarize(data), items)
     WEB_ROOT.mkdir(parents=True, exist_ok=True)
     (WEB_ROOT / "index.html").write_text(build_html(data, summary), encoding="utf-8")
