@@ -1,9 +1,9 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.2",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.3",
   "basis_date": "2026-07-03",
   "source_review_date": "2026-07-03",
   "name": "finance",
-  "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "committee_remediation": {
       "status_fields_added": true,
@@ -53,6 +53,21 @@
         "status_counts": {
           "active": 1055
         },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "reference": {
+        "product_count": 0,
+        "status_counts": {},
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "active_insurance_without_criteria": 0,
@@ -123,6 +138,20 @@
       "last_checked": "2026-07-03",
       "last_observed_result": "official metadata reviewed; not a product-row source",
       "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
+    },
+    {
+      "source_id": "source.bok.ecos",
+      "status": "reference_source_added_key_required",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "status": "reference_source_added",
+      "last_checked": "2026-07-03",
+      "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
+      "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
     }
   ],
   "exports": [
@@ -252,6 +281,34 @@
       },
       "export_checksum": "549202be393a5b374e6b21c3ba9780de0dd286bef19de638279716219814381e",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
+    },
+    {
+      "id": "finance-reference-ontology",
+      "domain": "finance-reference",
+      "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
+      "item_count": 487,
+      "product_count": 0,
+      "source_review_date": "2026-07-03",
+      "product_collection_dates": [],
+      "quality_summary": {
+        "product_count": 0,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "11d45e014b9c403ad319787cc4422bbdde5f1a2716e6a310747dce7a70c1c612",
+      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다."
     }
   ]
 }

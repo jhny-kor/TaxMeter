@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build the static web guide for OpenTax."""
+# allow: SIZE_OK -- single static HTML generator; split when adding new rendering behavior.
 
 from __future__ import annotations
 
@@ -20,11 +21,13 @@ FINANCE_EXPORT_FILENAMES = (
     "korea-card-products-ontology-2026.json",
     "korea-bank-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
+    "korea-finance-reference-ontology-2026.json",
 )
 FINANCE_DATA_FILENAMES = (
     "korea-card-products-ontology-2026.json",
     "korea-bank-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
+    "korea-finance-reference-ontology-2026.json",
 )
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
 WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-ontology-2026.json"
@@ -56,6 +59,9 @@ TYPE_LABELS = {
     "card-product": "카드상품",
     "bank-product": "은행·대출상품",
     "insurance-product": "보험상품",
+    "financial-provider": "금융회사",
+    "benchmark-rate": "기준금리·시장지표",
+    "risk-signal": "리스크 신호",
 }
 
 

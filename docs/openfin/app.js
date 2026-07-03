@@ -33,6 +33,12 @@ const DOMAIN_META = {
     className: "insurance",
     summary: "보험료, 보장, 면책, 갱신, 약관 출처",
   },
+  "finance-reference": {
+    label: "금융 기준정보",
+    short: "Reference",
+    className: "unknown",
+    summary: "금융회사, 기준금리, 보험 리스크, 투자·정책금융 후보 출처",
+  },
 };
 
 const numberFormat = new Intl.NumberFormat("ko-KR");
