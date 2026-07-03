@@ -138,6 +138,16 @@ def validate_manifest(errors: list[str]) -> list[dict]:
     exports = payload.get("exports") or []
     require(payload.get("name") == "finance", "manifest name must be finance", errors)
     require(isinstance(exports, list) and bool(exports), "manifest exports must be a non-empty list", errors)
+    search_index = payload.get("search_index") or {}
+    search_index_path = search_index.get("path")
+    require(bool(search_index_path), "manifest missing search_index path", errors)
+    if search_index_path:
+        path = ROOT.parent / search_index_path
+        require(path.exists(), f"search_index missing export file {search_index_path}", errors)
+        if path.exists():
+            index_payload = load_json(path)
+            require(index_payload.get("item_count") == len(index_payload.get("items") or []), "search_index item_count mismatch", errors)
+            require(bool(search_index.get("web_url")), "search_index missing web url", errors)
     ids = [entry.get("id") for entry in exports]
     require(len(ids) == len(set(ids)), "manifest duplicate export ids", errors)
     for entry in exports:

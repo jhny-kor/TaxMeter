@@ -32,6 +32,7 @@ BANK_EXPORT = EXPORT_DIR / "korea-bank-products-ontology-2026.json"
 INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
+SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
 
 GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
@@ -1768,6 +1769,123 @@ def export_entry(
     }
 
 
+SEARCH_NESTED_FIELDS = (
+    "label",
+    "condition",
+    "text",
+    "benefit",
+    "coverage_name",
+    "rate_type",
+    "save_trm",
+    "intr_rate",
+    "intr_rate2",
+    "rsrv_type_nm",
+    "rpay_type_nm",
+    "crdt_prdt_type_nm",
+)
+
+
+def compact_nested_text(values: object) -> str:
+    if not isinstance(values, list):
+        return ""
+    parts: list[str] = []
+    for entry in values[:6]:
+        if not isinstance(entry, dict):
+            continue
+        for key in SEARCH_NESTED_FIELDS:
+            value = entry.get(key)
+            if value is not None and value != "" and value != []:
+                parts.append(str(value)[:120])
+    return " ".join(parts)
+
+
+def item_search_text(item: dict) -> str:
+    parts: list[str] = []
+    for key in (
+        "id",
+        "title",
+        "type",
+        "description",
+        "law_reference",
+        "url",
+        "publisher",
+        "provider",
+        "provider_code",
+        "financial_sector",
+        "product_code",
+        "product_kind",
+        "search_type",
+        "product_status",
+        "sales_status",
+        "status",
+        "jurisdiction",
+    ):
+        value = item.get(key)
+        if value:
+            parts.append(str(value))
+    for key in ("tags", "sources", "source_urls"):
+        parts.extend(str(value) for value in item.get(key) or [] if value)
+    for key in ("criteria", "options", "benefits"):
+        values = item.get(key) or []
+        if values:
+            parts.append(compact_nested_text(values))
+    if item.get("search_type") in {"deposit", "saving", "loan"}:
+        parts.append("금리 최고금리 개월 12개월 24개월 36개월 중도해지")
+    return " ".join(parts).lower()
+
+
+def search_index_item(item: dict, export_id: str) -> dict:
+    return {
+        "id": item.get("id"),
+        "title": item.get("title"),
+        "type": item.get("type"),
+        "description": item.get("description"),
+        "provider": item.get("provider"),
+        "product_kind": item.get("product_kind"),
+        "search_type": item.get("search_type"),
+        "product_status": item.get("product_status"),
+        "export_id": export_id,
+        "search_text": item_search_text(item),
+    }
+
+
+def load_export_items(path: Path) -> list[dict]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
+
+
+def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
+    indexed: list[dict] = []
+    seen: set[str] = set()
+    for export_id, path_text in export_paths:
+        path = REPO_ROOT / path_text
+        if not path.exists():
+            continue
+        for item in load_export_items(path):
+            item_id = item.get("id")
+            if not item_id or item_id in seen:
+                continue
+            seen.add(item_id)
+            indexed.append(search_index_item(item, export_id))
+    payload = {
+        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.03.1",
+        "basis_date": CURRENT_REVIEW_DATE,
+        "source_review_date": CURRENT_REVIEW_DATE,
+        "ontology_kind": "finance-search-index",
+        "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
+        "item_count": len(indexed),
+        "items": sorted(indexed, key=lambda item: item["id"]),
+    }
+    payload["export_checksum"] = payload_checksum(payload)
+    SEARCH_INDEX_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {
+        "path": str(SEARCH_INDEX_EXPORT.relative_to(REPO_ROOT)),
+        "item_count": len(indexed),
+        "product_count": 0,
+        "export_checksum": payload["export_checksum"],
+    }
+
+
 def existing_export_count(path: Path) -> int:
     if not path.exists():
         return 0
@@ -1775,7 +1893,7 @@ def existing_export_count(path: Path) -> int:
     return int(payload.get("item_count") or len(payload.get("items") or []))
 
 
-def write_manifest(results: dict[str, dict]) -> None:
+def write_manifest(results: dict[str, dict], search_index: dict) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     manifest = {
@@ -1870,6 +1988,17 @@ def write_manifest(results: dict[str, dict]) -> None:
                 "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다.",
             },
         ],
+        "search_index": export_entry(
+            "finance-search-index",
+            "search-index",
+            search_index["path"],
+            search_index["item_count"],
+            0,
+            "MCP search 전용 경량 인덱스입니다.",
+            [],
+            {},
+            search_index.get("export_checksum"),
+        ),
         "exports": [
             export_entry(
                 "tax-ontology",
@@ -1935,7 +2064,7 @@ def write_manifest(results: dict[str, dict]) -> None:
     }
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, MANIFEST_EXPORT):
+    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -1974,7 +2103,15 @@ def main() -> int:
         "finance-reference",
         "reference",
     )
-    write_manifest(results)
+    search_index = write_search_index([
+        ("tax-ontology", "ontology/exports/korea-tax-ontology-2026.json"),
+        ("local-government-supports-ontology", "ontology/exports/korea-local-government-supports-ontology-2026.json"),
+        ("card-products-ontology", results["card"]["path"]),
+        ("bank-products-ontology", results["bank"]["path"]),
+        ("insurance-products-ontology", results["insurance"]["path"]),
+        ("finance-reference-ontology", results["reference"]["path"]),
+    ])
+    write_manifest(results, search_index)
     print(f"Exported {CARD_EXPORT}")
     print(f"Exported {BANK_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")

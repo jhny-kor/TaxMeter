@@ -180,6 +180,20 @@
       "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
     }
   ],
+  "search_index": {
+    "id": "finance-search-index",
+    "domain": "search-index",
+    "path": "ontology/exports/finance-search-index-2026.json",
+    "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
+    "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
+    "item_count": 21556,
+    "product_count": 0,
+    "source_review_date": "2026-07-03",
+    "product_collection_dates": [],
+    "quality_summary": {},
+    "export_checksum": "edeb1cd2809e663951956f8c4935ca7ada4ad3c5e80952221bfa46e9fedebcd9",
+    "description": "MCP search 전용 경량 인덱스입니다."
+  },
   "exports": [
     {
       "id": "tax-ontology",

@@ -30,6 +30,8 @@ type FinanceItem = {
   search_type?: string;
   product_status?: string;
   sales_status?: string;
+  export_id?: string;
+  search_text?: string;
   source_urls?: string[];
   source_basis_dates?: string[];
 };
@@ -58,6 +60,7 @@ type FinanceManifest = {
   basis_date: string;
   name: string;
   description?: string;
+  search_index?: ManifestEntry;
   exports: ManifestEntry[];
 };
 
@@ -74,9 +77,20 @@ type CachedGraph = {
   loadedAt: number;
 };
 
+type SearchIndex = {
+  version: string;
+  basis_date: string;
+  items: FinanceItem[];
+};
+
+type CachedSearchIndex = {
+  data: SearchIndex;
+  loadedAt: number;
+};
+
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const DEFAULT_FINANCE_MANIFEST_URL =
-  "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json";
+  "https://jhny-kor.github.io/TaxMeter/opentax/finance-ontology-manifest.json";
 const DEFAULT_FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/";
 const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
@@ -89,6 +103,8 @@ const READ_ONLY_TOOL_ANNOTATIONS = {
 } as const;
 
 let cachedGraph: CachedGraph | undefined;
+let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
+let cachedSearchIndex: CachedSearchIndex | undefined;
 
 function jsonText(value: unknown): string {
   return JSON.stringify(value, null, 2);
@@ -118,6 +134,9 @@ function itemUrl(env: Env, itemId: string): string {
 }
 
 function itemSearchText(item: FinanceItem): string {
+  if (item.search_text) {
+    return item.search_text.toLocaleLowerCase("ko-KR");
+  }
   return [
     item.id,
     item.title,
@@ -167,6 +186,8 @@ function scoreItem(item: FinanceItem, query: string): number {
     score = 100;
   } else if (normalizedId.includes(query)) {
     score = 80;
+  } else if (query.includes(normalizedTitle)) {
+    score = 75 + queryTokens(normalizedTitle).length;
   } else if (normalizedTitle.includes(query)) {
     score = 70;
   } else if (text.includes(query)) {
@@ -202,11 +223,41 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
+  const now = Date.now();
+  if (cachedManifest && now - cachedManifest.loadedAt < CACHE_TTL_MS) {
+    return cachedManifest.data;
+  }
+  const manifest = await fetchJson<FinanceManifest>(financeManifestUrl(env));
+  cachedManifest = { data: manifest, loadedAt: now };
+  return manifest;
+}
+
 function resolveExportUrl(entry: ManifestEntry, manifestUrl: string): string {
+  if (entry.web_url) {
+    return entry.web_url;
+  }
   if (entry.url) {
     return entry.url;
   }
   return new URL(entry.path, manifestUrl).toString();
+}
+
+async function loadSearchIndex(env: Env): Promise<SearchIndex> {
+  const now = Date.now();
+  if (cachedSearchIndex && now - cachedSearchIndex.loadedAt < CACHE_TTL_MS) {
+    return cachedSearchIndex.data;
+  }
+  const manifestUrl = financeManifestUrl(env);
+  const manifest = await loadFinanceManifest(env);
+  if (!manifest.search_index) {
+    const graph = await loadFinanceGraph(env);
+    return { version: graph.version, basis_date: graph.basis_date, items: graph.items };
+  }
+  const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
+  const data = await fetchJson<SearchIndex>(indexUrl);
+  cachedSearchIndex = { data, loadedAt: now };
+  return data;
 }
 
 async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
@@ -216,7 +267,7 @@ async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
   }
 
   const manifestUrl = financeManifestUrl(env);
-  const manifest = await fetchJson<FinanceManifest>(manifestUrl);
+  const manifest = await loadFinanceManifest(env);
   const itemsById = new Map<string, FinanceItem>();
 
   for (const entry of manifest.exports) {
@@ -271,6 +322,29 @@ function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): Fi
     .filter((source): source is FinanceItem => Boolean(source));
 }
 
+async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
+  const itemId = resolveItemId(rawId);
+  const manifestUrl = financeManifestUrl(env);
+  const manifest = await loadFinanceManifest(env);
+  const searchIndex = await loadSearchIndex(env);
+  const indexedItem = searchIndex.items.find((item) => item.id === itemId);
+  const candidateExports = indexedItem?.export_id
+    ? manifest.exports.filter((entry) => entry.id === indexedItem.export_id)
+    : manifest.exports;
+
+  for (const entry of candidateExports) {
+    const payload = await fetchJson<OntologyExport>(resolveExportUrl(entry, manifestUrl));
+    const items = [...(payload.reference_items ?? []), ...(payload.items ?? [])];
+    const itemsById = new Map(items.map((item) => [item.id, item]));
+    const item = itemsById.get(itemId);
+    if (item) {
+      return { item, itemsById };
+    }
+  }
+
+  throw new Error(`Finance ontology item not found: ${rawId}`);
+}
+
 function createServer(env: Env): McpServer {
   const server = new McpServer({
     name: "finance",
@@ -297,7 +371,7 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ query, type, limit }) => {
-      const data = await loadFinanceGraph(env);
+      const data = await loadSearchIndex(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
 
@@ -353,15 +427,7 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ id }) => {
-      const data = await loadFinanceGraph(env);
-      const itemsById = indexItems(data);
-      const itemId = resolveItemId(id);
-      const item = itemsById.get(itemId);
-
-      if (!item) {
-        throw new Error(`Finance ontology item not found: ${id}`);
-      }
-
+      const { item, itemsById } = await fetchItemGraph(env, id);
       const sources = sourceItems(item, itemsById).map((source) => ({
         id: source.id,
         title: source.title,
@@ -426,12 +492,13 @@ function createServer(env: Env): McpServer {
       },
     },
     async () => {
-      const data = await loadFinanceGraph(env);
+      const manifest = await loadFinanceManifest(env);
       const payload = {
-        version: data.version,
-        basis_date: data.basis_date,
-        item_count: data.items.length,
-        exports: data.exports,
+        version: manifest.version,
+        basis_date: manifest.basis_date,
+        item_count: manifest.search_index?.item_count ?? manifest.exports.reduce((total, entry) => total + (entry.item_count ?? 0), 0),
+        search_index: manifest.search_index,
+        exports: manifest.exports,
       };
       return {
         structuredContent: payload,

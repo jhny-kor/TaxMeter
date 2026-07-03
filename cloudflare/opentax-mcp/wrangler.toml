@@ -4,5 +4,5 @@ compatibility_date = "2026-05-03"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-FINANCE_MANIFEST_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json"
+FINANCE_MANIFEST_URL = "https://jhny-kor.github.io/TaxMeter/opentax/finance-ontology-manifest.json"
 FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/"
