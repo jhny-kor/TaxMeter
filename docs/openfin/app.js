@@ -614,6 +614,7 @@ function scoreItem(item, query) {
   let score = 0;
   if (id === query || title === query) score = 100;
   else if (id.includes(query)) score = 80;
+  else if (query.includes(title)) score = 75 + title.split(/\s+/).filter(Boolean).length;
   else if (title.includes(query)) score = 70;
   else if (text.includes(query)) score = 40;
 

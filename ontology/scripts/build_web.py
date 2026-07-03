@@ -18,6 +18,7 @@ LOCAL_SUPPORT_EXPORT_PATH = ONTOLOGY_ROOT / "exports" / "korea-local-government-
 FINANCE_MANIFEST_PATH = ONTOLOGY_ROOT / "exports" / "finance-ontology-manifest.json"
 FINANCE_EXPORT_FILENAMES = (
     "finance-ontology-manifest.json",
+    "finance-search-index-2026.json",
     "korea-card-products-ontology-2026.json",
     "korea-bank-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
