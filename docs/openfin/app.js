@@ -1,3 +1,4 @@
+// allow: SIZE_OK -- static GitHub Pages app kept dependency-free; split if a bundler is introduced.
 const DATA_BASE = "../opentax/";
 const MANIFEST_FILE = "finance-ontology-manifest.json";
 const MAX_RESULTS = 120;
@@ -631,6 +632,8 @@ function renderOperationalSummary() {
   const risks = state.manifest.source_access_risks || [];
   const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
   const activeInsuranceGap = state.manifest.quality_summary?.finance_exports?.insurance?.active_insurance_without_criteria ?? 0;
+  const cardConditionGap = state.manifest.quality_summary?.finance_exports?.card?.card_benefits_with_incomplete_conditions ?? 0;
+  const insuranceConditionGap = state.manifest.quality_summary?.finance_exports?.insurance?.insurance_coverages_with_incomplete_conditions ?? 0;
   const riskLines = risks.slice(0, 5).map((risk) => `${risk.source_id}: ${risk.status}`).join(" · ");
   const qualityLines = financeExports
     .map((entry) => `${domainMeta(entry.domain).label} ${qualityLine(entry.quality_summary)}`)
@@ -639,7 +642,7 @@ function renderOperationalSummary() {
   container.innerHTML = `
     <article>
       <h3>상태 게이트</h3>
-      <p>active 보험상품 criteria 빈 값 ${formatNumber(activeInsuranceGap)}건. 종료·불확실 상품은 기본 검색과 추천 후보에서 제외합니다.</p>
+      <p>active 보험상품 criteria 빈 값 ${formatNumber(activeInsuranceGap)}건. 카드 혜택 조건 미수집 ${formatNumber(cardConditionGap)}건, 보험 보장 조건 미수집 ${formatNumber(insuranceConditionGap)}건은 상세 필드에 incomplete로 표시합니다.</p>
     </article>
     <article>
       <h3>출처 접근 리스크</h3>
