@@ -342,6 +342,22 @@ SOURCES = {
         "생명보험 상품 공시와 보장성 상품·변액보험 등 생명보험 상품 정보를 확인하는 공식 공시실입니다.",
         "2026-07-03 확인",
     ),
+    "source.fsc.medical-reimbursement-insurance": source_node(
+        "source.fsc.medical-reimbursement-insurance",
+        "금융위원회 실손보험정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15094797/openapi.do",
+        "생명보험협회 및 손해보험협회에서 제공하는 실손의료보험 유형, 담보, 성별·연령별 기준 보험료 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
+    "source.fsc.variable-insurance-info": source_node(
+        "source.fsc.variable-insurance-info",
+        "금융위원회 변액보험기본정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15094793/openapi.do",
+        "생명보험협회 변액보험 펀드별 기준가, 순자산, 설정일자, 운용회사 정보를 제공하는 API 후보입니다.",
+        "2026-07-03 확인",
+    ),
     "source.knia.insurance-disclosure": source_node(
         "source.knia.insurance-disclosure",
         "손해보험협회 공시실",
@@ -1087,6 +1103,8 @@ def insurance_items() -> list[dict]:
         SOURCES["source.fss.finlife.web"],
         SOURCES["source.einsmarket.insurance"],
         SOURCES["source.klia.insurance-disclosure"],
+        SOURCES["source.fsc.medical-reimbursement-insurance"],
+        SOURCES["source.fsc.variable-insurance-info"],
         SOURCES["source.knia.insurance-disclosure"],
         SOURCES["source.easylaw.finance-product-disclosure"],
     ])
@@ -1305,7 +1323,7 @@ def write_manifest(results: dict[str, dict]) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.1",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.2",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "name": "finance",
@@ -1329,6 +1347,27 @@ def write_manifest(results: dict[str, dict]) -> None:
                 "last_checked": CURRENT_REVIEW_DATE,
                 "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
                 "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다.",
+            },
+            {
+                "source_id": "source.klia.insurance-disclosure",
+                "status": "live_imported",
+                "last_checked": CURRENT_REVIEW_DATE,
+                "last_observed_result": f"HTTP 200 public disclosure table; active insurance products imported: {results['insurance']['product_count']}",
+                "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다.",
+            },
+            {
+                "source_id": "source.fsc.medical-reimbursement-insurance",
+                "status": "approved_by_user_but_live_403",
+                "last_checked": CURRENT_REVIEW_DATE,
+                "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
+                "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다.",
+            },
+            {
+                "source_id": "source.fsc.variable-insurance-info",
+                "status": "approved_by_user_but_live_403",
+                "last_checked": CURRENT_REVIEW_DATE,
+                "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
+                "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다.",
             },
             {
                 "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
@@ -1437,7 +1476,7 @@ def main() -> int:
         ),
         "insurance": write_export(
             INSURANCE_EXPORT,
-            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.03.1",
+            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.03.2",
             "insurance-products",
             insurance_items(),
             "insurance-product",
