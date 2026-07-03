@@ -24,6 +24,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 964,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 356,
@@ -45,6 +48,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 9380,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 11,
@@ -65,6 +71,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 1055,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -83,6 +92,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -219,6 +231,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 964,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 356,
@@ -230,7 +245,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "614436270b4d8475a7b75259d64e88bac7d26a2eeb2e149c21d75eca99c54d1e",
+      "export_checksum": "efa635d7d0a8edd9cdbef46224cdd5d969fff5a0f53162da17be214a7dfb582d",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -256,6 +271,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 9380,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 11,
@@ -267,7 +285,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5c9b726d7e54ea39661e4754f39311dbcdd08fb1f07fd48c0ae86b3470a035f0",
+      "export_checksum": "b300ee6ac10576be51bb9ee9b69e5103aafbe3341114b51d2bf4b2f1beac902b",
       "description": "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
@@ -291,6 +309,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 1055,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -302,7 +323,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "12b4e105fa464387c7a317f0eb77f7a49280906c00ed9da1c17637a3bd8501ee",
+      "export_checksum": "f7fa4b5f4dbb9d7405e63163c5a6438fd57e702a1fd02dd0c53ec6804d77e9be",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -322,6 +343,9 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -333,7 +357,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "7771afa8d0fdf239ad72827f1455a12e51bcc04f35bec833ca9bf3a6a3ce7e87",
+      "export_checksum": "e6a77ae9d88d931dca6eb28120841bc7c659eef2877de873e59a921b9ef6c39c",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다."
     }
   ]

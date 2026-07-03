@@ -1,6 +1,8 @@
 const DATA_BASE = "../opentax/";
 const MANIFEST_FILE = "finance-ontology-manifest.json";
 const MAX_RESULTS = 120;
+const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
+const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 
 const DOMAIN_META = {
   tax: {
@@ -582,6 +584,7 @@ function scoreItem(item, query) {
   if (!query) return 1;
   const title = normalize(item.title || "");
   const id = normalize(item.id || "");
+  const searchType = normalize(item.search_type || item.product_kind || "");
   const text = normalize([
     item.id,
     item.title,
@@ -590,6 +593,7 @@ function scoreItem(item, query) {
     item.provider,
     item.financial_sector,
     item.product_kind,
+    item.search_type,
     item.product_code,
     item.jurisdiction,
     item.status,
@@ -604,16 +608,20 @@ function scoreItem(item, query) {
     ...(item.source_urls || []),
   ].filter(Boolean).join(" "));
   const tokens = query.split(/\s+/).filter(Boolean);
+  const rateIntent = RATE_QUERY_RE.test(query);
+  if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) return 0;
 
-  if (id === query || title === query) return 100;
-  if (id.includes(query)) return 80;
-  if (title.includes(query)) return 70;
-  if (text.includes(query)) return 40;
+  let score = 0;
+  if (id === query || title === query) score = 100;
+  else if (id.includes(query)) score = 80;
+  else if (title.includes(query)) score = 70;
+  else if (text.includes(query)) score = 40;
 
   const matched = tokens.filter((token) => text.includes(token)).length;
-  if (tokens.length > 1 && matched === tokens.length) return 30 + matched;
-  if (matched) return 10 + matched;
-  return 0;
+  if (!score && tokens.length > 1 && matched === tokens.length) score = 30 + matched;
+  if (!score && matched) score = 10 + matched;
+  if (rateIntent && ["deposit", "saving", "loan"].includes(searchType)) score += 20;
+  return score;
 }
 
 function renderOperationalSummary() {

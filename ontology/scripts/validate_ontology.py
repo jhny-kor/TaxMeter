@@ -147,8 +147,9 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
     "status_check_url",
 )
 LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
-LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-03"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-04"
 LOCAL_SUPPORT_VALID_STATUSES = {"active", "closed", "unknown"}
+LOCAL_SUPPORT_APPLICATION_STATUSES = {"open", "closed", "unknown"}
 
 
 def parse_frontmatter(path: Path) -> dict | None:
@@ -359,6 +360,10 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
         require(bool(item.get("status_reason")), f"{item_id}: missing status_reason", errors)
         require(bool(item.get("status_confidence")), f"{item_id}: missing status_confidence", errors)
         require(bool(item.get("last_verified_at")), f"{item_id}: missing last_verified_at", errors)
+        require(item.get("application_status") in LOCAL_SUPPORT_APPLICATION_STATUSES, f"{item_id}: invalid application_status", errors)
+        require(isinstance(item.get("is_currently_applicable"), bool), f"{item_id}: missing is_currently_applicable", errors)
+        if item.get("application_status") == "closed":
+            require(item.get("is_currently_applicable") is False, f"{item_id}: closed support cannot be currently applicable", errors)
         expiration_date = item.get("expiration_date")
         if item.get("status") == "active" and expiration_date:
             require(str(expiration_date) >= LOCAL_SUPPORT_STATUS_REVIEW_DATE, f"{item_id}: expired local support marked active", errors)
@@ -386,6 +391,7 @@ def validate_local_government_support_split(items: dict[str, dict], errors: list
     require(payload.get("item_count") == len(local_items), "local support export item_count mismatch", errors)
     quality = payload.get("quality_summary") or {}
     require(quality.get("expired_active_local_supports") == 0, "local support export has expired active supports", errors)
+    require(bool(quality.get("application_status_counts")), "local support export missing application_status_counts", errors)
     local_by_id = {item["id"]: item for item in local_items if isinstance(item, dict) and item.get("id")}
     reference_by_id = {item["id"]: item for item in reference_items if isinstance(item, dict) and item.get("id")}
     require(len(local_by_id) == len(local_items), "local support export has duplicate or invalid item ids", errors)
