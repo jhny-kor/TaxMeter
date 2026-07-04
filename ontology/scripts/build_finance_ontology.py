@@ -21,7 +21,7 @@ EXPORT_DIR = ROOT / "exports"
 CUSTOM_FINANCE_DIR = ROOT / "custom" / "finance"
 DOCS_ROOT = REPO_ROOT / "docs" / "opentax"
 
-CURRENT_REVIEW_DATE = "2026-07-03"
+CURRENT_REVIEW_DATE = "2026-07-04"
 CURRENT_BASIS_YEAR = 2026
 DISCLOSURE_STALE_BEFORE = "202401"
 RAW_BASE_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main"
@@ -153,6 +153,30 @@ SOURCES = {
         "금융회사 재무·신용 정보를 상품 제공자 리스크 축으로 연결하기 위한 공식 API 후보입니다.",
         "2026-07-03 확인",
     ),
+    "source.fss.fine.portal": source_node(
+        "source.fss.fine.portal",
+        "금융소비자 정보포털 파인",
+        "금융감독원",
+        "https://fine.fss.or.kr/",
+        "계좌·보험금·증권 등 숨은 금융자산 조회와 금융소비자 보호 정보를 연결하기 위한 금융감독원 공식 포털입니다.",
+        "2026-07-04 확인",
+    ),
+    "source.fsc.rate-disclosure-guide": source_node(
+        "source.fsc.rate-disclosure-guide",
+        "금리정보 공시 안내",
+        "금융위원회",
+        "https://www.fsc.go.kr/edu/cardnews?cnId=1796",
+        "은행의 대출금리, 예금금리, 예대금리차를 한눈에 비교하는 금리정보 공시 제도 안내입니다.",
+        "2026-07-04 확인",
+    ),
+    "source.kfb.consumer-portal": source_node(
+        "source.kfb.consumer-portal",
+        "은행연합회 소비자포털",
+        "은행연합회",
+        "https://portal.kfb.or.kr/",
+        "은행별 예금·대출 금리, 수수료, 예대금리차와 COFIX 등 은행권 비교공시를 확인하는 공식 포털입니다.",
+        "2026-07-04 확인",
+    ),
     "source.fsc.domestic-bank-statistics": source_node(
         "source.fsc.domestic-bank-statistics",
         "금융위원회 금융통계국내은행정보",
@@ -160,6 +184,14 @@ SOURCES = {
         "https://www.data.go.kr/data/15061304/openapi.do",
         "국내은행 일반현황, 재무현황, 주요 경영지표, 주요 영업활동을 제공하는 공식 API 후보입니다.",
         "2026-07-03 확인",
+    ),
+    "source.fsb.savings-bank-deposit-rates": source_node(
+        "source.fsb.savings-bank-deposit-rates",
+        "저축은행중앙회 예·적금 금리공시",
+        "저축은행중앙회",
+        "https://www.fsb.or.kr/ratedepo_0100.act",
+        "저축은행 정기예금·적금의 가입기간, 가입방법, 기본금리, 최고우대금리와 상품별 비교를 제공하는 공식 공시 표면입니다.",
+        "2026-07-04 확인",
     ),
     "source.bok.ecos": source_node(
         "source.bok.ecos",
@@ -409,6 +441,30 @@ SOURCES = {
         "생명보험협회 변액보험 펀드별 기준가, 순자산, 설정일자, 운용회사 정보를 제공하는 API 후보입니다.",
         "2026-07-03 확인",
     ),
+    "source.fss.integrated-pension-portal": source_node(
+        "source.fss.integrated-pension-portal",
+        "통합연금포털",
+        "금융감독원",
+        "https://100lifeplan.fss.or.kr/",
+        "연금저축 비교공시, 개인·퇴직연금 조회, 상품 유형별 수익률·수수료·위험등급 비교를 연결하기 위한 금융감독원 공식 포털입니다.",
+        "2026-07-04 확인",
+    ),
+    "source.kofia.fund-oneclick": source_node(
+        "source.kofia.fund-oneclick",
+        "펀드정보 One-Click 시스템",
+        "금융투자협회",
+        "https://fund.kofia.or.kr/",
+        "금감원, 금융투자협회, 운용사, 평가사 등의 펀드 관련 정보를 연결하는 금융투자협회 공식 펀드 정보 표면입니다.",
+        "2026-07-04 확인",
+    ),
+    "source.fsc.funddamoa-guide": source_node(
+        "source.fsc.funddamoa-guide",
+        "펀드다모아 비교공시 안내",
+        "금융위원회",
+        "https://www.fsc.go.kr/no010101/72549",
+        "공모펀드의 수익률, 위험도, 투자지역, 설정액, 총보수, 투자설명서와 판매사 정보를 비교하는 펀드다모아 공시 근거입니다.",
+        "2026-07-04 확인",
+    ),
     "source.fsc.fund-products-basic": source_node(
         "source.fsc.fund-products-basic",
         "금융위원회 펀드상품기본정보",
@@ -416,6 +472,14 @@ SOURCES = {
         "https://www.data.go.kr/data/15094792/openapi.do",
         "금융투자협회 펀드표준코드 기반의 펀드 명칭, 코드, 운용사, 펀드유형 정보를 제공하는 공식 API 후보입니다.",
         "2026-07-03 확인",
+    ),
+    "source.fsc.financial-investment-statistics": source_node(
+        "source.fsc.financial-investment-statistics",
+        "금융위원회 금융투자협회종합통계정보",
+        "공공데이터포털",
+        "https://www.data.go.kr/data/15094809/openapi.do",
+        "펀드 순자산, CMA 잔고, 신용공여 잔고, 증시자금 추이 등 자본시장 통계 API 후보입니다.",
+        "2026-07-04 확인",
     ),
     "source.fsc.retirement-pension-basic": source_node(
         "source.fsc.retirement-pension-basic",
@@ -528,12 +592,20 @@ PRODUCT_EXPORTS = (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT)
 REFERENCE_SOURCE_IDS = [
     "source.fsc.financial-company-basic",
     "source.fsc.financial-company-credit",
+    "source.fss.fine.portal",
+    "source.fsc.rate-disclosure-guide",
+    "source.kfb.consumer-portal",
     "source.fsc.domestic-bank-statistics",
+    "source.fsb.savings-bank-deposit-rates",
     "source.bok.ecos",
     "source.fsc.cofix-overview",
     "source.knia.claim-nonpayment",
     "source.knia.mis-selling",
+    "source.fss.integrated-pension-portal",
+    "source.kofia.fund-oneclick",
+    "source.fsc.funddamoa-guide",
     "source.fsc.fund-products-basic",
+    "source.fsc.financial-investment-statistics",
     "source.fsc.retirement-pension-basic",
     "source.fsc.inclusive-finance-products",
     "source.fsc.inclusive-finance-performance",
@@ -719,8 +791,11 @@ def finance_reference_items() -> list[dict]:
             children=[
                 "category.finance.financial-provider-registry",
                 "category.finance.benchmark-rates",
+                "category.finance.bank-rate-disclosure",
                 "category.finance.insurance-risk-signals",
                 "category.finance.investment-products",
+                "category.finance.pension-products",
+                "category.finance.consumer-protection-signals",
                 "category.finance.policy-finance-reference",
                 "category.finance.source-health",
             ],
@@ -743,8 +818,22 @@ def finance_reference_items() -> list[dict]:
             "category",
             "예금·대출·투자상품 수익률을 설명할 때 기준선으로 쓰는 한국은행 기준금리, 시장금리, COFIX, 환율 지표입니다.",
             parents=["finance.reference-ontology"],
-            sources=["source.bok.ecos", "source.fsc.cofix-overview"],
+            sources=["source.bok.ecos", "source.fsc.cofix-overview", "source.kfb.consumer-portal"],
             tags=["finance-reference-ontology", "benchmark-rate"],
+        ),
+        node(
+            "category.finance.bank-rate-disclosure",
+            "은행권 금리·예대금리차 공시",
+            "category",
+            "은행별 대출금리, 예금금리, 예대금리차, COFIX와 저축은행 예·적금 금리공시를 상품 비교의 기준 지표로 묶는 축입니다.",
+            parents=["finance.reference-ontology"],
+            sources=[
+                "source.fsc.rate-disclosure-guide",
+                "source.kfb.consumer-portal",
+                "source.fsb.savings-bank-deposit-rates",
+            ],
+            terms=["term.finance.loan-deposit-spread", "term.finance.benchmark-rate"],
+            tags=["finance-reference-ontology", "bank-rate-disclosure", "risk-control"],
         ),
         node(
             "category.finance.insurance-risk-signals",
@@ -762,8 +851,45 @@ def finance_reference_items() -> list[dict]:
             "category",
             "펀드, 퇴직연금, 변액보험 펀드처럼 예금·대출·보험과 함께 비교될 수 있는 투자성 금융상품 후보입니다.",
             parents=["finance.reference-ontology"],
-            sources=["source.fsc.fund-products-basic", "source.fsc.retirement-pension-basic", "source.fsc.variable-insurance-info"],
+            sources=[
+                "source.fsc.fund-products-basic",
+                "source.fsc.retirement-pension-basic",
+                "source.fsc.variable-insurance-info",
+                "source.kofia.fund-oneclick",
+                "source.fsc.funddamoa-guide",
+                "source.fsc.financial-investment-statistics",
+            ],
             tags=["finance-reference-ontology", "investment-products", "candidate-import"],
+        ),
+        node(
+            "category.finance.pension-products",
+            "연금저축·퇴직연금 상품",
+            "category",
+            "연금저축, 퇴직연금, IRP, 연금보험의 수익률, 수수료, 위험등급, 판매사별 적립금과 운용상품 정보를 연결하는 축입니다.",
+            parents=["finance.reference-ontology", "category.finance.investment-products"],
+            sources=[
+                "source.fss.integrated-pension-portal",
+                "source.fss.finlife.api",
+                "source.fsc.retirement-pension-basic",
+                "source.fsc.fund-products-basic",
+            ],
+            terms=["term.finance.pension-savings-return-fee", "term.finance.fund-risk-grade"],
+            tags=["finance-reference-ontology", "pension", "retirement-pension", "candidate-import"],
+        ),
+        node(
+            "category.finance.consumer-protection-signals",
+            "금융소비자 보호 신호",
+            "category",
+            "숨은 금융자산, 예금자보호, 금융회사 리스크, 보험 부지급·불완전판매처럼 상품 선택 전 확인해야 하는 소비자 보호 신호입니다.",
+            parents=["finance.reference-ontology"],
+            sources=[
+                "source.fss.fine.portal",
+                "source.kdic.insured-products",
+                "source.knia.claim-nonpayment",
+                "source.knia.mis-selling",
+            ],
+            terms=["term.finance.provider-risk", "term.finance.deposit-protection-status", "term.finance.hidden-financial-assets"],
+            tags=["finance-reference-ontology", "consumer-protection", "risk-control"],
         ),
         node(
             "category.finance.policy-finance-reference",
@@ -815,6 +941,54 @@ def finance_reference_items() -> list[dict]:
             tags=["finance-reference-ontology", "status-event"],
         ),
         node(
+            "term.finance.loan-deposit-spread",
+            "예대금리차",
+            "term",
+            "은행의 대출금리에서 저축성 수신금리를 뺀 차이로, 은행권 금리 경쟁과 소비자 비용을 함께 점검하는 지표입니다.",
+            sources=["source.fsc.rate-disclosure-guide", "source.kfb.consumer-portal"],
+            tags=["finance-reference-ontology", "bank-rate-disclosure"],
+        ),
+        node(
+            "term.finance.fund-risk-grade",
+            "펀드·ETF 위험등급",
+            "term",
+            "펀드와 ETF의 투자 위험 수준을 상품 비교 화면에서 직관적으로 확인하기 위한 등급 정보입니다.",
+            sources=["source.fss.integrated-pension-portal", "source.fsc.funddamoa-guide"],
+            tags=["finance-reference-ontology", "investment-risk", "pension"],
+        ),
+        node(
+            "term.finance.total-expense-ratio",
+            "총보수·수수료",
+            "term",
+            "펀드, 연금저축, 퇴직연금 상품의 장기 수익률을 비교할 때 함께 봐야 하는 운용보수와 판매수수료 기준입니다.",
+            sources=["source.kofia.fund-oneclick", "source.fss.integrated-pension-portal"],
+            tags=["finance-reference-ontology", "fee", "investment-products"],
+        ),
+        node(
+            "term.finance.pension-savings-return-fee",
+            "연금저축 수익률·수수료율",
+            "term",
+            "연금저축 상품군별 수익률과 수수료율을 함께 비교해 장기 납입 비용과 성과를 판단하는 기준입니다.",
+            sources=["source.fss.integrated-pension-portal"],
+            tags=["finance-reference-ontology", "pension", "fee", "return"],
+        ),
+        node(
+            "term.finance.sales-channel-balance",
+            "판매사별 적립금",
+            "term",
+            "연금저축상품을 판매·관리하는 금융회사별 적립금 규모로, 판매사 선택과 운용 성과 비교에 쓰는 보조 지표입니다.",
+            sources=["source.fss.integrated-pension-portal"],
+            tags=["finance-reference-ontology", "pension", "sales-channel"],
+        ),
+        node(
+            "term.finance.hidden-financial-assets",
+            "숨은 금융자산",
+            "term",
+            "장기간 찾지 않은 예금, 보험금, 증권 등 금융자산을 금융소비자 정보포털과 계좌정보 조회 서비스에서 확인하는 소비자 보호 항목입니다.",
+            sources=["source.fss.fine.portal"],
+            tags=["finance-reference-ontology", "consumer-protection"],
+        ),
+        node(
             "finance.benchmark-rate.bok-base-rate",
             "한국은행 기준금리",
             "benchmark-rate",
@@ -833,6 +1007,16 @@ def finance_reference_items() -> list[dict]:
             sources=["source.fsc.cofix-overview"],
             terms=["term.finance.benchmark-rate"],
             tags=["finance-reference-ontology", "benchmark-rate", "loan-rate"],
+        ),
+        node(
+            "finance.metric.loan-deposit-spread",
+            "예대금리차",
+            "risk-signal",
+            "은행의 대출금리와 저축성 수신금리 차이를 매월 비교해 은행권 금리 운용을 점검하는 지표입니다.",
+            parents=["category.finance.bank-rate-disclosure"],
+            sources=["source.fsc.rate-disclosure-guide", "source.kfb.consumer-portal"],
+            terms=["term.finance.loan-deposit-spread", "term.finance.provider-risk"],
+            tags=["finance-reference-ontology", "bank-rate-disclosure", "loan-deposit-spread"],
         ),
         node(
             "finance.benchmark-rate.krw-exchange-rate",
@@ -863,6 +1047,26 @@ def finance_reference_items() -> list[dict]:
             sources=["source.knia.mis-selling"],
             terms=["term.finance.provider-risk"],
             tags=["finance-reference-ontology", "insurance-risk"],
+        ),
+        node(
+            "finance.metric.fund-return-risk",
+            "펀드 수익률·위험등급",
+            "risk-signal",
+            "공모펀드와 ETF를 수익률, 위험도, 투자지역, 설정액, 총보수, 투자설명서 기준으로 비교하기 위한 투자상품 지표입니다.",
+            parents=["category.finance.investment-products"],
+            sources=["source.kofia.fund-oneclick", "source.fsc.funddamoa-guide", "source.fsc.fund-products-basic"],
+            terms=["term.finance.fund-risk-grade", "term.finance.total-expense-ratio"],
+            tags=["finance-reference-ontology", "fund", "investment-risk"],
+        ),
+        node(
+            "finance.metric.pension-savings-return-fee",
+            "연금저축 수익률·수수료",
+            "risk-signal",
+            "연금저축 신탁·펀드·ETF·보험을 상품 유형별 수익률 기준, 수수료율, 위험등급, 판매사별 적립금으로 비교하기 위한 지표입니다.",
+            parents=["category.finance.pension-products"],
+            sources=["source.fss.integrated-pension-portal", "source.fsc.retirement-pension-basic"],
+            terms=["term.finance.pension-savings-return-fee", "term.finance.sales-channel-balance"],
+            tags=["finance-reference-ontology", "pension", "fee", "return"],
         ),
     ]
     items.extend(provider_registry_nodes(products))
@@ -1024,6 +1228,9 @@ def bank_items() -> list[dict]:
             sources=[
                 "source.fss.finlife.api",
                 "source.fss.finlife.web",
+                "source.fsc.rate-disclosure-guide",
+                "source.kfb.consumer-portal",
+                "source.fsb.savings-bank-deposit-rates",
                 "source.fsc.business-loan-comparison",
                 "source.data.go.kr.kinfa-loan-products",
                 "source.fsc.inclusive-finance-products",
@@ -1049,7 +1256,7 @@ def bank_items() -> list[dict]:
             "category",
             "예치기간별 기본금리, 최고우대금리, 가입한도와 가입대상 조건을 관리합니다.",
             parents=["finance.bank-products-ontology"],
-            sources=["source.fss.finlife.api"],
+            sources=["source.fss.finlife.api", "source.fsb.savings-bank-deposit-rates", "source.kfb.consumer-portal"],
             tags=["bank-products-ontology", "deposit"],
         ),
         node(
@@ -1058,7 +1265,7 @@ def bank_items() -> list[dict]:
             "category",
             "정액적립·자유적립 방식, 기간별 기본금리, 최고우대금리, 납입한도와 우대조건을 관리합니다.",
             parents=["finance.bank-products-ontology"],
-            sources=["source.fss.finlife.api"],
+            sources=["source.fss.finlife.api", "source.fsb.savings-bank-deposit-rates", "source.kfb.consumer-portal"],
             tags=["bank-products-ontology", "saving"],
         ),
         node(
@@ -1067,7 +1274,7 @@ def bank_items() -> list[dict]:
             "category",
             "금리유형, 상환방식, 최저·최고금리, 중도상환수수료, 대출한도 조건을 관리합니다.",
             parents=["finance.bank-products-ontology"],
-            sources=["source.fss.finlife.api"],
+            sources=["source.fss.finlife.api", "source.kfb.consumer-portal"],
             tags=["bank-products-ontology", "mortgage-loan"],
         ),
         node(
@@ -1076,7 +1283,7 @@ def bank_items() -> list[dict]:
             "category",
             "전세자금 대출의 금리, 보증·담보 조건, 대출한도, 상환방식과 신청대상을 관리합니다.",
             parents=["finance.bank-products-ontology"],
-            sources=["source.fss.finlife.api"],
+            sources=["source.fss.finlife.api", "source.kfb.consumer-portal"],
             tags=["bank-products-ontology", "rent-loan"],
         ),
         node(
@@ -1085,7 +1292,7 @@ def bank_items() -> list[dict]:
             "category",
             "개인신용대출의 신용점수 구간별 금리, 평균금리, 대출한도, 상환방식을 관리합니다.",
             parents=["finance.bank-products-ontology"],
-            sources=["source.fss.finlife.api"],
+            sources=["source.fss.finlife.api", "source.kfb.consumer-portal"],
             tags=["bank-products-ontology", "credit-loan"],
         ),
         node(
@@ -1413,6 +1620,9 @@ def bank_items() -> list[dict]:
         *items,
         SOURCES["source.fss.finlife.api"],
         SOURCES["source.fss.finlife.web"],
+        SOURCES["source.fsc.rate-disclosure-guide"],
+        SOURCES["source.kfb.consumer-portal"],
+        SOURCES["source.fsb.savings-bank-deposit-rates"],
         SOURCES["source.fsc.business-loan-comparison"],
         SOURCES["source.data.go.kr.kinfa-loan-products"],
         SOURCES["source.fsc.inclusive-finance-products"],
@@ -1451,6 +1661,7 @@ def insurance_items() -> list[dict]:
                 "source.einsmarket.insurance",
                 "source.klia.insurance-disclosure",
                 "source.knia.insurance-disclosure",
+                "source.fss.integrated-pension-portal",
                 "source.easylaw.finance-product-disclosure",
             ],
             tags=["finance-ontology", "insurance-products-ontology"],
@@ -1488,7 +1699,7 @@ def insurance_items() -> list[dict]:
             "category",
             "연금 개시연령, 납입기간, 공시이율, 수수료, 세제 관련 확인 항목을 관리합니다.",
             parents=["finance.insurance-products-ontology"],
-            sources=["source.einsmarket.insurance", "source.klia.insurance-disclosure"],
+            sources=["source.einsmarket.insurance", "source.klia.insurance-disclosure", "source.fss.integrated-pension-portal"],
             tags=["insurance-products-ontology", "annuity-insurance"],
         ),
         node(
@@ -1534,6 +1745,7 @@ def insurance_items() -> list[dict]:
         SOURCES["source.klia.insurance-disclosure"],
         SOURCES["source.fsc.medical-reimbursement-insurance"],
         SOURCES["source.fsc.variable-insurance-info"],
+        SOURCES["source.fss.integrated-pension-portal"],
         SOURCES["source.knia.insurance-disclosure"],
         SOURCES["source.easylaw.finance-product-disclosure"],
     ])
@@ -1868,7 +2080,7 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
             seen.add(item_id)
             indexed.append(search_index_item(item, export_id))
     payload = {
-        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.03.1",
+        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.04.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "ontology_kind": "finance-search-index",
@@ -1897,7 +2109,7 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.3",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "name": "finance",
@@ -1988,6 +2200,101 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
                 "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다.",
             },
         ],
+        "api_required_sources": [
+            {
+                "source_id": "source.bok.ecos",
+                "required_secret": "BOK_ECOS_API_KEY",
+                "status": "missing_key",
+                "needed_for": "한국은행 기준금리, 시장금리, 환율 등 시계열 기준지표 값 수집",
+            },
+            {
+                "source_id": "source.fsc.financial-company-basic",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_or_endpoint_mapping_required",
+                "needed_for": "상품 provider 문자열을 공식 금융회사 코드·주소·설립일·상장폐지 상태와 매칭",
+            },
+            {
+                "source_id": "source.fsc.financial-company-credit",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_or_endpoint_mapping_required",
+                "needed_for": "금융회사 재무·신용 리스크 지표를 provider 노드에 연결",
+            },
+            {
+                "source_id": "source.fsc.domestic-bank-statistics",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_or_endpoint_mapping_required",
+                "needed_for": "은행 일반현황, 재무현황, 경영지표를 은행상품 provider 리스크에 연결",
+            },
+            {
+                "source_id": "source.fsc.fund-products-basic",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_required",
+                "needed_for": "펀드표준코드, 펀드명, 운용사, 펀드유형 상품 행 생성",
+            },
+            {
+                "source_id": "source.fsc.retirement-pension-basic",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_required",
+                "needed_for": "퇴직연금 펀드별 기준일자, 순자산금액, 운용 현황 수집",
+            },
+            {
+                "source_id": "source.fsc.financial-investment-statistics",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+                "status": "application_required",
+                "needed_for": "펀드 순자산, CMA 잔고, 신용공여 잔고, 증시자금 추이 지표 수집",
+            },
+            {
+                "source_id": "source.fsc.medical-reimbursement-insurance",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+                "status": "approved_by_user_but_live_403",
+                "needed_for": "실손의료보험 유형, 담보, 성별·연령별 보험료 상품 행 생성",
+            },
+            {
+                "source_id": "source.fsc.variable-insurance-info",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+                "status": "approved_by_user_but_live_403",
+                "needed_for": "변액보험 펀드 기준가, 순자산, 설정일자, 운용회사 정보 수집",
+            },
+            {
+                "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+                "status": "approved_by_user_but_live_403",
+                "needed_for": "정책대출별 취급기관, 주소, 기관 코드 상세 연결",
+            },
+            {
+                "source_id": "source.data.go.kr.kinfa-support-centers",
+                "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+                "status": "approved_by_user_but_live_403",
+                "needed_for": "서민금융통합지원센터, 미소금융 지점 지역·주소·전화번호 노드 생성",
+            },
+        ],
+        "public_web_collection_candidates": [
+            {
+                "source_id": "source.kfb.consumer-portal",
+                "collection_mode": "public_web_or_excel_scrape",
+                "needed_for": "은행권 예금·대출 금리, 예대금리차, COFIX 최신 공시값",
+            },
+            {
+                "source_id": "source.fsb.savings-bank-deposit-rates",
+                "collection_mode": "public_web_or_excel_scrape",
+                "needed_for": "저축은행 정기예금·적금 상품별 금리표",
+            },
+            {
+                "source_id": "source.kofia.fund-oneclick",
+                "collection_mode": "public_web_scrape",
+                "needed_for": "펀드 상세, 운용사·판매사 연결, 투자설명서·운용보고서 링크",
+            },
+            {
+                "source_id": "source.fss.integrated-pension-portal",
+                "collection_mode": "public_web_scrape_or_future_api",
+                "needed_for": "연금저축 수익률·수수료·위험등급·판매사별 적립금",
+            },
+            {
+                "source_id": "source.fss.fine.portal",
+                "collection_mode": "public_web_reference",
+                "needed_for": "숨은 금융자산, 소비자 보호 안내, 금융생활 위험 신호 연결",
+            },
+        ],
         "search_index": export_entry(
             "finance-search-index",
             "search-index",
@@ -2072,7 +2379,7 @@ def main() -> int:
     results = {
         "card": write_export(
             CARD_EXPORT,
-            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.03.1",
+            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.04.1",
             "card-products",
             card_items(),
             "card-product",
@@ -2080,7 +2387,7 @@ def main() -> int:
         ),
         "bank": write_export(
             BANK_EXPORT,
-            "KR-BANK-PRODUCTS-ONTOLOGY-2026.07.03.1",
+            "KR-BANK-PRODUCTS-ONTOLOGY-2026.07.04.1",
             "bank-products",
             bank_items(),
             "bank-product",
@@ -2088,7 +2395,7 @@ def main() -> int:
         ),
         "insurance": write_export(
             INSURANCE_EXPORT,
-            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.03.2",
+            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.04.1",
             "insurance-products",
             insurance_items(),
             "insurance-product",
@@ -2097,7 +2404,7 @@ def main() -> int:
     }
     results["reference"] = write_export(
         REFERENCE_EXPORT,
-        "KR-FINANCE-REFERENCE-ONTOLOGY-2026.07.03.1",
+        "KR-FINANCE-REFERENCE-ONTOLOGY-2026.07.04.1",
         "finance-reference",
         finance_reference_items(),
         "finance-reference",
