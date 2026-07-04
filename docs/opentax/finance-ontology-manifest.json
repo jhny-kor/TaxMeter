@@ -1,7 +1,7 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.03.3",
-  "basis_date": "2026-07-03",
-  "source_review_date": "2026-07-03",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
+  "basis_date": "2026-07-04",
+  "source_review_date": "2026-07-04",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
@@ -15,10 +15,10 @@
     },
     "finance_exports": {
       "card": {
-        "product_count": 1006,
+        "product_count": 1005,
         "status_counts": {
           "active": 650,
-          "unknown": 356
+          "unknown": 355
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -29,7 +29,7 @@
         "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 356,
+        "reference_only_products": 355,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -63,9 +63,9 @@
         }
       },
       "insurance": {
-        "product_count": 1055,
+        "product_count": 1061,
         "status_counts": {
-          "active": 1055
+          "active": 1061
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -112,72 +112,167 @@
     {
       "source_id": "source.kdic.insured-products",
       "status": "live_imported",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
       "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
     },
     {
       "source_id": "source.klia.insurance-disclosure",
       "status": "live_imported",
-      "last_checked": "2026-07-03",
-      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1055",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1061",
       "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
     },
     {
       "source_id": "source.fsc.medical-reimbursement-insurance",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
       "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다."
     },
     {
       "source_id": "source.fsc.variable-insurance-info",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
       "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
       "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-support-centers",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
       "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-products",
       "status": "approved_by_user_endpoint_mapping_pending",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
       "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-performance",
       "status": "approved_by_user_metric_source",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "official metadata reviewed; not a product-row source",
       "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
     },
     {
       "source_id": "source.bok.ecos",
       "status": "reference_source_added_key_required",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
       "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다."
     },
     {
       "source_id": "source.fsc.financial-company-basic",
       "status": "reference_source_added",
-      "last_checked": "2026-07-03",
+      "last_checked": "2026-07-04",
       "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
       "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
+    }
+  ],
+  "api_required_sources": [
+    {
+      "source_id": "source.bok.ecos",
+      "required_secret": "BOK_ECOS_API_KEY",
+      "status": "missing_key",
+      "needed_for": "한국은행 기준금리, 시장금리, 환율 등 시계열 기준지표 값 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "상품 provider 문자열을 공식 금융회사 코드·주소·설립일·상장폐지 상태와 매칭"
+    },
+    {
+      "source_id": "source.fsc.financial-company-credit",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "금융회사 재무·신용 리스크 지표를 provider 노드에 연결"
+    },
+    {
+      "source_id": "source.fsc.domestic-bank-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "은행 일반현황, 재무현황, 경영지표를 은행상품 provider 리스크에 연결"
+    },
+    {
+      "source_id": "source.fsc.fund-products-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드표준코드, 펀드명, 운용사, 펀드유형 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.retirement-pension-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "퇴직연금 펀드별 기준일자, 순자산금액, 운용 현황 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-investment-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드 순자산, CMA 잔고, 신용공여 잔고, 증시자금 추이 지표 수집"
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "실손의료보험 유형, 담보, 성별·연령별 보험료 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "변액보험 펀드 기준가, 순자산, 설정일자, 운용회사 정보 수집"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "정책대출별 취급기관, 주소, 기관 코드 상세 연결"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "서민금융통합지원센터, 미소금융 지점 지역·주소·전화번호 노드 생성"
+    }
+  ],
+  "public_web_collection_candidates": [
+    {
+      "source_id": "source.kfb.consumer-portal",
+      "collection_mode": "public_web_or_excel_scrape",
+      "needed_for": "은행권 예금·대출 금리, 예대금리차, COFIX 최신 공시값"
+    },
+    {
+      "source_id": "source.fsb.savings-bank-deposit-rates",
+      "collection_mode": "public_web_or_excel_scrape",
+      "needed_for": "저축은행 정기예금·적금 상품별 금리표"
+    },
+    {
+      "source_id": "source.kofia.fund-oneclick",
+      "collection_mode": "public_web_scrape",
+      "needed_for": "펀드 상세, 운용사·판매사 연결, 투자설명서·운용보고서 링크"
+    },
+    {
+      "source_id": "source.fss.integrated-pension-portal",
+      "collection_mode": "public_web_scrape_or_future_api",
+      "needed_for": "연금저축 수익률·수수료·위험등급·판매사별 적립금"
+    },
+    {
+      "source_id": "source.fss.fine.portal",
+      "collection_mode": "public_web_reference",
+      "needed_for": "숨은 금융자산, 소비자 보호 안내, 금융생활 위험 신호 연결"
     }
   ],
   "search_index": {
@@ -186,12 +281,12 @@
     "path": "ontology/exports/finance-search-index-2026.json",
     "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
     "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-    "item_count": 21556,
+    "item_count": 21581,
     "product_count": 0,
-    "source_review_date": "2026-07-03",
+    "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "edeb1cd2809e663951956f8c4935ca7ada4ad3c5e80952221bfa46e9fedebcd9",
+    "export_checksum": "bfe7358263d7b7891f3b5ae331b9a6dd972ee39ca950eba9f0875db3cb232a61",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "exports": [
@@ -203,7 +298,7 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json",
       "item_count": 374,
       "product_count": 0,
-      "source_review_date": "2026-07-03",
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {},
       "export_checksum": null,
@@ -217,7 +312,7 @@
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json",
       "item_count": 7820,
       "product_count": 0,
-      "source_review_date": "2026-07-03",
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {},
       "export_checksum": null,
@@ -229,17 +324,17 @@
       "path": "ontology/exports/korea-card-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-card-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json",
-      "item_count": 1029,
-      "product_count": 1006,
-      "source_review_date": "2026-07-03",
+      "item_count": 1028,
+      "product_count": 1005,
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [
-        "2026-07-02"
+        "2026-07-04"
       ],
       "quality_summary": {
-        "product_count": 1006,
+        "product_count": 1005,
         "status_counts": {
           "active": 650,
-          "unknown": 356
+          "unknown": 355
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -250,7 +345,7 @@
         "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 356,
+        "reference_only_products": 355,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -259,7 +354,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "efa635d7d0a8edd9cdbef46224cdd5d969fff5a0f53162da17be214a7dfb582d",
+      "export_checksum": "9add7266354600e45479894a4d35c0f4bb95ddb425ff3689ed1e03d668a03e61",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -268,12 +363,11 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 10787,
+      "item_count": 10790,
       "product_count": 10743,
-      "source_review_date": "2026-07-03",
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [
-        "2026-07-02",
-        "2026-07-03"
+        "2026-07-04"
       ],
       "quality_summary": {
         "product_count": 10743,
@@ -299,7 +393,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b300ee6ac10576be51bb9ee9b69e5103aafbe3341114b51d2bf4b2f1beac902b",
+      "export_checksum": "502acd69caaa3c565781531d017c2db1b3fcf32c3f5bbac89ba2384ee90c9c3a",
       "description": "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
@@ -308,16 +402,16 @@
       "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
-      "item_count": 1072,
-      "product_count": 1055,
-      "source_review_date": "2026-07-03",
+      "item_count": 1079,
+      "product_count": 1061,
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [
-        "2026-07-03"
+        "2026-07-04"
       ],
       "quality_summary": {
-        "product_count": 1055,
+        "product_count": 1061,
         "status_counts": {
-          "active": 1055
+          "active": 1061
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -337,7 +431,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f7fa4b5f4dbb9d7405e63163c5a6438fd57e702a1fd02dd0c53ec6804d77e9be",
+      "export_checksum": "b53540190bd674f005ce2604886e1a6dd4fc70b31fcb2b1743e998f5603aeb6f",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -346,9 +440,9 @@
       "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
-      "item_count": 487,
+      "item_count": 507,
       "product_count": 0,
-      "source_review_date": "2026-07-03",
+      "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {
         "product_count": 0,
@@ -371,7 +465,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e6a77ae9d88d931dca6eb28120841bc7c659eef2877de873e59a921b9ef6c39c",
+      "export_checksum": "76de86ec33a94c49cb7067d5dbb64084847792bcdece6dae08533df239ad1e0a",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다."
     }
   ]

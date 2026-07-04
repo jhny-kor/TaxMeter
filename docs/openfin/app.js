@@ -630,11 +630,15 @@ function renderOperationalSummary() {
   const container = document.querySelector("[data-operational-summary]");
   if (!container) return;
   const risks = state.manifest.source_access_risks || [];
+  const apiRequired = state.manifest.api_required_sources || [];
+  const webCandidates = state.manifest.public_web_collection_candidates || [];
   const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
   const activeInsuranceGap = state.manifest.quality_summary?.finance_exports?.insurance?.active_insurance_without_criteria ?? 0;
   const cardConditionGap = state.manifest.quality_summary?.finance_exports?.card?.card_benefits_with_incomplete_conditions ?? 0;
   const insuranceConditionGap = state.manifest.quality_summary?.finance_exports?.insurance?.insurance_coverages_with_incomplete_conditions ?? 0;
   const riskLines = risks.slice(0, 5).map((risk) => `${risk.source_id}: ${risk.status}`).join(" · ");
+  const apiLines = apiRequired.slice(0, 4).map((source) => `${source.source_id}: ${source.required_secret}`).join(" · ");
+  const webLines = webCandidates.slice(0, 3).map((source) => `${source.source_id}: ${source.collection_mode}`).join(" · ");
   const qualityLines = financeExports
     .map((entry) => `${domainMeta(entry.domain).label} ${qualityLine(entry.quality_summary)}`)
     .filter((line) => line.trim())
@@ -647,6 +651,11 @@ function renderOperationalSummary() {
     <article>
       <h3>출처 접근 리스크</h3>
       <p>${escapeHtml(riskLines || "현재 manifest에 기록된 출처 접근 리스크가 없습니다.")}</p>
+    </article>
+    <article>
+      <h3>API 필요</h3>
+      <p>${escapeHtml(apiLines || "추가 API 키가 필요한 출처가 없습니다.")}</p>
+      <p>${escapeHtml(webLines || "공개 웹 수집 후보가 없습니다.")}</p>
     </article>
     <article>
       <h3>품질 요약</h3>
