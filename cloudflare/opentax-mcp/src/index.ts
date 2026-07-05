@@ -30,6 +30,13 @@ type FinanceItem = {
   search_type?: string;
   product_status?: string;
   sales_status?: string;
+  status?: string;
+  status_reason?: string;
+  recommendation_status?: string;
+  application_status?: string;
+  is_currently_applicable?: boolean;
+  application_open_from?: string;
+  application_open_to?: string;
   export_id?: string;
   search_text?: string;
   source_urls?: string[];
@@ -95,6 +102,7 @@ const DEFAULT_FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/openta
 const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
+const INACTIVE_QUERY_RE = /(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)/i;
 const READ_ONLY_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
@@ -153,6 +161,12 @@ function itemSearchText(item: FinanceItem): string {
     item.search_type,
     item.product_status,
     item.sales_status,
+    item.status,
+    item.status_reason,
+    item.recommendation_status,
+    item.application_status,
+    item.application_open_from,
+    item.application_open_to,
     structuredSearchText(item.criteria),
     structuredSearchText(item.options),
     structuredSearchText(item.benefits),
@@ -173,11 +187,21 @@ function scoreItem(item: FinanceItem, query: string): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
   const searchType = normalizeQuery(item.search_type ?? item.product_kind ?? "");
+  const status = normalizeQuery(item.status ?? item.product_status ?? "");
+  const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
+  const applicationStatus = normalizeQuery(item.application_status ?? "");
   const text = itemSearchText(item);
   const tokens = queryTokens(query);
   const rateIntent = RATE_QUERY_RE.test(query);
 
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) {
+    return 0;
+  }
+  if (
+    item.type === "support-program" &&
+    (status === "closed" || status === "ended" || applicationStatus === "closed" || recommendationStatus === "reference_only") &&
+    !INACTIVE_QUERY_RE.test(query)
+  ) {
     return 0;
   }
 
@@ -389,6 +413,11 @@ function createServer(env: Env): McpServer {
           product_kind: item.product_kind,
           search_type: item.search_type,
           product_status: item.product_status,
+          status: item.status,
+          recommendation_status: item.recommendation_status,
+          application_status: item.application_status,
+          is_currently_applicable: item.is_currently_applicable,
+          application_open_to: item.application_open_to,
           url: itemUrl(env, item.id),
           score,
           text: item.description ?? "",
@@ -453,6 +482,13 @@ function createServer(env: Env): McpServer {
         search_type: item.search_type,
         product_status: item.product_status,
         sales_status: item.sales_status,
+        status: item.status,
+        status_reason: item.status_reason,
+        recommendation_status: item.recommendation_status,
+        application_status: item.application_status,
+        is_currently_applicable: item.is_currently_applicable,
+        application_open_from: item.application_open_from,
+        application_open_to: item.application_open_to,
         criteria: item.criteria ?? [],
         neighbors: {
           parents: item.parents ?? [],

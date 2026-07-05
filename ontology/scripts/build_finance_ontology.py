@@ -9,8 +9,10 @@ source-specific disclosure fields for later stale/closed-product checks.
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Iterable
 
@@ -33,6 +35,7 @@ INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
+REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 
 GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
@@ -682,14 +685,93 @@ def bank_search_type(item: dict) -> str | None:
     return kind or None
 
 
+COMPOUND_MONEY_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*만\s*(\d+(?:[,.]\d+)?)\s*천원")
+MONEY_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*(만원|천원|원)")
+
+
+def parse_krw_amount(text: str) -> int | None:
+    compact_text = text.replace(",", "")
+    compound_match = COMPOUND_MONEY_RE.search(compact_text)
+    if compound_match:
+        man_text, cheon_text = compound_match.groups()
+        try:
+            return int(float(man_text) * 10000 + float(cheon_text) * 1000)
+        except ValueError:
+            return None
+
+    match = MONEY_RE.search(compact_text)
+    if not match:
+        return None
+    number_text, unit = match.groups()
+    try:
+        value = float(number_text)
+    except ValueError:
+        return None
+    compact_unit = unit.replace(" ", "")
+    if compact_unit == "만원":
+        return int(value * 10000)
+    if compact_unit == "천원":
+        return int(value * 1000)
+    return int(value)
+
+
+def card_benefit_text(benefit: dict) -> str:
+    return " ".join(
+        str(benefit.get(key) or "")
+        for key in ("kind", "label", "text", "benefit", "condition")
+    )
+
+
+def has_no_previous_month_spend(text: str) -> bool:
+    compact = text.replace(" ", "").lower()
+    return any(
+        keyword in compact
+        for keyword in (
+            "no전월실적",
+            "전월실적없음",
+            "전월이용금액조건없음",
+            "전월이용금액없음",
+            "전월실적조건없음",
+        )
+    )
+
+
+def has_no_annual_fee(text: str) -> bool:
+    compact = text.replace(" ", "").lower()
+    return any(keyword in compact for keyword in ("no연회비", "연회비없음", "연회비면제"))
+
+
+def monthly_benefit_limit_krw(text: str) -> int | None:
+    compact = text.replace(" ", "")
+    if "월" not in compact and "매월" not in compact:
+        return None
+    if not any(keyword in compact for keyword in ("최대", "한도")):
+        return None
+    return parse_krw_amount(text)
+
+
 def enrich_card_benefits(item: dict) -> None:
     if item.get("type") != "card-product":
         return
     for benefit in item.get("benefits") or []:
         if not isinstance(benefit, dict):
             continue
+        text = card_benefit_text(benefit)
+        if has_no_previous_month_spend(text):
+            benefit["previous_month_spend_required"] = False
+            benefit["previous_month_spend_min_krw"] = 0
+        else:
+            benefit.setdefault("previous_month_spend_required", None)
         benefit.setdefault("previous_month_spend_min_krw", None)
-        benefit.setdefault("monthly_benefit_limit_krw", None)
+        parsed_monthly_limit = monthly_benefit_limit_krw(text)
+        if parsed_monthly_limit is not None:
+            benefit["monthly_benefit_limit_krw"] = parsed_monthly_limit
+        else:
+            benefit.setdefault("monthly_benefit_limit_krw", None)
+        if has_no_annual_fee(text):
+            benefit["annual_fee_required"] = False
+        else:
+            benefit.setdefault("annual_fee_required", None)
         benefit.setdefault("per_transaction_limit_krw", None)
         benefit.setdefault("excluded_spend", [])
         missing = []
@@ -2030,6 +2112,13 @@ def item_search_text(item: dict) -> str:
         "product_status",
         "sales_status",
         "status",
+        "status_reason",
+        "recommendation_status",
+        "application_status",
+        "is_currently_applicable",
+        "application_deadline_text",
+        "application_open_from",
+        "application_open_to",
         "jurisdiction",
     ):
         value = item.get(key)
@@ -2056,6 +2145,14 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "product_kind": item.get("product_kind"),
         "search_type": item.get("search_type"),
         "product_status": item.get("product_status"),
+        "sales_status": item.get("sales_status"),
+        "status": item.get("status"),
+        "status_reason": item.get("status_reason"),
+        "recommendation_status": item.get("recommendation_status"),
+        "application_status": item.get("application_status"),
+        "is_currently_applicable": item.get("is_currently_applicable"),
+        "application_open_from": item.get("application_open_from"),
+        "application_open_to": item.get("application_open_to"),
         "export_id": export_id,
         "search_text": item_search_text(item),
     }
@@ -2064,6 +2161,42 @@ def search_index_item(item: dict, export_id: str) -> dict:
 def load_export_items(path: Path) -> list[dict]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     return [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
+
+
+def existing_export_quality_summary(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload.get("quality_summary") or {}
+
+
+def existing_export_checksum(path: Path) -> str | None:
+    if not path.exists():
+        return None
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload.get("export_checksum") or payload_checksum(payload)
+
+
+def broken_relation_count(path_texts: list[str]) -> int:
+    items: list[dict] = []
+    known_ids: set[str] = set()
+    for path_text in path_texts:
+        path = REPO_ROOT / path_text
+        if not path.exists():
+            continue
+        loaded = load_export_items(path)
+        items.extend(loaded)
+        known_ids.update(str(item["id"]) for item in loaded if isinstance(item, dict) and item.get("id"))
+
+    broken = 0
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        for key in REFERENCE_KEYS:
+            for target_id in item.get(key) or []:
+                if target_id not in known_ids:
+                    broken += 1
+    return broken
 
 
 def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
@@ -2108,13 +2241,47 @@ def existing_export_count(path: Path) -> int:
 def write_manifest(results: dict[str, dict], search_index: dict) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
+    full_export_paths = [
+        tax_path,
+        local_path,
+        results["card"]["path"],
+        results["bank"]["path"],
+        results["insurance"]["path"],
+        results["reference"]["path"],
+    ]
+    built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     manifest = {
         "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
+        "built_at": built_at,
         "name": "finance",
         "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
         "quality_summary": {
+            "export_audit": {
+                "built_at": built_at,
+                "domain_export_count": len(full_export_paths),
+                "search_index_item_count": search_index["item_count"],
+                "checksum_covered_export_count": sum(
+                    1
+                    for value in (*results.values(), search_index)
+                    if value.get("export_checksum")
+                ) + int(existing_export_checksum(REPO_ROOT / tax_path) is not None) + int(existing_export_checksum(REPO_ROOT / local_path) is not None),
+                "broken_relation_count": broken_relation_count(full_export_paths),
+                "collection_failure_sources": "see source_access_risks",
+            },
+            "search_regression_tests": [
+                {
+                    "query": "연말정산 의료비 세액공제 한도 대상",
+                    "expected": "top_title_contains:의료비; top_title_excludes:부가가치세",
+                    "validator": "ontology/scripts/validate_finance_ontology.py",
+                },
+                {
+                    "query": "서울시 청년 월세 지원",
+                    "expected": "closed support-program results hidden unless query has inactive intent",
+                    "validator": "ontology/scripts/validate_finance_ontology.py",
+                },
+            ],
             "committee_remediation": {
                 "status_fields_added": True,
                 "expired_local_support_active_gate": True,
@@ -2314,6 +2481,9 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
                 existing_export_count(REPO_ROOT / tax_path),
                 0,
                 "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다.",
+                [],
+                existing_export_quality_summary(REPO_ROOT / tax_path),
+                existing_export_checksum(REPO_ROOT / tax_path),
             ),
             export_entry(
                 "local-government-supports-ontology",
@@ -2322,6 +2492,9 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
                 existing_export_count(REPO_ROOT / local_path),
                 0,
                 "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다.",
+                [],
+                existing_export_quality_summary(REPO_ROOT / local_path),
+                existing_export_checksum(REPO_ROOT / local_path),
             ),
             export_entry(
                 "card-products-ontology",
