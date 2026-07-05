@@ -13,9 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPORT_DIR = ROOT / "exports"
 MANIFEST = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX = EXPORT_DIR / "finance-search-index-2026.json"
+QUALITY_MANIFEST = EXPORT_DIR / "openfin-quality-manifest-2026.json"
+SEARCH_REGRESSION_REPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
 
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
+GENERIC_SEARCH_TYPES = {"category", "term", "domain", "source"}
+TAX_DECISION_TYPES = {"tax-credit", "deduction"}
 VALID_OPERATIONAL_STATUSES = {"active", "closed", "ended", "suspended", "unknown"}
 VALID_BANK_SEARCH_TYPES = {"deposit", "saving", "loan", "deposit-protection", "lease-finance", "installment-finance"}
 DISCLOSURE_STALE_BEFORE = "202401"
@@ -47,8 +51,23 @@ NO_ANNUAL_FEE_RE = re.compile(r"(No\s*연회비|연회비\s*없음|연회비\s*�
 SEARCH_REGRESSIONS = (
     {
         "query": "연말정산 의료비 세액공제 한도 대상",
-        "top_title_contains": "의료비",
-        "top_title_excludes": "부가가치세",
+        "expected_top_id": "credit.medical-expense",
+    },
+    {
+        "query": "월세 세액공제 조건",
+        "expected_top_id": "credit.monthly-rent",
+    },
+    {
+        "query": "교육비 세액공제 대상",
+        "expected_top_id": "credit.education-expense",
+    },
+    {
+        "query": "연금계좌 세액공제 한도",
+        "expected_top_id": "credit.pension-account",
+    },
+    {
+        "query": "신용카드 소득공제 한도",
+        "expected_top_id": "deduction.credit-card-use",
     },
     {
         "query": "서울시 청년 월세 지원",
@@ -142,6 +161,8 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
                     require(benefit.get("previous_month_spend_min_krw") == 0, f"{export_id}:{item_id}: benefit #{index} No전월실적 min spend must be 0", errors)
                 if NO_ANNUAL_FEE_RE.search(text):
                     require(benefit.get("annual_fee_required") is False, f"{export_id}:{item_id}: benefit #{index} No연회비 not normalized", errors)
+                if "적립" in text:
+                    require(benefit.get("benefit_type") == "point_accumulation", f"{export_id}:{item_id}: benefit #{index} 적립 benefit_type not normalized", errors)
         if item.get("type") == "insurance-product":
             for index, criterion in enumerate(criteria, start=1):
                 if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
@@ -182,6 +203,14 @@ def validate_manifest(errors: list[str]) -> list[dict]:
             require(bool(search_index.get("web_url")), "search_index missing web url", errors)
     quality_summary = payload.get("quality_summary") or {}
     require(bool(quality_summary.get("search_regression_tests")), "manifest missing search_regression_tests", errors)
+    quality_exports = payload.get("quality_exports") or []
+    require(len(quality_exports) >= 2, "manifest missing quality_exports", errors)
+    for entry in quality_exports:
+        path_text = entry.get("path")
+        require(bool(path_text), f"{entry.get('id', '<missing>')}: missing quality export path", errors)
+        if path_text:
+            path = ROOT.parent / path_text
+            require(path.exists(), f"{entry.get('id', '<missing>')}: missing quality export file {path_text}", errors)
     ids = [entry.get("id") for entry in exports]
     require(len(ids) == len(set(ids)), "manifest duplicate export ids", errors)
     for entry in exports:
@@ -222,7 +251,9 @@ def search_score(item: dict, raw_query: str) -> int:
     application_status = normalize_query(str(item.get("application_status") or ""))
     recommendation_status = normalize_query(str(item.get("recommendation_status") or ""))
     text = search_text(item)
+    aliases = [normalize_query(str(alias)) for alias in item.get("search_aliases") or []]
     tokens = query_tokens(query)
+    title_tokens = query_tokens(title)
     rate_intent = bool(RATE_QUERY_RE.search(query))
 
     if search_type == "deposit-protection" and rate_intent and not PROTECTION_QUERY_RE.search(query):
@@ -235,12 +266,15 @@ def search_score(item: dict, raw_query: str) -> int:
         return 0
 
     score = 0
-    if item_id == query or title == query:
+    if query in aliases:
+        score = 95
+    elif item_id == query or title == query:
         score = 100
     elif query and item_id and query in item_id:
         score = 80
     elif title and title in query:
-        score = 75 + len(query_tokens(title))
+        base = 35 if item.get("type") in GENERIC_SEARCH_TYPES and len(title_tokens) < len(tokens) else 75
+        score = base + len(title_tokens)
     elif query and title and query in title:
         score = 70
     elif query and query in text:
@@ -248,6 +282,8 @@ def search_score(item: dict, raw_query: str) -> int:
 
     if len(tokens) > 1:
         matched = [token for token in tokens if token in text]
+        if item.get("type") in TAX_DECISION_TYPES and len(matched) >= min(2, len(tokens)):
+            score = max(score, 60 + len(matched))
         if not score and len(matched) == len(tokens):
             score = 30 + len(matched)
         if not score and matched:
@@ -274,10 +310,8 @@ def validate_search_regressions(errors: list[str]) -> None:
         if not results:
             continue
         top_title = str(results[0].get("title") or "")
-        if regression.get("top_title_contains"):
-            require(str(regression["top_title_contains"]) in top_title, f"search regression '{query}' top result is {top_title}", errors)
-        if regression.get("top_title_excludes"):
-            require(str(regression["top_title_excludes"]) not in top_title, f"search regression '{query}' incorrectly returned {top_title}", errors)
+        if regression.get("expected_top_id"):
+            require(results[0].get("id") == regression["expected_top_id"], f"search regression '{query}' top result is {results[0].get('id')} {top_title}", errors)
         if regression.get("no_closed_support_results"):
             closed = [
                 item.get("id")
@@ -286,6 +320,13 @@ def validate_search_regressions(errors: list[str]) -> None:
                 and (item.get("status") == "closed" or item.get("application_status") == "closed")
             ]
             require(not closed, f"search regression '{query}' returned closed supports: {closed}", errors)
+
+    require(QUALITY_MANIFEST.exists(), f"missing {QUALITY_MANIFEST}", errors)
+    require(SEARCH_REGRESSION_REPORT.exists(), f"missing {SEARCH_REGRESSION_REPORT}", errors)
+    if SEARCH_REGRESSION_REPORT.exists():
+        report = load_json(SEARCH_REGRESSION_REPORT)
+        require(report.get("failed_count") == 0, "search regression report has failures", errors)
+        require(report.get("test_count") >= 5, "search regression report missing P0 tax queries", errors)
 
 
 def main() -> int:

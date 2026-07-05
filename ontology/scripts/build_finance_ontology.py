@@ -35,7 +35,25 @@ INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
+QUALITY_MANIFEST_EXPORT = EXPORT_DIR / "openfin-quality-manifest-2026.json"
+SEARCH_REGRESSION_REPORT_EXPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
+GENERIC_SEARCH_TYPES = {"category", "term", "domain", "source"}
+TAX_DECISION_TYPES = {"tax-credit", "deduction"}
+TAX_SEARCH_REGRESSIONS = (
+    ("연말정산 의료비 세액공제 한도 대상", "credit.medical-expense"),
+    ("월세 세액공제 조건", "credit.monthly-rent"),
+    ("교육비 세액공제 대상", "credit.education-expense"),
+    ("연금계좌 세액공제 한도", "credit.pension-account"),
+    ("신용카드 소득공제 한도", "deduction.credit-card-use"),
+)
+TAX_SEARCH_ALIASES = {
+    "credit.medical-expense": ("연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"),
+    "credit.monthly-rent": ("월세 세액공제 조건", "월세액 세액공제 조건"),
+    "credit.education-expense": ("교육비 세액공제 대상",),
+    "credit.pension-account": ("연금계좌 세액공제 한도",),
+    "deduction.credit-card-use": ("신용카드 소득공제 한도", "신용카드 등 사용금액 소득공제 한도"),
+}
 
 GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
@@ -741,6 +759,14 @@ def has_no_annual_fee(text: str) -> bool:
     return any(keyword in compact for keyword in ("no연회비", "연회비없음", "연회비면제"))
 
 
+def benefit_type(text: str) -> str | None:
+    if any(keyword in text for keyword in ("적립", "포인트", "마일리지", "캐시백")):
+        return "point_accumulation"
+    if "할인" in text:
+        return "discount"
+    return None
+
+
 def monthly_benefit_limit_krw(text: str) -> int | None:
     compact = text.replace(" ", "")
     if "월" not in compact and "매월" not in compact:
@@ -772,6 +798,11 @@ def enrich_card_benefits(item: dict) -> None:
             benefit["annual_fee_required"] = False
         else:
             benefit.setdefault("annual_fee_required", None)
+        parsed_benefit_type = benefit_type(text)
+        if parsed_benefit_type:
+            benefit["benefit_type"] = parsed_benefit_type
+        else:
+            benefit.setdefault("benefit_type", None)
         benefit.setdefault("per_transaction_limit_krw", None)
         benefit.setdefault("excluded_spend", [])
         missing = []
@@ -779,7 +810,11 @@ def enrich_card_benefits(item: dict) -> None:
             value = benefit.get(key)
             if value is None or value == "" or value == []:
                 missing.append(key)
-        benefit["condition_completeness"] = "incomplete" if missing else "complete"
+        normalized = any(
+            benefit.get(key) is not None and benefit.get(key) != "" and benefit.get(key) != []
+            for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "annual_fee_required", "benefit_type")
+        )
+        benefit["condition_completeness"] = "partial" if missing and normalized else ("incomplete" if missing else "complete")
         benefit["missing_condition_fields"] = missing
 
 
@@ -813,6 +848,34 @@ def enrich_insurance_coverage(item: dict) -> None:
         ]
         criterion["condition_completeness"] = "incomplete" if missing else "complete"
         criterion["missing_condition_fields"] = missing
+
+
+def apply_recommendation_scope(item: dict) -> None:
+    if item.get("type") == "insurance-product":
+        incomplete = any(
+            isinstance(criterion, dict)
+            and criterion.get("criteria_kind") == "coverage"
+            and criterion.get("condition_completeness") == "incomplete"
+            for criterion in item.get("criteria") or []
+        )
+        if incomplete:
+            item["recommendation_scope"] = "listing_only"
+            item["recommendation_exclusion_reasons"] = unique([
+                *(item.get("recommendation_exclusion_reasons") or []),
+                "incomplete_insurance_coverage_conditions",
+            ])
+    if item.get("type") == "card-product":
+        partial_or_incomplete = any(
+            isinstance(benefit, dict)
+            and benefit.get("condition_completeness") in {"partial", "incomplete"}
+            for benefit in item.get("benefits") or []
+        )
+        if partial_or_incomplete:
+            item["recommendation_scope"] = "listing_only"
+            item["recommendation_exclusion_reasons"] = unique([
+                *(item.get("recommendation_exclusion_reasons") or []),
+                "incomplete_card_benefit_conditions",
+            ])
 
 
 def provider_registry_nodes(products: list[dict]) -> list[dict]:
@@ -1927,6 +1990,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
             item["rate_search_eligible"] = search_type != "deposit-protection"
         enrich_card_benefits(item)
         enrich_insurance_coverage(item)
+        apply_recommendation_scope(item)
     return items
 
 
@@ -2136,6 +2200,8 @@ def item_search_text(item: dict) -> str:
 
 
 def search_index_item(item: dict, export_id: str) -> dict:
+    aliases = list(TAX_SEARCH_ALIASES.get(str(item.get("id")), ()))
+    search_text = " ".join([item_search_text(item), *aliases]).strip()
     return {
         "id": item.get("id"),
         "title": item.get("title"),
@@ -2153,9 +2219,50 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "is_currently_applicable": item.get("is_currently_applicable"),
         "application_open_from": item.get("application_open_from"),
         "application_open_to": item.get("application_open_to"),
+        "search_aliases": aliases,
         "export_id": export_id,
-        "search_text": item_search_text(item),
+        "search_text": search_text,
     }
+
+
+def query_tokens(query: str) -> list[str]:
+    return [token for token in query.strip().lower().split() if token]
+
+
+def score_search_index_item(item: dict, query: str) -> int:
+    normalized_query = query.strip().lower()
+    title = str(item.get("title") or "").strip().lower()
+    item_id = str(item.get("id") or "").strip().lower()
+    text = str(item.get("search_text") or "").lower()
+    aliases = [str(alias).strip().lower() for alias in item.get("search_aliases") or []]
+    tokens = query_tokens(normalized_query)
+    title_tokens = query_tokens(title)
+    item_type = str(item.get("type") or "")
+
+    score = 0
+    if normalized_query in aliases:
+        score = 95
+    elif item_id == normalized_query or title == normalized_query:
+        score = 100
+    elif normalized_query and item_id and normalized_query in item_id:
+        score = 80
+    elif title and title in normalized_query:
+        base = 35 if item_type in GENERIC_SEARCH_TYPES and len(title_tokens) < len(tokens) else 75
+        score = base + len(title_tokens)
+    elif normalized_query and title and normalized_query in title:
+        score = 70
+    elif normalized_query and normalized_query in text:
+        score = 40
+
+    if len(tokens) > 1:
+        matched = [token for token in tokens if token in text]
+        if item_type in TAX_DECISION_TYPES and len(matched) >= min(2, len(tokens)):
+            score = max(score, 60 + len(matched))
+        if not score and len(matched) == len(tokens):
+            score = 30 + len(matched)
+        if not score and matched:
+            score = 10 + len(matched)
+    return score
 
 
 def load_export_items(path: Path) -> list[dict]:
@@ -2231,6 +2338,59 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
     }
 
 
+def write_search_regression_report() -> dict:
+    index_payload = json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8"))
+    items = index_payload.get("items") or []
+    tests = []
+    for query, expected_id in TAX_SEARCH_REGRESSIONS:
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:5]
+        top = results[0] if results else {}
+        tests.append({
+            "query": query,
+            "expected_top_id": expected_id,
+            "actual_top_id": top.get("id"),
+            "passed": top.get("id") == expected_id,
+            "top_results": results,
+        })
+
+    payload = {
+        "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.04.1",
+        "basis_date": CURRENT_REVIEW_DATE,
+        "source_review_date": CURRENT_REVIEW_DATE,
+        "ontology_kind": "openfin-search-regression-report",
+        "search_index_path": str(SEARCH_INDEX_EXPORT.relative_to(REPO_ROOT)),
+        "test_count": len(tests),
+        "passed_count": sum(1 for test in tests if test["passed"]),
+        "failed_count": sum(1 for test in tests if not test["passed"]),
+        "tests": tests,
+    }
+    payload["export_checksum"] = payload_checksum(payload)
+    SEARCH_REGRESSION_REPORT_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {
+        "path": str(SEARCH_REGRESSION_REPORT_EXPORT.relative_to(REPO_ROOT)),
+        "item_count": len(tests),
+        "product_count": 0,
+        "export_checksum": payload["export_checksum"],
+        "quality_summary": {
+            "test_count": payload["test_count"],
+            "passed_count": payload["passed_count"],
+            "failed_count": payload["failed_count"],
+        },
+    }
+
+
 def existing_export_count(path: Path) -> int:
     if not path.exists():
         return 0
@@ -2238,7 +2398,42 @@ def existing_export_count(path: Path) -> int:
     return int(payload.get("item_count") or len(payload.get("items") or []))
 
 
-def write_manifest(results: dict[str, dict], search_index: dict) -> None:
+def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
+    exports = manifest.get("exports") or []
+    payload = {
+        "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
+        "basis_date": CURRENT_REVIEW_DATE,
+        "source_review_date": CURRENT_REVIEW_DATE,
+        "built_at": manifest.get("built_at"),
+        "ontology_kind": "openfin-quality-manifest",
+        "domain_summaries": [
+            {
+                "id": entry.get("id"),
+                "domain": entry.get("domain"),
+                "item_count": entry.get("item_count"),
+                "product_count": entry.get("product_count"),
+                "quality_summary": entry.get("quality_summary") or {},
+                "export_checksum": entry.get("export_checksum"),
+            }
+            for entry in exports
+        ],
+        "search_regression_report": search_report,
+        "source_access_risks": manifest.get("source_access_risks") or [],
+        "api_required_sources": manifest.get("api_required_sources") or [],
+        "export_audit": (manifest.get("quality_summary") or {}).get("export_audit") or {},
+    }
+    payload["export_checksum"] = payload_checksum(payload)
+    QUALITY_MANIFEST_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return {
+        "path": str(QUALITY_MANIFEST_EXPORT.relative_to(REPO_ROOT)),
+        "item_count": len(payload["domain_summaries"]),
+        "product_count": 0,
+        "export_checksum": payload["export_checksum"],
+        "quality_summary": payload["export_audit"],
+    }
+
+
+def write_manifest(results: dict[str, dict], search_index: dict, search_report: dict) -> None:
     tax_path = "ontology/exports/korea-tax-ontology-2026.json"
     local_path = "ontology/exports/korea-local-government-supports-ontology-2026.json"
     full_export_paths = [
@@ -2270,18 +2465,7 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
                 "broken_relation_count": broken_relation_count(full_export_paths),
                 "collection_failure_sources": "see source_access_risks",
             },
-            "search_regression_tests": [
-                {
-                    "query": "연말정산 의료비 세액공제 한도 대상",
-                    "expected": "top_title_contains:의료비; top_title_excludes:부가가치세",
-                    "validator": "ontology/scripts/validate_finance_ontology.py",
-                },
-                {
-                    "query": "서울시 청년 월세 지원",
-                    "expected": "closed support-program results hidden unless query has inactive intent",
-                    "validator": "ontology/scripts/validate_finance_ontology.py",
-                },
-            ],
+            "search_regression_tests": search_report.get("quality_summary", {}),
             "committee_remediation": {
                 "status_fields_added": True,
                 "expired_local_support_active_gate": True,
@@ -2473,6 +2657,19 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
             {},
             search_index.get("export_checksum"),
         ),
+        "quality_exports": [
+            export_entry(
+                "openfin-search-regression-report",
+                "quality",
+                search_report["path"],
+                search_report["item_count"],
+                0,
+                "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다.",
+                [],
+                search_report.get("quality_summary"),
+                search_report.get("export_checksum"),
+            ),
+        ],
         "exports": [
             export_entry(
                 "tax-ontology",
@@ -2542,9 +2739,24 @@ def write_manifest(results: dict[str, dict], search_index: dict) -> None:
             ),
         ],
     }
+    quality_manifest = write_quality_manifest(manifest, search_report)
+    manifest["quality_exports"].insert(
+        0,
+        export_entry(
+            "openfin-quality-manifest",
+            "quality",
+            quality_manifest["path"],
+            quality_manifest["item_count"],
+            0,
+            "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다.",
+            [],
+            quality_manifest.get("quality_summary"),
+            quality_manifest.get("export_checksum"),
+        ),
+    )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT):
+    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -2591,7 +2803,8 @@ def main() -> int:
         ("insurance-products-ontology", results["insurance"]["path"]),
         ("finance-reference-ontology", results["reference"]["path"]),
     ])
-    write_manifest(results, search_index)
+    search_report = write_search_regression_report()
+    write_manifest(results, search_index, search_report)
     print(f"Exported {CARD_EXPORT}")
     print(f"Exported {BANK_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")

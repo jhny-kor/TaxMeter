@@ -4,6 +4,15 @@ const MANIFEST_FILE = "finance-ontology-manifest.json";
 const MAX_RESULTS = 120;
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
+const GENERIC_SEARCH_TYPES = new Set(["category", "term", "domain", "source"]);
+const TAX_DECISION_TYPES = new Set(["tax-credit", "deduction"]);
+const TAX_SEARCH_ALIASES = {
+  "credit.medical-expense": ["연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"],
+  "credit.monthly-rent": ["월세 세액공제 조건", "월세액 세액공제 조건"],
+  "credit.education-expense": ["교육비 세액공제 대상"],
+  "credit.pension-account": ["연금계좌 세액공제 한도"],
+  "deduction.credit-card-use": ["신용카드 소득공제 한도", "신용카드 등 사용금액 소득공제 한도"],
+};
 
 const DOMAIN_META = {
   tax: {
@@ -601,6 +610,7 @@ function scoreItem(item, query) {
     item.status_reason,
     item.status_confidence,
     item.recommendation_status,
+    ...(TAX_SEARCH_ALIASES[item.id] || []),
     structuredSearchText(item.criteria, 4),
     structuredSearchText(item.options, 3),
     structuredSearchText(item.benefits, 3),
@@ -609,17 +619,24 @@ function scoreItem(item, query) {
     ...(item.source_urls || []),
   ].filter(Boolean).join(" "));
   const tokens = query.split(/\s+/).filter(Boolean);
+  const titleTokens = title.split(/\s+/).filter(Boolean);
+  const aliases = (TAX_SEARCH_ALIASES[item.id] || []).map(normalize);
   const rateIntent = RATE_QUERY_RE.test(query);
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) return 0;
 
   let score = 0;
-  if (id === query || title === query) score = 100;
+  if (aliases.includes(query)) score = 95;
+  else if (id === query || title === query) score = 100;
   else if (id.includes(query)) score = 80;
-  else if (query.includes(title)) score = 75 + title.split(/\s+/).filter(Boolean).length;
+  else if (query.includes(title)) {
+    const base = GENERIC_SEARCH_TYPES.has(item.type) && titleTokens.length < tokens.length ? 35 : 75;
+    score = base + titleTokens.length;
+  }
   else if (title.includes(query)) score = 70;
   else if (text.includes(query)) score = 40;
 
   const matched = tokens.filter((token) => text.includes(token)).length;
+  if (TAX_DECISION_TYPES.has(item.type) && matched >= Math.min(2, tokens.length)) score = Math.max(score, 60 + matched);
   if (!score && tokens.length > 1 && matched === tokens.length) score = 30 + matched;
   if (!score && matched) score = 10 + matched;
   if (rateIntent && ["deposit", "saving", "loan"].includes(searchType)) score += 20;

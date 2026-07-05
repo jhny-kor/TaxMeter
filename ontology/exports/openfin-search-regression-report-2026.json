@@ -1,0 +1,203 @@
+{
+  "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.04.1",
+  "basis_date": "2026-07-04",
+  "source_review_date": "2026-07-04",
+  "ontology_kind": "openfin-search-regression-report",
+  "search_index_path": "ontology/exports/finance-search-index-2026.json",
+  "test_count": 5,
+  "passed_count": 5,
+  "failed_count": 0,
+  "tests": [
+    {
+      "query": "연말정산 의료비 세액공제 한도 대상",
+      "expected_top_id": "credit.medical-expense",
+      "actual_top_id": "credit.medical-expense",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.medical-expense",
+          "title": "의료비 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "filing.year-end-settlement",
+          "title": "연말정산",
+          "type": "filing",
+          "score": 76
+        },
+        {
+          "id": "credit.special-tax",
+          "title": "특별세액공제",
+          "type": "tax-credit",
+          "score": 64
+        },
+        {
+          "id": "credit.education-expense",
+          "title": "교육비 세액공제",
+          "type": "tax-credit",
+          "score": 63
+        },
+        {
+          "id": "deduction.other-income",
+          "title": "그 밖의 소득공제",
+          "type": "deduction",
+          "score": 62
+        }
+      ]
+    },
+    {
+      "query": "월세 세액공제 조건",
+      "expected_top_id": "credit.monthly-rent",
+      "actual_top_id": "credit.monthly-rent",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.monthly-rent",
+          "title": "월세액 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "category.tax-credits",
+          "title": "세액공제",
+          "type": "category",
+          "score": 36
+        },
+        {
+          "id": "term.tax-credit",
+          "title": "세액공제",
+          "type": "term",
+          "score": 36
+        },
+        {
+          "id": "source.nts.monthly-rent-credit",
+          "title": "월세액 세액공제",
+          "type": "source",
+          "score": 33
+        },
+        {
+          "id": "support.local-gov.gov24.809786",
+          "title": "1인가구 안심장비 지원사업 (서울특별시 동대문구)",
+          "type": "support-program",
+          "score": 12
+        }
+      ]
+    },
+    {
+      "query": "교육비 세액공제 대상",
+      "expected_top_id": "credit.education-expense",
+      "actual_top_id": "credit.education-expense",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.education-expense",
+          "title": "교육비 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "credit.insurance-premium",
+          "title": "보험료 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.monthly-rent",
+          "title": "월세액 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.medical-expense",
+          "title": "의료비 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.integrated-employment",
+          "title": "통합고용세액공제",
+          "type": "tax-credit",
+          "score": 62
+        }
+      ]
+    },
+    {
+      "query": "연금계좌 세액공제 한도",
+      "expected_top_id": "credit.pension-account",
+      "actual_top_id": "credit.pension-account",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.pension-account",
+          "title": "연금계좌 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "credit.education-expense",
+          "title": "교육비 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.earned-income",
+          "title": "근로소득 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.donation",
+          "title": "기부금 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.foreign-tax-paid",
+          "title": "외국납부세액공제",
+          "type": "tax-credit",
+          "score": 62
+        }
+      ]
+    },
+    {
+      "query": "신용카드 소득공제 한도",
+      "expected_top_id": "deduction.credit-card-use",
+      "actual_top_id": "deduction.credit-card-use",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "deduction.credit-card-use",
+          "title": "신용카드 등 사용금액",
+          "type": "deduction",
+          "score": 95
+        },
+        {
+          "id": "deduction.other-income",
+          "title": "그 밖의 소득공제",
+          "type": "deduction",
+          "score": 62
+        },
+        {
+          "id": "deduction.long-term-fund",
+          "title": "장기집합투자증권저축",
+          "type": "deduction",
+          "score": 62
+        },
+        {
+          "id": "deduction.housing-savings",
+          "title": "주택마련저축",
+          "type": "deduction",
+          "score": 62
+        },
+        {
+          "id": "deduction.youth-long-term-fund",
+          "title": "청년형 장기집합투자증권저축",
+          "type": "deduction",
+          "score": 62
+        }
+      ]
+    }
+  ],
+  "export_checksum": "5d1a14aa1df18e07a986ef9cb950ca112a5cb28df46b5b53bae9d27e9e414406"
+}

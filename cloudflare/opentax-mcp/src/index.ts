@@ -39,6 +39,7 @@ type FinanceItem = {
   application_open_to?: string;
   export_id?: string;
   search_text?: string;
+  search_aliases?: string[];
   source_urls?: string[];
   source_basis_dates?: string[];
 };
@@ -103,6 +104,8 @@ const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 const INACTIVE_QUERY_RE = /(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)/i;
+const GENERIC_SEARCH_TYPES = new Set(["category", "term", "domain", "source"]);
+const TAX_DECISION_TYPES = new Set(["tax-credit", "deduction"]);
 const READ_ONLY_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
@@ -191,7 +194,9 @@ function scoreItem(item: FinanceItem, query: string): number {
   const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
   const applicationStatus = normalizeQuery(item.application_status ?? "");
   const text = itemSearchText(item);
+  const aliases = (item.search_aliases ?? []).map((alias) => normalizeQuery(alias));
   const tokens = queryTokens(query);
+  const titleTokens = queryTokens(normalizedTitle);
   const rateIntent = RATE_QUERY_RE.test(query);
 
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) {
@@ -206,12 +211,15 @@ function scoreItem(item: FinanceItem, query: string): number {
   }
 
   let score = 0;
-  if (normalizedId === query || normalizedTitle === query) {
+  if (aliases.includes(query)) {
+    score = 95;
+  } else if (normalizedId === query || normalizedTitle === query) {
     score = 100;
   } else if (normalizedId.includes(query)) {
     score = 80;
   } else if (query.includes(normalizedTitle)) {
-    score = 75 + queryTokens(normalizedTitle).length;
+    const base = GENERIC_SEARCH_TYPES.has(item.type) && titleTokens.length < tokens.length ? 35 : 75;
+    score = base + titleTokens.length;
   } else if (normalizedTitle.includes(query)) {
     score = 70;
   } else if (text.includes(query)) {
@@ -219,6 +227,9 @@ function scoreItem(item: FinanceItem, query: string): number {
   }
   if (tokens.length > 1) {
     const matchedTokens = tokens.filter((token) => text.includes(token));
+    if (TAX_DECISION_TYPES.has(item.type) && matchedTokens.length >= Math.min(2, tokens.length)) {
+      score = Math.max(score, 60 + matchedTokens.length);
+    }
     if (!score && matchedTokens.length === tokens.length) {
       score = 30 + matchedTokens.length;
     }
