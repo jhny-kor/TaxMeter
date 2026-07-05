@@ -2,9 +2,30 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
+  "built_at": "2026-07-05T00:47:02Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
+    "export_audit": {
+      "built_at": "2026-07-05T00:47:02Z",
+      "domain_export_count": 6,
+      "search_index_item_count": 21581,
+      "checksum_covered_export_count": 7,
+      "broken_relation_count": 0,
+      "collection_failure_sources": "see source_access_risks"
+    },
+    "search_regression_tests": [
+      {
+        "query": "연말정산 의료비 세액공제 한도 대상",
+        "expected": "top_title_contains:의료비; top_title_excludes:부가가치세",
+        "validator": "ontology/scripts/validate_finance_ontology.py"
+      },
+      {
+        "query": "서울시 청년 월세 지원",
+        "expected": "closed support-program results hidden unless query has inactive intent",
+        "validator": "ontology/scripts/validate_finance_ontology.py"
+      }
+    ],
     "committee_remediation": {
       "status_fields_added": true,
       "expired_local_support_active_gate": true,
@@ -286,7 +307,7 @@
     "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "bfe7358263d7b7891f3b5ae331b9a6dd972ee39ca950eba9f0875db3cb232a61",
+    "export_checksum": "7bae84863467ffc7d5476e66cf21c1be3ca3d12a29be0bf0e97d4990158af386",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "exports": [
@@ -301,7 +322,7 @@
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {},
-      "export_checksum": null,
+      "export_checksum": "7a7dadf553d3c3a9c6425347a6b76408641bba851a7c58e398630eb54f5d3440",
       "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
     },
     {
@@ -314,8 +335,23 @@
       "product_count": 0,
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
-      "quality_summary": {},
-      "export_checksum": null,
+      "quality_summary": {
+        "status_review_date": "2026-07-04",
+        "status_counts": {
+          "active": 5168,
+          "closed": 343,
+          "unknown": 2309
+        },
+        "application_status_counts": {
+          "closed": 343,
+          "open": 5168,
+          "unknown": 2309
+        },
+        "expired_active_local_supports": 0,
+        "unknown_status_local_supports": 2309,
+        "currently_applicable_local_supports": 5168
+      },
+      "export_checksum": "f5e6e5a4ab66a46734d676caf57c27d164a5af339b2277ba233c55b29d382afc",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -354,7 +390,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9add7266354600e45479894a4d35c0f4bb95ddb425ff3689ed1e03d668a03e61",
+      "export_checksum": "4a2d9d4c7b72218277d87a1211bccdc8b6b028ca264a2b72d8cb5ec560a957ee",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
