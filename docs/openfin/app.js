@@ -765,7 +765,7 @@ function stringifyValue(value) {
 }
 
 function normalize(value) {
-  return String(value).trim().toLocaleLowerCase("ko-KR");
+  return String(value).trim().toLocaleLowerCase("ko-KR").replace(/[·ㆍ/()]/g, " ");
 }
 
 function formatNumber(value) {
