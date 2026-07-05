@@ -1,0 +1,320 @@
+{
+  "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
+  "basis_date": "2026-07-04",
+  "source_review_date": "2026-07-04",
+  "built_at": "2026-07-05T23:11:10Z",
+  "ontology_kind": "openfin-quality-manifest",
+  "domain_summaries": [
+    {
+      "id": "tax-ontology",
+      "domain": "tax",
+      "item_count": 374,
+      "product_count": 0,
+      "quality_summary": {},
+      "export_checksum": "7a7dadf553d3c3a9c6425347a6b76408641bba851a7c58e398630eb54f5d3440"
+    },
+    {
+      "id": "local-government-supports-ontology",
+      "domain": "local-government-supports",
+      "item_count": 7820,
+      "product_count": 0,
+      "quality_summary": {
+        "status_review_date": "2026-07-04",
+        "status_counts": {
+          "active": 5168,
+          "closed": 343,
+          "unknown": 2309
+        },
+        "application_status_counts": {
+          "closed": 343,
+          "open": 5168,
+          "unknown": 2309
+        },
+        "expired_active_local_supports": 0,
+        "unknown_status_local_supports": 2309,
+        "currently_applicable_local_supports": 5168
+      },
+      "export_checksum": "f5e6e5a4ab66a46734d676caf57c27d164a5af339b2277ba233c55b29d382afc"
+    },
+    {
+      "id": "card-products-ontology",
+      "domain": "card-products",
+      "item_count": 1028,
+      "product_count": 1005,
+      "quality_summary": {
+        "product_count": 1005,
+        "status_counts": {
+          "active": 650,
+          "unknown": 355
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 127,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 355,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "4fcfc62795361c519340dc0e1c23b58e40425cc19d1a90796d7fa6c0d23bd3d4"
+    },
+    {
+      "id": "bank-products-ontology",
+      "domain": "bank-products",
+      "item_count": 10790,
+      "product_count": 10743,
+      "quality_summary": {
+        "product_count": 10743,
+        "status_counts": {
+          "active": 10732,
+          "unknown": 11
+        },
+        "active_products_without_criteria": 112,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 9380,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 11,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "502acd69caaa3c565781531d017c2db1b3fcf32c3f5bbac89ba2384ee90c9c3a"
+    },
+    {
+      "id": "insurance-products-ontology",
+      "domain": "insurance-products",
+      "item_count": 1079,
+      "product_count": 1061,
+      "quality_summary": {
+        "product_count": 1061,
+        "status_counts": {
+          "active": 1061
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 1055,
+        "deposit_protection_products": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "e8e3edb972302bc7c71f573de68dc0def55785ec8a7df5270984f70a9b52940b"
+    },
+    {
+      "id": "finance-reference-ontology",
+      "domain": "finance-reference",
+      "item_count": 507,
+      "product_count": 0,
+      "quality_summary": {
+        "product_count": 0,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "76de86ec33a94c49cb7067d5dbb64084847792bcdece6dae08533df239ad1e0a"
+    }
+  ],
+  "search_regression_report": {
+    "path": "ontology/exports/openfin-search-regression-report-2026.json",
+    "item_count": 5,
+    "product_count": 0,
+    "export_checksum": "5d1a14aa1df18e07a986ef9cb950ca112a5cb28df46b5b53bae9d27e9e414406",
+    "quality_summary": {
+      "test_count": 5,
+      "passed_count": 5,
+      "failed_count": 0
+    }
+  },
+  "source_access_risks": [
+    {
+      "source_id": "source.kdic.insured-products",
+      "status": "live_imported",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
+      "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
+    },
+    {
+      "source_id": "source.klia.insurance-disclosure",
+      "status": "live_imported",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1061",
+      "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
+      "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
+      "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다."
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "status": "approved_by_user_but_live_403",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-products",
+      "status": "approved_by_user_endpoint_mapping_pending",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
+      "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
+    },
+    {
+      "source_id": "source.fsc.inclusive-finance-performance",
+      "status": "approved_by_user_metric_source",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "official metadata reviewed; not a product-row source",
+      "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
+    },
+    {
+      "source_id": "source.bok.ecos",
+      "status": "reference_source_added_key_required",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
+      "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다."
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "status": "reference_source_added",
+      "last_checked": "2026-07-04",
+      "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
+      "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
+    }
+  ],
+  "api_required_sources": [
+    {
+      "source_id": "source.bok.ecos",
+      "required_secret": "BOK_ECOS_API_KEY",
+      "status": "missing_key",
+      "needed_for": "한국은행 기준금리, 시장금리, 환율 등 시계열 기준지표 값 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-company-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "상품 provider 문자열을 공식 금융회사 코드·주소·설립일·상장폐지 상태와 매칭"
+    },
+    {
+      "source_id": "source.fsc.financial-company-credit",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "금융회사 재무·신용 리스크 지표를 provider 노드에 연결"
+    },
+    {
+      "source_id": "source.fsc.domestic-bank-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_or_endpoint_mapping_required",
+      "needed_for": "은행 일반현황, 재무현황, 경영지표를 은행상품 provider 리스크에 연결"
+    },
+    {
+      "source_id": "source.fsc.fund-products-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드표준코드, 펀드명, 운용사, 펀드유형 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.retirement-pension-basic",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "퇴직연금 펀드별 기준일자, 순자산금액, 운용 현황 수집"
+    },
+    {
+      "source_id": "source.fsc.financial-investment-statistics",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY + service_application",
+      "status": "application_required",
+      "needed_for": "펀드 순자산, CMA 잔고, 신용공여 잔고, 증시자금 추이 지표 수집"
+    },
+    {
+      "source_id": "source.fsc.medical-reimbursement-insurance",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "실손의료보험 유형, 담보, 성별·연령별 보험료 상품 행 생성"
+    },
+    {
+      "source_id": "source.fsc.variable-insurance-info",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "변액보험 펀드 기준가, 순자산, 설정일자, 운용회사 정보 수집"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "정책대출별 취급기관, 주소, 기관 코드 상세 연결"
+    },
+    {
+      "source_id": "source.data.go.kr.kinfa-support-centers",
+      "required_secret": "DATA_GO_KR_SERVICE_KEY service_permission",
+      "status": "approved_by_user_but_live_403",
+      "needed_for": "서민금융통합지원센터, 미소금융 지점 지역·주소·전화번호 노드 생성"
+    }
+  ],
+  "export_audit": {
+    "built_at": "2026-07-05T23:11:10Z",
+    "domain_export_count": 6,
+    "search_index_item_count": 21581,
+    "checksum_covered_export_count": 7,
+    "broken_relation_count": 0,
+    "collection_failure_sources": "see source_access_risks"
+  },
+  "export_checksum": "988ae6cdef35cc33aa1f6efeaa049d12ddcd637b63b619493020b299d2101a6f"
+}

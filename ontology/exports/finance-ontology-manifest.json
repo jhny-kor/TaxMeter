@@ -2,30 +2,23 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-05T00:47:02Z",
+  "built_at": "2026-07-05T23:11:10Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-05T00:47:02Z",
+      "built_at": "2026-07-05T23:11:10Z",
       "domain_export_count": 6,
       "search_index_item_count": 21581,
       "checksum_covered_export_count": 7,
       "broken_relation_count": 0,
       "collection_failure_sources": "see source_access_risks"
     },
-    "search_regression_tests": [
-      {
-        "query": "연말정산 의료비 세액공제 한도 대상",
-        "expected": "top_title_contains:의료비; top_title_excludes:부가가치세",
-        "validator": "ontology/scripts/validate_finance_ontology.py"
-      },
-      {
-        "query": "서울시 청년 월세 지원",
-        "expected": "closed support-program results hidden unless query has inactive intent",
-        "validator": "ontology/scripts/validate_finance_ontology.py"
-      }
-    ],
+    "search_regression_tests": {
+      "test_count": 5,
+      "passed_count": 5,
+      "failed_count": 0
+    },
     "committee_remediation": {
       "status_fields_added": true,
       "expired_local_support_active_gate": true,
@@ -45,7 +38,7 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 964,
+        "card_benefits_with_incomplete_conditions": 127,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
@@ -307,9 +300,50 @@
     "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "7bae84863467ffc7d5476e66cf21c1be3ca3d12a29be0bf0e97d4990158af386",
+    "export_checksum": "54cbe040b8f7a4004ee831037db7be6c93bf377b2411f9756643b1e080966edd",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
+  "quality_exports": [
+    {
+      "id": "openfin-quality-manifest",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-quality-manifest-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-quality-manifest-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-quality-manifest-2026.json",
+      "item_count": 6,
+      "product_count": 0,
+      "source_review_date": "2026-07-04",
+      "product_collection_dates": [],
+      "quality_summary": {
+        "built_at": "2026-07-05T23:11:10Z",
+        "domain_export_count": 6,
+        "search_index_item_count": 21581,
+        "checksum_covered_export_count": 7,
+        "broken_relation_count": 0,
+        "collection_failure_sources": "see source_access_risks"
+      },
+      "export_checksum": "988ae6cdef35cc33aa1f6efeaa049d12ddcd637b63b619493020b299d2101a6f",
+      "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
+    },
+    {
+      "id": "openfin-search-regression-report",
+      "domain": "quality",
+      "path": "ontology/exports/openfin-search-regression-report-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-search-regression-report-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-search-regression-report-2026.json",
+      "item_count": 5,
+      "product_count": 0,
+      "source_review_date": "2026-07-04",
+      "product_collection_dates": [],
+      "quality_summary": {
+        "test_count": 5,
+        "passed_count": 5,
+        "failed_count": 0
+      },
+      "export_checksum": "5d1a14aa1df18e07a986ef9cb950ca112a5cb28df46b5b53bae9d27e9e414406",
+      "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
+    }
+  ],
   "exports": [
     {
       "id": "tax-ontology",
@@ -376,7 +410,7 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 964,
+        "card_benefits_with_incomplete_conditions": 127,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
@@ -390,7 +424,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "4a2d9d4c7b72218277d87a1211bccdc8b6b028ca264a2b72d8cb5ec560a957ee",
+      "export_checksum": "4fcfc62795361c519340dc0e1c23b58e40425cc19d1a90796d7fa6c0d23bd3d4",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -467,7 +501,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b53540190bd674f005ce2604886e1a6dd4fc70b31fcb2b1743e998f5603aeb6f",
+      "export_checksum": "e8e3edb972302bc7c71f573de68dc0def55785ec8a7df5270984f70a9b52940b",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
