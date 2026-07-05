@@ -69,6 +69,7 @@ type FinanceManifest = {
   name: string;
   description?: string;
   search_index?: ManifestEntry;
+  quality_exports?: ManifestEntry[];
   exports: ManifestEntry[];
 };
 
@@ -545,6 +546,7 @@ function createServer(env: Env): McpServer {
         basis_date: manifest.basis_date,
         item_count: manifest.search_index?.item_count ?? manifest.exports.reduce((total, entry) => total + (entry.item_count ?? 0), 0),
         search_index: manifest.search_index,
+        quality_exports: manifest.quality_exports ?? [],
         exports: manifest.exports,
       };
       return {
