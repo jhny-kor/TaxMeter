@@ -217,9 +217,10 @@ def build_html(data: dict, summary: dict) -> str:
               <a href="#overview">개요</a>
               <a href="#graph">그래프</a>
               <a href="#flow">데이터 흐름</a>
-              <a href="#browser">금융상품</a>
+              <a href="#browser">탐색</a>
               <a href="#roadmap">로드맵</a>
               <a href="#sources">출처</a>
+              <a href="../openfin/">OpenFin</a>
             </nav>
           </header>
 
