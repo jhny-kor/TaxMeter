@@ -988,7 +988,7 @@ def item_from_kdic_insured_product(record: dict[str, str]) -> dict:
     return {
         "id": f"finance.bank.deposit-protection.kdic.{slug(provider)}.{slug(product_name)}.{slug(sequence)}",
         "title": f"{provider} {product_name}",
-        "type": "bank-product",
+        "type": "financial-product",
         "description": f"예금보험공사 예금자보호 금융상품 API에 등재된 {provider}의 보호대상 금융상품 '{product_name}'입니다.",
         "basis_year": int(COLLECTED_AT[:4]),
         "reviewed_at": COLLECTED_AT,
@@ -1000,7 +1000,7 @@ def item_from_kdic_insured_product(record: dict[str, str]) -> dict:
         "terms": ["term.finance.deposit-protection-status"],
         "deadlines": [],
         "sources": [source_id],
-        "tags": unique(["finance-product", "generated", "bank", "deposit-protection", "kdic", status]),
+        "tags": unique(["finance-product", "generated", "deposit-protection", "kdic", status]),
         "criteria": [criterion],
         "provider": provider,
         "provider_code": slug(provider),

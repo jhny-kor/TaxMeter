@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-05T23:11:10Z",
+  "built_at": "2026-07-07T03:52:03Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -70,12 +70,12 @@
     {
       "id": "bank-products-ontology",
       "domain": "bank-products",
-      "item_count": 10790,
-      "product_count": 10743,
+      "item_count": 1407,
+      "product_count": 1363,
       "quality_summary": {
-        "product_count": 10743,
+        "product_count": 1363,
         "status_counts": {
-          "active": 10732,
+          "active": 1352,
           "unknown": 11
         },
         "active_products_without_criteria": 112,
@@ -84,7 +84,7 @@
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 9380,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 11,
@@ -96,7 +96,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "502acd69caaa3c565781531d017c2db1b3fcf32c3f5bbac89ba2384ee90c9c3a"
+      "export_checksum": "97a4e1681068e774e7494a0527518cda026f0e30f908909885e17634b471e22f"
     },
     {
       "id": "insurance-products-ontology",
@@ -131,7 +131,7 @@
     {
       "id": "finance-reference-ontology",
       "domain": "finance-reference",
-      "item_count": 507,
+      "item_count": 9651,
       "product_count": 0,
       "quality_summary": {
         "product_count": 0,
@@ -154,7 +154,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "76de86ec33a94c49cb7067d5dbb64084847792bcdece6dae08533df239ad1e0a"
+      "export_checksum": "2220560463dcfd2b1ac0c26ed69996404e06fad8b8747186b98290a38fc22588"
     }
   ],
   "search_regression_report": {
@@ -309,12 +309,12 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-05T23:11:10Z",
+    "built_at": "2026-07-07T03:52:03Z",
     "domain_export_count": 6,
-    "search_index_item_count": 21581,
+    "search_index_item_count": 21342,
     "checksum_covered_export_count": 7,
     "broken_relation_count": 0,
     "collection_failure_sources": "see source_access_risks"
   },
-  "export_checksum": "988ae6cdef35cc33aa1f6efeaa049d12ddcd637b63b619493020b299d2101a6f"
+  "export_checksum": "80a90e7684b5c3887e7644ac1c8b456bd74d5d1da7b8782d75419a9d33305187"
 }
