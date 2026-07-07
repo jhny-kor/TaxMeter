@@ -927,6 +927,13 @@ def provider_registry_nodes(products: list[dict]) -> list[dict]:
 
 def finance_reference_items() -> list[dict]:
     products = load_product_export_items()
+    deposit_protection_generated = load_generated("deposit_protection")
+    for dp_item in deposit_protection_generated:
+        # 예금자보호 등재 목록은 은행 상품군이 아니라 소비자 보호 레지스트리(참조 데이터)로 취급한다.
+        # PRODUCT_TYPES 밖의 기존 타입으로 재분류해 상품 검증·상품 수 집계 대상에서 제외한다.
+        dp_item["type"] = "financial-product"
+        dp_item.setdefault("search_type", "deposit-protection")
+        dp_item.setdefault("rate_search_eligible", False)
     items = [
         node(
             "finance.reference-ontology",
@@ -1035,6 +1042,24 @@ def finance_reference_items() -> list[dict]:
             ],
             terms=["term.finance.provider-risk", "term.finance.deposit-protection-status", "term.finance.hidden-financial-assets"],
             tags=["finance-reference-ontology", "consumer-protection", "risk-control"],
+        ),
+        node(
+            "category.finance.deposit-protection-products",
+            "예금자보호 금융상품",
+            "category",
+            "예금보험공사 보호대상 금융상품 API에서 상품명, 금융회사명, 등록일을 수집한 소비자 보호 레지스트리입니다. 은행 상품군이 아니라 예금자보호 대상 여부를 확인하는 참조 데이터로 분류합니다. 상품판매중단일자가 있는 행은 기본 운영 export에서 제외합니다.",
+            parents=["category.finance.consumer-protection-signals"],
+            sources=["source.kdic.insured-products"],
+            terms=["term.finance.deposit-protection-status", "term.finance.source-approval-risk"],
+            tags=["finance-reference-ontology", "deposit-protection", "consumer-protection", "risk-control", "api-import-ready"],
+        ),
+        node(
+            "term.finance.deposit-protection-status",
+            "예금자보호 여부",
+            "term",
+            "예금보험공사 보호대상 금융상품 목록에 등재됐는지와 상품판매중단일자가 있는지를 확인하는 소비자 보호 기준입니다.",
+            sources=["source.kdic.insured-products"],
+            tags=["finance-reference-ontology", "deposit-protection", "consumer-protection"],
         ),
         node(
             "category.finance.policy-finance-reference",
@@ -1215,7 +1240,8 @@ def finance_reference_items() -> list[dict]:
         ),
     ]
     items.extend(provider_registry_nodes(products))
-    return attach_source_metadata([*items, *(SOURCES[source_id] for source_id in REFERENCE_SOURCE_IDS), SOURCES["source.knia.insurance-disclosure"], SOURCES["source.fsc.variable-insurance-info"]])
+    items.extend(deposit_protection_generated)
+    return attach_source_metadata([*items, *(SOURCES[source_id] for source_id in REFERENCE_SOURCE_IDS), SOURCES["source.knia.insurance-disclosure"], SOURCES["source.fsc.variable-insurance-info"], SOURCES["source.kdic.insured-products"]])
 
 
 def card_items() -> list[dict]:
@@ -1348,7 +1374,6 @@ def card_items() -> list[dict]:
 def bank_items() -> list[dict]:
     generated = load_generated("bank")
     policy_generated = load_generated("policy_loan")
-    deposit_protection_generated = load_generated("deposit_protection")
     items = [
         node(
             "finance.bank-products-ontology",
@@ -1363,7 +1388,6 @@ def bank_items() -> list[dict]:
                 "category.finance.credit-loan-products",
                 "category.finance.business-loan-products",
                 "category.finance.policy-loan-products",
-                "category.finance.deposit-protection-products",
                 "category.finance.policy-loan-service-network",
                 "category.finance.source-risk-controls",
                 "category.finance.specialized-credit-loan-products",
@@ -1381,7 +1405,6 @@ def bank_items() -> list[dict]:
                 "source.fsc.inclusive-finance-products",
                 "source.data.go.kr.kinfa-loan-handling-agencies",
                 "source.data.go.kr.kinfa-support-centers",
-                "source.kdic.insured-products",
                 "source.kinfa.hessal-loan-youth",
                 "source.kinfa.illegal-private-finance-prevention-loan",
                 "source.myhome.support-lease-loan",
@@ -1392,7 +1415,7 @@ def bank_items() -> list[dict]:
                 "source.crefia.auto-lease-disclosure",
                 "source.easylaw.finance-product-disclosure",
             ],
-            terms=["term.finance.source-approval-risk", "term.finance.deposit-protection-status"],
+            terms=["term.finance.source-approval-risk"],
             tags=["finance-ontology", "bank-products-ontology", "source-risk-tracked"],
         ),
         node(
@@ -1464,16 +1487,6 @@ def bank_items() -> list[dict]:
                 "source.fss.finlife.web",
             ],
             tags=["bank-products-ontology", "policy-loan", "api-import-ready"],
-        ),
-        node(
-            "category.finance.deposit-protection-products",
-            "예금자보호 금융상품",
-            "category",
-            "예금보험공사 보호대상 금융상품 API에서 상품명, 금융회사명, 등록일을 수집합니다. 상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 필요할 때 별도 재수집 옵션으로 이력 확인합니다.",
-            parents=["finance.bank-products-ontology"],
-            sources=["source.kdic.insured-products"],
-            terms=["term.finance.deposit-protection-status", "term.finance.source-approval-risk"],
-            tags=["bank-products-ontology", "deposit-protection", "api-import-ready", "consumer-protection", "risk-control"],
         ),
         node(
             "category.finance.policy-loan-service-network",
@@ -1615,14 +1628,6 @@ def bank_items() -> list[dict]:
             tags=["bank-products-ontology", "fee", "lease-finance", "installment-finance"],
         ),
         node(
-            "term.finance.deposit-protection-status",
-            "예금자보호 여부",
-            "term",
-            "예금보험공사 보호대상 금융상품 목록에 등재됐는지와 상품판매중단일자가 있는지를 확인하는 소비자 보호 기준입니다.",
-            sources=["source.kdic.insured-products"],
-            tags=["bank-products-ontology", "deposit-protection", "consumer-protection"],
-        ),
-        node(
             "term.finance.source-approval-risk",
             "공공데이터 API 승인 리스크",
             "term",
@@ -1760,7 +1765,6 @@ def bank_items() -> list[dict]:
     ]
     items.extend(generated)
     items.extend(policy_generated)
-    items.extend(deposit_protection_generated)
     return attach_source_metadata([
         *items,
         SOURCES["source.fss.finlife.api"],
@@ -1774,7 +1778,6 @@ def bank_items() -> list[dict]:
         SOURCES["source.fsc.inclusive-finance-performance"],
         SOURCES["source.data.go.kr.kinfa-loan-handling-agencies"],
         SOURCES["source.data.go.kr.kinfa-support-centers"],
-        SOURCES["source.kdic.insured-products"],
         SOURCES["source.kinfa.hessal-loan-youth"],
         SOURCES["source.kinfa.illegal-private-finance-prevention-loan"],
         SOURCES["source.myhome.support-lease-loan"],
@@ -2732,7 +2735,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["reference"]["path"],
                 results["reference"]["item_count"],
                 results["reference"]["product_count"],
-                "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다.",
+                "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다.",
                 results["reference"]["product_collection_dates"],
                 results["reference"].get("quality_summary"),
                 results["reference"].get("export_checksum"),
