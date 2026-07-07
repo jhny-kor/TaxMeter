@@ -4,10 +4,10 @@ title: "농협은행주식회사 NH내가Green초록세상적금"
 type: "bank-product"
 domain: "bank-products"
 basis_year: 2026
-reviewed_at: "2026-05-05"
+reviewed_at: "2026-07-04"
 source_export: "korea-bank-products-ontology-2026.json"
 source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
-source_basis_dates: ["2026-05-05 수집", "202604", "2026-05-05 확인"]
+source_basis_dates: ["2026-07-04 수집", "202606", "2026-07-03 확인"]
 tags: ["graph-materialized", "bank-products", "finance-product", "generated", "bank", "saving", "020000"]
 ---
 
@@ -21,9 +21,11 @@ tags: ["graph-materialized", "bank-products", "finance-product", "generated", "b
 - Materialized ID: `finance.bank.saving.0013175.10-047-1381-0001`
 - Type: `bank-product`
 - provider: 농협은행주식회사
+- source_modified_at: 202606
 
 ## Relations
 - parents: [[95_FinanceGraph/BankProducts/category/적금 상품 4f1d1df256|적금 상품]]
+- related: `category.finance.source-health`, `finance.provider.ceac4ec15ca0`, `category.finance.financial-provider-registry`, `category.finance.benchmark-rates`, `finance.benchmark-rate.bok-base-rate`
 - sources: [[95_FinanceGraph/InsuranceProducts/source/금융감독원 금융상품통합비교공시 금융상품한눈에 API 873a2ddd6d|금융감독원 금융상품통합비교공시 금융상품한눈에 API]]
 
 ## Source URLs

@@ -4,10 +4,10 @@ title: "IBK기업은행 참! 좋은 kt wiz카드(체크)"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-05-05"
+reviewed_at: "2026-07-04"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CheckSearch.do", "https://www.bccard.com/app/card/CheckCardMain.do?gdsno=755892&mbkNo=003", "https://www.bccard.com/images/individual/card/renew/list/card_755892.png", "https://www.bccard.com/app/card/CheckCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-05-05 수집", "2026-05-05 확인"]
+source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 
@@ -24,6 +24,7 @@ tags: ["graph-materialized", "card-products", "finance-product", "generated", "c
 
 ## Relations
 - parents: [[95_FinanceGraph/CardProducts/category/체크카드 상품 06955f3574|체크카드 상품]]
+- related: `category.finance.source-health`, `finance.provider.a4e49faff63f`, `category.finance.financial-provider-registry`, [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - terms: [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - sources: [[95_FinanceGraph/CardProducts/source/비씨카드 체크카드 상품 fdb7fb99e2|비씨카드 체크카드 상품]], [[95_FinanceGraph/CardProducts/source/카드상품 공시 1de53a0de9|카드상품 공시]]
 

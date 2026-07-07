@@ -4,10 +4,10 @@ title: "KB국민카드 카카오페이 KB국민 체크카드(신한계좌 국내
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-05-05"
+reviewed_at: "2026-07-04"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://card.kbcard.com/CRD/DVIEW/HCAM0101", "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=01784", "https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/01784_img.png", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-05-05 수집", "2026-05-05 확인"]
+source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 
@@ -24,6 +24,7 @@ KB국민카드 카드한눈에보기에 공시된 KB국민카드의 체크카드
 
 ## Relations
 - parents: [[95_FinanceGraph/CardProducts/category/체크카드 상품 06955f3574|체크카드 상품]]
+- related: `category.finance.source-health`, `finance.provider.8a67b5ebb14c`, `category.finance.financial-provider-registry`, [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - terms: [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - sources: [[95_FinanceGraph/CardProducts/source/KB국민카드 카드한눈에보기 a7eaefd5ab|KB국민카드 카드한눈에보기]], [[95_FinanceGraph/CardProducts/source/카드상품 공시 1de53a0de9|카드상품 공시]]
 

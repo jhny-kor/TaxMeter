@@ -1,0 +1,35 @@
+---
+materialized_id: "finance.insurance.klia.cancer.메트라이프생명.l7202460001nny0247000202440001024400010004024400010004000102440001000400010004a0602"
+title: "메트라이프생명 무배당 360 암보험(갱신형)"
+type: "insurance-product"
+domain: "insurance-products"
+basis_year: 2026
+reviewed_at: "2026-07-04"
+source_export: "korea-insurance-products-ontology-2026.json"
+source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20", "https://brand.metlife.co.kr/pn/mcvrgProd/retrieveMcvrgProdMain.do", "https://pub.insure.or.kr/"]
+source_basis_dates: ["2026-07-04 수집", "2025-04-01", "2026-07-03 확인"]
+tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "cancer", "024400010004"]
+---
+
+# 메트라이프생명 무배당 360 암보험(갱신형)
+
+생명보험협회 공시실에 등재된 메트라이프생명의 암보험 상품 '무배당 360 암보험(갱신형)'입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `finance.insurance.klia.cancer.메트라이프생명.l7202460001nny0247000202440001024400010004024400010004000102440001000400010004a0602`
+- Type: `insurance-product`
+- provider: 메트라이프생명
+- source_modified_at: 2025-04-01
+
+## Relations
+- parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]
+- related: `category.finance.source-health`, `finance.provider.bc6fb86294c5`, `category.finance.financial-provider-registry`, `category.finance.insurance-risk-signals`, `finance.risk-signal.insurance-nonpayment-rate`, `finance.risk-signal.insurance-mis-selling-rate`, `term.finance.provider-risk`
+- terms: [[95_FinanceGraph/InsuranceProducts/term/보장 항목 de4e05125d|보장 항목]], [[95_FinanceGraph/InsuranceProducts/term/갱신 조건 9c8724f26d|갱신 조건]]
+- sources: [[95_FinanceGraph/InsuranceProducts/source/생명보험협회 공시실 5340e15bea|생명보험협회 공시실]]
+
+## Source URLs
+- https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20
+- https://brand.metlife.co.kr/pn/mcvrgProd/retrieveMcvrgProdMain.do
+- https://pub.insure.or.kr/

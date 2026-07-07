@@ -1,0 +1,36 @@
+---
+materialized_id: "finance.card.check-card.ibk기업은행.i-travel-104084"
+title: "IBK기업은행 I-Travel"
+type: "card-product"
+domain: "card-products"
+basis_year: 2026
+reviewed_at: "2026-07-04"
+source_export: "korea-card-products-ontology-2026.json"
+source_urls: ["https://www.bccard.com/app/card/CheckSearch.do", "https://www.bccard.com/app/card/CheckCardMain.do?gdsno=104084&mbkNo=003", "https://www.bccard.com/images/individual/card/renew/list/card_104084.png", "https://www.bccard.com/app/card/CheckCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
+source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
+---
+
+# IBK기업은행 I-Travel
+
+비씨카드 체크카드 상품에 공시된 IBK기업은행의 체크카드 상품 'I-Travel'입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `finance.card.check-card.ibk기업은행.i-travel-104084`
+- Type: `card-product`
+- provider: IBK기업은행
+
+## Relations
+- parents: [[95_FinanceGraph/CardProducts/category/체크카드 상품 06955f3574|체크카드 상품]]
+- related: `category.finance.source-health`, `finance.provider.a4e49faff63f`, `category.finance.financial-provider-registry`, [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
+- terms: [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
+- sources: [[95_FinanceGraph/CardProducts/source/비씨카드 체크카드 상품 fdb7fb99e2|비씨카드 체크카드 상품]], [[95_FinanceGraph/CardProducts/source/카드상품 공시 1de53a0de9|카드상품 공시]]
+
+## Source URLs
+- https://www.bccard.com/app/card/CheckSearch.do
+- https://www.bccard.com/app/card/CheckCardMain.do?gdsno=104084&mbkNo=003
+- https://www.bccard.com/images/individual/card/renew/list/card_104084.png
+- https://www.bccard.com/app/card/CheckCardMain.do
+- https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd

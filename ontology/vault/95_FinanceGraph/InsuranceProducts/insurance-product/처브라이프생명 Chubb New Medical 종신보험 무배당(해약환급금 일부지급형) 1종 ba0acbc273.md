@@ -1,0 +1,35 @@
+---
+materialized_id: "finance.insurance.klia.whole-life.처브라이프생명.l7702460001nn000002470002024400010244000100010244000100010001024400010001000100025qq00"
+title: "처브라이프생명 Chubb New Medical 종신보험 무배당(해약환급금 일부지급형) 1종"
+type: "insurance-product"
+domain: "insurance-products"
+basis_year: 2026
+reviewed_at: "2026-07-04"
+source_export: "korea-insurance-products-ontology-2026.json"
+source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://www.chubblife.co.kr/front/official/sale/listSale.do", "https://pub.insure.or.kr/"]
+source_basis_dates: ["2026-07-04 수집", "2026-01-01", "2026-07-03 확인"]
+tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
+---
+
+# 처브라이프생명 Chubb New Medical 종신보험 무배당(해약환급금 일부지급형) 1종
+
+생명보험협회 공시실에 등재된 처브라이프생명의 종신보험 상품 'Chubb New Medical 종신보험 무배당(해약환급금 일부지급형) 1종'입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `finance.insurance.klia.whole-life.처브라이프생명.l7702460001nn000002470002024400010244000100010244000100010001024400010001000100025qq00`
+- Type: `insurance-product`
+- provider: 처브라이프생명
+- source_modified_at: 2026-01-01
+
+## Relations
+- parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]
+- related: `category.finance.source-health`, `finance.provider.187429a33008`, `category.finance.financial-provider-registry`, `category.finance.insurance-risk-signals`, `finance.risk-signal.insurance-nonpayment-rate`, `finance.risk-signal.insurance-mis-selling-rate`, `term.finance.provider-risk`
+- terms: [[95_FinanceGraph/InsuranceProducts/term/보장 항목 de4e05125d|보장 항목]], [[95_FinanceGraph/InsuranceProducts/term/갱신 조건 9c8724f26d|갱신 조건]]
+- sources: [[95_FinanceGraph/InsuranceProducts/source/생명보험협회 공시실 5340e15bea|생명보험협회 공시실]]
+
+## Source URLs
+- https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20
+- https://www.chubblife.co.kr/front/official/sale/listSale.do
+- https://pub.insure.or.kr/
