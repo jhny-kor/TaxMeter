@@ -2,14 +2,14 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-05T23:11:10Z",
+  "built_at": "2026-07-07T03:52:03Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-05T23:11:10Z",
+      "built_at": "2026-07-07T03:52:03Z",
       "domain_export_count": 6,
-      "search_index_item_count": 21581,
+      "search_index_item_count": 21342,
       "checksum_covered_export_count": 7,
       "broken_relation_count": 0,
       "collection_failure_sources": "see source_access_risks"
@@ -53,9 +53,9 @@
         }
       },
       "bank": {
-        "product_count": 10743,
+        "product_count": 1363,
         "status_counts": {
-          "active": 10732,
+          "active": 1352,
           "unknown": 11
         },
         "active_products_without_criteria": 112,
@@ -64,7 +64,7 @@
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 9380,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 11,
@@ -295,12 +295,12 @@
     "path": "ontology/exports/finance-search-index-2026.json",
     "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
     "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-    "item_count": 21581,
+    "item_count": 21342,
     "product_count": 0,
     "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "54cbe040b8f7a4004ee831037db7be6c93bf377b2411f9756643b1e080966edd",
+    "export_checksum": "4e46ba836411496f697a7a5e14a45ed12ec3327b520d871a38af7e9dd6ccfadd",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -315,14 +315,14 @@
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-05T23:11:10Z",
+        "built_at": "2026-07-07T03:52:03Z",
         "domain_export_count": 6,
-        "search_index_item_count": 21581,
+        "search_index_item_count": 21342,
         "checksum_covered_export_count": 7,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "988ae6cdef35cc33aa1f6efeaa049d12ddcd637b63b619493020b299d2101a6f",
+      "export_checksum": "80a90e7684b5c3887e7644ac1c8b456bd74d5d1da7b8782d75419a9d33305187",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -433,16 +433,16 @@
       "path": "ontology/exports/korea-bank-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-bank-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-bank-products-ontology-2026.json",
-      "item_count": 10790,
-      "product_count": 10743,
+      "item_count": 1407,
+      "product_count": 1363,
       "source_review_date": "2026-07-04",
       "product_collection_dates": [
         "2026-07-04"
       ],
       "quality_summary": {
-        "product_count": 10743,
+        "product_count": 1363,
         "status_counts": {
-          "active": 10732,
+          "active": 1352,
           "unknown": 11
         },
         "active_products_without_criteria": 112,
@@ -451,7 +451,7 @@
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
-        "deposit_protection_products": 9380,
+        "deposit_protection_products": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 11,
@@ -463,7 +463,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "502acd69caaa3c565781531d017c2db1b3fcf32c3f5bbac89ba2384ee90c9c3a",
+      "export_checksum": "97a4e1681068e774e7494a0527518cda026f0e30f908909885e17634b471e22f",
       "description": "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다."
     },
     {
@@ -510,7 +510,7 @@
       "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
-      "item_count": 507,
+      "item_count": 9651,
       "product_count": 0,
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
@@ -535,8 +535,8 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "76de86ec33a94c49cb7067d5dbb64084847792bcdece6dae08533df239ad1e0a",
-      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태를 묶은 기준정보 온톨로지입니다."
+      "export_checksum": "2220560463dcfd2b1ac0c26ed69996404e06fad8b8747186b98290a38fc22588",
+      "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ]
 }
