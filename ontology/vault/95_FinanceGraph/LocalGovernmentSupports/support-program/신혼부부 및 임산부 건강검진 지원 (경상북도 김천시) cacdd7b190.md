@@ -31,7 +31,6 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
-- related: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
 - terms: [[40_Terms/지자체 지원금|지자체 지원금]]
 - sources: [[90_Sources/정부24 보조금24 전체 혜택|정부24 보조금24 전체 혜택]]
 

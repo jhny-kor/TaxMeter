@@ -4,10 +4,10 @@ title: "수협은행 헤이(Hey)적금\n(자유적립식)"
 type: "bank-product"
 domain: "bank-products"
 basis_year: 2026
-reviewed_at: "2026-05-05"
+reviewed_at: "2026-07-04"
 source_export: "korea-bank-products-ontology-2026.json"
 source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
-source_basis_dates: ["2026-05-05 수집", "202604", "2026-05-05 확인"]
+source_basis_dates: ["2026-07-04 수집", "202606", "2026-07-03 확인"]
 tags: ["graph-materialized", "bank-products", "finance-product", "generated", "bank", "saving", "020000"]
 ---
 
@@ -23,9 +23,11 @@ tags: ["graph-materialized", "bank-products", "finance-product", "generated", "b
 - Materialized ID: `finance.bank.saving.0014807.10141114700041`
 - Type: `bank-product`
 - provider: 수협은행
+- source_modified_at: 202606
 
 ## Relations
 - parents: [[95_FinanceGraph/BankProducts/category/적금 상품 4f1d1df256|적금 상품]]
+- related: `category.finance.source-health`, `finance.provider.7a92a1d5a061`, `category.finance.financial-provider-registry`, `category.finance.benchmark-rates`, `finance.benchmark-rate.bok-base-rate`
 - sources: [[95_FinanceGraph/InsuranceProducts/source/금융감독원 금융상품통합비교공시 금융상품한눈에 API 873a2ddd6d|금융감독원 금융상품통합비교공시 금융상품한눈에 API]]
 
 ## Source URLs

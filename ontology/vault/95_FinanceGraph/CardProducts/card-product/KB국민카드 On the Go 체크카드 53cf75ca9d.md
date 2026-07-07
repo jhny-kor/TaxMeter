@@ -1,0 +1,35 @@
+---
+materialized_id: "finance.card.check-card.kb국민카드.on-the-go-체크카드-09701"
+title: "KB국민카드 On the Go 체크카드"
+type: "card-product"
+domain: "card-products"
+basis_year: 2026
+reviewed_at: "2026-07-04"
+source_export: "korea-card-products-ontology-2026.json"
+source_urls: ["https://card.kbcard.com/CRD/DVIEW/HCAM0101", "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=09701", "https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/09701_img.png", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
+source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
+---
+
+# KB국민카드 On the Go 체크카드
+
+KB국민카드 카드한눈에보기에 공시된 KB국민카드의 체크카드 상품 'On the Go 체크카드'입니다.
+
+> Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
+
+## Metadata
+- Materialized ID: `finance.card.check-card.kb국민카드.on-the-go-체크카드-09701`
+- Type: `card-product`
+- provider: KB국민카드
+
+## Relations
+- parents: [[95_FinanceGraph/CardProducts/category/체크카드 상품 06955f3574|체크카드 상품]]
+- related: `category.finance.source-health`, `finance.provider.8a67b5ebb14c`, `category.finance.financial-provider-registry`, [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
+- terms: [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
+- sources: [[95_FinanceGraph/CardProducts/source/KB국민카드 카드한눈에보기 a7eaefd5ab|KB국민카드 카드한눈에보기]], [[95_FinanceGraph/CardProducts/source/카드상품 공시 1de53a0de9|카드상품 공시]]
+
+## Source URLs
+- https://card.kbcard.com/CRD/DVIEW/HCAM0101
+- https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=09701
+- https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/09701_img.png
+- https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd

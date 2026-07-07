@@ -4,10 +4,10 @@ title: "삼성카드 화물복지 삼성체크카드"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-05-05"
+reviewed_at: "2026-07-04"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoCheckcard001_01.json", "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=ABP1517", "https://static11.samsungcard.com/wcms/home/scard/image/personal/b_ABP1517.png", "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-05-05 수집", "2026-05-05 확인"]
+source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 
@@ -24,6 +24,7 @@ tags: ["graph-materialized", "card-products", "finance-product", "generated", "c
 
 ## Relations
 - parents: [[95_FinanceGraph/CardProducts/category/체크카드 상품 06955f3574|체크카드 상품]]
+- related: `category.finance.source-health`, `finance.provider.dcbcc76ea59a`, `category.finance.financial-provider-registry`, [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - terms: [[95_FinanceGraph/CardProducts/term/전월실적 5af72f755d|전월실적]], [[95_FinanceGraph/CardProducts/term/월 혜택 한도 89e5b50438|월 혜택 한도]], [[95_FinanceGraph/CardProducts/term/실적·혜택 제외 항목 3638195ce6|실적·혜택 제외 항목]]
 - sources: [[95_FinanceGraph/CardProducts/source/삼성카드 체크카드 상품 718e8e6cdc|삼성카드 체크카드 상품]], [[95_FinanceGraph/CardProducts/source/카드상품 공시 1de53a0de9|카드상품 공시]]
 
