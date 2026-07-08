@@ -45,7 +45,12 @@ TAX_DECISION_TYPES = {"tax-credit", "deduction"}
 # type 필터 그룹: type=tax는 세부 결정 타입까지 포함해야 typed 검색이
 # 의료비 세액공제 대신 부가가치세로 새지 않는다. mcp_server.py와 동일하게 유지한다.
 SEARCH_TYPE_GROUPS = {
-    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+    "tax": {
+        "tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support",
+        "official-tax-item", "filing", "deadline", "required-document", "eligibility-rule",
+    },
+    "tax-support": {"required-document"},
+    "tax-rule": {"eligibility-rule"},
 }
 TAX_SEARCH_REGRESSIONS = (
     ("연말정산 의료비 세액공제 한도 대상", "credit.medical-expense", None),
@@ -53,7 +58,9 @@ TAX_SEARCH_REGRESSIONS = (
     ("월세 세액공제 조건", "credit.monthly-rent", None),
     ("월세 세액공제 조건", "credit.monthly-rent", "tax"),
     ("교육비 세액공제 대상", "credit.education-expense", None),
+    ("교육비 세액공제 대상", "credit.education-expense", "tax"),
     ("연금계좌 세액공제 한도", "credit.pension-account", None),
+    ("연금계좌 세액공제 한도", "credit.pension-account", "tax"),
     ("신용카드 소득공제 한도", "deduction.credit-card-use", None),
     ("신용카드 소득공제 한도", "deduction.credit-card-use", "tax"),
 )
@@ -789,6 +796,23 @@ def monthly_benefit_limit_krw(text: str) -> int | None:
 
 
 BENEFIT_RATE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
+# 카드 benefit 문자열 조건 필드화 패턴 (공백 제거 후 매칭)
+PREV_MONTH_SPEND_MIN_RE = re.compile(r"전월(?:카드)?(?:이용)?(?:실적|금액)(\d+(?:\.\d+)?)(만원|천원|원)이상")
+ANNUAL_FEE_AMOUNT_RE = re.compile(r"연회비:?(\d+(?:\.\d+)?)(만원|천원|원)")
+PER_TRANSACTION_RE = re.compile(r"(?:1?건당|회당)(\d+(?:\.\d+)?)(만원|천원|원)")
+INTEGRATED_LIMIT_RE = re.compile(r"통합한도(?:월)?(\d+(?:\.\d+)?)(만원|천원|원)")
+
+
+def krw_amount(number_text: str, unit: str) -> int | None:
+    try:
+        value = float(number_text)
+    except ValueError:
+        return None
+    if unit == "만원":
+        return int(value * 10000)
+    if unit == "천원":
+        return int(value * 1000)
+    return int(value)
 
 
 def card_benefit_rate_percent(text: str) -> float | None:
@@ -803,21 +827,32 @@ def enrich_card_benefits(item: dict) -> None:
         if not isinstance(benefit, dict):
             continue
         text = card_benefit_text(benefit)
+        compact = text.replace(",", "").replace(" ", "")
         if has_no_previous_month_spend(text):
             benefit["previous_month_spend_required"] = False
             benefit["previous_month_spend_min_krw"] = 0
+        elif (spend_match := PREV_MONTH_SPEND_MIN_RE.search(compact)):
+            benefit["previous_month_spend_required"] = True
+            benefit["previous_month_spend_min_krw"] = krw_amount(*spend_match.groups())
         else:
             benefit.setdefault("previous_month_spend_required", None)
         benefit.setdefault("previous_month_spend_min_krw", None)
         parsed_monthly_limit = monthly_benefit_limit_krw(text)
+        if parsed_monthly_limit is None and (limit_match := INTEGRATED_LIMIT_RE.search(compact)):
+            parsed_monthly_limit = krw_amount(*limit_match.groups())
         if parsed_monthly_limit is not None:
             benefit["monthly_benefit_limit_krw"] = parsed_monthly_limit
         else:
             benefit.setdefault("monthly_benefit_limit_krw", None)
         if has_no_annual_fee(text):
             benefit["annual_fee_required"] = False
+            benefit["annual_fee_krw"] = 0
+        elif (fee_match := ANNUAL_FEE_AMOUNT_RE.search(compact)):
+            benefit["annual_fee_required"] = True
+            benefit["annual_fee_krw"] = krw_amount(*fee_match.groups())
         else:
             benefit.setdefault("annual_fee_required", None)
+        benefit.setdefault("annual_fee_krw", None)
         parsed_benefit_type = benefit_type(text)
         if parsed_benefit_type:
             benefit["benefit_type"] = parsed_benefit_type
@@ -828,6 +863,8 @@ def enrich_card_benefits(item: dict) -> None:
             benefit["benefit_rate_percent"] = parsed_rate
         else:
             benefit.setdefault("benefit_rate_percent", None)
+        if (per_tx_match := PER_TRANSACTION_RE.search(compact)):
+            benefit["per_transaction_limit_krw"] = krw_amount(*per_tx_match.groups())
         benefit.setdefault("per_transaction_limit_krw", None)
         benefit.setdefault("excluded_spend", [])
         missing = []
@@ -841,6 +878,7 @@ def enrich_card_benefits(item: dict) -> None:
         )
         benefit["condition_completeness"] = "partial" if missing and normalized else ("incomplete" if missing else "complete")
         benefit["missing_condition_fields"] = missing
+        benefit["condition_parse_source"] = "benefit_text" if normalized else None
 
 
 def enrich_insurance_coverage(item: dict) -> None:
@@ -889,6 +927,9 @@ def apply_recommendation_scope(item: dict) -> None:
                 *(item.get("recommendation_exclusion_reasons") or []),
                 "incomplete_insurance_coverage_conditions",
             ])
+            # 핵심 조건(보장금액·갱신주기·면책·감액)이 비어 있으면 추천 승격을 금지한다.
+            if item.get("recommendation_status") == "eligible_for_recommendation":
+                item["recommendation_status"] = "eligible_for_listing"
     if item.get("type") == "card-product":
         partial_or_incomplete = any(
             isinstance(benefit, dict)
@@ -901,6 +942,118 @@ def apply_recommendation_scope(item: dict) -> None:
                 *(item.get("recommendation_exclusion_reasons") or []),
                 "incomplete_card_benefit_conditions",
             ])
+
+
+LOAN_REQUIRED_FIELDS = (
+    "loan_rate_min_percent",
+    "loan_rate_max_percent",
+    "repayment_method",
+    "loan_limit_krw",
+    "early_repayment_fee",
+    "eligible_borrower",
+    "collateral_type",
+)
+RATE_NUMBER_RE = re.compile(r"(\d+(?:\.\d+)?)")
+
+
+def synthesize_credit_loan_rate_criteria(item: dict) -> None:
+    """신용대출은 FSS optionList의 등급별 금리만 있고 criteria가 비어 있다.
+    공시된 대출금리(crdt_grad_*)의 최저·최고값을 rate criteria로 옮겨 담는다."""
+    if item.get("product_kind") != "credit-loan" or item.get("criteria"):
+        return
+    rates = [
+        value
+        for option in item.get("options") or []
+        if isinstance(option, dict) and option.get("crdt_lend_rate_type_nm") == "대출금리"
+        for key, value in option.items()
+        if key.startswith("crdt_grad_") and isinstance(value, (int, float))
+    ]
+    if not rates:
+        return
+    item["criteria"] = [
+        {
+            "label": label,
+            "basis": "신용등급별 대출금리",
+            "condition": f"{label} {value}%",
+            "source": "source.fss.finlife.api",
+            "criteria_kind": "rate",
+            "basis_category": "금융상품 공시 금리",
+            "basis_definition": "금융감독원 금융상품한눈에 API의 신용대출 등급별 금리 필드입니다.",
+            "basis_lookup": "creditLoanProductsSearch optionList의 crdt_grad_* 필드에서 확인합니다.",
+            "selection_rule": "공시된 신용등급별 대출금리의 최저·최고값입니다.",
+            "basis_source": "source.fss.finlife.api",
+            "rate_percent": value,
+            "rate_label": label,
+            "rate_basis": "신용등급별",
+        }
+        for label, value in (("최저금리", min(rates)), ("최고금리", max(rates)))
+    ]
+
+
+def normalize_loan_product(item: dict) -> None:
+    if item.get("type") != "bank-product" or item.get("search_type") != "loan":
+        return
+    synthesize_credit_loan_rate_criteria(item)
+    raw = item.get("raw") if isinstance(item.get("raw"), dict) else {}
+    options = [option for option in item.get("options") or [] if isinstance(option, dict)]
+    criteria = [criterion for criterion in item.get("criteria") or [] if isinstance(criterion, dict)]
+
+    rates = [criterion["rate_percent"] for criterion in criteria if isinstance(criterion.get("rate_percent"), (int, float))]
+    rates += [option[key] for option in options for key in ("lend_rate_min", "lend_rate_max") if isinstance(option.get(key), (int, float))]
+    if not rates:
+        rates = [float(value) for value in RATE_NUMBER_RE.findall(str(raw.get("irt") or ""))]
+    item["loan_rate_min_percent"] = min(rates) if rates else None
+    item["loan_rate_max_percent"] = max(rates) if rates else None
+
+    repayment = unique([str(option["rpay_type_nm"]) for option in options if option.get("rpay_type_nm")])
+    if not repayment and raw.get("rdptmthd") and str(raw["rdptmthd"]) not in {"-", ""}:
+        repayment = [str(raw["rdptmthd"])]
+    item["repayment_method"] = ", ".join(repayment) if repayment else None
+
+    limit_text = str(raw.get("loan_lmt") or raw.get("lnlmt") or "").strip()
+    limit_krw = None
+    if limit_text.isdigit():
+        # 서민금융진흥원 lnlmt는 만원 단위 숫자 문자열이다.
+        limit_krw = int(limit_text) * 10000
+    elif limit_text:
+        limit_krw = parse_krw_amount(limit_text)
+    item["loan_limit_krw"] = limit_krw
+    item["loan_limit_text"] = limit_text or None
+
+    fee_text = str(raw.get("erly_rpay_fee") or "").strip()
+    item["early_repayment_fee"] = fee_text or None
+
+    borrower = str(raw.get("trgt") or raw.get("crdt_prdt_type_nm") or "").strip()
+    item["eligible_borrower"] = borrower or None
+
+    collateral = unique([str(option["mrtg_type_nm"]) for option in options if option.get("mrtg_type_nm")])
+    if collateral:
+        item["collateral_type"] = ", ".join(collateral)
+    elif item.get("product_kind") == "credit-loan":
+        item["collateral_type"] = "신용(무담보)"
+    else:
+        item["collateral_type"] = None
+
+    missing = [
+        field
+        for field in LOAN_REQUIRED_FIELDS
+        if item.get(field) is None and not (field == "loan_limit_krw" and item.get("loan_limit_text"))
+    ]
+    item["missing_loan_required_fields"] = missing
+
+    if item.get("status") == "active" and not item.get("criteria"):
+        item["recommendation_status"] = "reference_only"
+        item["status_reason"] = "대출 비교·추천에 필요한 criteria가 비어 있어 참조 전용으로만 노출합니다."
+        item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
+    if missing:
+        item["recommendation_scope"] = "listing_only"
+        item["recommendation_exclusion_reasons"] = unique([
+            *(item.get("recommendation_exclusion_reasons") or []),
+            "incomplete_loan_required_fields",
+        ])
+        item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_required_fields"])
+        if item.get("recommendation_status") == "eligible_for_recommendation":
+            item["recommendation_status"] = "eligible_for_listing"
 
 
 def provider_registry_nodes(products: list[dict]) -> list[dict]:
@@ -2038,6 +2191,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         enrich_card_benefits(item)
         enrich_insurance_coverage(item)
         apply_recommendation_scope(item)
+        normalize_loan_product(item)
     return items
 
 
@@ -2079,6 +2233,14 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             and criterion.get("condition_completeness") == "incomplete"
         ),
         "deposit_protection_products": sum(1 for product in products if product.get("search_type") == "deposit-protection"),
+        "active_loans_without_criteria": sum(
+            1 for product in products
+            if product.get("search_type") == "loan" and product.get("status") == "active" and not product.get("criteria")
+        ),
+        "loans_missing_required_fields": sum(
+            1 for product in products
+            if product.get("search_type") == "loan" and product.get("missing_loan_required_fields")
+        ),
         "active_insurance_without_criteria": sum(
             1 for product in products
             if product.get("type") == "insurance-product" and product.get("status") == "active" and not product.get("criteria")
@@ -2438,6 +2600,17 @@ def write_search_regression_report() -> dict:
             "test_count": payload["test_count"],
             "passed_count": payload["passed_count"],
             "failed_count": payload["failed_count"],
+            "failures": [
+                {
+                    "query": test["query"],
+                    "type": test["type_filter"],
+                    "expected": test["expected_top_id"],
+                    "actual": test["actual_top_id"],
+                }
+                for test in tests
+                if not test["passed"]
+            ],
+            "last_failed_at": CURRENT_REVIEW_DATE if any(not test["passed"] for test in tests) else None,
         },
     }
 

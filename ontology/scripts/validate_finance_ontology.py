@@ -51,7 +51,12 @@ BENEFIT_RATE_RE = re.compile(r"\d+(?:\.\d+)?\s*%")
 
 # mcp_server.py / build_finance_ontology.py와 동일한 type 필터 그룹.
 SEARCH_TYPE_GROUPS = {
-    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+    "tax": {
+        "tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support",
+        "official-tax-item", "filing", "deadline", "required-document", "eligibility-rule",
+    },
+    "tax-support": {"required-document"},
+    "tax-rule": {"eligibility-rule"},
 }
 
 SEARCH_REGRESSIONS = (

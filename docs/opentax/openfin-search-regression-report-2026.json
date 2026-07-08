@@ -4,8 +4,8 @@
   "source_review_date": "2026-07-04",
   "ontology_kind": "openfin-search-regression-report",
   "search_index_path": "ontology/exports/finance-search-index-2026.json",
-  "test_count": 8,
-  "passed_count": 8,
+  "test_count": 10,
+  "passed_count": 10,
   "failed_count": 0,
   "tests": [
     {
@@ -139,27 +139,27 @@
           "score": 95
         },
         {
+          "id": "eligibility-rule.monthly-rent-address-match",
+          "title": "월세 주소 일치 요건",
+          "type": "eligibility-rule",
+          "score": 12
+        },
+        {
+          "id": "eligibility-rule.monthly-rent-house-standard",
+          "title": "월세 주택요건",
+          "type": "eligibility-rule",
+          "score": 12
+        },
+        {
+          "id": "required-document.lease-contract",
+          "title": "임대차계약증서 사본",
+          "type": "required-document",
+          "score": 12
+        },
+        {
           "id": "deduction.personal-pension-savings",
           "title": "개인연금저축 소득공제",
           "type": "deduction",
-          "score": 11
-        },
-        {
-          "id": "corporate.support.employment-maintenance-credit",
-          "title": "고용유지 중소기업 등에 대한 과세특례",
-          "type": "corporate-tax-support",
-          "score": 11
-        },
-        {
-          "id": "credit.education-expense",
-          "title": "교육비 세액공제",
-          "type": "tax-credit",
-          "score": 11
-        },
-        {
-          "id": "credit.earned-income",
-          "title": "근로소득 세액공제",
-          "type": "tax-credit",
           "score": 11
         }
       ]
@@ -204,8 +204,86 @@
       ]
     },
     {
+      "query": "교육비 세액공제 대상",
+      "type_filter": "tax",
+      "expected_top_id": "credit.education-expense",
+      "actual_top_id": "credit.education-expense",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.education-expense",
+          "title": "교육비 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "credit.insurance-premium",
+          "title": "보험료 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.monthly-rent",
+          "title": "월세액 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.medical-expense",
+          "title": "의료비 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.integrated-employment",
+          "title": "통합고용세액공제",
+          "type": "tax-credit",
+          "score": 62
+        }
+      ]
+    },
+    {
       "query": "연금계좌 세액공제 한도",
       "type_filter": null,
+      "expected_top_id": "credit.pension-account",
+      "actual_top_id": "credit.pension-account",
+      "passed": true,
+      "top_results": [
+        {
+          "id": "credit.pension-account",
+          "title": "연금계좌 세액공제",
+          "type": "tax-credit",
+          "score": 95
+        },
+        {
+          "id": "credit.education-expense",
+          "title": "교육비 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.earned-income",
+          "title": "근로소득 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.donation",
+          "title": "기부금 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.foreign-tax-paid",
+          "title": "외국납부세액공제",
+          "type": "tax-credit",
+          "score": 62
+        }
+      ]
+    },
+    {
+      "query": "연금계좌 세액공제 한도",
+      "type_filter": "tax",
       "expected_top_id": "credit.pension-account",
       "actual_top_id": "credit.pension-account",
       "passed": true,
@@ -321,5 +399,131 @@
       ]
     }
   ],
-  "export_checksum": "20aaa55ca81714e69b010e40baab8f3c39d3fb87af5a7e60b538c21007285a74"
+  "live_tests": [
+    {
+      "query": "연말정산 의료비 세액공제 한도 대상",
+      "type": null,
+      "expected_top_id": "credit.medical-expense",
+      "actual_top_id": "credit.medical-expense",
+      "passed": true
+    },
+    {
+      "query": "연말정산 의료비 세액공제 한도 대상",
+      "type": "tax",
+      "expected_top_id": "credit.medical-expense",
+      "actual_top_id": "tax.value-added",
+      "passed": false
+    },
+    {
+      "query": "월세 세액공제 조건",
+      "type": null,
+      "expected_top_id": "credit.monthly-rent",
+      "actual_top_id": null,
+      "passed": false,
+      "error": "tools/call 응답이 비어 있습니다."
+    },
+    {
+      "query": "월세 세액공제 조건",
+      "type": "tax",
+      "expected_top_id": "credit.monthly-rent",
+      "actual_top_id": null,
+      "passed": false
+    },
+    {
+      "query": "교육비 세액공제 대상",
+      "type": null,
+      "expected_top_id": "credit.education-expense",
+      "actual_top_id": "credit.education-expense",
+      "passed": true
+    },
+    {
+      "query": "교육비 세액공제 대상",
+      "type": "tax",
+      "expected_top_id": "credit.education-expense",
+      "actual_top_id": "tax.value-added",
+      "passed": false
+    },
+    {
+      "query": "연금계좌 세액공제 한도",
+      "type": null,
+      "expected_top_id": "credit.pension-account",
+      "actual_top_id": "credit.pension-account",
+      "passed": true
+    },
+    {
+      "query": "연금계좌 세액공제 한도",
+      "type": "tax",
+      "expected_top_id": "credit.pension-account",
+      "actual_top_id": null,
+      "passed": false
+    },
+    {
+      "query": "신용카드 소득공제 한도",
+      "type": null,
+      "expected_top_id": "deduction.credit-card-use",
+      "actual_top_id": null,
+      "passed": false,
+      "error": "tools/call 응답이 비어 있습니다."
+    },
+    {
+      "query": "신용카드 소득공제 한도",
+      "type": "tax",
+      "expected_top_id": "deduction.credit-card-use",
+      "actual_top_id": null,
+      "passed": false
+    }
+  ],
+  "live_summary": {
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-08T22:31:40+00:00",
+    "test_count": 10,
+    "passed_count": 3,
+    "failed_count": 7,
+    "failures": [
+      {
+        "query": "연말정산 의료비 세액공제 한도 대상",
+        "type": "tax",
+        "expected": "credit.medical-expense",
+        "actual": "tax.value-added"
+      },
+      {
+        "query": "월세 세액공제 조건",
+        "type": null,
+        "expected": "credit.monthly-rent",
+        "actual": null
+      },
+      {
+        "query": "월세 세액공제 조건",
+        "type": "tax",
+        "expected": "credit.monthly-rent",
+        "actual": null
+      },
+      {
+        "query": "교육비 세액공제 대상",
+        "type": "tax",
+        "expected": "credit.education-expense",
+        "actual": "tax.value-added"
+      },
+      {
+        "query": "연금계좌 세액공제 한도",
+        "type": "tax",
+        "expected": "credit.pension-account",
+        "actual": null
+      },
+      {
+        "query": "신용카드 소득공제 한도",
+        "type": null,
+        "expected": "deduction.credit-card-use",
+        "actual": null
+      },
+      {
+        "query": "신용카드 소득공제 한도",
+        "type": "tax",
+        "expected": "deduction.credit-card-use",
+        "actual": null
+      }
+    ],
+    "last_failed_at": "2026-07-08T22:31:40+00:00"
+  },
+  "export_checksum": "cca77dd9d799e37d85a748c959b2c6bc731bc7d2683a6d9bb7a684ceb2704ee1"
 }
