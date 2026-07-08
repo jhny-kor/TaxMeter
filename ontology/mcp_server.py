@@ -148,7 +148,12 @@ def read_note_text(path_or_id: str) -> tuple[Path, str]:
 # type=tax 같은 상위 도메인 필터는 세부 결정 타입(tax-credit 등)까지 포함해야
 # "연말정산 의료비 세액공제" 질의가 부가가치세로 새지 않는다.
 SEARCH_TYPE_GROUPS = {
-    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+    "tax": {
+        "tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support",
+        "official-tax-item", "filing", "deadline", "required-document", "eligibility-rule",
+    },
+    "tax-support": {"required-document"},
+    "tax-rule": {"eligibility-rule"},
 }
 
 

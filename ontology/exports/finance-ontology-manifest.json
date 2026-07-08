@@ -2,12 +2,12 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-08T13:01:03Z",
+  "built_at": "2026-07-08T22:29:21Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-08T13:01:03Z",
+      "built_at": "2026-07-08T22:29:21Z",
       "domain_export_count": 8,
       "search_index_item_count": 21342,
       "checksum_covered_export_count": 9,
@@ -15,9 +15,11 @@
       "collection_failure_sources": "see source_access_risks"
     },
     "search_regression_tests": {
-      "test_count": 8,
-      "passed_count": 8,
-      "failed_count": 0
+      "test_count": 10,
+      "passed_count": 10,
+      "failed_count": 0,
+      "failures": [],
+      "last_failed_at": null
     },
     "committee_remediation": {
       "status_fields_added": true,
@@ -41,6 +43,8 @@
         "card_benefits_with_incomplete_conditions": 125,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 355,
@@ -65,6 +69,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -89,6 +95,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -107,17 +115,19 @@
           "active": 587,
           "unknown": 11
         },
-        "active_products_without_criteria": 112,
+        "active_products_without_criteria": 4,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 4,
+        "loans_missing_required_fields": 598,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 11,
-        "recommendation_listing_only_products": 0,
+        "reference_only_products": 15,
+        "recommendation_listing_only_products": 598,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -138,6 +148,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 1055,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -160,6 +172,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -352,7 +366,7 @@
     "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "39937452a77ad2d4127bbefbdf6467f32397979a18b82e3e045c7124ec2e1b31",
+    "export_checksum": "6d97fa57376345c8d062280bcdea32e924a864f504cdcc567cd1bbac5cea183c",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -367,14 +381,14 @@
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-08T13:01:03Z",
+        "built_at": "2026-07-08T22:29:21Z",
         "domain_export_count": 8,
         "search_index_item_count": 21342,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "d09ead4b1a873e7a23284d04711bfd5963aa3bc6149b4b64f60b58de4d9ce351",
+      "export_checksum": "60136c36948e4aeafb3a10da85cff8d6a541c38ee042738e897ecefa81d276e6",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -383,16 +397,18 @@
       "path": "ontology/exports/openfin-search-regression-report-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-search-regression-report-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-search-regression-report-2026.json",
-      "item_count": 8,
+      "item_count": 10,
       "product_count": 0,
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {
-        "test_count": 8,
-        "passed_count": 8,
-        "failed_count": 0
+        "test_count": 10,
+        "passed_count": 10,
+        "failed_count": 0,
+        "failures": [],
+        "last_failed_at": null
       },
-      "export_checksum": "20aaa55ca81714e69b010e40baab8f3c39d3fb87af5a7e60b538c21007285a74",
+      "export_checksum": "41a366fbc5c5c6974c75b203e1d3c6bd093b023e70c7a9b77cada41367880e1b",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],
@@ -467,6 +483,8 @@
         "card_benefits_with_incomplete_conditions": 125,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 355,
@@ -479,7 +497,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b9da44b208ceba40820f2911cfacaa78d9bc55e07c8b11b64bff0867fd7c47ce",
+      "export_checksum": "af476eb7d814591a8c086b932c92d6f04c2b91f7cb6a998788f07201f2db49c7",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -506,6 +524,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -518,7 +538,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9518f5fd3bbb7f87f2dfe7ffe75790224f9651803220425fa21385ab333b3868",
+      "export_checksum": "bd79cca025576a0c6bdb1df00291a8702eb2a0398b56e9c1c14823468756e698",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -545,6 +565,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -557,7 +579,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "13c149c41598b318cdc9730a03664512e11cff4f25dae11696802c5a73643256",
+      "export_checksum": "1da9629826d7b4efaefd162314d0cc54b31c6343ae21a3ca637770a659045d82",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -578,17 +600,19 @@
           "active": 587,
           "unknown": 11
         },
-        "active_products_without_criteria": 112,
+        "active_products_without_criteria": 4,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 4,
+        "loans_missing_required_fields": 598,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 11,
-        "recommendation_listing_only_products": 0,
+        "reference_only_products": 15,
+        "recommendation_listing_only_products": 598,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -597,7 +621,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e5586c2200145fb9815acd7645aaa4a354ffd48e22cdb30ea9cb91f024f2edb8",
+      "export_checksum": "5c5488a9ca4e65635d5754f5824963b432836039cd59916ece3b035b2dddb3fc",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -624,6 +648,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 1055,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -636,7 +662,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "aa26129d1992cbc1485b18b9fbc4a071bd3b06981bf9c01e8f742685a9b029dd",
+      "export_checksum": "08e228ceb2886bd37cddf5dfa3069d855b6a06e0699b212a73ad32bbf43ae81e",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -659,6 +685,8 @@
         "card_benefits_with_incomplete_conditions": 0,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
@@ -671,7 +699,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "bfb23eb9f22c8a958625da05e9307d6d28d79db66fdb18855d8330277174f5c5",
+      "export_checksum": "be77343f9d1d462b88be82f2cdec44e439d11b2cf05dcb92ffbbf8008a54f7f4",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ]

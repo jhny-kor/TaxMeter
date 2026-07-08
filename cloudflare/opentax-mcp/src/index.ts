@@ -148,7 +148,20 @@ function itemUrl(env: Env, itemId: string): string {
 // type=tax must also match tax decision types (tax-credit, deduction, ...) so
 // typed queries like "연말정산 의료비 세액공제" do not fall through to unrelated tax nodes.
 const SEARCH_TYPE_GROUPS: Record<string, Set<string>> = {
-  tax: new Set(["tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"]),
+  tax: new Set([
+    "tax",
+    "tax-credit",
+    "tax-reduction",
+    "deduction",
+    "corporate-tax-support",
+    "official-tax-item",
+    "filing",
+    "deadline",
+    "required-document",
+    "eligibility-rule",
+  ]),
+  "tax-support": new Set(["required-document"]),
+  "tax-rule": new Set(["eligibility-rule"]),
 };
 
 function itemSearchText(item: FinanceItem): string {

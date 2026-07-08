@@ -25,6 +25,8 @@ FINANCE_EXPORT_FILENAMES = (
     "korea-loan-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
     "korea-finance-reference-ontology-2026.json",
+    "openfin-quality-manifest-2026.json",
+    "openfin-search-regression-report-2026.json",
 )
 WEB_ROOT = REPO_ROOT / "docs" / "opentax"
 WEB_LOCAL_SUPPORT_EXPORT_FILENAME = "korea-local-government-supports-ontology-2026.json"
