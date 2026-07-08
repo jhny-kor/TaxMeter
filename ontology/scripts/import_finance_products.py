@@ -63,7 +63,7 @@ FINLIFE_GROUPS = {
 FINLIFE_ENDPOINTS = (
     {
         "endpoint": "depositProductsSearch",
-        "domain": "bank",
+        "domain": "deposit",
         "product_kind": "deposit",
         "product_type": "bank-product",
         "category": "category.finance.deposit-products",
@@ -72,7 +72,7 @@ FINLIFE_ENDPOINTS = (
     },
     {
         "endpoint": "savingProductsSearch",
-        "domain": "bank",
+        "domain": "saving",
         "product_kind": "saving",
         "product_type": "bank-product",
         "category": "category.finance.savings-products",
@@ -81,7 +81,7 @@ FINLIFE_ENDPOINTS = (
     },
     {
         "endpoint": "mortgageLoanProductsSearch",
-        "domain": "bank",
+        "domain": "loan",
         "product_kind": "mortgage-loan",
         "product_type": "bank-product",
         "category": "category.finance.mortgage-loan-products",
@@ -90,7 +90,7 @@ FINLIFE_ENDPOINTS = (
     },
     {
         "endpoint": "rentHouseLoanProductsSearch",
-        "domain": "bank",
+        "domain": "loan",
         "product_kind": "rent-loan",
         "product_type": "bank-product",
         "category": "category.finance.rent-loan-products",
@@ -99,7 +99,7 @@ FINLIFE_ENDPOINTS = (
     },
     {
         "endpoint": "creditLoanProductsSearch",
-        "domain": "bank",
+        "domain": "loan",
         "product_kind": "credit-loan",
         "product_type": "bank-product",
         "category": "category.finance.credit-loan-products",
@@ -1429,7 +1429,7 @@ def merge_card_items(items: list[dict]) -> list[dict]:
 
 
 def crawl_finlife(api_key: str, *, timeout: int, sleep_seconds: float, limit_pages: int | None) -> dict[str, list[dict]]:
-    by_domain: dict[str, dict[str, dict]] = {"bank": {}, "insurance": {}}
+    by_domain: dict[str, dict[str, dict]] = {"deposit": {}, "saving": {}, "loan": {}, "insurance": {}}
     for config in FINLIFE_ENDPOINTS:
         for group_code in config["group_codes"]:
             page_no = 1
@@ -1551,7 +1551,10 @@ def main() -> int:
     api_key = os.environ.get("FINLIFE_API_KEY", "").strip()
     if not args.skip_finlife and api_key:
         imported = crawl_finlife(api_key, timeout=args.timeout, sleep_seconds=args.sleep, limit_pages=args.limit_pages)
-        write_generated("bank", imported.get("bank", []), allow_shrink=args.allow_shrink)
+        # 예금/적금/대출 3개 팩 스냅샷으로 분리 저장한다.
+        write_generated("deposit", imported.get("deposit", []), allow_shrink=args.allow_shrink)
+        write_generated("saving", imported.get("saving", []), allow_shrink=args.allow_shrink)
+        write_generated("loan", imported.get("loan", []), allow_shrink=args.allow_shrink)
         insurance_items.extend(imported.get("insurance", []))
         imported_any = True
     elif not args.skip_finlife:

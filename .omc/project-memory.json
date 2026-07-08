@@ -1,0 +1,173 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1783514430776,
+  "projectRoot": "/Users/plo/Documents/TaxMeter",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "cd /Users/plo/Documents/TaxMeter/cloudflare/opentax-mcp && npx tsc --noEmit 2>&1 | head -5; echo \"TSC_EXIT: $?\"",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Sources": {
+      "path": "Sources",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1783514430763,
+      "keyFiles": []
+    },
+    "Tests": {
+      "path": "Tests",
+      "purpose": "Test files",
+      "fileCount": 1,
+      "lastAccessed": 1783514430763,
+      "keyFiles": []
+    },
+    "cloudflare": {
+      "path": "cloudflare",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1783514430764,
+      "keyFiles": []
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 6,
+      "lastAccessed": 1783514430764,
+      "keyFiles": [
+        "appstore-launch-plan.md",
+        "index.html",
+        "korea-baseline-values-2026-04.md",
+        "openfin-2026.md",
+        "opentax-2026.md"
+      ]
+    },
+    "ios": {
+      "path": "ios",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1783514430764,
+      "keyFiles": []
+    },
+    "ontology": {
+      "path": "ontology",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1783514430764,
+      "keyFiles": [
+        "MANIFEST.in",
+        "MCP_INSTALL.md",
+        "README.md",
+        "REMOTE_MCP.md",
+        "__init__.py"
+      ]
+    },
+    "output": {
+      "path": "output",
+      "purpose": null,
+      "fileCount": 9,
+      "lastAccessed": 1783514430764,
+      "keyFiles": [
+        "openfin-final-qa-2026-07-03.png",
+        "openfin-finance-reference-local-2026-07-03.png",
+        "openfin-finance-reference-public-2026-07-03.png",
+        "openfin-insurance-detail-final-2026-07-03.png",
+        "openfin-insurance-qa-2026-07-03.png"
+      ]
+    },
+    "pics": {
+      "path": "pics",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1783514430764,
+      "keyFiles": [
+        "ChatGPT Image 2026년 5월 3일 오후 01_50_29.png",
+        "OpenFin.png",
+        "생성된 이미지 1.png"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "ontology/scripts/validate_finance_ontology.py",
+      "accessCount": 6,
+      "lastAccessed": 1783515305017,
+      "type": "file"
+    },
+    {
+      "path": "cloudflare/opentax-mcp/src/index.ts",
+      "accessCount": 4,
+      "lastAccessed": 1783514888480,
+      "type": "file"
+    },
+    {
+      "path": "ontology/mcp_server.py",
+      "accessCount": 4,
+      "lastAccessed": 1783515009072,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/generate_vault.py",
+      "accessCount": 4,
+      "lastAccessed": 1783515314457,
+      "type": "file"
+    },
+    {
+      "path": "docs/openfin/index.html",
+      "accessCount": 4,
+      "lastAccessed": 1783515745790,
+      "type": "file"
+    },
+    {
+      "path": "docs/openfin/app.js",
+      "accessCount": 2,
+      "lastAccessed": 1783515678773,
+      "type": "file"
+    },
+    {
+      "path": "docs/openfin/styles.css",
+      "accessCount": 2,
+      "lastAccessed": 1783515750467,
+      "type": "file"
+    },
+    {
+      "path": "docs/openfin-2026.md",
+      "accessCount": 2,
+      "lastAccessed": 1783515784666,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/materialize_finance_graph_vault.py",
+      "accessCount": 1,
+      "lastAccessed": 1783515625368,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

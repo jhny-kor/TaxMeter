@@ -33,11 +33,23 @@ const DOMAIN_META = {
     className: "card",
     summary: "신용카드·체크카드 혜택, 카드대출, 리볼빙, 전월실적, 한도",
   },
-  "bank-products": {
-    label: "예금·대출 상품",
-    short: "Banks",
+  "deposit-products": {
+    label: "정기예금 상품",
+    short: "Deposits",
     className: "bank",
-    summary: "예금·적금·대출, 정책대출, 리스·할부금융 금리와 한도",
+    summary: "예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건",
+  },
+  "saving-products": {
+    label: "적금 상품",
+    short: "Savings",
+    className: "bank",
+    summary: "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건",
+  },
+  "loan-products": {
+    label: "대출 상품",
+    short: "Loans",
+    className: "bank",
+    summary: "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식",
   },
   "insurance-products": {
     label: "보험 상품",

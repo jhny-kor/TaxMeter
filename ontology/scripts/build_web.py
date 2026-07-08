@@ -20,7 +20,9 @@ FINANCE_EXPORT_FILENAMES = (
     "finance-ontology-manifest.json",
     "finance-search-index-2026.json",
     "korea-card-products-ontology-2026.json",
-    "korea-bank-products-ontology-2026.json",
+    "korea-deposit-products-ontology-2026.json",
+    "korea-saving-products-ontology-2026.json",
+    "korea-loan-products-ontology-2026.json",
     "korea-insurance-products-ontology-2026.json",
     "korea-finance-reference-ontology-2026.json",
 )
@@ -87,7 +89,9 @@ def dedupe_items(items: list[dict]) -> list[dict]:
 def finance_collection_label(manifest: dict) -> str:
     labels = {
         "card-products-ontology": "카드",
-        "bank-products-ontology": "은행·대출",
+        "deposit-products-ontology": "예금",
+        "saving-products-ontology": "적금",
+        "loan-products-ontology": "대출",
         "insurance-products-ontology": "보험",
     }
     parts = []
@@ -111,7 +115,7 @@ def enrich_summary(summary: dict, items: list[dict]) -> dict:
         finance_product_count = sum(
             int(export.get("product_count") or 0)
             for export in finance_manifest.get("exports") or []
-            if export.get("domain") in {"card-products", "bank-products", "insurance-products"}
+            if export.get("domain") in {"card-products", "deposit-products", "saving-products", "loan-products", "insurance-products"}
         )
     else:
         finance_product_count = counts["card-product"] + counts["bank-product"] + counts["insurance-product"]
