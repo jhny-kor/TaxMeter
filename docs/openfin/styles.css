@@ -248,10 +248,11 @@ button {
   border: 1px solid rgba(123, 210, 255, 0.22);
   border-radius: var(--radius);
   background:
-    linear-gradient(rgba(76, 135, 190, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(76, 135, 190, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(66, 216, 232, 0.1), transparent 46%),
+    linear-gradient(rgba(76, 135, 190, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(76, 135, 190, 0.07) 1px, transparent 1px),
     rgba(4, 10, 18, 0.48);
-  background-size: 60px 60px;
+  background-size: auto, 60px 60px, 60px 60px, auto;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
   overflow: hidden;
 }
@@ -265,83 +266,102 @@ button {
   pointer-events: none;
 }
 
-.graph-lines path,
-.major-map path {
-  fill: none;
-  stroke: rgba(202, 222, 244, 0.72);
-  stroke-width: 1.4;
+.graph-lines line,
+.major-map line {
+  stroke: rgba(158, 190, 222, 0.38);
+  stroke-width: 1;
 }
 
-.graph-lines path.dashed,
-.major-map path.dashed {
-  stroke-dasharray: 7 8;
-  stroke: rgba(140, 163, 188, 0.5);
+.graph-lines line.soft,
+.major-map line.soft {
+  stroke: rgba(140, 163, 188, 0.2);
 }
 
 .graph-node,
 .map-node {
+  --accent: var(--blue);
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: 132px;
-  min-height: 86px;
-  padding: 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: rgba(8, 16, 28, 0.88);
+  gap: 3px;
+  min-width: 112px;
+  padding: 12px 16px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(9, 16, 26, 0.92);
   color: var(--text);
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+  transform: translate(-50%, -50%);
+  transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.graph-node::before,
+.map-node::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
 .graph-node strong,
 .map-node strong {
-  font-size: 1rem;
-  line-height: 1.15;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .graph-node span,
 .map-node span {
   color: var(--muted);
-  font-size: 0.83rem;
+  font-size: 0.8rem;
   line-height: 1.25;
+  font-variant-numeric: tabular-nums;
 }
 
 .graph-node:hover,
-.map-node:hover,
+.map-node:hover {
+  border-color: var(--accent);
+  transform: translate(-50%, calc(-50% - 3px));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+}
+
 .export-card:hover,
 .result-item:hover {
   border-color: rgba(123, 210, 255, 0.7);
   transform: translateY(-2px);
 }
 
-.graph-node.root {
-  left: 50%;
-  top: 50%;
-  width: 188px;
-  min-height: 118px;
-  transform: translate(-50%, -50%);
-  border-color: rgba(66, 216, 232, 0.86);
-  background: rgba(5, 28, 44, 0.92);
+.graph-node.root,
+.map-node.manifest {
+  --accent: var(--cyan);
+  min-width: 184px;
+  padding: 18px 22px;
+  gap: 5px;
+  border-color: rgba(66, 216, 232, 0.55);
+  background: linear-gradient(180deg, rgba(8, 34, 48, 0.96), rgba(6, 22, 36, 0.96));
 }
 
-.graph-node.root:hover {
-  transform: translate(-50%, calc(-50% - 2px));
+.graph-node.root strong,
+.map-node.manifest strong {
+  font-size: 1.08rem;
 }
 
-.graph-node.tax { left: 8%; top: 10%; border-color: rgba(56, 167, 255, 0.78); }
-.graph-node.local { left: 8%; top: 44%; border-color: rgba(127, 227, 109, 0.8); }
-.graph-node.card { right: 7%; top: 12%; border-color: rgba(247, 183, 51, 0.82); }
-.graph-node.deposit { right: 8%; top: 28%; border-color: rgba(167, 130, 255, 0.82); }
-.graph-node.saving { right: 8%; top: 52%; border-color: rgba(186, 156, 255, 0.82); }
-.graph-node.loan { right: 24%; bottom: 6%; border-color: rgba(140, 110, 245, 0.82); }
-.graph-node.insurance { left: 52%; bottom: 7%; border-color: rgba(66, 216, 232, 0.82); }
-.graph-node.mcp { left: 22%; bottom: 7%; border-color: rgba(150, 165, 186, 0.72); }
-.graph-node.reference { right: 6%; bottom: 6%; border-color: rgba(255, 148, 120, 0.8); }
+.graph-node.root { left: 50%; top: 50%; }
+.graph-node.mcp { left: 50%; top: 12%; --accent: #96a5ba; }
+.graph-node.tax { left: 74%; top: 22%; --accent: var(--blue); }
+.graph-node.card { left: 84%; top: 46%; --accent: var(--amber); }
+.graph-node.deposit { left: 78%; top: 70%; --accent: var(--violet); }
+.graph-node.saving { left: 60%; top: 86%; --accent: #ba9cff; }
+.graph-node.loan { left: 40%; top: 86%; --accent: #8c6ef5; }
+.graph-node.insurance { left: 22%; top: 70%; --accent: var(--cyan); }
+.graph-node.local { left: 16%; top: 46%; --accent: var(--green); }
+.graph-node.reference { left: 26%; top: 22%; --accent: #ff9478; }
 
 .metrics {
   display: grid;
@@ -486,40 +506,26 @@ button {
   min-height: 560px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgba(6, 12, 20, 0.68);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(66, 216, 232, 0.08), transparent 44%),
+    rgba(6, 12, 20, 0.68);
   overflow: hidden;
 }
 
 .map-node {
-  width: 166px;
-  min-height: 96px;
+  min-width: 132px;
 }
 
-.map-node.manifest {
-  left: 50%;
-  top: 50%;
-  width: 214px;
-  min-height: 126px;
-  transform: translate(-50%, -50%);
-  border-color: rgba(66, 216, 232, 0.9);
-  background: rgba(4, 28, 44, 0.94);
-}
-
-.map-node.manifest:hover {
-  transform: translate(-50%, calc(-50% - 2px));
-}
-
-.map-node.tax { left: 10%; top: 10%; border-color: rgba(56, 167, 255, 0.8); }
-.map-node.local { right: 10%; top: 10%; border-color: rgba(127, 227, 109, 0.8); }
-.map-node.card { left: 7%; bottom: 18%; border-color: rgba(247, 183, 51, 0.8); }
-.map-node.deposit { right: 7%; top: 36%; border-color: rgba(167, 130, 255, 0.8); }
-.map-node.saving { right: 7%; bottom: 18%; border-color: rgba(186, 156, 255, 0.8); }
-.map-node.loan { right: 26%; bottom: 5%; border-color: rgba(140, 110, 245, 0.8); }
-.map-node.insurance { left: 50%; bottom: 5%; transform: translateX(-50%); border-color: rgba(66, 216, 232, 0.8); }
-.map-node.insurance:hover { transform: translate(-50%, -2px); }
-.map-node.mcp { left: 50%; top: 4%; transform: translateX(-50%); border-color: rgba(150, 165, 186, 0.7); }
-.map-node.mcp:hover { transform: translate(-50%, -2px); }
-.map-node.reference { left: 3%; top: 40%; border-color: rgba(255, 148, 120, 0.8); }
+.map-node.manifest { left: 50%; top: 50%; }
+.map-node.mcp { left: 50%; top: 11%; --accent: #96a5ba; }
+.map-node.tax { left: 71%; top: 17%; --accent: var(--blue); }
+.map-node.local { left: 87%; top: 39%; --accent: var(--green); }
+.map-node.card { left: 84%; top: 66%; --accent: var(--amber); }
+.map-node.deposit { left: 64%; top: 87%; --accent: var(--violet); }
+.map-node.saving { left: 36%; top: 87%; --accent: #ba9cff; }
+.map-node.loan { left: 16%; top: 66%; --accent: #8c6ef5; }
+.map-node.insurance { left: 13%; top: 39%; --accent: var(--cyan); }
+.map-node.reference { left: 29%; top: 17%; --accent: #ff9478; }
 
 .export-grid {
   display: grid;
@@ -1134,15 +1140,9 @@ button {
   }
 
   .graph-node,
-  .graph-node.root,
-  .graph-node.root:hover,
   .map-node,
-  .map-node.manifest,
-  .map-node.manifest:hover,
-  .map-node.insurance,
-  .map-node.insurance:hover,
-  .map-node.mcp,
-  .map-node.mcp:hover {
+  .graph-node:hover,
+  .map-node:hover {
     position: static;
     width: auto;
     min-width: 0;
