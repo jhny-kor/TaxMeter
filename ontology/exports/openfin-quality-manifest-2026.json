@@ -400,55 +400,12 @@
   },
   "live_search_regression": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-08T22:31:40+00:00",
+    "checked_at": "2026-07-08T22:53:26+00:00",
     "test_count": 10,
-    "passed_count": 3,
-    "failed_count": 7,
-    "failures": [
-      {
-        "query": "연말정산 의료비 세액공제 한도 대상",
-        "type": "tax",
-        "expected": "credit.medical-expense",
-        "actual": "tax.value-added"
-      },
-      {
-        "query": "월세 세액공제 조건",
-        "type": null,
-        "expected": "credit.monthly-rent",
-        "actual": null
-      },
-      {
-        "query": "월세 세액공제 조건",
-        "type": "tax",
-        "expected": "credit.monthly-rent",
-        "actual": null
-      },
-      {
-        "query": "교육비 세액공제 대상",
-        "type": "tax",
-        "expected": "credit.education-expense",
-        "actual": "tax.value-added"
-      },
-      {
-        "query": "연금계좌 세액공제 한도",
-        "type": "tax",
-        "expected": "credit.pension-account",
-        "actual": null
-      },
-      {
-        "query": "신용카드 소득공제 한도",
-        "type": null,
-        "expected": "deduction.credit-card-use",
-        "actual": null
-      },
-      {
-        "query": "신용카드 소득공제 한도",
-        "type": "tax",
-        "expected": "deduction.credit-card-use",
-        "actual": null
-      }
-    ],
-    "last_failed_at": "2026-07-08T22:31:40+00:00"
+    "passed_count": 10,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
   },
-  "export_checksum": "ee09b6d36a855e4cc2b6c473b9517d222e33feb59ce11142dbfc7ce2102fc620"
+  "export_checksum": "cbe5d65ca09026e57daf13fd3947b4dfaadd7710e98c1aabbdaa678bfe9307e9"
 }
