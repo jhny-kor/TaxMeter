@@ -336,7 +336,9 @@ button {
 .graph-node.tax { left: 8%; top: 10%; border-color: rgba(56, 167, 255, 0.78); }
 .graph-node.local { left: 8%; top: 44%; border-color: rgba(127, 227, 109, 0.8); }
 .graph-node.card { right: 7%; top: 12%; border-color: rgba(247, 183, 51, 0.82); }
-.graph-node.bank { right: 8%; top: 45%; border-color: rgba(167, 130, 255, 0.82); }
+.graph-node.deposit { right: 8%; top: 28%; border-color: rgba(167, 130, 255, 0.82); }
+.graph-node.saving { right: 8%; top: 52%; border-color: rgba(186, 156, 255, 0.82); }
+.graph-node.loan { right: 24%; bottom: 6%; border-color: rgba(140, 110, 245, 0.82); }
 .graph-node.insurance { left: 52%; bottom: 7%; border-color: rgba(66, 216, 232, 0.82); }
 .graph-node.mcp { left: 22%; bottom: 7%; border-color: rgba(150, 165, 186, 0.72); }
 .graph-node.reference { right: 6%; bottom: 6%; border-color: rgba(255, 148, 120, 0.8); }
@@ -510,7 +512,9 @@ button {
 .map-node.tax { left: 10%; top: 10%; border-color: rgba(56, 167, 255, 0.8); }
 .map-node.local { right: 10%; top: 10%; border-color: rgba(127, 227, 109, 0.8); }
 .map-node.card { left: 7%; bottom: 18%; border-color: rgba(247, 183, 51, 0.8); }
-.map-node.bank { right: 7%; bottom: 18%; border-color: rgba(167, 130, 255, 0.8); }
+.map-node.deposit { right: 7%; top: 36%; border-color: rgba(167, 130, 255, 0.8); }
+.map-node.saving { right: 7%; bottom: 18%; border-color: rgba(186, 156, 255, 0.8); }
+.map-node.loan { right: 26%; bottom: 5%; border-color: rgba(140, 110, 245, 0.8); }
 .map-node.insurance { left: 50%; bottom: 5%; transform: translateX(-50%); border-color: rgba(66, 216, 232, 0.8); }
 .map-node.insurance:hover { transform: translate(-50%, -2px); }
 .map-node.mcp { left: 50%; top: 4%; transform: translateX(-50%); border-color: rgba(150, 165, 186, 0.7); }

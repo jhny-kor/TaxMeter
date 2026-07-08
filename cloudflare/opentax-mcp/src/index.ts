@@ -145,6 +145,12 @@ function itemUrl(env: Env, itemId: string): string {
   return `${financeWebBaseUrl(env).replace(/\/?$/, "/")}#${encodeURIComponent(itemId)}`;
 }
 
+// type=tax must also match tax decision types (tax-credit, deduction, ...) so
+// typed queries like "연말정산 의료비 세액공제" do not fall through to unrelated tax nodes.
+const SEARCH_TYPE_GROUPS: Record<string, Set<string>> = {
+  tax: new Set(["tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"]),
+};
+
 function itemSearchText(item: FinanceItem): string {
   if (item.search_text) {
     return item.search_text.toLocaleLowerCase("ko-KR");
@@ -398,7 +404,7 @@ function createServer(env: Env): McpServer {
         type: z
           .string()
           .optional()
-          .describe("Optional ontology item type filter, for example 'tax', 'support-program', 'card-product', 'bank-product', or 'insurance-product'."),
+          .describe("Optional ontology item type filter, for example 'tax', 'support-program', 'card-product', 'bank-product', or 'insurance-product'. 'tax' also matches tax-credit, deduction, and other tax decision types."),
         limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
       },
       annotations: {
@@ -411,8 +417,9 @@ function createServer(env: Env): McpServer {
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
 
+      const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : null;
       const results = data.items
-        .filter((item) => !type || item.type === type)
+        .filter((item) => !allowedTypes || allowedTypes.has(item.type))
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter((result) => result.score > 0)
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))

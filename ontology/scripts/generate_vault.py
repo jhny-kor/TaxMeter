@@ -3831,6 +3831,14 @@ def enrich_local_support_status(item: dict) -> dict:
     enriched["application_status"] = {"active": "open", "closed": "closed", "unknown": "unknown"}[status]
     enriched["is_currently_applicable"] = status == "active"
     enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[status]
+    # open으로 판정된 항목만 추천 후보로 올린다. closed·unknown은 조회는 가능하되
+    # 기본 검색·추천에서 제외되도록 reference_only로 명시한다.
+    enriched["recommendation_status"] = "eligible_for_listing" if status == "active" else "reference_only"
+    if status == "unknown":
+        enriched["recommendation_exclusion_reasons"] = sorted({
+            *(enriched.get("recommendation_exclusion_reasons") or []),
+            "unknown_application_status",
+        })
     enriched["related"] = [
         target_id
         for target_id in enriched.get("related") or []
@@ -3882,6 +3890,8 @@ def local_support_quality_summary(local_items: list[dict]) -> dict:
         "expired_active_local_supports": expired_active,
         "unknown_status_local_supports": status_counts.get("unknown", 0),
         "currently_applicable_local_supports": sum(1 for item in local_items if item.get("is_currently_applicable") is True),
+        "recommendation_candidates": sum(1 for item in local_items if item.get("recommendation_status") == "eligible_for_listing"),
+        "recommendation_reference_only": sum(1 for item in local_items if item.get("recommendation_status") == "reference_only"),
     }
 
 

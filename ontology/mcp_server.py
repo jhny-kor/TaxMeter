@@ -145,30 +145,47 @@ def read_note_text(path_or_id: str) -> tuple[Path, str]:
     return resolved, resolved.read_text(encoding="utf-8")
 
 
+# type=tax 같은 상위 도메인 필터는 세부 결정 타입(tax-credit 등)까지 포함해야
+# "연말정산 의료비 세액공제" 질의가 부가가치세로 새지 않는다.
+SEARCH_TYPE_GROUPS = {
+    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+}
+
+
 def search_items(query: str, type_filter: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
     query_terms = [term.casefold() for term in query.split() if term.strip()]
+    allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
     items = all_items()
-    results: list[tuple[int, dict[str, Any]]] = []
-    for item in items.values():
-        if type_filter and item.get("type") != type_filter:
-            continue
-        haystack = " ".join(
-            str(item.get(key, ""))
-            for key in ("id", "title", "type", "description", "law_reference", "tags", "url")
-        ).casefold()
-        if query_terms and not all(term in haystack for term in query_terms):
-            continue
-        score = 0
-        title = str(item.get("title", "")).casefold()
-        item_id = str(item.get("id", "")).casefold()
-        for term in query_terms:
-            if term in title:
-                score += 4
-            if term in item_id:
-                score += 3
-            if term in haystack:
+
+    def collect(require_all_terms: bool) -> list[tuple[int, dict[str, Any]]]:
+        matched: list[tuple[int, dict[str, Any]]] = []
+        for item in items.values():
+            if allowed_types and item.get("type") not in allowed_types:
+                continue
+            haystack = " ".join(
+                str(item.get(key, ""))
+                for key in ("id", "title", "type", "description", "law_reference", "tags", "url", "search_text", "search_aliases")
+            ).casefold()
+            hits = [term for term in query_terms if term in haystack]
+            if query_terms and (not hits or (require_all_terms and len(hits) < len(query_terms))):
+                continue
+            score = 0
+            title = str(item.get("title", "")).casefold()
+            item_id = str(item.get("id", "")).casefold()
+            for term in hits:
+                if term in title:
+                    score += 4
+                if term in item_id:
+                    score += 3
                 score += 1
-        results.append((score, item))
+            matched.append((score, item))
+        return matched
+
+    results = collect(require_all_terms=True)
+    if query_terms and not results:
+        # "연말정산 의료비 세액공제 한도 대상"처럼 긴 자연어 질의는 모든 토큰이
+        # 한 노드에 없을 수 있으므로 부분 일치로 폴백해 최선 후보를 반환한다.
+        results = collect(require_all_terms=False)
     results.sort(key=lambda pair: (-pair[0], pair[1]["id"]))
     return [serialize_item(item) for _, item in results[:limit]]
 

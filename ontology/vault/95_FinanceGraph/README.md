@@ -11,5 +11,7 @@ JSON-only finance ontology exports를 Obsidian 그래프에서 볼 수 있도록
 ## Domains
 - [[95_FinanceGraph/LocalGovernmentSupports|local-government-supports]]
 - [[95_FinanceGraph/CardProducts|card-products]]
-- [[95_FinanceGraph/BankProducts|bank-products]]
+- [[95_FinanceGraph/DepositProducts|deposit-products]]
+- [[95_FinanceGraph/SavingProducts|saving-products]]
+- [[95_FinanceGraph/LoanProducts|loan-products]]
 - [[95_FinanceGraph/InsuranceProducts|insurance-products]]

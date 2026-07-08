@@ -1,0 +1,48 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="140" y1="80" x2="880" y2="940" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#FFF6E2"/>
+    <stop offset="0.48" stop-color="#AEE0F6"/>
+    <stop offset="1" stop-color="#A8EBD2"/>
+  </linearGradient>
+  <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="24" stdDeviation="20" flood-color="#000000" flood-opacity="0.22"/>
+  </filter>
+</defs>
+<rect width="1024" height="1024" rx="230" fill="url(#bg)"/>
+<circle cx="156" cy="190" r="82" fill="#EE5460" opacity=".22"/>
+<circle cx="869" cy="169" r="75" fill="#376ADA" opacity=".20"/>
+<circle cx="824" cy="878" r="82" fill="#EE5460" opacity=".16"/>
+<circle cx="172" cy="838" r="78" fill="#376ADA" opacity=".17"/>
+<g filter="url(#softShadow)">
+  <rect x="230" y="168" width="564" height="682" rx="92" fill="#FFFFFA"/>
+  <path d="M250 216C250 169 336 169 336 216H250Z" fill="#FFFFFA"/>
+  <path d="M317 216C317 169 403 169 403 216H317Z" fill="#FFFFFA"/>
+  <path d="M384 216C384 169 470 169 470 216H384Z" fill="#FFFFFA"/>
+  <path d="M451 216C451 169 537 169 537 216H451Z" fill="#FFFFFA"/>
+  <path d="M518 216C518 169 604 169 604 216H518Z" fill="#FFFFFA"/>
+  <path d="M585 216C585 169 671 169 671 216H585Z" fill="#FFFFFA"/>
+  <path d="M652 216C652 169 738 169 738 216H652Z" fill="#FFFFFA"/>
+</g>
+<rect x="318" y="226" width="388" height="78" rx="39" fill="#E8F7F1"/>
+<text x="512" y="276" text-anchor="middle" font-family="Noto Sans CJK KR, Arial, sans-serif" font-size="46" font-weight="700" fill="#245D64">한국 세금앱</text>
+<text x="512" y="505" text-anchor="middle" font-family="Noto Sans CJK KR, Arial, sans-serif" font-size="305" font-weight="900" fill="#215F80">세</text>
+<circle cx="408" cy="542" r="22" fill="#2D4F5F"/>
+<circle cx="616" cy="542" r="22" fill="#2D4F5F"/>
+<circle cx="406" cy="538" r="6" fill="white" opacity=".85"/>
+<circle cx="614" cy="538" r="6" fill="white" opacity=".85"/>
+<ellipse cx="356" cy="593" rx="36" ry="25" fill="#FF969A" opacity=".40"/>
+<ellipse cx="668" cy="593" rx="36" ry="25" fill="#FF969A" opacity=".40"/>
+<path d="M458 578C480 616 544 616 566 578" stroke="#2D4F5F" stroke-width="10" stroke-linecap="round"/>
+<ellipse cx="236" cy="569" rx="48" ry="53" fill="#FFFFFA"/>
+<ellipse cx="788" cy="569" rx="48" ry="53" fill="#FFFFFA"/>
+<rect x="316" y="668" width="392" height="118" rx="44" fill="#EEF9F4"/>
+<circle cx="380" cy="730" r="38" fill="#39AC7F"/>
+<path d="M365 729L386 750L402 712" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="454" y="751" font-family="Noto Sans CJK KR, Arial, sans-serif" font-size="76" font-weight="900" fill="#245D64">공제 확인</text>
+<g filter="url(#softShadow)">
+  <circle cx="762" cy="690" r="88" fill="#FFD760"/>
+  <circle cx="762" cy="690" r="66" fill="#FFE88B"/>
+</g>
+<text x="762" y="721" text-anchor="middle" font-family="Arial, sans-serif" font-size="88" font-weight="900" fill="#7C5B15">₩</text>
+</svg>

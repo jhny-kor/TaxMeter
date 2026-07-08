@@ -29,14 +29,20 @@ export와 `ontology/vault/`의 Obsidian 노트로 나온다. 이 문서는 현�
 | 세금 | korea-tax-ontology | 374 | - | OpenTax vault 378노트와 동기 |
 | 지자체 지원금 | korea-local-government-supports | 7,820 | - | active 5,168 / closed 343 / unknown 2,309 |
 | 카드 | korea-card-products | 1,028 | 1,005 | active 650, reference_only 355 |
-| 은행 | korea-bank-products | 1,407 | 1,363 | 예금 430·적금 335·정책대출 320·신용 113·주담대 108·전세 57 |
+| 예금 팩 | korea-deposit-products | 474 | 430 | 정기예금 금리·우대조건 |
+| 적금 팩 | korea-saving-products | 379 | 335 | 적립방식·기간별 금리 |
+| 대출 팩 | korea-loan-products | 642 | 598 | 정책대출 320·신용 113·주담대 108·전세 57 (수동 노드 포함) |
 | 보험 | korea-insurance-products | 1,079 | 1,061 | 전건 active, KLIA 공시 리스트 기반 |
 | 기준정보 | korea-finance-reference | 9,651 | 0 | 예금자보호 레지스트리 9,380 + provider 216 + 기준금리·리스크 신호 |
 | 검색 인덱스 | finance-search-index | 21,342 | - | MCP search 전용 경량 인덱스 |
 
 2026-07-07 재분류: 예금자보호 등재 목록(KDIC 9,380건, 대부분 보험사 상품)은
 은행 상품군이 아니라 소비자 보호 레지스트리이므로 `financial-product` 타입으로
-finance-reference에 재배치했다. 은행 export는 실제 금리상품 1,363건만 남는다.
+finance-reference에 재배치했다. 이어서 기존 은행 export를 예금/적금/대출
+3개 팩으로 분리했다. 노드 ID와 카테고리 구조는 유지하고 상품만 product_kind
+기준으로 분배하며, 공유 참조 노드는 각 팩에 포함된다(검색 인덱스가 id 기준
+중복 제거). 원천 스냅샷도 deposit/saving/loan-products.generated.json으로
+분리해 팩 단위로 재수집·관리한다.
 
 ### 품질 체계 (작동 확인됨)
 

@@ -47,11 +47,27 @@ PROTECTION_QUERY_RE = re.compile(r"(예금자보호|보호대상|보호상품|kd
 INACTIVE_QUERY_RE = re.compile(r"(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)", re.I)
 NO_PREVIOUS_MONTH_SPEND_RE = re.compile(r"(No\s*전월실적|전월\s*실적\s*없음|전월\s*이용금액\s*조건\s*없음)", re.I)
 NO_ANNUAL_FEE_RE = re.compile(r"(No\s*연회비|연회비\s*없음|연회비\s*면제)", re.I)
+BENEFIT_RATE_RE = re.compile(r"\d+(?:\.\d+)?\s*%")
+
+# mcp_server.py / build_finance_ontology.py와 동일한 type 필터 그룹.
+SEARCH_TYPE_GROUPS = {
+    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+}
 
 SEARCH_REGRESSIONS = (
     {
         "query": "연말정산 의료비 세액공제 한도 대상",
         "expected_top_id": "credit.medical-expense",
+    },
+    {
+        "query": "연말정산 의료비 세액공제 한도 대상",
+        "type_filter": "tax",
+        "expected_top_id": "credit.medical-expense",
+    },
+    {
+        "query": "신용카드 소득공제 한도",
+        "type_filter": "tax",
+        "expected_top_id": "deduction.credit-card-use",
     },
     {
         "query": "월세 세액공제 조건",
@@ -122,6 +138,12 @@ def validate_item_basics(export_id: str, items: list[dict], global_items: dict[s
         for key in REFERENCE_KEYS:
             for target_id in item.get(key) or []:
                 require(target_id in global_items, f"{export_id}:{item_id}: {key} references missing id {target_id}", errors)
+        if item.get("type") == "support-program" and item.get("status") in {"unknown", "closed"}:
+            require(
+                item.get("recommendation_status") == "reference_only",
+                f"{export_id}:{item_id}: {item.get('status')} support must be recommendation_status reference_only",
+                errors,
+            )
 
 
 def validate_products(export_id: str, items: list[dict], expected_product_count: int, errors: list[str]) -> None:
@@ -163,12 +185,33 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
                     require(benefit.get("annual_fee_required") is False, f"{export_id}:{item_id}: benefit #{index} No연회비 not normalized", errors)
                 if "적립" in text:
                     require(benefit.get("benefit_type") == "point_accumulation", f"{export_id}:{item_id}: benefit #{index} 적립 benefit_type not normalized", errors)
+                if BENEFIT_RATE_RE.search(text):
+                    require(benefit.get("benefit_rate_percent") is not None, f"{export_id}:{item_id}: benefit #{index} % rate not normalized to benefit_rate_percent", errors)
+            benefits_partial_or_incomplete = any(
+                isinstance(benefit, dict) and benefit.get("condition_completeness") in {"partial", "incomplete"}
+                for benefit in benefits
+            )
+            if benefits_partial_or_incomplete:
+                require(
+                    item.get("recommendation_scope") == "listing_only",
+                    f"{export_id}:{item_id}: card with partial/incomplete benefit conditions must be recommendation_scope listing_only",
+                    errors,
+                )
         if item.get("type") == "insurance-product":
+            coverage_incomplete = False
             for index, criterion in enumerate(criteria, start=1):
                 if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
                     continue
+                if criterion.get("condition_completeness") == "incomplete":
+                    coverage_incomplete = True
                 for field in ("coverage_name", "coverage_amount_krw", "premium_male_krw", "premium_female_krw", "renewal_type", "renewal_cycle_years", "waiting_period_days", "reduction_period_days", "condition_completeness"):
                     require(field in criterion, f"{export_id}:{item_id}: coverage #{index} missing {field}", errors)
+            if coverage_incomplete:
+                require(
+                    item.get("recommendation_scope") == "listing_only",
+                    f"{export_id}:{item_id}: insurance with incomplete coverage conditions must be recommendation_scope listing_only",
+                    errors,
+                )
         disclosure_months = []
         if item.get("disclosure_month"):
             disclosure_months.append(str(item["disclosure_month"]))
@@ -301,8 +344,11 @@ def validate_search_regressions(errors: list[str]) -> None:
     items = payload.get("items") or []
     for regression in SEARCH_REGRESSIONS:
         query = regression["query"]
+        type_filter = regression.get("type_filter")
+        allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
+        candidates = [item for item in items if not allowed_types or item.get("type") in allowed_types]
         ranked = sorted(
-            ((search_score(item, query), item) for item in items),
+            ((search_score(item, query), item) for item in candidates),
             key=lambda entry: (-entry[0], str(entry[1].get("title") or "")),
         )
         results = [item for score, item in ranked if score > 0][:10]

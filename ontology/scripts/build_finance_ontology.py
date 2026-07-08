@@ -30,7 +30,9 @@ RAW_BASE_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main"
 WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax"
 
 CARD_EXPORT = EXPORT_DIR / "korea-card-products-ontology-2026.json"
-BANK_EXPORT = EXPORT_DIR / "korea-bank-products-ontology-2026.json"
+DEPOSIT_EXPORT = EXPORT_DIR / "korea-deposit-products-ontology-2026.json"
+SAVING_EXPORT = EXPORT_DIR / "korea-saving-products-ontology-2026.json"
+LOAN_EXPORT = EXPORT_DIR / "korea-loan-products-ontology-2026.json"
 INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
@@ -40,12 +42,20 @@ SEARCH_REGRESSION_REPORT_EXPORT = EXPORT_DIR / "openfin-search-regression-report
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 GENERIC_SEARCH_TYPES = {"category", "term", "domain", "source"}
 TAX_DECISION_TYPES = {"tax-credit", "deduction"}
+# type 필터 그룹: type=tax는 세부 결정 타입까지 포함해야 typed 검색이
+# 의료비 세액공제 대신 부가가치세로 새지 않는다. mcp_server.py와 동일하게 유지한다.
+SEARCH_TYPE_GROUPS = {
+    "tax": {"tax", "tax-credit", "tax-reduction", "deduction", "corporate-tax-support", "official-tax-item", "filing"},
+}
 TAX_SEARCH_REGRESSIONS = (
-    ("연말정산 의료비 세액공제 한도 대상", "credit.medical-expense"),
-    ("월세 세액공제 조건", "credit.monthly-rent"),
-    ("교육비 세액공제 대상", "credit.education-expense"),
-    ("연금계좌 세액공제 한도", "credit.pension-account"),
-    ("신용카드 소득공제 한도", "deduction.credit-card-use"),
+    ("연말정산 의료비 세액공제 한도 대상", "credit.medical-expense", None),
+    ("연말정산 의료비 세액공제 한도 대상", "credit.medical-expense", "tax"),
+    ("월세 세액공제 조건", "credit.monthly-rent", None),
+    ("월세 세액공제 조건", "credit.monthly-rent", "tax"),
+    ("교육비 세액공제 대상", "credit.education-expense", None),
+    ("연금계좌 세액공제 한도", "credit.pension-account", None),
+    ("신용카드 소득공제 한도", "deduction.credit-card-use", None),
+    ("신용카드 소득공제 한도", "deduction.credit-card-use", "tax"),
 )
 TAX_SEARCH_ALIASES = {
     "credit.medical-expense": ("연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"),
@@ -57,7 +67,9 @@ TAX_SEARCH_ALIASES = {
 
 GENERATED_FILES = {
     "card": CUSTOM_FINANCE_DIR / "card-products.generated.json",
-    "bank": CUSTOM_FINANCE_DIR / "bank-products.generated.json",
+    "deposit": CUSTOM_FINANCE_DIR / "deposit-products.generated.json",
+    "saving": CUSTOM_FINANCE_DIR / "saving-products.generated.json",
+    "loan": CUSTOM_FINANCE_DIR / "loan-products.generated.json",
     "policy_loan": CUSTOM_FINANCE_DIR / "policy-loan-products.generated.json",
     "deposit_protection": CUSTOM_FINANCE_DIR / "deposit-protection-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
@@ -609,7 +621,7 @@ def product_counts(items: list[dict], product_type: str) -> int:
 
 
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
-PRODUCT_EXPORTS = (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT)
+PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT)
 REFERENCE_SOURCE_IDS = [
     "source.fsc.financial-company-basic",
     "source.fsc.financial-company-credit",
@@ -776,6 +788,14 @@ def monthly_benefit_limit_krw(text: str) -> int | None:
     return parse_krw_amount(text)
 
 
+BENEFIT_RATE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
+
+
+def card_benefit_rate_percent(text: str) -> float | None:
+    match = BENEFIT_RATE_RE.search(text)
+    return float(match.group(1)) if match else None
+
+
 def enrich_card_benefits(item: dict) -> None:
     if item.get("type") != "card-product":
         return
@@ -803,6 +823,11 @@ def enrich_card_benefits(item: dict) -> None:
             benefit["benefit_type"] = parsed_benefit_type
         else:
             benefit.setdefault("benefit_type", None)
+        parsed_rate = card_benefit_rate_percent(text)
+        if parsed_rate is not None:
+            benefit["benefit_rate_percent"] = parsed_rate
+        else:
+            benefit.setdefault("benefit_rate_percent", None)
         benefit.setdefault("per_transaction_limit_krw", None)
         benefit.setdefault("excluded_spend", [])
         missing = []
@@ -812,7 +837,7 @@ def enrich_card_benefits(item: dict) -> None:
                 missing.append(key)
         normalized = any(
             benefit.get(key) is not None and benefit.get(key) != "" and benefit.get(key) != []
-            for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "annual_fee_required", "benefit_type")
+            for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "annual_fee_required", "benefit_type", "benefit_rate_percent")
         )
         benefit["condition_completeness"] = "partial" if missing and normalized else ("incomplete" if missing else "complete")
         benefit["missing_condition_fields"] = missing
@@ -1372,7 +1397,7 @@ def card_items() -> list[dict]:
 
 
 def bank_items() -> list[dict]:
-    generated = load_generated("bank")
+    generated = load_generated("deposit") + load_generated("saving") + load_generated("loan")
     policy_generated = load_generated("policy_loan")
     items = [
         node(
@@ -1790,6 +1815,25 @@ def bank_items() -> list[dict]:
     ])
 
 
+# 은행 노드 정의는 bank_items() 하나로 유지하고, export는 예금/적금/대출 3개 팩으로
+# 나눈다. 공유 참조 노드(도메인·카테고리·용어·출처)는 각 팩에 포함되며 검색 인덱스가
+# id 기준으로 중복 제거한다. bank_items()를 팩마다 새로 호출해 dict 공유 변이를 피한다.
+BANK_PACK_KINDS = {
+    "deposit": {"deposit"},
+    "saving": {"saving"},
+    "loan": {"mortgage-loan", "rent-loan", "credit-loan", "policy-loan", "business-loan"},
+}
+
+
+def bank_pack_items(pack: str) -> list[dict]:
+    kinds = BANK_PACK_KINDS[pack]
+    return [
+        item
+        for item in bank_items()
+        if item.get("type") != "bank-product" or item.get("product_kind") in kinds
+    ]
+
+
 def insurance_items() -> list[dict]:
     generated = load_generated("insurance")
     items = [
@@ -2041,6 +2085,7 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         ),
         "stale_disclosure_products": stale_count,
         "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
+        "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "quality_gate": {
             "expired_active_local_supports": "validated in korea-local-government-supports export",
             "active_insurance_without_criteria_must_be_zero": True,
@@ -2345,7 +2390,9 @@ def write_search_regression_report() -> dict:
     index_payload = json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8"))
     items = index_payload.get("items") or []
     tests = []
-    for query, expected_id in TAX_SEARCH_REGRESSIONS:
+    for query, expected_id, type_filter in TAX_SEARCH_REGRESSIONS:
+        allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
+        candidates = [item for item in items if not allowed_types or item.get("type") in allowed_types]
         ranked = sorted(
             (
                 {
@@ -2354,7 +2401,7 @@ def write_search_regression_report() -> dict:
                     "type": item.get("type"),
                     "score": score_search_index_item(item, query),
                 }
-                for item in items
+                for item in candidates
             ),
             key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
         )
@@ -2362,6 +2409,7 @@ def write_search_regression_report() -> dict:
         top = results[0] if results else {}
         tests.append({
             "query": query,
+            "type_filter": type_filter,
             "expected_top_id": expected_id,
             "actual_top_id": top.get("id"),
             "passed": top.get("id") == expected_id,
@@ -2443,7 +2491,9 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         tax_path,
         local_path,
         results["card"]["path"],
-        results["bank"]["path"],
+        results["deposit"]["path"],
+        results["saving"]["path"],
+        results["loan"]["path"],
         results["insurance"]["path"],
         results["reference"]["path"],
     ]
@@ -2708,15 +2758,37 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["card"].get("export_checksum"),
             ),
             export_entry(
-                "bank-products-ontology",
-                "bank-products",
-                results["bank"]["path"],
-                results["bank"]["item_count"],
-                results["bank"]["product_count"],
-                "예금·적금·주택담보·전세·개인신용·개인사업자·정책대출 금리, 한도, 수수료, 우대조건 온톨로지입니다.",
-                results["bank"]["product_collection_dates"],
-                results["bank"].get("quality_summary"),
-                results["bank"].get("export_checksum"),
+                "deposit-products-ontology",
+                "deposit-products",
+                results["deposit"]["path"],
+                results["deposit"]["item_count"],
+                results["deposit"]["product_count"],
+                "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다.",
+                results["deposit"]["product_collection_dates"],
+                results["deposit"].get("quality_summary"),
+                results["deposit"].get("export_checksum"),
+            ),
+            export_entry(
+                "saving-products-ontology",
+                "saving-products",
+                results["saving"]["path"],
+                results["saving"]["item_count"],
+                results["saving"]["product_count"],
+                "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다.",
+                results["saving"]["product_collection_dates"],
+                results["saving"].get("quality_summary"),
+                results["saving"].get("export_checksum"),
+            ),
+            export_entry(
+                "loan-products-ontology",
+                "loan-products",
+                results["loan"]["path"],
+                results["loan"]["item_count"],
+                results["loan"]["product_count"],
+                "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다.",
+                results["loan"]["product_collection_dates"],
+                results["loan"].get("quality_summary"),
+                results["loan"].get("export_checksum"),
             ),
             export_entry(
                 "insurance-products-ontology",
@@ -2759,7 +2831,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
     )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (CARD_EXPORT, BANK_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT):
+    for path in (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -2773,13 +2845,29 @@ def main() -> int:
             "card-product",
             "card",
         ),
-        "bank": write_export(
-            BANK_EXPORT,
-            "KR-BANK-PRODUCTS-ONTOLOGY-2026.07.04.1",
-            "bank-products",
-            bank_items(),
+        "deposit": write_export(
+            DEPOSIT_EXPORT,
+            "KR-DEPOSIT-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "deposit-products",
+            bank_pack_items("deposit"),
             "bank-product",
-            "bank",
+            "deposit",
+        ),
+        "saving": write_export(
+            SAVING_EXPORT,
+            "KR-SAVING-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "saving-products",
+            bank_pack_items("saving"),
+            "bank-product",
+            "saving",
+        ),
+        "loan": write_export(
+            LOAN_EXPORT,
+            "KR-LOAN-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "loan-products",
+            bank_pack_items("loan"),
+            "bank-product",
+            "loan",
         ),
         "insurance": write_export(
             INSURANCE_EXPORT,
@@ -2802,14 +2890,18 @@ def main() -> int:
         ("tax-ontology", "ontology/exports/korea-tax-ontology-2026.json"),
         ("local-government-supports-ontology", "ontology/exports/korea-local-government-supports-ontology-2026.json"),
         ("card-products-ontology", results["card"]["path"]),
-        ("bank-products-ontology", results["bank"]["path"]),
+        ("deposit-products-ontology", results["deposit"]["path"]),
+        ("saving-products-ontology", results["saving"]["path"]),
+        ("loan-products-ontology", results["loan"]["path"]),
         ("insurance-products-ontology", results["insurance"]["path"]),
         ("finance-reference-ontology", results["reference"]["path"]),
     ])
     search_report = write_search_regression_report()
     write_manifest(results, search_index, search_report)
     print(f"Exported {CARD_EXPORT}")
-    print(f"Exported {BANK_EXPORT}")
+    print(f"Exported {DEPOSIT_EXPORT}")
+    print(f"Exported {SAVING_EXPORT}")
+    print(f"Exported {LOAN_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")
     print(f"Exported {REFERENCE_EXPORT}")
     print(f"Exported {MANIFEST_EXPORT}")
