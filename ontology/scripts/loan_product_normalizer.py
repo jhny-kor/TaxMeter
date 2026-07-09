@@ -135,11 +135,15 @@ def normalize_loan_product(item: dict) -> None:
         item["recommendation_status"] = "reference_only"
         item["status_reason"] = "대출 비교·추천에 필요한 criteria가 비어 있어 참조 전용으로만 노출합니다."
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
+    item["recommendation_status"] = "reference_only"
+    item["recommendation_scope"] = "listing_only"
+    item["recommendation_exclusion_reasons"] = unique([
+        *(item.get("recommendation_exclusion_reasons") or []),
+        "loan_recommendation_suspended_pending_required_field_review",
+    ])
+
     if missing:
         # 필수 조건이 하나라도 빠지면 추천은 물론 목록 승격도 금지한다.
-        if item.get("recommendation_status") in {"eligible_for_listing", "eligible_for_recommendation"}:
-            item["recommendation_status"] = "reference_only"
-        item["recommendation_scope"] = "listing_only"
         item["recommendation_exclusion_reasons"] = unique([
             *(item.get("recommendation_exclusion_reasons") or []),
             "incomplete_loan_required_fields",

@@ -55,5 +55,4 @@ def apply_insurance_recommendation_guard(item: dict) -> None:
         "incomplete_insurance_coverage_conditions",
     })
     # 핵심 조건(보장금액·갱신주기·면책·감액)이 비어 있으면 추천 승격을 금지한다.
-    if item.get("recommendation_status") == "eligible_for_recommendation":
-        item["recommendation_status"] = "eligible_for_listing"
+    item["recommendation_status"] = "reference_only"

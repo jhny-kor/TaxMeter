@@ -167,7 +167,6 @@ def enrich_card_benefits(item: dict) -> None:
 
 
 def apply_card_recommendation_scope(item: dict) -> None:
-    """benefit 조건이 하나라도 partial/incomplete면 추천 대신 목록 노출만 허용한다."""
     if item.get("type") != "card-product":
         return
     partial_or_incomplete = any(
@@ -176,6 +175,7 @@ def apply_card_recommendation_scope(item: dict) -> None:
         for benefit in item.get("benefits") or []
     )
     if partial_or_incomplete:
+        item["recommendation_status"] = "reference_only"
         item["recommendation_scope"] = "listing_only"
         item["recommendation_exclusion_reasons"] = sorted({
             *(item.get("recommendation_exclusion_reasons") or []),

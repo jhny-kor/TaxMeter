@@ -1,8 +1,7 @@
 """카드 추천 안전성 검증.
 
 benefit 조건이 partial/incomplete인 카드는 추천 승격이 금지되고
-recommendation_scope=listing_only여야 한다. 파싱 실패(incomplete) 카드는
-recommendation_status가 eligible_for_listing 또는 reference_only여야 한다.
+recommendation_status=reference_only, recommendation_scope=listing_only여야 한다.
 """
 from __future__ import annotations
 
@@ -11,9 +10,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CARD_EXPORT = REPO_ROOT / "ontology/exports/korea-card-products-ontology-2026.json"
-SAFE_STATUSES = {"eligible_for_listing", "reference_only"}
-
-
 def main() -> int:
     payload = json.loads(CARD_EXPORT.read_text(encoding="utf-8"))
     items = [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
@@ -30,14 +26,14 @@ def main() -> int:
         unsafe += 1
         if card.get("recommendation_scope") != "listing_only":
             errors.append(f"{card['id']}: 조건 미완성인데 recommendation_scope={card.get('recommendation_scope')}")
-        if card.get("recommendation_status") not in SAFE_STATUSES:
+        if card.get("recommendation_status") != "reference_only":
             errors.append(f"{card['id']}: 조건 미완성인데 recommendation_status={card.get('recommendation_status')}")
     for error in errors[:20]:
         print("FAIL:", error)
     if errors:
         print(f"FAILED: {len(errors)} violations")
         return 1
-    print(f"OK: {unsafe} cards with unparsed conditions are all listing-only ({len(cards)} cards total)")
+    print(f"OK: {unsafe} cards with unparsed conditions are all reference_only/listing-only ({len(cards)} cards total)")
     return 0
 
 

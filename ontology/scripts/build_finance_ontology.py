@@ -68,12 +68,44 @@ TAX_SEARCH_REGRESSIONS = (
     ("신용카드 소득공제 한도", "deduction.credit-card-use", None),
     ("신용카드 소득공제 한도", "deduction.credit-card-use", "tax"),
 )
+SUPPORT_SEARCH_REGRESSIONS = (
+    {"query": "서울시 청년 월세 지원", "no_reference_only_support_results": True},
+)
 TAX_SEARCH_ALIASES = {
     "credit.medical-expense": ("연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"),
     "credit.monthly-rent": ("월세 세액공제 조건", "월세액 세액공제 조건"),
     "credit.education-expense": ("교육비 세액공제 대상",),
     "credit.pension-account": ("연금계좌 세액공제 한도",),
     "deduction.credit-card-use": ("신용카드 소득공제 한도", "신용카드 등 사용금액 소득공제 한도"),
+}
+INACTIVE_QUERY_RE = re.compile(r"(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)", re.I)
+OPERATING_POLICY = {
+    "allowed": [
+        "tax_explanation_lookup",
+        "deposit_and_saving_rate_lookup",
+        "loan_disclosure_reference_lookup",
+        "insurance_representative_coverage_and_premium_lookup",
+        "card_benefit_text_lookup",
+        "local_support_open_status_assistance",
+        "operational_quality_audit",
+    ],
+    "blocked": [
+        "card_automatic_recommendation",
+        "loan_automatic_recommendation",
+        "insurance_automatic_recommendation",
+        "personalized_financial_product_ranking",
+        "local_support_final_eligibility_decision",
+        "tax_auto_calculation",
+    ],
+    "domain_rules": {
+        "tax": "description_lookup_only",
+        "deposit-products": "rate_listing_allowed",
+        "saving-products": "rate_listing_allowed",
+        "local-government-supports": "only_application_status_open_can_be_a_candidate",
+        "card-products": "benefit_text_lookup_only_until_conditions_are_complete",
+        "loan-products": "reference_only_until_all_required_fields_and_review_gate_pass",
+        "insurance-products": "reference_only_when_coverage_conditions_are_incomplete",
+    },
 }
 
 GENERATED_FILES = {
@@ -2123,6 +2155,20 @@ def score_search_index_item(item: dict, query: str) -> int:
     tokens = query_tokens(normalized_query)
     title_tokens = query_tokens(title)
     item_type = str(item.get("type") or "")
+    status = str(item.get("status") or "").strip().lower()
+    application_status = str(item.get("application_status") or "").strip().lower()
+    recommendation_status = str(item.get("recommendation_status") or "").strip().lower()
+
+    if (
+        item_type == "support-program"
+        and (
+            status in {"closed", "ended"}
+            or application_status in {"closed", "unknown"}
+            or recommendation_status == "reference_only"
+        )
+        and not INACTIVE_QUERY_RE.search(normalized_query)
+    ):
+        return 0
 
     score = 0
     if normalized_query in aliases:
@@ -2224,6 +2270,7 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
 
 
 def write_search_regression_report() -> dict:
+    previous_report = json.loads(SEARCH_REGRESSION_REPORT_EXPORT.read_text(encoding="utf-8")) if SEARCH_REGRESSION_REPORT_EXPORT.exists() else {}
     index_payload = json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8"))
     items = index_payload.get("items") or []
     tests = []
@@ -2252,6 +2299,43 @@ def write_search_regression_report() -> dict:
             "passed": top.get("id") == expected_id,
             "top_results": results,
         })
+    for regression in SUPPORT_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "status": item.get("status"),
+                    "application_status": item.get("application_status"),
+                    "recommendation_status": item.get("recommendation_status"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:10]
+        ineligible = [
+            item
+            for item in results
+            if item.get("type") == "support-program"
+            and (
+                item.get("status") in {"closed", "ended"}
+                or item.get("application_status") in {"closed", "unknown"}
+                or item.get("recommendation_status") == "reference_only"
+            )
+        ]
+        tests.append({
+            "query": query,
+            "type_filter": None,
+            "expected_top_id": None,
+            "actual_top_id": results[0].get("id") if results else None,
+            "passed": bool(results) and not ineligible,
+            "no_reference_only_support_results": regression["no_reference_only_support_results"],
+            "top_results": results[:5],
+        })
 
     payload = {
         "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.04.1",
@@ -2264,6 +2348,10 @@ def write_search_regression_report() -> dict:
         "failed_count": sum(1 for test in tests if not test["passed"]),
         "tests": tests,
     }
+    if previous_report.get("live_tests"):
+        payload["live_tests"] = previous_report["live_tests"]
+    if previous_report.get("live_summary"):
+        payload["live_summary"] = previous_report["live_summary"]
     payload["export_checksum"] = payload_checksum(payload)
     SEARCH_REGRESSION_REPORT_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
@@ -2279,7 +2367,7 @@ def write_search_regression_report() -> dict:
                 {
                     "query": test["query"],
                     "type": test["type_filter"],
-                    "expected": test["expected_top_id"],
+                    "expected": test["expected_top_id"] or "no_reference_only_support_results",
                     "actual": test["actual_top_id"],
                 }
                 for test in tests
@@ -2320,6 +2408,7 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         "source_access_risks": manifest.get("source_access_risks") or [],
         "api_required_sources": manifest.get("api_required_sources") or [],
         "export_audit": (manifest.get("quality_summary") or {}).get("export_audit") or {},
+        "operating_policy": manifest.get("operating_policy") or {},
     }
     payload["export_checksum"] = payload_checksum(payload)
     QUALITY_MANIFEST_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -2374,12 +2463,17 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 "status_aware_search_required": True,
                 "cross_export_reference_validation": True,
                 "semantic_product_related_edges_added": True,
+                "card_incomplete_conditions_reference_only_gate": True,
+                "loan_reference_only_guard": True,
+                "insurance_incomplete_coverage_reference_only_gate": True,
+                "support_unknown_reference_only_gate": True,
             },
             "finance_exports": {
                 key: value.get("quality_summary", {})
                 for key, value in results.items()
             },
         },
+        "operating_policy": OPERATING_POLICY,
         "source_access_risks": [
             {
                 "source_id": "source.kdic.insured-products",

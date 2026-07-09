@@ -1,7 +1,7 @@
 """보험 추천 상태 검증.
 
 보장금액·갱신주기·면책기간·감액기간이 비어 있는(incomplete) coverage를 가진 상품은
-eligible_for_recommendation이 될 수 없고, listing_only 범위여야 한다.
+reference_only 상태와 listing_only 범위여야 한다.
 """
 from __future__ import annotations
 
@@ -28,8 +28,8 @@ def main() -> int:
         if not incomplete:
             continue
         incomplete_products += 1
-        if product.get("recommendation_status") == "eligible_for_recommendation":
-            errors.append(f"{product['id']}: 핵심 조건 미비인데 eligible_for_recommendation입니다.")
+        if product.get("recommendation_status") != "reference_only":
+            errors.append(f"{product['id']}: 핵심 조건 미비인데 recommendation_status={product.get('recommendation_status')}입니다.")
         if product.get("recommendation_scope") != "listing_only":
             errors.append(f"{product['id']}: 핵심 조건 미비인데 recommendation_scope={product.get('recommendation_scope')}")
     for error in errors[:20]:
@@ -37,7 +37,7 @@ def main() -> int:
     if errors:
         print(f"FAILED: {len(errors)} violations")
         return 1
-    print(f"OK: {incomplete_products} incomplete-coverage products are all listing-only ({len(products)} products total)")
+    print(f"OK: {incomplete_products} incomplete-coverage products are all reference_only/listing-only ({len(products)} products total)")
     return 0
 
 

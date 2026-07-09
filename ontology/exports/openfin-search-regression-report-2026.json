@@ -4,8 +4,8 @@
   "source_review_date": "2026-07-04",
   "ontology_kind": "openfin-search-regression-report",
   "search_index_path": "ontology/exports/finance-search-index-2026.json",
-  "test_count": 10,
-  "passed_count": 10,
+  "test_count": 11,
+  "passed_count": 11,
   "failed_count": 0,
   "tests": [
     {
@@ -118,8 +118,8 @@
           "score": 33
         },
         {
-          "id": "support.local-gov.gov24.809786",
-          "title": "1인가구 안심장비 지원사업 (서울특별시 동대문구)",
+          "id": "support.local-gov.gov24.2161850",
+          "title": "귀농 청년농업인 주거비(월세) 지원 (경기도 연천군)",
           "type": "support-program",
           "score": 12
         }
@@ -397,6 +397,61 @@
           "score": 62
         }
       ]
+    },
+    {
+      "query": "서울시 청년 월세 지원",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "source.korea.youth-monthly-rent.2026",
+      "passed": true,
+      "no_reference_only_support_results": true,
+      "top_results": [
+        {
+          "id": "source.korea.youth-monthly-rent.2026",
+          "title": "2026년 청년월세 지원 신청 안내",
+          "type": "source",
+          "status": null,
+          "application_status": null,
+          "recommendation_status": null,
+          "score": 13
+        },
+        {
+          "id": "finance.bank.policy-loan.kinfa-api.6",
+          "title": "IBK기업은행 IBK청년전·월세대출 (월세)",
+          "type": "bank-product",
+          "status": "active",
+          "application_status": null,
+          "recommendation_status": "reference_only",
+          "score": 13
+        },
+        {
+          "id": "finance.bank.policy-loan.kinfa-api.5",
+          "title": "IBK기업은행 IBK청년전·월세대출 (전세)",
+          "type": "bank-product",
+          "status": "active",
+          "application_status": null,
+          "recommendation_status": "reference_only",
+          "score": 13
+        },
+        {
+          "id": "support.local-gov.gov24.2114408",
+          "title": "강서구 전세피해지원금(청년 월세) 지원 (서울특별시 강서구)",
+          "type": "support-program",
+          "status": "active",
+          "application_status": "open",
+          "recommendation_status": "recommendation_candidate",
+          "score": 13
+        },
+        {
+          "id": "support.local-gov.gov24.1002732",
+          "title": "강진품애 청년 주거비 지원 (전라남도 강진군)",
+          "type": "support-program",
+          "status": "active",
+          "application_status": "open",
+          "recommendation_status": "recommendation_candidate",
+          "score": 13
+        }
+      ]
     }
   ],
   "live_tests": [
@@ -480,5 +535,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "57dbbd5a3c1c6c1a641d717597e8c7b1e05b139e9f42722725341060734b063e"
+  "export_checksum": "9cba7a6833f5632bbe10eaa7207fab1c3e920cac8c13bb9061735e455c1d97ad"
 }
