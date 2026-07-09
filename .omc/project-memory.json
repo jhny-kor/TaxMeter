@@ -9,7 +9,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "cd /Users/plo/Documents/TaxMeter/cloudflare/opentax-mcp && npx tsc --noEmit 2>&1 | head -5; echo \"TSC_EXIT: $?\"",
+    "buildCommand": "git commit -m \"$(cat <<'EOF'\n평가서 반영 + 은행 도메인 3팩 분리\n\n평가 71점 개선사항 네 가지 완료:\n\n1. P0 세금 typed search 라우팅 수정\n   - type=tax 필터가 tax-credit/deduction 포함하도록 SEARCH_TYPE_GROUPS 구현\n   - mcp_server.py, cloudflare worker, 검증 스크립트 4곳 동일 적용\n   - typed 회귀테스트 3종 추가 → 8/8 통과\n   - 로컬 mcp_server에 긴 자연어 질의 부분 일치 폴백 추가\n\n2. P0 카드 조건 필드화\n   - benefit_rate_percent 신설 & 구조화 (538건 % 혜택률 추출)\n   - 완전성 validator 게이트: listing_only 제한 규칙 고정\n\n3. P1 보험 coverage incomplete 제한\n   - 1,055건 incomplete coverage → recommendation_scope: listing_only 강제\n   - validator 게이트 추가 (이미 적용됨을 고정)\n\n4. P1 지원사업 unknown 상태 제한\n   - recommendation_status 신설: eligible_for_listing (5,168) / reference_only (2,652)\n   - unknown 항목 기본 검색에서 제외, validator 게이트 추가\n\n은행 도메인 3팩 분리 (로컬 폴더 정리 포함):\n- korea-bank-products → korea-{deposit,saving,loan}-products export 3종\n- custom/finance 스냅샷도 분리: bank-products.generated.json 제거\n- import_finance_products.py 팩 단위 수집으로 수정\n- build_finance_ontology.py bank_pack_items(pack) helper 추가\n- materialize_finance_graph_vault.py 3팩 폴더 (DepositProducts/SavingProducts/LoanProducts)\n- openfin UI: 팩별 버튼·수치·품질 요약 표시\n- 검색 인덱스 21,447 항목 유지 (중복제거)\n- 회귀 테스트 8/8 통과, CF 워커 tsc 통과\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\nEOF\n)\"",
     "testCommand": null,
     "lintCommand": null,
     "devCommand": null,
@@ -115,15 +115,33 @@
   },
   "hotPaths": [
     {
+      "path": "docs/openfin/styles.css",
+      "accessCount": 8,
+      "lastAccessed": 1783547839156,
+      "type": "file"
+    },
+    {
+      "path": "docs/openfin/index.html",
+      "accessCount": 7,
+      "lastAccessed": 1783547789818,
+      "type": "file"
+    },
+    {
       "path": "ontology/scripts/validate_finance_ontology.py",
-      "accessCount": 6,
-      "lastAccessed": 1783515305017,
+      "accessCount": 7,
+      "lastAccessed": 1783549098602,
       "type": "file"
     },
     {
       "path": "cloudflare/opentax-mcp/src/index.ts",
-      "accessCount": 4,
-      "lastAccessed": 1783514888480,
+      "accessCount": 6,
+      "lastAccessed": 1783549109689,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_search_regression_live.py",
+      "accessCount": 6,
+      "lastAccessed": 1783549891404,
       "type": "file"
     },
     {
@@ -139,21 +157,9 @@
       "type": "file"
     },
     {
-      "path": "docs/openfin/index.html",
-      "accessCount": 4,
-      "lastAccessed": 1783515745790,
-      "type": "file"
-    },
-    {
       "path": "docs/openfin/app.js",
       "accessCount": 2,
       "lastAccessed": 1783515678773,
-      "type": "file"
-    },
-    {
-      "path": "docs/openfin/styles.css",
-      "accessCount": 2,
-      "lastAccessed": 1783515750467,
       "type": "file"
     },
     {
@@ -163,9 +169,81 @@
       "type": "file"
     },
     {
+      "path": "ontology/scripts/validate_loan_required_fields.py",
+      "accessCount": 2,
+      "lastAccessed": 1783567989711,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_support_unknown_status.py",
+      "accessCount": 2,
+      "lastAccessed": 1783568002519,
+      "type": "file"
+    },
+    {
       "path": "ontology/scripts/materialize_finance_graph_vault.py",
       "accessCount": 1,
       "lastAccessed": 1783515625368,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_tax_typed_search_regression.py",
+      "accessCount": 1,
+      "lastAccessed": 1783549477718,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_card_benefit_fields.py",
+      "accessCount": 1,
+      "lastAccessed": 1783549644828,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_card_recommendation_safety.py",
+      "accessCount": 1,
+      "lastAccessed": 1783549651794,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_insurance_recommendation_status.py",
+      "accessCount": 1,
+      "lastAccessed": 1783549659330,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_quality_manifest_consistency.py",
+      "accessCount": 1,
+      "lastAccessed": 1783549697785,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/card_benefit_parser.py",
+      "accessCount": 1,
+      "lastAccessed": 1783567809209,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/loan_product_normalizer.py",
+      "accessCount": 1,
+      "lastAccessed": 1783567842940,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/insurance_recommendation_guard.py",
+      "accessCount": 1,
+      "lastAccessed": 1783567852653,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/support_status_resolver.py",
+      "accessCount": 1,
+      "lastAccessed": 1783567942142,
+      "type": "file"
+    },
+    {
+      "path": "ontology/scripts/validate_loan_recommendation_guard.py",
+      "accessCount": 1,
+      "lastAccessed": 1783568000981,
       "type": "file"
     }
   ],

@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-09T22:45:05Z",
+  "built_at": "2026-07-09T23:30:59Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -53,7 +53,7 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 125,
+        "card_benefits_with_incomplete_conditions": 123,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
@@ -70,7 +70,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f938066677b7d747b9507a9dedad858afcc19e63afd874c1f06a4b919e89f0d3"
+      "export_checksum": "fdc60047e3d6fab0e98b79907cfbcd6381aa8f538adbf48e23a0491168a10c7a"
     },
     {
       "id": "deposit-products-ontology",
@@ -157,7 +157,7 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 553,
+        "loans_missing_required_fields": 546,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 598,
@@ -170,7 +170,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1a473620e35e304b5fa905047850550ed813c56d933b2ef27705a54fdbd8c12b"
+      "export_checksum": "212686165ecd235aa64adfa38beb89eca33370fa35e3879c7616ea31e36d54d6"
     },
     {
       "id": "insurance-products-ontology",
@@ -193,8 +193,8 @@
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1055,
-        "recommendation_listing_only_products": 1055,
+        "reference_only_products": 1061,
+        "recommendation_listing_only_products": 1061,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -203,7 +203,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f250d75a3f7d6520c078668895a1b569f5c7cb4c992533cff71cd58663b0fc3d"
+      "export_checksum": "440aa0d9d6d524ac5b7f2179cebafd7951f605e372f40409610fc15b6c859827"
     },
     {
       "id": "finance-reference-ontology",
@@ -391,7 +391,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-09T22:45:05Z",
+    "built_at": "2026-07-09T23:30:59Z",
     "domain_export_count": 8,
     "search_index_item_count": 21342,
     "checksum_covered_export_count": 9,
@@ -426,5 +426,5 @@
       "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
     }
   },
-  "export_checksum": "45b9756be69a25ca85061f27bce792eaf01e342967623c46ee0164b947cfd3a5"
+  "export_checksum": "8aba988cda827da96c67223cf3410f550c1091c2f4e53ecf5e2c2c49668a0f59"
 }

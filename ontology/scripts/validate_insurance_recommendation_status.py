@@ -10,6 +10,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 INSURANCE_EXPORT = REPO_ROOT / "ontology/exports/korea-insurance-products-ontology-2026.json"
+REQUIRED_COVERAGE_FIELDS = (
+    "coverage_amount_basis",
+    "claim_condition",
+    "exclusion_condition",
+)
 
 
 def main() -> int:
@@ -19,13 +24,22 @@ def main() -> int:
     errors: list[str] = []
     incomplete_products = 0
     for product in products:
-        incomplete = any(
-            isinstance(criterion, dict)
-            and criterion.get("criteria_kind") == "coverage"
-            and criterion.get("condition_completeness") == "incomplete"
+        coverage_criteria = [
+            criterion
             for criterion in product.get("criteria") or []
+            if isinstance(criterion, dict) and criterion.get("criteria_kind") == "coverage"
+        ]
+        for criterion in product.get("criteria") or []:
+            if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
+                continue
+            for field in REQUIRED_COVERAGE_FIELDS:
+                if field not in criterion:
+                    errors.append(f"{product['id']}: coverage에 {field} 필드가 없습니다.")
+        incomplete = any(
+            criterion.get("condition_completeness") == "incomplete"
+            for criterion in coverage_criteria
         )
-        if not incomplete:
+        if coverage_criteria and not incomplete:
             continue
         incomplete_products += 1
         if product.get("recommendation_status") != "reference_only":

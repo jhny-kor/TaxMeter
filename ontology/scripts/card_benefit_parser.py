@@ -9,9 +9,12 @@ from __future__ import annotations
 
 import re
 
+EOK_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*억원")
+CHEON_MAN_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*천만원")
 COMPOUND_MONEY_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*만\s*(\d+(?:[,.]\d+)?)\s*천원")
 MONEY_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*(만원|천원|원)")
 BENEFIT_RATE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
+BENEFIT_RATE_RANGE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:~|-|∼|～)\s*(\d+(?:\.\d+)?)\s*%")
 # 공백 제거 후 매칭하는 조건 패턴
 PREV_MONTH_SPEND_MIN_RE = re.compile(r"전월(?:카드)?(?:이용)?(?:실적|금액)(\d+(?:\.\d+)?)(만원|천원|원)이상")
 ANNUAL_FEE_AMOUNT_RE = re.compile(r"연회비:?(\d+(?:\.\d+)?)(만원|천원|원)")
@@ -21,6 +24,20 @@ INTEGRATED_LIMIT_RE = re.compile(r"통합한도(?:월)?(\d+(?:\.\d+)?)(만원|�
 
 def parse_krw_amount(text: str) -> int | None:
     compact_text = text.replace(",", "")
+    eok_match = EOK_RE.search(compact_text)
+    if eok_match:
+        try:
+            return int(float(eok_match.group(1)) * 100_000_000)
+        except ValueError:
+            return None
+
+    cheon_man_match = CHEON_MAN_RE.search(compact_text)
+    if cheon_man_match:
+        try:
+            return int(float(cheon_man_match.group(1)) * 10_000_000)
+        except ValueError:
+            return None
+
     compound_match = COMPOUND_MONEY_RE.search(compact_text)
     if compound_match:
         man_text, cheon_text = compound_match.groups()
@@ -70,10 +87,16 @@ def has_no_previous_month_spend(text: str) -> bool:
         keyword in compact
         for keyword in (
             "no전월실적",
+            "전월실적없이",
             "전월실적없음",
+            "전월실적조건없이",
+            "실적조건없고",
+            "실적조건없음",
+            "실적조건없이",
             "전월이용금액조건없음",
             "전월이용금액없음",
             "전월실적조건없음",
+            "조건없이",
         )
     )
 
@@ -86,8 +109,10 @@ def has_no_annual_fee(text: str) -> bool:
 def benefit_type(text: str) -> str | None:
     if any(keyword in text for keyword in ("적립", "포인트", "마일리지", "캐시백")):
         return "point_accumulation"
-    if "할인" in text:
+    if any(keyword in text for keyword in ("할인", "환급할인", "청구할인", "즉시할인")):
         return "discount"
+    if "면제" in text:
+        return "fee_waiver"
     return None
 
 
@@ -100,9 +125,60 @@ def monthly_benefit_limit_krw(text: str) -> int | None:
     return parse_krw_amount(text)
 
 
+def has_unlimited_monthly_limit(text: str) -> bool:
+    compact = text.replace(" ", "")
+    return any(
+        keyword in compact
+        for keyword in (
+            "한도없이",
+            "한도없는",
+            "한도도없는",
+            "적립한도없",
+            "할인한도없",
+        )
+    )
+
+
 def card_benefit_rate_percent(text: str) -> float | None:
     match = BENEFIT_RATE_RE.search(text)
     return float(match.group(1)) if match else None
+
+
+def card_benefit_rate_range(text: str) -> tuple[float, float] | None:
+    match = BENEFIT_RATE_RANGE_RE.search(text)
+    if not match:
+        return None
+    lower, upper = (float(value) for value in match.groups())
+    return min(lower, upper), max(lower, upper)
+
+
+def benefit_categories(text: str) -> list[str]:
+    categories = []
+    for keyword in (
+        "커피",
+        "점심",
+        "저녁",
+        "쇼핑",
+        "학원",
+        "영화",
+        "대중교통",
+        "병원",
+        "약국",
+        "주유",
+        "백화점",
+        "해외",
+        "편의점",
+        "다이소",
+        "통신",
+        "구독",
+        "온라인",
+        "서점",
+        "외식",
+        "카페",
+    ):
+        if keyword in text:
+            categories.append(keyword)
+    return categories
 
 
 def enrich_card_benefits(item: dict) -> None:
@@ -148,12 +224,31 @@ def enrich_card_benefits(item: dict) -> None:
             benefit["benefit_rate_percent"] = parsed_rate
         else:
             benefit.setdefault("benefit_rate_percent", None)
+        parsed_rate_range = card_benefit_rate_range(text)
+        if parsed_rate_range is not None:
+            benefit["benefit_rate_min_percent"] = parsed_rate_range[0]
+            benefit["benefit_rate_max_percent"] = parsed_rate_range[1]
+        else:
+            benefit.setdefault("benefit_rate_min_percent", benefit.get("benefit_rate_percent"))
+            benefit.setdefault("benefit_rate_max_percent", benefit.get("benefit_rate_percent"))
         if (per_tx_match := PER_TRANSACTION_RE.search(compact)):
             benefit["per_transaction_limit_krw"] = krw_amount(*per_tx_match.groups())
         benefit.setdefault("per_transaction_limit_krw", None)
+        if has_unlimited_monthly_limit(text):
+            benefit["monthly_benefit_limit_krw"] = None
+            benefit["monthly_benefit_limit_unlimited"] = True
+        else:
+            benefit.setdefault("monthly_benefit_limit_unlimited", False)
+        if benefit.get("benefit_type") in {"discount", "point_accumulation"} and parsed_monthly_limit is None:
+            benefit.setdefault("fixed_benefit_amount_krw", parse_krw_amount(text))
+        else:
+            benefit.setdefault("fixed_benefit_amount_krw", None)
+        benefit["benefit_categories"] = benefit_categories(text)
         benefit.setdefault("excluded_spend", [])
         missing = []
         for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend"):
+            if key == "monthly_benefit_limit_krw" and benefit.get("monthly_benefit_limit_unlimited") is True:
+                continue
             value = benefit.get(key)
             if value is None or value == "" or value == []:
                 missing.append(key)
