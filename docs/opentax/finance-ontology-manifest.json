@@ -2,12 +2,12 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-08T22:29:21Z",
+  "built_at": "2026-07-09T03:33:47Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-08T22:29:21Z",
+      "built_at": "2026-07-09T03:33:47Z",
       "domain_export_count": 8,
       "search_index_item_count": 21342,
       "checksum_covered_export_count": 9,
@@ -123,11 +123,11 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 598,
+        "loans_missing_required_fields": 553,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 15,
-        "recommendation_listing_only_products": 598,
+        "reference_only_products": 553,
+        "recommendation_listing_only_products": 553,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -366,7 +366,7 @@
     "source_review_date": "2026-07-04",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "6d97fa57376345c8d062280bcdea32e924a864f504cdcc567cd1bbac5cea183c",
+    "export_checksum": "73e93a28564015d4895968e37912212655ed3a73e3085c8d949507a75336477a",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -381,14 +381,14 @@
       "source_review_date": "2026-07-04",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-08T22:29:21Z",
+        "built_at": "2026-07-09T03:33:47Z",
         "domain_export_count": 8,
         "search_index_item_count": 21342,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "60136c36948e4aeafb3a10da85cff8d6a541c38ee042738e897ecefa81d276e6",
+      "export_checksum": "54cfc84d3c91a83322b293a174403c005f7eb5098108046f068fb053e733dd46",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -455,7 +455,7 @@
         "recommendation_candidates": 5168,
         "recommendation_reference_only": 2652
       },
-      "export_checksum": "e73ac7c074596e70b85dae6e36c03eaced97994473ecceb7da79ddb3aeb206b8",
+      "export_checksum": "29d5e096425fc9d401c27428a05308b4f0295cc9916c22e1bb3b7512fd08af97",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -608,11 +608,11 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 598,
+        "loans_missing_required_fields": 553,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 15,
-        "recommendation_listing_only_products": 598,
+        "reference_only_products": 553,
+        "recommendation_listing_only_products": 553,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -621,7 +621,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5c5488a9ca4e65635d5754f5824963b432836039cd59916ece3b035b2dddb3fc",
+      "export_checksum": "2b9a157f7b2457fbf292effaed25c8dfcdbafea0fda35b34e5f1722222bb8f5e",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {

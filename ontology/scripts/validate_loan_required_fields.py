@@ -1,26 +1,20 @@
 """대출 상품 필수 필드 검증.
 
 active인데 criteria가 없는 대출은 reference_only여야 하고,
-필수 필드(금리 min/max, 상환방식, 한도, 중도상환수수료, 대출대상, 담보유형)가
-하나라도 없으면 추천이 허용되지 않아야 한다(listing_only + 추천 승격 금지).
+필수 필드(금리 min/max, 상환방식, 한도, 중도상환수수료, 대출대상, 담보유형, 금리유형)가
+하나라도 없으면 recommendation_status=reference_only여야 한다.
 """
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from loan_product_normalizer import LOAN_REQUIRED_FIELDS  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LOAN_EXPORT = REPO_ROOT / "ontology/exports/korea-loan-products-ontology-2026.json"
-
-REQUIRED_FIELDS = (
-    "loan_rate_min_percent",
-    "loan_rate_max_percent",
-    "repayment_method",
-    "loan_limit_krw",
-    "early_repayment_fee",
-    "eligible_borrower",
-    "collateral_type",
-)
 
 
 def main() -> int:
@@ -37,16 +31,14 @@ def main() -> int:
             continue
         missing = [
             field
-            for field in REQUIRED_FIELDS
+            for field in LOAN_REQUIRED_FIELDS
             if loan.get(field) is None and not (field == "loan_limit_krw" and loan.get("loan_limit_text"))
         ]
         if sorted(missing) != sorted(loan.get("missing_loan_required_fields") or []):
             errors.append(f"{loan['id']}: missing_loan_required_fields가 실제 누락({missing})과 다릅니다.")
         if missing:
-            if loan.get("recommendation_status") == "eligible_for_recommendation":
-                errors.append(f"{loan['id']}: 필수 필드 누락인데 eligible_for_recommendation입니다.")
-            if loan.get("recommendation_scope") != "listing_only":
-                errors.append(f"{loan['id']}: 필수 필드 누락인데 recommendation_scope={loan.get('recommendation_scope')}")
+            if loan.get("recommendation_status") != "reference_only":
+                errors.append(f"{loan['id']}: 필수 필드 누락({missing})인데 recommendation_status={loan.get('recommendation_status')}")
         else:
             fully_fielded += 1
     for error in errors[:20]:
@@ -54,7 +46,7 @@ def main() -> int:
     if errors:
         print(f"FAILED: {len(errors)} violations across {len(loans)} loans")
         return 1
-    print(f"OK: {len(loans)} loans validated (fully fielded: {fully_fielded})")
+    print(f"OK: {len(loans)} loans validated (required fields: {len(LOAN_REQUIRED_FIELDS)}, fully fielded: {fully_fielded})")
     return 0
 
 

@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
   "basis_date": "2026-07-04",
   "source_review_date": "2026-07-04",
-  "built_at": "2026-07-08T22:29:21Z",
+  "built_at": "2026-07-09T03:33:47Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -36,7 +36,7 @@
         "recommendation_candidates": 5168,
         "recommendation_reference_only": 2652
       },
-      "export_checksum": "e73ac7c074596e70b85dae6e36c03eaced97994473ecceb7da79ddb3aeb206b8"
+      "export_checksum": "29d5e096425fc9d401c27428a05308b4f0295cc9916c22e1bb3b7512fd08af97"
     },
     {
       "id": "card-products-ontology",
@@ -157,11 +157,11 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 598,
+        "loans_missing_required_fields": 553,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 15,
-        "recommendation_listing_only_products": 598,
+        "reference_only_products": 553,
+        "recommendation_listing_only_products": 553,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -170,7 +170,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5c5488a9ca4e65635d5754f5824963b432836039cd59916ece3b035b2dddb3fc"
+      "export_checksum": "2b9a157f7b2457fbf292effaed25c8dfcdbafea0fda35b34e5f1722222bb8f5e"
     },
     {
       "id": "insurance-products-ontology",
@@ -391,7 +391,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-08T22:29:21Z",
+    "built_at": "2026-07-09T03:33:47Z",
     "domain_export_count": 8,
     "search_index_item_count": 21342,
     "checksum_covered_export_count": 9,
@@ -400,12 +400,12 @@
   },
   "live_search_regression": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-08T22:53:26+00:00",
+    "checked_at": "2026-07-09T03:34:29+00:00",
     "test_count": 10,
     "passed_count": 10,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "cbe5d65ca09026e57daf13fd3947b4dfaadd7710e98c1aabbdaa678bfe9307e9"
+  "export_checksum": "6d4d4b6cf3a88f7d295b11a25f01c3d401de558e4c49b4622b4f35d5b80bb820"
 }

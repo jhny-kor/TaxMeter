@@ -473,12 +473,12 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-08T22:53:26+00:00",
+    "checked_at": "2026-07-09T03:34:29+00:00",
     "test_count": 10,
     "passed_count": 10,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "522592de4ed2e1d060aeb234a8b33a7a8aa3f0df2db940c41ce3e6da802500a4"
+  "export_checksum": "57dbbd5a3c1c6c1a641d717597e8c7b1e05b139e9f42722725341060734b063e"
 }

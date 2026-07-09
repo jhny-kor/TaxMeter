@@ -1,7 +1,7 @@
 """지원사업 신청 상태와 추천 상태의 정합성 검증.
 
 application_status=unknown/closed → recommendation_status=reference_only (추천 후보 제외),
-application_status=open → 추천 후보(eligible_for_listing 또는 recommendation_candidate).
+application_status=open → recommendation_candidate.
 """
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SUPPORT_EXPORT = REPO_ROOT / "ontology/exports/korea-local-government-supports-ontology-2026.json"
-OPEN_STATUSES = {"eligible_for_listing", "recommendation_candidate"}
+OPEN_STATUSES = {"recommendation_candidate"}
 
 
 def main() -> int:
