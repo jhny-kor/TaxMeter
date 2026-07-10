@@ -435,8 +435,8 @@
     }
   },
   "live_search_regression": {
-    "mcp_url": "http://127.0.0.1:8787/mcp",
-    "checked_at": "2026-07-10T04:21:47+00:00",
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-10T04:27:43+00:00",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
     "search_index_checksum": "faa0fd0a59e45c332cbca28e5a3cc474738f2296ffdc94c851cc82cf1a8aa890",
     "test_count": 16,
@@ -445,5 +445,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "41fff879b3f59aa6d8ce63be11ef8b086794247ce672dd5201e71345dbf00caa"
+  "export_checksum": "61f168c9c55df7c45a756466a3b1235d217dd7fc76a7f7487a0be85ee6dd4dcd"
 }
