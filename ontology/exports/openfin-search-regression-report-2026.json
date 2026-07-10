@@ -1,11 +1,11 @@
 {
-  "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.04.1",
-  "basis_date": "2026-07-04",
-  "source_review_date": "2026-07-04",
+  "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.10.1",
+  "basis_date": "2026-07-10",
+  "source_review_date": "2026-07-10",
   "ontology_kind": "openfin-search-regression-report",
   "search_index_path": "ontology/exports/finance-search-index-2026.json",
-  "test_count": 11,
-  "passed_count": 11,
+  "test_count": 17,
+  "passed_count": 17,
   "failed_count": 0,
   "tests": [
     {
@@ -421,7 +421,7 @@
           "type": "bank-product",
           "status": "active",
           "application_status": null,
-          "recommendation_status": "reference_only",
+          "recommendation_status": "recommendation_candidate",
           "score": 13
         },
         {
@@ -430,7 +430,7 @@
           "type": "bank-product",
           "status": "active",
           "application_status": null,
-          "recommendation_status": "reference_only",
+          "recommendation_status": "recommendation_candidate",
           "score": 13
         },
         {
@@ -450,6 +450,176 @@
           "application_status": "open",
           "recommendation_status": "recommendation_candidate",
           "score": 13
+        }
+      ]
+    },
+    {
+      "query": "청년 전세대출 추천",
+      "type_filter": null,
+      "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "actual_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "passed": true,
+      "recommendation_candidates_only": true,
+      "top_results": [
+        {
+          "id": "finance.bank.policy-loan.kinfa-api.104",
+          "title": "우리은행 우리 청년맞춤형 전세대출",
+          "type": "bank-product",
+          "recommendation_status": "recommendation_candidate",
+          "score": 32
+        }
+      ]
+    },
+    {
+      "query": "전월실적 없는 체크카드 추천",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "expected_empty": true,
+      "top_results": []
+    },
+    {
+      "query": "보험 추천",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "expected_empty": true,
+      "top_results": []
+    },
+    {
+      "query": "정기예금 비교해",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.deposit.0013002.bnk1003",
+      "passed": true,
+      "expected_search_type": "deposit",
+      "top_results": [
+        {
+          "id": "finance.bank.deposit.0013002.bnk1003",
+          "title": "BNK저축은행 삼삼한정기예금(회전정기예금)(1년단위 변동금리)",
+          "type": "bank-product",
+          "search_type": "deposit",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.deposit.0013002.bnk1001",
+          "title": "BNK저축은행 정기예금(대면)",
+          "type": "bank-product",
+          "search_type": "deposit",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.deposit.0013002.bnk1005",
+          "title": "BNK저축은행 정기예금(비대면,인터넷,모바일)",
+          "type": "bank-product",
+          "search_type": "deposit",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.deposit.0010478.240006",
+          "title": "CK저축은행 정기예금(강릉지점)",
+          "type": "bank-product",
+          "search_type": "deposit",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.deposit.0010478.240003",
+          "title": "CK저축은행 정기예금(인터넷,모바일,비대면)",
+          "type": "bank-product",
+          "search_type": "deposit",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "query": "적금 비교해",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.saving.0013002.bnk1002",
+      "passed": true,
+      "expected_search_type": "saving",
+      "top_results": [
+        {
+          "id": "finance.bank.saving.0013002.bnk1002",
+          "title": "BNK저축은행 정기적금",
+          "type": "bank-product",
+          "search_type": "saving",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.saving.0010478.310004",
+          "title": "CK저축은행 정기적금",
+          "type": "bank-product",
+          "search_type": "saving",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.saving.0010478.310005",
+          "title": "CK저축은행 정기적금(인터넷,모바일,비대면)",
+          "type": "bank-product",
+          "search_type": "saving",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.saving.0010404.dh003",
+          "title": "DH저축은행 정기적금",
+          "type": "bank-product",
+          "search_type": "saving",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.saving.0010404.dh004",
+          "title": "DH저축은행 정기적금(비대면)",
+          "type": "bank-product",
+          "search_type": "saving",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "query": "주택담보대출 비교해",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.mortgage-loan.0013002.bnk3652",
+      "passed": true,
+      "expected_search_type": "loan",
+      "top_results": [
+        {
+          "id": "finance.bank.mortgage-loan.0013002.bnk3652",
+          "title": "BNK저축은행 중도금대출(주택)",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.mortgage-loan.0010478.760029",
+          "title": "CK저축은행 주택담보대출",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.mortgage-loan.0012889.760087",
+          "title": "IBK저축은행 주택담보대출",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.mortgage-loan.0013308.760494",
+          "title": "JT친애저축은행 원더풀부동산담보대출",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
+        },
+        {
+          "id": "finance.bank.mortgage-loan.0010439.760058",
+          "title": "MS저축은행 중도금대출(주택)",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
         }
       ]
     }
@@ -524,16 +694,73 @@
       "expected_top_id": "deduction.credit-card-use",
       "actual_top_id": "deduction.credit-card-use",
       "passed": true
+    },
+    {
+      "query": "청년 전세대출 추천",
+      "type": null,
+      "validation_kind": "recommendation_candidate_only",
+      "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "actual_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "passed": true,
+      "recommendation_candidates_only": true
+    },
+    {
+      "query": "전월실적 없는 체크카드 추천",
+      "type": null,
+      "validation_kind": "blocked_recommendation_empty",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true
+    },
+    {
+      "query": "보험 추천",
+      "type": null,
+      "validation_kind": "blocked_recommendation_empty",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true
+    },
+    {
+      "query": "정기예금 비교해",
+      "type": null,
+      "validation_kind": "comparison_search_type",
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.deposit.0010024.21001115",
+      "expected_search_type": "deposit",
+      "actual_search_type": "deposit",
+      "passed": true
+    },
+    {
+      "query": "적금 비교해",
+      "type": null,
+      "validation_kind": "comparison_search_type",
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.saving.0010024.21001259",
+      "expected_search_type": "saving",
+      "actual_search_type": "saving",
+      "passed": true
+    },
+    {
+      "query": "주택담보대출 비교해",
+      "type": null,
+      "validation_kind": "comparison_search_type",
+      "expected_top_id": null,
+      "actual_top_id": "finance.bank.mortgage-loan.0010024.30002130",
+      "expected_search_type": "loan",
+      "actual_search_type": "loan",
+      "passed": true
     }
   ],
   "live_summary": {
-    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-09T03:34:29+00:00",
-    "test_count": 10,
-    "passed_count": 10,
+    "mcp_url": "http://127.0.0.1:8787/mcp",
+    "checked_at": "2026-07-10T04:21:47+00:00",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+    "search_index_checksum": "faa0fd0a59e45c332cbca28e5a3cc474738f2296ffdc94c851cc82cf1a8aa890",
+    "test_count": 16,
+    "passed_count": 16,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "9cba7a6833f5632bbe10eaa7207fab1c3e920cac8c13bb9061735e455c1d97ad"
+  "export_checksum": "2ebf9b8e1d5ddaa1c9fdb1b7515a5c986b8dc01a9167c3aab43066fd88d8990e"
 }

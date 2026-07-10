@@ -13,6 +13,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 EXPORT_DIR = REPO_ROOT / "ontology/exports"
 QUALITY_MANIFEST = EXPORT_DIR / "openfin-quality-manifest-2026.json"
 REGRESSION_REPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
+FINANCE_MANIFEST = EXPORT_DIR / "finance-ontology-manifest.json"
 
 
 def check_summary(errors: list[str], name: str, summary: dict) -> None:
@@ -55,6 +56,10 @@ def main() -> int:
         check_summary(errors, "live_search_regression", live)
         if not live.get("checked_at"):
             errors.append("live_search_regression.checked_at이 없습니다.")
+        finance_manifest = json.loads(FINANCE_MANIFEST.read_text(encoding="utf-8"))
+        expected_search_checksum = (finance_manifest.get("search_index") or {}).get("export_checksum")
+        if live.get("search_index_checksum") != expected_search_checksum:
+            errors.append("live_search_regression.search_index_checksum이 현재 검색 인덱스와 다릅니다.")
 
     # 3) 도메인 요약 체크섬이 실제 export와 일치
     for entry in manifest.get("domain_summaries") or []:

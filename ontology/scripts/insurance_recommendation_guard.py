@@ -12,7 +12,7 @@ from card_benefit_parser import parse_krw_amount
 RENEWAL_CYCLE_RE = re.compile(r"(\d+)\s*년\s*갱신")
 
 
-def coverage_amount_from_options(options: list[dict]) -> int | None:
+def premium_basis_amount(options: list[dict]) -> int | None:
     amounts = [
         amount
         for option in options
@@ -42,14 +42,16 @@ def enrich_insurance_coverage(item: dict) -> None:
         renewal_type = "non_renewable"
     elif "갱신" in renewal_text:
         renewal_type = "renewable"
-    amount = coverage_amount_from_options(options)
+    amount = premium_basis_amount(options)
     cycle_years = renewal_cycle_years(renewal_text, renewal_type)
     for criterion in criteria:
         if criterion.get("criteria_kind") != "coverage":
             continue
         criterion.setdefault("coverage_name", criterion.get("benefit") or criterion.get("condition") or criterion.get("label"))
-        criterion.setdefault("coverage_amount_krw", amount)
-        criterion.setdefault("coverage_amount_basis", "premium_amount" if amount is not None else None)
+        criterion.setdefault("coverage_amount_krw", None)
+        criterion.setdefault("coverage_amount_basis", None)
+        criterion.setdefault("disclosed_insured_amount_krw", amount)
+        criterion.setdefault("disclosed_insured_amount_basis", "association_premium_basis_amount" if amount is not None else None)
         criterion.setdefault("premium_male_krw", premium.get("premium_male_krw"))
         criterion.setdefault("premium_female_krw", premium.get("premium_female_krw"))
         criterion.setdefault("renewal_type", renewal_type)
@@ -86,7 +88,9 @@ def apply_insurance_recommendation_guard(item: dict) -> None:
         criterion.get("condition_completeness") == "incomplete"
         for criterion in coverage_criteria
     )
-    if coverage_criteria and not incomplete:
+    if item.get("status") == "active" and coverage_criteria and not incomplete:
+        item["recommendation_status"] = "recommendation_candidate"
+        item["recommendation_scope"] = "criteria_match_only"
         return
     item["recommendation_scope"] = "listing_only"
     item["recommendation_exclusion_reasons"] = sorted({

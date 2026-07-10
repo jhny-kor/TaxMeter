@@ -7,6 +7,7 @@ FSS 금융상품한눈에·서민금융진흥원 공시 원문(criteria/options/
 from __future__ import annotations
 
 import re
+from typing import assert_never
 
 from card_benefit_parser import parse_krw_amount
 
@@ -62,6 +63,8 @@ def parse_loan_limit_krw(text: str) -> int | None:
                 values.append(int(value * 1_000))
             case "원":
                 values.append(int(value))
+            case unreachable:
+                assert_never(unreachable)
     return max(values) if values else parse_krw_amount(text)
 
 
@@ -199,7 +202,7 @@ def normalize_loan_product(item: dict) -> None:
     missing = [
         field
         for field in LOAN_REQUIRED_FIELDS
-        if item.get(field) is None and not (field == "loan_limit_krw" and item.get("loan_limit_text"))
+        if item.get(field) is None
     ]
     item["missing_loan_required_fields"] = missing
 
@@ -207,15 +210,19 @@ def normalize_loan_product(item: dict) -> None:
         item["recommendation_status"] = "reference_only"
         item["status_reason"] = "대출 비교·추천에 필요한 criteria가 비어 있어 참조 전용으로만 노출합니다."
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
-    item["recommendation_status"] = "reference_only"
-    item["recommendation_scope"] = "listing_only"
-    item["recommendation_exclusion_reasons"] = unique([
-        *(item.get("recommendation_exclusion_reasons") or []),
-        "loan_recommendation_suspended_pending_required_field_review",
-    ])
-
+    if item.get("status") == "active" and item.get("criteria") and not missing and "source_domain_reclassified" not in (item.get("quality_flags") or []):
+        item["recommendation_status"] = "recommendation_candidate"
+        item["recommendation_scope"] = "criteria_match_only"
+        item["recommendation_basis_fields"] = list(LOAN_REQUIRED_FIELDS)
+        item["recommendation_exclusion_reasons"] = [
+            reason
+            for reason in item.get("recommendation_exclusion_reasons") or []
+            if reason not in {"incomplete_loan_required_fields", "loan_recommendation_suspended_pending_required_field_review"}
+        ]
+    else:
+        item["recommendation_status"] = "reference_only"
+        item["recommendation_scope"] = "listing_only"
     if missing:
-        # 필수 조건이 하나라도 빠지면 추천은 물론 목록 승격도 금지한다.
         item["recommendation_exclusion_reasons"] = unique([
             *(item.get("recommendation_exclusion_reasons") or []),
             "incomplete_loan_required_fields",

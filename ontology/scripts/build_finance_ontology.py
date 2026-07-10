@@ -27,7 +27,7 @@ EXPORT_DIR = ROOT / "exports"
 CUSTOM_FINANCE_DIR = ROOT / "custom" / "finance"
 DOCS_ROOT = REPO_ROOT / "docs" / "opentax"
 
-CURRENT_REVIEW_DATE = "2026-07-04"
+CURRENT_REVIEW_DATE = "2026-07-10"
 CURRENT_BASIS_YEAR = 2026
 DISCLOSURE_STALE_BEFORE = "202401"
 RAW_BASE_URL = "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main"
@@ -71,6 +71,22 @@ TAX_SEARCH_REGRESSIONS = (
 SUPPORT_SEARCH_REGRESSIONS = (
     {"query": "서울시 청년 월세 지원", "no_reference_only_support_results": True},
 )
+RECOMMENDATION_SEARCH_REGRESSIONS = (
+    {
+        "query": "청년 전세대출 추천",
+        "expected_type": "bank-product",
+        "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
+    },
+)
+BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS = (
+    {"query": "전월실적 없는 체크카드 추천"},
+    {"query": "보험 추천"},
+)
+COMPARISON_SEARCH_REGRESSIONS = (
+    {"query": "정기예금 비교해", "expected_search_type": "deposit"},
+    {"query": "적금 비교해", "expected_search_type": "saving"},
+    {"query": "주택담보대출 비교해", "expected_search_type": "loan"},
+)
 TAX_SEARCH_ALIASES = {
     "credit.medical-expense": ("연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"),
     "credit.monthly-rent": ("월세 세액공제 조건", "월세액 세액공제 조건"),
@@ -79,11 +95,16 @@ TAX_SEARCH_ALIASES = {
     "deduction.credit-card-use": ("신용카드 소득공제 한도", "신용카드 등 사용금액 소득공제 한도"),
 }
 INACTIVE_QUERY_RE = re.compile(r"(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)", re.I)
+RECOMMENDATION_QUERY_RE = re.compile(r"(추천|골라|맞는\s*상품|recommend)", re.I)
+RATE_QUERY_RE = re.compile(r"(금리|최고금리|중도해지|정기예금|적금|대출|개월)", re.I)
+PROTECTION_QUERY_RE = re.compile(r"(예금자보호|보호대상|보호상품|kdic|보호)", re.I)
 OPERATING_POLICY = {
     "allowed": [
         "tax_explanation_lookup",
         "deposit_and_saving_rate_lookup",
         "loan_disclosure_reference_lookup",
+        "loan_required_field_candidate_matching",
+        "recommendation_candidate_search",
         "insurance_representative_coverage_and_premium_lookup",
         "card_benefit_text_lookup",
         "local_support_open_status_assistance",
@@ -91,7 +112,7 @@ OPERATING_POLICY = {
     ],
     "blocked": [
         "card_automatic_recommendation",
-        "loan_automatic_recommendation",
+        "loan_personalized_recommendation",
         "insurance_automatic_recommendation",
         "personalized_financial_product_ranking",
         "local_support_final_eligibility_decision",
@@ -103,7 +124,7 @@ OPERATING_POLICY = {
         "saving-products": "rate_listing_allowed",
         "local-government-supports": "only_application_status_open_can_be_a_candidate",
         "card-products": "benefit_text_lookup_only_until_conditions_are_complete",
-        "loan-products": "reference_only_until_all_required_fields_and_review_gate_pass",
+        "loan-products": "recommendation_candidate_only_when_active_and_all_required_fields_are_complete",
         "insurance-products": "reference_only_when_coverage_conditions_are_incomplete",
     },
 }
@@ -1256,8 +1277,33 @@ def card_items() -> list[dict]:
     ])
 
 
+def is_insurance_loan(item: dict) -> bool:
+    raw = item.get("raw")
+    return isinstance(raw, dict) and bool(raw.get("loan_type") or "대출" in str(raw.get("fin_prdt_type_nm") or ""))
+
+
+def reclassified_insurance_loans() -> list[dict]:
+    items = []
+    for source in load_generated("insurance"):
+        if not is_insurance_loan(source):
+            continue
+        item = dict(source)
+        item["id"] = str(item.get("id") or "").replace("finance.insurance.annuity-saving.", "finance.bank.insurer-loan.")
+        item["type"] = "bank-product"
+        item["description"] = f"보험사가 금융감독원에 공시한 대출상품 '{item.get('title')}'입니다."
+        item["parents"] = ["category.finance.business-loan-products"]
+        item["terms"] = unique([*(item.get("terms") or []), "term.bank.repayment-method", "term.bank.early-repayment-fee"])
+        item["tags"] = unique([*(item.get("tags") or []), "insurer-loan", "business-loan", "source-domain-reclassified"])
+        item["product_kind"] = "business-loan"
+        item["financial_sector"] = "보험사 대출"
+        item["quality_flags"] = unique([*(item.get("quality_flags") or []), "source_domain_reclassified"])
+        item["recommendation_exclusion_reasons"] = unique([*(item.get("recommendation_exclusion_reasons") or []), "source_domain_reclassified"])
+        items.append(item)
+    return items
+
+
 def bank_items() -> list[dict]:
-    generated = load_generated("deposit") + load_generated("saving") + load_generated("loan")
+    generated = load_generated("deposit") + load_generated("saving") + load_generated("loan") + reclassified_insurance_loans()
     policy_generated = load_generated("policy_loan")
     items = [
         node(
@@ -1695,7 +1741,11 @@ def bank_pack_items(pack: str) -> list[dict]:
 
 
 def insurance_items() -> list[dict]:
-    generated = load_generated("insurance")
+    generated = [
+        item
+        for item in load_generated("insurance")
+        if not is_insurance_loan(item)
+    ]
     items = [
         node(
             "finance.insurance-products-ontology",
@@ -1954,6 +2004,7 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         ),
         "stale_disclosure_products": stale_count,
         "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
+        "recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "recommendation_candidate"),
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "quality_gate": {
             "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -2146,6 +2197,20 @@ def query_tokens(query: str) -> list[str]:
     return [token for token in query.strip().lower().split() if token]
 
 
+def matches_recommendation_domain(item_type: str, search_type: str, query: str) -> bool:
+    if "보험" in query:
+        return item_type == "insurance-product"
+    if any(token in query for token in ("카드", "체크카드", "신용카드")):
+        return item_type == "card-product"
+    if "대출" in query:
+        return search_type == "loan"
+    if "정기예금" in query or "예금" in query:
+        return search_type == "deposit"
+    if "적금" in query:
+        return search_type == "saving"
+    return True
+
+
 def score_search_index_item(item: dict, query: str) -> int:
     normalized_query = query.strip().lower()
     title = str(item.get("title") or "").strip().lower()
@@ -2155,10 +2220,23 @@ def score_search_index_item(item: dict, query: str) -> int:
     tokens = query_tokens(normalized_query)
     title_tokens = query_tokens(title)
     item_type = str(item.get("type") or "")
+    search_type = str(item.get("search_type") or item.get("product_kind") or "").strip().lower()
     status = str(item.get("status") or "").strip().lower()
     application_status = str(item.get("application_status") or "").strip().lower()
     recommendation_status = str(item.get("recommendation_status") or "").strip().lower()
+    rate_intent = bool(RATE_QUERY_RE.search(normalized_query))
 
+    if search_type == "deposit-protection" and rate_intent and not PROTECTION_QUERY_RE.search(normalized_query):
+        return 0
+    if RECOMMENDATION_QUERY_RE.search(normalized_query):
+        intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
+        if (
+            recommendation_status != "recommendation_candidate"
+            or not matches_recommendation_domain(item_type, search_type, normalized_query)
+            or not intent_tokens
+            or not all(token in text for token in intent_tokens)
+        ):
+            return 0
     if (
         item_type == "support-program"
         and (
@@ -2193,6 +2271,8 @@ def score_search_index_item(item: dict, query: str) -> int:
             score = 30 + len(matched)
         if not score and matched:
             score = 10 + len(matched)
+    if score and rate_intent and search_type in {"deposit", "saving", "loan"}:
+        score += 20
     return score
 
 
@@ -2251,7 +2331,7 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
             seen.add(item_id)
             indexed.append(search_index_item(item, export_id))
     payload = {
-        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.04.1",
+        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "ontology_kind": "finance-search-index",
@@ -2336,9 +2416,87 @@ def write_search_regression_report() -> dict:
             "no_reference_only_support_results": regression["no_reference_only_support_results"],
             "top_results": results[:5],
         })
+    for regression in RECOMMENDATION_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "recommendation_status": item.get("recommendation_status"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:10]
+        tests.append({
+            "query": query,
+            "type_filter": None,
+            "expected_top_id": regression["expected_top_id"],
+            "actual_top_id": results[0].get("id") if results else None,
+            "passed": bool(results)
+            and results[0].get("id") == regression["expected_top_id"]
+            and all(item.get("recommendation_status") == "recommendation_candidate" for item in results)
+            and any(item.get("type") == regression["expected_type"] for item in results),
+            "recommendation_candidates_only": True,
+            "top_results": results[:5],
+        })
+    for regression in BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "recommendation_status": item.get("recommendation_status"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:10]
+        tests.append({
+            "query": query,
+            "type_filter": None,
+            "expected_top_id": None,
+            "actual_top_id": results[0].get("id") if results else None,
+            "passed": not results,
+            "expected_empty": True,
+            "top_results": results[:5],
+        })
+    for regression in COMPARISON_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "search_type": item.get("search_type"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:10]
+        tests.append({
+            "query": query,
+            "type_filter": None,
+            "expected_top_id": None,
+            "actual_top_id": results[0].get("id") if results else None,
+            "passed": bool(results) and results[0].get("search_type") == regression["expected_search_type"],
+            "expected_search_type": regression["expected_search_type"],
+            "top_results": results[:5],
+        })
 
     payload = {
-        "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.04.1",
+        "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "ontology_kind": "openfin-search-regression-report",
@@ -2387,8 +2545,13 @@ def existing_export_count(path: Path) -> int:
 
 def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
     exports = manifest.get("exports") or []
+    previous_quality = (
+        json.loads(QUALITY_MANIFEST_EXPORT.read_text(encoding="utf-8"))
+        if QUALITY_MANIFEST_EXPORT.exists()
+        else {}
+    )
     payload = {
-        "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
+        "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "built_at": manifest.get("built_at"),
@@ -2410,6 +2573,10 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         "export_audit": (manifest.get("quality_summary") or {}).get("export_audit") or {},
         "operating_policy": manifest.get("operating_policy") or {},
     }
+    previous_live = previous_quality.get("live_search_regression") or {}
+    current_search_checksum = (manifest.get("search_index") or {}).get("export_checksum")
+    if current_search_checksum and previous_live.get("search_index_checksum") == current_search_checksum:
+        payload["live_search_regression"] = previous_live
     payload["export_checksum"] = payload_checksum(payload)
     QUALITY_MANIFEST_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
@@ -2436,7 +2603,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
     ]
     built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.04.1",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "built_at": built_at,
@@ -2465,8 +2632,11 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 "semantic_product_related_edges_added": True,
                 "card_incomplete_conditions_reference_only_gate": True,
                 "loan_reference_only_guard": True,
+                "loan_required_fields_candidate_gate": True,
                 "insurance_incomplete_coverage_reference_only_gate": True,
+                "insurance_loan_misclassification_gate": True,
                 "support_unknown_reference_only_gate": True,
+                "recommendation_intent_candidate_only_search": True,
             },
             "finance_exports": {
                 key: value.get("quality_summary", {})
@@ -2781,7 +2951,7 @@ def main() -> int:
     results = {
         "card": write_export(
             CARD_EXPORT,
-            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "KR-CARD-PRODUCTS-ONTOLOGY-2026.07.10.1",
             "card-products",
             card_items(),
             "card-product",
@@ -2789,7 +2959,7 @@ def main() -> int:
         ),
         "deposit": write_export(
             DEPOSIT_EXPORT,
-            "KR-DEPOSIT-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "KR-DEPOSIT-PRODUCTS-ONTOLOGY-2026.07.10.1",
             "deposit-products",
             bank_pack_items("deposit"),
             "bank-product",
@@ -2797,7 +2967,7 @@ def main() -> int:
         ),
         "saving": write_export(
             SAVING_EXPORT,
-            "KR-SAVING-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "KR-SAVING-PRODUCTS-ONTOLOGY-2026.07.10.1",
             "saving-products",
             bank_pack_items("saving"),
             "bank-product",
@@ -2805,7 +2975,7 @@ def main() -> int:
         ),
         "loan": write_export(
             LOAN_EXPORT,
-            "KR-LOAN-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "KR-LOAN-PRODUCTS-ONTOLOGY-2026.07.10.1",
             "loan-products",
             bank_pack_items("loan"),
             "bank-product",
@@ -2813,7 +2983,7 @@ def main() -> int:
         ),
         "insurance": write_export(
             INSURANCE_EXPORT,
-            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.04.1",
+            "KR-INSURANCE-PRODUCTS-ONTOLOGY-2026.07.10.1",
             "insurance-products",
             insurance_items(),
             "insurance-product",
@@ -2822,7 +2992,7 @@ def main() -> int:
     }
     results["reference"] = write_export(
         REFERENCE_EXPORT,
-        "KR-FINANCE-REFERENCE-ONTOLOGY-2026.07.04.1",
+        "KR-FINANCE-REFERENCE-ONTOLOGY-2026.07.10.1",
         "finance-reference",
         finance_reference_items(),
         "finance-reference",

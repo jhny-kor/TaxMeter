@@ -32,7 +32,7 @@ def main() -> int:
         missing = [
             field
             for field in LOAN_REQUIRED_FIELDS
-            if loan.get(field) is None and not (field == "loan_limit_krw" and loan.get("loan_limit_text"))
+            if loan.get(field) is None
         ]
         if sorted(missing) != sorted(loan.get("missing_loan_required_fields") or []):
             errors.append(f"{loan['id']}: missing_loan_required_fields가 실제 누락({missing})과 다릅니다.")

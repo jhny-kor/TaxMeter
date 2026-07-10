@@ -45,6 +45,7 @@ REQUIRED_OPERATIONAL_FIELDS = (
 RATE_QUERY_RE = re.compile(r"(금리|최고금리|중도해지|정기예금|적금|대출|개월)", re.I)
 PROTECTION_QUERY_RE = re.compile(r"(예금자보호|보호대상|보호상품|kdic|보호)", re.I)
 INACTIVE_QUERY_RE = re.compile(r"(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)", re.I)
+RECOMMENDATION_QUERY_RE = re.compile(r"(추천|골라|맞는\s*상품|recommend)", re.I)
 NO_PREVIOUS_MONTH_SPEND_RE = re.compile(r"(No\s*전월실적|전월\s*실적\s*없음|전월\s*이용금액\s*조건\s*없음)", re.I)
 NO_ANNUAL_FEE_RE = re.compile(r"(No\s*연회비|연회비\s*없음|연회비\s*면제)", re.I)
 BENEFIT_RATE_RE = re.compile(r"\d+(?:\.\d+)?\s*%")
@@ -94,6 +95,17 @@ SEARCH_REGRESSIONS = (
         "query": "서울시 청년 월세 지원",
         "no_closed_support_results": True,
     },
+    {
+        "query": "청년 전세대출 추천",
+        "recommendation_candidates_only": True,
+        "expected_type": "bank-product",
+        "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
+    },
+    {"query": "전월실적 없는 체크카드 추천", "expected_empty": True},
+    {"query": "보험 추천", "expected_empty": True},
+    {"query": "정기예금 비교해", "expected_search_type": "deposit"},
+    {"query": "적금 비교해", "expected_search_type": "saving"},
+    {"query": "주택담보대출 비교해", "expected_search_type": "loan"},
 )
 
 
@@ -290,6 +302,21 @@ def search_text(item: dict) -> str:
     return str(item.get("search_text") or " ".join(str(item.get(key) or "") for key in ("id", "title", "type", "description", "product_kind", "search_type", "status", "application_status"))).lower()
 
 
+def matches_recommendation_domain(item: dict, query: str) -> bool:
+    search_type = normalize_query(str(item.get("search_type") or item.get("product_kind") or ""))
+    if "보험" in query:
+        return item.get("type") == "insurance-product"
+    if any(token in query for token in ("카드", "체크카드", "신용카드")):
+        return item.get("type") == "card-product"
+    if "대출" in query:
+        return search_type == "loan"
+    if "정기예금" in query or "예금" in query:
+        return search_type == "deposit"
+    if "적금" in query:
+        return search_type == "saving"
+    return True
+
+
 def search_score(item: dict, raw_query: str) -> int:
     query = normalize_query(raw_query)
     title = normalize_query(str(item.get("title") or ""))
@@ -306,6 +333,15 @@ def search_score(item: dict, raw_query: str) -> int:
 
     if search_type == "deposit-protection" and rate_intent and not PROTECTION_QUERY_RE.search(query):
         return 0
+    if RECOMMENDATION_QUERY_RE.search(query):
+        intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
+        if (
+            recommendation_status != "recommendation_candidate"
+            or not matches_recommendation_domain(item, query)
+            or not intent_tokens
+            or not all(token in text for token in intent_tokens)
+        ):
+            return 0
     if (
         item.get("type") == "support-program"
         and (status in {"closed", "ended"} or application_status == "closed" or recommendation_status == "reference_only")
@@ -336,7 +372,7 @@ def search_score(item: dict, raw_query: str) -> int:
             score = 30 + len(matched)
         if not score and matched:
             score = 10 + len(matched)
-    if rate_intent and search_type in {"deposit", "saving", "loan"}:
+    if score and rate_intent and search_type in {"deposit", "saving", "loan"}:
         score += 20
     return score
 
@@ -357,12 +393,17 @@ def validate_search_regressions(errors: list[str]) -> None:
             key=lambda entry: (-entry[0], str(entry[1].get("title") or "")),
         )
         results = [item for score, item in ranked if score > 0][:10]
+        if regression.get("expected_empty"):
+            require(not results, f"search regression '{query}' expected no recommendation results: {[item.get('id') for item in results]}", errors)
+            continue
         require(bool(results), f"search regression '{query}' returned no results", errors)
         if not results:
             continue
         top_title = str(results[0].get("title") or "")
         if regression.get("expected_top_id"):
             require(results[0].get("id") == regression["expected_top_id"], f"search regression '{query}' top result is {results[0].get('id')} {top_title}", errors)
+        if regression.get("expected_search_type"):
+            require(results[0].get("search_type") == regression["expected_search_type"], f"search regression '{query}' top search_type is {results[0].get('search_type')}", errors)
         if regression.get("no_closed_support_results"):
             closed = [
                 item.get("id")
@@ -371,6 +412,17 @@ def validate_search_regressions(errors: list[str]) -> None:
                 and (item.get("status") == "closed" or item.get("application_status") == "closed")
             ]
             require(not closed, f"search regression '{query}' returned closed supports: {closed}", errors)
+        if regression.get("recommendation_candidates_only"):
+            unsafe = [item.get("id") for item in results if item.get("recommendation_status") != "recommendation_candidate"]
+            intent_tokens = [token for token in query_tokens(query) if not RECOMMENDATION_QUERY_RE.search(token)]
+            irrelevant = [item.get("id") for item in results if not all(token in search_text(item) for token in intent_tokens)]
+            require(not unsafe, f"search regression '{query}' returned non-candidates: {unsafe}", errors)
+            require(not irrelevant, f"search regression '{query}' returned intent-mismatched candidates: {irrelevant}", errors)
+            require(
+                any(item.get("type") == regression.get("expected_type") for item in results),
+                f"search regression '{query}' returned no {regression.get('expected_type')} candidate",
+                errors,
+            )
 
     require(QUALITY_MANIFEST.exists(), f"missing {QUALITY_MANIFEST}", errors)
     require(SEARCH_REGRESSION_REPORT.exists(), f"missing {SEARCH_REGRESSION_REPORT}", errors)

@@ -105,6 +105,7 @@ const OPENAI_APPS_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 const INACTIVE_QUERY_RE = /(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)/i;
+const RECOMMENDATION_QUERY_RE = /(추천|골라|맞는\s*상품|recommend)/i;
 const GENERIC_SEARCH_TYPES = new Set(["category", "term", "domain", "source"]);
 const TAX_DECISION_TYPES = new Set(["tax-credit", "deduction"]);
 const READ_ONLY_TOOL_ANNOTATIONS = {
@@ -206,6 +207,25 @@ function structuredSearchText(value: unknown[] | undefined): string {
   return (value ?? []).slice(0, 4).map((entry) => JSON.stringify(entry)).join(" ");
 }
 
+function matchesRecommendationDomain(item: FinanceItem, query: string, searchType: string): boolean {
+  if (query.includes("보험")) {
+    return item.type === "insurance-product";
+  }
+  if (["카드", "체크카드", "신용카드"].some((token) => query.includes(token))) {
+    return item.type === "card-product";
+  }
+  if (query.includes("대출")) {
+    return searchType === "loan";
+  }
+  if (query.includes("정기예금") || query.includes("예금")) {
+    return searchType === "deposit";
+  }
+  if (query.includes("적금")) {
+    return searchType === "saving";
+  }
+  return true;
+}
+
 function scoreItem(item: FinanceItem, query: string): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
@@ -221,6 +241,17 @@ function scoreItem(item: FinanceItem, query: string): number {
 
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) {
     return 0;
+  }
+  if (RECOMMENDATION_QUERY_RE.test(query)) {
+    const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
+    if (
+      recommendationStatus !== "recommendation_candidate" ||
+      !matchesRecommendationDomain(item, query, searchType) ||
+      !intentTokens.length ||
+      !intentTokens.every((token) => text.includes(token))
+    ) {
+      return 0;
+    }
   }
   if (
     item.type === "support-program" &&
@@ -257,7 +288,7 @@ function scoreItem(item: FinanceItem, query: string): number {
       score = 10 + matchedTokens.length;
     }
   }
-  if (rateIntent && ["deposit", "saving", "loan"].includes(searchType)) {
+  if (score > 0 && rateIntent && ["deposit", "saving", "loan"].includes(searchType)) {
     score += 20;
   }
   return score;
@@ -411,7 +442,7 @@ function createServer(env: Env): McpServer {
     {
       title: "Search Finance Ontology",
       description:
-        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
+        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Recommendation wording returns only recommendation_candidate nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
       inputSchema: {
         query: z.string().min(1).describe("Search query, for example '보험료 공제 한도', '청년 월세', '체크카드 전월실적', or 'bank-products'."),
         type: z

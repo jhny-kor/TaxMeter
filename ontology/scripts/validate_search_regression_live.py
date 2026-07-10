@@ -17,11 +17,18 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_finance_ontology import TAX_SEARCH_REGRESSIONS, payload_checksum  # noqa: E402
+from build_finance_ontology import (  # noqa: E402
+    BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS,
+    COMPARISON_SEARCH_REGRESSIONS,
+    RECOMMENDATION_SEARCH_REGRESSIONS,
+    TAX_SEARCH_REGRESSIONS,
+    payload_checksum,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REGRESSION_REPORT = REPO_ROOT / "ontology/exports/openfin-search-regression-report-2026.json"
 QUALITY_MANIFEST = REPO_ROOT / "ontology/exports/openfin-quality-manifest-2026.json"
+SEARCH_INDEX = REPO_ROOT / "ontology/exports/finance-search-index-2026.json"
 DEFAULT_MCP_URL = "https://finance-mcp.y2kthr.workers.dev/mcp"
 PROTOCOL_VERSION = "2025-03-26"
 
@@ -147,14 +154,118 @@ def main() -> int:
         tests.append(test)
         time.sleep(1)
 
+    for regression in RECOMMENDATION_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        expected_id = str(regression["expected_top_id"])
+        expected_type = str(regression["expected_type"])
+        error_text = None
+        try:
+            results = client.search(query, None, limit=10)
+            actual_id = results[0]["id"] if results else None
+            candidate_only = bool(results) and all(
+                item.get("recommendation_status") == "recommendation_candidate"
+                for item in results
+            )
+            expected_type_present = any(item.get("type") == expected_type for item in results)
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
+            results = []
+            actual_id = None
+            candidate_only = False
+            expected_type_present = False
+            error_text = str(error)
+        passed = actual_id == expected_id and candidate_only and expected_type_present
+        status = "PASS" if passed else "FAIL"
+        print(
+            f"[{status}] recommendation query={query!r} expected={expected_id} actual={actual_id} "
+            f"candidate_only={candidate_only}" + (f" error={error_text}" if error_text else "")
+        )
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": "recommendation_candidate_only",
+            "expected_top_id": expected_id,
+            "actual_top_id": actual_id,
+            "passed": passed,
+            "recommendation_candidates_only": candidate_only,
+        }
+        if error_text:
+            test["error"] = error_text
+        tests.append(test)
+        time.sleep(1)
+
+    for regression in BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        error_text = None
+        try:
+            results = client.search(query, None, limit=10)
+            actual_id = results[0]["id"] if results else None
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
+            results = []
+            actual_id = None
+            error_text = str(error)
+        passed = not results and error_text is None
+        status = "PASS" if passed else "FAIL"
+        print(
+            f"[{status}] blocked-recommendation query={query!r} actual={actual_id}"
+            + (f" error={error_text}" if error_text else "")
+        )
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": "blocked_recommendation_empty",
+            "expected_top_id": None,
+            "actual_top_id": actual_id,
+            "passed": passed,
+        }
+        if error_text:
+            test["error"] = error_text
+        tests.append(test)
+        time.sleep(1)
+
+    for regression in COMPARISON_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        expected_search_type = str(regression["expected_search_type"])
+        error_text = None
+        try:
+            results = client.search(query, None, limit=10)
+            actual_id = results[0]["id"] if results else None
+            actual_search_type = results[0].get("search_type") if results else None
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
+            actual_id = None
+            actual_search_type = None
+            error_text = str(error)
+        passed = actual_search_type == expected_search_type
+        status = "PASS" if passed else "FAIL"
+        print(
+            f"[{status}] comparison query={query!r} expected_type={expected_search_type} "
+            f"actual_type={actual_search_type}" + (f" error={error_text}" if error_text else "")
+        )
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": "comparison_search_type",
+            "expected_top_id": None,
+            "actual_top_id": actual_id,
+            "expected_search_type": expected_search_type,
+            "actual_search_type": actual_search_type,
+            "passed": passed,
+        }
+        if error_text:
+            test["error"] = error_text
+        tests.append(test)
+        time.sleep(1)
+
     failures = [
         {"query": t["query"], "type": t["type"], "expected": t["expected_top_id"], "actual": t["actual_top_id"]}
         for t in tests
         if not t["passed"]
     ]
+    search_index = json.loads(SEARCH_INDEX.read_text(encoding="utf-8"))
     summary = {
         "mcp_url": args.mcp_url,
         "checked_at": checked_at,
+        "search_index_version": search_index.get("version"),
+        "search_index_checksum": search_index.get("export_checksum"),
         "test_count": len(tests),
         "passed_count": len(tests) - len(failures),
         "failed_count": len(failures),

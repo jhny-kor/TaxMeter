@@ -1,8 +1,8 @@
 {
-  "version": "OPENFIN-QUALITY-MANIFEST-2026.07.04.1",
-  "basis_date": "2026-07-04",
-  "source_review_date": "2026-07-04",
-  "built_at": "2026-07-09T23:30:59Z",
+  "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
+  "basis_date": "2026-07-10",
+  "source_review_date": "2026-07-10",
+  "built_at": "2026-07-10T04:21:23Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -61,6 +61,7 @@
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 1005,
+        "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 650,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -70,7 +71,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "fdc60047e3d6fab0e98b79907cfbcd6381aa8f538adbf48e23a0491168a10c7a"
+      "export_checksum": "0f9d40e018185a6744e5e847a058895ce657147e096c0f013eb822428c32460d"
     },
     {
       "id": "deposit-products-ontology",
@@ -94,6 +95,7 @@
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
+        "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -103,7 +105,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "bd79cca025576a0c6bdb1df00291a8702eb2a0398b56e9c1c14823468756e698"
+      "export_checksum": "d8e37debafe3e619e2858fcfcdd7a12da91912db4ca460a4b3343f92e857cc01"
     },
     {
       "id": "saving-products-ontology",
@@ -127,6 +129,7 @@
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
+        "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -136,17 +139,17 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1da9629826d7b4efaefd162314d0cc54b31c6343ae21a3ca637770a659045d82"
+      "export_checksum": "02868ec6afbc11717def59c989e879a83eb4b47147adaa88bae240bf46b7789e"
     },
     {
       "id": "loan-products-ontology",
       "domain": "loan-products",
-      "item_count": 642,
-      "product_count": 598,
+      "item_count": 648,
+      "product_count": 604,
       "quality_summary": {
-        "product_count": 598,
+        "product_count": 604,
         "status_counts": {
-          "active": 587,
+          "active": 593,
           "unknown": 11
         },
         "active_products_without_criteria": 4,
@@ -157,11 +160,12 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 546,
+        "loans_missing_required_fields": 558,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 598,
-        "recommendation_listing_only_products": 598,
+        "reference_only_products": 558,
+        "recommendation_candidate_products": 46,
+        "recommendation_listing_only_products": 558,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -170,17 +174,17 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "212686165ecd235aa64adfa38beb89eca33370fa35e3879c7616ea31e36d54d6"
+      "export_checksum": "dfdcbb9909b6105aa0b4333faa1949c1d363a0d17005ff7a3e8244cdb1395fbe"
     },
     {
       "id": "insurance-products-ontology",
       "domain": "insurance-products",
-      "item_count": 1079,
-      "product_count": 1061,
+      "item_count": 1073,
+      "product_count": 1055,
       "quality_summary": {
-        "product_count": 1061,
+        "product_count": 1055,
         "status_counts": {
-          "active": 1061
+          "active": 1055
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -193,8 +197,9 @@
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1061,
-        "recommendation_listing_only_products": 1061,
+        "reference_only_products": 1055,
+        "recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 1055,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -203,7 +208,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "440aa0d9d6d524ac5b7f2179cebafd7951f605e372f40409610fc15b6c859827"
+      "export_checksum": "8a242ae1d88d30b016823b1970636ccda62ba813680b046fc5a0b014ef954908"
     },
     {
       "id": "finance-reference-ontology",
@@ -225,6 +230,7 @@
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 0,
+        "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -234,17 +240,17 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "be77343f9d1d462b88be82f2cdec44e439d11b2cf05dcb92ffbbf8008a54f7f4"
+      "export_checksum": "5559d8ced136100900b130d14e8176eefd40d75df96cd06651fa4c08381a18a0"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
-    "item_count": 11,
+    "item_count": 17,
     "product_count": 0,
-    "export_checksum": "9cba7a6833f5632bbe10eaa7207fab1c3e920cac8c13bb9061735e455c1d97ad",
+    "export_checksum": "ce6144ebde289bd44d24de64a378d24c6a266af53b850a8aa8ce735084f5dd06",
     "quality_summary": {
-      "test_count": 11,
-      "passed_count": 11,
+      "test_count": 17,
+      "passed_count": 17,
       "failed_count": 0,
       "failures": [],
       "last_failed_at": null
@@ -254,70 +260,70 @@
     {
       "source_id": "source.kdic.insured-products",
       "status": "live_imported",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "HTTP 200 NORMAL SERVICE; totalCount 45292; current rows imported into deposit-protection generated snapshot",
       "mitigation": "상품판매중단일자가 있는 행은 기본 운영 export에서 제외하고 --include-kdic-ended-products 옵션으로만 이력 수집합니다."
     },
     {
       "source_id": "source.klia.insurance-disclosure",
       "status": "live_imported",
-      "last_checked": "2026-07-04",
-      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1061",
+      "last_checked": "2026-07-10",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1055",
       "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
     },
     {
       "source_id": "source.fsc.medical-reimbursement-insurance",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetMedicalReimbursementInsuranceInfoService/getInsuranceInfo",
       "mitigation": "권한이 열릴 때까지 실손보험 API 행은 생성하지 않고 생명보험협회 공시실 수집분만 보험상품으로 노출합니다."
     },
     {
       "source_id": "source.fsc.variable-insurance-info",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY at GetVariableInsuranceInfoService/getFundInfo",
       "mitigation": "권한이 열릴 때까지 변액보험 펀드별 정보는 상품 노드가 아닌 대기 출처로만 기록합니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-loan-handling-agencies",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
       "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 기존 policy-loan 상품의 취급기관 상세에 섞지 않습니다."
     },
     {
       "source_id": "source.data.go.kr.kinfa-support-centers",
       "status": "approved_by_user_but_live_403",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "HTTP 403 with current DATA_GO_KR_SERVICE_KEY",
       "mitigation": "권한 전파 또는 서비스별 키 매핑이 정상화될 때까지 상담센터·미소금융 지점 노드 생성을 보류합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-products",
       "status": "approved_by_user_endpoint_mapping_pending",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "official metadata reviewed; endpoint mapping still pending",
       "mitigation": "서민금융상품기본정보 활용신청 및 Swagger endpoint 확인 후 기존 KINFA 상품과 중복 제거합니다."
     },
     {
       "source_id": "source.fsc.inclusive-finance-performance",
       "status": "approved_by_user_metric_source",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "official metadata reviewed; not a product-row source",
       "mitigation": "상품 노드가 아니라 실적·커버리지 지표로 별도 metric export를 만들 때 사용합니다."
     },
     {
       "source_id": "source.bok.ecos",
       "status": "reference_source_added_key_required",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "official ECOS Open API source reviewed; BOK API key is separate from DATA_GO_KR_SERVICE_KEY",
       "mitigation": "기준금리·시장금리 값은 BOK API 키가 준비될 때까지 benchmark-rate 기준 노드로만 노출합니다."
     },
     {
       "source_id": "source.fsc.financial-company-basic",
       "status": "reference_source_added",
-      "last_checked": "2026-07-04",
+      "last_checked": "2026-07-10",
       "last_observed_result": "official metadata reviewed; provider registry currently derived from existing product exports",
       "mitigation": "금융회사 API 실데이터 수집 전에도 상품 provider 문자열을 financial-provider 노드로 묶어 MCP 검색성을 확보합니다."
     }
@@ -391,7 +397,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-09T23:30:59Z",
+    "built_at": "2026-07-10T04:21:23Z",
     "domain_export_count": 8,
     "search_index_item_count": 21342,
     "checksum_covered_export_count": 9,
@@ -403,6 +409,8 @@
       "tax_explanation_lookup",
       "deposit_and_saving_rate_lookup",
       "loan_disclosure_reference_lookup",
+      "loan_required_field_candidate_matching",
+      "recommendation_candidate_search",
       "insurance_representative_coverage_and_premium_lookup",
       "card_benefit_text_lookup",
       "local_support_open_status_assistance",
@@ -410,7 +418,7 @@
     ],
     "blocked": [
       "card_automatic_recommendation",
-      "loan_automatic_recommendation",
+      "loan_personalized_recommendation",
       "insurance_automatic_recommendation",
       "personalized_financial_product_ranking",
       "local_support_final_eligibility_decision",
@@ -422,9 +430,20 @@
       "saving-products": "rate_listing_allowed",
       "local-government-supports": "only_application_status_open_can_be_a_candidate",
       "card-products": "benefit_text_lookup_only_until_conditions_are_complete",
-      "loan-products": "reference_only_until_all_required_fields_and_review_gate_pass",
+      "loan-products": "recommendation_candidate_only_when_active_and_all_required_fields_are_complete",
       "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
     }
   },
-  "export_checksum": "8aba988cda827da96c67223cf3410f550c1091c2f4e53ecf5e2c2c49668a0f59"
+  "live_search_regression": {
+    "mcp_url": "http://127.0.0.1:8787/mcp",
+    "checked_at": "2026-07-10T04:21:47+00:00",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+    "search_index_checksum": "faa0fd0a59e45c332cbca28e5a3cc474738f2296ffdc94c851cc82cf1a8aa890",
+    "test_count": 16,
+    "passed_count": 16,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
+  },
+  "export_checksum": "41fff879b3f59aa6d8ce63be11ef8b086794247ce672dd5201e71345dbf00caa"
 }

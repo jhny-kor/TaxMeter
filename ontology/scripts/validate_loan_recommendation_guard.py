@@ -1,9 +1,3 @@
-"""대출 추천 가드 검증.
-
-- 현재 운영 단계에서는 모든 대출이 reference_only여야 한다.
-- 필수 필드 누락 대출은 missing_loan_required_fields와 exclusion reason을 가져야 한다.
-- 개인 조건 기반 추천(eligible_for_recommendation)은 별도 심사 전이므로 어떤 대출에도 금지된다.
-"""
 from __future__ import annotations
 
 import json
@@ -22,18 +16,33 @@ def main() -> int:
     items = [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
     loans = [item for item in items if item.get("type") == "bank-product" and item.get("search_type") == "loan"]
     errors: list[str] = []
+    candidate_count = 0
     for loan in loans:
-        recommendation_status = loan.get("recommendation_status")
-        if recommendation_status != "reference_only":
-            errors.append(f"{loan['id']}: 대출은 현재 reference_only여야 하는데 recommendation_status={recommendation_status}")
         missing = [
             field
             for field in LOAN_REQUIRED_FIELDS
-            if loan.get(field) is None and not (field == "loan_limit_krw" and loan.get("loan_limit_text"))
+            if loan.get(field) is None
         ]
         reasons = set(loan.get("recommendation_exclusion_reasons") or [])
-        if "loan_recommendation_suspended_pending_required_field_review" not in reasons:
-            errors.append(f"{loan['id']}: 대출 추천 보류 사유가 없습니다.")
+        is_candidate = (
+            loan.get("status") == "active"
+            and bool(loan.get("criteria"))
+            and not missing
+            and "source_domain_reclassified" not in (loan.get("quality_flags") or [])
+        )
+        if is_candidate:
+            candidate_count += 1
+            if loan.get("recommendation_status") != "recommendation_candidate":
+                errors.append(f"{loan['id']}: 필수 필드가 완전한 active 대출이 recommendation_candidate가 아닙니다.")
+            if loan.get("recommendation_scope") != "criteria_match_only":
+                errors.append(f"{loan['id']}: 조건매칭 후보의 recommendation_scope가 criteria_match_only가 아닙니다.")
+            if "incomplete_loan_required_fields" in reasons:
+                errors.append(f"{loan['id']}: 완전한 후보에 incomplete_loan_required_fields 사유가 남아 있습니다.")
+            continue
+        if loan.get("recommendation_status") != "reference_only":
+            errors.append(f"{loan['id']}: 불완전하거나 비활성인 대출은 reference_only여야 합니다.")
+        if loan.get("status") == "active" and not loan.get("criteria") and "missing_loan_criteria" not in set(loan.get("quality_flags") or []):
+            errors.append(f"{loan['id']}: criteria 없는 active 대출에 missing_loan_criteria가 없습니다.")
         if missing and "incomplete_loan_required_fields" not in reasons:
             errors.append(f"{loan['id']}: 필수 필드 누락({missing})인데 incomplete_loan_required_fields 사유가 없습니다.")
     for error in errors[:20]:
@@ -41,7 +50,10 @@ def main() -> int:
     if errors:
         print(f"FAILED: {len(errors)} violations across {len(loans)} loans")
         return 1
-    print(f"OK: {len(loans)} loans guarded as reference_only")
+    if candidate_count == 0:
+        print("FAILED: no recommendation-ready loan candidates")
+        return 1
+    print(f"OK: {candidate_count} recommendation candidates; {len(loans) - candidate_count} loans remain reference_only")
     return 0
 
 
