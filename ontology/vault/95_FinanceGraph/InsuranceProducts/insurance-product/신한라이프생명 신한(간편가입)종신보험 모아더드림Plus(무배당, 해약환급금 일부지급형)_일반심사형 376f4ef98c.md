@@ -4,10 +4,10 @@ title: "신한라이프생명 신한(간편가입)종신보험 모아더드림Pl
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://www.shinhanlife.co.kr/hp/cdhi0030.do", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-05-07", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.whole-life.신한라이프생명.l1102460001nnn0247000202440001024400010001024400010001000202440001000100020002s0737`
 - Type: `insurance-product`
 - provider: 신한라이프생명
-- source_modified_at: 2026-05-07
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

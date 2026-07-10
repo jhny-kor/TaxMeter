@@ -4,10 +4,10 @@ title: "농산물 임가공 및 포장재, 디자인 지원 (경기도 양주시
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004835&bnefType=all&svcId=559000000127", "https://www.law.go.kr/법령/농업ㆍ농촌 및 식품산업 기본법/(20503,20241022)", "https://www.law.go.kr/법령/농업인등의 농외소득 활동 지원에 관한 법률/(19571,20230725)", "https://www.law.go.kr/자치법규/양주시 농업농촌분야 지원 조례/(967,20181030)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-03", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 오프라인
 - receiving_agency: 양주시농업기술센터
 - contact: 농업정책과(031-8082-6113)
-- source_modified_at: 2026-02-03
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-11
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "장기요양급여비용 지자체 부담금 지원 (강원특별자치�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000218&bnefType=all&svcId=420000000145", "https://www.law.go.kr/법령/노인장기요양보험법 시행령/(35043,20241203)", "https://www.law.go.kr/법령/노인장기요양보험법/(20213,20240206)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 기타
 - receiving_agency: 개인 신청절차 없음
 - contact: 경로장애인과(033-640-5158)
-- source_modified_at: 2026-01-28
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-06
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

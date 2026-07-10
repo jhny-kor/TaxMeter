@@ -4,10 +4,10 @@ title: "기존주택 매입 사업 (제주특별자치도개발공사)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2001452&bnefType=all&svcId=O00030500002", "https://www.law.go.kr/법령/공공주택 특별법/(21165,20251202)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 제주특별자치도개발공사
 - contact: 삼다이음콜센터(064-780-3300)
 - source_modified_at: 2026-05-04
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

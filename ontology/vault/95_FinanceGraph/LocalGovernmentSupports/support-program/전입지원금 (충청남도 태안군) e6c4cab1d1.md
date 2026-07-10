@@ -4,10 +4,10 @@ title: "전입지원금 (충청남도 태안군)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128913&bnefType=all&svcId=462000000359", "https://www.law.go.kr/자치법규/태안군 인구증가 시책추진을 위한 지원 등에 관한 조례/(1774,20231212)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-04", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-02-04", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터, 시·군·구청
 - contact: 신속허가과(041-670-2192)
 - source_modified_at: 2026-02-04
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

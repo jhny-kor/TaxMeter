@@ -13,7 +13,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 
 # 신혼부부·다자녀가정 보금자리 지원 (전라남도)
 
-전라남도 관할 지자체 지원금입니다. 신혼부부와 세 자녀 이상 다자녀가구가 안정적인 주거 환경을 마련할 수 있도록 도와주는 제도입니다. 
+전라남도 관할 지자체 지원금입니다. 신혼부부와 세 자녀 이상 다자녀가구가 안정적인 주거 환경을 마련할 수 있도록 도와주는 제도입니다.
 전세자금 대출이자 지원이나 주거 관련 비용을 지원받아 경제적 부담을 줄이고, 가정의 생활 안정과 행복한 주거환경을 조성할 수 있습니다.
 
 > Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.

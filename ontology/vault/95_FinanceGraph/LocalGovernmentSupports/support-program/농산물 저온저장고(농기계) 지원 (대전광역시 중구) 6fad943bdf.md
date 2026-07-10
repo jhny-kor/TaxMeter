@@ -4,10 +4,10 @@ title: "농산물 저온저장고(농기계) 지원 (대전광역시 중구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000361&bnefType=all&svcId=365000000101", "https://www.law.go.kr/법령/농촌진흥법/(19878,20240102)", "https://www.law.go.kr/법령/농업기계화 촉진법/(19485,20230620)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 시·군·구청
 - contact: 일자리경제과(042-606-7264)
 - source_modified_at: 2026-04-30
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

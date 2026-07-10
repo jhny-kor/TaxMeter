@@ -181,9 +181,22 @@ def benefit_categories(text: str) -> list[str]:
     return categories
 
 
+def condition_source_url(item: dict) -> str | None:
+    urls = [str(url) for url in item.get("source_urls") or [] if str(url).startswith("https://")]
+    return next(
+        (
+            url
+            for url in urls
+            if re.search(r"(?:gdsno|cooperationcode|cardNo|cardCode)=", url, flags=re.IGNORECASE)
+        ),
+        next((url for url in urls if "cardDetail" in url), urls[0] if urls else None),
+    )
+
+
 def enrich_card_benefits(item: dict) -> None:
     if item.get("type") != "card-product":
         return
+    source_url = condition_source_url(item)
     for benefit in item.get("benefits") or []:
         if not isinstance(benefit, dict):
             continue
@@ -259,6 +272,8 @@ def enrich_card_benefits(item: dict) -> None:
         benefit["condition_completeness"] = "partial" if missing and normalized else ("incomplete" if missing else "complete")
         benefit["missing_condition_fields"] = missing
         benefit["condition_parse_source"] = "benefit_text" if normalized else None
+        benefit["condition_source_url"] = source_url
+        benefit["condition_source_locator"] = item.get("source_record_id")
 
 
 def apply_card_recommendation_scope(item: dict) -> None:

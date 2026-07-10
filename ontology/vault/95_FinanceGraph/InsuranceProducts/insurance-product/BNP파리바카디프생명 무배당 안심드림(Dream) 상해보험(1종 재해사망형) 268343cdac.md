@@ -4,10 +4,10 @@ title: "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(1
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20", "https://www.cardif.co.kr/web/main/disclosure/product/onsale", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "accident", "024400010006"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506`
 - Type: `insurance-product`
 - provider: BNP파리바카디프생명
-- source_modified_at: 2026-04-01
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

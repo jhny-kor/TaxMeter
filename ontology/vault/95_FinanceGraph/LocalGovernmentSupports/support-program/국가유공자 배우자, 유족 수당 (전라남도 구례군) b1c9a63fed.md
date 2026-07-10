@@ -13,7 +13,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 
 # 국가유공자 배우자, 유족 수당 (전라남도 구례군)
 
-전라남도 구례군 관할 지자체 지원금입니다. 국가유공자의 배우자와 유족에게 생활 지원 수당을 지급합니다. 
+전라남도 구례군 관할 지자체 지원금입니다. 국가유공자의 배우자와 유족에게 생활 지원 수당을 지급합니다.
 생활 안정과 공로 인정에 도움을 줍니다.
 
 > Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.

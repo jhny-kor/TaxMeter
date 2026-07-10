@@ -4,10 +4,10 @@ title: "수동휠체어 무료대여 (서울특별시 영등포구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2166816&bnefType=all&svcId=318000000405", "https://www.law.go.kr/법령/장애인ㆍ노인ㆍ임산부 등의 편의증진 보장에 관한 법률/(19302,20230328)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "시설이용", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 영등포구 장애인복지과(02-2670-3404), 영등포동 주민센터(02-2670-1450), 여의동 주민센터(02-2670-1451), 당산1동 주민센터(02-2670-1452), 당산2동 주민센터(02-2670-1453), 도림동 주민센터(02-2670-1454), 문래동 주민센터(02-2670-1189), 양평1동 주민센터(02-2670-1455), 양평2동 주민센터(02-2670-1233), 영등포본동 주민센터(02-2670-1049), 신길1동 주민센터(02-2670-1259), 신길3동 주민센터(02-2670-1456), 신길4동 주민센터(02-2670-1299), 신길5동 주민센터(02-2670-1457), 신길6동 주민센터(02-2670-1458), 신길7동 주민센터(02-2670-1351), 대림1동 주민센터(02-2670-1460), 대림2동 주민센터(02-2670-1419), 대림3동 주민센터(02-2670-1444)
 - source_modified_at: 2026-04-28
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

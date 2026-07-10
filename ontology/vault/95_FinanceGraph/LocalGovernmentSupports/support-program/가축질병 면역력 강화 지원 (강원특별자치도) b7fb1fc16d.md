@@ -4,10 +4,10 @@ title: "가축질병 면역력 강화 지원 (강원특별자치도)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005474&bnefType=all&svcId=642000000718", "https://www.law.go.kr/법령/가축전염병 예방법/(19706,20230914)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-02", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 오프라인
 - receiving_agency: 시·군·구청
 - contact: 동물방역과(033-249-2682)
-- source_modified_at: 2026-02-02
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-11
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

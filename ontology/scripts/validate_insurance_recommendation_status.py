@@ -11,6 +11,8 @@ REQUIRED_COVERAGE_FIELDS = (
     "coverage_amount_basis",
     "claim_condition",
     "exclusion_condition",
+    "condition_source_url",
+    "condition_source_locator",
 )
 
 
@@ -59,6 +61,10 @@ def main() -> int:
                 errors.append(f"{product['id']}: 협회 보험료 기준 가입금액을 개별 담보 보장금액으로 사용할 수 없습니다.")
             if criterion.get("disclosed_insured_amount_krw") is not None and criterion.get("disclosed_insured_amount_basis") != "association_premium_basis_amount":
                 errors.append(f"{product['id']}: 공시 가입금액 근거가 association_premium_basis_amount가 아닙니다.")
+            if not str(criterion.get("condition_source_url") or "").startswith("https://"):
+                errors.append(f"{product['id']}: coverage condition_source_url이 없습니다.")
+            if not criterion.get("condition_source_locator"):
+                errors.append(f"{product['id']}: coverage condition_source_locator가 없습니다.")
         incomplete = any(
             criterion.get("condition_completeness") == "incomplete"
             for criterion in coverage_criteria

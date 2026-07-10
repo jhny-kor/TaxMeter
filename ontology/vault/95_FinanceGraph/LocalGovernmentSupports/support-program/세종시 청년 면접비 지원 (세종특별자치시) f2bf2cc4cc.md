@@ -4,10 +4,10 @@ title: "세종시 청년 면접비 지원 (세종특별자치시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128545&bnefType=all&svcId=569000000389", "https://www.law.go.kr/법령/10ㆍ27법난 피해자의 명예회복 등에 관한 법률/(19592,20230808)", "https://www.jobaram.com/", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2025-11-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -23,8 +23,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - jurisdiction: 세종특별자치시
 - application_method: 온라인
 - contact: 세종특별자치시청(0000)
-- source_modified_at: 2025-11-27
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-11
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

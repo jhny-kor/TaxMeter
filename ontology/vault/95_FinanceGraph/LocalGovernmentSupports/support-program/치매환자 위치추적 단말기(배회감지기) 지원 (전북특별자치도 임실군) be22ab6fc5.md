@@ -4,10 +4,10 @@ title: "치매환자 위치추적 단말기(배회감지기) 지원 (전북특�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=803896&bnefType=all&svcId=476000000146", "https://www.law.go.kr/자치법규/임실군 치매관리 및 치매안심센터 운영 조례/(2846,20250519)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 보건소
 - contact: 임실군치매안심센터(063-640-3382)
 - source_modified_at: 2026-04-28
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "취약계층 타이머형 가스안전차단기 보급 (서울특별시 
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003612&bnefType=all&svcId=309000000136", "https://www.law.go.kr/법령/도시가스사업법/(18814,20220203)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-04", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 기타
 - receiving_agency: 주민센터, 보건소
 - contact: 기후환경과(02-2091-3222)
-- source_modified_at: 2026-02-04
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-06
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

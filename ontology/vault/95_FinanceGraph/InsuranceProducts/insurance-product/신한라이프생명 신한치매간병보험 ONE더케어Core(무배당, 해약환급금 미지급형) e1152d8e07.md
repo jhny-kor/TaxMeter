@@ -4,10 +4,10 @@ title: "신한라이프생명 신한치매간병보험 ONE더케어Core(무배�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010&pageIndex=1&pageUnit=20", "https://www.shinhanlife.co.kr/hp/cdhl0030.do", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-05-07", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "dementia-care", "024400010010"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.dementia-care.신한라이프생명.l1102460003nnn0247000202440001024400010010024400010010000102440001001000010004s0744`
 - Type: `insurance-product`
 - provider: 신한라이프생명
-- source_modified_at: 2026-05-07
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

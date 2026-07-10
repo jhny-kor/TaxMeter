@@ -13,7 +13,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 
 # 광양시 난임 진단 검사비 지원 (전라남도 광양시)
 
-전라남도 광양시 관할 지자체 지원금입니다. 난임 부부가 적절한 진단과 치료를 받을 수 있도록 검사비를 지원하는 제도입니다. 
+전라남도 광양시 관할 지자체 지원금입니다. 난임 부부가 적절한 진단과 치료를 받을 수 있도록 검사비를 지원하는 제도입니다.
 난임 진단 검사 비용을 일부 지원받아 경제적 부담을 줄이고 건강한 임신 준비에 도움을 받을 수 있습니다.
 
 > Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.

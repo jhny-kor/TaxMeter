@@ -4,10 +4,10 @@ title: "청년챙김프로젝트 (경기도 광주시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
-source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128553&bnefType=all&svcId=554000000184", "https://www.law.go.kr/법령/청년기본법/(19253,20230321)", "https://www.law.go.kr/자치법규/광주시 청년 기본 조례/(1631,20241216)", "https://www.gj-youth.or.kr/", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-02", "수집일 2026-05-04", "2026-05-04 확인"]
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128553&bnefType=all&svcId=554000000184", "https://www.law.go.kr/법령/청년기본법/(19253,20230321)", "https://www.law.go.kr/자치법규/광주시 청년 기본 조례/(1648,20250226)", "https://www.gj-youth.or.kr/", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-15", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타(상담)", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온오프라인
 - receiving_agency: 광주시 청년지원센터
 - contact: 광주시청 지역경제과(031-760-2183), 광주시청년지원센터(070-5015-0624)
-- source_modified_at: 2026-02-02
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-15
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
@@ -38,6 +38,6 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 ## Source URLs
 - https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128553&bnefType=all&svcId=554000000184
 - https://www.law.go.kr/법령/청년기본법/(19253,20230321)
-- https://www.law.go.kr/자치법규/광주시 청년 기본 조례/(1631,20241216)
+- https://www.law.go.kr/자치법규/광주시 청년 기본 조례/(1648,20250226)
 - https://www.gj-youth.or.kr/
 - https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

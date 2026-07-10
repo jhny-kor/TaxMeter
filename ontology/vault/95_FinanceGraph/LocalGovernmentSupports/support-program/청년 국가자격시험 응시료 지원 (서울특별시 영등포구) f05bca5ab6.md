@@ -4,10 +4,10 @@ title: "청년 국가자격시험 응시료 지원 (서울특별시 영등포구
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2167716&bnefType=all&svcId=318000000413", "https://www.law.go.kr/자치법규/서울특별시 영등포구 청년 자격증 시험 응시 지원 조례/(1893,20250918)", "https://www.ydp.go.kr/www/contents.do?key=5998", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 청년정책과(02-2670-1666)
 - source_modified_at: 2026-04-27
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "지역사랑상품권(보령사랑상품권) (충청남도 보령시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004470&bnefType=all&svcId=451000000140", "https://www.law.go.kr/법령/지역사랑상품권 이용 활성화에 관한 법률/(19032,20221115)", "https://www.law.go.kr/자치법규/보령시 보령사랑상품권 관리 및 운영 조례/(1979,20230501)", "https://www.brcn.go.kr/kor/sub05_04_08_01.do", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 판매대행점 및 온라인(Chak)
 - contact: 보령시청 지역경제과(041-930-3715)
 - source_modified_at: 2026-04-24
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

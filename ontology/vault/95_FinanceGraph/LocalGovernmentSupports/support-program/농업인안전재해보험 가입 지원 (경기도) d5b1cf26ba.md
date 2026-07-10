@@ -4,10 +4,10 @@ title: "농업인안전재해보험 가입 지원 (경기도)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1002224&bnefType=all&svcId=641000000142", "https://www.law.go.kr/법령/농어업인의 안전보험 및 안전재해예방에 관한 법률/(19807,20231031)", "https://www.law.go.kr/법령/농어업인 삶의 질 향상 및 농어촌지역 개발촉진에 관한 특별법/(20579,20241220)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-26", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-01-26", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(보험)", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 지역 농협, 시·군·구청
 - contact: 친환경농업과(031-8008-5463)
 - source_modified_at: 2026-01-26
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

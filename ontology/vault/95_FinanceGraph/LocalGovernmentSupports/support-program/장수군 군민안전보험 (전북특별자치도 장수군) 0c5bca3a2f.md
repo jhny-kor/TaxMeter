@@ -4,11 +4,11 @@ title: "장수군 군민안전보험 (전북특별자치도 장수군)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128804&bnefType=all&svcId=475100000001", "https://www.law.go.kr/법령/10ㆍ27법난 피해자의 명예회복 등에 관한 법률/(19592,20230808)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-09", "수집일 2026-05-04", "2026-05-04 확인"]
-tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-07", "수집일 2026-07-10", "2026-05-04 확인"]
+tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(보험)", "custom-overlay"]
 ---
 
 # 장수군 군민안전보험 (전북특별자치도 장수군)
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 오프라인
 - receiving_agency: 농협손해보험 주신회사 콜센터 1644-9666
 - contact: NH농협손해보험(1644-9666)
-- source_modified_at: 2026-02-09
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-07
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

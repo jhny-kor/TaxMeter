@@ -4,10 +4,10 @@ title: "광주은행 광주전남愛사랑 HONORS V2 CARD"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CreditSearch.do", "https://www.bccard.com/app/card/CreditCardMain.do?gdsno=101497&mbkNo=034", "https://www.bccard.com/images/individual/card/renew/list/card_101497.png", "https://www.bccard.com/app/card/CreditCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

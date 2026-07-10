@@ -25,7 +25,7 @@ CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
-LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-04"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-10"
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
@@ -3792,9 +3792,17 @@ def local_support_status_fields(item: dict) -> dict:
     compact_deadline = deadline_text.replace(" ", "")
     _, application_open_to = local_support_application_dates(deadline_text)
     expiration_date = application_open_to or item.get("expiration_date")
+    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
+        return {
+            "status": "active",
+            "application_status": "not_required",
+            "status_reason": "정부24 원문에 별도 신청 절차가 필요 없다고 표시되어 있습니다.",
+            "status_confidence": "derived",
+        }
     if "상시" in compact_deadline:
         return {
             "status": "active",
+            "application_status": "open",
             "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
             "status_confidence": "confirmed",
         }
@@ -3802,19 +3810,32 @@ def local_support_status_fields(item: dict) -> dict:
         if str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE:
             return {
                 "status": "closed",
+                "application_status": "closed",
                 "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE}보다 이전입니다.",
                 "status_confidence": "derived",
             }
         return {
             "status": "active",
+            "application_status": "open",
             "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE} 이후입니다.",
             "status_confidence": "derived",
         }
     return {
         "status": "unknown",
+        "application_status": "unknown",
         "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
         "status_confidence": "unverified",
     }
+
+
+def local_support_source_freshness(item: dict) -> str:
+    collected_at = str(item.get("source_collected_at") or item.get("reviewed_at") or "")
+    try:
+        collected_date = date.fromisoformat(collected_at)
+        review_date = date.fromisoformat(LOCAL_SUPPORT_STATUS_REVIEW_DATE)
+    except ValueError:
+        return "unknown"
+    return "current" if (review_date - collected_date).days <= 31 else "stale"
 
 
 def enrich_local_support_status(item: dict) -> dict:
@@ -3823,20 +3844,33 @@ def enrich_local_support_status(item: dict) -> dict:
     status_fields = local_support_status_fields(enriched)
     status = status_fields["status"]
     enriched.update(status_fields)
+    freshness_status = local_support_source_freshness(enriched)
+    source_application_status = enriched["application_status"]
+    if freshness_status != "current":
+        enriched["source_status"] = status
+        enriched["source_application_status"] = source_application_status
+        enriched["status"] = "unknown"
+        enriched["application_status"] = "unknown"
+        enriched["status_confidence"] = "stale" if freshness_status == "stale" else "unverified"
+        enriched["status_reason"] = (
+            f"정부24 원문 수집일 {enriched.get('source_collected_at') or enriched.get('reviewed_at') or '미상'}이 "
+            f"상태 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE}에 비해 최신성 검증 기준을 넘겨 현재 신청 가능 여부를 단정하지 않습니다."
+        )
     enriched["expiration_date"] = application_open_to or enriched.get("expiration_date")
     enriched["reviewed_at"] = enriched.get("reviewed_at") or LOCAL_SUPPORT_STATUS_REVIEW_DATE
-    enriched["last_verified_at"] = LOCAL_SUPPORT_STATUS_REVIEW_DATE
+    enriched["last_verified_at"] = enriched.get("source_collected_at") or enriched["reviewed_at"]
+    enriched["status_evaluated_at"] = LOCAL_SUPPORT_STATUS_REVIEW_DATE
+    enriched["freshness_status"] = freshness_status
     enriched["effective_from"] = enriched.get("effective_from")
     enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
     enriched["application_open_from"] = enriched.get("application_open_from") or application_open_from
     enriched["application_open_to"] = enriched.get("application_open_to") or application_open_to or enriched.get("expiration_date")
-    enriched["application_status"] = {"active": "open", "closed": "closed", "unknown": "unknown"}[status]
-    enriched["is_currently_applicable"] = status == "active"
-    enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[status]
+    enriched["is_currently_applicable"] = enriched["application_status"] in {"open", "not_required"}
+    enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[enriched["status"]]
     # open으로 판정된 항목만 추천 후보(recommendation_candidate)로 올린다.
     # closed·unknown은 조회는 가능하되 기본 검색·추천에서 제외되도록 reference_only로 명시한다.
     enriched["recommendation_status"] = resolve_recommendation_status(enriched["application_status"])
-    if status == "unknown":
+    if enriched["application_status"] == "unknown":
         enriched["recommendation_exclusion_reasons"] = sorted({
             *(enriched.get("recommendation_exclusion_reasons") or []),
             "unknown_application_status",
@@ -3998,14 +4032,17 @@ def write_export(items: dict[str, dict], *, local_support_count: int) -> None:
 def write_local_support_export(items: dict[str, dict]) -> int:
     local_items = sorted(local_support_export_items(items), key=lambda item: item["id"])
     reference_items = sorted(local_support_reference_items(items), key=lambda item: item["id"])
+    generated_payload = json.loads((CUSTOM_DIR / "gov24-local-supports.generated.json").read_text(encoding="utf-8"))
     export = {
-        "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-ONTOLOGY-2026.05.05.1",
-        "basis_date": "2026-05-04",
+        "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-ONTOLOGY-2026.07.10.1",
+        "basis_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
         "status_review_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
         "generated_from": "ontology/custom/gov24-local-supports.generated.json",
         "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
         "source_api": "https://plus.gov.kr/api/portal/v1.0/api/benefitPlus",
         "item_count": len(local_items),
+        "source_refresh_missing_regions": generated_payload.get("source_refresh_missing_regions") or [],
+        "preserved_from_previous_snapshot_count": generated_payload.get("preserved_from_previous_snapshot_count") or 0,
         "quality_summary": local_support_quality_summary(local_items),
         "reference_items": reference_items,
         "items": local_items,

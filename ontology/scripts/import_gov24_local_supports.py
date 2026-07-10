@@ -95,11 +95,32 @@ def post_form(params: dict[str, str], retries: int = 3, timeout: int = 30) -> di
     raise RuntimeError(f"Gov24 API request failed: {params}") from last_error
 
 
-def fetch_conditions() -> list[dict[str, Any]]:
-    data = post_form({"apiDtlUrl": "selectSearchCndList", "wrkCd": "BNEF"})
-    if data.get("rspCode") != "0":
-        raise RuntimeError(f"Gov24 search condition request failed: {data.get('rspMsg')}")
-    return data.get("benefitCtprvnItmList") or []
+def fetch_conditions() -> tuple[list[dict[str, Any]], set[str]]:
+    expected = set(LOCAL_REGION_NAMES)
+    last_regions: list[dict[str, Any]] = []
+    last_names: set[str] = set()
+    for attempt in range(3):
+        try:
+            data = post_form({"apiDtlUrl": "selectSearchCndList", "wrkCd": "BNEF"})
+        except RuntimeError:
+            if attempt < 2:
+                time.sleep(attempt + 1)
+                continue
+            raise
+        if data.get("rspCode") != "0":
+            raise RuntimeError(f"Gov24 search condition request failed: {data.get('rspMsg')}")
+        regions = data.get("benefitCtprvnItmList") or []
+        names = {clean_text(region.get("cdNm")) for region in regions}
+        missing = expected - names
+        if not missing:
+            return regions, set()
+        last_regions = regions
+        last_names = names
+        if attempt < 2:
+            time.sleep(attempt + 1)
+    if last_regions:
+        return last_regions, expected - last_names
+    raise RuntimeError("Gov24 search conditions returned no regions.")
 
 
 def fetch_list_page(region_name: str, page: int) -> dict[str, Any]:
@@ -178,9 +199,17 @@ def parse_expiration_date(text: str) -> str | None:
 
 def support_status_fields(deadline_text: str, expiration_date: str | None, reviewed_at: str) -> dict[str, Any]:
     compact_deadline = deadline_text.replace(" ", "")
+    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
+        return {
+            "status": "active",
+            "application_status": "not_required",
+            "status_reason": "정부24 원문에 별도 신청 절차가 필요 없다고 표시되어 있습니다.",
+            "status_confidence": "derived",
+        }
     if "상시" in compact_deadline:
         return {
             "status": "active",
+            "application_status": "open",
             "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
             "status_confidence": "confirmed",
         }
@@ -188,16 +217,19 @@ def support_status_fields(deadline_text: str, expiration_date: str | None, revie
         if expiration_date < reviewed_at:
             return {
                 "status": "closed",
+                "application_status": "closed",
                 "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at}보다 이전입니다.",
                 "status_confidence": "derived",
             }
         return {
             "status": "active",
+            "application_status": "open",
             "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at} 이후입니다.",
             "status_confidence": "derived",
         }
     return {
         "status": "unknown",
+        "application_status": "unknown",
         "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
         "status_confidence": "unverified",
     }
@@ -388,6 +420,7 @@ def collect_rows(regions: list[dict[str, Any]], max_pages: int | None, limit: in
 
 def collect_details(rows: list[dict[str, Any]], workers: int) -> list[dict[str, Any]]:
     details: list[dict[str, Any]] = []
+    failures: list[str] = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         future_map = {executor.submit(fetch_detail, row): row for row in rows}
         for future in concurrent.futures.as_completed(future_map):
@@ -395,11 +428,38 @@ def collect_details(rows: list[dict[str, Any]], workers: int) -> list[dict[str, 
             try:
                 detail = future.result()
             except Exception as error:
-                print(f"warning: detail fetch failed for svcSeq={row.get('svcSeq')}: {error}")
+                failures.append(f"svcSeq={row.get('svcSeq')}: {error}")
+                continue
+            if detail is None:
+                failures.append(f"svcSeq={row.get('svcSeq')}: empty detail response")
                 continue
             if detail and is_local_support(detail):
                 details.append(detail)
+    if failures:
+        raise RuntimeError("Gov24 detail fetch failed; prior snapshot is retained: " + "; ".join(failures[:10]))
     return details
+
+
+def preserved_items_for_missing_regions(output: Path, missing_regions: set[str]) -> list[dict[str, Any]]:
+    if not missing_regions or not output.exists():
+        return []
+    try:
+        existing = json.loads(output.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"Cannot preserve Gov24 rows for unavailable regions from {output}") from error
+    items = [
+        item
+        for item in existing.get("items") or []
+        if item.get("jurisdiction_code") in missing_regions
+    ]
+    preserved_regions = {str(item.get("jurisdiction_code")) for item in items}
+    unavailable = missing_regions - preserved_regions
+    if unavailable:
+        raise RuntimeError(
+            "Gov24 search conditions omitted regions without a prior snapshot: "
+            + ", ".join(sorted(unavailable))
+        )
+    return items
 
 
 def main() -> int:
@@ -412,20 +472,24 @@ def main() -> int:
     parser.add_argument("--workers", type=int, default=8)
     args = parser.parse_args()
 
-    regions = fetch_conditions()
+    regions, missing_regions = fetch_conditions()
     if not regions:
         raise RuntimeError("No Gov24 region filters returned.")
     rows_by_seq = collect_rows(regions, max_pages=args.max_pages_per_region, limit=args.limit, list_workers=args.list_workers)
     rows = sorted(rows_by_seq.values(), key=lambda row: int(row.get("svcSeq") or 0))
     details = collect_details(rows, workers=args.workers)
     items = [build_item(detail, args.collected_at) for detail in sorted(details, key=lambda value: int(value.get("svcSeq") or 0))]
+    preserved_items = preserved_items_for_missing_regions(args.output, missing_regions)
+    items = [*items, *preserved_items]
     payload = {
         "generated_at": args.collected_at,
         "source": LIST_URL,
         "source_api": API_URL,
-        "region_count": len(regions),
+        "region_count": len(regions) + len(missing_regions),
         "unique_list_rows": len(rows_by_seq),
         "imported_local_support_count": len(items),
+        "source_refresh_missing_regions": sorted(missing_regions),
+        "preserved_from_previous_snapshot_count": len(preserved_items),
         "items": items,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

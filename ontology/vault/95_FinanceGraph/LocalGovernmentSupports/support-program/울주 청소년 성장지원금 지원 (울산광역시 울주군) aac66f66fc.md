@@ -4,10 +4,10 @@ title: "울주 청소년 성장지원금 지원 (울산광역시 울주군)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
-source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1002751&bnefType=all&svcId=373000000113", "https://www.law.go.kr/자치법규/울산광역시 울주군 청소년 성장지원금 지급 조례/(1591,20240912)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-22", "수집일 2026-05-04", "2026-05-04 확인"]
+source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1002751&bnefType=all&svcId=373000000113", "https://www.law.go.kr/자치법규/울산광역시 울주군 청소년 성장지원금 지급 조례/(1591,20240912)", "http://ulju.ulsan.kr/uljukium", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-28", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "이용권", "custom-overlay"]
 ---
 
@@ -21,11 +21,11 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - Materialized ID: `support.local-gov.gov24.1002751`
 - Type: `support-program`
 - jurisdiction: 울산광역시 울주군
-- application_method: 오프라인
+- application_method: 온오프라인
 - receiving_agency: 주민센터
 - contact: 여성가족과(052-204-1034)
-- source_modified_at: 2026-04-22
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-06-28
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
@@ -38,4 +38,5 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 ## Source URLs
 - https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1002751&bnefType=all&svcId=373000000113
 - https://www.law.go.kr/자치법규/울산광역시 울주군 청소년 성장지원금 지급 조례/(1591,20240912)
+- http://ulju.ulsan.kr/uljukium
 - https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList

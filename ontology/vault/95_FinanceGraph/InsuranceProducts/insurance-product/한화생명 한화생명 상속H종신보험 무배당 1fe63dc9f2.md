@@ -4,10 +4,10 @@ title: "한화생명 한화생명 상속H종신보험 무배당"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.whole-life.한화생명.l0102460001nn0000024700020244000102440001000102440001000100010244000100010001000221290`
 - Type: `insurance-product`
 - provider: 한화생명
-- source_modified_at: 2026-04-01
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

@@ -4,10 +4,10 @@ title: "BNP파리바카디프생명 (무) 대출안심 정기보험(환급형)"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010011&pageIndex=1&pageUnit=20", "https://www.cardif.co.kr/ko/web/main/disclosure/product/onsale", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "other-protection", "024400010011"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.other-protection.bnp파리바카디프생명.l7802460001nnn0247000202440001024400010011024400010011000102440001001100010004s9810`
 - Type: `insurance-product`
 - provider: BNP파리바카디프생명
-- source_modified_at: 2026-04-01
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

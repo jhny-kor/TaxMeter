@@ -4,10 +4,10 @@ title: "전문가 무료상담 서비스 (서울특별시 용산구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2149517&bnefType=all&svcId=302000000121", "https://www.law.go.kr/자치법규/서울특별시 용산구 전문가 무료상담실 설치 및 운영 조례/(1034,20131231)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-01", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타(상담)", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온오프라인
 - receiving_agency: 시·군·구청
 - contact: 용산구청 민원여권과(02-2199-6524)
-- source_modified_at: 2026-04-27
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-06-01
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

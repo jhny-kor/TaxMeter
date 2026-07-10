@@ -8,20 +8,22 @@ It exposes read-only MCP tools for ChatGPT and other remote MCP clients:
 - `fetch`: fetch one ontology item with criteria, product metadata, source URLs, and neighboring node ids.
 - `exports`: list ontology exports loaded by the MCP adapter.
 
-The Worker reads the canonical manifest from:
+The Worker reads the canonical manifest from GitHub Pages:
 
 ```text
-https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-ontology-manifest.json
+https://jhny-kor.github.io/TaxMeter/opentax/finance-ontology-manifest.json
 ```
 
 The manifest can point to separate ontology JSON files, for example:
 
 ```text
-ontology/exports/korea-tax-ontology-2026.json
-ontology/exports/korea-local-government-supports-ontology-2026.json
-ontology/exports/korea-card-products-ontology-2026.json
-ontology/exports/korea-bank-products-ontology-2026.json
-ontology/exports/korea-insurance-products-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-local-government-supports-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-card-products-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-deposit-products-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-saving-products-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-loan-products-ontology-2026.json
+https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json
 ```
 
 ## Local Development

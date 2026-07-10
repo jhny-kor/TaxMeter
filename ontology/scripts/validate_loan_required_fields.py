@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from loan_product_normalizer import LOAN_REQUIRED_FIELDS  # noqa: E402
+from loan_product_normalizer import LOAN_REQUIRED_FIELDS, is_recommendation_ready_loan  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LOAN_EXPORT = REPO_ROOT / "ontology/exports/korea-loan-products-ontology-2026.json"
@@ -39,8 +39,10 @@ def main() -> int:
         if missing:
             if loan.get("recommendation_status") != "reference_only":
                 errors.append(f"{loan['id']}: 필수 필드 누락({missing})인데 recommendation_status={loan.get('recommendation_status')}")
-        else:
+        elif is_recommendation_ready_loan(loan):
             fully_fielded += 1
+        elif loan.get("recommendation_status") != "reference_only":
+            errors.append(f"{loan['id']}: 의미 검증을 통과하지 못한 대출은 reference_only여야 합니다.")
     for error in errors[:20]:
         print("FAIL:", error)
     if errors:

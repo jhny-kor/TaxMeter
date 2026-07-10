@@ -4,10 +4,10 @@ title: "여주시 영유아 다자녀 가정 난방비 지원 (경기도 여주�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2170944&bnefType=all&svcId=570000000142", "https://www.law.go.kr/자치법규/여주시 영유아 다자녀 가정 난방비 지원 조례/(1463,20250930)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-26", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온오프라인
 - receiving_agency: 주민센터
 - contact: 여주시청 가족복지과(031-887-2588)
-- source_modified_at: 2026-04-27
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-26
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "저소득 국가유공자 등 지원 (부산광역시 동래구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005447&bnefType=all&svcId=330000000106", "https://www.law.go.kr/법령/국가유공자 등 예우 및 지원에 관한 법률/(20279,20240213)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 기타
 - contact: 동래구 복지정책과(051-550-4312)
 - source_modified_at: 2026-04-27
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

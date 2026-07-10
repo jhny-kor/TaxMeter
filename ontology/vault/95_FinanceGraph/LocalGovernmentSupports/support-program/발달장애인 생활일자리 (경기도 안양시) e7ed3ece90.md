@@ -4,10 +4,10 @@ title: "발달장애인 생활일자리 (경기도 안양시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=803392&bnefType=all&svcId=383000000140", "https://www.law.go.kr/법령/장애인복지법/(20927,20250422)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(일자리)", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 안양시관악장애인종합복지관, 안양시수리장애인종합복지관, 희망터장애인사회적협동조합, 다누리장애통합사회적협동조합
 - contact: 장애인복지과(031-8045-5580), 관악장애인종합복지관(031-472-7774), 수리장애인종합복지관(031-465-0950), 희망터장애인사회적협동조합(031-429-5904), 다누리장애통합사회적협동조합(031-464-4100)
 - source_modified_at: 2026-04-30
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

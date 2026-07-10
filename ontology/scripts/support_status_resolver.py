@@ -19,6 +19,7 @@ STATUS_TO_RECOMMENDATION = {
     "open": "recommendation_candidate",
     "active": "recommendation_candidate",
     "closed": "reference_only",
+    "not_required": "reference_only",
     "unknown": "reference_only",
 }
 

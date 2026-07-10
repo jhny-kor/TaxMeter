@@ -33,13 +33,19 @@
 5. 금융상품 온톨로지 생성
 
    ```sh
-   python3 ontology/scripts/import_finance_products.py --skip-finlife
+   FINLIFE_API_KEY=... DATA_GO_KR_SERVICE_KEY=... python3 ontology/scripts/import_finance_products.py
+   python3 ontology/scripts/import_gov24_local_supports.py
+   python3 ontology/scripts/generate_vault.py
    python3 ontology/scripts/build_finance_ontology.py
+   python3 ontology/scripts/materialize_finance_graph_vault.py
+   python3 ontology/scripts/build_web.py
    python3 ontology/scripts/validate_finance_ontology.py
    ```
 
-   금감원 금융상품한눈에 실상품 데이터까지 수집하려면 `FINLIFE_API_KEY`를
-   설정하고 `--skip-finlife` 없이 실행합니다.
+   `FINLIFE_API_KEY`는 금융감독원 금융상품한눈에 수집에, `DATA_GO_KR_SERVICE_KEY`는
+   정책대출·예금자보호 수집에 사용합니다. 키는 로컬 `.env`에만 보관합니다.
+   Gov24가 특정 시·도 목록을 일시적으로 누락하면 이전 원천 스냅샷을 보존하고 해당
+   지역을 freshness 상태로 표시해 추천 후보에서 제외합니다.
 
 ## MCP 사용
 

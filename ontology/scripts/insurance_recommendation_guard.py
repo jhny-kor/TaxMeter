@@ -44,6 +44,8 @@ def enrich_insurance_coverage(item: dict) -> None:
         renewal_type = "renewable"
     amount = premium_basis_amount(options)
     cycle_years = renewal_cycle_years(renewal_text, renewal_type)
+    source_urls = [str(url) for url in item.get("source_urls") or [] if str(url).startswith("https://")]
+    source_url = source_urls[0] if source_urls else None
     for criterion in criteria:
         if criterion.get("criteria_kind") != "coverage":
             continue
@@ -60,6 +62,8 @@ def enrich_insurance_coverage(item: dict) -> None:
         criterion.setdefault("reduction_period_days", None)
         criterion.setdefault("claim_condition", None)
         criterion.setdefault("exclusion_condition", None)
+        criterion.setdefault("condition_source_url", source_url)
+        criterion.setdefault("condition_source_locator", item.get("source_record_id"))
         missing = [
             key
             for key in (

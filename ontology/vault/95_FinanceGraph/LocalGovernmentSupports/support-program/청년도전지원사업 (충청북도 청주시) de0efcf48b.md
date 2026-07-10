@@ -4,10 +4,10 @@ title: "청년도전지원사업 (충청북도 청주시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2166938&bnefType=all&svcId=571000000196", "https://www.law.go.kr/자치법규/청주시 청년일자리 창출 촉진에 관한 조례/(1723,20251114)", "https://form.naver.com/response/CRYzezM8t_-IGsVUczPJOw", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-22", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-22", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 청주시 청년정책담당관(043-201-1247)
 - source_modified_at: 2026-04-22
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

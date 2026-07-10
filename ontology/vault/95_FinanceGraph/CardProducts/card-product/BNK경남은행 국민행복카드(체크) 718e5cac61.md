@@ -4,10 +4,10 @@ title: "BNK경남은행 국민행복카드(체크)"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CheckSearch.do", "https://www.bccard.com/app/card/CheckCardMain.do?gdsno=396633&mbkNo=039", "https://www.bccard.com/images/individual/card/renew/list/card_396633.png", "https://www.bccard.com/app/card/CheckCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 

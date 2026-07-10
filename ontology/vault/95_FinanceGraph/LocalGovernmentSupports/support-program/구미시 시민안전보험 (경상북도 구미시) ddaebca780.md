@@ -4,10 +4,10 @@ title: "구미시 시민안전보험 (경상북도 구미시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128616&bnefType=all&svcId=508000000697", "https://www.law.go.kr/법령/재난 및 안전관리 기본법/(20867,20250401)", "https://www.law.go.kr/자치법규/구미시 시민안전보험 운영 조례/(1402,20191014)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-02", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(보험)", "custom-overlay"]
 ---
 
@@ -23,8 +23,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - jurisdiction: 경상북도 구미시
 - application_method: 기타
 - contact: 안전재난과(054-480-6733)
-- source_modified_at: 2026-02-02
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-08
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

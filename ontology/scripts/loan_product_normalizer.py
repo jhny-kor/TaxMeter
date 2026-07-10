@@ -6,6 +6,7 @@ FSS 금융상품한눈에·서민금융진흥원 공시 원문(criteria/options/
 """
 from __future__ import annotations
 
+import datetime as dt
 import re
 from typing import assert_never
 
@@ -20,10 +21,17 @@ LOAN_REQUIRED_FIELDS = (
     "eligible_borrower",
     "collateral_type",
     "rate_type",
+    "total_loan_period",
+    "handling_institution",
+    "operating_period_status",
+    "loan_limit_normalization_status",
 )
 RATE_NUMBER_RE = re.compile(r"(\d+(?:\.\d+)?)")
 LOAN_LIMIT_AMOUNT_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*(억원|천만원|만원|천원|원)")
 EMPTY_TEXTS = {"", "-", "해당없음", "없음정보"}
+CONDITIONAL_LOAN_LIMIT_MARKERS = ("담보", "보증금", "평가액", "소득", "비율", "%", "수도권", "지방", "신혼", "자녀")
+OPERATING_PERIOD_DATE_RE = re.compile(r"(20\d{2})\s*[.\-/년]\s*(\d{1,2})\s*[.\-/월]\s*(\d{1,2})")
+OPERATING_PERIOD_YEAR_RE = re.compile(r"(20\d{2})\s*년")
 
 
 def unique(values) -> list[str]:
@@ -80,6 +88,60 @@ def rate_type_from_text(text: str) -> str | None:
     if "%" in text and any(keyword in text for keyword in ("대상", "구간", "~", "별", "차등")):
         return "대상별 차등금리"
     return None
+
+
+def operating_period_status(text: str | None, reviewed_at: str | None) -> str:
+    compact = str(text or "").replace(" ", "")
+    if not compact:
+        return "unverified"
+    if "상시" in compact:
+        return "confirmed_open"
+    try:
+        review_date = dt.date.fromisoformat(str(reviewed_at or ""))
+    except ValueError:
+        return "unverified"
+    dates: list[dt.date] = []
+    for year_text, month_text, day_text in OPERATING_PERIOD_DATE_RE.findall(compact):
+        try:
+            dates.append(dt.date(int(year_text), int(month_text), int(day_text)))
+        except ValueError:
+            continue
+    if len(dates) >= 2:
+        start_date, end_date = min(dates), max(dates)
+        if end_date < review_date:
+            return "expired"
+        if start_date <= review_date <= end_date:
+            return "confirmed_open"
+    years = [int(year) for year in OPERATING_PERIOD_YEAR_RE.findall(compact)]
+    if len(years) >= 2:
+        start_year, end_year = min(years), max(years)
+        if end_year < review_date.year:
+            return "expired"
+        if start_year <= review_date.year <= end_year:
+            return "confirmed_open"
+    return "unverified"
+
+
+def operating_period_end(text: str | None) -> str | None:
+    compact = str(text or "").replace(" ", "")
+    dates: list[dt.date] = []
+    for year_text, month_text, day_text in OPERATING_PERIOD_DATE_RE.findall(compact):
+        try:
+            dates.append(dt.date(int(year_text), int(month_text), int(day_text)))
+        except ValueError:
+            continue
+    return max(dates).isoformat() if len(dates) >= 2 else None
+
+
+def is_recommendation_ready_loan(item: dict) -> bool:
+    return (
+        item.get("status") == "active"
+        and bool(item.get("criteria"))
+        and not item.get("missing_loan_required_fields")
+        and item.get("operating_period_status") == "confirmed_open"
+        and item.get("loan_limit_normalization_status") == "verified"
+        and "source_domain_reclassified" not in (item.get("quality_flags") or [])
+    )
 
 
 def collateral_type_from_product(item: dict, options: list[dict]) -> str | None:
@@ -181,13 +243,29 @@ def normalize_loan_product(item: dict) -> None:
 
     limit_text = raw_text(raw, "loan_lmt", "lnlmt") or option_text(options, "loan_limit") or ""
     limit_krw = None
+    limit_unit = None
+    limit_normalization_status = "unverified"
     if limit_text.isdigit():
         # 서민금융진흥원 lnlmt는 만원 단위 숫자 문자열이다.
         limit_krw = int(limit_text) * 10000
+        limit_unit = "만원"
+        limit_normalization_status = "ambiguous" if int(limit_text) <= 1 else "verified"
     elif limit_text:
         limit_krw = parse_loan_limit_krw(limit_text)
+        amount_values = LOAN_LIMIT_AMOUNT_RE.findall(limit_text.replace(",", ""))
+        has_multiple_limits = len({amount for amount, _ in amount_values}) > 1
+        limit_normalization_status = (
+            "ambiguous"
+            if limit_krw is not None and (
+                has_multiple_limits or any(marker in limit_text for marker in CONDITIONAL_LOAN_LIMIT_MARKERS)
+            )
+            else "verified" if limit_krw is not None else "unverified"
+        )
     item["loan_limit_krw"] = limit_krw
     item["loan_limit_text"] = limit_text or None
+    item["loan_limit_unit"] = limit_unit
+    item["loan_limit_normalization_status"] = limit_normalization_status
+    item["loan_limit_normalization_source"] = "LoanProductSearchingInfo item.lnLmt" if limit_unit else None
 
     item["early_repayment_fee"] = raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee")
 
@@ -198,6 +276,19 @@ def normalize_loan_product(item: dict) -> None:
         item["collateral_type"] = ", ".join(collateral)
     else:
         item["collateral_type"] = collateral_type_from_product(item, options)
+
+    item["total_loan_period"] = raw_text(raw, "maxTotLnTrm") or option_text(options, "total_loan_period_years")
+    item["handling_institution"] = raw_text(raw, "hdlInst") or option_text(options, "handling_institution")
+    item["operating_period_text"] = raw_text(raw, "prdOprPrid") or option_text(options, "operating_period")
+    item["operating_period_status"] = operating_period_status(item["operating_period_text"], item.get("reviewed_at"))
+
+    if item["operating_period_status"] == "expired":
+        item["status"] = "closed"
+        item["product_status"] = "ended"
+        item["sales_status"] = "ended"
+        item["status_reason"] = "공식 정책대출 운영기간이 현재 검토일보다 이전이어서 추천·기본 검색에서 제외합니다."
+        item["status_confidence"] = "derived"
+        item["effective_to"] = operating_period_end(item["operating_period_text"])
 
     missing = [
         field
@@ -210,7 +301,7 @@ def normalize_loan_product(item: dict) -> None:
         item["recommendation_status"] = "reference_only"
         item["status_reason"] = "대출 비교·추천에 필요한 criteria가 비어 있어 참조 전용으로만 노출합니다."
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
-    if item.get("status") == "active" and item.get("criteria") and not missing and "source_domain_reclassified" not in (item.get("quality_flags") or []):
+    if is_recommendation_ready_loan(item):
         item["recommendation_status"] = "recommendation_candidate"
         item["recommendation_scope"] = "criteria_match_only"
         item["recommendation_basis_fields"] = list(LOAN_REQUIRED_FIELDS)
@@ -228,3 +319,29 @@ def normalize_loan_product(item: dict) -> None:
             "incomplete_loan_required_fields",
         ])
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_required_fields"])
+    if item["operating_period_status"] == "unverified":
+        item["recommendation_exclusion_reasons"] = unique([
+            *(item.get("recommendation_exclusion_reasons") or []),
+            "unverified_loan_operating_period",
+        ])
+        item["quality_flags"] = unique([*(item.get("quality_flags") or []), "unverified_loan_operating_period"])
+    if item["loan_limit_normalization_status"] != "verified":
+        item["recommendation_exclusion_reasons"] = unique([
+            *(item.get("recommendation_exclusion_reasons") or []),
+            "ambiguous_loan_limit_normalization",
+        ])
+        item["quality_flags"] = unique([*(item.get("quality_flags") or []), "ambiguous_loan_limit_normalization"])
+
+
+def demo() -> None:
+    assert operating_period_status("상시", "2026-07-10") == "confirmed_open"
+    assert operating_period_status("2025-01-01~2025-12-31", "2026-07-10") == "expired"
+    assert operating_period_status("2008.7.1~별도 통보시", "2026-07-10") == "unverified"
+    assert operating_period_status("2022.09.20.~한도 소진시까지", "2026-07-10") == "unverified"
+    assert operating_period_end("2025-01-01~2025-12-31") == "2025-12-31"
+    assert operating_period_status("기관 문의", "2026-07-10") == "unverified"
+    print("loan_product_normalizer demo OK")
+
+
+if __name__ == "__main__":
+    demo()

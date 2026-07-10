@@ -13,7 +13,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 
 # 어르신 틀니 시술비 지원 (전라남도 나주시)
 
-전라남도 나주시 관할 지자체 지원금입니다. 저소득 어르신에게 틀니 제작 및 시술 비용을 지원합니다. 
+전라남도 나주시 관할 지자체 지원금입니다. 저소득 어르신에게 틀니 제작 및 시술 비용을 지원합니다.
 식사와 구강 건강 개선에 도움을 줍니다.
 
 > Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.

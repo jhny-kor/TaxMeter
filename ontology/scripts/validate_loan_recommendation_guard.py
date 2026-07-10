@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from loan_product_normalizer import LOAN_REQUIRED_FIELDS  # noqa: E402
+from loan_product_normalizer import LOAN_REQUIRED_FIELDS, is_recommendation_ready_loan  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LOAN_EXPORT = REPO_ROOT / "ontology/exports/korea-loan-products-ontology-2026.json"
@@ -24,12 +24,7 @@ def main() -> int:
             if loan.get(field) is None
         ]
         reasons = set(loan.get("recommendation_exclusion_reasons") or [])
-        is_candidate = (
-            loan.get("status") == "active"
-            and bool(loan.get("criteria"))
-            and not missing
-            and "source_domain_reclassified" not in (loan.get("quality_flags") or [])
-        )
+        is_candidate = is_recommendation_ready_loan(loan)
         if is_candidate:
             candidate_count += 1
             if loan.get("recommendation_status") != "recommendation_candidate":
@@ -38,6 +33,10 @@ def main() -> int:
                 errors.append(f"{loan['id']}: 조건매칭 후보의 recommendation_scope가 criteria_match_only가 아닙니다.")
             if "incomplete_loan_required_fields" in reasons:
                 errors.append(f"{loan['id']}: 완전한 후보에 incomplete_loan_required_fields 사유가 남아 있습니다.")
+            if loan.get("operating_period_status") != "confirmed_open":
+                errors.append(f"{loan['id']}: 운영기간이 확인되지 않은 대출이 추천 후보입니다.")
+            if loan.get("loan_limit_normalization_status") != "verified":
+                errors.append(f"{loan['id']}: 한도 단위가 검증되지 않은 대출이 추천 후보입니다.")
             continue
         if loan.get("recommendation_status") != "reference_only":
             errors.append(f"{loan['id']}: 불완전하거나 비활성인 대출은 reference_only여야 합니다.")

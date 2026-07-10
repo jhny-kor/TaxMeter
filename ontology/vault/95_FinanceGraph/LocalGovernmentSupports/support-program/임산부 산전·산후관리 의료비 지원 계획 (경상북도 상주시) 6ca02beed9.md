@@ -4,10 +4,10 @@ title: "임산부 산전·산후관리 의료비 지원 계획 (경상북도 상
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003196&bnefType=all&svcId=511000000121", "https://www.law.go.kr/자치법규/상주시 출산장려 지원에 관한 조례/(1680,20241231)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2025-11-27", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "이용권", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 오프라인
 - receiving_agency: 보건소
 - contact: 건강증진과(054-537-5232)
-- source_modified_at: 2025-11-27
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-11
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

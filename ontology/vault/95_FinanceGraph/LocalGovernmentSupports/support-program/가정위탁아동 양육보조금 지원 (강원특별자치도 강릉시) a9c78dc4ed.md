@@ -4,10 +4,10 @@ title: "가정위탁아동 양육보조금 지원 (강원특별자치도 강릉�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005518&bnefType=all&svcId=420000000171", "https://www.law.go.kr/법령/아동복지법/(20885,20250401)", "https://www.law.go.kr/자치법규/강릉시 아동복지 증진에 관한 조례/(1154,20160511)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-07", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 오프라인
 - receiving_agency: 주민센터, 시·군·구청
 - contact: 아동보육과(033-640-5743)
-- source_modified_at: 2026-01-28
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-07
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

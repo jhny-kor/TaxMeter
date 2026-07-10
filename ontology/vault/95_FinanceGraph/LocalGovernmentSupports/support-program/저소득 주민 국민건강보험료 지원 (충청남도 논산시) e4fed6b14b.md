@@ -4,10 +4,10 @@ title: "저소득 주민 국민건강보험료 지원 (충청남도 논산시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005464&bnefType=all&svcId=454000000158", "https://www.law.go.kr/자치법규/논산시 저소득주민 국민건강보험료 및 장기요양보험료 지원 조례/(1858,20240910)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(보험)", "custom-overlay"]
 ---
 
@@ -24,8 +24,8 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 기타
 - receiving_agency: 개인 신청절차 없음
 - contact: 복지정책과(041-746-5345)
-- source_modified_at: 2026-01-28
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-05-08
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

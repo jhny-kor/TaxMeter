@@ -4,16 +4,16 @@ title: "장수어르신 장수축하금 지원 (서울특별시 금천구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1001793&bnefType=all&svcId=317000000109", "https://www.law.go.kr/자치법규/서울특별시 금천구 장수축하금 지급에 관한 조례/(1429,20240111)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-02-09", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-02-09", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
 # 장수어르신 장수축하금 지원 (서울특별시 금천구)
 
-서울특별시 금천구 관할 지자체 지원금입니다. 고령의 어르신이 건강하게 장수하실 수 있도록 장수 기념금과 축하품을 제공합니다. 
+서울특별시 금천구 관할 지자체 지원금입니다. 고령의 어르신이 건강하게 장수하실 수 있도록 장수 기념금과 축하품을 제공합니다.
 생활에 작은 도움과 함께 존경과 감사의 마음을 전달할 수 있습니다.
 
 > Graph-only materialization입니다. 원본 데이터는 JSON export가 authoritative source입니다.
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 어르신장애인과(02-2627-1386)
 - source_modified_at: 2026-02-09
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

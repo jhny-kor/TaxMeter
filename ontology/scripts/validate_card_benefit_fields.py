@@ -25,6 +25,8 @@ REQUIRED_KEYS = (
     "condition_completeness",
     "condition_parse_source",
     "missing_condition_fields",
+    "condition_source_url",
+    "condition_source_locator",
 )
 NO_SPEND_MARKERS = ("no전월실적", "전월실적없이", "실적조건없고", "실적조건없이", "조건없이")
 UNLIMITED_LIMIT_MARKERS = ("한도없이", "한도없는", "한도도없는", "적립한도없", "할인한도없")
@@ -65,6 +67,10 @@ def main() -> int:
                 errors.append(f"{card['id']}: 월 한도를 fixed_benefit_amount_krw로 중복 기록했습니다.")
             if benefit.get("condition_completeness") not in {"complete", "partial", "incomplete"}:
                 errors.append(f"{card['id']}: condition_completeness 값이 잘못되었습니다.")
+            if not str(benefit.get("condition_source_url") or "").startswith("https://"):
+                errors.append(f"{card['id']}: benefit condition_source_url이 없습니다.")
+            if not benefit.get("condition_source_locator"):
+                errors.append(f"{card['id']}: benefit condition_source_locator가 없습니다.")
     for error in errors[:20]:
         print("FAIL:", error)
     if errors:

@@ -4,10 +4,10 @@ title: "경로식당 무료급식 지원 (강원특별자치도 태백시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004592&bnefType=all&svcId=422000000122", "https://www.law.go.kr/법령/노인복지법/(19814,20231031)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-29", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-07", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -23,9 +23,9 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - jurisdiction: 강원특별자치도 태백시
 - application_method: 오프라인
 - receiving_agency: 장성중앙쉼터, 태백무료급식소, 동점마을쉼터, 태백지역자활센터
-- contact: 사회복지과(033-550-2177)
-- source_modified_at: 2026-01-29
-- source_collected_at: 2026-05-04
+- contact: 사회복지과(033-550-3832)
+- source_modified_at: 2026-05-07
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "하나카드 JADE Classic"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList", "https://www.hanacard.co.kr/OPI41000000D.web?CD_PD_SEQ=17504", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card"]
 ---
 

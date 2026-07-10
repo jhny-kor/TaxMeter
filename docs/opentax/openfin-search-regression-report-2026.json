@@ -443,8 +443,8 @@
           "score": 13
         },
         {
-          "id": "support.local-gov.gov24.1002732",
-          "title": "강진품애 청년 주거비 지원 (전라남도 강진군)",
+          "id": "support.local-gov.gov24.2161850",
+          "title": "귀농 청년농업인 주거비(월세) 지원 (경기도 연천군)",
           "type": "support-program",
           "status": "active",
           "application_status": "open",
@@ -492,40 +492,40 @@
       "query": "정기예금 비교해",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.deposit.0013002.bnk1003",
+      "actual_top_id": "finance.deposit.deposit.0013002.bnk1003",
       "passed": true,
       "expected_search_type": "deposit",
       "top_results": [
         {
-          "id": "finance.bank.deposit.0013002.bnk1003",
+          "id": "finance.deposit.deposit.0013002.bnk1003",
           "title": "BNK저축은행 삼삼한정기예금(회전정기예금)(1년단위 변동금리)",
           "type": "bank-product",
           "search_type": "deposit",
           "score": 31
         },
         {
-          "id": "finance.bank.deposit.0013002.bnk1001",
+          "id": "finance.deposit.deposit.0013002.bnk1001",
           "title": "BNK저축은행 정기예금(대면)",
           "type": "bank-product",
           "search_type": "deposit",
           "score": 31
         },
         {
-          "id": "finance.bank.deposit.0013002.bnk1005",
+          "id": "finance.deposit.deposit.0013002.bnk1005",
           "title": "BNK저축은행 정기예금(비대면,인터넷,모바일)",
           "type": "bank-product",
           "search_type": "deposit",
           "score": 31
         },
         {
-          "id": "finance.bank.deposit.0010478.240006",
+          "id": "finance.deposit.deposit.0010478.240006",
           "title": "CK저축은행 정기예금(강릉지점)",
           "type": "bank-product",
           "search_type": "deposit",
           "score": 31
         },
         {
-          "id": "finance.bank.deposit.0010478.240003",
+          "id": "finance.deposit.deposit.0010478.240003",
           "title": "CK저축은행 정기예금(인터넷,모바일,비대면)",
           "type": "bank-product",
           "search_type": "deposit",
@@ -537,40 +537,40 @@
       "query": "적금 비교해",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.saving.0013002.bnk1002",
+      "actual_top_id": "finance.saving.saving.0013002.bnk1002",
       "passed": true,
       "expected_search_type": "saving",
       "top_results": [
         {
-          "id": "finance.bank.saving.0013002.bnk1002",
+          "id": "finance.saving.saving.0013002.bnk1002",
           "title": "BNK저축은행 정기적금",
           "type": "bank-product",
           "search_type": "saving",
           "score": 31
         },
         {
-          "id": "finance.bank.saving.0010478.310004",
+          "id": "finance.saving.saving.0010478.310004",
           "title": "CK저축은행 정기적금",
           "type": "bank-product",
           "search_type": "saving",
           "score": 31
         },
         {
-          "id": "finance.bank.saving.0010478.310005",
+          "id": "finance.saving.saving.0010478.310005",
           "title": "CK저축은행 정기적금(인터넷,모바일,비대면)",
           "type": "bank-product",
           "search_type": "saving",
           "score": 31
         },
         {
-          "id": "finance.bank.saving.0010404.dh003",
+          "id": "finance.saving.saving.0010404.dh003",
           "title": "DH저축은행 정기적금",
           "type": "bank-product",
           "search_type": "saving",
           "score": 31
         },
         {
-          "id": "finance.bank.saving.0010404.dh004",
+          "id": "finance.saving.saving.0010404.dh004",
           "title": "DH저축은행 정기적금(비대면)",
           "type": "bank-product",
           "search_type": "saving",
@@ -582,40 +582,40 @@
       "query": "주택담보대출 비교해",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.mortgage-loan.0013002.bnk3652",
+      "actual_top_id": "finance.loan.mortgage-loan.0013002.bnk3652",
       "passed": true,
       "expected_search_type": "loan",
       "top_results": [
         {
-          "id": "finance.bank.mortgage-loan.0013002.bnk3652",
+          "id": "finance.loan.mortgage-loan.0013002.bnk3652",
           "title": "BNK저축은행 중도금대출(주택)",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
         },
         {
-          "id": "finance.bank.mortgage-loan.0010478.760029",
+          "id": "finance.loan.mortgage-loan.0010478.760029",
           "title": "CK저축은행 주택담보대출",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
         },
         {
-          "id": "finance.bank.mortgage-loan.0012889.760087",
+          "id": "finance.loan.mortgage-loan.0012889.760087",
           "title": "IBK저축은행 주택담보대출",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
         },
         {
-          "id": "finance.bank.mortgage-loan.0013308.760494",
+          "id": "finance.loan.mortgage-loan.0013308.760494",
           "title": "JT친애저축은행 원더풀부동산담보대출",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
         },
         {
-          "id": "finance.bank.mortgage-loan.0010439.760058",
+          "id": "finance.loan.mortgage-loan.0010439.760058",
           "title": "MS저축은행 중도금대출(주택)",
           "type": "bank-product",
           "search_type": "loan",
@@ -762,5 +762,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "e931b8fbaf8f0061fc9fc3d62549dcce990f67acb17c0a8ef5d954c71cf61eeb"
+  "export_checksum": "53b62f19048b2e4c9ed9674364783e790bf0cb72ee36d191638b1632e1db3854"
 }

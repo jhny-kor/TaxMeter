@@ -4,10 +4,10 @@ title: "수출용 화훼종자 지원 (경기도 광명시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1006702&bnefType=all&svcId=390000000121", "https://www.law.go.kr/법령/자유무역협정 체결에 따른 농어업인 등의 지원에 관한 특별법/(21565,20260421)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-01", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -21,11 +21,10 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - Materialized ID: `support.local-gov.gov24.1006702`
 - Type: `support-program`
 - jurisdiction: 경기도 광명시
-- application_method: 오프라인
-- receiving_agency: 시·군·구청
+- application_method: 기타
 - contact: 도시농업과(02-2680-2328)
-- source_modified_at: 2026-04-30
-- source_collected_at: 2026-05-04
+- source_modified_at: 2026-06-01
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "KDB생명 KDB라이프핏건강보험(해약환급금미지급형Ⅲ)(�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010002&pageIndex=1&pageUnit=20", "https://www.kdblife.co.kr/ajax.do?scrId=HDLMA002M02P", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-01-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "term-life", "024400010002"]
 ---
 

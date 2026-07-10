@@ -43,6 +43,8 @@ MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
 QUALITY_MANIFEST_EXPORT = EXPORT_DIR / "openfin-quality-manifest-2026.json"
 SEARCH_REGRESSION_REPORT_EXPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
+TAX_EXPORT = EXPORT_DIR / "korea-tax-ontology-2026.json"
+LOCAL_SUPPORT_EXPORT = EXPORT_DIR / "korea-local-government-supports-ontology-2026.json"
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 GENERIC_SEARCH_TYPES = {"category", "term", "domain", "source"}
 TAX_DECISION_TYPES = {"tax-credit", "deduction"}
@@ -1871,8 +1873,8 @@ def has_product_conditions(item: dict) -> bool:
 def active_status_reason(item: dict) -> str:
     source_dates = ", ".join(str(value) for value in item.get("source_basis_dates") or [])
     if source_dates:
-        return f"공식 출처 수집 기준으로 판매·공시 상태를 확인했습니다: {source_dates}"
-    return "공식 출처 수집 기준으로 판매·공시 상태를 확인했습니다."
+        return f"공식 출처 목록에 수집된 상품입니다. 현재 판매 여부는 상세 원문을 다시 확인해야 합니다: {source_dates}"
+    return "공식 출처 목록에 수집된 상품입니다. 현재 판매 여부는 상세 원문을 다시 확인해야 합니다."
 
 
 def enrich_operational_status(items: list[dict]) -> list[dict]:
@@ -1884,7 +1886,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         raw_status = str(item.get("product_status") or item.get("sales_status") or item.get("status") or "unknown")
         status = raw_status if raw_status in {"active", "ended", "suspended", "unknown"} else "unknown"
         status_reason = item.get("status_reason") or active_status_reason(item)
-        status_confidence = item.get("status_confidence") or "confirmed"
+        status_confidence = item.get("status_confidence") or "source_listed"
         flags = list(item.get("quality_flags") or [])
         missing_fields = list(item.get("missing_required_fields") or [])
         months = disclosure_months(item)
@@ -1915,7 +1917,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
             item["sales_status"] = "ended"
             item["status"] = "closed"
             item["status_reason"] = item.get("status_reason") or "공식 출처에 종료일 또는 판매중단일자가 있어 기본 검색·추천 대상에서 제외합니다."
-            item["status_confidence"] = item.get("status_confidence") or "confirmed"
+            item["status_confidence"] = item.get("status_confidence") or "source_listed"
             item["recommendation_status"] = "reference_only"
         elif status == "active":
             item["product_status"] = "active"
@@ -2285,7 +2287,11 @@ def existing_export_quality_summary(path: Path) -> dict:
     if not path.exists():
         return {}
     payload = json.loads(path.read_text(encoding="utf-8"))
-    return payload.get("quality_summary") or {}
+    summary = dict(payload.get("quality_summary") or {})
+    if path == LOCAL_SUPPORT_EXPORT:
+        summary["source_refresh_missing_regions"] = payload.get("source_refresh_missing_regions") or []
+        summary["preserved_from_previous_snapshot_count"] = payload.get("preserved_from_previous_snapshot_count") or 0
+    return summary
 
 
 def existing_export_checksum(path: Path) -> str | None:
@@ -2943,7 +2949,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
     )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT):
+    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 

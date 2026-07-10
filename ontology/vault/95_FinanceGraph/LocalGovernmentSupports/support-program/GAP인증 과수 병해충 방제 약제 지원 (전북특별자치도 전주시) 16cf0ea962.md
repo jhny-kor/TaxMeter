@@ -4,10 +4,10 @@ title: "GAP인증 과수 병해충 방제 약제 지원 (전북특별자치도 �
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000260&bnefType=all&svcId=464000000102", "https://www.law.go.kr/법령/농촌진흥법/(19878,20240102)", "https://www.law.go.kr/자치법규/전주시 농어업ㆍ농촌 및 식품산업 지원에 관한 조례/(4144,20240415)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-28", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 전주시 농업기술센터(농업기술과)
 - contact: 농업기술과(063-281-6714)
 - source_modified_at: 2026-04-28
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

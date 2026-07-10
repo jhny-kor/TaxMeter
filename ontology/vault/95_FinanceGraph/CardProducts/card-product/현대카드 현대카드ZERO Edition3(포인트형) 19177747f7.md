@@ -4,10 +4,10 @@ title: "현대카드 현대카드ZERO Edition3(포인트형)"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList", "https://www.hyundaicard.com/cpc/cr/CPCCR0201_01.hc?cardWcd=MZROE3", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-04 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card"]
 ---
 

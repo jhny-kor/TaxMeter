@@ -206,6 +206,7 @@ def build_html(data: dict, summary: dict) -> str:
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>OpenTax</title>
           <meta name="description" content="대한민국 세금, 공제, 정책지원, 사업자 세무, 신고기한을 연결한 검증형 OpenTax 웹 가이드">
+          <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8Z' fill='%2305080d' stroke='%2373f0c1' stroke-width='2'/%3E%3Cpath d='M10 16h12M16 10v12' stroke='%2373f0c1' stroke-width='2'/%3E%3C/svg%3E">
           <link rel="stylesheet" href="./styles.css">
         </head>
         <body>

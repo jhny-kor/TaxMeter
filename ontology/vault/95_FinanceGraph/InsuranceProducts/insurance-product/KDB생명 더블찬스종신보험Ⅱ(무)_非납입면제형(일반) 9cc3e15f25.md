@@ -4,10 +4,10 @@ title: "KDB생명 더블찬스종신보험Ⅱ(무)_非납입면제형(일반)"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://www.kdblife.co.kr/ajax.do?scrId=HDLMA002M02P", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-04 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-10 수집", "2026-01-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 

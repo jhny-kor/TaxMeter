@@ -4,10 +4,10 @@ title: "도내 대학생 장학금 지원(생활비) (강원특별자치도)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-05-04"
+reviewed_at: "2026-07-10"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=809984&bnefType=all&svcId=642000000737", "https://www.law.go.kr/자치법규/강원인재원 설립 및 운영 지원 조례/(5392,20240927)", "http://injae.gwd.go.kr/injae", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-05-04", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-07-10", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(장학금)", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 강원인재원(033-254-7777)
 - source_modified_at: 2026-04-24
-- source_collected_at: 2026-05-04
+- source_collected_at: 2026-07-10
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

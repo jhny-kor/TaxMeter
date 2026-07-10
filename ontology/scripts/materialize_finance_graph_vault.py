@@ -276,7 +276,8 @@ def render_note(
             lines.append(f"- ... {len(source_urls) - 5} more")
         lines.append("")
 
-    return "\n".join(lines).rstrip() + "\n"
+    rendered = "\n".join(lines).rstrip()
+    return "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
 
 
 def main() -> int:
@@ -285,12 +286,12 @@ def main() -> int:
 
     generated_links: dict[str, str] = {}
     generated_titles: dict[str, str] = {}
-    generated_paths: dict[str, Path] = {}
+    generated_paths: dict[tuple[str, str], Path] = {}
     for config, item in records:
         path = path_for_item(config["folder"], item)
-        generated_paths[item["id"]] = path
-        generated_links[item["id"]] = vault_link(path)
-        generated_titles[item["id"]] = str(item.get("title") or item["id"])
+        generated_paths[(config["folder"], item["id"])] = path
+        generated_links.setdefault(item["id"], vault_link(path))
+        generated_titles.setdefault(item["id"], str(item.get("title") or item["id"]))
 
     id_links = {**existing_links, **generated_links}
     id_titles = {**existing_titles, **generated_titles}
@@ -301,7 +302,7 @@ def main() -> int:
 
     written_paths: set[Path] = set()
     for config, item in records:
-        path = generated_paths[item["id"]]
+        path = generated_paths[(config["folder"], item["id"])]
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(render_note(config, item, id_links, id_titles), encoding="utf-8")
         written_paths.add(path)
