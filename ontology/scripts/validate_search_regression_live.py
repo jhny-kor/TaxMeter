@@ -103,7 +103,25 @@ class McpClient:
         arguments: dict = {"query": query, "limit": limit}
         if type_filter:
             arguments["type"] = type_filter
-        result = self.request("tools/call", {"name": "search", "arguments": arguments})
+        result = None
+        for attempt in range(3):
+            try:
+                result = self.request("tools/call", {"name": "search", "arguments": arguments})
+                break
+            except urllib.error.HTTPError as error:
+                if error.code < 500 or attempt == 2:
+                    raise
+                self.session_id = None
+                time.sleep(10 * (attempt + 1))
+                self.initialize()
+            except ValueError as error:
+                if "응답이 비어 있습니다" not in str(error) or attempt == 2:
+                    raise
+                self.session_id = None
+                time.sleep(10 * (attempt + 1))
+                self.initialize()
+        if result is None:
+            raise AssertionError("unreachable")
         structured = result.get("structuredContent")
         if not structured:
             structured = json.loads(result["content"][0]["text"])

@@ -725,7 +725,7 @@
       "type": null,
       "validation_kind": "comparison_search_type",
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.deposit.0010024.21001115",
+      "actual_top_id": "finance.deposit.deposit.0010024.21001115",
       "expected_search_type": "deposit",
       "actual_search_type": "deposit",
       "passed": true
@@ -735,7 +735,7 @@
       "type": null,
       "validation_kind": "comparison_search_type",
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.saving.0010024.21001259",
+      "actual_top_id": "finance.saving.saving.0010024.21001259",
       "expected_search_type": "saving",
       "actual_search_type": "saving",
       "passed": true
@@ -745,7 +745,7 @@
       "type": null,
       "validation_kind": "comparison_search_type",
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.mortgage-loan.0010024.30002130",
+      "actual_top_id": "finance.loan.mortgage-loan.0010024.30002130",
       "expected_search_type": "loan",
       "actual_search_type": "loan",
       "passed": true
@@ -753,14 +753,14 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-10T04:27:43+00:00",
+    "checked_at": "2026-07-10T20:01:00+00:00",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "faa0fd0a59e45c332cbca28e5a3cc474738f2296ffdc94c851cc82cf1a8aa890",
+    "search_index_checksum": "dc791d677257d3072847f8da9b8b7cfdbb4f3aeaf6cbb61827835a35e2c5d85e",
     "test_count": 16,
     "passed_count": 16,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "53b62f19048b2e4c9ed9674364783e790bf0cb72ee36d191638b1632e1db3854"
+  "export_checksum": "e5a66e3bc314ca00ffbb8abbc04c5558a6c325faaeb30931281703d8c49027fa"
 }

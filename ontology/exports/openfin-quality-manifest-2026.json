@@ -439,5 +439,16 @@
       "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
     }
   },
-  "export_checksum": "0a90902e8f0b53ac3dc6aba272e166adfa5f16ad672ce7dbeb61cb8bb2c15752"
+  "live_search_regression": {
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-10T20:01:00+00:00",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+    "search_index_checksum": "dc791d677257d3072847f8da9b8b7cfdbb4f3aeaf6cbb61827835a35e2c5d85e",
+    "test_count": 16,
+    "passed_count": 16,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
+  },
+  "export_checksum": "1ae4d7f733cb88b15a3e94f5d80c8b9051082df83131816665f96972f64b151c"
 }
