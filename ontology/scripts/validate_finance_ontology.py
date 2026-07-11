@@ -49,6 +49,19 @@ RECOMMENDATION_QUERY_RE = re.compile(r"(추천|골라|맞는\s*상품|recommend)
 NO_PREVIOUS_MONTH_SPEND_RE = re.compile(r"(No\s*전월실적|전월\s*실적\s*없음|전월\s*이용금액\s*조건\s*없음)", re.I)
 NO_ANNUAL_FEE_RE = re.compile(r"(No\s*연회비|연회비\s*없음|연회비\s*면제)", re.I)
 BENEFIT_RATE_RE = re.compile(r"\d+(?:\.\d+)?\s*%")
+LOAN_VERIFIED_REQUIRED_FIELDS = (
+    "loan_limit_krw",
+    "loan_rate_min_percent",
+    "loan_rate_max_percent",
+    "rate_type",
+    "repayment_method",
+    "early_repayment_fee",
+    "guarantee_fee",
+    "eligible_borrower",
+    "loan_purpose",
+    "official_application_url",
+    "last_verified_at",
+)
 
 # mcp_server.py / build_finance_ontology.py와 동일한 type 필터 그룹.
 SEARCH_TYPE_GROUPS = {
@@ -104,6 +117,10 @@ SEARCH_REGRESSIONS = (
     {"query": "정기예금 비교해", "expected_search_type": "deposit"},
     {"query": "적금 비교해", "expected_search_type": "saving"},
     {"query": "주택담보대출 비교해", "expected_search_type": "loan"},
+    {
+        "query": "finance.bank.deposit.0010001.wr0001b",
+        "expected_top_id": "finance.deposit.deposit.0010001.wr0001b",
+    },
 )
 
 
@@ -261,6 +278,10 @@ def validate_manifest(errors: list[str]) -> list[dict]:
             require(bool(search_index.get("web_url")), "search_index missing web url", errors)
     quality_summary = payload.get("quality_summary") or {}
     require(bool(quality_summary.get("search_regression_tests")), "manifest missing search_regression_tests", errors)
+    for field in ("release_status", "degraded_domains", "blocking_issues", "warning_issues"):
+        require(field in payload, f"manifest missing {field}", errors)
+    require(payload.get("semantic_validation_passed") is True, "manifest semantic_validation_passed must be true", errors)
+    require(payload.get("id_compatibility_validation_passed") is True, "manifest id_compatibility_validation_passed must be true", errors)
     quality_exports = payload.get("quality_exports") or []
     require(len(quality_exports) >= 2, "manifest missing quality_exports", errors)
     for entry in quality_exports:
@@ -297,7 +318,9 @@ def query_tokens(query: str) -> list[str]:
 
 
 def search_text(item: dict) -> str:
-    return str(item.get("search_text") or " ".join(str(item.get(key) or "") for key in ("id", "title", "type", "description", "product_kind", "search_type", "status", "application_status"))).lower()
+    text = str(item.get("search_text") or " ".join(str(item.get(key) or "") for key in ("id", "title", "type", "description", "product_kind", "search_type", "status", "application_status")))
+    aliases = " ".join(str(value) for key in ("legacy_ids", "search_aliases", "aliases") for value in item.get(key) or [])
+    return f"{text} {aliases}".lower()
 
 
 def matches_recommendation_domain(item: dict, query: str) -> bool:
@@ -431,6 +454,103 @@ def validate_search_regressions(errors: list[str]) -> None:
         require(report.get("test_count") >= 5, "search regression report missing P0 tax queries", errors)
 
 
+def legacy_ids_for_item(item_id: str) -> list[str]:
+    if item_id.startswith("finance.deposit.deposit."):
+        return [item_id.replace("finance.deposit.deposit.", "finance.bank.deposit.", 1)]
+    if item_id.startswith("finance.saving.saving."):
+        return [item_id.replace("finance.saving.saving.", "finance.bank.saving.", 1)]
+    if item_id.startswith("finance.loan."):
+        return [item_id.replace("finance.loan.", "finance.bank.", 1)]
+    return []
+
+
+def validate_medical_expense_semantics(global_items: dict[str, dict], errors: list[str]) -> None:
+    item = global_items.get("credit.medical-expense")
+    require(item is not None, "missing credit.medical-expense", errors)
+    if not item:
+        return
+    criteria = [criterion for criterion in item.get("criteria") or [] if isinstance(criterion, dict)]
+    threshold = next((criterion for criterion in criteria if criterion.get("label") == "의료비 공제 문턱"), None)
+    require(threshold is not None, "credit.medical-expense: missing medical threshold criterion", errors)
+    if threshold:
+        require(threshold.get("criteria_kind") == "threshold", "medical threshold must be criteria_kind=threshold", errors)
+        require(threshold.get("threshold_type") == "gross_salary_ratio", "medical threshold missing gross_salary_ratio type", errors)
+        require(threshold.get("threshold_rate_percent") == 3, "medical threshold_rate_percent must be 3", errors)
+        require("rate_percent" not in threshold, "medical threshold must not expose rate_percent", errors)
+        require("rate_label" not in threshold, "medical threshold must not expose rate_label", errors)
+        require(threshold.get("amount_formula") == "max(0, medical_expense - gross_salary * 0.03)", "medical threshold formula must subtract gross salary threshold", errors)
+    require(
+        any(criterion.get("label") == "일반 의료비 세액공제율" and criterion.get("rate_percent") == 15 for criterion in criteria),
+        "credit.medical-expense: missing 15% medical credit-rate criterion",
+        errors,
+    )
+
+
+def validate_id_compatibility(loaded_exports: list[tuple[dict, list[dict]]], errors: list[str]) -> None:
+    canonical_ids = {
+        str(item.get("id"))
+        for _, items in loaded_exports
+        for item in items
+        if item.get("id")
+    }
+    alias_to_id: dict[str, str] = {}
+    for _, items in loaded_exports:
+        for item in items:
+            item_id = str(item.get("id") or "")
+            if not item_id:
+                continue
+            expected_legacy_ids = legacy_ids_for_item(item_id)
+            if expected_legacy_ids:
+                legacy_ids = {str(value) for value in item.get("legacy_ids") or []}
+                for legacy_id in expected_legacy_ids:
+                    require(legacy_id in legacy_ids, f"{item_id}: missing legacy id {legacy_id}", errors)
+            aliases = [
+                str(value)
+                for key in ("legacy_ids", "search_aliases", "aliases")
+                for value in item.get(key) or []
+            ]
+            for alias in aliases:
+                require(alias not in canonical_ids, f"{item_id}: alias collides with canonical id {alias}", errors)
+                previous = alias_to_id.get(alias)
+                require(previous in {None, item_id}, f"alias collision {alias}: {previous} vs {item_id}", errors)
+                alias_to_id[alias] = item_id
+    for _, items in loaded_exports:
+        for item in items:
+            for key in REFERENCE_KEYS:
+                for target_id in item.get(key) or []:
+                    require(target_id not in alias_to_id, f"{item.get('id')}: {key} references legacy alias {target_id}", errors)
+
+
+def validate_semantic_gates(loaded_exports: list[tuple[dict, list[dict]]], global_items: dict[str, dict], errors: list[str]) -> None:
+    validate_medical_expense_semantics(global_items, errors)
+    validate_id_compatibility(loaded_exports, errors)
+    for _, items in loaded_exports:
+        for item in items:
+            item_id = str(item.get("id") or "")
+            if item.get("type") == "support-program" and item.get("application_open_from") and item.get("application_open_to"):
+                require(item["application_open_to"] >= item["application_open_from"], f"{item_id}: support end date before start date", errors)
+            if item.get("search_type") == "loan":
+                if item.get("loan_limit_normalization_status") == "ambiguous":
+                    require(item.get("loan_limit_krw") is None and item.get("limit_krw") is None, f"{item_id}: ambiguous loan limit must not expose KRW amount", errors)
+                if item.get("recommendation_status") == "verified_recommendation_candidate":
+                    missing = [field for field in LOAN_VERIFIED_REQUIRED_FIELDS if item.get(field) in {None, ""}]
+                    require(not missing, f"{item_id}: verified loan candidate missing required fields {missing}", errors)
+            if item.get("type") == "insurance-product":
+                if item.get("recommendation_status") != "reference_only":
+                    incomplete = [
+                        criterion.get("label")
+                        for criterion in item.get("criteria") or []
+                        if isinstance(criterion, dict) and criterion.get("condition_completeness") == "incomplete"
+                    ]
+                    require(not incomplete, f"{item_id}: incomplete insurance coverage cannot be recommended", errors)
+                for criterion in item.get("criteria") or []:
+                    if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
+                        continue
+                    require(bool(criterion.get("condition_source_locator")), f"{item_id}: insurance coverage missing source locator", errors)
+                    if criterion.get("coverage_amount_krw") is not None:
+                        require(bool(criterion.get("coverage_amount_basis")), f"{item_id}: coverage amount value missing basis", errors)
+
+
 def main() -> int:
     errors: list[str] = []
     exports = validate_manifest(errors)
@@ -455,6 +575,7 @@ def main() -> int:
         path = ROOT.parent / str(entry.get("path"))
         validate_item_basics(entry.get("id", path.name), items, global_items, errors)
         validate_products(entry.get("id", path.name), items, int(entry.get("product_count") or 0), errors)
+    validate_semantic_gates(loaded_exports, global_items, errors)
     validate_search_regressions(errors)
 
     if errors:

@@ -757,20 +757,27 @@ def kinfa_policy_loan_criteria(record: dict[str, str], source_id: str) -> list[d
     criteria: list[dict[str, Any]] = []
     loan_limit = record_value(record, "lnLmt")
     if loan_limit:
-        criteria.append(
-            {
-                "label": "대출한도",
-                "basis": "서민금융진흥원 대출상품한눈에",
-                "condition": loan_limit,
-                "source": source_id,
-                "criteria_kind": "limit",
-                "basis_category": "정책대출 한도",
-                "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
-                "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
-                "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-                "basis_source": source_id,
-            }
-        )
+        criterion: dict[str, Any] = {
+            "label": "대출한도",
+            "basis": "서민금융진흥원 대출상품한눈에",
+            "condition": loan_limit,
+            "source": source_id,
+            "criteria_kind": "limit",
+            "basis_category": "정책대출 한도",
+            "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
+            "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
+            "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
+            "basis_source": source_id,
+            "limit_raw": loan_limit,
+        }
+        if loan_limit.isdigit():
+            criterion.update({
+                "limit_unit": "만원",
+                "limit_krw": int(loan_limit) * 10000,
+                "normalization_status": "verified",
+                "normalization_source": "official_api_schema",
+            })
+        criteria.append(criterion)
     interest_rate = record_value(record, "irt")
     interest_rate_type = record_value(record, "irtCtg")
     if interest_rate:

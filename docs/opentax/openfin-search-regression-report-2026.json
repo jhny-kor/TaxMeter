@@ -4,8 +4,8 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "openfin-search-regression-report",
   "search_index_path": "ontology/exports/finance-search-index-2026.json",
-  "test_count": 17,
-  "passed_count": 17,
+  "test_count": 18,
+  "passed_count": 18,
   "failed_count": 0,
   "tests": [
     {
@@ -425,6 +425,15 @@
           "score": 13
         },
         {
+          "id": "support.local-gov.gov24.804088",
+          "title": "곡성군 청년월세 지원 (전남광주통합특별시 곡성군)",
+          "type": "support-program",
+          "status": "active",
+          "application_status": "open",
+          "recommendation_status": "eligible_for_listing",
+          "score": 13
+        },
+        {
           "id": "support.local-gov.gov24.2161850",
           "title": "귀농 청년농업인 주거비(월세) 지원 (경기도 연천군)",
           "type": "support-program",
@@ -437,15 +446,6 @@
           "id": "eligibility-rule.median-income-support",
           "title": "기준 중위소득 기반 지원금 판정",
           "type": "eligibility-rule",
-          "status": null,
-          "application_status": null,
-          "recommendation_status": null,
-          "score": 13
-        },
-        {
-          "id": "application-channel.myhome",
-          "title": "마이홈 주거지원 자가진단",
-          "type": "application-channel",
           "status": null,
           "application_status": null,
           "recommendation_status": null,
@@ -574,17 +574,10 @@
       "query": "주택담보대출 비교해",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.loan.mortgage-loan.0013002.bnk3652",
+      "actual_top_id": "finance.loan.mortgage-loan.0010478.760029",
       "passed": true,
       "expected_search_type": "loan",
       "top_results": [
-        {
-          "id": "finance.loan.mortgage-loan.0013002.bnk3652",
-          "title": "BNK저축은행 중도금대출(주택)",
-          "type": "bank-product",
-          "search_type": "loan",
-          "score": 31
-        },
         {
           "id": "finance.loan.mortgage-loan.0010478.760029",
           "title": "CK저축은행 주택담보대출",
@@ -600,18 +593,41 @@
           "score": 31
         },
         {
-          "id": "finance.loan.mortgage-loan.0013308.760494",
-          "title": "JT친애저축은행 원더풀부동산담보대출",
+          "id": "finance.loan.mortgage-loan.0010024.30002497",
+          "title": "경남은행 BNK모바일주택담보대출",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
         },
         {
-          "id": "finance.loan.mortgage-loan.0010439.760058",
-          "title": "MS저축은행 중도금대출(주택)",
+          "id": "finance.loan.mortgage-loan.0010019.ln11010001732",
+          "title": "광주은행 KJB셀렉트 주택담보대출",
           "type": "bank-product",
           "search_type": "loan",
           "score": 31
+        },
+        {
+          "id": "finance.loan.mortgage-loan.0010927.kb200300000002",
+          "title": "국민은행 KB주택담보대출변동\n(일반자금)",
+          "type": "bank-product",
+          "search_type": "loan",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "query": "finance.bank.deposit.0010001.wr0001b",
+      "type_filter": null,
+      "expected_top_id": "finance.deposit.deposit.0010001.wr0001b",
+      "actual_top_id": "finance.deposit.deposit.0010001.wr0001b",
+      "passed": true,
+      "legacy_id_resolves_to_canonical": true,
+      "top_results": [
+        {
+          "id": "finance.deposit.deposit.0010001.wr0001b",
+          "title": "우리은행 WON플러스예금",
+          "type": "bank-product",
+          "score": 95
         }
       ]
     }
@@ -753,5 +769,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "bfcfa3275af3b90aa92fc8ecb89e70ab4b7ab28b5132fbffcbb82de16b6853db"
+  "export_checksum": "fec5619d99e9ab74eb5ec6695f9e427099629bf80e3c12eeeedc30f36d492279"
 }

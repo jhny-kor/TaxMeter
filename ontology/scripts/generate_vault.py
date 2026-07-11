@@ -1245,8 +1245,20 @@ PENSION_ACCOUNT_CREDIT_CRITERIA = [
 
 
 MEDICAL_EXPENSE_CREDIT_CRITERIA = [
-    {"label": "의료비 공제 문턱", "basis": "의료비 지출액", "condition": "총급여액의 3% 초과분", "rate_percent": 3, "note": "초과분이 공제대상 의료비", "source": "source.nts.year-end-settlement.special-credit"},
-    {"label": "일반 의료비", "basis": "일반 기본공제대상자 의료비", "condition": "연 700만원 한도", "limit_krw": 7_000_000, "rate_percent": 15, "source": "source.nts.year-end-settlement.special-credit"},
+    {
+        "label": "의료비 공제 문턱",
+        "basis": "총급여와 의료비 지출액",
+        "condition": "총급여액의 3% 초과분",
+        "criteria_kind": "threshold",
+        "threshold_type": "gross_salary_ratio",
+        "threshold_rate_percent": 3,
+        "threshold_basis": "gross_salary",
+        "amount_formula": "max(0, medical_expense - gross_salary * 0.03)",
+        "note": "3%는 세액공제율이 아니라 공제대상 의료비를 산정하는 총급여 기준 문턱입니다.",
+        "source": "source.nts.year-end-settlement.special-credit",
+    },
+    {"label": "일반 의료비 세액공제율", "basis": "공제대상 의료비", "condition": "일반 의료비", "criteria_kind": "credit-rate", "rate_percent": 15, "rate_label": "세액공제율", "source": "source.nts.year-end-settlement.special-credit"},
+    {"label": "일반 의료비 한도", "basis": "일반 기본공제대상자 의료비", "condition": "연 700만원 한도", "limit_krw": 7_000_000, "source": "source.nts.year-end-settlement.special-credit"},
     {"label": "본인·6세 이하·65세 이상·장애인 의료비", "basis": "해당 의료비", "condition": "한도 없음", "rate_percent": 15, "source": "source.nts.year-end-settlement.special-credit"},
     {"label": "난임시술비", "basis": "난임시술비", "condition": "한도 없음", "rate_percent": 30, "source": "source.nts.year-end-settlement.special-credit"},
 ]
@@ -2906,6 +2918,8 @@ CRITERIA_BASIS_RULES = [
 def classify_criteria_kind(criterion: dict) -> str:
     if any(key.startswith("deadline_") for key in criterion):
         return "deadline"
+    if any(key in criterion for key in ("threshold_type", "threshold_rate_percent", "threshold_basis")):
+        return "threshold"
     if any(key in criterion for key in ("rate_percent", "rate_percent_min", "rate_percent_max")):
         return "rate"
     if any(key in criterion for key in ("limit_krw", "max_amount_krw")):

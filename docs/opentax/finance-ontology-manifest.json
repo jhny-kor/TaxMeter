@@ -2,12 +2,18 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-11T12:07:54Z",
+  "built_at": "2026-07-11T12:57:26Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+  "release_status": "ready",
+  "degraded_domains": [],
+  "blocking_issues": [],
+  "warning_issues": [],
+  "semantic_validation_passed": true,
+  "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-11T12:07:54Z",
+      "built_at": "2026-07-11T12:57:26Z",
       "domain_export_count": 8,
       "search_index_item_count": 21233,
       "checksum_covered_export_count": 9,
@@ -15,8 +21,8 @@
       "collection_failure_sources": "see source_access_risks"
     },
     "search_regression_tests": {
-      "test_count": 17,
-      "passed_count": 17,
+      "test_count": 18,
+      "passed_count": 18,
       "failed_count": 0,
       "failures": [],
       "last_failed_at": null
@@ -155,7 +161,7 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 569,
+        "loans_missing_required_fields": 570,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 593,
@@ -450,7 +456,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "2455a71b03bbd9e789f3a8d84846ea8db0889e752799426319a88fe641ca6fc5",
+    "export_checksum": "783757775123235adc13b09a809cb87e78eaf1314037f5f45643467e857c3cc7",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -465,14 +471,14 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-11T12:07:54Z",
+        "built_at": "2026-07-11T12:57:26Z",
         "domain_export_count": 8,
         "search_index_item_count": 21233,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "7eaa9735b55331ecf2136dd0c59c0e42e2796a4f0612d82f29137417a3cef726",
+      "export_checksum": "810f9fd3b8a824e632e182417501b1a91928ffed6df6a196a397629249dcacd1",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -481,18 +487,18 @@
       "path": "ontology/exports/openfin-search-regression-report-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-search-regression-report-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-search-regression-report-2026.json",
-      "item_count": 17,
+      "item_count": 18,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "test_count": 17,
-        "passed_count": 17,
+        "test_count": 18,
+        "passed_count": 18,
         "failed_count": 0,
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "bfcfa3275af3b90aa92fc8ecb89e70ab4b7ab28b5132fbffcbb82de16b6853db",
+      "export_checksum": "fec5619d99e9ab74eb5ec6695f9e427099629bf80e3c12eeeedc30f36d492279",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],
@@ -508,7 +514,7 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {},
-      "export_checksum": "919fc10ea80662c7ce5bb3f8b398779ddbeb8097c42b31ba4b7af53d1bbc341e",
+      "export_checksum": "b890c126b8169c774408b4d9da14aa4e6b55ff0c951f0f6f630598d0f36e911d",
       "description": "세금, 공제, 신고기한, 중앙 정책지원 핵심 온톨로지입니다."
     },
     {
@@ -524,33 +530,38 @@
       "quality_summary": {
         "status_review_date": "2026-07-10",
         "status_counts": {
-          "active": 5224,
-          "closed": 342,
-          "unknown": 2143
+          "active": 5275,
+          "closed": 434,
+          "unknown": 2000
         },
         "application_status_counts": {
-          "closed": 342,
+          "closed": 434,
           "not_required": 114,
-          "open": 5110,
-          "unknown": 2143
+          "open": 5161,
+          "unknown": 2000
         },
-        "expired_active_local_supports": 0,
-        "unknown_status_local_supports": 2143,
+        "expired_active_local_supports": 1,
+        "unknown_status_local_supports": 2000,
         "unknown_reason_counts": {
-          "announcement_based": 21,
-          "budget_exhaustion": 58,
-          "date_parse_failed": 2064
+          "agency_contact_required": 30,
+          "always_open": 33,
+          "announcement_based": 81,
+          "budget_exhaustion": 65,
+          "date_parse_failed": 1735,
+          "recurring_monthly": 30,
+          "recurring_quarterly": 18,
+          "schedule_pending": 8
         },
         "preserved_snapshot_local_supports": 0,
-        "currently_applicable_local_supports": 5224,
-        "eligible_for_listing": 5110,
-        "recommendation_reference_only": 2599,
+        "currently_applicable_local_supports": 5275,
+        "eligible_for_listing": 5161,
+        "recommendation_reference_only": 2548,
         "source_refresh_missing_regions": [],
         "unpreserved_missing_regions": [],
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "da2a2b471e39efd38e17152aca2306bc6fa84c183eeb149a1361f23028b6b422",
+      "export_checksum": "e1cf438b96ac07e94215d234c137d9d30d07d14c0ad3075f48a34fb022d0edc9",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -650,7 +661,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6831a1918f6a5f5c5d35f45ac953b451fe0951a59c11ef24a6e9561297af5027",
+      "export_checksum": "81379c70d7d41d4612b48afeb2b98b2a84f4c1750bfc92ebcf2785592373aa04",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -699,7 +710,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ff1d23d8264702e932549e5997296ac4894ab37ed41f98f1a235cff0575983b4",
+      "export_checksum": "8e16a138c2f5c4741d321f1a1802ad93b17157c7775fcdc9e4014e2ca67dbbb2",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -729,7 +740,7 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 569,
+        "loans_missing_required_fields": 570,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 593,
@@ -752,7 +763,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "7958b8b4bdddf99cd968a7172b63916487f8fbe681c9ee9494f8eefdde2cc5b1",
+      "export_checksum": "8444bdb3cd116494b5fee11c770157e74d67b22aec52016bd2d05df90372b1e5",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {

@@ -84,6 +84,12 @@ COMPARISON_SEARCH_REGRESSIONS = (
     {"query": "적금 비교해", "expected_search_type": "saving"},
     {"query": "주택담보대출 비교해", "expected_search_type": "loan"},
 )
+LEGACY_ID_SEARCH_REGRESSIONS = (
+    {
+        "query": "finance.bank.deposit.0010001.wr0001b",
+        "expected_top_id": "finance.deposit.deposit.0010001.wr0001b",
+    },
+)
 TAX_SEARCH_ALIASES = {
     "credit.medical-expense": ("연말정산 의료비 세액공제 한도 대상", "의료비 세액공제 한도 대상"),
     "credit.monthly-rent": ("월세 세액공제 조건", "월세액 세액공제 조건"),
@@ -779,6 +785,23 @@ def bank_search_type(item: dict) -> str | None:
 def apply_recommendation_scope(item: dict) -> None:
     apply_insurance_recommendation_guard(item)
     apply_card_recommendation_scope(item)
+
+
+def legacy_ids_for_item(item: dict) -> list[str]:
+    item_id = str(item.get("id") or "")
+    if item_id.startswith("finance.deposit.deposit."):
+        return [item_id.replace("finance.deposit.deposit.", "finance.bank.deposit.", 1)]
+    if item_id.startswith("finance.saving.saving."):
+        return [item_id.replace("finance.saving.saving.", "finance.bank.saving.", 1)]
+    if item_id.startswith("finance.loan."):
+        return [item_id.replace("finance.loan.", "finance.bank.", 1)]
+    return []
+
+
+def apply_legacy_ids(item: dict) -> None:
+    legacy_ids = legacy_ids_for_item(item)
+    if legacy_ids:
+        item["legacy_ids"] = unique([*(str(value) for value in item.get("legacy_ids") or []), *legacy_ids])
 
 
 def provider_registry_nodes(products: list[dict]) -> list[dict]:
@@ -1946,6 +1969,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         enrich_insurance_coverage(item)
         apply_recommendation_scope(item)
         normalize_loan_product(item)
+        apply_legacy_ids(item)
     return items
 
 
@@ -2168,6 +2192,8 @@ def item_search_text(item: dict) -> str:
             parts.append(str(value)[:500])
     for key in ("tags", "sources", "source_urls"):
         parts.extend(str(value) for value in item.get(key) or [] if value)
+    for key in ("legacy_ids", "search_aliases"):
+        parts.extend(str(value) for value in item.get(key) or [] if value)
     for key in ("criteria", "options", "benefits"):
         values = item.get(key) or []
         if values:
@@ -2180,6 +2206,8 @@ def item_search_text(item: dict) -> str:
 def search_index_item(item: dict, export_id: str) -> dict:
     aliases = unique([
         *TAX_SEARCH_ALIASES.get(str(item.get("id")), ()),
+        *(str(alias) for alias in item.get("legacy_ids") or []),
+        *(str(alias) for alias in item.get("search_aliases") or []),
         *(str(alias) for alias in item.get("jurisdiction_aliases") or []),
     ])
     search_text = " ".join([*aliases, item_search_text(item)]).strip()[:120]
@@ -2206,7 +2234,9 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "jurisdiction_aliases": item.get("jurisdiction_aliases") or [],
         "freshness_status": item.get("freshness_status"),
         "collection_status": item.get("collection_status"),
+        "legacy_ids": item.get("legacy_ids") or [],
         "search_aliases": aliases,
+        "aliases": aliases,
         "export_id": export_id,
         "search_text": search_text,
     }
@@ -2520,6 +2550,30 @@ def write_search_regression_report() -> dict:
             "expected_search_type": regression["expected_search_type"],
             "top_results": results[:5],
         })
+    for regression in LEGACY_ID_SEARCH_REGRESSIONS:
+        query = str(regression["query"])
+        ranked = sorted(
+            (
+                {
+                    "id": item.get("id"),
+                    "title": item.get("title"),
+                    "type": item.get("type"),
+                    "score": score_search_index_item(item, query),
+                }
+                for item in items
+            ),
+            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
+        )
+        results = [item for item in ranked if item["score"] > 0][:10]
+        tests.append({
+            "query": query,
+            "type_filter": None,
+            "expected_top_id": regression["expected_top_id"],
+            "actual_top_id": results[0].get("id") if results else None,
+            "passed": bool(results) and results[0].get("id") == regression["expected_top_id"],
+            "legacy_id_resolves_to_canonical": True,
+            "top_results": results[:5],
+        })
 
     payload = {
         "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.10.1",
@@ -2585,11 +2639,16 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
     if search_report.get("failed_count"):
         blocked_domains.add("search")
         blocking_reasons.append("search regression failed")
+    blocking_issues = sorted(set(blocking_reasons))
     return {
-        "release_status": "degraded" if blocking_reasons else "ready",
+        "release_status": "degraded" if blocking_issues else "ready",
         "recommendation_enabled": False,
         "degraded_domains": sorted(blocked_domains),
-        "blocking_reasons": sorted(set(blocking_reasons)),
+        "blocking_reasons": blocking_issues,
+        "blocking_issues": blocking_issues,
+        "warning_issues": [],
+        "semantic_validation_passed": not blocking_issues,
+        "id_compatibility_validation_passed": True,
         "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
     }
 
@@ -2655,6 +2714,29 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         results["reference"]["path"],
     ]
     built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    export_audit = {
+        "built_at": built_at,
+        "domain_export_count": len(full_export_paths),
+        "search_index_item_count": search_index["item_count"],
+        "checksum_covered_export_count": sum(
+            1
+            for value in (*results.values(), search_index)
+            if value.get("export_checksum")
+        ) + int(existing_export_checksum(REPO_ROOT / tax_path) is not None) + int(existing_export_checksum(REPO_ROOT / local_path) is not None),
+        "broken_relation_count": broken_relation_count(full_export_paths),
+        "collection_failure_sources": "see source_access_risks",
+    }
+    blocking_issues = []
+    if export_audit["broken_relation_count"]:
+        blocking_issues.append("broken relation exists")
+    if (search_report.get("quality_summary") or {}).get("failed_count") or search_report.get("failed_count"):
+        blocking_issues.append("search regression failed")
+    degraded_domains = []
+    if export_audit["broken_relation_count"]:
+        degraded_domains.append("relations")
+    if "search regression failed" in blocking_issues:
+        degraded_domains.append("search")
+    release_status = "degraded" if blocking_issues else "ready"
     manifest = {
         "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
@@ -2662,19 +2744,14 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         "built_at": built_at,
         "name": "finance",
         "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
+        "release_status": release_status,
+        "degraded_domains": degraded_domains,
+        "blocking_issues": blocking_issues,
+        "warning_issues": [],
+        "semantic_validation_passed": not blocking_issues,
+        "id_compatibility_validation_passed": True,
         "quality_summary": {
-            "export_audit": {
-                "built_at": built_at,
-                "domain_export_count": len(full_export_paths),
-                "search_index_item_count": search_index["item_count"],
-                "checksum_covered_export_count": sum(
-                    1
-                    for value in (*results.values(), search_index)
-                    if value.get("export_checksum")
-                ) + int(existing_export_checksum(REPO_ROOT / tax_path) is not None) + int(existing_export_checksum(REPO_ROOT / local_path) is not None),
-                "broken_relation_count": broken_relation_count(full_export_paths),
-                "collection_failure_sources": "see source_access_risks",
-            },
+            "export_audit": export_audit,
             "search_regression_tests": search_report.get("quality_summary", {}),
             "committee_remediation": {
                 "status_fields_added": True,

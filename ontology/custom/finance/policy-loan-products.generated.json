@@ -49,7 +49,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3500",
+          "limit_unit": "만원",
+          "limit_krw": 35000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -225,7 +230,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -401,7 +411,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -576,7 +591,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -751,7 +771,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -926,7 +951,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1102,7 +1132,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1278,7 +1313,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1200",
+          "limit_unit": "만원",
+          "limit_krw": 12000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1454,7 +1494,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1630,7 +1675,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "8000",
+          "limit_unit": "만원",
+          "limit_krw": 80000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1805,7 +1855,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "6000",
+          "limit_unit": "만원",
+          "limit_krw": 60000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -1980,7 +2035,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -2155,7 +2215,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -2331,7 +2396,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "(Track1) : 최대 3억원(Track2) : 최대 2억원"
         },
         {
           "label": "대출금리",
@@ -2506,7 +2572,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "6000",
+          "limit_unit": "만원",
+          "limit_krw": 60000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -2681,7 +2752,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -2856,7 +2932,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3031,7 +3112,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3206,7 +3292,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3381,7 +3472,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3556,7 +3652,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3731,7 +3832,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -3906,7 +4012,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4082,7 +4193,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4258,7 +4374,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4434,7 +4555,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4609,7 +4735,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4784,7 +4915,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -4959,7 +5095,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -5135,7 +5276,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "960",
+          "limit_unit": "만원",
+          "limit_krw": 9600000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -5311,7 +5457,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "보증금 4,500만원, 월세금 1,200만원(월 50만원 이내)"
         },
         {
           "label": "대출금리",
@@ -5487,7 +5634,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -5663,7 +5815,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "수도권 2.5억, 수도권 외 1.6억 이내(임차보증금의 80% 이내)"
         },
         {
           "label": "대출금리",
@@ -5839,7 +5992,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "수도권 12,000만원(신혼, 2자녀 30,000만원), 지방 8,000만원(신혼, 2자녀 20,000만원)"
         },
         {
           "label": "대출금리",
@@ -6015,7 +6169,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -6190,7 +6349,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -6366,7 +6530,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -6542,7 +6711,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20,000(생애최초 일반 2.4억), 신혼가구 또는 2자녀 이상 가구 3.2억 이내"
         },
         {
           "label": "대출금리",
@@ -6718,7 +6888,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -6894,7 +7069,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -7070,7 +7250,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7,000만원(다자녀 7,500만원)"
         },
         {
           "label": "대출금리",
@@ -7246,7 +7427,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -7421,7 +7607,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "일반지원기업: 20000특별지원 기업: 2000"
         },
         {
           "label": "대출금리",
@@ -7596,7 +7783,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -7771,7 +7963,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -7946,7 +8143,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "-"
         },
         {
           "label": "대출금리",
@@ -8121,7 +8319,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -8296,7 +8499,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -8471,7 +8679,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -8647,7 +8860,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "100000",
+          "limit_unit": "만원",
+          "limit_krw": 1000000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -8823,7 +9041,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -8999,7 +9222,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -9175,7 +9403,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -9351,7 +9584,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -9527,7 +9765,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -9703,7 +9946,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -9879,7 +10127,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10054,7 +10307,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "700",
+          "limit_unit": "만원",
+          "limit_krw": 7000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10230,7 +10488,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "700",
+          "limit_unit": "만원",
+          "limit_krw": 7000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10406,7 +10669,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "700",
+          "limit_unit": "만원",
+          "limit_krw": 7000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10582,7 +10850,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "700",
+          "limit_unit": "만원",
+          "limit_krw": 7000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10758,7 +11031,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -10934,7 +11212,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "해당 학기 소요액 전액(학부생: 개인 총 한도 없음, 대학원생 개인 총한도 있음)"
         },
         {
           "label": "대출금리",
@@ -11110,7 +11389,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "학기당 200"
         },
         {
           "label": "대출금리",
@@ -11286,7 +11566,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "해당 학기 소요액 전액(개인 총한도 있음)"
         },
         {
           "label": "대출금리",
@@ -11462,7 +11743,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "학기당 200"
         },
         {
           "label": "대출금리",
@@ -11638,7 +11920,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "등록금 전액"
         },
         {
           "label": "대출금리",
@@ -11814,7 +12097,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -11989,7 +12277,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "42000",
+          "limit_unit": "만원",
+          "limit_krw": 420000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -12165,7 +12458,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -12341,7 +12639,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -12516,7 +12819,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -12691,7 +12999,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -12866,7 +13179,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -13041,7 +13359,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -13216,7 +13539,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -13391,7 +13719,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "6000",
+          "limit_unit": "만원",
+          "limit_krw": 60000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "지원대상",
@@ -13552,7 +13885,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -13727,7 +14065,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -13902,7 +14245,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "8000",
+          "limit_unit": "만원",
+          "limit_krw": 80000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14077,7 +14425,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14252,7 +14605,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "864",
+          "limit_unit": "만원",
+          "limit_krw": 8640000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14427,7 +14785,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1200",
+          "limit_unit": "만원",
+          "limit_krw": 12000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14602,7 +14965,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14778,7 +15146,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7500",
+          "limit_unit": "만원",
+          "limit_krw": 75000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -14954,7 +15327,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -15130,7 +15508,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -15306,7 +15689,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -15482,7 +15870,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -15657,7 +16050,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -15832,7 +16230,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16007,7 +16410,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16182,7 +16590,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "9000",
+          "limit_unit": "만원",
+          "limit_krw": 90000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16358,7 +16771,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "60000",
+          "limit_unit": "만원",
+          "limit_krw": 600000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16533,7 +16951,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "9900",
+          "limit_unit": "만원",
+          "limit_krw": 99000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16708,7 +17131,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "9900",
+          "limit_unit": "만원",
+          "limit_krw": 99000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -16883,7 +17311,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17058,7 +17491,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17233,7 +17671,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17408,7 +17851,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17583,7 +18031,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17758,7 +18211,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -17933,7 +18391,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18108,7 +18571,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18283,7 +18751,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18458,7 +18931,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18633,7 +19111,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "80000",
+          "limit_unit": "만원",
+          "limit_krw": 800000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18808,7 +19291,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -18984,7 +19472,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -19160,7 +19653,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -19336,7 +19834,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -19512,7 +20015,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -19687,7 +20195,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "24000",
+          "limit_unit": "만원",
+          "limit_krw": 240000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -19863,7 +20376,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -20039,7 +20557,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "공공 50만원, 그 외 8,000만원"
         },
         {
           "label": "대출금리",
@@ -20215,7 +20734,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "24000",
+          "limit_unit": "만원",
+          "limit_krw": 240000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -20391,7 +20915,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -20567,7 +21096,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "(시설) 50,000(운전) 20,000"
         },
         {
           "label": "대출금리",
@@ -20743,7 +21273,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -20918,7 +21453,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2850",
+          "limit_unit": "만원",
+          "limit_krw": 28500000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21093,7 +21633,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21268,7 +21813,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21443,7 +21993,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "8000",
+          "limit_unit": "만원",
+          "limit_krw": 80000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21619,7 +22174,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21794,7 +22354,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -21969,7 +22534,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "-"
         },
         {
           "label": "대출금리",
@@ -22144,7 +22710,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -22319,7 +22890,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -22494,7 +23070,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -22669,7 +23250,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -22844,7 +23430,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23019,7 +23610,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23194,7 +23790,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23369,7 +23970,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23544,7 +24150,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23719,7 +24330,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -23894,7 +24510,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -24069,7 +24690,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -24245,7 +24871,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "80000",
+          "limit_unit": "만원",
+          "limit_krw": 800000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -24420,7 +25051,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -24596,7 +25232,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2,000~3,000"
         },
         {
           "label": "대출금리",
@@ -24772,7 +25409,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "200",
+          "limit_unit": "만원",
+          "limit_krw": 2000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -24947,7 +25589,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "400",
+          "limit_unit": "만원",
+          "limit_krw": 4000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -25122,7 +25769,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -25298,7 +25950,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -25473,7 +26130,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -25648,7 +26310,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -25824,7 +26491,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26000,7 +26672,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26176,7 +26853,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26351,7 +27033,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26526,7 +27213,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26701,7 +27393,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -26876,7 +27573,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "-"
         },
         {
           "label": "대출금리",
@@ -27052,7 +27750,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -27227,7 +27930,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10,000 (소상공인)80,000 (중소기업)"
         },
         {
           "label": "대출금리",
@@ -27402,7 +28106,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -27577,7 +28286,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "(Track1) : 본건 7천만원 이내(Track2) : 본건 1억원 이내"
         },
         {
           "label": "대출금리",
@@ -27752,7 +28462,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -27927,7 +28642,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28102,7 +28822,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28278,7 +29003,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28454,7 +29184,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28630,7 +29365,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28806,7 +29546,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -28982,7 +29727,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -29158,7 +29908,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -29333,7 +30088,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -29509,7 +30269,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -29684,7 +30449,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -29859,7 +30629,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "-"
         },
         {
           "label": "대출금리",
@@ -30035,7 +30806,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -30211,7 +30987,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -30386,7 +31167,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -30562,7 +31348,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -30738,7 +31529,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "30000",
+          "limit_unit": "만원",
+          "limit_krw": 300000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -30914,7 +31710,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -31090,7 +31891,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -31265,7 +32071,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "해당 학기 소요액 전액(총 한도 있음)"
         },
         {
           "label": "대출금리",
@@ -31441,7 +32248,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -31616,7 +32428,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -31791,7 +32608,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -31967,7 +32789,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "100000",
+          "limit_unit": "만원",
+          "limit_krw": 1000000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -32143,7 +32970,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -32318,7 +33150,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -32493,7 +33330,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "Track1 2,000Track2 5,000"
         },
         {
           "label": "대출금리",
@@ -32669,7 +33507,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -32844,7 +33687,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -33020,7 +33868,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -33195,7 +34048,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "(혁신형) 운전 20,000, 시설 100,000(일반형) 운전 10,000, 시설 50,000"
         },
         {
           "label": "대출금리",
@@ -33371,7 +34225,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -33547,7 +34406,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -33723,7 +34587,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -33899,7 +34768,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34074,7 +34948,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "80000",
+          "limit_unit": "만원",
+          "limit_krw": 800000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34249,7 +35128,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34425,7 +35309,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34601,7 +35490,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34777,7 +35671,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -34953,7 +35852,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1200",
+          "limit_unit": "만원",
+          "limit_krw": 12000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -35129,7 +36033,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "100",
+          "limit_unit": "만원",
+          "limit_krw": 1000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -35305,7 +36214,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -35480,7 +36394,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -35655,7 +36574,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -35830,7 +36754,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -36005,7 +36934,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -36180,7 +37114,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -36356,7 +37295,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "소상공인 최대 5000만원이하, 중소기업 최대 1억원 이하(같은 기업 당 재단보증금액 200백만원 미만)"
         },
         {
           "label": "대출금리",
@@ -36531,7 +37471,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -36707,7 +37652,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -36883,7 +37833,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -37058,7 +38013,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "본건 7000(같은기업당 재단보증금액 1억5천만원 이내)"
         },
         {
           "label": "대출금리",
@@ -37233,7 +38189,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -37408,7 +38369,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -37583,7 +38549,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -37759,7 +38730,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -37935,7 +38911,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -38110,7 +39091,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -38285,7 +39271,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -38460,7 +39451,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -38635,7 +39631,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -38810,7 +39811,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5,00010,000 (코로나 19 피해 소기업, 소상공인)"
         },
         {
           "label": "대출금리",
@@ -38986,7 +39988,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "100000",
+          "limit_unit": "만원",
+          "limit_krw": 1000000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -39161,7 +40168,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "운영자금(동일기업당 2000이내),창업자금(동일기업당 2000이내),고금리대환자금(동일기업당 3000이내)"
         },
         {
           "label": "대출금리",
@@ -39336,7 +40344,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -39511,7 +40524,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "15000",
+          "limit_unit": "만원",
+          "limit_krw": 150000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -39687,7 +40705,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -39863,7 +40886,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -40038,7 +41066,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "운영자금 최대 2000, 창업자금 5000"
         },
         {
           "label": "대출금리",
@@ -40214,7 +41243,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -40390,7 +41424,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -40566,7 +41605,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -40742,7 +41786,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -40918,7 +41967,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "200000",
+          "limit_unit": "만원",
+          "limit_krw": 2000000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -41093,7 +42147,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -41268,7 +42327,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -41443,7 +42507,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "Track1,2:본건 3000이내(같은기업당 최대 7000이내) Track3:본건 1000이내(같은기업당 7000이내)"
         },
         {
           "label": "대출금리",
@@ -41618,7 +42683,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000 * 같은 기업 당 보증금액 7000 이내"
         },
         {
           "label": "대출금리",
@@ -41793,7 +42859,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000 * 같은 기업 당 보증금액 7000 이내"
         },
         {
           "label": "대출금리",
@@ -41968,7 +43035,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000 * 같은 기업 당 보증금액 7000 이내"
         },
         {
           "label": "대출금리",
@@ -42143,7 +43211,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000 * 같은 기업 당 보증금액 7000 이내"
         },
         {
           "label": "대출금리",
@@ -42318,7 +43387,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -42493,7 +43567,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "학자금 1000, 그 외 1500"
         },
         {
           "label": "대출금리",
@@ -42669,7 +43744,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -42845,7 +43925,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -43020,7 +44105,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "최대 10000"
         },
         {
           "label": "대출금리",
@@ -43195,7 +44281,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -43370,7 +44461,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "-"
         },
         {
           "label": "대출금리",
@@ -43545,7 +44637,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -43721,7 +44818,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "40000",
+          "limit_unit": "만원",
+          "limit_krw": 400000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -43897,7 +44999,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "80000",
+          "limit_unit": "만원",
+          "limit_krw": 800000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -44073,7 +45180,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -44248,7 +45360,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -44424,7 +45541,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -44600,7 +45722,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -44775,7 +45902,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "최대 1,000만원(연간 연금수령액 2배 이내 실소요비용)"
         },
         {
           "label": "대출금리",
@@ -44951,7 +46079,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -45127,7 +46260,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -45303,7 +46441,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -45479,7 +46622,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -45654,7 +46802,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -45830,7 +46983,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1250",
+          "limit_unit": "만원",
+          "limit_krw": 12500000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46006,7 +47164,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46182,7 +47345,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46358,7 +47526,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46534,7 +47707,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46710,7 +47888,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -46886,7 +48069,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "200",
+          "limit_unit": "만원",
+          "limit_krw": 2000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47062,7 +48250,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47238,7 +48431,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47414,7 +48612,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47590,7 +48793,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47766,7 +48974,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -47942,7 +49155,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -48118,7 +49336,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -48293,7 +49516,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -48469,7 +49697,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1200",
+          "limit_unit": "만원",
+          "limit_krw": 12000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -48645,7 +49878,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "보증한도(월 최대 300, 최초 200內, 한도증액 시 300內)"
         },
         {
           "label": "대출금리",
@@ -48820,7 +50054,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -48996,7 +50235,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1200",
+          "limit_unit": "만원",
+          "limit_krw": 12000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -49172,7 +50416,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -49348,7 +50597,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -49524,7 +50778,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -49700,7 +50959,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -49876,7 +51140,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50052,7 +51321,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "3000",
+          "limit_unit": "만원",
+          "limit_krw": 30000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50228,7 +51502,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50404,7 +51683,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50580,7 +51864,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "20000",
+          "limit_unit": "만원",
+          "limit_krw": 200000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50756,7 +52045,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -50931,7 +52225,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "10000",
+          "limit_unit": "만원",
+          "limit_krw": 100000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -51106,7 +52405,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "50000",
+          "limit_unit": "만원",
+          "limit_krw": 500000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -51281,7 +52585,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "7000",
+          "limit_unit": "만원",
+          "limit_krw": 70000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -51456,7 +52765,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "5000",
+          "limit_unit": "만원",
+          "limit_krw": 50000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -51631,7 +52945,8 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "보증한도 산정방법에 따라 상이"
         },
         {
           "label": "대출금리",
@@ -51806,7 +53121,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -51982,7 +53302,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "2000",
+          "limit_unit": "만원",
+          "limit_krw": 20000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -52158,7 +53483,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -52334,7 +53664,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -52510,7 +53845,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -52686,7 +54026,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -52862,7 +54207,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53038,7 +54388,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "700",
+          "limit_unit": "만원",
+          "limit_krw": 7000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53214,7 +54569,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53390,7 +54750,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53566,7 +54931,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53742,7 +55112,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -53918,7 +55293,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54094,7 +55474,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1000",
+          "limit_unit": "만원",
+          "limit_krw": 10000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54270,7 +55655,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54446,7 +55836,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54622,7 +56017,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54798,7 +56198,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -54974,7 +56379,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -55150,7 +56560,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -55326,7 +56741,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -55502,7 +56922,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "1500",
+          "limit_unit": "만원",
+          "limit_krw": 15000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",
@@ -55678,7 +57103,12 @@
           "basis_definition": "공공데이터포털 대출상품한눈에 정보 서비스의 대출한도 필드입니다.",
           "basis_lookup": "LoanProductSearchingInfo item.lnLmt",
           "selection_rule": "상품별 공시 한도 문구를 원문 보존합니다.",
-          "basis_source": "source.data.go.kr.kinfa-loan-products"
+          "basis_source": "source.data.go.kr.kinfa-loan-products",
+          "limit_raw": "500",
+          "limit_unit": "만원",
+          "limit_krw": 5000000,
+          "normalization_status": "verified",
+          "normalization_source": "official_api_schema"
         },
         {
           "label": "대출금리",

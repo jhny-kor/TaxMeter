@@ -46,6 +46,8 @@ type FinanceItem = {
   export_id?: string;
   search_text?: string;
   search_aliases?: string[];
+  legacy_ids?: string[];
+  aliases?: string[];
   source_urls?: string[];
   source_basis_dates?: string[];
 };
@@ -107,6 +109,7 @@ type SearchFilters = {
   readonly searchType?: string;
   readonly productKind?: string;
   readonly recommendationStatus?: string;
+  readonly recommendationScope?: string;
   readonly salesStatus?: string;
   readonly applicationStatus?: string;
   readonly provider?: string;
@@ -288,6 +291,7 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolea
     equals(item.search_type, filters.searchType) &&
     equals(item.product_kind, filters.productKind) &&
     equals(item.recommendation_status, filters.recommendationStatus) &&
+    equals(item.recommendation_scope, filters.recommendationScope) &&
     equals(item.sales_status, filters.salesStatus) &&
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
@@ -489,6 +493,17 @@ function resolveItemId(rawId: string): string {
   return trimmed;
 }
 
+function itemAliases(item: FinanceItem): readonly string[] {
+  return [...(item.legacy_ids ?? []), ...(item.search_aliases ?? []), ...(item.aliases ?? [])];
+}
+
+function resolveCanonicalItemId(rawId: string, searchIndex: SearchIndex): FinanceItem | undefined {
+  const itemId = normalizeQuery(resolveItemId(rawId));
+  return searchIndex.items.find(
+    (item) => normalizeQuery(item.id) === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
+  );
+}
+
 function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): FinanceItem[] {
   return (item.sources ?? [])
     .map((sourceId) => itemsById.get(sourceId))
@@ -496,11 +511,11 @@ function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): Fi
 }
 
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
-  const itemId = resolveItemId(rawId);
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
   const searchIndex = await loadSearchIndex(env);
-  const indexedItem = searchIndex.items.find((item) => item.id === itemId);
+  const indexedItem = resolveCanonicalItemId(rawId, searchIndex);
+  const itemId = indexedItem?.id ?? resolveItemId(rawId);
   const candidateExports = indexedItem?.export_id
     ? manifest.exports.filter((entry) => entry.id === indexedItem.export_id)
     : manifest.exports;
@@ -539,6 +554,7 @@ function createServer(env: Env): McpServer {
         search_type: z.string().optional().describe("Optional product search-type filter, for example 'loan', 'deposit', or 'saving'."),
         product_kind: z.string().optional().describe("Optional product-kind filter, for example 'policy-loan'."),
         recommendation_status: z.string().optional().describe("Optional recommendation-state filter. manual_review_candidate records are internal-only and recommendation wording returns only verified_recommendation_candidate records."),
+        recommendation_scope: z.string().optional().describe("Optional recommendation-scope filter, for example 'listing_only' or 'internal_verification_candidate'."),
         sales_status: z.string().optional().describe("Optional sales-state filter, for example 'active'."),
         application_status: z.string().optional().describe("Optional support application-state filter, for example 'open'."),
         provider: z.string().optional().describe("Optional exact provider filter."),
@@ -551,7 +567,7 @@ function createServer(env: Env): McpServer {
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ query, type, search_type, product_kind, recommendation_status, sales_status, application_status, provider, region, freshness_status, limit }) => {
+    async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
       const data = await loadSearchIndex(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
@@ -561,6 +577,7 @@ function createServer(env: Env): McpServer {
         searchType: search_type ?? inferredSearchTypeForQuery(normalizedQuery),
         productKind: product_kind,
         recommendationStatus: recommendation_status,
+        recommendationScope: recommendation_scope,
         salesStatus: sales_status,
         applicationStatus: application_status,
         provider,

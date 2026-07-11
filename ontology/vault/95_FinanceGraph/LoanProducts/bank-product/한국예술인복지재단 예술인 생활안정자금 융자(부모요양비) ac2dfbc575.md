@@ -4,10 +4,10 @@ title: "한국예술인복지재단 예술인 생활안정자금 융자(부모�
 type: "bank-product"
 domain: "loan-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-11"
 source_export: "korea-loan-products-ontology-2026.json"
 source_urls: ["https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y", "https://www.artloan.kr"]
-source_basis_dates: ["2026-07-10 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-11 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
 tags: ["graph-materialized", "loan-products", "finance-product", "generated", "bank", "policy-loan", "kinfa", "1", "생계"]
 ---
 

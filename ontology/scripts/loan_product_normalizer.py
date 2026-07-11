@@ -256,15 +256,20 @@ def normalize_loan_product(item: dict) -> None:
             repayment = [repayment_text]
     item["repayment_method"] = ", ".join(repayment) if repayment else None
 
-    limit_text = raw_text(raw, "loan_lmt", "lnlmt") or option_text(options, "loan_limit") or ""
+    kinfa_limit_text = raw_text(raw, "lnlmt") or ""
+    limit_text = raw_text(raw, "loan_lmt") or kinfa_limit_text or option_text(options, "loan_limit") or ""
     limit_krw = None
     limit_unit = None
     limit_normalization_status = "unverified"
-    if limit_text.isdigit():
+    limit_normalization_source = None
+    if kinfa_limit_text and kinfa_limit_text.isdigit():
         # 서민금융진흥원 lnlmt는 만원 단위 숫자 문자열이다.
-        limit_krw = int(limit_text) * 10000
+        limit_krw = int(kinfa_limit_text) * 10000
         limit_unit = "만원"
-        limit_normalization_status = "ambiguous" if int(limit_text) <= 1 else "verified"
+        limit_normalization_status = "verified"
+        limit_normalization_source = "official_api_schema"
+    elif limit_text.isdigit():
+        limit_normalization_status = "ambiguous"
     elif limit_text:
         limit_krw = parse_loan_limit_krw(limit_text)
         amount_values = LOAN_LIMIT_AMOUNT_RE.findall(limit_text.replace(",", ""))
@@ -276,16 +281,18 @@ def normalize_loan_product(item: dict) -> None:
             )
             else "verified" if limit_krw is not None else "unverified"
         )
+    if limit_normalization_status != "verified":
+        limit_krw = None
     item["loan_limit_krw"] = limit_krw
     item["loan_limit_text"] = limit_text or None
     item["loan_limit_unit"] = limit_unit
     item["loan_limit_normalization_status"] = limit_normalization_status
-    item["loan_limit_normalization_source"] = "LoanProductSearchingInfo item.lnLmt" if limit_unit else None
+    item["loan_limit_normalization_source"] = limit_normalization_source
     item["limit_raw"] = limit_text or None
     item["limit_unit"] = limit_unit
     item["limit_krw"] = limit_krw
     item["normalization_status"] = limit_normalization_status
-    item["normalization_source"] = item["loan_limit_normalization_source"]
+    item["normalization_source"] = limit_normalization_source
 
     item["early_repayment_fee"] = raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee")
 
