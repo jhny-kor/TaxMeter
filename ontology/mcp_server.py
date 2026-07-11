@@ -21,6 +21,7 @@ SCRIPTS = ROOT / "scripts"
 VAULT = ROOT / "vault"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
+FINANCE_SEARCH_INDEX_PATH = ROOT / "exports" / "finance-search-index-2026.json"
 PYTHON = sys.executable
 
 sys.path.insert(0, str(SCRIPTS))
@@ -352,6 +353,97 @@ def export_summary() -> dict[str, Any]:
     }
 
 
+def load_finance_search_items() -> list[dict[str, Any]]:
+    if not FINANCE_SEARCH_INDEX_PATH.exists():
+        raise ToolError(f"Finance search index does not exist: {FINANCE_SEARCH_INDEX_PATH}")
+    payload = json.loads(FINANCE_SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+    return [item for item in payload.get("items") or [] if isinstance(item, dict)]
+
+
+def finance_domain_matches(item: dict[str, Any], domain: str) -> bool:
+    normalized = domain.strip().lower()
+    if normalized == "deposit":
+        return item.get("type") == "bank-product" and item.get("search_type") == "deposit"
+    if normalized == "saving":
+        return item.get("type") == "bank-product" and item.get("search_type") == "saving"
+    if normalized == "loan":
+        return item.get("type") == "bank-product" and item.get("search_type") == "loan"
+    if normalized == "card":
+        return item.get("type") == "card-product"
+    if normalized == "insurance":
+        return item.get("type") == "insurance-product"
+    if normalized == "support":
+        return item.get("type") == "support-program"
+    raise ToolError(f"Unsupported recommendation domain: {domain}")
+
+
+def finance_recommendation_blocker(item: dict[str, Any]) -> str | None:
+    if item.get("recommendation_status") != "verified_recommendation_candidate":
+        return "not_verified_recommendation_candidate"
+    if item.get("recommendation_scope") != "public_recommendation":
+        return "not_public_recommendation_scope"
+    if not item.get("verification_evidence"):
+        return "missing_verification_evidence"
+    if item.get("freshness_status") == "stale":
+        return "stale_source"
+    if item.get("status") in {"closed", "ended", "unknown"}:
+        return f"status_{item.get('status')}"
+    return None
+
+
+def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
+    domain = str(arguments.get("domain") or "")
+    profile = arguments.get("profile") if isinstance(arguments.get("profile"), dict) else {}
+    constraints = arguments.get("constraints") if isinstance(arguments.get("constraints"), dict) else {}
+    preferences = arguments.get("preferences") if isinstance(arguments.get("preferences"), dict) else {}
+    limit = max(1, min(int(arguments.get("limit", 5)), 20))
+    domain_items = [item for item in load_finance_search_items() if finance_domain_matches(item, domain)]
+    excluded: list[dict[str, str]] = []
+    candidates: list[dict[str, Any]] = []
+    for item in domain_items:
+        blocker = finance_recommendation_blocker(item)
+        if blocker:
+            excluded.append({"item_id": str(item.get("id")), "reason": blocker})
+            continue
+        components = {"verification": 50}
+        if isinstance(profile.get("provider"), str) and profile["provider"] == item.get("provider"):
+            components["provider_match"] = 10
+        score = sum(components.values())
+        candidates.append({
+            "item_id": item.get("id"),
+            "title": item.get("title"),
+            "provider": item.get("provider"),
+            "eligible": True,
+            "score": score,
+            "score_components": components,
+            "matched_conditions": [],
+            "failed_conditions": [],
+            "unknown_conditions": [],
+            "warnings": [],
+            "source_basis_dates": item.get("source_basis_dates") or [],
+            "last_verified_at": item.get("last_verified_at"),
+            "recommendation_status": item.get("recommendation_status"),
+            "recommendation_scope": item.get("recommendation_scope"),
+            "recommendation_model_version": item.get("recommendation_model_version"),
+            "sources": item.get("source_urls") or [],
+            "structured_summary": item.get("structured_summary") or {},
+        })
+    candidates.sort(key=lambda item: (-float(item["score"]), str(item.get("item_id") or "")))
+    results = candidates[:limit]
+    return {
+        "domain": domain,
+        "profile": profile,
+        "constraints": constraints,
+        "preferences": preferences,
+        "recommendation_model_version": "openfin-recommendation-v0.1.0",
+        "result_count": len(results),
+        "candidates": results,
+        "excluded_count": len(excluded),
+        "excluded_sample": excluded[:20],
+        "warnings": [] if results else ["No verified public recommendation candidates are available for this domain."],
+    }
+
+
 TOOLS: dict[str, dict[str, Any]] = {
     "opentax_search": {
         "description": "Search OpenTax items by id, title, type, description, tag, law reference, or URL.",
@@ -407,6 +499,20 @@ TOOLS: dict[str, dict[str, Any]] = {
     "opentax_export_summary": {
         "description": "Return JSON export path, manifest sizes, and counts by type.",
         "inputSchema": {"type": "object", "properties": {}},
+    },
+    "opentax_recommend": {
+        "description": "Return deterministic finance recommendations only from verified public recommendation candidates with source evidence.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "domain": {"type": "string", "enum": ["deposit", "saving", "card", "loan", "insurance", "support"]},
+                "profile": {"type": "object"},
+                "constraints": {"type": "object"},
+                "preferences": {"type": "object"},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 20},
+            },
+            "required": ["domain"],
+        },
     },
     "opentax_add_or_update_item": {
         "description": "Add or replace an item in ontology/custom/items.json, then regenerate and validate the vault.",
@@ -490,6 +596,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         return regenerate_and_validate()["validate"]
     if name == "opentax_export_summary":
         return export_summary()
+    if name == "opentax_recommend":
+        return recommend_finance(arguments)
     if name == "opentax_add_or_update_item":
         return upsert_custom_item(arguments["item"])
     if name == "opentax_patch_item":

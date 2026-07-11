@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+from validate_recommendation_contract import validate_contract
+
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPORT_DIR = ROOT / "exports"
@@ -577,6 +579,7 @@ def main() -> int:
         validate_products(entry.get("id", path.name), items, int(entry.get("product_count") or 0), errors)
     validate_semantic_gates(loaded_exports, global_items, errors)
     validate_search_regressions(errors)
+    errors.extend(validate_contract())
 
     if errors:
         print("Finance ontology validation failed:")

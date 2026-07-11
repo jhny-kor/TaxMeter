@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-11T12:57:26Z",
+  "built_at": "2026-07-11T21:08:51Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -21,38 +21,39 @@
       "quality_summary": {
         "status_review_date": "2026-07-10",
         "status_counts": {
-          "active": 5275,
+          "active": 5274,
           "closed": 434,
-          "unknown": 2000
+          "unknown": 2001
         },
         "application_status_counts": {
           "closed": 434,
           "not_required": 114,
-          "open": 5161,
-          "unknown": 2000
+          "open": 5160,
+          "unknown": 2001
         },
-        "expired_active_local_supports": 1,
-        "unknown_status_local_supports": 2000,
+        "expired_active_local_supports": 0,
+        "unknown_status_local_supports": 2001,
         "unknown_reason_counts": {
           "agency_contact_required": 30,
           "always_open": 33,
           "announcement_based": 81,
           "budget_exhaustion": 65,
+          "conditional_reopen_after_deadline": 1,
           "date_parse_failed": 1735,
           "recurring_monthly": 30,
           "recurring_quarterly": 18,
           "schedule_pending": 8
         },
         "preserved_snapshot_local_supports": 0,
-        "currently_applicable_local_supports": 5275,
-        "eligible_for_listing": 5161,
-        "recommendation_reference_only": 2548,
+        "currently_applicable_local_supports": 5274,
+        "eligible_for_listing": 5160,
+        "recommendation_reference_only": 2549,
         "source_refresh_missing_regions": [],
         "unpreserved_missing_regions": [],
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "e1cf438b96ac07e94215d234c137d9d30d07d14c0ad3075f48a34fb022d0edc9"
+      "export_checksum": "b83d41b92de4b89131868fbc7eab295260aaa19168784ab6270763581aa020b5"
     },
     {
       "id": "card-products-ontology",
@@ -79,13 +80,12 @@
         "reference_only_products": 1004,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 649,
+        "recommendation_listing_only_products": 1004,
         "recommendation_status_counts": {
           "reference_only": 1004
         },
         "recommendation_scope_counts": {
-          "listing_only": 649,
-          "unspecified": 355
+          "listing_only": 1004
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -95,7 +95,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "902cc64fb5282cbf8d502ccb7032fca7d55fddc1e8227df7d96783979811ba51"
+      "export_checksum": "b9ef188f6bf09bba6e9f03cdec6b5893be30cbc924c6a1767e9a9fba2c0a15fa"
     },
     {
       "id": "deposit-products-ontology",
@@ -126,7 +126,7 @@
           "eligible_for_listing": 430
         },
         "recommendation_scope_counts": {
-          "unspecified": 430
+          "comparison_only": 430
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -136,7 +136,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "81379c70d7d41d4612b48afeb2b98b2a84f4c1750bfc92ebcf2785592373aa04"
+      "export_checksum": "e928520cf6b84a128528a1b2d5daea2b930f254abb540e6d8d5f19e34536f64c"
     },
     {
       "id": "saving-products-ontology",
@@ -167,7 +167,7 @@
           "eligible_for_listing": 335
         },
         "recommendation_scope_counts": {
-          "unspecified": 335
+          "comparison_only": 335
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -177,7 +177,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "8e16a138c2f5c4741d321f1a1802ad93b17157c7775fcdc9e4014e2ca67dbbb2"
+      "export_checksum": "8e9afa81cbba4989c79159fc56158e3036cd3197017ee6f833990446146237b6"
     },
     {
       "id": "loan-products-ontology",
@@ -221,7 +221,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "8444bdb3cd116494b5fee11c770157e74d67b22aec52016bd2d05df90372b1e5"
+      "export_checksum": "e68a1955232f63ef87571f76269c749e68b06e6fc1dfa1202a0a044871b7f862"
     },
     {
       "id": "insurance-products-ontology",
@@ -262,7 +262,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1780170829db553c0302872d3ab13d6a1193bde999a92470fb2e1706c58a5dec"
+      "export_checksum": "b1fb33ea9cbe2745edd6f2e79ab6e12080dd91df18da624d9868fa8f872e30fe"
     },
     {
       "id": "finance-reference-ontology",
@@ -454,7 +454,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-11T12:57:26Z",
+    "built_at": "2026-07-11T21:08:51Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
     "checksum_covered_export_count": 9,
@@ -500,5 +500,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "810f9fd3b8a824e632e182417501b1a91928ffed6df6a196a397629249dcacd1"
+  "export_checksum": "4cddbad558755a6b775cdce71387e3d950e56ce4c801f7e398175cbdb2dd8bbe"
 }

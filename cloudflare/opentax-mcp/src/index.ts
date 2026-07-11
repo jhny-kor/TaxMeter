@@ -34,6 +34,10 @@ type FinanceItem = {
   status_reason?: string;
   recommendation_status?: string;
   recommendation_scope?: string;
+  recommendation_model_version?: string;
+  recommendation_exclusion_reasons?: string[];
+  recommendation_basis_fields?: string[];
+  verification_evidence?: Record<string, unknown>;
   application_status?: string;
   is_currently_applicable?: boolean;
   application_open_from?: string;
@@ -43,6 +47,7 @@ type FinanceItem = {
   jurisdiction_aliases?: string[];
   freshness_status?: string;
   collection_status?: string;
+  last_verified_at?: string;
   export_id?: string;
   search_text?: string;
   search_aliases?: string[];
@@ -50,6 +55,9 @@ type FinanceItem = {
   aliases?: string[];
   source_urls?: string[];
   source_basis_dates?: string[];
+  source_checksum?: string;
+  structured_summary?: Record<string, unknown>;
+  search_facets?: Record<string, unknown>;
 };
 
 type OntologyExport = {
@@ -248,6 +256,8 @@ function itemSearchText(item: FinanceItem): string {
     ...(item.jurisdiction_aliases ?? []),
     item.freshness_status,
     item.collection_status,
+    JSON.stringify(item.structured_summary ?? {}),
+    JSON.stringify(item.search_facets ?? {}),
     structuredSearchText(item.criteria),
     structuredSearchText(item.options),
     structuredSearchText(item.benefits),
@@ -261,7 +271,7 @@ function itemSearchText(item: FinanceItem): string {
 }
 
 function structuredSearchText(value: unknown[] | undefined): string {
-  return (value ?? []).slice(0, 4).map((entry) => JSON.stringify(entry)).join(" ");
+  return (value ?? []).map((entry) => JSON.stringify(entry)).join(" ");
 }
 
 function matchesRecommendationDomain(item: FinanceItem, query: string, searchType: string): boolean {
@@ -304,7 +314,8 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolea
 function isRecommendationSearchEligible(item: FinanceItem): boolean {
   return (
     normalizeQuery(item.recommendation_status ?? "") === "verified_recommendation_candidate" &&
-    item.recommendation_scope !== "internal_verification_candidate"
+    normalizeQuery(item.recommendation_scope ?? "") === "public_recommendation" &&
+    Boolean(item.verification_evidence)
   );
 }
 
@@ -510,6 +521,79 @@ function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): Fi
     .filter((source): source is FinanceItem => Boolean(source));
 }
 
+function matchReasons(item: FinanceItem, query: string): string[] {
+  const normalized = normalizeQuery(query);
+  const reasons: string[] = [];
+  if (normalizeQuery(item.id).includes(normalized)) {
+    reasons.push("id");
+  }
+  if (normalizeQuery(item.title).includes(normalized)) {
+    reasons.push("title");
+  }
+  if ((item.search_aliases ?? []).some((alias) => normalizeQuery(alias).includes(normalized))) {
+    reasons.push("alias");
+  }
+  for (const token of queryTokens(query)) {
+    if (itemSearchText(item).includes(token)) {
+      reasons.push(`token:${token}`);
+    }
+  }
+  return [...new Set(reasons)].slice(0, 10);
+}
+
+function domainMatches(item: FinanceItem, domain: string): boolean {
+  const normalizedDomain = normalizeQuery(domain);
+  if (normalizedDomain === "deposit") {
+    return item.type === "bank-product" && item.search_type === "deposit";
+  }
+  if (normalizedDomain === "saving") {
+    return item.type === "bank-product" && item.search_type === "saving";
+  }
+  if (normalizedDomain === "loan") {
+    return item.type === "bank-product" && item.search_type === "loan";
+  }
+  if (normalizedDomain === "card") {
+    return item.type === "card-product";
+  }
+  if (normalizedDomain === "insurance") {
+    return item.type === "insurance-product";
+  }
+  if (normalizedDomain === "support") {
+    return item.type === "support-program";
+  }
+  return false;
+}
+
+function recommendationBlocker(item: FinanceItem): string | undefined {
+  if (item.recommendation_status !== "verified_recommendation_candidate") {
+    return "not_verified_recommendation_candidate";
+  }
+  if (item.recommendation_scope !== "public_recommendation") {
+    return "not_public_recommendation_scope";
+  }
+  if (!item.verification_evidence) {
+    return "missing_verification_evidence";
+  }
+  if (item.freshness_status === "stale") {
+    return "stale_source";
+  }
+  if (["closed", "ended", "unknown"].includes(item.status ?? "")) {
+    return `status_${item.status}`;
+  }
+  return undefined;
+}
+
+function recommendationScore(item: FinanceItem, profile: Record<string, unknown>): { score: number; components: Record<string, number> } {
+  const components: Record<string, number> = { verification: 50 };
+  if (typeof profile.provider === "string" && profile.provider === item.provider) {
+    components.provider_match = 10;
+  }
+  if (item.freshness_status === "current") {
+    components.freshness = 10;
+  }
+  return { score: Object.values(components).reduce((total, value) => total + value, 0), components };
+}
+
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
@@ -606,6 +690,12 @@ function createServer(env: Env): McpServer {
           application_open_to: item.application_open_to,
           jurisdiction: item.jurisdiction,
           freshness_status: item.freshness_status,
+          recommendation_model_version: item.recommendation_model_version,
+          recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
+          recommendation_basis_fields: item.recommendation_basis_fields ?? [],
+          structured_summary: item.structured_summary ?? {},
+          search_facets: item.search_facets ?? {},
+          match_reasons: matchReasons(item, normalizedQuery),
           url: itemUrl(env, item.id),
           score,
           text: item.description ?? "",
@@ -618,6 +708,84 @@ function createServer(env: Env): McpServer {
         results,
       };
 
+      return {
+        structuredContent: payload,
+        content: [
+          {
+            type: "text",
+            text: jsonText(payload),
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    "recommend",
+    {
+      title: "Recommend Finance Products",
+      description:
+        "Use this only when the user asks which finance product fits their current needs. It returns deterministic recommendations only from verified public recommendation candidates with source evidence; otherwise it returns an empty result with structured blockers.",
+      inputSchema: {
+        domain: z.enum(["deposit", "saving", "card", "loan", "insurance", "support"]).describe("Recommendation domain."),
+        profile: z.record(z.string(), z.unknown()).optional().describe("User profile facts already supplied by the user."),
+        constraints: z.record(z.string(), z.unknown()).optional().describe("Hard constraints already supplied by the user."),
+        preferences: z.record(z.string(), z.unknown()).optional().describe("Soft preferences already supplied by the user."),
+        limit: z.number().int().min(1).max(20).optional().describe("Maximum number of recommendations. Defaults to 5."),
+      },
+      annotations: {
+        title: "Recommend Finance Products",
+        ...READ_ONLY_TOOL_ANNOTATIONS,
+      },
+    },
+    async ({ domain, profile, constraints, preferences, limit }) => {
+      const data = await loadSearchIndex(env);
+      const maxResults = limit ?? 5;
+      const domainItems = data.items.filter((item) => domainMatches(item, domain));
+      const excluded = [];
+      const candidates = [];
+      for (const item of domainItems) {
+        const blocker = recommendationBlocker(item);
+        if (blocker) {
+          excluded.push({ item_id: item.id, reason: blocker });
+          continue;
+        }
+        const score = recommendationScore(item, profile ?? {});
+        candidates.push({
+          item_id: item.id,
+          title: item.title,
+          provider: item.provider,
+          eligible: true,
+          score: score.score,
+          score_components: score.components,
+          matched_conditions: [],
+          failed_conditions: [],
+          unknown_conditions: [],
+          warnings: [],
+          source_basis_dates: item.source_basis_dates ?? [],
+          last_verified_at: item.last_verified_at,
+          recommendation_status: item.recommendation_status,
+          recommendation_scope: item.recommendation_scope,
+          recommendation_model_version: item.recommendation_model_version,
+          sources: item.source_urls ?? [],
+          structured_summary: item.structured_summary ?? {},
+          url: itemUrl(env, item.id),
+        });
+      }
+      candidates.sort((a, b) => b.score - a.score || a.item_id.localeCompare(b.item_id, "ko-KR"));
+      const results = candidates.slice(0, maxResults);
+      const payload = {
+        domain,
+        profile: profile ?? {},
+        constraints: constraints ?? {},
+        preferences: preferences ?? {},
+        recommendation_model_version: "openfin-recommendation-v0.1.0",
+        result_count: results.length,
+        candidates: results,
+        excluded_count: excluded.length,
+        excluded_sample: excluded.slice(0, 20),
+        warnings: results.length ? [] : ["No verified public recommendation candidates are available for this domain."],
+      };
       return {
         structuredContent: payload,
         content: [
@@ -674,11 +842,18 @@ function createServer(env: Env): McpServer {
         status: item.status,
         status_reason: item.status_reason,
         recommendation_status: item.recommendation_status,
+        recommendation_scope: item.recommendation_scope,
+        recommendation_model_version: item.recommendation_model_version,
+        recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
+        recommendation_basis_fields: item.recommendation_basis_fields ?? [],
+        verification_evidence: item.verification_evidence,
         application_status: item.application_status,
         is_currently_applicable: item.is_currently_applicable,
         application_open_from: item.application_open_from,
         application_open_to: item.application_open_to,
         criteria: item.criteria ?? [],
+        structured_summary: item.structured_summary ?? {},
+        search_facets: item.search_facets ?? {},
         neighbors: {
           parents: item.parents ?? [],
           children: item.children ?? [],

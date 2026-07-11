@@ -114,6 +114,7 @@ CRITERIA_DETAIL_KEYS = {
 CRITERIA_KINDS = {
     "threshold",
     "rate",
+    "credit-rate",
     "limit",
     "deduction",
     "formula",

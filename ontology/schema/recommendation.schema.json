@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentax.local/schema/recommendation.schema.json",
+  "title": "OpenFin Recommendation Contract",
+  "$defs": {
+    "recommendationStatus": {
+      "type": "string",
+      "enum": [
+        "reference_only",
+        "eligible_for_listing",
+        "manual_review_candidate",
+        "verified_recommendation_candidate"
+      ]
+    },
+    "recommendationScope": {
+      "type": "string",
+      "enum": [
+        "listing_only",
+        "comparison_only",
+        "internal_verification_candidate",
+        "public_recommendation"
+      ]
+    },
+    "verificationEvidence": {
+      "type": "object",
+      "required": [
+        "reviewer",
+        "verified_at",
+        "source_urls",
+        "source_checksums",
+        "verified_fields"
+      ],
+      "properties": {
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verified_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source_checksums": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verified_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expires_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "freshness_policy": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

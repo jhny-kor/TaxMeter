@@ -18,6 +18,8 @@ from pathlib import Path
 from card_benefit_parser import apply_card_recommendation_scope, enrich_card_benefits, parse_krw_amount
 from insurance_recommendation_guard import apply_insurance_recommendation_guard, enrich_insurance_coverage
 from loan_product_normalizer import normalize_loan_product
+from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
+from apply_recommendation_verifications import apply_recommendation_verifications
 from typing import Iterable
 
 
@@ -1970,7 +1972,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         apply_recommendation_scope(item)
         normalize_loan_product(item)
         apply_legacy_ids(item)
-    return items
+    return apply_recommendation_verifications(items)
 
 
 def export_quality_summary(items: list[dict], product_type: str) -> dict:
@@ -2203,6 +2205,81 @@ def item_search_text(item: dict) -> str:
     return " ".join(parts).lower()
 
 
+def numeric_values(values: object, keys: tuple[str, ...]) -> list[object]:
+    if not isinstance(values, list):
+        return []
+    extracted: list[object] = []
+    for entry in values:
+        if not isinstance(entry, dict):
+            continue
+        for key in keys:
+            value = entry.get(key)
+            if value not in (None, "", []):
+                extracted.append(value)
+    return extracted
+
+
+def structured_summary(item: dict) -> dict:
+    rates = {
+        "loan_rate_min_percent": item.get("loan_rate_min_percent"),
+        "loan_rate_max_percent": item.get("loan_rate_max_percent"),
+        "option_rates": numeric_values(item.get("options"), ("intr_rate", "intr_rate2")),
+        "benefit_rates": numeric_values(item.get("benefits"), ("benefit_rate_percent",)),
+    }
+    limits = {
+        "loan_limit_krw": item.get("loan_limit_krw"),
+        "limit_krw": item.get("limit_krw"),
+        "benefit_limits": numeric_values(item.get("benefits"), ("monthly_benefit_limit_krw", "per_transaction_limit_krw")),
+    }
+    periods = {
+        "application_open_from": item.get("application_open_from"),
+        "application_open_to": item.get("application_open_to"),
+        "terms": numeric_values(item.get("options"), ("save_trm", "loan_term_months")),
+    }
+    card = {
+        "previous_month_spend_min_krw": numeric_values(item.get("benefits"), ("previous_month_spend_min_krw",)),
+        "annual_fee_required": numeric_values(item.get("benefits"), ("annual_fee_required",)),
+    }
+    insurance = {
+        "coverage_amount_krw": numeric_values(item.get("criteria"), ("coverage_amount_krw",)),
+        "premium_male_krw": numeric_values(item.get("criteria"), ("premium_male_krw",)),
+        "premium_female_krw": numeric_values(item.get("criteria"), ("premium_female_krw",)),
+    }
+    return {
+        "rates": {key: value for key, value in rates.items() if value not in (None, "", [])},
+        "limits": {key: value for key, value in limits.items() if value not in (None, "", [])},
+        "periods": {key: value for key, value in periods.items() if value not in (None, "", [])},
+        "card": {key: value for key, value in card.items() if value not in (None, "", [])},
+        "insurance": {key: value for key, value in insurance.items() if value not in (None, "", [])},
+        "support": {
+            key: value
+            for key, value in {
+                "deadline_text": item.get("application_deadline_text"),
+                "status": item.get("application_status"),
+            }.items()
+            if value not in (None, "", [])
+        },
+    }
+
+
+def search_facets(item: dict) -> dict:
+    return {
+        key: value
+        for key, value in {
+            "provider": item.get("provider"),
+            "provider_code": item.get("provider_code"),
+            "product_kind": item.get("product_kind"),
+            "search_type": item.get("search_type"),
+            "status": item.get("status"),
+            "recommendation_status": item.get("recommendation_status"),
+            "recommendation_scope": item.get("recommendation_scope"),
+            "freshness_status": item.get("freshness_status"),
+            "jurisdiction_code": item.get("jurisdiction_code"),
+        }.items()
+        if value not in (None, "", [])
+    }
+
+
 def search_index_item(item: dict, export_id: str) -> dict:
     aliases = unique([
         *TAX_SEARCH_ALIASES.get(str(item.get("id")), ()),
@@ -2225,6 +2302,10 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "status_reason": item.get("status_reason"),
         "recommendation_status": item.get("recommendation_status"),
         "recommendation_scope": item.get("recommendation_scope"),
+        "recommendation_model_version": item.get("recommendation_model_version") or RECOMMENDATION_MODEL_VERSION,
+        "recommendation_exclusion_reasons": item.get("recommendation_exclusion_reasons") or [],
+        "recommendation_basis_fields": item.get("recommendation_basis_fields") or [],
+        "verification_evidence": item.get("verification_evidence"),
         "application_status": item.get("application_status"),
         "is_currently_applicable": item.get("is_currently_applicable"),
         "application_open_from": item.get("application_open_from"),
@@ -2238,6 +2319,11 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "search_aliases": aliases,
         "aliases": aliases,
         "export_id": export_id,
+        "source_checksum": item.get("source_checksum"),
+        "source_urls": item.get("source_urls") or [],
+        "source_basis_dates": item.get("source_basis_dates") or [],
+        "structured_summary": structured_summary(item),
+        "search_facets": search_facets(item),
         "search_text": search_text,
     }
 

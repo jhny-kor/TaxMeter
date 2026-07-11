@@ -3794,6 +3794,14 @@ def local_support_status_fields(item: dict) -> dict:
             "status_reason": "정부24 원문에 별도 신청 절차가 필요 없다고 표시되어 있습니다.",
             "status_confidence": "derived",
         }
+    if expiration_date and str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE and "상시" in compact_deadline:
+        return {
+            "status": "unknown",
+            "application_status": "unknown",
+            "status_reason": f"정부24 신청기한 {expiration_date}이 지났고 잔액·포기자 발생 시 상시신청 문구가 있어 현재 신청 가능 여부를 단정하지 않습니다.",
+            "status_confidence": "derived",
+            "unknown_reason": "conditional_reopen_after_deadline",
+        }
     if "상시" in compact_deadline:
         return {
             "status": "active",

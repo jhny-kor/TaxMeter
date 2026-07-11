@@ -89,6 +89,51 @@
         "null"
       ]
     },
+    "status": {
+      "type": "string"
+    },
+    "status_reason": {
+      "type": "string"
+    },
+    "freshness_status": {
+      "type": "string"
+    },
+    "last_verified_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recommendation_status": {
+      "$ref": "recommendation.schema.json#/$defs/recommendationStatus"
+    },
+    "recommendation_scope": {
+      "$ref": "recommendation.schema.json#/$defs/recommendationScope"
+    },
+    "recommendation_exclusion_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommendation_basis_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verification_evidence": {
+      "$ref": "recommendation.schema.json#/$defs/verificationEvidence"
+    },
+    "recommendation_model_version": {
+      "type": "string"
+    },
     "source_urls": {
       "type": "array",
       "items": {
@@ -190,6 +235,7 @@
             "enum": [
               "threshold",
               "rate",
+              "credit-rate",
               "limit",
               "deduction",
               "formula",
