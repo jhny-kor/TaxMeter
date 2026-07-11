@@ -2127,7 +2127,7 @@ def compact_nested_text(values: object) -> str:
             value = entry.get(key)
             if value is not None and value != "" and value != []:
                 parts.append(str(value)[:120])
-    return " ".join(parts)
+    return " ".join(parts)[:600]
 
 
 def item_search_text(item: dict) -> str:
@@ -2163,7 +2163,7 @@ def item_search_text(item: dict) -> str:
     ):
         value = item.get(key)
         if value:
-            parts.append(str(value))
+            parts.append(str(value)[:500])
     for key in ("tags", "sources", "source_urls"):
         parts.extend(str(value) for value in item.get(key) or [] if value)
     for key in ("criteria", "options", "benefits"):
@@ -2177,7 +2177,7 @@ def item_search_text(item: dict) -> str:
 
 def search_index_item(item: dict, export_id: str) -> dict:
     aliases = list(TAX_SEARCH_ALIASES.get(str(item.get("id")), ()))
-    search_text = " ".join([item_search_text(item), *aliases]).strip()
+    search_text = " ".join([*aliases, item_search_text(item)]).strip()[:360]
     return {
         "id": item.get("id"),
         "title": item.get("title"),
