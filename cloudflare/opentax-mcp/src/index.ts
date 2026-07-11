@@ -33,10 +33,15 @@ type FinanceItem = {
   status?: string;
   status_reason?: string;
   recommendation_status?: string;
+  recommendation_scope?: string;
   application_status?: string;
   is_currently_applicable?: boolean;
   application_open_from?: string;
   application_open_to?: string;
+  jurisdiction?: string;
+  jurisdiction_code?: string;
+  freshness_status?: string;
+  collection_status?: string;
   export_id?: string;
   search_text?: string;
   search_aliases?: string[];
@@ -95,6 +100,17 @@ type SearchIndex = {
 type CachedSearchIndex = {
   data: SearchIndex;
   loadedAt: number;
+};
+
+type SearchFilters = {
+  readonly searchType?: string;
+  readonly productKind?: string;
+  readonly recommendationStatus?: string;
+  readonly salesStatus?: string;
+  readonly applicationStatus?: string;
+  readonly provider?: string;
+  readonly region?: string;
+  readonly freshnessStatus?: string;
 };
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -188,9 +204,14 @@ function itemSearchText(item: FinanceItem): string {
     item.status,
     item.status_reason,
     item.recommendation_status,
+    item.recommendation_scope,
     item.application_status,
     item.application_open_from,
     item.application_open_to,
+    item.jurisdiction,
+    item.jurisdiction_code,
+    item.freshness_status,
+    item.collection_status,
     structuredSearchText(item.criteria),
     structuredSearchText(item.options),
     structuredSearchText(item.benefits),
@@ -226,6 +247,33 @@ function matchesRecommendationDomain(item: FinanceItem, query: string, searchTyp
   return true;
 }
 
+function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolean {
+  const equals = (value: string | undefined, expected: string | undefined): boolean =>
+    expected === undefined || normalizeQuery(value ?? "") === normalizeQuery(expected);
+  const region = normalizeQuery(filters.region ?? "");
+  return (
+    equals(item.search_type, filters.searchType) &&
+    equals(item.product_kind, filters.productKind) &&
+    equals(item.recommendation_status, filters.recommendationStatus) &&
+    equals(item.sales_status, filters.salesStatus) &&
+    equals(item.application_status, filters.applicationStatus) &&
+    equals(item.provider, filters.provider) &&
+    equals(item.freshness_status, filters.freshnessStatus) &&
+    (!region || normalizeQuery(item.jurisdiction ?? item.jurisdiction_code ?? "").includes(region))
+  );
+}
+
+function isRecommendationSearchEligible(item: FinanceItem): boolean {
+  return (
+    normalizeQuery(item.recommendation_status ?? "") === "recommendation_candidate" &&
+    item.recommendation_scope !== "internal_verification_candidate"
+  );
+}
+
+function isPubliclySearchable(item: FinanceItem): boolean {
+  return item.recommendation_scope !== "internal_verification_candidate";
+}
+
 function scoreItem(item: FinanceItem, query: string): number {
   const normalizedTitle = normalizeQuery(item.title);
   const normalizedId = normalizeQuery(item.id);
@@ -245,7 +293,7 @@ function scoreItem(item: FinanceItem, query: string): number {
   if (RECOMMENDATION_QUERY_RE.test(query)) {
     const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
     if (
-      recommendationStatus !== "recommendation_candidate" ||
+      !isRecommendationSearchEligible(item) ||
       !matchesRecommendationDomain(item, query, searchType) ||
       !intentTokens.length ||
       !intentTokens.every((token) => text.includes(token))
@@ -449,6 +497,14 @@ function createServer(env: Env): McpServer {
           .string()
           .optional()
           .describe("Optional ontology item type filter, for example 'tax', 'support-program', 'card-product', 'bank-product', or 'insurance-product'. 'tax' also matches tax-credit, deduction, and other tax decision types."),
+        search_type: z.string().optional().describe("Optional product search-type filter, for example 'loan', 'deposit', or 'saving'."),
+        product_kind: z.string().optional().describe("Optional product-kind filter, for example 'policy-loan'."),
+        recommendation_status: z.string().optional().describe("Optional recommendation-state filter. Internal loan verification candidates are never returned for recommendation wording."),
+        sales_status: z.string().optional().describe("Optional sales-state filter, for example 'active'."),
+        application_status: z.string().optional().describe("Optional support application-state filter, for example 'open'."),
+        provider: z.string().optional().describe("Optional exact provider filter."),
+        region: z.string().optional().describe("Optional local-support jurisdiction filter, for example '서울' or '전라남도'."),
+        freshness_status: z.string().optional().describe("Optional source-freshness filter, for example 'current' or 'stale'."),
         limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
       },
       annotations: {
@@ -456,14 +512,24 @@ function createServer(env: Env): McpServer {
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ query, type, limit }) => {
+    async ({ query, type, search_type, product_kind, recommendation_status, sales_status, application_status, provider, region, freshness_status, limit }) => {
       const data = await loadSearchIndex(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : null;
+      const filters: SearchFilters = {
+        searchType: search_type,
+        productKind: product_kind,
+        recommendationStatus: recommendation_status,
+        salesStatus: sales_status,
+        applicationStatus: application_status,
+        provider,
+        region,
+        freshnessStatus: freshness_status,
+      };
       const results = data.items
-        .filter((item) => !allowedTypes || allowedTypes.has(item.type))
+        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters))
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter((result) => result.score > 0)
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))
@@ -478,9 +544,12 @@ function createServer(env: Env): McpServer {
           product_status: item.product_status,
           status: item.status,
           recommendation_status: item.recommendation_status,
+          recommendation_scope: item.recommendation_scope,
           application_status: item.application_status,
           is_currently_applicable: item.is_currently_applicable,
           application_open_to: item.application_open_to,
+          jurisdiction: item.jurisdiction,
+          freshness_status: item.freshness_status,
           url: itemUrl(env, item.id),
           score,
           text: item.description ?? "",
@@ -488,6 +557,7 @@ function createServer(env: Env): McpServer {
 
       const payload = {
         query,
+        filters,
         result_count: results.length,
         results,
       };

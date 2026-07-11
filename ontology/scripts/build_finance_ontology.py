@@ -73,14 +73,9 @@ TAX_SEARCH_REGRESSIONS = (
 SUPPORT_SEARCH_REGRESSIONS = (
     {"query": "서울시 청년 월세 지원", "no_reference_only_support_results": True},
 )
-RECOMMENDATION_SEARCH_REGRESSIONS = (
-    {
-        "query": "청년 전세대출 추천",
-        "expected_type": "bank-product",
-        "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
-    },
-)
+RECOMMENDATION_SEARCH_REGRESSIONS = ()
 BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS = (
+    {"query": "청년 전세대출 추천"},
     {"query": "전월실적 없는 체크카드 추천"},
     {"query": "보험 추천"},
 )
@@ -1957,9 +1952,15 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
 def export_quality_summary(items: list[dict], product_type: str) -> dict:
     products = [item for item in items if item.get("type") == product_type]
     status_counts: dict[str, int] = {}
+    recommendation_status_counts: dict[str, int] = {}
+    recommendation_scope_counts: dict[str, int] = {}
     for product in products:
         status = str(product.get("status") or product.get("product_status") or "unknown")
         status_counts[status] = status_counts.get(status, 0) + 1
+        recommendation_status = str(product.get("recommendation_status") or "reference_only")
+        recommendation_status_counts[recommendation_status] = recommendation_status_counts.get(recommendation_status, 0) + 1
+        recommendation_scope = str(product.get("recommendation_scope") or "unspecified")
+        recommendation_scope_counts[recommendation_scope] = recommendation_scope_counts.get(recommendation_scope, 0) + 1
     stale_count = sum(1 for product in products if "stale_disclosure_month" in (product.get("quality_flags") or []))
     return {
         "product_count": len(products),
@@ -2008,6 +2009,8 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
         "recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "recommendation_candidate"),
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
+        "recommendation_status_counts": dict(sorted(recommendation_status_counts.items())),
+        "recommendation_scope_counts": dict(sorted(recommendation_scope_counts.items())),
         "quality_gate": {
             "expired_active_local_supports": "validated in korea-local-government-supports export",
             "active_insurance_without_criteria_must_be_zero": True,
@@ -2154,6 +2157,9 @@ def item_search_text(item: dict) -> str:
         "application_open_from",
         "application_open_to",
         "jurisdiction",
+        "jurisdiction_code",
+        "freshness_status",
+        "collection_status",
     ):
         value = item.get(key)
         if value:
@@ -2185,10 +2191,15 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "status": item.get("status"),
         "status_reason": item.get("status_reason"),
         "recommendation_status": item.get("recommendation_status"),
+        "recommendation_scope": item.get("recommendation_scope"),
         "application_status": item.get("application_status"),
         "is_currently_applicable": item.get("is_currently_applicable"),
         "application_open_from": item.get("application_open_from"),
         "application_open_to": item.get("application_open_to"),
+        "jurisdiction": item.get("jurisdiction"),
+        "jurisdiction_code": item.get("jurisdiction_code"),
+        "freshness_status": item.get("freshness_status"),
+        "collection_status": item.get("collection_status"),
         "search_aliases": aliases,
         "export_id": export_id,
         "search_text": search_text,
@@ -2234,6 +2245,7 @@ def score_search_index_item(item: dict, query: str) -> int:
         intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
         if (
             recommendation_status != "recommendation_candidate"
+            or item.get("recommendation_scope") == "internal_verification_candidate"
             or not matches_recommendation_domain(item_type, search_type, normalized_query)
             or not intent_tokens
             or not all(token in text for token in intent_tokens)
@@ -2290,6 +2302,8 @@ def existing_export_quality_summary(path: Path) -> dict:
     summary = dict(payload.get("quality_summary") or {})
     if path == LOCAL_SUPPORT_EXPORT:
         summary["source_refresh_missing_regions"] = payload.get("source_refresh_missing_regions") or []
+        summary["unpreserved_missing_regions"] = payload.get("unpreserved_missing_regions") or []
+        summary["current_refresh_complete"] = payload.get("current_refresh_complete") is True
         summary["preserved_from_previous_snapshot_count"] = payload.get("preserved_from_previous_snapshot_count") or 0
     return summary
 

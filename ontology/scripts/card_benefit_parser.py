@@ -181,6 +181,16 @@ def benefit_categories(text: str) -> list[str]:
     return categories
 
 
+def excluded_spend(text: str) -> list[str]:
+    if "제외" not in text.replace(" ", ""):
+        return []
+    return [
+        category
+        for category in ("상품권", "세금", "국세", "지방세", "공과금", "관리비")
+        if category in text
+    ]
+
+
 def condition_source_url(item: dict) -> str | None:
     urls = [str(url) for url in item.get("source_urls") or [] if str(url).startswith("https://")]
     return next(
@@ -257,7 +267,11 @@ def enrich_card_benefits(item: dict) -> None:
         else:
             benefit.setdefault("fixed_benefit_amount_krw", None)
         benefit["benefit_categories"] = benefit_categories(text)
-        benefit.setdefault("excluded_spend", [])
+        parsed_excluded_spend = excluded_spend(text)
+        if parsed_excluded_spend:
+            benefit["excluded_spend"] = parsed_excluded_spend
+        else:
+            benefit.setdefault("excluded_spend", [])
         missing = []
         for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend"):
             if key == "monthly_benefit_limit_krw" and benefit.get("monthly_benefit_limit_unlimited") is True:

@@ -704,6 +704,7 @@ function qualityLine(summary) {
 }
 
 function isSearchVisible(item, query) {
+  if (item.recommendation_scope === "internal_verification_candidate") return false;
   if (!isInactiveOrUnverified(item)) return true;
   return hasInactiveIntent(query);
 }

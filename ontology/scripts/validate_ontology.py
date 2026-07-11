@@ -7,6 +7,8 @@ import json
 import sys
 from pathlib import Path
 
+from support_deadline_parser import parse_application_dates
+
 try:
     from .generate_vault import (
         CORPORATE_SUPPORT_IDS,
@@ -362,8 +364,25 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
         require(bool(item.get("last_verified_at")), f"{item_id}: missing last_verified_at", errors)
         require(item.get("application_status") in LOCAL_SUPPORT_APPLICATION_STATUSES, f"{item_id}: invalid application_status", errors)
         require(isinstance(item.get("is_currently_applicable"), bool), f"{item_id}: missing is_currently_applicable", errors)
+        parsed_from, parsed_to = parse_application_dates(
+            str(item.get("application_deadline_text") or ""),
+            LOCAL_SUPPORT_STATUS_REVIEW_DATE,
+        )
+        if parsed_from and parsed_to:
+            require(item.get("application_open_from") == parsed_from, f"{item_id}: application_open_from disagrees with deadline text", errors)
+            require(item.get("application_open_to") == parsed_to, f"{item_id}: application_open_to disagrees with deadline text", errors)
+        application_open_from = item.get("application_open_from")
+        application_open_to = item.get("application_open_to")
+        if application_open_from and application_open_to:
+            require(application_open_to >= application_open_from, f"{item_id}: application_open_to precedes application_open_from", errors)
         if item.get("application_status") == "closed":
             require(item.get("is_currently_applicable") is False, f"{item_id}: closed support cannot be currently applicable", errors)
+        if item.get("application_status") == "unknown":
+            require(bool(item.get("unknown_reason")), f"{item_id}: unknown support missing unknown_reason", errors)
+        if item.get("collection_status") == "preserved_snapshot":
+            require(item.get("freshness_status") == "stale", f"{item_id}: preserved snapshot must be stale", errors)
+            require(item.get("current_refresh_succeeded") is False, f"{item_id}: preserved snapshot cannot be current", errors)
+            require(item.get("recommendation_status") == "reference_only", f"{item_id}: preserved snapshot must be reference_only", errors)
         expiration_date = item.get("expiration_date")
         if item.get("status") == "active" and expiration_date:
             require(str(expiration_date) >= LOCAL_SUPPORT_STATUS_REVIEW_DATE, f"{item_id}: expired local support marked active", errors)
@@ -392,6 +411,17 @@ def validate_local_government_support_split(items: dict[str, dict], errors: list
     quality = payload.get("quality_summary") or {}
     require(quality.get("expired_active_local_supports") == 0, "local support export has expired active supports", errors)
     require(bool(quality.get("application_status_counts")), "local support export missing application_status_counts", errors)
+    require(bool(quality.get("unknown_reason_counts")), "local support export missing unknown_reason_counts", errors)
+    missing_regions = payload.get("source_refresh_missing_regions") or []
+    unpreserved_regions = payload.get("unpreserved_missing_regions") or []
+    require(set(unpreserved_regions).issubset(set(missing_regions)), "local support export has invalid unpreserved_missing_regions", errors)
+    require(payload.get("current_refresh_complete") is (not bool(missing_regions)), "local support export refresh completeness is inconsistent", errors)
+    if missing_regions:
+        require(
+            quality.get("recommendation_candidates") == 0,
+            "local support export with missing regions cannot expose recommendation candidates",
+            errors,
+        )
     local_by_id = {item["id"]: item for item in local_items if isinstance(item, dict) and item.get("id")}
     reference_by_id = {item["id"]: item for item in reference_items if isinstance(item, dict) and item.get("id")}
     require(len(local_by_id) == len(local_items), "local support export has duplicate or invalid item ids", errors)

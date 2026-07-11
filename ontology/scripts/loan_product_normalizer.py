@@ -25,6 +25,10 @@ LOAN_REQUIRED_FIELDS = (
     "handling_institution",
     "operating_period_status",
     "loan_limit_normalization_status",
+    "loan_grace_period",
+    "guarantee_fee",
+    "loan_purpose",
+    "official_application_url",
 )
 RATE_NUMBER_RE = re.compile(r"(\d+(?:\.\d+)?)")
 LOAN_LIMIT_AMOUNT_RE = re.compile(r"(\d+(?:[,.]\d+)?)\s*(억원|천만원|만원|천원|원)")
@@ -131,6 +135,17 @@ def operating_period_end(text: str | None) -> str | None:
         except ValueError:
             continue
     return max(dates).isoformat() if len(dates) >= 2 else None
+
+
+def official_application_url(raw: dict) -> str | None:
+    source_text = raw_text(raw, "rltsite", "relatedSite", "siteUrl")
+    if not source_text:
+        return None
+    match = re.search(r"https?://[^\s,)]+|www\.[^\s,)]+", source_text)
+    if not match:
+        return None
+    url = match.group(0)
+    return url if url.startswith("http") else f"https://{url}"
 
 
 def is_recommendation_ready_loan(item: dict) -> bool:
@@ -266,6 +281,11 @@ def normalize_loan_product(item: dict) -> None:
     item["loan_limit_unit"] = limit_unit
     item["loan_limit_normalization_status"] = limit_normalization_status
     item["loan_limit_normalization_source"] = "LoanProductSearchingInfo item.lnLmt" if limit_unit else None
+    item["limit_raw"] = limit_text or None
+    item["limit_unit"] = limit_unit
+    item["limit_krw"] = limit_krw
+    item["normalization_status"] = limit_normalization_status
+    item["normalization_source"] = item["loan_limit_normalization_source"]
 
     item["early_repayment_fee"] = raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee")
 
@@ -278,6 +298,10 @@ def normalize_loan_product(item: dict) -> None:
         item["collateral_type"] = collateral_type_from_product(item, options)
 
     item["total_loan_period"] = raw_text(raw, "maxTotLnTrm") or option_text(options, "total_loan_period_years")
+    item["loan_grace_period"] = raw_text(raw, "maxDfrmTrm", "maxdfrmtrm")
+    item["guarantee_fee"] = raw_text(raw, "lnicdcst", "guarantee_fee") or option_text(options, "guarantee_fee")
+    item["loan_purpose"] = raw_text(raw, "usge", "purpose") or option_text(options, "purpose")
+    item["official_application_url"] = official_application_url(raw)
     item["handling_institution"] = raw_text(raw, "hdlInst") or option_text(options, "handling_institution")
     item["operating_period_text"] = raw_text(raw, "prdOprPrid") or option_text(options, "operating_period")
     item["operating_period_status"] = operating_period_status(item["operating_period_text"], item.get("reviewed_at"))
@@ -303,7 +327,7 @@ def normalize_loan_product(item: dict) -> None:
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
     if is_recommendation_ready_loan(item):
         item["recommendation_status"] = "recommendation_candidate"
-        item["recommendation_scope"] = "criteria_match_only"
+        item["recommendation_scope"] = "internal_verification_candidate"
         item["recommendation_basis_fields"] = list(LOAN_REQUIRED_FIELDS)
         item["recommendation_exclusion_reasons"] = [
             reason

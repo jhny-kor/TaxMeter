@@ -1,6 +1,6 @@
 """지원사업 신청 상태 → 추천 상태 매핑과 export 후처리.
 
-application_status=open → recommendation_candidate (추천 후보)
+application_status=open and current source data → recommendation_candidate (추천 후보)
 application_status=closed/unknown → reference_only (조회 전용, 추천 제외)
 
 generate_vault.py의 지원사업 enrich 단계가 이 매핑을 사용하고,
@@ -24,7 +24,13 @@ STATUS_TO_RECOMMENDATION = {
 }
 
 
-def resolve_recommendation_status(status: str) -> str:
+def resolve_recommendation_status(
+    status: str,
+    freshness_status: str | None = None,
+    collection_status: str | None = None,
+) -> str:
+    if freshness_status not in {None, "current"} or collection_status == "preserved_snapshot":
+        return "reference_only"
     return STATUS_TO_RECOMMENDATION.get(str(status), "reference_only")
 
 
@@ -41,7 +47,11 @@ def main() -> int:
     for item in [*(payload.get("reference_items") or []), *(payload.get("items") or [])]:
         if item.get("type") != "support-program":
             continue
-        resolved = resolve_recommendation_status(item.get("application_status") or "unknown")
+        resolved = resolve_recommendation_status(
+            item.get("application_status") or "unknown",
+            item.get("freshness_status"),
+            item.get("collection_status"),
+        )
         if item.get("recommendation_status") != resolved:
             item["recommendation_status"] = resolved
             changed += 1

@@ -29,8 +29,8 @@ def main() -> int:
             candidate_count += 1
             if loan.get("recommendation_status") != "recommendation_candidate":
                 errors.append(f"{loan['id']}: 필수 필드가 완전한 active 대출이 recommendation_candidate가 아닙니다.")
-            if loan.get("recommendation_scope") != "criteria_match_only":
-                errors.append(f"{loan['id']}: 조건매칭 후보의 recommendation_scope가 criteria_match_only가 아닙니다.")
+            if loan.get("recommendation_scope") != "internal_verification_candidate":
+                errors.append(f"{loan['id']}: 검증 후보의 recommendation_scope가 internal_verification_candidate가 아닙니다.")
             if "incomplete_loan_required_fields" in reasons:
                 errors.append(f"{loan['id']}: 완전한 후보에 incomplete_loan_required_fields 사유가 남아 있습니다.")
             if loan.get("operating_period_status") != "confirmed_open":

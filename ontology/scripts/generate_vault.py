@@ -12,6 +12,7 @@ import json
 import re
 from copy import deepcopy
 
+from support_deadline_parser import classify_deadline, parse_application_dates
 from support_status_resolver import resolve_recommendation_status
 from datetime import date
 from pathlib import Path
@@ -3767,31 +3768,11 @@ def core_items_without_local_supports(items: dict[str, dict]) -> dict[str, dict]
     return core_items
 
 
-LOCAL_SUPPORT_DATE_RE = re.compile(r"(?:(\d{4})\s*[.\-/년]\s*)?(\d{1,2})\s*[.\-/월]\s*(\d{1,2})")
-
-
-def local_support_application_dates(deadline_text: str) -> tuple[str | None, str | None]:
-    dates: list[str] = []
-    latest_year: str | None = None
-    for match in LOCAL_SUPPORT_DATE_RE.finditer(deadline_text):
-        year_text, month_text, day_text = match.groups()
-        latest_year = year_text or latest_year
-        if latest_year is None:
-            continue
-        try:
-            dates.append(date(int(latest_year), int(month_text), int(day_text)).isoformat())
-        except ValueError:
-            continue
-    if not dates:
-        return None, None
-    return dates[0], max(dates)
-
-
 def local_support_status_fields(item: dict) -> dict:
     deadline_text = str(item.get("application_deadline_text") or "")
     compact_deadline = deadline_text.replace(" ", "")
-    _, application_open_to = local_support_application_dates(deadline_text)
-    expiration_date = application_open_to or item.get("expiration_date")
+    _, application_open_to = parse_application_dates(deadline_text, LOCAL_SUPPORT_STATUS_REVIEW_DATE)
+    expiration_date = application_open_to
     if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
         return {
             "status": "active",
@@ -3825,10 +3806,13 @@ def local_support_status_fields(item: dict) -> dict:
         "application_status": "unknown",
         "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
         "status_confidence": "unverified",
+        "unknown_reason": classify_deadline(deadline_text),
     }
 
 
 def local_support_source_freshness(item: dict) -> str:
+    if item.get("collection_status") == "preserved_snapshot":
+        return "stale"
     collected_at = str(item.get("source_collected_at") or item.get("reviewed_at") or "")
     try:
         collected_date = date.fromisoformat(collected_at)
@@ -3840,7 +3824,10 @@ def local_support_source_freshness(item: dict) -> str:
 
 def enrich_local_support_status(item: dict) -> dict:
     enriched = deepcopy(item)
-    application_open_from, application_open_to = local_support_application_dates(str(enriched.get("application_deadline_text") or ""))
+    application_open_from, application_open_to = parse_application_dates(
+        str(enriched.get("application_deadline_text") or ""),
+        LOCAL_SUPPORT_STATUS_REVIEW_DATE,
+    )
     status_fields = local_support_status_fields(enriched)
     status = status_fields["status"]
     enriched.update(status_fields)
@@ -3856,20 +3843,33 @@ def enrich_local_support_status(item: dict) -> dict:
             f"정부24 원문 수집일 {enriched.get('source_collected_at') or enriched.get('reviewed_at') or '미상'}이 "
             f"상태 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE}에 비해 최신성 검증 기준을 넘겨 현재 신청 가능 여부를 단정하지 않습니다."
         )
-    enriched["expiration_date"] = application_open_to or enriched.get("expiration_date")
+        enriched["unknown_reason"] = (
+            "preserved_snapshot"
+            if enriched.get("collection_status") == "preserved_snapshot"
+            else "source_unreachable"
+        )
+    enriched["expiration_date"] = application_open_to
     enriched["reviewed_at"] = enriched.get("reviewed_at") or LOCAL_SUPPORT_STATUS_REVIEW_DATE
     enriched["last_verified_at"] = enriched.get("source_collected_at") or enriched["reviewed_at"]
     enriched["status_evaluated_at"] = LOCAL_SUPPORT_STATUS_REVIEW_DATE
     enriched["freshness_status"] = freshness_status
     enriched["effective_from"] = enriched.get("effective_from")
     enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
-    enriched["application_open_from"] = enriched.get("application_open_from") or application_open_from
-    enriched["application_open_to"] = enriched.get("application_open_to") or application_open_to or enriched.get("expiration_date")
+    enriched["application_open_from"] = application_open_from
+    enriched["application_open_to"] = application_open_to
     enriched["is_currently_applicable"] = enriched["application_status"] in {"open", "not_required"}
     enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[enriched["status"]]
     # open으로 판정된 항목만 추천 후보(recommendation_candidate)로 올린다.
     # closed·unknown은 조회는 가능하되 기본 검색·추천에서 제외되도록 reference_only로 명시한다.
-    enriched["recommendation_status"] = resolve_recommendation_status(enriched["application_status"])
+    enriched["recommendation_status"] = (
+        resolve_recommendation_status(
+            enriched["application_status"],
+            enriched.get("freshness_status"),
+            enriched.get("collection_status"),
+        )
+        if freshness_status == "current"
+        else "reference_only"
+    )
     if enriched["application_status"] == "unknown":
         enriched["recommendation_exclusion_reasons"] = sorted({
             *(enriched.get("recommendation_exclusion_reasons") or []),
@@ -3910,12 +3910,16 @@ def local_support_reference_items(items: dict[str, dict]) -> list[dict]:
 def local_support_quality_summary(local_items: list[dict]) -> dict:
     status_counts: dict[str, int] = {}
     application_status_counts: dict[str, int] = {}
+    unknown_reason_counts: dict[str, int] = {}
     expired_active = 0
     for item in local_items:
         status = str(item.get("status") or "unknown")
         status_counts[status] = status_counts.get(status, 0) + 1
         application_status = str(item.get("application_status") or "unknown")
         application_status_counts[application_status] = application_status_counts.get(application_status, 0) + 1
+        if application_status == "unknown":
+            unknown_reason = str(item.get("unknown_reason") or "manual_review_required")
+            unknown_reason_counts[unknown_reason] = unknown_reason_counts.get(unknown_reason, 0) + 1
         expiration_date = item.get("expiration_date")
         if status == "active" and expiration_date and str(expiration_date) < LOCAL_SUPPORT_STATUS_REVIEW_DATE:
             expired_active += 1
@@ -3925,6 +3929,10 @@ def local_support_quality_summary(local_items: list[dict]) -> dict:
         "application_status_counts": dict(sorted(application_status_counts.items())),
         "expired_active_local_supports": expired_active,
         "unknown_status_local_supports": status_counts.get("unknown", 0),
+        "unknown_reason_counts": dict(sorted(unknown_reason_counts.items())),
+        "preserved_snapshot_local_supports": sum(
+            1 for item in local_items if item.get("collection_status") == "preserved_snapshot"
+        ),
         "currently_applicable_local_supports": sum(1 for item in local_items if item.get("is_currently_applicable") is True),
         "recommendation_candidates": sum(1 for item in local_items if item.get("recommendation_status") == "recommendation_candidate"),
         "recommendation_reference_only": sum(1 for item in local_items if item.get("recommendation_status") == "reference_only"),
@@ -4033,6 +4041,14 @@ def write_local_support_export(items: dict[str, dict]) -> int:
     local_items = sorted(local_support_export_items(items), key=lambda item: item["id"])
     reference_items = sorted(local_support_reference_items(items), key=lambda item: item["id"])
     generated_payload = json.loads((CUSTOM_DIR / "gov24-local-supports.generated.json").read_text(encoding="utf-8"))
+    missing_regions = generated_payload.get("source_refresh_missing_regions") or []
+    if missing_regions:
+        for item in local_items:
+            item["recommendation_status"] = "reference_only"
+            item["recommendation_exclusion_reasons"] = sorted({
+                *(item.get("recommendation_exclusion_reasons") or []),
+                "source_refresh_incomplete",
+            })
     export = {
         "version": "KR-LOCAL-GOVERNMENT-SUPPORTS-ONTOLOGY-2026.07.10.1",
         "basis_date": LOCAL_SUPPORT_STATUS_REVIEW_DATE,
@@ -4041,7 +4057,9 @@ def write_local_support_export(items: dict[str, dict]) -> int:
         "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
         "source_api": "https://plus.gov.kr/api/portal/v1.0/api/benefitPlus",
         "item_count": len(local_items),
-        "source_refresh_missing_regions": generated_payload.get("source_refresh_missing_regions") or [],
+        "source_refresh_missing_regions": missing_regions,
+        "unpreserved_missing_regions": generated_payload.get("unpreserved_missing_regions") or [],
+        "current_refresh_complete": generated_payload.get("current_refresh_complete") is True,
         "preserved_from_previous_snapshot_count": generated_payload.get("preserved_from_previous_snapshot_count") or 0,
         "quality_summary": local_support_quality_summary(local_items),
         "reference_items": reference_items,

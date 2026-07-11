@@ -15,6 +15,7 @@ OPEN_STATUSES = {"recommendation_candidate"}
 
 def main() -> int:
     payload = json.loads(SUPPORT_EXPORT.read_text(encoding="utf-8"))
+    refresh_complete = payload.get("current_refresh_complete") is True
     items = [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
     programs = [item for item in items if item.get("type") == "support-program"]
     errors: list[str] = []
@@ -27,9 +28,13 @@ def main() -> int:
             errors.append(
                 f"{program['id']}: application_status={application_status}인데 recommendation_status={recommendation_status}"
             )
-        if application_status == "open" and recommendation_status not in OPEN_STATUSES:
+        if application_status == "open" and refresh_complete and recommendation_status not in OPEN_STATUSES:
             errors.append(
                 f"{program['id']}: application_status=open인데 recommendation_status={recommendation_status}"
+            )
+        if application_status == "open" and not refresh_complete and recommendation_status != "reference_only":
+            errors.append(
+                f"{program['id']}: 부분 수집 중 open 지원사업은 reference_only여야 합니다."
             )
     for error in errors[:20]:
         print("FAIL:", error)

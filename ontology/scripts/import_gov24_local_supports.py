@@ -23,6 +23,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from support_deadline_parser import classify_deadline, parse_application_dates
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "custom" / "gov24-local-supports.generated.json"
@@ -186,18 +188,7 @@ def detail_page_url(detail: dict[str, Any]) -> str:
     return DETAIL_URL + "?" + urllib.parse.urlencode(query)
 
 
-def parse_expiration_date(text: str) -> str | None:
-    candidates = re.findall(r"(20\d{2})[.\-/년 ]\s*(\d{1,2})[.\-/월 ]\s*(\d{1,2})", text)
-    if not candidates:
-        return None
-    year, month, day = candidates[-1]
-    try:
-        return dt.date(int(year), int(month), int(day)).isoformat()
-    except ValueError:
-        return None
-
-
-def support_status_fields(deadline_text: str, expiration_date: str | None, reviewed_at: str) -> dict[str, Any]:
+def support_status_fields(deadline_text: str, application_open_to: str | None, reviewed_at: str) -> dict[str, Any]:
     compact_deadline = deadline_text.replace(" ", "")
     if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
         return {
@@ -213,25 +204,27 @@ def support_status_fields(deadline_text: str, expiration_date: str | None, revie
             "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
             "status_confidence": "confirmed",
         }
-    if expiration_date:
-        if expiration_date < reviewed_at:
+    if application_open_to:
+        if application_open_to < reviewed_at:
             return {
                 "status": "closed",
                 "application_status": "closed",
-                "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at}보다 이전입니다.",
+                "status_reason": f"정부24 신청기한 {application_open_to}이 현재 검토일 {reviewed_at}보다 이전입니다.",
                 "status_confidence": "derived",
             }
         return {
             "status": "active",
             "application_status": "open",
-            "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {reviewed_at} 이후입니다.",
+            "status_reason": f"정부24 신청기한 {application_open_to}이 현재 검토일 {reviewed_at} 이후입니다.",
             "status_confidence": "derived",
         }
+    unknown_reason = classify_deadline(deadline_text)
     return {
         "status": "unknown",
         "application_status": "unknown",
         "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
         "status_confidence": "unverified",
+        "unknown_reason": unknown_reason,
     }
 
 
@@ -345,8 +338,8 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     description = f"{jurisdiction} 관할 지자체 지원금입니다. {intro}" if intro else f"{jurisdiction} 관할 지자체 지원금입니다."
     source_basis_dates = [f"정부24 원문 수정일 {mod_date}" if mod_date else f"정부24 원문 수집일 {collected_at}", f"수집일 {collected_at}"]
     support_type = clean_text(detail.get("sportFr"))
-    expiration_date = parse_expiration_date(deadline_text)
-    status_fields = support_status_fields(deadline_text, expiration_date, collected_at)
+    application_open_from, application_open_to = parse_application_dates(deadline_text, collected_at)
+    status_fields = support_status_fields(deadline_text, application_open_to, collected_at)
     abolition_status = {
         "active": "active",
         "closed": "sunset",
@@ -362,7 +355,7 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "description": description,
         "folder": "30_Supports/LocalGovernment",
         "basis_year": 2026,
-        "expiration_date": expiration_date,
+        "expiration_date": application_open_to,
         "reviewed_at": collected_at,
         "source_urls": list(dict.fromkeys(source_urls)),
         "source_basis_dates": list(dict.fromkeys(source_basis_dates)),
@@ -382,10 +375,15 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "source_modified_at": mod_date,
         "source_collected_at": collected_at,
         "effective_from": None,
-        "effective_to": expiration_date if status_fields["status"] == "closed" else None,
-        "application_open_from": None,
-        "application_open_to": expiration_date,
+        "effective_to": application_open_to if status_fields["status"] == "closed" else None,
+        "application_open_from": application_open_from,
+        "application_open_to": application_open_to,
         "last_verified_at": collected_at,
+        "collection_status": "collected_current",
+        "last_successful_collected_at": collected_at,
+        "current_refresh_attempted_at": collected_at,
+        "current_refresh_succeeded": True,
+        "freshness_status": "current",
         **status_fields,
         "status_check_url": status_url,
         "application_deadline_text": deadline_text,
@@ -452,13 +450,6 @@ def preserved_items_for_missing_regions(output: Path, missing_regions: set[str])
         for item in existing.get("items") or []
         if item.get("jurisdiction_code") in missing_regions
     ]
-    preserved_regions = {str(item.get("jurisdiction_code")) for item in items}
-    unavailable = missing_regions - preserved_regions
-    if unavailable:
-        raise RuntimeError(
-            "Gov24 search conditions omitted regions without a prior snapshot: "
-            + ", ".join(sorted(unavailable))
-        )
     return items
 
 
@@ -480,6 +471,18 @@ def main() -> int:
     details = collect_details(rows, workers=args.workers)
     items = [build_item(detail, args.collected_at) for detail in sorted(details, key=lambda value: int(value.get("svcSeq") or 0))]
     preserved_items = preserved_items_for_missing_regions(args.output, missing_regions)
+    preserved_regions = {str(item.get("jurisdiction_code")) for item in preserved_items}
+    for item in preserved_items:
+        item.update(
+            {
+                "collection_status": "preserved_snapshot",
+                "last_successful_collected_at": item.get("source_collected_at") or item.get("last_successful_collected_at"),
+                "current_refresh_attempted_at": args.collected_at,
+                "current_refresh_succeeded": False,
+                "freshness_status": "stale",
+                "recommendation_status": "reference_only",
+            }
+        )
     items = [*items, *preserved_items]
     payload = {
         "generated_at": args.collected_at,
@@ -489,6 +492,8 @@ def main() -> int:
         "unique_list_rows": len(rows_by_seq),
         "imported_local_support_count": len(items),
         "source_refresh_missing_regions": sorted(missing_regions),
+        "unpreserved_missing_regions": sorted(missing_regions - preserved_regions),
+        "current_refresh_complete": not missing_regions,
         "preserved_from_previous_snapshot_count": len(preserved_items),
         "items": items,
     }

@@ -2,12 +2,12 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-10T14:34:55Z",
+  "built_at": "2026-07-11T02:13:53Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-10T14:34:55Z",
+      "built_at": "2026-07-11T02:13:53Z",
       "domain_export_count": 8,
       "search_index_item_count": 21230,
       "checksum_covered_export_count": 9,
@@ -57,6 +57,13 @@
         "reference_only_products": 1004,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 649,
+        "recommendation_status_counts": {
+          "reference_only": 1004
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 649,
+          "unspecified": 355
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -84,6 +91,12 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 430
+        },
+        "recommendation_scope_counts": {
+          "unspecified": 430
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -111,6 +124,12 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 335
+        },
+        "recommendation_scope_counts": {
+          "unspecified": 335
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -133,12 +152,20 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 558,
+        "loans_missing_required_fields": 569,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 589,
-        "recommendation_candidate_products": 15,
-        "recommendation_listing_only_products": 589,
+        "reference_only_products": 593,
+        "recommendation_candidate_products": 11,
+        "recommendation_listing_only_products": 593,
+        "recommendation_status_counts": {
+          "recommendation_candidate": 11,
+          "reference_only": 593
+        },
+        "recommendation_scope_counts": {
+          "internal_verification_candidate": 11,
+          "listing_only": 593
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -166,6 +193,12 @@
         "reference_only_products": 1058,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1058,
+        "recommendation_status_counts": {
+          "reference_only": 1058
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1058
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -191,6 +224,8 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -409,7 +444,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "dc791d677257d3072847f8da9b8b7cfdbb4f3aeaf6cbb61827835a35e2c5d85e",
+    "export_checksum": "885967b5552930de6ed126fa6376e46cb5054bc99426079b02d471d4bf5eabf0",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -424,14 +459,14 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-10T14:34:55Z",
+        "built_at": "2026-07-11T02:13:53Z",
         "domain_export_count": 8,
         "search_index_item_count": 21230,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "0a90902e8f0b53ac3dc6aba272e166adfa5f16ad672ce7dbeb61cb8bb2c15752",
+      "export_checksum": "e6c02881f580cdee6b655bd0dd914135dab5f68668a2daa3b66d07239f6cd0c3",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -451,7 +486,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "53b62f19048b2e4c9ed9674364783e790bf0cb72ee36d191638b1632e1db3854",
+      "export_checksum": "8cd88f0d2d16514b9fad7d8942350e7565c0e1261fd6eb8e26818c2a3c277f66",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],
@@ -483,27 +518,39 @@
       "quality_summary": {
         "status_review_date": "2026-07-10",
         "status_counts": {
-          "active": 4629,
-          "closed": 279,
-          "unknown": 2798
+          "active": 4649,
+          "closed": 303,
+          "unknown": 2754
         },
         "application_status_counts": {
-          "closed": 279,
+          "closed": 303,
           "not_required": 102,
-          "open": 4527,
-          "unknown": 2798
+          "open": 4547,
+          "unknown": 2754
         },
         "expired_active_local_supports": 0,
-        "unknown_status_local_supports": 2798,
-        "currently_applicable_local_supports": 4629,
-        "recommendation_candidates": 4527,
-        "recommendation_reference_only": 3179,
+        "unknown_status_local_supports": 2754,
+        "unknown_reason_counts": {
+          "announcement_based": 19,
+          "budget_exhaustion": 43,
+          "date_parse_failed": 1850,
+          "preserved_snapshot": 842
+        },
+        "preserved_snapshot_local_supports": 842,
+        "currently_applicable_local_supports": 4649,
+        "recommendation_candidates": 0,
+        "recommendation_reference_only": 7706,
         "source_refresh_missing_regions": [
+          "광주광역시",
           "전라남도"
         ],
+        "unpreserved_missing_regions": [
+          "광주광역시"
+        ],
+        "current_refresh_complete": false,
         "preserved_from_previous_snapshot_count": 842
       },
-      "export_checksum": "3212341c813016242e1678e93ab2a9537f9eab48df89a2a01445dc1a4394c40b",
+      "export_checksum": "d15aa10f085c6bb59d80a08c55baabc2f1f1c0d20d56c9e0e2f43a1584de03ba",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -538,6 +585,13 @@
         "reference_only_products": 1004,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 649,
+        "recommendation_status_counts": {
+          "reference_only": 1004
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 649,
+          "unspecified": 355
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -546,7 +600,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "00238d9c30d6d033ed99ce236d25de74dcdd95ff4e208a4700fc02f18a1bfe0e",
+      "export_checksum": "f1c1bfc16856c13ca652f38a1a4196267d5f86ae06a1ef249fd804be503e687f",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -580,6 +634,12 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 430
+        },
+        "recommendation_scope_counts": {
+          "unspecified": 430
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -588,7 +648,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "152e08720e7bf1264e81848a870b9d5352b8adee4ca869f5e93262eb121e9788",
+      "export_checksum": "781689eb936e05d8444b57ef869969521eeaf6b5cbf596d2b5cec8bb08608ee5",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -622,6 +682,12 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {
+          "eligible_for_listing": 335
+        },
+        "recommendation_scope_counts": {
+          "unspecified": 335
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -630,7 +696,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6d23b2c95da357b2c058e15df3a59ddd6ff3cace58f424967ea268f25942f209",
+      "export_checksum": "e7eae0821c6adbff6f175bb82b6f3a9da48a9b8ea3f75e482b63944156281fe3",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -659,12 +725,20 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 558,
+        "loans_missing_required_fields": 569,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 589,
-        "recommendation_candidate_products": 15,
-        "recommendation_listing_only_products": 589,
+        "reference_only_products": 593,
+        "recommendation_candidate_products": 11,
+        "recommendation_listing_only_products": 593,
+        "recommendation_status_counts": {
+          "recommendation_candidate": 11,
+          "reference_only": 593
+        },
+        "recommendation_scope_counts": {
+          "internal_verification_candidate": 11,
+          "listing_only": 593
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -673,7 +747,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "a0fc569ebfffd3f73724fea623be4b4da6773beac99873d165b6ebfd718795d8",
+      "export_checksum": "de036092e4961128490286c5cb8b573f96c8c0656f65e709c41ab9a78f1f197f",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -707,6 +781,12 @@
         "reference_only_products": 1058,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1058,
+        "recommendation_status_counts": {
+          "reference_only": 1058
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 1058
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -715,7 +795,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6f3a99f068cc6488ea146abd357995286f7629cb2e60dced2d7782e8edb064ce",
+      "export_checksum": "30722a882896e0998a6494f0380d25c12375c3565db09ddc3cc99ab9e1faec8b",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -745,6 +825,8 @@
         "reference_only_products": 0,
         "recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -753,7 +835,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cf65e90fcba93bcea7bc5f402ecabe726c52c0f5986b9b1ee43fbad6b6129238",
+      "export_checksum": "da3378587120f151473fd54401144b4f43902edd96b6f71f2ee328bbfae31b00",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ]

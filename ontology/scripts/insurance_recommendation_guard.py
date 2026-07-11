@@ -62,6 +62,13 @@ def enrich_insurance_coverage(item: dict) -> None:
         criterion.setdefault("reduction_period_days", None)
         criterion.setdefault("claim_condition", None)
         criterion.setdefault("exclusion_condition", None)
+        criterion.setdefault("payment_count_limit", None)
+        criterion.setdefault("insured_age_min", None)
+        criterion.setdefault("insured_age_max", None)
+        criterion.setdefault("insurance_term", None)
+        criterion.setdefault("payment_term", None)
+        criterion.setdefault("surrender_refund_type", None)
+        criterion.setdefault("policy_detail_collection_status", "not_collected")
         criterion.setdefault("condition_source_url", source_url)
         criterion.setdefault("condition_source_locator", item.get("source_record_id"))
         missing = [
@@ -73,6 +80,12 @@ def enrich_insurance_coverage(item: dict) -> None:
                 "reduction_period_days",
                 "claim_condition",
                 "exclusion_condition",
+                "payment_count_limit",
+                "insured_age_min",
+                "insured_age_max",
+                "insurance_term",
+                "payment_term",
+                "surrender_refund_type",
             )
             if criterion.get(key) is None
         ]

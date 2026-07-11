@@ -97,9 +97,7 @@ SEARCH_REGRESSIONS = (
     },
     {
         "query": "청년 전세대출 추천",
-        "recommendation_candidates_only": True,
-        "expected_type": "bank-product",
-        "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
+        "expected_empty": True,
     },
     {"query": "전월실적 없는 체크카드 추천", "expected_empty": True},
     {"query": "보험 추천", "expected_empty": True},
@@ -337,6 +335,7 @@ def search_score(item: dict, raw_query: str) -> int:
         intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
         if (
             recommendation_status != "recommendation_candidate"
+            or item.get("recommendation_scope") == "internal_verification_candidate"
             or not matches_recommendation_domain(item, query)
             or not intent_tokens
             or not all(token in text for token in intent_tokens)
