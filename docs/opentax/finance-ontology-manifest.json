@@ -2,12 +2,12 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-11T06:39:29Z",
+  "built_at": "2026-07-11T06:50:15Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-11T06:39:29Z",
+      "built_at": "2026-07-11T06:50:15Z",
       "domain_export_count": 8,
       "search_index_item_count": 21230,
       "checksum_covered_export_count": 9,
@@ -444,7 +444,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "f3f7abf9a15eeeb433ff373c916fec256e48daabef3f5f317c94eb7e0c3d9e64",
+    "export_checksum": "0f45af54f3cccfd10648e84950a6ad5d2d57623979ec3d6aa09eedfe3e23ab72",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -459,14 +459,14 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-11T06:39:29Z",
+        "built_at": "2026-07-11T06:50:15Z",
         "domain_export_count": 8,
         "search_index_item_count": 21230,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "47d9de5a40f19eaa44f339dfb0f5b2920faddd175b07f16580f927636f7ab6fb",
+      "export_checksum": "12e12b3616427f41536d9a6eeb8d2187b06d01804458c18d3545fc95562105e6",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -486,7 +486,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "5dfc5d8fbe593dc33fcc5dcc5fd714dca5f729f37060819ae4d31c0547796aaf",
+      "export_checksum": "f1fae36878cd7a5adc6fc68cd673f59e5dba1bdff00259ae9b6307f73510beef",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],

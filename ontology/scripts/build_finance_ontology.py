@@ -2177,7 +2177,7 @@ def item_search_text(item: dict) -> str:
 
 def search_index_item(item: dict, export_id: str) -> dict:
     aliases = list(TAX_SEARCH_ALIASES.get(str(item.get("id")), ()))
-    search_text = " ".join([*aliases, item_search_text(item)]).strip()[:360]
+    search_text = " ".join([*aliases, item_search_text(item)]).strip()[:120]
     return {
         "id": item.get("id"),
         "title": item.get("title"),
