@@ -34,12 +34,11 @@ DETAIL_URL = "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitS
 SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 
-LOCAL_REGION_NAMES = (
+CURRENT_REGION_NAMES = (
     "서울특별시",
     "부산광역시",
     "대구광역시",
     "인천광역시",
-    "광주광역시",
     "대전광역시",
     "울산광역시",
     "세종특별자치시",
@@ -48,11 +47,28 @@ LOCAL_REGION_NAMES = (
     "충청북도",
     "충청남도",
     "전북특별자치도",
-    "전라남도",
+    "전남광주통합특별시",
     "경상북도",
     "경상남도",
     "제주특별자치도",
 )
+
+REGION_ALIASES = {
+    "광주광역시": "전남광주통합특별시",
+    "전라남도": "전남광주통합특별시",
+}
+REGION_TRANSITION_SOURCE = "https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=126845"
+
+
+def region_metadata(region_name: str) -> dict[str, Any]:
+    predecessors = sorted(alias for alias, current in REGION_ALIASES.items() if current == region_name)
+    return {
+        "region_code": region_name,
+        "predecessor_region_codes": predecessors,
+        "region_aliases": [region_name, *predecessors],
+        "administrative_effective_from": "2026-07-01" if predecessors else None,
+        "administrative_transition_source": REGION_TRANSITION_SOURCE if predecessors else None,
+    }
 
 REQUEST_METHOD_LABELS = {
     "00": "온라인",
@@ -98,7 +114,7 @@ def post_form(params: dict[str, str], retries: int = 3, timeout: int = 30) -> di
 
 
 def fetch_conditions() -> tuple[list[dict[str, Any]], set[str]]:
-    expected = set(LOCAL_REGION_NAMES)
+    expected = set(CURRENT_REGION_NAMES)
     last_regions: list[dict[str, Any]] = []
     last_names: set[str] = set()
     for attempt in range(3):
@@ -139,22 +155,35 @@ def fetch_list_page(region_name: str, page: int) -> dict[str, Any]:
     )
 
 
-def fetch_region_rows(region_name: str, max_pages: int | None = None, workers: int = 4) -> list[dict[str, Any]]:
+def fetch_region_rows(region_name: str, max_pages: int | None = None, workers: int = 4) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     first = fetch_list_page(region_name, 1)
     if first.get("rspCode") != "0":
         raise RuntimeError(f"Gov24 list request failed for {region_name}: {first.get('rspMsg')}")
-    total_pages = int(first.get("totalPages") or 1)
+    source_total_pages = int(first.get("totalPages") or 1)
+    total_pages = source_total_pages
     if max_pages:
         total_pages = min(total_pages, max_pages)
     rows = [dict(row, source_region=region_name) for row in first.get("benefitPbnsvcList") or []]
     if total_pages <= 1:
-        return rows
+        return rows, {
+            "region_code": region_name,
+            "source_response_status": 200,
+            "source_total_pages": source_total_pages,
+            "collected_pages": 1,
+            "list_row_count": len(rows),
+        }
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         future_map = {executor.submit(fetch_list_page, region_name, page): page for page in range(2, total_pages + 1)}
         for future in concurrent.futures.as_completed(future_map):
             data = future.result()
             rows.extend(dict(row, source_region=region_name) for row in data.get("benefitPbnsvcList") or [])
-    return rows
+    return rows, {
+        "region_code": region_name,
+        "source_response_status": 200,
+        "source_total_pages": source_total_pages,
+        "collected_pages": total_pages,
+        "list_row_count": len(rows),
+    }
 
 
 def fetch_detail(row: dict[str, Any]) -> dict[str, Any] | None:
@@ -176,7 +205,7 @@ def fetch_detail(row: dict[str, Any]) -> dict[str, Any] | None:
 
 def is_local_support(detail: dict[str, Any]) -> bool:
     jurisdiction = clean_text(detail.get("jrsdOrg"))
-    return any(region in jurisdiction for region in LOCAL_REGION_NAMES)
+    return any(region in jurisdiction for region in (*CURRENT_REGION_NAMES, *REGION_ALIASES))
 
 
 def detail_page_url(detail: dict[str, Any]) -> str:
@@ -338,6 +367,7 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     description = f"{jurisdiction} 관할 지자체 지원금입니다. {intro}" if intro else f"{jurisdiction} 관할 지자체 지원금입니다."
     source_basis_dates = [f"정부24 원문 수정일 {mod_date}" if mod_date else f"정부24 원문 수집일 {collected_at}", f"수집일 {collected_at}"]
     support_type = clean_text(detail.get("sportFr"))
+    regional_metadata = region_metadata(clean_text(detail.get("source_region")))
     application_open_from, application_open_to = parse_application_dates(deadline_text, collected_at)
     status_fields = support_status_fields(deadline_text, application_open_to, collected_at)
     abolition_status = {
@@ -368,7 +398,11 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "criteria": build_criteria(detail),
         "tags": tags,
         "jurisdiction": jurisdiction,
-        "jurisdiction_code": clean_text(detail.get("source_region")),
+        "jurisdiction_code": regional_metadata["region_code"],
+        "jurisdiction_predecessor_codes": regional_metadata["predecessor_region_codes"],
+        "jurisdiction_aliases": regional_metadata["region_aliases"],
+        "administrative_effective_from": regional_metadata["administrative_effective_from"],
+        "administrative_transition_source": regional_metadata["administrative_transition_source"],
         "gov24_service_id": service_id,
         "gov24_service_seq": service_seq,
         "source_record_id": service_seq,
@@ -396,24 +430,27 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     }
 
 
-def collect_rows(regions: list[dict[str, Any]], max_pages: int | None, limit: int | None = None, list_workers: int = 4) -> dict[str, dict[str, Any]]:
+def collect_rows(regions: list[dict[str, Any]], max_pages: int | None, limit: int | None = None, list_workers: int = 4) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
     rows_by_seq: dict[str, dict[str, Any]] = {}
+    collection_evidence: list[dict[str, Any]] = []
     for region in regions:
         region_name = region["cdNm"]
         region_max_pages = max_pages
         if limit:
             remaining = max(limit - len(rows_by_seq), 0)
             if remaining == 0:
-                return rows_by_seq
+                return rows_by_seq, collection_evidence
             needed_pages = max(1, (remaining + 9) // 10)
             region_max_pages = min(region_max_pages, needed_pages) if region_max_pages else needed_pages
-        for row in fetch_region_rows(region_name, max_pages=region_max_pages, workers=list_workers):
+        region_rows, evidence = fetch_region_rows(region_name, max_pages=region_max_pages, workers=list_workers)
+        collection_evidence.append({**region_metadata(region_name), **evidence})
+        for row in region_rows:
             service_seq = str(row.get("svcSeq") or "")
             if service_seq and service_seq not in rows_by_seq:
                 rows_by_seq[service_seq] = row
                 if limit and len(rows_by_seq) >= limit:
-                    return rows_by_seq
-    return rows_by_seq
+                    return rows_by_seq, collection_evidence
+    return rows_by_seq, collection_evidence
 
 
 def collect_details(rows: list[dict[str, Any]], workers: int) -> list[dict[str, Any]]:
@@ -466,7 +503,7 @@ def main() -> int:
     regions, missing_regions = fetch_conditions()
     if not regions:
         raise RuntimeError("No Gov24 region filters returned.")
-    rows_by_seq = collect_rows(regions, max_pages=args.max_pages_per_region, limit=args.limit, list_workers=args.list_workers)
+    rows_by_seq, collection_evidence = collect_rows(regions, max_pages=args.max_pages_per_region, limit=args.limit, list_workers=args.list_workers)
     rows = sorted(rows_by_seq.values(), key=lambda row: int(row.get("svcSeq") or 0))
     details = collect_details(rows, workers=args.workers)
     items = [build_item(detail, args.collected_at) for detail in sorted(details, key=lambda value: int(value.get("svcSeq") or 0))]
@@ -495,6 +532,7 @@ def main() -> int:
         "unpreserved_missing_regions": sorted(missing_regions - preserved_regions),
         "current_refresh_complete": not missing_regions,
         "preserved_from_previous_snapshot_count": len(preserved_items),
+        "region_collection_evidence": collection_evidence,
         "items": items,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

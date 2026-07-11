@@ -418,8 +418,8 @@ def validate_local_government_support_split(items: dict[str, dict], errors: list
     require(payload.get("current_refresh_complete") is (not bool(missing_regions)), "local support export refresh completeness is inconsistent", errors)
     if missing_regions:
         require(
-            quality.get("recommendation_candidates") == 0,
-            "local support export with missing regions cannot expose recommendation candidates",
+            quality.get("eligible_for_listing") == 0,
+            "local support export with missing regions cannot expose listing-eligible supports",
             errors,
         )
     local_by_id = {item["id"]: item for item in local_items if isinstance(item, dict) and item.get("id")}

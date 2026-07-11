@@ -326,7 +326,7 @@ def normalize_loan_product(item: dict) -> None:
         item["status_reason"] = "대출 비교·추천에 필요한 criteria가 비어 있어 참조 전용으로만 노출합니다."
         item["quality_flags"] = unique([*(item.get("quality_flags") or []), "missing_loan_criteria"])
     if is_recommendation_ready_loan(item):
-        item["recommendation_status"] = "recommendation_candidate"
+        item["recommendation_status"] = "manual_review_candidate"
         item["recommendation_scope"] = "internal_verification_candidate"
         item["recommendation_basis_fields"] = list(LOAN_REQUIRED_FIELDS)
         item["recommendation_exclusion_reasons"] = [

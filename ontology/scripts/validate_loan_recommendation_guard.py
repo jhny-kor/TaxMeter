@@ -27,8 +27,8 @@ def main() -> int:
         is_candidate = is_recommendation_ready_loan(loan)
         if is_candidate:
             candidate_count += 1
-            if loan.get("recommendation_status") != "recommendation_candidate":
-                errors.append(f"{loan['id']}: 필수 필드가 완전한 active 대출이 recommendation_candidate가 아닙니다.")
+            if loan.get("recommendation_status") != "manual_review_candidate":
+                errors.append(f"{loan['id']}: 필수 필드가 완전한 active 대출이 manual_review_candidate가 아닙니다.")
             if loan.get("recommendation_scope") != "internal_verification_candidate":
                 errors.append(f"{loan['id']}: 검증 후보의 recommendation_scope가 internal_verification_candidate가 아닙니다.")
             if "incomplete_loan_required_fields" in reasons:
@@ -52,7 +52,7 @@ def main() -> int:
     if candidate_count == 0:
         print("FAILED: no recommendation-ready loan candidates")
         return 1
-    print(f"OK: {candidate_count} recommendation candidates; {len(loans) - candidate_count} loans remain reference_only")
+    print(f"OK: {candidate_count} manual review candidates; {len(loans) - candidate_count} loans remain reference_only")
     return 0
 
 

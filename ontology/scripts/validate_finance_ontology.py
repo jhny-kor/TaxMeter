@@ -334,7 +334,7 @@ def search_score(item: dict, raw_query: str) -> int:
     if RECOMMENDATION_QUERY_RE.search(query):
         intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
         if (
-            recommendation_status != "recommendation_candidate"
+            recommendation_status != "verified_recommendation_candidate"
             or item.get("recommendation_scope") == "internal_verification_candidate"
             or not matches_recommendation_domain(item, query)
             or not intent_tokens
@@ -411,8 +411,8 @@ def validate_search_regressions(errors: list[str]) -> None:
                 and (item.get("status") == "closed" or item.get("application_status") == "closed")
             ]
             require(not closed, f"search regression '{query}' returned closed supports: {closed}", errors)
-        if regression.get("recommendation_candidates_only"):
-            unsafe = [item.get("id") for item in results if item.get("recommendation_status") != "recommendation_candidate"]
+        if regression.get("verified_recommendation_candidates_only"):
+            unsafe = [item.get("id") for item in results if item.get("recommendation_status") != "verified_recommendation_candidate"]
             intent_tokens = [token for token in query_tokens(query) if not RECOMMENDATION_QUERY_RE.search(token)]
             irrelevant = [item.get("id") for item in results if not all(token in search_text(item) for token in intent_tokens)]
             require(not unsafe, f"search regression '{query}' returned non-candidates: {unsafe}", errors)

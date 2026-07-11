@@ -1,6 +1,6 @@
 # OpenFin 금융정보 온톨로지 2026
 
-기준일: 2026-07-10 (금융상품·지원사업 상태 검토일)
+기준일: 2026-07-11 (정부24 지원사업 재수집일, 금융상품 상태 검토일은 2026-07-10)
 
 OpenFin은 세금(OpenTax), 지자체 지원금, 카드·은행·보험 금융상품, 금융
 기준정보를 하나의 노드 스키마로 통합한 금융정보 온톨로지다. 원본 정의와
@@ -27,11 +27,11 @@ export와 `ontology/vault/`의 Obsidian 노트로 나온다. 이 문서는 현�
 | 도메인 | export | 항목 | 상품 | 비고 |
 | --- | --- | ---: | ---: | --- |
 | 세금 | korea-tax-ontology | 374 | - | OpenTax vault 378노트와 동기 |
-| 지자체 지원금 | korea-local-government-supports | 7,706 | - | active 4,629 / closed 279 / unknown 2,798; 전라남도 842건 stale/reference_only |
+| 지자체 지원금 | korea-local-government-supports | 7,709 | - | active 5,224 / closed 342 / unknown 2,143; 전남광주통합특별시 844건 current, 과거 지역명 검색 별칭 유지 |
 | 카드 | korea-card-products | 1,027 | 1,004 | active 649, 전 상품 reference_only |
 | 예금 팩 | korea-deposit-products | 474 | 430 | 정기예금 금리·우대조건 |
 | 적금 팩 | korea-saving-products | 379 | 335 | 적립방식·기간별 금리 |
-| 대출 팩 | korea-loan-products | 648 | 604 | 15개만 조건·기간·한도 정규화 통과 후보, 나머지는 reference_only |
+| 대출 팩 | korea-loan-products | 648 | 604 | 11개는 필수 조건·기간·한도 정규화 완료했으나 manual_review_candidate, 나머지는 reference_only |
 | 보험 | korea-insurance-products | 1,076 | 1,058 | 전건 reference_only, KLIA 공시 리스트 기반 |
 | 기준정보 | korea-finance-reference | 9,651 | 0 | 예금자보호 레지스트리 9,380 + provider 216 + 기준금리·리스크 신호 |
 | 검색 인덱스 | finance-search-index | 21,230 | - | MCP search 전용 경량 인덱스 |
@@ -53,6 +53,9 @@ finance-reference에 재배치했다. 이어서 기존 은행 export를 예금/�
 - 출처 리스크 추적: `source_access_risks`에 403·키미비 출처를 상태별 기록,
   데이터를 지어내지 않고 대기 처리.
 - provenance: 전 상품 `source_urls`, `source_basis_dates`, `source_api`, `raw` 보존.
+- 배포 상태: 품질 manifest의 `release_status`, `degraded_domains`, `blocking_reasons`으로
+  지역 원천 누락과 검색 회귀를 배포 게이트로 기록한다. 공개 추천은
+  `verified_recommendation_candidate`만 허용한다.
 
 검증 명령:
 
@@ -67,8 +70,8 @@ python3 ontology/scripts/validate_ontology.py
 | --- | --- | --- | --- |
 | 1 | 보험 담보(coverage) 깊이 부족 | 1,058/1,058 incomplete | KLIA 공시실 리스트 표만 수집(상품명·보험료·갱신). 담보별 금액·면책·감액 없음. 실손·변액 API는 403 대기 |
 | 2 | 보험 도메인 오분류 | 18건 | 보험사 대출상품(상업용부동산담보대출, SOHO운영자금대출 등)이 insurance-product로 들어감. product_kind 재판정 필요 |
-| 3 | 대출 필수 조건 부족 | 558건 reference_only, active criteria 공백 4건 | 금리·한도·상환방식·대상·담보조건 중 하나라도 불명확하면 추천 후보에서 제외 |
-| 4 | 지자체 지원금 상태 unknown | 2,798건 | 정부24 원본에 신청기간 정보가 없거나 전라남도 842건이 이전 스냅샷 보존분. 모두 reference_only |
+| 3 | 대출 필수 조건 부족 | 593건 reference_only, active criteria 공백 4건 | 금리·한도·상환방식·대상·담보조건 중 하나라도 불명확하면 추천에서 제외; 11건은 내부 수동검토 후보 |
+| 4 | 지자체 지원금 상태 unknown | 2,143건 | 정부24 원문에 신청기간 정보가 없거나 날짜 해석 불가. 모두 reference_only |
 | 5 | 카드 혜택 조건 불완전 | 123건 / 전 상품 reference_only | 공시 텍스트 파싱 한계. 조건 정규화 규칙 추가 여지 |
 | 6 | provider 레지스트리가 문자열 기반 | 216 노드 | 상품 provider 문자열 해시로 생성. FSC 금융회사 API로 공식 코드·주소·상태 매칭 필요 |
 | 7 | 그래프 소스 노트 홈 폴더 임의성 | - | 공유 출처 노드가 특정 도메인 폴더에 생성돼 교차 링크됨. 링크는 정상, 표시상 문제 |
@@ -116,8 +119,8 @@ python3 ontology/scripts/materialize_finance_graph_vault.py  # 그래프 vault �
 
 1. 실손·변액 403 해소 후 보험 담보 보강 — 보완 #1이 최대 품질 갭.
 2. 보험 오분류 18건 재판정 규칙 추가 (`대출` 키워드 + 담보 부재 → 별도 분류).
-3. 대출 필수 조건 부족 558건과 active criteria 공백 4건은 reference_only를
-   유지하고, 재수집·정규화가 끝난 항목만 recommendation_candidate로 승격.
+3. 대출 필수 조건 부족 593건과 active criteria 공백 4건은 reference_only를
+   유지하고, 재수집·정규화가 끝난 항목도 먼저 manual_review_candidate로 분류한다.
 4. BOK ECOS 키 확보로 기준금리 실값 주입 — 상품 금리 비교의 기준선.
 
 ### 중기

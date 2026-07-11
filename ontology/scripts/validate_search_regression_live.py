@@ -181,7 +181,7 @@ def main() -> int:
             results = client.search(query, None, limit=10)
             actual_id = results[0]["id"] if results else None
             candidate_only = bool(results) and all(
-                item.get("recommendation_status") == "recommendation_candidate"
+                item.get("recommendation_status") == "verified_recommendation_candidate"
                 for item in results
             )
             expected_type_present = any(item.get("type") == expected_type for item in results)
@@ -200,11 +200,11 @@ def main() -> int:
         test = {
             "query": query,
             "type": None,
-            "validation_kind": "recommendation_candidate_only",
+            "validation_kind": "verified_recommendation_candidate_only",
             "expected_top_id": expected_id,
             "actual_top_id": actual_id,
             "passed": passed,
-            "recommendation_candidates_only": candidate_only,
+            "verified_recommendation_candidates_only": candidate_only,
         }
         if error_text:
             test["error"] = error_text

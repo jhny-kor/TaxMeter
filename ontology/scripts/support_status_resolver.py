@@ -1,6 +1,6 @@
 """지원사업 신청 상태 → 추천 상태 매핑과 export 후처리.
 
-application_status=open and current source data → recommendation_candidate (추천 후보)
+application_status=open and current source data → eligible_for_listing (목록·비교 가능)
 application_status=closed/unknown → reference_only (조회 전용, 추천 제외)
 
 generate_vault.py의 지원사업 enrich 단계가 이 매핑을 사용하고,
@@ -16,8 +16,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 SUPPORT_EXPORT = REPO_ROOT / "ontology/exports/korea-local-government-supports-ontology-2026.json"
 
 STATUS_TO_RECOMMENDATION = {
-    "open": "recommendation_candidate",
-    "active": "recommendation_candidate",
+    "open": "eligible_for_listing",
+    "active": "eligible_for_listing",
     "closed": "reference_only",
     "not_required": "reference_only",
     "unknown": "reference_only",
@@ -43,7 +43,7 @@ def main() -> int:
     payload = json.loads(SUPPORT_EXPORT.read_text(encoding="utf-8"))
     payload.pop("export_checksum", None)
     changed = 0
-    counts = {"recommendation_candidate": 0, "reference_only": 0}
+    counts = {"eligible_for_listing": 0, "reference_only": 0}
     for item in [*(payload.get("reference_items") or []), *(payload.get("items") or [])]:
         if item.get("type") != "support-program":
             continue
@@ -58,11 +58,11 @@ def main() -> int:
         counts[resolved] = counts.get(resolved, 0) + 1
     summary = payload.get("quality_summary")
     if isinstance(summary, dict):
-        summary["recommendation_candidates"] = counts.get("recommendation_candidate", 0)
+        summary["eligible_for_listing"] = counts.get("eligible_for_listing", 0)
         summary["recommendation_reference_only"] = counts.get("reference_only", 0)
     payload["export_checksum"] = payload_checksum(payload)
     SUPPORT_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    print(f"OK: {changed} programs updated (candidate={counts.get('recommendation_candidate', 0)}, reference_only={counts.get('reference_only', 0)})")
+    print(f"OK: {changed} programs updated (listing={counts.get('eligible_for_listing', 0)}, reference_only={counts.get('reference_only', 0)})")
     return 0
 
 

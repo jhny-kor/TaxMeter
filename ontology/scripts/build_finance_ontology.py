@@ -101,7 +101,7 @@ OPERATING_POLICY = {
         "deposit_and_saving_rate_lookup",
         "loan_disclosure_reference_lookup",
         "loan_required_field_candidate_matching",
-        "recommendation_candidate_search",
+        "verified_recommendation_search",
         "insurance_representative_coverage_and_premium_lookup",
         "card_benefit_text_lookup",
         "local_support_open_status_assistance",
@@ -119,9 +119,9 @@ OPERATING_POLICY = {
         "tax": "description_lookup_only",
         "deposit-products": "rate_listing_allowed",
         "saving-products": "rate_listing_allowed",
-        "local-government-supports": "only_application_status_open_can_be_a_candidate",
+        "local-government-supports": "open_status_is_eligible_for_listing_until_final_eligibility_is_verified",
         "card-products": "benefit_text_lookup_only_until_conditions_are_complete",
-        "loan-products": "recommendation_candidate_only_when_active_and_all_required_fields_are_complete",
+        "loan-products": "manual_review_candidate_only_when_active_and_all_required_fields_are_complete",
         "insurance-products": "reference_only_when_coverage_conditions_are_incomplete",
     },
 }
@@ -2007,7 +2007,8 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         ),
         "stale_disclosure_products": stale_count,
         "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
-        "recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "recommendation_candidate"),
+        "manual_review_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "manual_review_candidate"),
+        "verified_recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "verified_recommendation_candidate"),
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "recommendation_status_counts": dict(sorted(recommendation_status_counts.items())),
         "recommendation_scope_counts": dict(sorted(recommendation_scope_counts.items())),
@@ -2158,6 +2159,7 @@ def item_search_text(item: dict) -> str:
         "application_open_to",
         "jurisdiction",
         "jurisdiction_code",
+        "jurisdiction_aliases",
         "freshness_status",
         "collection_status",
     ):
@@ -2176,7 +2178,10 @@ def item_search_text(item: dict) -> str:
 
 
 def search_index_item(item: dict, export_id: str) -> dict:
-    aliases = list(TAX_SEARCH_ALIASES.get(str(item.get("id")), ()))
+    aliases = unique([
+        *TAX_SEARCH_ALIASES.get(str(item.get("id")), ()),
+        *(str(alias) for alias in item.get("jurisdiction_aliases") or []),
+    ])
     search_text = " ".join([*aliases, item_search_text(item)]).strip()[:120]
     return {
         "id": item.get("id"),
@@ -2198,6 +2203,7 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "application_open_to": item.get("application_open_to"),
         "jurisdiction": item.get("jurisdiction"),
         "jurisdiction_code": item.get("jurisdiction_code"),
+        "jurisdiction_aliases": item.get("jurisdiction_aliases") or [],
         "freshness_status": item.get("freshness_status"),
         "collection_status": item.get("collection_status"),
         "search_aliases": aliases,
@@ -2244,7 +2250,7 @@ def score_search_index_item(item: dict, query: str) -> int:
     if RECOMMENDATION_QUERY_RE.search(normalized_query):
         intent_tokens = [token for token in tokens if not RECOMMENDATION_QUERY_RE.search(token)]
         if (
-            recommendation_status != "recommendation_candidate"
+            recommendation_status != "verified_recommendation_candidate"
             or item.get("recommendation_scope") == "internal_verification_candidate"
             or not matches_recommendation_domain(item_type, search_type, normalized_query)
             or not intent_tokens
@@ -2459,9 +2465,9 @@ def write_search_regression_report() -> dict:
             "actual_top_id": results[0].get("id") if results else None,
             "passed": bool(results)
             and results[0].get("id") == regression["expected_top_id"]
-            and all(item.get("recommendation_status") == "recommendation_candidate" for item in results)
+            and all(item.get("recommendation_status") == "verified_recommendation_candidate" for item in results)
             and any(item.get("type") == regression["expected_type"] for item in results),
-            "recommendation_candidates_only": True,
+            "verified_recommendation_candidates_only": True,
             "top_results": results[:5],
         })
     for regression in BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS:
@@ -2563,6 +2569,31 @@ def existing_export_count(path: Path) -> int:
     return int(payload.get("item_count") or len(payload.get("items") or []))
 
 
+def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
+    blocked_domains: set[str] = set()
+    blocking_reasons: list[str] = []
+    for summary in domain_summaries:
+        domain = str(summary.get("domain") or "unknown")
+        quality = summary.get("quality_summary") or {}
+        missing_regions = quality.get("unpreserved_missing_regions") or []
+        if missing_regions:
+            blocked_domains.add(domain)
+            blocking_reasons.extend(f"unpreserved region: {region}" for region in missing_regions)
+        if domain == "local-government-supports" and quality.get("current_refresh_complete") is not True:
+            blocked_domains.add(domain)
+            blocking_reasons.append("current refresh incomplete")
+    if search_report.get("failed_count"):
+        blocked_domains.add("search")
+        blocking_reasons.append("search regression failed")
+    return {
+        "release_status": "degraded" if blocking_reasons else "ready",
+        "recommendation_enabled": False,
+        "degraded_domains": sorted(blocked_domains),
+        "blocking_reasons": sorted(set(blocking_reasons)),
+        "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
+    }
+
+
 def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
     exports = manifest.get("exports") or []
     previous_quality = (
@@ -2570,28 +2601,30 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         if QUALITY_MANIFEST_EXPORT.exists()
         else {}
     )
+    domain_summaries = [
+        {
+            "id": entry.get("id"),
+            "domain": entry.get("domain"),
+            "item_count": entry.get("item_count"),
+            "product_count": entry.get("product_count"),
+            "quality_summary": entry.get("quality_summary") or {},
+            "export_checksum": entry.get("export_checksum"),
+        }
+        for entry in exports
+    ]
     payload = {
         "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "built_at": manifest.get("built_at"),
         "ontology_kind": "openfin-quality-manifest",
-        "domain_summaries": [
-            {
-                "id": entry.get("id"),
-                "domain": entry.get("domain"),
-                "item_count": entry.get("item_count"),
-                "product_count": entry.get("product_count"),
-                "quality_summary": entry.get("quality_summary") or {},
-                "export_checksum": entry.get("export_checksum"),
-            }
-            for entry in exports
-        ],
+        "domain_summaries": domain_summaries,
         "search_regression_report": search_report,
         "source_access_risks": manifest.get("source_access_risks") or [],
         "api_required_sources": manifest.get("api_required_sources") or [],
         "export_audit": (manifest.get("quality_summary") or {}).get("export_audit") or {},
         "operating_policy": manifest.get("operating_policy") or {},
+        **release_policy(domain_summaries, search_report),
     }
     previous_live = previous_quality.get("live_search_regression") or {}
     current_search_checksum = (manifest.get("search_index") or {}).get("export_checksum")

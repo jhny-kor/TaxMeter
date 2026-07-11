@@ -106,8 +106,8 @@ def apply_insurance_recommendation_guard(item: dict) -> None:
         for criterion in coverage_criteria
     )
     if item.get("status") == "active" and coverage_criteria and not incomplete:
-        item["recommendation_status"] = "recommendation_candidate"
-        item["recommendation_scope"] = "criteria_match_only"
+        item["recommendation_status"] = "manual_review_candidate"
+        item["recommendation_scope"] = "internal_verification_candidate"
         return
     item["recommendation_scope"] = "listing_only"
     item["recommendation_exclusion_reasons"] = sorted({

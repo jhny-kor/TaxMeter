@@ -40,6 +40,7 @@ type FinanceItem = {
   application_open_to?: string;
   jurisdiction?: string;
   jurisdiction_code?: string;
+  jurisdiction_aliases?: string[];
   freshness_status?: string;
   collection_status?: string;
   export_id?: string;
@@ -241,6 +242,7 @@ function itemSearchText(item: FinanceItem): string {
     item.application_open_to,
     item.jurisdiction,
     item.jurisdiction_code,
+    ...(item.jurisdiction_aliases ?? []),
     item.freshness_status,
     item.collection_status,
     structuredSearchText(item.criteria),
@@ -290,13 +292,14 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolea
     equals(item.application_status, filters.applicationStatus) &&
     equals(item.provider, filters.provider) &&
     equals(item.freshness_status, filters.freshnessStatus) &&
-    (!region || normalizeQuery(item.jurisdiction ?? item.jurisdiction_code ?? "").includes(region))
+    (!region || [item.jurisdiction, item.jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
+      .some((value) => normalizeQuery(value ?? "").includes(region)))
   );
 }
 
 function isRecommendationSearchEligible(item: FinanceItem): boolean {
   return (
-    normalizeQuery(item.recommendation_status ?? "") === "recommendation_candidate" &&
+    normalizeQuery(item.recommendation_status ?? "") === "verified_recommendation_candidate" &&
     item.recommendation_scope !== "internal_verification_candidate"
   );
 }
@@ -526,7 +529,7 @@ function createServer(env: Env): McpServer {
     {
       title: "Search Finance Ontology",
       description:
-        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Recommendation wording returns only recommendation_candidate nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
+        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Recommendation wording returns only verified_recommendation_candidate nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
       inputSchema: {
         query: z.string().min(1).describe("Search query, for example '보험료 공제 한도', '청년 월세', '체크카드 전월실적', or 'bank-products'."),
         type: z
@@ -535,7 +538,7 @@ function createServer(env: Env): McpServer {
           .describe("Optional ontology item type filter, for example 'tax', 'support-program', 'card-product', 'bank-product', or 'insurance-product'. 'tax' also matches tax-credit, deduction, and other tax decision types."),
         search_type: z.string().optional().describe("Optional product search-type filter, for example 'loan', 'deposit', or 'saving'."),
         product_kind: z.string().optional().describe("Optional product-kind filter, for example 'policy-loan'."),
-        recommendation_status: z.string().optional().describe("Optional recommendation-state filter. Internal loan verification candidates are never returned for recommendation wording."),
+        recommendation_status: z.string().optional().describe("Optional recommendation-state filter. manual_review_candidate records are internal-only and recommendation wording returns only verified_recommendation_candidate records."),
         sales_status: z.string().optional().describe("Optional sales-state filter, for example 'active'."),
         application_status: z.string().optional().describe("Optional support application-state filter, for example 'open'."),
         provider: z.string().optional().describe("Optional exact provider filter."),

@@ -76,7 +76,7 @@ def main() -> int:
             errors.append(f"{product['id']}: 핵심 조건 미비인데 recommendation_status={product.get('recommendation_status')}입니다.")
         if product.get("recommendation_scope") != "listing_only":
             errors.append(f"{product['id']}: 핵심 조건 미비인데 recommendation_scope={product.get('recommendation_scope')}")
-        if product.get("recommendation_status") == "recommendation_candidate":
+        if product.get("recommendation_status") in {"manual_review_candidate", "verified_recommendation_candidate"}:
             errors.append(f"{product['id']}: 약관 핵심 조건 미비 보험이 추천 후보로 열렸습니다.")
     for error in errors[:20]:
         print("FAIL:", error)
