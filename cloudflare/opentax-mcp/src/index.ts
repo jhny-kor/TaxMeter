@@ -181,6 +181,37 @@ const SEARCH_TYPE_GROUPS: Record<string, Set<string>> = {
   "tax-rule": new Set(["eligibility-rule"]),
 };
 
+const TAX_INTENT_RE = /(세액공제|소득공제|연말정산|원천징수|종합소득세|부가가치세|법인세|교육비|의료비|월세|연금계좌)/;
+
+function inferredTypesForQuery(query: string): Set<string> | null {
+  if (TAX_INTENT_RE.test(query)) {
+    return SEARCH_TYPE_GROUPS.tax;
+  }
+  if (query.includes("보험")) {
+    return new Set(["insurance-product"]);
+  }
+  if (["카드", "체크카드", "신용카드"].some((token) => query.includes(token))) {
+    return new Set(["card-product"]);
+  }
+  return null;
+}
+
+function inferredSearchTypeForQuery(query: string): string | undefined {
+  if (TAX_INTENT_RE.test(query)) {
+    return undefined;
+  }
+  if (query.includes("정기예금") || query.includes("예금")) {
+    return "deposit";
+  }
+  if (query.includes("적금")) {
+    return "saving";
+  }
+  if (query.includes("대출")) {
+    return "loan";
+  }
+  return undefined;
+}
+
 function itemSearchText(item: FinanceItem): string {
   if (item.search_text) {
     return item.search_text.toLocaleLowerCase("ko-KR");
@@ -281,8 +312,6 @@ function scoreItem(item: FinanceItem, query: string): number {
   const status = normalizeQuery(item.status ?? item.product_status ?? "");
   const recommendationStatus = normalizeQuery(item.recommendation_status ?? "");
   const applicationStatus = normalizeQuery(item.application_status ?? "");
-  const text = itemSearchText(item);
-  const aliases = (item.search_aliases ?? []).map((alias) => normalizeQuery(alias));
   const tokens = queryTokens(query);
   const titleTokens = queryTokens(normalizedTitle);
   const rateIntent = RATE_QUERY_RE.test(query);
@@ -295,8 +324,7 @@ function scoreItem(item: FinanceItem, query: string): number {
     if (
       !isRecommendationSearchEligible(item) ||
       !matchesRecommendationDomain(item, query, searchType) ||
-      !intentTokens.length ||
-      !intentTokens.every((token) => text.includes(token))
+      !intentTokens.length
     ) {
       return 0;
     }
@@ -309,7 +337,15 @@ function scoreItem(item: FinanceItem, query: string): number {
     return 0;
   }
 
+  const text = itemSearchText(item);
+  if (RECOMMENDATION_QUERY_RE.test(query)) {
+    const intentTokens = tokens.filter((token) => !RECOMMENDATION_QUERY_RE.test(token));
+    if (!intentTokens.every((token) => text.includes(token))) {
+      return 0;
+    }
+  }
   let score = 0;
+  const aliases = (item.search_aliases ?? []).map((alias) => normalizeQuery(alias));
   if (aliases.includes(query)) {
     score = 95;
   } else if (normalizedId === query || normalizedTitle === query) {
@@ -517,9 +553,9 @@ function createServer(env: Env): McpServer {
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
 
-      const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : null;
+      const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
       const filters: SearchFilters = {
-        searchType: search_type,
+        searchType: search_type ?? inferredSearchTypeForQuery(normalizedQuery),
         productKind: product_kind,
         recommendationStatus: recommendation_status,
         salesStatus: sales_status,

@@ -28,21 +28,21 @@
           "score": 76
         },
         {
-          "id": "credit.special-tax",
-          "title": "특별세액공제",
-          "type": "tax-credit",
-          "score": 64
-        },
-        {
           "id": "credit.education-expense",
           "title": "교육비 세액공제",
           "type": "tax-credit",
-          "score": 63
+          "score": 62
         },
         {
-          "id": "deduction.other-income",
-          "title": "그 밖의 소득공제",
-          "type": "deduction",
+          "id": "credit.donation",
+          "title": "기부금 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.pension-account",
+          "title": "연금계좌 세액공제",
+          "type": "tax-credit",
           "score": 62
         }
       ]
@@ -67,21 +67,21 @@
           "score": 76
         },
         {
-          "id": "credit.special-tax",
-          "title": "특별세액공제",
-          "type": "tax-credit",
-          "score": 64
-        },
-        {
           "id": "credit.education-expense",
           "title": "교육비 세액공제",
           "type": "tax-credit",
-          "score": 63
+          "score": 62
         },
         {
-          "id": "deduction.other-income",
-          "title": "그 밖의 소득공제",
-          "type": "deduction",
+          "id": "credit.donation",
+          "title": "기부금 세액공제",
+          "type": "tax-credit",
+          "score": 62
+        },
+        {
+          "id": "credit.pension-account",
+          "title": "연금계좌 세액공제",
+          "type": "tax-credit",
           "score": 62
         }
       ]
@@ -178,18 +178,6 @@
           "score": 95
         },
         {
-          "id": "credit.insurance-premium",
-          "title": "보험료 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
-          "id": "credit.monthly-rent",
-          "title": "월세액 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
           "id": "credit.medical-expense",
           "title": "의료비 세액공제",
           "type": "tax-credit",
@@ -200,6 +188,18 @@
           "title": "통합고용세액공제",
           "type": "tax-credit",
           "score": 62
+        },
+        {
+          "id": "source.nts.education-expense-credit",
+          "title": "교육비 세액공제",
+          "type": "source",
+          "score": 37
+        },
+        {
+          "id": "category.tax-credits",
+          "title": "세액공제",
+          "type": "category",
+          "score": 36
         }
       ]
     },
@@ -217,18 +217,6 @@
           "score": 95
         },
         {
-          "id": "credit.insurance-premium",
-          "title": "보험료 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
-          "id": "credit.monthly-rent",
-          "title": "월세액 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
           "id": "credit.medical-expense",
           "title": "의료비 세액공제",
           "type": "tax-credit",
@@ -239,6 +227,18 @@
           "title": "통합고용세액공제",
           "type": "tax-credit",
           "score": 62
+        },
+        {
+          "id": "required-document.education-payment-certificate",
+          "title": "교육비 납입증명서",
+          "type": "required-document",
+          "score": 12
+        },
+        {
+          "id": "eligibility-rule.education-dependent-type",
+          "title": "교육비 대상자 구분",
+          "type": "eligibility-rule",
+          "score": 12
         }
       ]
     },
@@ -256,28 +256,28 @@
           "score": 95
         },
         {
-          "id": "credit.education-expense",
-          "title": "교육비 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
-          "id": "credit.earned-income",
-          "title": "근로소득 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
           "id": "credit.donation",
           "title": "기부금 세액공제",
           "type": "tax-credit",
           "score": 62
         },
         {
-          "id": "credit.foreign-tax-paid",
-          "title": "외국납부세액공제",
+          "id": "credit.medical-expense",
+          "title": "의료비 세액공제",
           "type": "tax-credit",
           "score": 62
+        },
+        {
+          "id": "category.tax-credits",
+          "title": "세액공제",
+          "type": "category",
+          "score": 36
+        },
+        {
+          "id": "term.tax-credit",
+          "title": "세액공제",
+          "type": "term",
+          "score": 36
         }
       ]
     },
@@ -295,28 +295,28 @@
           "score": 95
         },
         {
-          "id": "credit.education-expense",
-          "title": "교육비 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
-          "id": "credit.earned-income",
-          "title": "근로소득 세액공제",
-          "type": "tax-credit",
-          "score": 62
-        },
-        {
           "id": "credit.donation",
           "title": "기부금 세액공제",
           "type": "tax-credit",
           "score": 62
         },
         {
-          "id": "credit.foreign-tax-paid",
-          "title": "외국납부세액공제",
+          "id": "credit.medical-expense",
+          "title": "의료비 세액공제",
           "type": "tax-credit",
           "score": 62
+        },
+        {
+          "id": "deduction.personal-pension-savings",
+          "title": "개인연금저축 소득공제",
+          "type": "deduction",
+          "score": 11
+        },
+        {
+          "id": "required-document.education-payment-certificate",
+          "title": "교육비 납입증명서",
+          "type": "required-document",
+          "score": 11
         }
       ]
     },
@@ -334,28 +334,28 @@
           "score": 95
         },
         {
-          "id": "deduction.other-income",
-          "title": "그 밖의 소득공제",
-          "type": "deduction",
-          "score": 62
+          "id": "category.income-deductions",
+          "title": "소득공제",
+          "type": "category",
+          "score": 36
         },
         {
-          "id": "deduction.long-term-fund",
-          "title": "장기집합투자증권저축",
-          "type": "deduction",
-          "score": 62
+          "id": "term.income-deduction",
+          "title": "소득공제",
+          "type": "term",
+          "score": 36
         },
         {
-          "id": "deduction.housing-savings",
-          "title": "주택마련저축",
-          "type": "deduction",
-          "score": 62
+          "id": "source.nts.year-end-settlement.deduction-limit",
+          "title": "근로소득 과세표준과 산출세액",
+          "type": "source",
+          "score": 12
         },
         {
-          "id": "deduction.youth-long-term-fund",
-          "title": "청년형 장기집합투자증권저축",
-          "type": "deduction",
-          "score": 62
+          "id": "term.card.short-term-card-loan",
+          "title": "단기카드대출(현금서비스)",
+          "type": "term",
+          "score": 12
         }
       ]
     },
@@ -373,28 +373,28 @@
           "score": 95
         },
         {
+          "id": "deduction.personal-pension-savings",
+          "title": "개인연금저축 소득공제",
+          "type": "deduction",
+          "score": 11
+        },
+        {
+          "id": "deduction.employment-maintenance-worker",
+          "title": "고용유지중소기업 근로자 소득공제",
+          "type": "deduction",
+          "score": 11
+        },
+        {
           "id": "deduction.other-income",
           "title": "그 밖의 소득공제",
           "type": "deduction",
-          "score": 62
+          "score": 11
         },
         {
-          "id": "deduction.long-term-fund",
-          "title": "장기집합투자증권저축",
-          "type": "deduction",
-          "score": 62
-        },
-        {
-          "id": "deduction.housing-savings",
-          "title": "주택마련저축",
-          "type": "deduction",
-          "score": 62
-        },
-        {
-          "id": "deduction.youth-long-term-fund",
-          "title": "청년형 장기집합투자증권저축",
-          "type": "deduction",
-          "score": 62
+          "id": "credit.donation",
+          "title": "기부금 세액공제",
+          "type": "tax-credit",
+          "score": 11
         }
       ]
     },
@@ -416,24 +416,6 @@
           "score": 13
         },
         {
-          "id": "finance.bank.policy-loan.kinfa-api.6",
-          "title": "IBK기업은행 IBK청년전·월세대출 (월세)",
-          "type": "bank-product",
-          "status": "active",
-          "application_status": null,
-          "recommendation_status": "recommendation_candidate",
-          "score": 13
-        },
-        {
-          "id": "finance.bank.policy-loan.kinfa-api.5",
-          "title": "IBK기업은행 IBK청년전·월세대출 (전세)",
-          "type": "bank-product",
-          "status": "active",
-          "application_status": null,
-          "recommendation_status": "recommendation_candidate",
-          "score": 13
-        },
-        {
           "id": "eligibility-rule.median-income-support",
           "title": "기준 중위소득 기반 지원금 판정",
           "type": "eligibility-rule",
@@ -445,6 +427,24 @@
         {
           "id": "application-channel.myhome",
           "title": "마이홈 주거지원 자가진단",
+          "type": "application-channel",
+          "status": null,
+          "application_status": null,
+          "recommendation_status": null,
+          "score": 13
+        },
+        {
+          "id": "source.myhome.youth-monthly-rent.2026",
+          "title": "마이홈 청년월세지원 자가진단",
+          "type": "source",
+          "status": null,
+          "application_status": null,
+          "recommendation_status": null,
+          "score": 13
+        },
+        {
+          "id": "application-channel.bokjiro",
+          "title": "복지로 온라인 신청",
           "type": "application-channel",
           "status": null,
           "application_status": null,
@@ -690,11 +690,10 @@
     {
       "query": "청년 전세대출 추천",
       "type": null,
-      "validation_kind": "recommendation_candidate_only",
-      "expected_top_id": "finance.bank.policy-loan.kinfa-api.104",
-      "actual_top_id": "finance.bank.policy-loan.kinfa-api.104",
-      "passed": true,
-      "recommendation_candidates_only": true
+      "validation_kind": "blocked_recommendation_empty",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true
     },
     {
       "query": "전월실적 없는 체크카드 추천",
@@ -745,14 +744,14 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-10T20:01:00+00:00",
+    "checked_at": "2026-07-11T06:58:49+00:00",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "dc791d677257d3072847f8da9b8b7cfdbb4f3aeaf6cbb61827835a35e2c5d85e",
+    "search_index_checksum": "0f45af54f3cccfd10648e84950a6ad5d2d57623979ec3d6aa09eedfe3e23ab72",
     "test_count": 16,
     "passed_count": 16,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "8cd88f0d2d16514b9fad7d8942350e7565c0e1261fd6eb8e26818c2a3c277f66"
+  "export_checksum": "22569f37c304d6c69cffab52de6c9bea72acbebac342309b7331d0619af7f205"
 }

@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-11T02:13:53Z",
+  "built_at": "2026-07-11T06:50:15Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -299,7 +299,7 @@
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 17,
     "product_count": 0,
-    "export_checksum": "8cd88f0d2d16514b9fad7d8942350e7565c0e1261fd6eb8e26818c2a3c277f66",
+    "export_checksum": "f1fae36878cd7a5adc6fc68cd673f59e5dba1bdff00259ae9b6307f73510beef",
     "quality_summary": {
       "test_count": 17,
       "passed_count": 17,
@@ -449,7 +449,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-11T02:13:53Z",
+    "built_at": "2026-07-11T06:50:15Z",
     "domain_export_count": 8,
     "search_index_item_count": 21230,
     "checksum_covered_export_count": 9,
@@ -486,5 +486,16 @@
       "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
     }
   },
-  "export_checksum": "e6c02881f580cdee6b655bd0dd914135dab5f68668a2daa3b66d07239f6cd0c3"
+  "live_search_regression": {
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-11T06:58:49+00:00",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+    "search_index_checksum": "0f45af54f3cccfd10648e84950a6ad5d2d57623979ec3d6aa09eedfe3e23ab72",
+    "test_count": 16,
+    "passed_count": 16,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
+  },
+  "export_checksum": "fb7c1d82477d44e6a1ef4e2342cca0cbd11f5c2823606348d118b9012e4f3fe7"
 }
