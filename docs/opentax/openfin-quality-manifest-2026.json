@@ -589,5 +589,16 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "90e6745d4e44c2aa11e0be8c0f9188a7d1253776a8e8c5b55050afc6c3fbbe98"
+  "live_search_regression": {
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-12T02:49:07+00:00",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+    "search_index_checksum": "a7794b0c2dde7719262259b939810152a6854b927977715173b04aa77618c672",
+    "test_count": 16,
+    "passed_count": 16,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
+  },
+  "export_checksum": "341c4d4fbae1ae9f84813c2362c9b98d05e7e1b814acd9d50bdf660fdbb5dbfc"
 }
