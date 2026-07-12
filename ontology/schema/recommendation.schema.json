@@ -21,14 +21,26 @@
         "public_recommendation"
       ]
     },
+    "verificationStatus": {
+      "type": "string",
+      "enum": [
+        "not_verified",
+        "pending",
+        "verified",
+        "expired",
+        "source_changed",
+        "rejected"
+      ]
+    },
     "verificationEvidence": {
-      "type": "object",
+      "type": ["object", "null"],
       "required": [
         "reviewer",
         "verified_at",
         "source_urls",
         "source_checksums",
-        "verified_fields"
+        "verified_fields",
+        "expires_at"
       ],
       "properties": {
         "reviewer": {
@@ -61,10 +73,7 @@
           }
         },
         "expires_at": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "freshness_policy": {
           "type": [

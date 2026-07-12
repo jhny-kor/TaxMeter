@@ -15,6 +15,33 @@
     "sources",
     "tags"
   ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["card-product", "bank-product", "insurance-product"]
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "required": [
+          "recommendation_status",
+          "recommendation_scope",
+          "verification_status",
+          "recommendation_exclusion_reasons",
+          "recommendation_basis_fields",
+          "comparison_basis_fields",
+          "quality_flags",
+          "last_verified_at",
+          "verification_evidence",
+          "freshness_status",
+          "recommendation_model_version"
+        ]
+      }
+    }
+  ],
   "properties": {
     "id": {
       "type": "string",
@@ -98,6 +125,23 @@
     "freshness_status": {
       "type": "string"
     },
+    "source_listing_status": {
+      "type": "string",
+      "enum": ["listed", "not_listed", "unknown"]
+    },
+    "sales_verification_status": {
+      "type": "string",
+      "enum": ["verified_active", "verified_ended", "unverified"]
+    },
+    "sales_verified_at": {
+      "type": ["string", "null"]
+    },
+    "condition_verification_status": {
+      "type": "string"
+    },
+    "source_freshness_status": {
+      "type": "string"
+    },
     "last_verified_at": {
       "type": [
         "string",
@@ -109,6 +153,9 @@
     },
     "recommendation_scope": {
       "$ref": "recommendation.schema.json#/$defs/recommendationScope"
+    },
+    "verification_status": {
+      "$ref": "recommendation.schema.json#/$defs/verificationStatus"
     },
     "recommendation_exclusion_reasons": {
       "type": "array",
@@ -133,6 +180,30 @@
     },
     "recommendation_model_version": {
       "type": "string"
+    },
+    "comparison_basis_fields": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "missing_required_fields": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "required_field_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completed_field_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completeness_ratio": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "domain_gate_passed": {
+      "type": "boolean"
     },
     "source_urls": {
       "type": "array",

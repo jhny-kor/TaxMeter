@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,7 @@ VERIFICATION_REQUIRED_FIELDS = (
     "source_urls",
     "source_checksums",
     "verified_fields",
+    "expires_at",
 )
 
 
@@ -56,8 +58,14 @@ def verification_errors(record: dict[str, Any]) -> list[str]:
     for field in VERIFICATION_REQUIRED_FIELDS:
         if not record.get(field):
             errors.append(f"missing_{field}")
-    if not record.get("expires_at") and not record.get("freshness_policy"):
-        errors.append("missing_expires_at_or_freshness_policy")
+    expires_at = record.get("expires_at")
+    if not isinstance(expires_at, str):
+        errors.append("missing_expires_at")
+    else:
+        try:
+            date.fromisoformat(expires_at)
+        except ValueError:
+            errors.append("invalid_expires_at")
     if record.get("product_name") and not record.get("canonical_product_id"):
         errors.append("product_name_only_match_forbidden")
     return errors
@@ -88,6 +96,8 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         item["recommendation_model_version"] = MODEL_VERSION
         item["recommendation_basis_fields"] = item.get("recommendation_basis_fields") or []
         item["recommendation_exclusion_reasons"] = item.get("recommendation_exclusion_reasons") or []
+        item["verification_status"] = "not_verified"
+        item["verification_evidence"] = None
         source_checksum = item_source_checksum(item)
         item["source_checksum"] = source_checksum
         record = records.get(str(item.get("id")))
@@ -97,18 +107,17 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             continue
         errors = verification_errors(record)
         matched_checksum = source_checksum in set(str(value) for value in record.get("source_checksums") or [])
-        if errors or not matched_checksum:
+        expires_at = str(record.get("expires_at") or "")
+        is_expired = bool(expires_at and expires_at < date.today().isoformat())
+        if errors or not matched_checksum or is_expired or record.get("decision") != "verified":
             flags = [str(value) for value in item.get("quality_flags") or []]
             flags.append("verification_overlay_invalid" if errors else "verification_checksum_mismatch")
             item["quality_flags"] = sorted(set(flags))
             reasons = [str(value) for value in item.get("recommendation_exclusion_reasons") or []]
-            reasons.extend(errors or ["source_checksum_mismatch"])
+            reasons.extend(errors or (["verification_expired"] if is_expired else ["source_checksum_mismatch"]))
             item["recommendation_exclusion_reasons"] = sorted(set(reasons))
+            item["verification_status"] = "expired" if is_expired else ("source_changed" if not matched_checksum else "rejected")
             continue
-        item["recommendation_status"] = "verified_recommendation_candidate"
-        item["recommendation_scope"] = "public_recommendation"
-        item["last_verified_at"] = record["verified_at"]
-        item["recommendation_basis_fields"] = record.get("verified_fields") or []
         item["verification_evidence"] = {
             "reviewer": record.get("reviewer"),
             "verified_at": record.get("verified_at"),
@@ -118,4 +127,14 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             "expires_at": record.get("expires_at"),
             "freshness_policy": record.get("freshness_policy"),
         }
+        if not item.get("domain_gate_passed"):
+            item["verification_status"] = "verified"
+            item["recommendation_scope"] = "comparison_only" if item.get("type") == "bank-product" else "listing_only"
+            item["recommendation_exclusion_reasons"] = sorted(set([*item["recommendation_exclusion_reasons"], "domain_gate_not_passed"]))
+            continue
+        item["recommendation_status"] = "verified_recommendation_candidate"
+        item["recommendation_scope"] = "public_recommendation"
+        item["verification_status"] = "verified"
+        item["last_verified_at"] = record["verified_at"]
+        item["recommendation_basis_fields"] = record.get("verified_fields") or []
     return items

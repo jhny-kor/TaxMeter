@@ -64,6 +64,14 @@ python3 ontology/scripts/validate_finance_ontology.py
 python3 ontology/scripts/validate_ontology.py
 ```
 
+### 비교와 추천의 분리
+
+- `search`: 상품·정책·공식 출처를 찾는 조회 도구다.
+- `compare`: 예금·적금만 대상으로 하며, 공식 목록 등재·판매 상태 재확인·현재 원천을 통과한 옵션만 동일 기간으로 비교한다. 우대금리는 사용자가 명시한 충족 조건에만 반영한다.
+- `recommend`: 원천 checksum이 일치하는 검증 evidence와 `public_recommendation` 상태가 모두 있는 상품만 반환한다. 검증 후보가 없으면 빈 결과와 비교 도구 안내를 반환한다.
+
+모든 금융상품에는 `recommendation_scope`, `verification_status`, 판매 검증 상태, 완전성 비율과 누락 필드를 생성한다. 카드·대출·보험은 상세 원문 검증 전까지 추천 대상에서 제외한다.
+
 ## 2. 보완 필요 내용 (우선순위순)
 
 | # | 내용 | 규모 | 원인/비고 |

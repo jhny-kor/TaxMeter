@@ -24,6 +24,7 @@ def run_case(case: dict[str, Any]) -> list[str]:
                 constraints=case.get("constraints") or {},
                 preferences=case.get("preferences") or {},
                 limit=int(case.get("limit") or 5),
+                items=case.get("items"),
             )
         )
     first = outputs[0]
@@ -34,6 +35,10 @@ def run_case(case: dict[str, Any]) -> list[str]:
     warning = case.get("expected_warning_contains")
     if warning and not any(str(warning) in str(value) for value in first.get("warnings") or []):
         errors.append(f"{case['name']}: missing warning {warning}")
+    excluded = {item.get("item_id"): item.get("reason") for item in first.get("excluded_sample") or []}
+    for item_id, reason in (case.get("expected_excluded") or {}).items():
+        if excluded.get(item_id) != reason:
+            errors.append(f"{case['name']}: expected exclusion {item_id}={reason}, got {excluded.get(item_id)}")
     unsafe = [
         candidate.get("item_id")
         for candidate in first.get("candidates") or []

@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-11T21:08:51Z",
+  "built_at": "2026-07-12T02:44:44Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -87,6 +87,26 @@
         "recommendation_scope_counts": {
           "listing_only": 1004
         },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "missing_fields_by_field_name": {
+          "annual_fee_krw": 1004,
+          "benefit_categories": 1004,
+          "benefit_frequency_limit": 1004,
+          "benefit_rate_or_amount": 1004,
+          "benefit_type": 1004,
+          "criteria_or_options": 355,
+          "excluded_spend": 1004,
+          "minimum_payment_amount": 1004,
+          "monthly_benefit_limit_krw": 1004,
+          "per_transaction_limit_krw": 1004,
+          "performance_excluded_spend": 1004,
+          "previous_month_spend_min_krw": 1004,
+          "sales_verification_status": 1004
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -95,7 +115,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b9ef188f6bf09bba6e9f03cdec6b5893be30cbc924c6a1767e9a9fba2c0a15fa"
+      "export_checksum": "5723b5f4f7d4b52affd0b357ac006e83e99cf108bb0537bf04d6e6cf53fa19e0"
     },
     {
       "id": "deposit-products-ontology",
@@ -128,6 +148,18 @@
         "recommendation_scope_counts": {
           "comparison_only": 430
         },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.6079,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "maximum_deposit_krw": 395,
+          "minimum_deposit_krw": 398,
+          "sales_verification_status": 430
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -136,7 +168,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e928520cf6b84a128528a1b2d5daea2b930f254abb540e6d8d5f19e34536f64c"
+      "export_checksum": "130afebeff9b07bf42a0952e1524119a54de061d806412b37c5760a96be36938"
     },
     {
       "id": "saving-products-ontology",
@@ -169,6 +201,19 @@
         "recommendation_scope_counts": {
           "comparison_only": 335
         },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.6264,
+        "missing_fields_by_field_name": {
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 2,
+          "monthly_payment_max_krw": 237,
+          "monthly_payment_min_krw": 328,
+          "sales_verification_status": 335
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -177,7 +222,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "8e9afa81cbba4989c79159fc56158e3036cd3197017ee6f833990446146237b6"
+      "export_checksum": "73c04a279817993bb964fd9a46fe9a36452b541e1d00e2f1788443e188077f01"
     },
     {
       "id": "loan-products-ontology",
@@ -213,6 +258,22 @@
           "internal_verification_candidate": 11,
           "listing_only": 593
         },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.6852,
+        "missing_fields_by_field_name": {
+          "collateral_type": 96,
+          "criteria_or_options": 11,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 169,
+          "loan_limit_krw": 299,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 135,
+          "repayment_method": 177
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -221,7 +282,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e68a1955232f63ef87571f76269c749e68b06e6fc1dfa1202a0a044871b7f862"
+      "export_checksum": "867b1bc5b1c0f2e846d0e12bd88c8d8de8893555ad3d7e88377d28a90e351e69"
     },
     {
       "id": "insurance-products-ontology",
@@ -254,6 +315,28 @@
         "recommendation_scope_counts": {
           "listing_only": 1058
         },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "missing_fields_by_field_name": {
+          "claim_condition": 1058,
+          "coverage_amount_krw": 1058,
+          "exclusion_condition": 1058,
+          "insurance_term": 1058,
+          "insured_age_max": 1058,
+          "insured_age_min": 1058,
+          "payment_count_limit": 1058,
+          "payment_term": 1058,
+          "premium_basis": 1058,
+          "reduction_period_days": 1058,
+          "renewal_cycle_years": 1058,
+          "renewal_type": 1058,
+          "sales_verification_status": 1058,
+          "surrender_refund_type": 1058,
+          "waiting_period_days": 1058
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -262,7 +345,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b1fb33ea9cbe2745edd6f2e79ab6e12080dd91df18da624d9868fa8f872e30fe"
+      "export_checksum": "adec85651b1d225ae160490c5e06d6c324225085d1e2f793c076edc1323d0664"
     },
     {
       "id": "finance-reference-ontology",
@@ -289,6 +372,12 @@
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {},
         "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "missing_fields_by_field_name": {},
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -297,14 +386,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "bc852786466f120fc452e594618888e5afdab40eb3741fface49eb9a9cdccf55"
+      "export_checksum": "ae848b920398c5919d1f36907a1641a353e165a63d8ac450ea67ce3d3fce90f7"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 18,
     "product_count": 0,
-    "export_checksum": "fec5619d99e9ab74eb5ec6695f9e427099629bf80e3c12eeeedc30f36d492279",
+    "export_checksum": "7cac76dfc70a6eda3afcff3a4ae6b9750cc4acecd6e535d3ce5465a4a2356087",
     "quality_summary": {
       "test_count": 18,
       "passed_count": 18,
@@ -454,7 +543,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-11T21:08:51Z",
+    "built_at": "2026-07-12T02:44:44Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
     "checksum_covered_export_count": 9,
@@ -500,5 +589,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "4cddbad558755a6b775cdce71387e3d950e56ce4c801f7e398175cbdb2dd8bbe"
+  "export_checksum": "90e6745d4e44c2aa11e0be8c0f9188a7d1253776a8e8c5b55050afc6c3fbbe98"
 }

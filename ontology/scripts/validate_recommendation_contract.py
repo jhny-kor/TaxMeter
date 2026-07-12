@@ -24,7 +24,21 @@ VALID_SCOPES = {
     "internal_verification_candidate",
     "public_recommendation",
 }
+VALID_VERIFICATION_STATUSES = {"not_verified", "pending", "verified", "expired", "source_changed", "rejected"}
 EVIDENCE_REQUIRED_FIELDS = ("reviewer", "verified_at", "source_urls", "source_checksums", "verified_fields")
+REQUIRED_CONTRACT_FIELDS = (
+    "recommendation_status",
+    "recommendation_scope",
+    "verification_status",
+    "recommendation_exclusion_reasons",
+    "recommendation_basis_fields",
+    "comparison_basis_fields",
+    "quality_flags",
+    "last_verified_at",
+    "verification_evidence",
+    "freshness_status",
+    "recommendation_model_version",
+)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -50,8 +64,8 @@ def validate_evidence(item: dict[str, Any]) -> list[str]:
     if not isinstance(evidence, dict):
         return ["missing_verification_evidence"]
     errors = [f"verification_evidence_missing_{field}" for field in EVIDENCE_REQUIRED_FIELDS if not evidence.get(field)]
-    if not evidence.get("expires_at") and not evidence.get("freshness_policy"):
-        errors.append("verification_evidence_missing_expires_at_or_freshness_policy")
+    if not evidence.get("expires_at"):
+        errors.append("verification_evidence_missing_expires_at")
     return errors
 
 
@@ -63,16 +77,30 @@ def validate_contract() -> list[str]:
         item_id = str(item.get("id") or "<missing>")
         status = item.get("recommendation_status")
         scope = item.get("recommendation_scope")
+        verification_status = item.get("verification_status")
+        for field in REQUIRED_CONTRACT_FIELDS:
+            if field not in item:
+                errors.append(f"{export_id}:{item_id}: missing contract field {field}")
         if status not in VALID_STATUSES:
             errors.append(f"{export_id}:{item_id}: invalid recommendation_status {status}")
         if scope not in VALID_SCOPES:
             errors.append(f"{export_id}:{item_id}: invalid recommendation_scope {scope}")
         if scope in {None, "", "unspecified"}:
             errors.append(f"{export_id}:{item_id}: recommendation_scope must not be unspecified")
+        if verification_status not in VALID_VERIFICATION_STATUSES:
+            errors.append(f"{export_id}:{item_id}: invalid verification_status {verification_status}")
         if status == "verified_recommendation_candidate":
             if scope != "public_recommendation":
                 errors.append(f"{export_id}:{item_id}: verified candidate must use public_recommendation scope")
             errors.extend(f"{export_id}:{item_id}: {error}" for error in validate_evidence(item))
+            if verification_status != "verified":
+                errors.append(f"{export_id}:{item_id}: verified candidate must use verification_status verified")
+        if scope == "public_recommendation" and verification_status != "verified":
+            errors.append(f"{export_id}:{item_id}: public recommendation requires verified verification_status")
+        if verification_status == "verified" and not item.get("verification_evidence"):
+            errors.append(f"{export_id}:{item_id}: verified status requires verification evidence")
+        if verification_status == "verified" and item.get("source_checksum") not in set((item.get("verification_evidence") or {}).get("source_checksums") or []):
+            errors.append(f"{export_id}:{item_id}: verified status requires matching source checksum")
         if status == "reference_only" and scope == "public_recommendation":
             errors.append(f"{export_id}:{item_id}: reference_only cannot be public_recommendation")
     overlay = load_json(OVERLAY_PATH) if OVERLAY_PATH.exists() else {"verifications": []}

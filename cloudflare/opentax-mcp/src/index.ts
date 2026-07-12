@@ -30,6 +30,11 @@ type FinanceItem = {
   search_type?: string;
   product_status?: string;
   sales_status?: string;
+  source_listing_status?: string;
+  sales_verification_status?: string;
+  sales_verified_at?: string;
+  condition_verification_status?: string;
+  source_freshness_status?: string;
   status?: string;
   status_reason?: string;
   recommendation_status?: string;
@@ -37,7 +42,16 @@ type FinanceItem = {
   recommendation_model_version?: string;
   recommendation_exclusion_reasons?: string[];
   recommendation_basis_fields?: string[];
+  comparison_basis_fields?: string[];
+  verification_status?: string;
+  quality_flags?: string[];
   verification_evidence?: Record<string, unknown>;
+  missing_required_fields?: string[];
+  completeness_ratio?: number;
+  required_field_count?: number;
+  completed_field_count?: number;
+  domain_gate_passed?: boolean;
+  comparison_options?: unknown[];
   application_status?: string;
   is_currently_applicable?: boolean;
   application_open_from?: string;
@@ -312,15 +326,11 @@ function matchesSearchFilters(item: FinanceItem, filters: SearchFilters): boolea
 }
 
 function isRecommendationSearchEligible(item: FinanceItem): boolean {
-  return (
-    normalizeQuery(item.recommendation_status ?? "") === "verified_recommendation_candidate" &&
-    normalizeQuery(item.recommendation_scope ?? "") === "public_recommendation" &&
-    Boolean(item.verification_evidence)
-  );
+  return recommendationBlocker(item) === undefined;
 }
 
 function isPubliclySearchable(item: FinanceItem): boolean {
-  return item.recommendation_scope !== "internal_verification_candidate";
+  return item.recommendation_scope !== "internal_verification_candidate" && item.recommendation_status !== "manual_review_candidate";
 }
 
 function scoreItem(item: FinanceItem, query: string): number {
@@ -571,13 +581,18 @@ function recommendationBlocker(item: FinanceItem): string | undefined {
   if (item.recommendation_scope !== "public_recommendation") {
     return "not_public_recommendation_scope";
   }
-  if (!item.verification_evidence) {
+  if (item.verification_status !== "verified") return "verification_not_verified";
+  if (!isRecord(item.verification_evidence)) {
     return "missing_verification_evidence";
   }
+  const checksums = item.verification_evidence.source_checksums;
+  if (!Array.isArray(checksums) || !checksums.includes(item.source_checksum)) return "source_checksum_mismatch";
+  const expiresAt = item.verification_evidence.expires_at;
+  if (!isFutureOrCurrentIsoDate(expiresAt)) return "verification_expired";
   if (item.freshness_status === "stale") {
     return "stale_source";
   }
-  if (["closed", "ended", "unknown"].includes(item.status ?? "")) {
+  if (["closed", "ended", "unknown", "suspended"].includes(item.status ?? "")) {
     return `status_${item.status}`;
   }
   return undefined;
@@ -592,6 +607,79 @@ function recommendationScore(item: FinanceItem, profile: Record<string, unknown>
     components.freshness = 10;
   }
   return { score: Object.values(components).reduce((total, value) => total + value, 0), components };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isFutureOrCurrentIsoDate(value: unknown): value is string {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const timestamp = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value >= new Date().toISOString().slice(0, 10);
+}
+
+function comparisonBlocker(item: FinanceItem): string | undefined {
+  if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
+  if (item.source_listing_status !== "listed") return "source_not_listed";
+  if (item.sales_verification_status !== "verified_active") return "sales_not_verified";
+  if (item.source_freshness_status !== "current") return "stale_source";
+  const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
+  if (!Number.isFinite(verifiedAt) || verifiedAt > Date.now() || Date.now() - verifiedAt > 31 * 24 * 60 * 60 * 1000) return "stale_source";
+  if (item.verification_status !== "verified") return "not_verified";
+  const evidenceBlocker = recommendationBlocker({ ...item, recommendation_status: "verified_recommendation_candidate", recommendation_scope: "public_recommendation" });
+  if (evidenceBlocker) return evidenceBlocker;
+  if (item.domain_gate_passed !== true) return "domain_gate_not_passed";
+  if (["closed", "ended", "unknown", "suspended"].includes(item.status ?? "")) return `status_${item.status}`;
+  return undefined;
+}
+
+function comparisonOptionCandidates(item: FinanceItem, termMonths: number): readonly Record<string, unknown>[] {
+  return (item.comparison_options ?? []).filter(
+    (value): value is Record<string, unknown> => isRecord(value) && value.term_months === termMonths && typeof value.base_rate_percent === "number",
+  );
+}
+
+function comparisonOptionBlocker(option: Record<string, unknown>, domain: string, depositAmount: number | undefined, monthlyPayment: number | undefined, joinChannels: readonly string[], savingMethod: string | undefined): string | undefined {
+  const optionChannels = Array.isArray(option.join_channels) ? option.join_channels.filter((value): value is string => typeof value === "string").map((value) => normalizeQuery(value)) : [];
+  if (joinChannels.length && optionChannels.length && !joinChannels.some((channel) => optionChannels.includes(normalizeQuery(channel)))) return "join_channel_mismatch";
+  if (depositAmount !== undefined && typeof option.maximum_deposit_krw === "number" && depositAmount > option.maximum_deposit_krw) return "amount_exceeds_limit";
+  if (monthlyPayment !== undefined && typeof option.monthly_payment_max_krw === "number" && monthlyPayment > option.monthly_payment_max_krw) return "monthly_payment_exceeds_limit";
+  if (domain === "saving" && savingMethod && typeof option.saving_method === "string" && option.saving_method !== savingMethod) return "saving_method_mismatch";
+  if (!Array.isArray(option.source_urls) || !option.source_urls.length) return "missing_source_url";
+  return undefined;
+}
+
+function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>, eligibleConditions: ReadonlySet<string>): Record<string, unknown> {
+  const baseRate = option.base_rate_percent;
+  const maximumRate = typeof option.maximum_rate_percent === "number" ? option.maximum_rate_percent : baseRate;
+  if (typeof baseRate !== "number" || typeof maximumRate !== "number") throw new Error("Comparison option has invalid rate fields");
+  const conditions = Array.isArray(option.preferential_rate_conditions) ? option.preferential_rate_conditions.filter(isRecord) : [];
+  const matched = conditions.filter((condition) => typeof condition.condition_id === "string" && eligibleConditions.has(condition.condition_id));
+  const unmatched = conditions.filter((condition) => typeof condition.condition_id === "string" && !eligibleConditions.has(condition.condition_id));
+  const additionalRate = matched.reduce((total, condition) => total + (typeof condition.additional_rate_percent === "number" ? condition.additional_rate_percent : 0), 0);
+  return {
+    item_id: item.id,
+    title: item.title,
+    provider: item.provider,
+    base_rate_percent: baseRate,
+    maximum_rate_percent: maximumRate,
+    achievable_rate_percent: Math.min(baseRate + additionalRate, maximumRate),
+    matched_preferential_conditions: matched.map((condition) => condition.condition_id),
+    unmatched_preferential_conditions: unmatched.map((condition) => condition.condition_id),
+    unknown_preferential_conditions: conditions.filter((condition) => typeof condition.condition_id !== "string").map((condition) => condition.description ?? "unidentified_preferential_condition"),
+    deposit_limit: option.maximum_deposit_krw,
+    monthly_payment_limit: option.monthly_payment_max_krw,
+    term_months: option.term_months,
+    saving_method: option.saving_method,
+    join_channel: option.join_channels ?? [],
+    sales_verified_at: item.sales_verified_at,
+    score_components: { achievable_rate_percent: Math.min(baseRate + additionalRate, maximumRate), source_verified: 1 },
+    source_urls: option.source_urls,
+    source_basis_dates: item.source_basis_dates ?? [],
+    comparison_basis_fields: item.comparison_basis_fields ?? [],
+    missing_required_fields: item.missing_required_fields ?? [],
+  };
 }
 
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
@@ -682,6 +770,10 @@ function createServer(env: Env): McpServer {
           product_kind: item.product_kind,
           search_type: item.search_type,
           product_status: item.product_status,
+          sales_status: item.sales_status,
+          source_listing_status: item.source_listing_status,
+          sales_verification_status: item.sales_verification_status,
+          source_freshness_status: item.source_freshness_status,
           status: item.status,
           recommendation_status: item.recommendation_status,
           recommendation_scope: item.recommendation_scope,
@@ -693,6 +785,10 @@ function createServer(env: Env): McpServer {
           recommendation_model_version: item.recommendation_model_version,
           recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
           recommendation_basis_fields: item.recommendation_basis_fields ?? [],
+          comparison_basis_fields: item.comparison_basis_fields ?? [],
+          verification_status: item.verification_status,
+          completeness_ratio: item.completeness_ratio,
+          missing_required_fields: item.missing_required_fields ?? [],
           structured_summary: item.structured_summary ?? {},
           search_facets: item.search_facets ?? {},
           match_reasons: matchReasons(item, normalizedQuery),
@@ -742,6 +838,21 @@ function createServer(env: Env): McpServer {
       const data = await loadSearchIndex(env);
       const maxResults = limit ?? 5;
       const domainItems = data.items.filter((item) => domainMatches(item, domain));
+      if (["card", "loan", "insurance"].includes(domain)) {
+        const payload = {
+          domain,
+          profile: profile ?? {},
+          constraints: constraints ?? {},
+          preferences: preferences ?? {},
+          recommendation_model_version: "openfin-recommendation-v0.1.0",
+          result_count: 0,
+          candidates: [],
+          excluded_count: domainItems.length,
+          excluded_sample: domainItems.slice(0, 20).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
+          warnings: ["No verified public recommendation candidates are available for this domain."],
+        };
+        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      }
       const excluded = [];
       const candidates = [];
       for (const item of domainItems) {
@@ -799,6 +910,72 @@ function createServer(env: Env): McpServer {
   );
 
   server.registerTool(
+    "compare",
+    {
+      title: "Compare Deposit and Saving Products",
+      description:
+        "Use this for deterministic deposit or saving comparison. It includes only official current listings with verified active sales status and never assumes unmet preferential conditions.",
+      inputSchema: {
+        domain: z.enum(["deposit", "saving"]),
+        deposit_amount_krw: z.number().int().positive().optional(),
+        monthly_payment_krw: z.number().int().positive().optional(),
+        term_months: z.number().int().positive(),
+        join_channels: z.array(z.string()).optional(),
+        eligible_conditions: z.array(z.string()).optional(),
+        saving_method: z.enum(["free", "fixed"]).optional(),
+        limit: z.number().int().min(1).max(20).optional(),
+      },
+      annotations: {
+        title: "Compare Deposit and Saving Products",
+        ...READ_ONLY_TOOL_ANNOTATIONS,
+      },
+    },
+    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, limit }) => {
+      const data = await loadSearchIndex(env);
+      const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
+      const conditions = new Set(eligible_conditions ?? []);
+      const excluded: Array<{ item_id: string; reason: string }> = [];
+      const candidates: Record<string, unknown>[] = [];
+      for (const item of data.items.filter((candidate) => domainMatches(candidate, domain))) {
+        const blocker = comparisonBlocker(item);
+        if (blocker) {
+          excluded.push({ item_id: item.id, reason: blocker });
+          continue;
+        }
+        const options = comparisonOptionCandidates(item, term_months);
+        if (!options.length) {
+          excluded.push({ item_id: item.id, reason: "term_mismatch" });
+          continue;
+        }
+        const usableOptions = options.filter((option) => !comparisonOptionBlocker(option, domain, deposit_amount_krw, monthly_payment_krw, channels, saving_method));
+        if (!usableOptions.length) {
+          const reason = comparisonOptionBlocker(options[0], domain, deposit_amount_krw, monthly_payment_krw, channels, saving_method) ?? "missing_comparison_option";
+          excluded.push({ item_id: item.id, reason });
+          continue;
+        }
+        candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, conditions)));
+      }
+      candidates.sort((left, right) => {
+        const leftRate = typeof left.achievable_rate_percent === "number" ? left.achievable_rate_percent : 0;
+        const rightRate = typeof right.achievable_rate_percent === "number" ? right.achievable_rate_percent : 0;
+        return rightRate - leftRate || String(left.item_id).localeCompare(String(right.item_id));
+      });
+      const payload = {
+        domain,
+        candidates: candidates.slice(0, limit ?? 10),
+        excluded: excluded.sort((left, right) => left.item_id.localeCompare(right.item_id) || left.reason.localeCompare(right.reason)),
+        assumptions: [
+          "Achievable rate includes only user-declared preferential conditions.",
+          "Missing preferential conditions are not assumed to be satisfied.",
+        ],
+        comparison_model_version: "openfin-comparison-v0.1.0",
+        basis_date: data.basis_date,
+      };
+      return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+    },
+  );
+
+  server.registerTool(
     "fetch",
     {
       title: "Fetch Finance Ontology Item",
@@ -839,6 +1016,11 @@ function createServer(env: Env): McpServer {
         search_type: item.search_type,
         product_status: item.product_status,
         sales_status: item.sales_status,
+        source_listing_status: item.source_listing_status,
+        sales_verification_status: item.sales_verification_status,
+        sales_verified_at: item.sales_verified_at,
+        condition_verification_status: item.condition_verification_status,
+        source_freshness_status: item.source_freshness_status,
         status: item.status,
         status_reason: item.status_reason,
         recommendation_status: item.recommendation_status,
@@ -846,7 +1028,18 @@ function createServer(env: Env): McpServer {
         recommendation_model_version: item.recommendation_model_version,
         recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
         recommendation_basis_fields: item.recommendation_basis_fields ?? [],
+        comparison_basis_fields: item.comparison_basis_fields ?? [],
+        verification_status: item.verification_status,
+        quality_flags: item.quality_flags ?? [],
+        freshness_status: item.freshness_status,
+        last_verified_at: item.last_verified_at,
         verification_evidence: item.verification_evidence,
+        missing_required_fields: item.missing_required_fields ?? [],
+        completeness_ratio: item.completeness_ratio,
+        required_field_count: item.required_field_count,
+        completed_field_count: item.completed_field_count,
+        domain_gate_passed: item.domain_gate_passed,
+        comparison_options: item.comparison_options ?? [],
         application_status: item.application_status,
         is_currently_applicable: item.is_currently_applicable,
         application_open_from: item.application_open_from,

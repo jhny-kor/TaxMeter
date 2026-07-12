@@ -20,6 +20,7 @@ from insurance_recommendation_guard import apply_insurance_recommendation_guard,
 from loan_product_normalizer import normalize_loan_product
 from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
 from apply_recommendation_verifications import apply_recommendation_verifications
+from calculate_recommendation_completeness import enrich_products
 from typing import Iterable
 
 
@@ -1972,7 +1973,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         apply_recommendation_scope(item)
         normalize_loan_product(item)
         apply_legacy_ids(item)
-    return apply_recommendation_verifications(items)
+    return apply_recommendation_verifications(enrich_products(items))
 
 
 def export_quality_summary(items: list[dict], product_type: str) -> dict:
@@ -2038,6 +2039,19 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "recommendation_status_counts": dict(sorted(recommendation_status_counts.items())),
         "recommendation_scope_counts": dict(sorted(recommendation_scope_counts.items())),
+        "products_with_complete_comparison_fields": sum(1 for product in products if product.get("domain_gate_passed")),
+        "products_with_complete_recommendation_fields": sum(
+            1 for product in products if product.get("domain_gate_passed") and product.get("recommendation_status") == "verified_recommendation_candidate"
+        ),
+        "products_with_verified_sales_status": sum(1 for product in products if product.get("sales_verification_status") == "verified_active"),
+        "products_with_verification_evidence": sum(1 for product in products if product.get("verification_evidence")),
+        "average_completeness_ratio": round(
+            sum(float(product.get("completeness_ratio") or 0) for product in products) / len(products), 4
+        ) if products else 0.0,
+        "missing_fields_by_field_name": {
+            field: sum(1 for product in products if field in (product.get("missing_required_fields") or []))
+            for field in sorted({field for product in products for field in product.get("missing_required_fields") or []})
+        },
         "quality_gate": {
             "expired_active_local_supports": "validated in korea-local-government-supports export",
             "active_insurance_without_criteria_must_be_zero": True,
@@ -2298,6 +2312,11 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "search_type": item.get("search_type"),
         "product_status": item.get("product_status"),
         "sales_status": item.get("sales_status"),
+        "source_listing_status": item.get("source_listing_status"),
+        "sales_verification_status": item.get("sales_verification_status"),
+        "sales_verified_at": item.get("sales_verified_at"),
+        "condition_verification_status": item.get("condition_verification_status"),
+        "source_freshness_status": item.get("source_freshness_status"),
         "status": item.get("status"),
         "status_reason": item.get("status_reason"),
         "recommendation_status": item.get("recommendation_status"),
@@ -2306,6 +2325,16 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "recommendation_exclusion_reasons": item.get("recommendation_exclusion_reasons") or [],
         "recommendation_basis_fields": item.get("recommendation_basis_fields") or [],
         "verification_evidence": item.get("verification_evidence"),
+        "verification_status": item.get("verification_status"),
+        "quality_flags": item.get("quality_flags") or [],
+        "last_verified_at": item.get("last_verified_at"),
+        "missing_required_fields": item.get("missing_required_fields") or [],
+        "completeness_ratio": item.get("completeness_ratio"),
+        "required_field_count": item.get("required_field_count"),
+        "completed_field_count": item.get("completed_field_count"),
+        "domain_gate_passed": item.get("domain_gate_passed"),
+        "comparison_basis_fields": item.get("comparison_basis_fields") or [],
+        "comparison_options": item.get("comparison_options") or [],
         "application_status": item.get("application_status"),
         "is_currently_applicable": item.get("is_currently_applicable"),
         "application_open_from": item.get("application_open_from"),

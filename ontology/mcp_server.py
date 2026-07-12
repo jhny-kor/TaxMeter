@@ -12,6 +12,7 @@ import json
 import os
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,8 @@ FINANCE_SEARCH_INDEX_PATH = ROOT / "exports" / "finance-search-index-2026.json"
 PYTHON = sys.executable
 
 sys.path.insert(0, str(SCRIPTS))
+
+from product_comparison_engine import compare as compare_products
 
 try:
     from .scripts.generate_vault import build_all_items, expected_note_path  # type: ignore
@@ -107,7 +110,24 @@ def rollback_on_failure(previous_payload: dict[str, Any], operation) -> Any:
 
 
 def all_items() -> dict[str, dict[str, Any]]:
-    return build_all_items()
+    return {**build_all_items(), **finance_items_by_id()}
+
+
+def finance_items_by_id() -> dict[str, dict[str, Any]]:
+    manifest = ROOT / "exports" / "finance-ontology-manifest.json"
+    if not manifest.exists():
+        return {}
+    payload = json.loads(manifest.read_text(encoding="utf-8"))
+    items: dict[str, dict[str, Any]] = {}
+    for entry in payload.get("exports") or []:
+        path = ROOT.parent / str(entry.get("path") or "")
+        if not path.exists():
+            continue
+        export = json.loads(path.read_text(encoding="utf-8"))
+        for item in [*(export.get("reference_items") or []), *(export.get("items") or [])]:
+            if isinstance(item, dict) and item.get("id"):
+                items[str(item["id"])] = item
+    return items
 
 
 def item_note_path(item: dict[str, Any]) -> Path:
@@ -116,9 +136,10 @@ def item_note_path(item: dict[str, Any]) -> Path:
 
 def serialize_item(item: dict[str, Any]) -> dict[str, Any]:
     serialized = dict(item)
-    note_path = item_note_path(item)
-    if note_path.exists():
-        serialized["note_path"] = str(note_path)
+    if item.get("folder"):
+        note_path = item_note_path(item)
+        if note_path.exists():
+            serialized["note_path"] = str(note_path)
     return serialized
 
 
@@ -166,6 +187,10 @@ def search_items(query: str, type_filter: str | None = None, limit: int = 20) ->
     def collect(require_all_terms: bool) -> list[tuple[int, dict[str, Any]]]:
         matched: list[tuple[int, dict[str, Any]]] = []
         for item in items.values():
+            if item.get("recommendation_status") == "manual_review_candidate" or item.get("recommendation_scope") == "internal_verification_candidate":
+                continue
+            if "추천" in query and item.get("type") in {"bank-product", "card-product", "insurance-product", "support-program"} and finance_recommendation_blocker(item):
+                continue
             if allowed_types and item.get("type") not in allowed_types:
                 continue
             haystack = " ".join(
@@ -382,11 +407,25 @@ def finance_recommendation_blocker(item: dict[str, Any]) -> str | None:
         return "not_verified_recommendation_candidate"
     if item.get("recommendation_scope") != "public_recommendation":
         return "not_public_recommendation_scope"
-    if not item.get("verification_evidence"):
+    if item.get("verification_status") != "verified":
+        return "verification_not_verified"
+    evidence = item.get("verification_evidence")
+    if not isinstance(evidence, dict):
         return "missing_verification_evidence"
+    if item.get("source_checksum") not in set(str(value) for value in evidence.get("source_checksums") or []):
+        return "source_checksum_mismatch"
+    expires_at = evidence.get("expires_at")
+    if not isinstance(expires_at, str):
+        return "verification_expired"
+    try:
+        expires = date.fromisoformat(expires_at)
+    except ValueError:
+        return "verification_expired"
+    if expires < date.today():
+        return "verification_expired"
     if item.get("freshness_status") == "stale":
         return "stale_source"
-    if item.get("status") in {"closed", "ended", "unknown"}:
+    if item.get("status") in {"closed", "ended", "unknown", "suspended"}:
         return f"status_{item.get('status')}"
     return None
 
@@ -398,6 +437,19 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     preferences = arguments.get("preferences") if isinstance(arguments.get("preferences"), dict) else {}
     limit = max(1, min(int(arguments.get("limit", 5)), 20))
     domain_items = [item for item in load_finance_search_items() if finance_domain_matches(item, domain)]
+    if domain in {"card", "loan", "insurance"}:
+        return {
+            "domain": domain,
+            "profile": profile,
+            "constraints": constraints,
+            "preferences": preferences,
+            "recommendation_model_version": "openfin-recommendation-v0.1.0",
+            "result_count": 0,
+            "candidates": [],
+            "excluded_count": len(domain_items),
+            "excluded_sample": [{"item_id": str(item.get("id")), "reason": "domain_recommendation_not_enabled"} for item in domain_items[:20]],
+            "warnings": ["No verified public recommendation candidates are available for this domain."],
+        }
     excluded: list[dict[str, str]] = []
     candidates: list[dict[str, Any]] = []
     for item in domain_items:
@@ -444,6 +496,12 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def compare_finance(arguments: dict[str, Any]) -> dict[str, Any]:
+    payload = json.loads(FINANCE_SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+    items = [item for item in payload.get("items") or [] if isinstance(item, dict)]
+    return compare_products(arguments, items=items, basis_date=str(payload.get("basis_date") or ""))
+
+
 TOOLS: dict[str, dict[str, Any]] = {
     "opentax_search": {
         "description": "Search OpenTax items by id, title, type, description, tag, law reference, or URL.",
@@ -459,6 +517,14 @@ TOOLS: dict[str, dict[str, Any]] = {
     },
     "opentax_get_item": {
         "description": "Get one ontology item by ontology id, including its generated note path.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"id": {"type": "string"}},
+            "required": ["id"],
+        },
+    },
+    "opentax_fetch": {
+        "description": "Fetch one ontology item with recommendation, comparison, verification, and completeness fields.",
         "inputSchema": {
             "type": "object",
             "properties": {"id": {"type": "string"}},
@@ -512,6 +578,23 @@ TOOLS: dict[str, dict[str, Any]] = {
                 "limit": {"type": "integer", "minimum": 1, "maximum": 20},
             },
             "required": ["domain"],
+        },
+    },
+    "opentax_compare": {
+        "description": "Compare deposit or saving products using only verified sales status, current source data, and declared user conditions.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "domain": {"type": "string", "enum": ["deposit", "saving"]},
+                "deposit_amount_krw": {"type": "integer", "minimum": 1},
+                "monthly_payment_krw": {"type": "integer", "minimum": 1},
+                "term_months": {"type": "integer", "minimum": 1},
+                "join_channels": {"type": "array", "items": {"type": "string"}},
+                "eligible_conditions": {"type": "array", "items": {"type": "string"}},
+                "saving_method": {"type": "string", "enum": ["free", "fixed"]},
+                "limit": {"type": "integer", "minimum": 1, "maximum": 20},
+            },
+            "required": ["domain", "term_months"],
         },
     },
     "opentax_add_or_update_item": {
@@ -583,6 +666,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         )
     if name == "opentax_get_item":
         return serialize_item(get_item_or_error(arguments["id"]))
+    if name == "opentax_fetch":
+        return serialize_item(get_item_or_error(arguments["id"]))
     if name == "opentax_read_note":
         path, text = read_note_text(arguments["path_or_id"])
         return {"path": str(path), "text": text}
@@ -598,6 +683,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         return export_summary()
     if name == "opentax_recommend":
         return recommend_finance(arguments)
+    if name == "opentax_compare":
+        return compare_finance(arguments)
     if name == "opentax_add_or_update_item":
         return upsert_custom_item(arguments["item"])
     if name == "opentax_patch_item":

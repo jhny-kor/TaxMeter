@@ -1,0 +1,73 @@
+[
+  {
+    "name": "12 month deposit returns only matching term",
+    "arguments": {"domain": "deposit", "deposit_amount_krw": 10000000, "term_months": 12, "join_channels": ["online"]},
+    "items": [{"id": "deposit-12", "title": "12개월 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.5, "join_channels": ["online"], "maximum_deposit_krw": 20000000, "source_urls": ["https://official.example/deposit-12"]}]}, {"id": "deposit-6", "title": "6개월 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 6, "base_rate_percent": 4.0, "maximum_rate_percent": 4.0, "join_channels": ["online"], "maximum_deposit_krw": 20000000, "source_urls": ["https://official.example/deposit-6"]}]}],
+    "expected_candidate_ids": ["deposit-12"],
+    "expected_excluded": {"deposit-6": "term_mismatch"}
+  },
+  {
+    "name": "deposit over limit is excluded",
+    "arguments": {"domain": "deposit", "deposit_amount_krw": 30000000, "term_months": 12},
+    "items": [{"id": "limited", "title": "한도 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "maximum_deposit_krw": 20000000, "source_urls": ["https://official.example/limited"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"limited": "amount_exceeds_limit"}
+  },
+  {
+    "name": "unmet preferential conditions do not increase achievable rate",
+    "arguments": {"domain": "deposit", "deposit_amount_krw": 10000000, "term_months": 12, "eligible_conditions": []},
+    "items": [{"id": "conditional", "title": "우대 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 4.0, "preferential_rate_conditions": [{"condition_id": "salary", "additional_rate_percent": 1.0}], "source_urls": ["https://official.example/conditional"]}]}],
+    "expected_candidate_ids": ["conditional"],
+    "expected_achievable_rates": {"conditional": 3.0}
+  },
+  {
+    "name": "unverified sales is excluded",
+    "arguments": {"domain": "deposit", "term_months": 12},
+    "items": [{"id": "unverified", "title": "미검증 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "unverified", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/unverified"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"unverified": "sales_not_verified"}
+  },
+  {
+    "name": "stale source is excluded",
+    "arguments": {"domain": "deposit", "term_months": 12},
+    "items": [{"id": "stale", "title": "오래된 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "stale", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/stale"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"stale": "stale_source"}
+  },
+  {
+    "name": "saving monthly limit is enforced",
+    "arguments": {"domain": "saving", "monthly_payment_krw": 600000, "term_months": 12},
+    "items": [{"id": "saving-limit", "title": "월납 적금", "type": "bank-product", "search_type": "saving", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "monthly_payment_max_krw": 500000, "saving_method": "free", "source_urls": ["https://official.example/saving-limit"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"saving-limit": "monthly_payment_exceeds_limit"}
+  },
+  {
+    "name": "saving method is filtered",
+    "arguments": {"domain": "saving", "term_months": 12, "saving_method": "fixed"},
+    "items": [{"id": "free", "title": "자유적립", "type": "bank-product", "search_type": "saving", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "saving_method": "free", "source_urls": ["https://official.example/free"]}]}, {"id": "fixed", "title": "정액적립", "type": "bank-product", "search_type": "saving", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 2.8, "maximum_rate_percent": 2.8, "saving_method": "fixed", "source_urls": ["https://official.example/fixed"]}]}],
+    "expected_candidate_ids": ["fixed"],
+    "expected_excluded": {"free": "saving_method_mismatch"}
+  },
+  {
+    "name": "same input has deterministic order and cited score",
+    "arguments": {"domain": "deposit", "term_months": 12},
+    "items": [{"id": "a", "title": "A", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/a"]}]}, {"id": "b", "title": "B", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/b"]}]}],
+    "expected_candidate_ids": ["a", "b"],
+    "repeat": 2,
+    "require_score_sources": true
+  },
+  {
+    "name": "incomplete comparison domain gate is excluded",
+    "arguments": {"domain": "deposit", "term_months": 12},
+    "items": [{"id": "incomplete", "title": "불완전 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "domain_gate_passed": false, "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/incomplete"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"incomplete": "domain_gate_not_passed"}
+  },
+  {
+    "name": "unverified comparison is excluded",
+    "arguments": {"domain": "saving", "term_months": 12},
+    "items": [{"id": "unverified-comparison", "title": "미검증 적금", "type": "bank-product", "search_type": "saving", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "verification_status": "not_verified", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/unverified-comparison"]}]}],
+    "expected_candidate_ids": [],
+    "expected_excluded": {"unverified-comparison": "not_verified"}
+  }
+]

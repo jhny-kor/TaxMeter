@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -45,11 +46,25 @@ def public_recommendation_blocker(item: dict[str, Any]) -> str | None:
         return "not_verified_recommendation_candidate"
     if item.get("recommendation_scope") != "public_recommendation":
         return "not_public_recommendation_scope"
-    if not item.get("verification_evidence"):
+    if item.get("verification_status") != "verified":
+        return "verification_not_verified"
+    evidence = item.get("verification_evidence")
+    if not isinstance(evidence, dict):
         return "missing_verification_evidence"
+    if item.get("source_checksum") not in set(str(value) for value in evidence.get("source_checksums") or []):
+        return "source_checksum_mismatch"
+    expires_at = evidence.get("expires_at")
+    if not isinstance(expires_at, str):
+        return "verification_expired"
+    try:
+        expires = date.fromisoformat(expires_at)
+    except ValueError:
+        return "verification_expired"
+    if expires < date.today():
+        return "verification_expired"
     if item.get("freshness_status") == "stale":
         return "stale_source"
-    if item.get("status") in {"closed", "ended", "unknown"}:
+    if item.get("status") in {"closed", "ended", "unknown", "suspended"}:
         return f"status_{item.get('status')}"
     return None
 
@@ -76,6 +91,20 @@ def recommend(
     normalized_profile = normalize_profile(profile)
     source_items = items if items is not None else load_search_items()
     candidates = [item for item in source_items if matches_domain(item, normalized_domain)]
+
+    if normalized_domain in {"card", "loan", "insurance"}:
+        return {
+            "domain": normalized_domain,
+            "recommendation_model_version": MODEL_VERSION,
+            "profile": normalized_profile,
+            "constraints": constraints or {},
+            "preferences": preferences or {},
+            "result_count": 0,
+            "candidates": [],
+            "excluded_count": len(candidates),
+            "excluded_sample": [{"item_id": str(item.get("id")), "reason": "domain_recommendation_not_enabled"} for item in candidates[:20]],
+            "warnings": ["No verified public recommendation candidates are available for this domain."],
+        }
 
     excluded: list[dict[str, str]] = []
     results: list[dict[str, Any]] = []
