@@ -1849,97 +1849,53 @@
   ],
   "live_tests": [
     {
-      "query": "연말정산 의료비 세액공제 한도 대상",
+      "query": "마일리지 카드 추천",
       "type": null,
-      "expected_top_id": "credit.medical-expense",
-      "actual_top_id": "credit.medical-expense",
-      "passed": true
-    },
-    {
-      "query": "연말정산 의료비 세액공제 한도 대상",
-      "type": "tax",
-      "expected_top_id": "credit.medical-expense",
-      "actual_top_id": "credit.medical-expense",
-      "passed": true
-    },
-    {
-      "query": "월세 세액공제 조건",
-      "type": null,
-      "expected_top_id": "credit.monthly-rent",
-      "actual_top_id": "credit.monthly-rent",
-      "passed": true
-    },
-    {
-      "query": "월세 세액공제 조건",
-      "type": "tax",
-      "expected_top_id": "credit.monthly-rent",
-      "actual_top_id": "credit.monthly-rent",
-      "passed": true
-    },
-    {
-      "query": "교육비 세액공제 대상",
-      "type": null,
-      "expected_top_id": "credit.education-expense",
-      "actual_top_id": "credit.education-expense",
-      "passed": true
-    },
-    {
-      "query": "교육비 세액공제 대상",
-      "type": "tax",
-      "expected_top_id": "credit.education-expense",
-      "actual_top_id": "credit.education-expense",
-      "passed": true
-    },
-    {
-      "query": "연금계좌 세액공제 한도",
-      "type": null,
-      "expected_top_id": "credit.pension-account",
-      "actual_top_id": "credit.pension-account",
-      "passed": true
-    },
-    {
-      "query": "연금계좌 세액공제 한도",
-      "type": "tax",
-      "expected_top_id": "credit.pension-account",
-      "actual_top_id": "credit.pension-account",
-      "passed": true
-    },
-    {
-      "query": "신용카드 소득공제 한도",
-      "type": null,
-      "expected_top_id": "deduction.credit-card-use",
-      "actual_top_id": "deduction.credit-card-use",
-      "passed": true
-    },
-    {
-      "query": "신용카드 소득공제 한도",
-      "type": "tax",
-      "expected_top_id": "deduction.credit-card-use",
-      "actual_top_id": "deduction.credit-card-use",
-      "passed": true
-    },
-    {
-      "query": "청년 전세대출 추천",
-      "type": null,
-      "validation_kind": "blocked_recommendation_empty",
+      "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.card.check-card.bc바로카드.페이북-머니-체크카드-101681",
+      "expected_search_type": "card",
+      "discovery_candidates_only": true,
       "passed": true
     },
     {
-      "query": "전월실적 없는 체크카드 추천",
+      "query": "신용대출 추천",
       "type": null,
-      "validation_kind": "blocked_recommendation_empty",
+      "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "expected_search_type": "loan",
+      "discovery_candidates_only": true,
       "passed": true
     },
     {
-      "query": "보험 추천",
+      "query": "실손보험 추천",
       "type": null,
-      "validation_kind": "blocked_recommendation_empty",
+      "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
+      "expected_search_type": "insurance",
+      "discovery_candidates_only": true,
+      "passed": true
+    },
+    {
+      "query": "암보험 추천",
+      "type": null,
+      "validation_kind": "discovery_candidate_only",
+      "expected_top_id": null,
+      "actual_top_id": "finance.insurance.klia.accident.교보라이프플래닛생명.l4302460002nnn024700020244000102440001000602440001000600020244000100060002000217306",
+      "expected_search_type": "insurance",
+      "discovery_candidates_only": true,
+      "passed": true
+    },
+    {
+      "query": "12개월 예금 추천",
+      "type": null,
+      "validation_kind": "discovery_candidate_only",
+      "expected_top_id": null,
+      "actual_top_id": "finance.deposit.deposit.0010001.wr0001b",
+      "expected_search_type": "deposit",
+      "discovery_candidates_only": true,
       "passed": true
     },
     {
@@ -1975,14 +1931,14 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-12T02:50:30+00:00",
+    "checked_at": "2026-07-12T14:13:21+00:00",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "a7794b0c2dde7719262259b939810152a6854b927977715173b04aa77618c672",
-    "test_count": 16,
-    "passed_count": 16,
+    "search_index_checksum": "821629721c741fe17a789b65ba0f94d865ff3cc8b471e449b6613ee233e9cda5",
+    "test_count": 8,
+    "passed_count": 8,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "84d9762e40b3d499b48a833174f3912697ee64c1312f6a6091c3a4ba25102db1"
+  "export_checksum": "8b1f59878a65eabf0f985ba9125fc39e20ade1f7302bb3ba112ee0b7ff991f3d"
 }
