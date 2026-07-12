@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-12T14:02:46Z",
+  "built_at": "2026-07-12T14:06:25Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -420,12 +420,12 @@
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
-    "item_count": 18,
+    "item_count": 20,
     "product_count": 0,
-    "export_checksum": "fb6cee9621d8e9f2e016ecb73bb8d39a87b76c5d49985f77449db95af476e4f6",
+    "export_checksum": "84d9762e40b3d499b48a833174f3912697ee64c1312f6a6091c3a4ba25102db1",
     "quality_summary": {
-      "test_count": 18,
-      "passed_count": 18,
+      "test_count": 20,
+      "passed_count": 20,
       "failed_count": 0,
       "failures": [],
       "last_failed_at": null
@@ -572,7 +572,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-12T14:02:46Z",
+    "built_at": "2026-07-12T14:06:25Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
     "checksum_covered_export_count": 9,
@@ -618,5 +618,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "79f59e8702bacce91f8483b65ef24c49663ae0cda58743368b50cc9a3d34254a"
+  "export_checksum": "62ce5d5967c7179f844285788793b12cc89889f6d936d913cb340ddc54a891cf"
 }

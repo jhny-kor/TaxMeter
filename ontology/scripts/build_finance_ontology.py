@@ -21,6 +21,7 @@ from loan_product_normalizer import normalize_loan_product
 from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
 from apply_recommendation_verifications import apply_recommendation_verifications
 from calculate_recommendation_completeness import enrich_products
+from discovery_recommendation_engine import discover
 from typing import Iterable
 
 
@@ -78,10 +79,12 @@ SUPPORT_SEARCH_REGRESSIONS = (
     {"query": "서울시 청년 월세 지원", "no_reference_only_support_results": True},
 )
 RECOMMENDATION_SEARCH_REGRESSIONS = ()
-BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS = (
-    {"query": "청년 전세대출 추천"},
-    {"query": "전월실적 없는 체크카드 추천"},
-    {"query": "보험 추천"},
+DISCOVERY_SEARCH_REGRESSIONS = (
+    {"query": "마일리지 카드 추천", "expected_search_type": "card"},
+    {"query": "신용대출 추천", "expected_search_type": "loan"},
+    {"query": "실손보험 추천", "expected_search_type": "insurance"},
+    {"query": "암보험 추천", "expected_search_type": "insurance"},
+    {"query": "12개월 예금 추천", "expected_search_type": "deposit"},
 )
 COMPARISON_SEARCH_REGRESSIONS = (
     {"query": "정기예금 비교해", "expected_search_type": "deposit"},
@@ -2657,29 +2660,23 @@ def write_search_regression_report() -> dict:
             "verified_recommendation_candidates_only": True,
             "top_results": results[:5],
         })
-    for regression in BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS:
+    for regression in DISCOVERY_SEARCH_REGRESSIONS:
         query = str(regression["query"])
-        ranked = sorted(
-            (
-                {
-                    "id": item.get("id"),
-                    "title": item.get("title"),
-                    "type": item.get("type"),
-                    "recommendation_status": item.get("recommendation_status"),
-                    "score": score_search_index_item(item, query),
-                }
-                for item in items
-            ),
-            key=lambda item: (-(item["score"] or 0), str(item.get("title") or "")),
-        )
-        results = [item for item in ranked if item["score"] > 0][:10]
+        discovery = discover(query, items=items)
+        results = discovery.get("candidates") or []
         tests.append({
             "query": query,
             "type_filter": None,
             "expected_top_id": None,
             "actual_top_id": results[0].get("id") if results else None,
-            "passed": not results,
-            "expected_empty": True,
+            "passed": bool(results) and all(
+                item.get("recommendation_status") == "discovery_candidate"
+                and item.get("recommendation_scope") == "discovery_only"
+                and item.get("search_type") == regression["expected_search_type"]
+                for item in results
+            ),
+            "validation_kind": "discovery_candidate_only",
+            "expected_search_type": regression["expected_search_type"],
             "top_results": results[:5],
         })
     for regression in COMPARISON_SEARCH_REGRESSIONS:

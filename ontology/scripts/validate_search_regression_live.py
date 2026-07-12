@@ -18,8 +18,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_finance_ontology import (  # noqa: E402
-    BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS,
     COMPARISON_SEARCH_REGRESSIONS,
+    DISCOVERY_SEARCH_REGRESSIONS,
     RECOMMENDATION_SEARCH_REGRESSIONS,
     TAX_SEARCH_REGRESSIONS,
     payload_checksum,
@@ -128,6 +128,11 @@ class McpClient:
             structured = json.loads(result["content"][0]["text"])
         return structured.get("results") or []
 
+    def discover(self, query: str, limit: int = 10) -> dict:
+        result = self.request("tools/call", {"name": "discover", "arguments": {"query": query, "limit": limit}})
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
 
 def rewrite_with_checksum(path: Path, mutate) -> None:
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -217,28 +222,39 @@ def main() -> int:
         tests.append(test)
         time.sleep(1)
 
-    for regression in BLOCKED_RECOMMENDATION_SEARCH_REGRESSIONS:
+    for regression in DISCOVERY_SEARCH_REGRESSIONS:
         query = str(regression["query"])
+        expected_search_type = str(regression["expected_search_type"])
         error_text = None
         try:
-            results = client.search(query, None, limit=10)
-            actual_id = results[0]["id"] if results else None
+            discovery = client.discover(query)
+            results = discovery.get("candidates") or []
+            actual_id = results[0].get("id") if results else None
+            candidate_only = bool(results) and all(
+                item.get("recommendation_status") == "discovery_candidate"
+                and item.get("recommendation_scope") == "discovery_only"
+                and item.get("search_type") == expected_search_type
+                for item in results
+            )
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
             results = []
             actual_id = None
+            candidate_only = False
             error_text = str(error)
-        passed = not results and error_text is None
+        passed = candidate_only
         status = "PASS" if passed else "FAIL"
         print(
-            f"[{status}] blocked-recommendation query={query!r} actual={actual_id}"
+            f"[{status}] discovery query={query!r} expected_type={expected_search_type} actual={actual_id}"
             + (f" error={error_text}" if error_text else "")
         )
         test = {
             "query": query,
             "type": None,
-            "validation_kind": "blocked_recommendation_empty",
+            "validation_kind": "discovery_candidate_only",
             "expected_top_id": None,
             "actual_top_id": actual_id,
+            "expected_search_type": expected_search_type,
+            "discovery_candidates_only": candidate_only,
             "passed": passed,
         }
         if error_text:

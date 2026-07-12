@@ -4,8 +4,8 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "openfin-search-regression-report",
   "search_index_path": "ontology/exports/finance-search-index-2026.json",
-  "test_count": 18,
-  "passed_count": 18,
+  "test_count": 20,
+  "passed_count": 20,
   "failed_count": 0,
   "tests": [
     {
@@ -454,31 +454,1246 @@
       ]
     },
     {
-      "query": "청년 전세대출 추천",
+      "query": "마일리지 카드 추천",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.card.credit-card.삼성카드.삼성카드-amp-mileage-platinum-스카이패스",
       "passed": true,
-      "expected_empty": true,
-      "top_results": []
+      "validation_kind": "discovery_candidate_only",
+      "expected_search_type": "card",
+      "top_results": [
+        {
+          "id": "finance.card.credit-card.삼성카드.삼성카드-amp-mileage-platinum-스카이패스",
+          "title": "삼성카드 삼성카드 &amp; MILEAGE PLATINUM (스카이패스)",
+          "provider": "삼성카드",
+          "product_kind": "credit-card",
+          "search_type": "card",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "C",
+          "discovery_score": 72,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "annual_fee_krw",
+            "benefit_frequency_limit",
+            "excluded_spend",
+            "minimum_payment_amount",
+            "monthly_benefit_limit_krw",
+            "per_transaction_limit_krw",
+            "performance_excluded_spend",
+            "previous_month_spend_min_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList",
+            "https://www.samsungcard.com/personal/card/cardfinder/UHPPCA0102M0.jsp?code=AAP1452",
+            "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.25,
+          "normalized_completeness_ratio": 0.25,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.card.check-card.광주은행.대한항공-skypass-체크카드-104283",
+          "title": "광주은행 대한항공 SKYPASS 체크카드",
+          "provider": "광주은행",
+          "product_kind": "check-card",
+          "search_type": "card",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 72,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "annual_fee_krw",
+            "benefit_categories",
+            "benefit_frequency_limit",
+            "excluded_spend",
+            "minimum_payment_amount",
+            "monthly_benefit_limit_krw",
+            "per_transaction_limit_krw",
+            "performance_excluded_spend",
+            "previous_month_spend_min_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://www.bccard.com/app/card/CheckSearch.do",
+            "https://www.bccard.com/app/card/CheckCardMain.do?gdsno=104283&mbkNo=034",
+            "https://www.bccard.com/images/individual/card/renew/list/card_104283.png",
+            "https://www.bccard.com/app/card/CheckCardMain.do",
+            "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1667,
+          "normalized_completeness_ratio": 0.1667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.card.credit-card.ibk기업은행.i-mileage-대한항공마일리지-103401",
+          "title": "IBK기업은행 I-Mileage(대한항공마일리지)",
+          "provider": "IBK기업은행",
+          "product_kind": "credit-card",
+          "search_type": "card",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 72,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "annual_fee_krw",
+            "benefit_frequency_limit",
+            "benefit_rate_or_amount",
+            "excluded_spend",
+            "minimum_payment_amount",
+            "monthly_benefit_limit_krw",
+            "per_transaction_limit_krw",
+            "performance_excluded_spend",
+            "previous_month_spend_min_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://www.bccard.com/app/card/CreditSearch.do",
+            "https://www.bccard.com/app/card/CreditCardMain.do?gdsno=103401&mbkNo=003",
+            "https://www.bccard.com/images/individual/card/renew/list/card_103401.png",
+            "https://www.bccard.com/app/card/CreditCardMain.do",
+            "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1667,
+          "normalized_completeness_ratio": 0.1667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.card.credit-card.kb국민카드.heritage-smart-대한항공-마일리지형-09126",
+          "title": "KB국민카드 HERITAGE Smart [대한항공 마일리지형]",
+          "provider": "KB국민카드",
+          "product_kind": "credit-card",
+          "search_type": "card",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 72,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "annual_fee_krw",
+            "benefit_categories",
+            "benefit_frequency_limit",
+            "excluded_spend",
+            "minimum_payment_amount",
+            "monthly_benefit_limit_krw",
+            "per_transaction_limit_krw",
+            "performance_excluded_spend",
+            "previous_month_spend_min_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+            "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=09126",
+            "https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/09126_img.png",
+            "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1667,
+          "normalized_completeness_ratio": 0.1667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.card.credit-card.광주은행.대한항공-skypass-카드-일반형-104281",
+          "title": "광주은행 대한항공 SKYPASS 카드(일반형)",
+          "provider": "광주은행",
+          "product_kind": "credit-card",
+          "search_type": "card",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 72,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "annual_fee_krw",
+            "benefit_categories",
+            "benefit_frequency_limit",
+            "excluded_spend",
+            "minimum_payment_amount",
+            "monthly_benefit_limit_krw",
+            "per_transaction_limit_krw",
+            "performance_excluded_spend",
+            "previous_month_spend_min_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://www.bccard.com/app/card/CreditSearch.do",
+            "https://www.bccard.com/app/card/CreditCardMain.do?gdsno=104281&mbkNo=034",
+            "https://www.bccard.com/images/individual/card/renew/list/card_104281.png",
+            "https://www.bccard.com/app/card/CreditCardMain.do",
+            "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1667,
+          "normalized_completeness_ratio": 0.1667,
+          "verified_completeness_ratio": 0.0
+        }
+      ]
     },
     {
-      "query": "전월실적 없는 체크카드 추천",
+      "query": "신용대출 추천",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.bank.policy-loan.kinfa-api.85",
       "passed": true,
-      "expected_empty": true,
-      "top_results": []
+      "validation_kind": "discovery_candidate_only",
+      "expected_search_type": "loan",
+      "top_results": [
+        {
+          "id": "finance.bank.policy-loan.kinfa-api.85",
+          "title": "신용회복위원회 개인회생론",
+          "provider": "신용회복위원회",
+          "product_kind": "policy-loan",
+          "search_type": "loan",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "신용"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "collateral_type",
+            "early_repayment_fee"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+            "https://www.ccrs.or.kr/finance/repay/loantype/list.do"
+          ],
+          "basis_dates": [
+            "2026-07-11 수집",
+            "공공데이터포털 연 1회 업데이트",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.875,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.loan.mortgage-loan.0010527.760010",
+          "title": "동양저축은행 개인사업자 아파트 대출",
+          "provider": "동양저축은행",
+          "product_kind": "mortgage-loan",
+          "search_type": "loan",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "신용"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "eligible_borrower",
+            "loan_limit_krw"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/mortgageLoanProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.75,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.bank.policy-loan.kinfa-api.21",
+          "title": "경기신용보증재단 개인택시 운송사업면허 양수비용지원 특례보증",
+          "provider": "경기신용보증재단",
+          "product_kind": "policy-loan",
+          "search_type": "loan",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 86,
+          "matched_conditions": [
+            "신용"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_repayment_fee",
+            "rate_type",
+            "repayment_method"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y",
+            "https://www.gcgf.or.kr"
+          ],
+          "basis_dates": [
+            "2026-07-11 수집",
+            "공공데이터포털 연 1회 업데이트",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 1.0,
+          "normalized_completeness_ratio": 0.625,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.loan.credit-loan.0010001.cr0001a",
+          "title": "우리은행 협약금리 外 신용대출상품",
+          "provider": "우리은행",
+          "product_kind": "credit-loan",
+          "search_type": "loan",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 86,
+          "matched_conditions": [
+            "신용"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_repayment_fee",
+            "loan_limit_krw",
+            "repayment_method"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.625,
+          "normalized_completeness_ratio": 0.625,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.loan.credit-loan.0010001.cr0001c",
+          "title": "우리은행 협약금리 外 신용대출상품",
+          "provider": "우리은행",
+          "product_kind": "credit-loan",
+          "search_type": "loan",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 86,
+          "matched_conditions": [
+            "신용"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_repayment_fee",
+            "loan_limit_krw",
+            "repayment_method"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.625,
+          "normalized_completeness_ratio": 0.625,
+          "verified_completeness_ratio": 0.0
+        }
+      ]
     },
     {
-      "query": "보험 추천",
+      "query": "실손보험 추천",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": null,
+      "actual_top_id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
       "passed": true,
-      "expected_empty": true,
-      "top_results": []
+      "validation_kind": "discovery_candidate_only",
+      "expected_search_type": "insurance",
+      "top_results": [
+        {
+          "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
+          "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(갱신형)(2605)",
+          "provider": "DB생명",
+          "product_kind": "indemnity-health",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 71,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "renewal_cycle_years",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.0667,
+          "normalized_completeness_ratio": 0.0667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02",
+          "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(계약전환용)(갱신형)",
+          "provider": "DB생명",
+          "product_kind": "indemnity-health",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 71,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "renewal_cycle_years",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.0667,
+          "normalized_completeness_ratio": 0.0667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213",
+          "title": "NH농협생명 NH유병력자실손의료비보험(갱신형,무배당)_2605",
+          "provider": "NH농협생명",
+          "product_kind": "indemnity-health",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 71,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "renewal_cycle_years",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.nhlife.co.kr/ho/ig/HOIG0001M00.nhl?prodCd=N0001213",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.0667,
+          "normalized_completeness_ratio": 0.0667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178",
+          "title": "NH농협생명 New안심케어NH실손의료비보험(갱신형,무배당)_2605",
+          "provider": "NH농협생명",
+          "product_kind": "indemnity-health",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 71,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "renewal_cycle_years",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.nhlife.co.kr/ho/ig/HOIG0001M00.nhl?prodCd=N0001178",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.0667,
+          "normalized_completeness_ratio": 0.0667,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
+          "title": "교보생명 교보실손의료비보험Ⅴ (무배당,갱신형)",
+          "provider": "교보생명",
+          "product_kind": "indemnity-health",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 71,
+          "matched_conditions": [
+            "product_domain"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "renewal_cycle_years",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.0667,
+          "normalized_completeness_ratio": 0.0667,
+          "verified_completeness_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "query": "암보험 추천",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
+      "passed": true,
+      "validation_kind": "discovery_candidate_only",
+      "expected_search_type": "insurance",
+      "top_results": [
+        {
+          "id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
+          "title": "ABL생명 (무)우리WON인터넷5대미니암보험",
+          "provider": "ABL생명",
+          "product_kind": "cancer",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 81,
+          "matched_conditions": [
+            "암"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://abllife.co.kr/st/pban/prdtPban/whlPrdt?page=1254508_1260",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-04-01",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1333,
+          "normalized_completeness_ratio": 0.1333,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e04",
+          "title": "DB생명 (무) 생활비 암보험, 하이파이브(High-5)(2605)(해약환급금 미지급형)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 81,
+          "matched_conditions": [
+            "암"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1333,
+          "normalized_completeness_ratio": 0.1333,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e06",
+          "title": "DB생명 (무) 간편한(3105) 생활비 암보험, 하이파이브(High-5)(2605)(해약환급금 미지급형)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 81,
+          "matched_conditions": [
+            "암"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1333,
+          "normalized_completeness_ratio": 0.1333,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000426e03",
+          "title": "DB생명 (무) 생활비 암보험, 하이파이브(High-5)(2605)(표준형)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 81,
+          "matched_conditions": [
+            "암"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1333,
+          "normalized_completeness_ratio": 0.1333,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000426e05",
+          "title": "DB생명 (무) 간편한(3105) 생활비 암보험, 하이파이브(High-5)(2605)(표준형)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "search_type": "insurance",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "D",
+          "discovery_score": 81,
+          "matched_conditions": [
+            "암"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "claim_condition",
+            "coverage_amount_krw",
+            "exclusion_condition",
+            "insurance_term",
+            "insured_age_max",
+            "insured_age_min",
+            "payment_count_limit",
+            "payment_term",
+            "premium_basis",
+            "reduction_period_days",
+            "sales_verification_status",
+            "surrender_refund_type",
+            "waiting_period_days"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/"
+          ],
+          "basis_dates": [
+            "2026-07-10 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.1333,
+          "normalized_completeness_ratio": 0.1333,
+          "verified_completeness_ratio": 0.0
+        }
+      ]
+    },
+    {
+      "query": "12개월 예금 추천",
+      "type_filter": null,
+      "expected_top_id": null,
+      "actual_top_id": "finance.deposit.deposit.0010001.wr0001b",
+      "passed": true,
+      "validation_kind": "discovery_candidate_only",
+      "expected_search_type": "deposit",
+      "top_results": [
+        {
+          "id": "finance.deposit.deposit.0010001.wr0001b",
+          "title": "우리은행 WON플러스예금",
+          "provider": "우리은행",
+          "product_kind": "deposit",
+          "search_type": "deposit",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "12개월"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_termination_condition",
+            "maximum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.6667,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.deposit.deposit.0010019.td11300027000",
+          "title": "광주은행 미즈월복리정기예금",
+          "provider": "광주은행",
+          "product_kind": "deposit",
+          "search_type": "deposit",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "12개월"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_termination_condition",
+            "minimum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.75,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.deposit.deposit.0010019.td11300031000",
+          "title": "광주은행 스마트모아Dream정기예금",
+          "provider": "광주은행",
+          "product_kind": "deposit",
+          "search_type": "deposit",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "12개월"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_termination_condition",
+            "maximum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.75,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.deposit.deposit.0010019.td11300035000",
+          "title": "광주은행 굿스타트예금",
+          "provider": "광주은행",
+          "product_kind": "deposit",
+          "search_type": "deposit",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "12개월"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_termination_condition",
+            "minimum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.75,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        },
+        {
+          "id": "finance.deposit.deposit.0010019.td11300036000",
+          "title": "광주은행 The플러스예금",
+          "provider": "광주은행",
+          "product_kind": "deposit",
+          "search_type": "deposit",
+          "recommendation_status": "discovery_candidate",
+          "recommendation_scope": "discovery_only",
+          "confidence_grade": "B",
+          "discovery_score": 88,
+          "matched_conditions": [
+            "12개월"
+          ],
+          "unmatched_conditions": [],
+          "unknown_conditions": [],
+          "missing_required_fields": [
+            "early_termination_condition",
+            "minimum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "why_included": "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.",
+          "limitations": [
+            "탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다.",
+            "공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다."
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "source_listing_status": "listed",
+          "sales_verification_status": "listed_unverified",
+          "source_freshness_status": "current",
+          "source_completeness_ratio": 0.6667,
+          "normalized_completeness_ratio": 0.75,
+          "verified_completeness_ratio": 0.0
+        }
+      ]
     },
     {
       "query": "정기예금 비교해",
@@ -769,5 +1984,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "fb6cee9621d8e9f2e016ecb73bb8d39a87b76c5d49985f77449db95af476e4f6"
+  "export_checksum": "84d9762e40b3d499b48a833174f3912697ee64c1312f6a6091c3a4ba25102db1"
 }
