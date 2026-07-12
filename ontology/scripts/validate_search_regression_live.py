@@ -28,6 +28,7 @@ from build_finance_ontology import (  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REGRESSION_REPORT = REPO_ROOT / "ontology/exports/openfin-search-regression-report-2026.json"
 QUALITY_MANIFEST = REPO_ROOT / "ontology/exports/openfin-quality-manifest-2026.json"
+DOCS_ROOT = REPO_ROOT / "docs/opentax"
 SEARCH_INDEX = REPO_ROOT / "ontology/exports/finance-search-index-2026.json"
 DEFAULT_MCP_URL = "https://finance-mcp.y2kthr.workers.dev/mcp"
 PROTOCOL_VERSION = "2025-03-26"
@@ -135,6 +136,11 @@ def rewrite_with_checksum(path: Path, mutate) -> None:
     payload["export_checksum"] = payload_checksum(payload)
     indent = None if path.name.startswith("finance-search-index") else 2
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=indent) + "\n", encoding="utf-8")
+
+
+def mirror_live_reports() -> None:
+    for path in (REGRESSION_REPORT, QUALITY_MANIFEST):
+        (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
 def main() -> int:
@@ -299,6 +305,7 @@ def main() -> int:
         rewrite_with_checksum(QUALITY_MANIFEST, lambda payload: payload.update({
             "live_search_regression": summary,
         }))
+        mirror_live_reports()
         print(f"라이브 결과를 기록했습니다: {REGRESSION_REPORT.name}, {QUALITY_MANIFEST.name}")
 
     if failures:
