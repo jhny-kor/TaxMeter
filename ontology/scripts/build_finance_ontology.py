@@ -28,6 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 ROOT = Path(__file__).resolve().parents[1]
 EXPORT_DIR = ROOT / "exports"
 CUSTOM_FINANCE_DIR = ROOT / "custom" / "finance"
+FINANCE_SEARCH_ALIASES_PATH = CUSTOM_FINANCE_DIR / "search-aliases.json"
 DOCS_ROOT = REPO_ROOT / "docs" / "opentax"
 
 CURRENT_REVIEW_DATE = "2026-07-10"
@@ -100,6 +101,7 @@ TAX_SEARCH_ALIASES = {
     "credit.pension-account": ("연금계좌 세액공제 한도",),
     "deduction.credit-card-use": ("신용카드 소득공제 한도", "신용카드 등 사용금액 소득공제 한도"),
 }
+FINANCE_SEARCH_ALIASES = json.loads(FINANCE_SEARCH_ALIASES_PATH.read_text(encoding="utf-8"))
 INACTIVE_QUERY_RE = re.compile(r"(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)", re.I)
 RECOMMENDATION_QUERY_RE = re.compile(r"(추천|골라|맞는\s*상품|recommend)", re.I)
 RATE_QUERY_RE = re.compile(r"(금리|최고금리|중도해지|정기예금|적금|대출|개월)", re.I)
@@ -783,6 +785,30 @@ def bank_search_type(item: dict) -> str | None:
     if "loan" in kind or any("loan" in tag for tag in tags):
         return "loan"
     return kind or None
+
+
+def finance_search_type(item: dict) -> str | None:
+    bank_type = bank_search_type(item)
+    if bank_type:
+        return bank_type
+    if item.get("type") == "insurance-product":
+        return "insurance"
+    if item.get("type") == "card-product":
+        return "card"
+    return None
+
+
+def finance_aliases(item: dict) -> list[str]:
+    search_type = str(item.get("search_type") or "")
+    haystack = " ".join([
+        str(item.get("title") or ""), str(item.get("product_kind") or ""),
+        str(item.get("search_text") or ""),
+    ]).casefold()
+    aliases: list[str] = []
+    for alias, terms in (FINANCE_SEARCH_ALIASES.get(search_type) or {}).items():
+        if alias.casefold() in haystack or any(str(term).casefold() in haystack for term in terms):
+            aliases.append(alias)
+    return aliases
 
 
 def apply_recommendation_scope(item: dict) -> None:
@@ -1964,7 +1990,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         item["quality_flags"] = unique([str(flag) for flag in flags])
         item["missing_required_fields"] = unique([str(field) for field in missing_fields])
         item["related"] = unique([*(item.get("related") or []), *semantic_product_related(item)])
-        search_type = bank_search_type(item)
+        search_type = finance_search_type(item)
         if search_type:
             item["search_type"] = search_type
             item["rate_search_eligible"] = search_type != "deposit-protection"
@@ -2036,6 +2062,12 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "reference_only_products": sum(1 for product in products if product.get("recommendation_status") == "reference_only"),
         "manual_review_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "manual_review_candidate"),
         "verified_recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_status") == "verified_recommendation_candidate"),
+        "discovery_candidate_products": sum(
+            1 for product in products
+            if product.get("status") == "active" and product.get("source_listing_status") == "listed" and product.get("discovery_evidence_fields")
+        ),
+        "comparison_candidate_products": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only"),
+        "public_recommendation_candidate_products": sum(1 for product in products if product.get("recommendation_scope") == "public_recommendation"),
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "recommendation_status_counts": dict(sorted(recommendation_status_counts.items())),
         "recommendation_scope_counts": dict(sorted(recommendation_scope_counts.items())),
@@ -2048,6 +2080,8 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "average_completeness_ratio": round(
             sum(float(product.get("completeness_ratio") or 0) for product in products) / len(products), 4
         ) if products else 0.0,
+        "products_with_unmapped_existing_fields": sum(1 for product in products if product.get("unmapped_existing_fields")),
+        "products_with_missing_search_type": sum(1 for product in products if not product.get("search_type")),
         "missing_fields_by_field_name": {
             field: sum(1 for product in products if field in (product.get("missing_required_fields") or []))
             for field in sorted({field for product in products for field in product.get("missing_required_fields") or []})
@@ -2299,6 +2333,7 @@ def search_index_item(item: dict, export_id: str) -> dict:
         *TAX_SEARCH_ALIASES.get(str(item.get("id")), ()),
         *(str(alias) for alias in item.get("legacy_ids") or []),
         *(str(alias) for alias in item.get("search_aliases") or []),
+        *finance_aliases(item),
         *(str(alias) for alias in item.get("jurisdiction_aliases") or []),
     ])
     search_text = " ".join([*aliases, item_search_text(item)]).strip()[:120]
@@ -2329,7 +2364,14 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "quality_flags": item.get("quality_flags") or [],
         "last_verified_at": item.get("last_verified_at"),
         "missing_required_fields": item.get("missing_required_fields") or [],
+        "missing_in_source_fields": item.get("missing_in_source_fields") or [],
+        "unmapped_existing_fields": item.get("unmapped_existing_fields") or [],
+        "unverified_fields": item.get("unverified_fields") or [],
+        "discovery_evidence_fields": item.get("discovery_evidence_fields") or [],
         "completeness_ratio": item.get("completeness_ratio"),
+        "source_completeness_ratio": item.get("source_completeness_ratio"),
+        "normalized_completeness_ratio": item.get("normalized_completeness_ratio"),
+        "verified_completeness_ratio": item.get("verified_completeness_ratio"),
         "required_field_count": item.get("required_field_count"),
         "completed_field_count": item.get("completed_field_count"),
         "domain_gate_passed": item.get("domain_gate_passed"),

@@ -1,0 +1,5 @@
+[
+  {"name": "card benefit mapping", "item": {"type": "card-product", "benefits": [{"benefit_type": "point_accumulation", "benefit_rate_percent": 2.0, "fixed_benefit_amount_krw": 1000}]}, "field": "benefit_type", "expected": "point_accumulation"},
+  {"name": "loan rate mapping", "item": {"type": "bank-product", "criteria": [{"lend_rate_min": 3.4}]}, "field": "loan_rate_min_percent", "expected": 3.4},
+  {"name": "insurance renewal mapping", "item": {"type": "insurance-product", "criteria": [{"renewal_type": "nonrenewal"}]}, "field": "renewal_type", "expected": "nonrenewal"}
+]

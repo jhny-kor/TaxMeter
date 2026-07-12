@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-12T02:44:44Z",
+  "built_at": "2026-07-12T14:02:46Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -80,6 +80,9 @@
         "reference_only_products": 1004,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 649,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1004,
         "recommendation_status_counts": {
           "reference_only": 1004
@@ -91,20 +94,22 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0.1233,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "annual_fee_krw": 1004,
-          "benefit_categories": 1004,
+          "annual_fee_krw": 1003,
+          "benefit_categories": 712,
           "benefit_frequency_limit": 1004,
-          "benefit_rate_or_amount": 1004,
-          "benefit_type": 1004,
+          "benefit_rate_or_amount": 481,
+          "benefit_type": 355,
           "criteria_or_options": 355,
           "excluded_spend": 1004,
           "minimum_payment_amount": 1004,
-          "monthly_benefit_limit_krw": 1004,
-          "per_transaction_limit_krw": 1004,
+          "monthly_benefit_limit_krw": 992,
+          "per_transaction_limit_krw": 1001,
           "performance_excluded_spend": 1004,
-          "previous_month_spend_min_krw": 1004,
+          "previous_month_spend_min_krw": 999,
           "sales_verification_status": 1004
         },
         "quality_gate": {
@@ -115,7 +120,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5723b5f4f7d4b52affd0b357ac006e83e99cf108bb0537bf04d6e6cf53fa19e0"
+      "export_checksum": "bf9cb927a36995bf77d259581768b4583f5a98ea78470dd03c5a5ba4ded244eb"
     },
     {
       "id": "deposit-products-ontology",
@@ -141,6 +146,9 @@
         "reference_only_products": 0,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 430,
+        "comparison_candidate_products": 430,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {
           "eligible_for_listing": 430
@@ -153,6 +161,8 @@
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
         "average_completeness_ratio": 0.6079,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 370,
           "early_termination_condition": 430,
@@ -168,7 +178,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "130afebeff9b07bf42a0952e1524119a54de061d806412b37c5760a96be36938"
+      "export_checksum": "5afed9be3a25920f79de2d73830dcf7cdc64d4c7cbf809a2890934eb0dcd0c22"
     },
     {
       "id": "saving-products-ontology",
@@ -194,6 +204,9 @@
         "reference_only_products": 0,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 335,
+        "comparison_candidate_products": 335,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {
           "eligible_for_listing": 335
@@ -206,6 +219,8 @@
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
         "average_completeness_ratio": 0.6264,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
@@ -222,7 +237,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "73c04a279817993bb964fd9a46fe9a36452b541e1d00e2f1788443e188077f01"
+      "export_checksum": "cbfabec9da43f9c9852c82f44c2bb1ecee49781cd4e9fb67399f45b65fa6b520"
     },
     {
       "id": "loan-products-ontology",
@@ -249,6 +264,9 @@
         "reference_only_products": 593,
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 593,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 593,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
@@ -263,6 +281,8 @@
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
         "average_completeness_ratio": 0.6852,
+        "products_with_unmapped_existing_fields": 245,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 11,
@@ -282,7 +302,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "867b1bc5b1c0f2e846d0e12bd88c8d8de8893555ad3d7e88377d28a90e351e69"
+      "export_checksum": "93044f5c5534c8fae8f9cf3dc1e5b4e809e5e48117fab4718b197054d3e1485f"
     },
     {
       "id": "insurance-products-ontology",
@@ -308,6 +328,9 @@
         "reference_only_products": 1058,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 1058,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1058,
         "recommendation_status_counts": {
           "reference_only": 1058
@@ -319,7 +342,9 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.0,
+        "average_completeness_ratio": 0.1104,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "claim_condition": 1058,
           "coverage_amount_krw": 1058,
@@ -331,8 +356,7 @@
           "payment_term": 1058,
           "premium_basis": 1058,
           "reduction_period_days": 1058,
-          "renewal_cycle_years": 1058,
-          "renewal_type": 1058,
+          "renewal_cycle_years": 363,
           "sales_verification_status": 1058,
           "surrender_refund_type": 1058,
           "waiting_period_days": 1058
@@ -345,7 +369,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "adec85651b1d225ae160490c5e06d6c324225085d1e2f793c076edc1323d0664"
+      "export_checksum": "6ad3d8a54b811761ba55f49e9fb1c0bb52faf3b8fb84c79c45df58c01a962388"
     },
     {
       "id": "finance-reference-ontology",
@@ -369,6 +393,9 @@
         "reference_only_products": 0,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 0,
         "recommendation_status_counts": {},
         "recommendation_scope_counts": {},
@@ -377,6 +404,8 @@
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
         "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -386,14 +415,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ae848b920398c5919d1f36907a1641a353e165a63d8ac450ea67ce3d3fce90f7"
+      "export_checksum": "42a7b683dafb39135412e20867d9564715cfbcd318ee3b4e82f2d60759b37b96"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 18,
     "product_count": 0,
-    "export_checksum": "7cac76dfc70a6eda3afcff3a4ae6b9750cc4acecd6e535d3ce5465a4a2356087",
+    "export_checksum": "fb6cee9621d8e9f2e016ecb73bb8d39a87b76c5d49985f77449db95af476e4f6",
     "quality_summary": {
       "test_count": 18,
       "passed_count": 18,
@@ -543,7 +572,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-12T02:44:44Z",
+    "built_at": "2026-07-12T14:02:46Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
     "checksum_covered_export_count": 9,
@@ -589,16 +618,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "live_search_regression": {
-    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-12T02:49:07+00:00",
-    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "a7794b0c2dde7719262259b939810152a6854b927977715173b04aa77618c672",
-    "test_count": 16,
-    "passed_count": 16,
-    "failed_count": 0,
-    "failures": [],
-    "last_failed_at": null
-  },
-  "export_checksum": "341c4d4fbae1ae9f84813c2362c9b98d05e7e1b814acd9d50bdf660fdbb5dbfc"
+  "export_checksum": "79f59e8702bacce91f8483b65ef24c49663ae0cda58743368b50cc9a3d34254a"
 }

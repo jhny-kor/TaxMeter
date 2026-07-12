@@ -131,7 +131,7 @@
     },
     "sales_verification_status": {
       "type": "string",
-      "enum": ["verified_active", "verified_ended", "unverified"]
+      "enum": ["verified_active", "verified_ended", "listed_unverified", "unverified"]
     },
     "sales_verified_at": {
       "type": ["string", "null"]

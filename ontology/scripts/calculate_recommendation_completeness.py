@@ -18,6 +18,18 @@ REQUIRED_FIELDS = {
     "loan": ("loan_rate_min_percent", "loan_rate_max_percent", "repayment_method", "loan_limit_krw", "early_repayment_fee", "eligible_borrower", "collateral_type", "rate_type"),
     "insurance": ("coverage_amount_krw", "renewal_type", "renewal_cycle_years", "waiting_period_days", "reduction_period_days", "claim_condition", "exclusion_condition", "payment_count_limit", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "surrender_refund_type", "premium_basis", "sales_verification_status"),
 }
+FIELD_ALIASES = {
+    "benefit_type": ("benefit_type", "benefit", "kind"),
+    "benefit_rate_or_amount": ("benefit_rate_percent", "rate_percent", "fixed_benefit_amount_krw"),
+    "benefit_categories": ("benefit_categories", "category"),
+    "loan_rate_min_percent": ("loan_rate_min_percent", "lend_rate_min", "rate_percent"),
+    "loan_rate_max_percent": ("loan_rate_max_percent", "lend_rate_max", "rate_percent"),
+    "loan_limit_krw": ("loan_limit_krw", "limit_krw", "loan_limit"),
+    "eligible_borrower": ("eligible_borrower", "join_member", "target"),
+    "coverage_amount_krw": ("coverage_amount_krw", "coverage_amount", "amount_krw"),
+    "renewal_type": ("renewal_type", "renewal", "renewal_cycle_years"),
+    "premium_basis": ("premium_basis", "premium", "premium_condition"),
+}
 
 
 def normalized(value: Any) -> str:
@@ -84,7 +96,33 @@ def rate_options(item: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def field_present(value: Any) -> bool:
-    return value not in (None, "", [], {}, "unknown", "unverified")
+    return value not in (None, "", [], {}, "unknown", "unverified", "listed_unverified")
+
+
+def nested_values(value: Any, names: set[str]) -> list[Any]:
+    if isinstance(value, dict):
+        values = [entry for key, entry in value.items() if key in names and field_present(entry)]
+        for entry in value.values():
+            values.extend(nested_values(entry, names))
+        return values
+    if isinstance(value, list):
+        values: list[Any] = []
+        for entry in value:
+            values.extend(nested_values(entry, names))
+        return values
+    return []
+
+
+def source_field_value(item: dict[str, Any], field: str) -> Any:
+    direct = item.get(field)
+    if field_present(direct):
+        return direct
+    names = set(FIELD_ALIASES.get(field, (field,)))
+    values = nested_values(
+        [item.get("criteria") or [], item.get("options") or [], item.get("benefits") or [], item.get("raw") or {}],
+        names,
+    )
+    return values[0] if values else None
 
 
 def product_domain(item: dict[str, Any]) -> str | None:
@@ -120,13 +158,18 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
         item["early_termination_condition"] = raw.get("mid_termination_rate")
         item["deposit_protection_status"] = "listed" if (normalized(item.get("provider")), normalized(raw.get("fin_prdt_nm"))) in protected else "unknown"
     fresh = str(item.get("collected_at") or "") >= (date.today() - timedelta(days=31)).isoformat()
-    item["source_listing_status"] = "listed" if item.get("product_status") == "active" and item.get("source_record_id") else "not_listed"
-    item["sales_verification_status"] = "unverified"
+    item["source_listing_status"] = "listed" if item.get("product_status") == "active" and (item.get("source_record_id") or item.get("source_urls")) else "not_listed"
+    item["sales_verification_status"] = "listed_unverified"
     item["sales_verified_at"] = None
     item["condition_verification_status"] = "source_text" if item.get("criteria") else "unverified"
     item["source_freshness_status"] = "current" if fresh else "stale"
     item["freshness_status"] = item["source_freshness_status"]
     required = REQUIRED_FIELDS[domain]
+    source_values = {field: source_field_value(item, field) for field in required}
+    if domain != "loan":
+        for field, value in source_values.items():
+            if field_present(value) and not field_present(item.get(field)):
+                item[field] = value
     missing = [
         field
         for field in required
@@ -135,6 +178,19 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
     item["required_field_count"] = len(required)
     item["completed_field_count"] = len(required) - len(missing)
     item["completeness_ratio"] = round(item["completed_field_count"] / len(required), 4)
+    source_completed = sum(1 for value in source_values.values() if field_present(value))
+    item["source_completeness_ratio"] = round(source_completed / len(required), 4)
+    item["normalized_completeness_ratio"] = item["completeness_ratio"]
+    item["verified_completeness_ratio"] = round(
+        sum(1 for field in required if field_present(item.get(field)) and item.get("sales_verification_status") == "verified_active") / len(required),
+        4,
+    )
+    item["missing_in_source_fields"] = sorted(field for field, value in source_values.items() if not field_present(value))
+    item["unmapped_existing_fields"] = sorted(
+        field for field, value in source_values.items() if field_present(value) and not field_present(item.get(field))
+    )
+    item["unverified_fields"] = sorted(field for field in required if field_present(item.get(field)) and item.get("sales_verification_status") != "verified_active")
+    item["discovery_evidence_fields"] = sorted(field for field, value in source_values.items() if field_present(value))
     item["missing_required_fields"] = sorted(set([*(item.get("missing_required_fields") or []), *missing]))
     item["domain_gate_passed"] = not missing and item["sales_verification_status"] == "verified_active" and item["source_freshness_status"] == "current"
     item["comparison_basis_fields"] = [field for field in required if field not in missing]
@@ -156,7 +212,7 @@ def validate_exports() -> list[str]:
             if domain not in REQUIRED_FIELDS:
                 continue
             item_id = str(item.get("id"))
-            for field in ("required_field_count", "completed_field_count", "completeness_ratio", "missing_required_fields", "domain_gate_passed", "source_listing_status", "sales_verification_status", "source_freshness_status"):
+            for field in ("required_field_count", "completed_field_count", "completeness_ratio", "source_completeness_ratio", "normalized_completeness_ratio", "verified_completeness_ratio", "missing_required_fields", "missing_in_source_fields", "unmapped_existing_fields", "unverified_fields", "discovery_evidence_fields", "domain_gate_passed", "source_listing_status", "sales_verification_status", "source_freshness_status"):
                 if field not in item:
                     errors.append(f"{item_id}: missing {field}")
             if item.get("recommendation_scope") in {None, "", "unspecified"}:

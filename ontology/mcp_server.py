@@ -28,6 +28,7 @@ PYTHON = sys.executable
 sys.path.insert(0, str(SCRIPTS))
 
 from product_comparison_engine import compare as compare_products
+from discovery_recommendation_engine import discover, is_discovery_query
 
 try:
     from .scripts.generate_vault import build_all_items, expected_note_path  # type: ignore
@@ -179,7 +180,9 @@ SEARCH_TYPE_GROUPS = {
 }
 
 
-def search_items(query: str, type_filter: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
+def search_items(query: str, type_filter: str | None = None, limit: int = 20) -> list[dict[str, Any]] | dict[str, Any]:
+    if is_discovery_query(query):
+        return discover(query, list(all_items().values()), limit=limit)
     query_terms = [term.casefold() for term in query.split() if term.strip()]
     allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
     items = all_items()
@@ -188,8 +191,6 @@ def search_items(query: str, type_filter: str | None = None, limit: int = 20) ->
         matched: list[tuple[int, dict[str, Any]]] = []
         for item in items.values():
             if item.get("recommendation_status") == "manual_review_candidate" or item.get("recommendation_scope") == "internal_verification_candidate":
-                continue
-            if "추천" in query and item.get("type") in {"bank-product", "card-product", "insurance-product", "support-program"} and finance_recommendation_blocker(item):
                 continue
             if allowed_types and item.get("type") not in allowed_types:
                 continue
@@ -502,6 +503,14 @@ def compare_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     return compare_products(arguments, items=items, basis_date=str(payload.get("basis_date") or ""))
 
 
+def discover_finance(arguments: dict[str, Any]) -> dict[str, Any]:
+    return discover(
+        str(arguments.get("query") or ""),
+        load_finance_search_items(),
+        limit=max(1, min(int(arguments.get("limit", 10)), 50)),
+    )
+
+
 TOOLS: dict[str, dict[str, Any]] = {
     "opentax_search": {
         "description": "Search OpenTax items by id, title, type, description, tag, law reference, or URL.",
@@ -529,6 +538,14 @@ TOOLS: dict[str, dict[str, Any]] = {
             "type": "object",
             "properties": {"id": {"type": "string"}},
             "required": ["id"],
+        },
+    },
+    "opentax_discover": {
+        "description": "Return safe discovery candidates for a finance-product need. This is not a best-product, approval, premium, or personalized recommendation.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"query": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 50}},
+            "required": ["query"],
         },
     },
     "opentax_read_note": {
@@ -668,6 +685,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         return serialize_item(get_item_or_error(arguments["id"]))
     if name == "opentax_fetch":
         return serialize_item(get_item_or_error(arguments["id"]))
+    if name == "opentax_discover":
+        return discover_finance(arguments)
     if name == "opentax_read_note":
         path, text = read_note_text(arguments["path_or_id"])
         return {"path": str(path), "text": text}

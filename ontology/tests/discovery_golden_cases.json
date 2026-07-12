@@ -1,0 +1,11 @@
+[
+  {"name": "mileage card discovery", "query": "마일리지 카드 추천", "expected_domain": "card"},
+  {"name": "subscription card discovery", "query": "구독 할인 카드 추천", "expected_domain": "card"},
+  {"name": "credit loan discovery", "query": "신용대출 추천", "expected_domain": "loan"},
+  {"name": "rent loan discovery", "query": "전세대출 추천", "expected_domain": "loan"},
+  {"name": "indemnity insurance discovery", "query": "실손보험 추천", "expected_domain": "insurance"},
+  {"name": "cancer insurance discovery", "query": "암보험 추천", "expected_domain": "insurance"},
+  {"name": "nonrenewal insurance discovery", "query": "비갱신형 보험 추천", "expected_domain": "insurance"},
+  {"name": "twelve month deposit discovery", "query": "12개월 예금 추천", "expected_domain": "deposit"},
+  {"name": "free saving discovery", "query": "자유적금 추천", "expected_domain": "saving"}
+]

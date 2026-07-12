@@ -47,7 +47,14 @@ type FinanceItem = {
   quality_flags?: string[];
   verification_evidence?: Record<string, unknown>;
   missing_required_fields?: string[];
+  missing_in_source_fields?: string[];
+  unmapped_existing_fields?: string[];
+  unverified_fields?: string[];
+  discovery_evidence_fields?: string[];
   completeness_ratio?: number;
+  source_completeness_ratio?: number;
+  normalized_completeness_ratio?: number;
+  verified_completeness_ratio?: number;
   required_field_count?: number;
   completed_field_count?: number;
   domain_gate_passed?: boolean;
@@ -148,6 +155,15 @@ const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 const INACTIVE_QUERY_RE = /(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)/i;
 const RECOMMENDATION_QUERY_RE = /(추천|골라|맞는\s*상품|recommend)/i;
+const DISCOVERY_ACTION_RE = /(추천|알려줘|골라줘|찾아줘|괜찮은|좋은|후보|비교|순위|해줘|해주세요)/i;
+const DISCOVERY_DOMAIN_TOKENS = {
+  card: ["카드", "체크카드", "신용카드", "마일리지", "구독"],
+  loan: ["대출", "신용대출", "전세대출", "월세대출"],
+  insurance: ["보험", "실손", "실비", "암보험", "비갱신"],
+  deposit: ["예금", "정기예금"],
+  saving: ["적금", "자유적금"],
+} as const;
+type DiscoveryDomain = keyof typeof DISCOVERY_DOMAIN_TOKENS;
 const GENERIC_SEARCH_TYPES = new Set(["category", "term", "domain", "source"]);
 const TAX_DECISION_TYPES = new Set(["tax-credit", "deduction"]);
 const READ_ONLY_TOOL_ANNOTATIONS = {
@@ -331,6 +347,63 @@ function isRecommendationSearchEligible(item: FinanceItem): boolean {
 
 function isPubliclySearchable(item: FinanceItem): boolean {
   return item.recommendation_scope !== "internal_verification_candidate" && item.recommendation_status !== "manual_review_candidate";
+}
+
+function discoveryDomainForQuery(query: string): DiscoveryDomain | undefined {
+  for (const [domain, tokens] of Object.entries(DISCOVERY_DOMAIN_TOKENS) as readonly [DiscoveryDomain, readonly string[]][]) {
+    if (tokens.some((token) => normalizeQuery(query).includes(normalizeQuery(token)))) return domain;
+  }
+  return undefined;
+}
+
+function discoveryDomainForItem(item: FinanceItem): DiscoveryDomain | undefined {
+  if (item.type === "card-product") return "card";
+  if (item.type === "insurance-product") return "insurance";
+  if (item.search_type === "loan" || item.search_type === "deposit" || item.search_type === "saving") return item.search_type;
+  return undefined;
+}
+
+function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain): boolean {
+  if (discoveryDomainForItem(item) !== domain) return false;
+  if (item.product_status !== "active" || item.status !== "active" || item.source_freshness_status === "stale") return false;
+  if (!item.source_urls?.length || (item.source_listing_status !== undefined && item.source_listing_status !== "listed")) return false;
+  const evidence = new Set(item.discovery_evidence_fields ?? []);
+  if (domain === "card") return Boolean(item.title && item.provider && item.product_kind && (["benefit_type", "benefit_rate_or_amount", "benefit_categories"].some((field) => evidence.has(field))));
+  if (domain === "loan") return Boolean(item.provider && item.product_kind && ["loan_rate_min_percent", "loan_rate_max_percent", "loan_limit_krw"].some((field) => evidence.has(field)));
+  if (domain === "insurance") return Boolean(item.product_kind && ["coverage_amount_krw", "premium_basis", "renewal_type"].some((field) => evidence.has(field)));
+  return Boolean(item.comparison_options?.length || evidence.size);
+}
+
+function discoveryConfidence(item: FinanceItem): "A" | "B" | "C" | "D" {
+  const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
+  if (ratio >= 0.8) return "A";
+  if (ratio >= 0.5) return "B";
+  if (ratio >= 0.25) return "C";
+  return "D";
+}
+
+function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
+  const domain = discoveryDomainForQuery(query);
+  if (!domain) return { recommendation_mode: "discovery", label: "탐색 결과", query, candidates: [], warnings: ["상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."] };
+  const tokens = queryTokens(query).filter((token) => !DISCOVERY_ACTION_RE.test(token) && !DISCOVERY_DOMAIN_TOKENS[domain].some((domainToken) => normalizeQuery(domainToken) === normalizeQuery(token)));
+  const candidates = items.filter((item) => isDiscoveryCandidate(item, domain)).map((item) => {
+    const text = itemSearchText(item);
+    const matched = tokens.filter((token) => text.includes(normalizeQuery(token)));
+    const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
+    const score = 35 + Math.min(20, matched.length * 10) + Math.round(ratio * 10) + (item.source_freshness_status === "current" ? 5 : 0);
+    const limitations = ["탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다."];
+    if (item.sales_verification_status !== "verified_active") limitations.push("공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다.");
+    return {
+      id: item.id, title: item.title, provider: item.provider, product_kind: item.product_kind, search_type: domain,
+      recommendation_status: "discovery_candidate", recommendation_scope: "discovery_only", confidence_grade: discoveryConfidence(item), discovery_score: score,
+      matched_conditions: matched.length ? matched : ["product_domain"], unmatched_conditions: [], unknown_conditions: tokens.filter((token) => !matched.includes(token)),
+      missing_required_fields: item.missing_required_fields ?? [], why_included: "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.", limitations,
+      source_urls: item.source_urls ?? [], basis_dates: item.source_basis_dates ?? [], source_listing_status: item.source_listing_status,
+      sales_verification_status: item.sales_verification_status, source_freshness_status: item.source_freshness_status,
+      source_completeness_ratio: item.source_completeness_ratio, normalized_completeness_ratio: ratio, verified_completeness_ratio: item.verified_completeness_ratio,
+    };
+  }).sort((left, right) => Number(right.discovery_score) - Number(left.discovery_score) || Number(right.normalized_completeness_ratio ?? 0) - Number(left.normalized_completeness_ratio ?? 0) || String(left.id).localeCompare(String(right.id), "ko-KR"));
+  return { recommendation_mode: "discovery", label: "탐색 후보", query, domain, result_count: Math.min(candidates.length, limit), candidates: candidates.slice(0, limit), excluded_count: items.filter((item) => discoveryDomainForItem(item) === domain).length - candidates.length, warnings: ["결과는 탐색용 후보입니다. 최적·승인·보험료·보장 적합성을 뜻하지 않습니다."] };
 }
 
 function scoreItem(item: FinanceItem, query: string): number {
@@ -716,7 +789,7 @@ function createServer(env: Env): McpServer {
     {
       title: "Search Finance Ontology",
       description:
-        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Recommendation wording returns only verified_recommendation_candidate nodes. Do not use for personalized tax, legal, accounting, or financial advice.",
+        "Use this when the user needs to find Korean tax, deduction, policy support, local-government support, card, bank, insurance, filing deadline, term, or official-source nodes. Recommendation wording routes to source-backed discovery candidates; verified public recommendations remain a separate tool. Do not use for personalized tax, legal, accounting, or financial advice.",
       inputSchema: {
         query: z.string().min(1).describe("Search query, for example '보험료 공제 한도', '청년 월세', '체크카드 전월실적', or 'bank-products'."),
         type: z
@@ -743,6 +816,10 @@ function createServer(env: Env): McpServer {
       const data = await loadSearchIndex(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
+      if (DISCOVERY_ACTION_RE.test(query)) {
+        const payload = discoveryPayload(query, data.items, maxResults);
+        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      }
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
       const filters: SearchFilters = {
@@ -813,6 +890,24 @@ function createServer(env: Env): McpServer {
           },
         ],
       };
+    },
+  );
+
+  server.registerTool(
+    "discover",
+    {
+      title: "Discover Finance Products",
+      description: "Return source-backed exploration candidates. It does not claim a best product, approval, premium, coverage fit, or personalized recommendation.",
+      inputSchema: {
+        query: z.string().min(1).describe("A finance-product need, for example '실손보험 추천' or '마일리지 카드 추천'."),
+        limit: z.number().int().min(1).max(50).optional().describe("Maximum number of discovery candidates. Defaults to 10."),
+      },
+      annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
+    },
+    async ({ query, limit }) => {
+      const data = await loadSearchIndex(env);
+      const payload = discoveryPayload(query, data.items, limit ?? 10);
+      return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
     },
   );
 
@@ -1035,7 +1130,14 @@ function createServer(env: Env): McpServer {
         last_verified_at: item.last_verified_at,
         verification_evidence: item.verification_evidence,
         missing_required_fields: item.missing_required_fields ?? [],
+        missing_in_source_fields: item.missing_in_source_fields ?? [],
+        unmapped_existing_fields: item.unmapped_existing_fields ?? [],
+        unverified_fields: item.unverified_fields ?? [],
+        discovery_evidence_fields: item.discovery_evidence_fields ?? [],
         completeness_ratio: item.completeness_ratio,
+        source_completeness_ratio: item.source_completeness_ratio,
+        normalized_completeness_ratio: item.normalized_completeness_ratio,
+        verified_completeness_ratio: item.verified_completeness_ratio,
         required_field_count: item.required_field_count,
         completed_field_count: item.completed_field_count,
         domain_gate_passed: item.domain_gate_passed,
