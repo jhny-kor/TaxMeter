@@ -156,6 +156,7 @@ const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보
 const INACTIVE_QUERY_RE = /(종료|판매중단|중단|만료|마감|지난|unknown|closed|ended|reference|보류|불확실)/i;
 const RECOMMENDATION_QUERY_RE = /(추천|골라|맞는\s*상품|recommend)/i;
 const DISCOVERY_ACTION_RE = /(추천|알려줘|골라줘|찾아줘|괜찮은|좋은|후보|비교|순위|해줘|해주세요)/i;
+const DISCOVERY_QUERY_RE = /(추천|알려줘|골라줘|찾아줘|괜찮은|좋은|후보|순위|해줘|해주세요)/i;
 const DISCOVERY_DOMAIN_TOKENS = {
   card: ["카드", "체크카드", "신용카드", "마일리지", "구독"],
   loan: ["대출", "신용대출", "전세대출", "월세대출"],
@@ -354,6 +355,10 @@ function discoveryDomainForQuery(query: string): DiscoveryDomain | undefined {
     if (tokens.some((token) => normalizeQuery(query).includes(normalizeQuery(token)))) return domain;
   }
   return undefined;
+}
+
+function isDiscoveryQuery(query: string): boolean {
+  return DISCOVERY_QUERY_RE.test(query);
 }
 
 function discoveryDomainForItem(item: FinanceItem): DiscoveryDomain | undefined {
@@ -816,7 +821,7 @@ function createServer(env: Env): McpServer {
       const data = await loadSearchIndex(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
-      if (DISCOVERY_ACTION_RE.test(query)) {
+      if (isDiscoveryQuery(query)) {
         const payload = discoveryPayload(query, data.items, maxResults);
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
       }

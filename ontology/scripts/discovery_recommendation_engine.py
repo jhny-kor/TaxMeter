@@ -10,6 +10,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 ALIASES_PATH = ROOT / "custom" / "finance" / "search-aliases.json"
 ACTION_RE = re.compile(r"추천|알려줘|골라줘|찾아줘|괜찮은|좋은|후보|비교|순위|해줘|해주세요")
+DISCOVERY_RE = re.compile(r"추천|알려줘|골라줘|찾아줘|괜찮은|좋은|후보|순위|해줘|해주세요")
 DOMAIN_TOKENS = {
     "card": ("카드", "체크카드", "신용카드", "마일리지", "구독"),
     "loan": ("대출", "신용대출", "전세대출", "월세대출"),
@@ -55,7 +56,7 @@ def core_query(query: str, domain: str | None) -> str:
 
 
 def is_discovery_query(query: str) -> bool:
-    return bool(ACTION_RE.search(query))
+    return bool(DISCOVERY_RE.search(query))
 
 
 def item_text(item: dict[str, Any]) -> str:
