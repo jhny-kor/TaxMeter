@@ -40,6 +40,16 @@ def values(item: dict[str, Any], field: str) -> list[Any]:
     return found
 
 
+def flattened_values(values_: list[Any]) -> list[Any]:
+    flattened: list[Any] = []
+    for value in values_:
+        if isinstance(value, list):
+            flattened.extend(flattened_values(value))
+        else:
+            flattened.append(value)
+    return flattened
+
+
 def text(item: dict[str, Any]) -> str:
     return " ".join(str(value or "") for value in (item.get("title"), item.get("description"), item.get("product_kind"), item.get("search_text"), *(item.get("search_aliases") or []))).casefold()
 
@@ -87,11 +97,14 @@ def constraint_state(item: dict[str, Any], constraint: dict[str, Any]) -> str:
         if not limits:
             return "unknown"
         return "matched" if any(isinstance(value, (int, float)) and value >= expected for value in limits) else "failed"
-    candidates = values(item, field)
+    candidates = values(item, "benefit_categories" if field == "benefit_category" else field)
     if not candidates:
         return "unknown"
     if field == "renewal_type":
         return "matched" if expected in {str(value).replace("nonrenewable", "non_renewable") for value in candidates} else "failed"
+    if field == "benefit_category":
+        categories = {str(value).casefold() for value in flattened_values(candidates)}
+        return "matched" if "구독" in categories or "subscription" in categories else "failed"
     if expected == 0:
         return "matched" if 0 in candidates else "failed"
     return "matched" if expected in candidates else "failed"
@@ -99,8 +112,8 @@ def constraint_state(item: dict[str, Any], constraint: dict[str, Any]) -> str:
 
 def benefit_state(item: dict[str, Any], preference: str) -> str:
     candidate_text = text(item)
-    tokens = {"마일리지": ("마일", "mileage"), "구독": ("구독", "subscription"), "교통": ("교통",), "쇼핑": ("쇼핑",), "온라인": ("온라인",)}
-    return "matched" if any(token in candidate_text for token in tokens.get(preference, (preference,))) else "unknown"
+    tokens = {"마일리지": ("마일", "mileage"), "구독": ("구독", "subscription"), "교통": ("교통",), "쇼핑": ("쇼핑",), "온라인": ("온라인",), "대한항공": ("대한항공",), "SKYPASS": ("skypass",), "청년": ("청년", "youth"), "자유": ("자유", "free")}
+    return "matched" if any(token.casefold() in candidate_text for token in tokens.get(preference, (preference,))) else "unknown"
 
 
 def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[str, Any]]:

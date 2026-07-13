@@ -32,6 +32,24 @@ DOCS_ROOT = REPO_ROOT / "docs/opentax"
 SEARCH_INDEX = REPO_ROOT / "ontology/exports/finance-search-index-2026.json"
 DEFAULT_MCP_URL = "https://finance-mcp.y2kthr.workers.dev/mcp"
 PROTOCOL_VERSION = "2025-03-26"
+LIVE_DISCOVERY_CASES = (
+    {"query": "마일리지 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "마일리지"]},
+    {"query": "대한항공 SKYPASS 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "대한항공", "SKYPASS"], "first_exact_title": "광주은행 대한항공 SKYPASS 체크카드"},
+    {"query": "전월실적 없는 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "previous_month_spend_min_krw"], "partial": "previous_month_spend_min_krw"},
+    {"query": "구독 할인 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "benefit_category"]},
+    {"query": "직장인 신용대출 추천", "kind": "credit-loan", "exact": ["product_kind", "employment_type"]},
+    {"query": "청년 전세대출 추천", "kind": "policy-loan", "exact": ["product_kind", "청년"]},
+    {"query": "암보험 추천", "kind": "cancer", "exact": ["product_kind"]},
+    {"query": "비갱신 암보험 추천", "kind": "cancer", "exact": ["product_kind", "renewal_type"]},
+    {"query": "실손보험 추천", "kind": "indemnity-health", "exact": ["product_kind"]},
+    {"query": "갱신형 실손보험 추천", "kind": "indemnity-health", "exact": ["product_kind", "renewal_type"]},
+    {"query": "12개월 정기예금 추천", "kind": "deposit", "exact": ["product_kind", "term_months"]},
+    {"query": "월 30만원 적금 추천", "kind": "saving", "exact": ["product_kind", "monthly_payment_krw"]},
+    {"query": "자유적립식 적금 추천", "kind": "saving", "exact": ["product_kind", "saving_method"]},
+)
+LIVE_COMPARISON_CASES = (
+    {"query": "1천만원 12개월 예금 비교", "arguments": {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}},
+)
 
 
 def parse_mcp_response(body: str) -> dict:
@@ -133,6 +151,16 @@ class McpClient:
         structured = result.get("structuredContent")
         return structured or json.loads(result["content"][0]["text"])
 
+    def compare(self, arguments: dict) -> dict:
+        result = self.request("tools/call", {"name": "compare", "arguments": arguments})
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
+    def exports(self) -> dict:
+        result = self.request("tools/call", {"name": "exports", "arguments": {}})
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
 
 def rewrite_with_checksum(path: Path, mutate) -> None:
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -159,6 +187,20 @@ def main() -> int:
 
     checked_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     tests = []
+    search_index = json.loads(SEARCH_INDEX.read_text(encoding="utf-8"))
+    expected_checksum = search_index.get("export_checksum")
+    runtime_exports = client.exports()
+    actual_checksum = (runtime_exports.get("search_index") or {}).get("export_checksum")
+    checksum_passed = actual_checksum == expected_checksum
+    tests.append({
+        "query": "runtime search-index checksum",
+        "type": None,
+        "validation_kind": "runtime_search_index_checksum",
+        "expected_top_id": expected_checksum,
+        "actual_top_id": actual_checksum,
+        "passed": checksum_passed,
+    })
+    print(f"[{'PASS' if checksum_passed else 'FAIL'}] runtime search-index checksum expected={expected_checksum} actual={actual_checksum}")
     for query, expected_id, type_filter in TAX_SEARCH_REGRESSIONS:
         error_text = None
         try:
@@ -261,6 +303,108 @@ def main() -> int:
         tests.append(test)
         time.sleep(1)
 
+    for regression in LIVE_DISCOVERY_CASES:
+        query = str(regression["query"])
+        error_text = None
+        try:
+            discovery = client.discover(query)
+            exact = discovery.get("exact_candidates") or []
+            partial = discovery.get("partial_candidates") or []
+            all_candidates = [*exact, *partial, *(discovery.get("related_candidates") or [])]
+            required_exact = set(regression.get("exact") or [])
+            exact_ok = bool(exact) and all(
+                candidate.get("product_kind") == regression["kind"]
+                and required_exact.issubset(set(candidate.get("matched_constraints") or []))
+                and not candidate.get("unknown_constraints")
+                and not candidate.get("failed_constraints")
+                for candidate in exact
+            )
+            first_exact_title = regression.get("first_exact_title")
+            first_exact_ok = not first_exact_title or bool(exact) and exact[0].get("title") == first_exact_title
+            partial_field = regression.get("partial")
+            partial_ok = bool(partial_field) and any(
+                candidate.get("product_kind") == regression["kind"] and partial_field in (candidate.get("unknown_constraints") or [])
+                for candidate in partial
+            ) if partial_field else True
+            fields_present = all(
+                key in discovery for key in ("parsed_query", "exact_candidates", "partial_candidates", "related_candidates")
+            )
+            actual_id = (exact or partial or all_candidates)[0].get("id") if (exact or partial or all_candidates) else None
+            passed = fields_present and exact_ok and first_exact_ok and partial_ok
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
+            discovery = {}
+            exact = partial = []
+            actual_id = None
+            passed = False
+            error_text = str(error)
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": "required_live_discovery_contract",
+            "expected_top_id": None,
+            "actual_top_id": actual_id,
+            "expected_product_kind": regression["kind"],
+            "required_exact_constraints": sorted(regression.get("exact") or []),
+            "required_partial_disclosure": regression.get("partial"),
+            "parsed_query": discovery.get("parsed_query"),
+            "exact_candidates": exact[:5],
+            "partial_candidates": partial[:5],
+            "related_candidates": (discovery.get("related_candidates") or [])[:5],
+            "candidate_counts": {"exact": len(exact), "partial": len(partial), "related": len(discovery.get("related_candidates") or [])},
+            "top5_product_kinds": {
+                "exact": [candidate.get("product_kind") for candidate in exact[:5]],
+                "partial": [candidate.get("product_kind") for candidate in partial[:5]],
+                "related": [candidate.get("product_kind") for candidate in (discovery.get("related_candidates") or [])[:5]],
+            },
+            "duplicate_canonical_product_ids": len({candidate.get("canonical_product_id") for candidate in all_candidates if candidate.get("canonical_product_id")}) != len([candidate for candidate in all_candidates if candidate.get("canonical_product_id")]),
+            "candidate_grades": [{"id": candidate.get("id"), "relevance_grade": candidate.get("relevance_grade"), "verification_grade": candidate.get("verification_grade"), "overall_candidate_grade": candidate.get("overall_candidate_grade")} for candidate in all_candidates[:5]],
+            "passed": passed,
+        }
+        if error_text:
+            test["error"] = error_text
+        tests.append(test)
+        print(f"[{'PASS' if passed else 'FAIL'}] required discovery query={query!r} actual={actual_id}" + (f" error={error_text}" if error_text else ""))
+        time.sleep(1)
+
+    for regression in LIVE_COMPARISON_CASES:
+        query = str(regression["query"])
+        error_text = None
+        try:
+            comparison = client.compare(dict(regression["arguments"]))
+            candidates = comparison.get("candidates") or []
+            actual_id = candidates[0].get("item_id") if candidates else None
+            deposit_amount = regression["arguments"].get("deposit_amount_krw")
+            passed = bool(candidates) and all(
+                candidate.get("term_months") == regression["arguments"]["term_months"]
+                and (deposit_amount is None or candidate.get("deposit_limit") is None or candidate.get("deposit_limit") >= deposit_amount)
+                for candidate in candidates
+            )
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
+            comparison = {}
+            candidates = []
+            actual_id = None
+            passed = False
+            error_text = str(error)
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": "required_live_comparison_contract",
+            "expected_top_id": None,
+            "actual_top_id": actual_id,
+            "comparison_arguments": regression["arguments"],
+            "parsed_query": {"original_query": query, "domain": regression["arguments"]["domain"], "hard_constraints": regression["arguments"]},
+            "candidates": candidates[:5],
+            "candidate_count": len(candidates),
+            "top5_product_kinds": [candidate.get("product_kind") for candidate in candidates[:5]],
+            "duplicate_product_ids": len({candidate.get("item_id") for candidate in candidates if candidate.get("item_id")}) != len([candidate for candidate in candidates if candidate.get("item_id")]),
+            "passed": passed,
+        }
+        if error_text:
+            test["error"] = error_text
+        tests.append(test)
+        print(f"[{'PASS' if passed else 'FAIL'}] required comparison query={query!r} actual={actual_id}" + (f" error={error_text}" if error_text else ""))
+        time.sleep(1)
+
     for regression in COMPARISON_SEARCH_REGRESSIONS:
         query = str(regression["query"])
         expected_search_type = str(regression["expected_search_type"])
@@ -299,12 +443,12 @@ def main() -> int:
         for t in tests
         if not t["passed"]
     ]
-    search_index = json.loads(SEARCH_INDEX.read_text(encoding="utf-8"))
     summary = {
         "mcp_url": args.mcp_url,
         "checked_at": checked_at,
         "search_index_version": search_index.get("version"),
         "search_index_checksum": search_index.get("export_checksum"),
+        "runtime_search_index_checksum": actual_checksum,
         "test_count": len(tests),
         "passed_count": len(tests) - len(failures),
         "failed_count": len(failures),

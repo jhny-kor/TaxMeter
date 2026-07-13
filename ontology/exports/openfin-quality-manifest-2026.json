@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-13T04:18:53Z",
+  "built_at": "2026-07-13T04:58:50Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -572,7 +572,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-13T04:18:53Z",
+    "built_at": "2026-07-13T04:58:50Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
     "canonical_product_count": 3431,
@@ -611,6 +611,39 @@
       "insurance-products": "reference_only_when_coverage_conditions_are_incomplete"
     }
   },
+  "runtime_quality_metrics": {
+    "catalog_status_counts": {
+      "active": 3065,
+      "unknown": 366
+    },
+    "runtime_discovery_eligible_count": 3065,
+    "exact_discovery_candidate_count": 281,
+    "partial_discovery_candidate_count": 190,
+    "duplicate_canonical_product_count": 0,
+    "hard_constraint_violation_count": 0,
+    "grade_policy_violation_count": 0,
+    "verification_timestamp_violation_count": 0,
+    "empty_structured_summary_count": 0,
+    "empty_search_facets_count": 0,
+    "unmapped_existing_field_count": 414,
+    "sales_verification_status_counts": {
+      "listed_unverified": 3431
+    },
+    "verification_grade_counts": {
+      "C": 3431
+    },
+    "relevance_grade_counts": {
+      "A": 281,
+      "B": 190,
+      "D": 0
+    },
+    "exact_query_precision": 1.0,
+    "product_kind_precision": 1.0,
+    "hard_constraint_precision": 1.0,
+    "duplicate_free_rate": 1.0,
+    "unknown_constraint_disclosure_rate": 1.0,
+    "golden_case_count": 36
+  },
   "release_status": "ready",
   "recommendation_enabled": false,
   "degraded_domains": [],
@@ -620,5 +653,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "37c4d94265134ba37eb09aeb20925b5074897a50a11af0718e4fa4b9c75dc280"
+  "export_checksum": "264f56437f38442d5ba3cd0ae75af0084c9057378cbe7850a1d8676125452a9d"
 }

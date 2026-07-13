@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-13T04:18:53Z",
+  "built_at": "2026-07-13T04:58:50Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-13T04:18:53Z",
+      "built_at": "2026-07-13T04:58:50Z",
       "domain_export_count": 8,
       "search_index_item_count": 21233,
       "canonical_product_count": 3431,
@@ -590,7 +590,7 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-13T04:18:53Z",
+        "built_at": "2026-07-13T04:58:50Z",
         "domain_export_count": 8,
         "search_index_item_count": 21233,
         "canonical_product_count": 3431,
@@ -599,7 +599,7 @@
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "37c4d94265134ba37eb09aeb20925b5074897a50a11af0718e4fa4b9c75dc280",
+      "export_checksum": "264f56437f38442d5ba3cd0ae75af0084c9057378cbe7850a1d8676125452a9d",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {

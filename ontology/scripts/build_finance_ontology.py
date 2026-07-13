@@ -2842,6 +2842,63 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
     }
 
 
+def runtime_quality_metrics() -> dict:
+    items = (json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8")).get("items") or [])
+    cases = json.loads((ROOT / "tests" / "discovery_golden_cases.json").read_text(encoding="utf-8"))
+    exact_count = partial_count = hard_violations = grade_violations = 0
+    exact_checks = exact_kind_checks = exact_kind_matches = unknown_disclosures = 0
+    for case in cases:
+        result = discover(str(case["query"]), items=items)
+        allowed_kinds = set(case.get("allowed_exact_product_kinds") or [])
+        required_constraints = set(case.get("required_exact_constraints") or [])
+        for candidate in result.get("exact_candidates") or []:
+            exact_count += 1
+            exact_checks += 1
+            matched = set(candidate.get("matched_constraints") or [])
+            kind_ok = not allowed_kinds or candidate.get("product_kind") in allowed_kinds
+            exact_kind_checks += 1
+            exact_kind_matches += int(kind_ok)
+            if not kind_ok or not required_constraints.issubset(matched) or candidate.get("unknown_constraints") or candidate.get("failed_constraints"):
+                hard_violations += 1
+            if candidate.get("relevance_grade") != "A" or candidate.get("verification_grade") == "A" and candidate.get("overall_candidate_grade") != "A":
+                grade_violations += 1
+        for candidate in result.get("partial_candidates") or []:
+            partial_count += 1
+            unknown_disclosures += int(bool(candidate.get("unknown_constraints")))
+    products = [item for item in items if item.get("type") in {"card-product", "bank-product", "insurance-product"}]
+    canonical_ids = [str(item.get("canonical_product_id") or item.get("id")) for item in products]
+    sales_status_counts: dict[str, int] = {}
+    verification_grade_counts: dict[str, int] = {}
+    relevance_grade_counts = {"A": exact_count, "B": partial_count, "D": 0}
+    for product in products:
+        sales_status = str(product.get("sales_verification_status") or "unknown")
+        sales_status_counts[sales_status] = sales_status_counts.get(sales_status, 0) + 1
+        verification = "A" if product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" else ("C" if product.get("source_urls") else "D")
+        verification_grade_counts[verification] = verification_grade_counts.get(verification, 0) + 1
+    return {
+        "catalog_status_counts": {status: sum(1 for product in products if str(product.get("status") or product.get("product_status") or "unknown") == status) for status in sorted({str(product.get("status") or product.get("product_status") or "unknown") for product in products})},
+        "runtime_discovery_eligible_count": sum(1 for product in products if product.get("status") == "active" and product.get("product_status") == "active" and product.get("source_listing_status") == "listed" and product.get("source_freshness_status") != "stale" and product.get("source_urls") and product.get("discovery_evidence_fields")),
+        "exact_discovery_candidate_count": exact_count,
+        "partial_discovery_candidate_count": partial_count,
+        "duplicate_canonical_product_count": len(canonical_ids) - len(set(canonical_ids)),
+        "hard_constraint_violation_count": hard_violations,
+        "grade_policy_violation_count": grade_violations,
+        "verification_timestamp_violation_count": sum(1 for product in products if product.get("verification_status") != "verified" and product.get("last_verified_at")),
+        "empty_structured_summary_count": sum(1 for product in products if not product.get("structured_summary")),
+        "empty_search_facets_count": sum(1 for product in products if not product.get("search_facets")),
+        "unmapped_existing_field_count": sum(len(product.get("unmapped_existing_fields") or []) for product in products),
+        "sales_verification_status_counts": dict(sorted(sales_status_counts.items())),
+        "verification_grade_counts": dict(sorted(verification_grade_counts.items())),
+        "relevance_grade_counts": relevance_grade_counts,
+        "exact_query_precision": round((exact_checks - hard_violations) / exact_checks, 4) if exact_checks else 1.0,
+        "product_kind_precision": round(exact_kind_matches / exact_kind_checks, 4) if exact_kind_checks else 1.0,
+        "hard_constraint_precision": round((exact_checks - hard_violations) / exact_checks, 4) if exact_checks else 1.0,
+        "duplicate_free_rate": round(len(set(canonical_ids)) / len(canonical_ids), 4) if canonical_ids else 1.0,
+        "unknown_constraint_disclosure_rate": round(unknown_disclosures / partial_count, 4) if partial_count else 1.0,
+        "golden_case_count": len(cases),
+    }
+
+
 def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
     exports = manifest.get("exports") or []
     previous_quality = (
@@ -2872,6 +2929,7 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         "api_required_sources": manifest.get("api_required_sources") or [],
         "export_audit": (manifest.get("quality_summary") or {}).get("export_audit") or {},
         "operating_policy": manifest.get("operating_policy") or {},
+        "runtime_quality_metrics": runtime_quality_metrics(),
         **release_policy(domain_summaries, search_report),
     }
     previous_live = previous_quality.get("live_search_regression") or {}

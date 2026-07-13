@@ -16,7 +16,7 @@ export와 `ontology/vault/`의 Obsidian 노트로 나온다. 이 문서는 현�
 | --- | --- | --- |
 | 스키마 | `ontology/schema/node.schema.json` | 전 도메인 공용 노드 구조. 타입 30여 종, `criteria[]`(근거·조건·금액·금리·법령), 관계 배열(`parents/children/related/terms/deadlines/sources`) |
 | 원천 스냅샷 | `ontology/custom/finance/*.generated.json` | FinLife·KDIC·KLIA·KINFA API 수집 원본. `raw` 필드에 API 응답 보존 |
-| 빌드 | `import_finance_products.py` → `build_finance_ontology.py` | 수집 → 관계·criteria·운영상태(enrich) → export 생성 |
+| 빌드 | `import_finance_products.py` → `verify_openfin_release.py --build` | 수집 → 관계·criteria·운영상태(enrich) → export 생성 + 오프라인 게이트 |
 | 검증 | `validate_finance_ontology.py`, `validate_ontology.py` | 상품 필수필드, 관계 무결성, 상태 게이트, 검색 회귀 5종 |
 | 배포 | `ontology/exports/` + `docs/opentax/` 미러 | 도메인 export 8종, 검색 인덱스, 품질 매니페스트 2종, checksum |
 | 소비 | `ontology/mcp_server.py`, `cloudflare/opentax-mcp/` | `finance_search` 등 MCP 도구. custom overlay로 쓰기 분리 |
@@ -90,10 +90,12 @@ python3 ontology/scripts/validate_ontology.py
 
 ```sh
 python3 ontology/scripts/import_finance_products.py   # FinLife·KDIC·KLIA·KINFA 수집 → custom/finance/*.generated.json
-python3 ontology/scripts/build_finance_ontology.py    # export 8종 + 인덱스 + 매니페스트 재생성
-python3 ontology/scripts/validate_finance_ontology.py # 게이트 통과 확인
+python3 ontology/scripts/verify_openfin_release.py --build  # export 재생성 + 필수 오프라인 게이트
 python3 ontology/scripts/materialize_finance_graph_vault.py  # 그래프 vault 갱신
 ```
+
+배포 후에는 `validate_search_regression_live.py`로 라이브 증적을 기록하고
+`python3 ontology/scripts/verify_openfin_release.py --require-live`를 통과해야 릴리스를 완료한다.
 
 - FinLife(금융상품한눈에): `FINLIFE_API_KEY` 필요, 없으면 `--skip-finlife`.
 - KDIC 예금자보호·KINFA 정책대출: `DATA_GO_KR_SERVICE_KEY` 필요.

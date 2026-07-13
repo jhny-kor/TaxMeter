@@ -60,11 +60,15 @@ def parse_query(query: str) -> dict:
         hard_constraints.append({"field": "employment_type", "operator": "equals", "value": "employee"})
     if "중도상환수수료 없는" in normalized:
         hard_constraints.append({"field": "early_repayment_fee", "operator": "equals", "value": 0})
+    if "구독" in normalized:
+        hard_constraints.append({"field": "benefit_category", "operator": "contains", "value": "subscription"})
+    if "자유적립" in normalized or "자유적금" in normalized:
+        hard_constraints.append({"field": "saving_method", "operator": "equals", "value": "free"})
     term_match = re.search(r"(\d+)\s*개월", normalized)
     if term_match:
         hard_constraints.append({"field": "term_months", "operator": "equals", "value": int(term_match.group(1))})
     amount = parse_amount_krw(normalized)
     if amount is not None:
         hard_constraints.append({"field": "deposit_amount_krw" if domain == "deposit" else "monthly_payment_krw", "operator": "lte", "value": amount})
-    soft_preferences = [token for token in ("마일리지", "구독", "교통", "쇼핑", "온라인", "우대금리", "낮은 금리", "높은 한도") if token in normalized]
+    soft_preferences = [token for token in ("마일리지", "교통", "쇼핑", "온라인", "우대금리", "낮은 금리", "높은 한도", "대한항공", "SKYPASS", "청년") if token.casefold() in normalized.casefold()]
     return {"original_query": query, "parser_version": QUERY_PARSER_VERSION, "intent": intent, "domain": domain, "product_kind": product_kind, "hard_constraints": hard_constraints, "soft_preferences": soft_preferences, "negative_constraints": [], "numeric_constraints": [constraint for constraint in hard_constraints if isinstance(constraint["value"], int)], "unparsed_tokens": []}

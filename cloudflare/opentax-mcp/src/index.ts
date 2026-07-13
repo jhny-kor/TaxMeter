@@ -189,11 +189,12 @@ const READ_ONLY_TOOL_ANNOTATIONS = {
 const ENABLE_CARD_DISCOVERY = true;
 const ENABLE_LOAN_DISCOVERY = true;
 const ENABLE_INSURANCE_DISCOVERY = true;
-const ENABLE_DEPOSIT_SAVING_COMPARISON = true;
+const ENABLE_DEPOSIT_COMPARISON = true;
+const ENABLE_SAVING_COMPARISON = true;
 const ENABLE_PUBLIC_RECOMMENDATION = false;
-const QUERY_PARSER_VERSION = "openfin-query-parser-v1.0.0";
-const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.0.0";
-const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.0.0";
+const QUERY_PARSER_VERSION = "openfin-query-parser-v1.1.0";
+const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
+const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.1.0";
 const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.0";
 
 let cachedGraph: CachedGraph | undefined;
@@ -393,7 +394,7 @@ function discoveryDomainForItem(item: FinanceItem): DiscoveryDomain | undefined 
 function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain): boolean {
   if (discoveryDomainForItem(item) !== domain) return false;
   if (item.product_status !== "active" || item.status !== "active" || item.source_freshness_status === "stale") return false;
-  if (!item.source_urls?.length || (item.source_listing_status !== undefined && item.source_listing_status !== "listed")) return false;
+  if (!item.source_urls?.length || item.source_listing_status !== "listed") return false;
   const evidence = new Set(item.discovery_evidence_fields ?? []);
   if (domain === "card") return Boolean(item.title && item.provider && item.product_kind && (["benefit_type", "benefit_rate_or_amount", "benefit_categories"].some((field) => evidence.has(field))));
   if (domain === "loan") return Boolean(item.provider && item.product_kind && ["loan_rate_min_percent", "loan_rate_max_percent", "loan_limit_krw"].some((field) => evidence.has(field)));
@@ -403,9 +404,9 @@ function isDiscoveryCandidate(item: FinanceItem, domain: DiscoveryDomain): boole
 
 function discoveryConfidence(item: FinanceItem): "A" | "B" | "C" | "D" {
   const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
-  if (ratio >= 0.8) return "A";
-  if (ratio >= 0.5) return "B";
-  if (ratio >= 0.25) return "C";
+  if (ratio >= 0.9) return "A";
+  if (ratio >= 0.7) return "B";
+  if (ratio >= 0.4) return "C";
   return "D";
 }
 
@@ -427,35 +428,150 @@ function requestedProductKind(query: string): string | undefined {
   return undefined;
 }
 
+type DiscoveryConstraint = { readonly field: string; readonly operator: "equals" | "lte" | "contains"; readonly value: string | number };
+type ParsedDiscoveryQuery = {
+  readonly original_query: string;
+  readonly parser_version: string;
+  readonly intent: "discovery";
+  readonly domain: DiscoveryDomain;
+  readonly product_kind?: string;
+  readonly hard_constraints: readonly DiscoveryConstraint[];
+  readonly soft_preferences: readonly string[];
+  readonly negative_constraints: readonly string[];
+  readonly numeric_constraints: readonly DiscoveryConstraint[];
+  readonly unparsed_tokens: readonly string[];
+};
+
+function parseAmountKrw(query: string): number | undefined {
+  const match = query.replace(/,/g, "").match(/(\d+(?:\.\d+)?)\s*(천만원|억원|만원|천원|원)/);
+  if (!match) return undefined;
+  const multiplier = { "억원": 100_000_000, "천만원": 10_000_000, "만원": 10_000, "천원": 1_000, "원": 1 }[match[2]];
+  if (multiplier === undefined) return undefined;
+  return Math.trunc(Number(match[1]) * multiplier);
+}
+
+function parseDiscoveryQuery(query: string, domain: DiscoveryDomain): ParsedDiscoveryQuery {
+  const productKind = requestedProductKind(query);
+  const hardConstraints: DiscoveryConstraint[] = productKind ? [{ field: "product_kind", operator: "equals", value: productKind }] : [];
+  if (query.includes("전월실적 없는")) hardConstraints.push({ field: "previous_month_spend_min_krw", operator: "equals", value: 0 });
+  if (query.includes("연회비 없는")) hardConstraints.push({ field: "annual_fee_krw", operator: "equals", value: 0 });
+  if (query.includes("비갱신") || query.includes("갱신 안 되는")) hardConstraints.push({ field: "renewal_type", operator: "equals", value: "non_renewable" });
+  else if (query.includes("갱신형")) hardConstraints.push({ field: "renewal_type", operator: "equals", value: "renewable" });
+  if (query.includes("직장인")) hardConstraints.push({ field: "employment_type", operator: "equals", value: "employee" });
+  if (query.includes("중도상환수수료 없는")) hardConstraints.push({ field: "early_repayment_fee", operator: "equals", value: 0 });
+  if (query.includes("구독")) hardConstraints.push({ field: "benefit_category", operator: "contains", value: "subscription" });
+  if (query.includes("자유적립") || query.includes("자유적금")) hardConstraints.push({ field: "saving_method", operator: "equals", value: "free" });
+  const term = query.match(/(\d+)\s*개월/);
+  if (term) hardConstraints.push({ field: "term_months", operator: "equals", value: Number(term[1]) });
+  const amount = parseAmountKrw(query);
+  if (amount !== undefined) hardConstraints.push({ field: domain === "deposit" ? "deposit_amount_krw" : "monthly_payment_krw", operator: "lte", value: amount });
+  const softPreferences = ["마일리지", "교통", "쇼핑", "온라인", "우대금리", "낮은 금리", "높은 한도", "대한항공", "SKYPASS", "청년"]
+    .filter((token) => normalizeQuery(query).includes(normalizeQuery(token)));
+  return { original_query: query, parser_version: QUERY_PARSER_VERSION, intent: "discovery", domain, product_kind: productKind, hard_constraints: hardConstraints, soft_preferences: softPreferences, negative_constraints: [], numeric_constraints: hardConstraints.filter((constraint) => typeof constraint.value === "number"), unparsed_tokens: [] };
+}
+
+function discoveryValues(item: FinanceItem, field: string): unknown[] {
+  const direct = item[field as keyof FinanceItem];
+  if (direct !== undefined && direct !== null && direct !== "" && (!Array.isArray(direct) || direct.length)) return Array.isArray(direct) ? direct : [direct];
+  const values: unknown[] = [];
+  for (const section of Object.values(item.structured_summary ?? {})) {
+    if (isRecord(section) && section[field] !== undefined && section[field] !== null && section[field] !== "") {
+      const value = section[field];
+      values.push(...(Array.isArray(value) ? value : [value]));
+    }
+  }
+  for (const option of item.comparison_options ?? []) {
+    if (isRecord(option) && option[field] !== undefined && option[field] !== null && option[field] !== "") {
+      const value = option[field];
+      values.push(...(Array.isArray(value) ? value : [value]));
+    }
+  }
+  return values;
+}
+
+function flattenDiscoveryValues(values: readonly unknown[]): unknown[] {
+  return values.flatMap((value) => Array.isArray(value) ? flattenDiscoveryValues(value) : [value]);
+}
+
+function discoveryItemText(item: FinanceItem): string {
+  return normalizeQuery([item.title, item.description, item.product_kind, item.search_text, ...(item.search_aliases ?? [])].filter(Boolean).join(" "));
+}
+
+function discoveryConstraintState(item: FinanceItem, constraint: DiscoveryConstraint): "matched" | "failed" | "unknown" {
+  const { field, value: expected } = constraint;
+  const candidateText = discoveryItemText(item);
+  if (field === "product_kind") return item.product_kind === expected || (expected === "rent-loan" && item.product_kind === "policy-loan" && candidateText.includes("전세")) ? "matched" : "failed";
+  if (field === "employment_type") return ["직장인", "재직자", "근로소득자"].some((token) => candidateText.includes(token)) ? "matched" : "unknown";
+  if (field === "term_months") {
+    const termMonths = discoveryValues(item, "term_months");
+    const terms = termMonths.length ? termMonths : discoveryValues(item, "terms");
+    return terms.some((term) => String(term) === String(expected)) ? "matched" : "unknown";
+  }
+  if (field === "deposit_amount_krw" || field === "monthly_payment_krw") {
+    const limits = discoveryValues(item, field === "deposit_amount_krw" ? "maximum_deposit_krw" : "monthly_payment_max_krw");
+    return limits.length ? (limits.some((limit) => typeof limit === "number" && limit >= Number(expected)) ? "matched" : "failed") : "unknown";
+  }
+  const candidates = discoveryValues(item, field === "benefit_category" ? "benefit_categories" : field);
+  if (!candidates.length) return "unknown";
+  if (field === "renewal_type") return candidates.some((candidate) => String(candidate).replace("nonrenewable", "non_renewable") === expected) ? "matched" : "failed";
+  if (field === "benefit_category") return flattenDiscoveryValues(candidates).some((candidate) => ["구독", "subscription"].includes(normalizeQuery(String(candidate)))) ? "matched" : "failed";
+  if (expected === 0) return candidates.some((candidate) => candidate === 0) ? "matched" : "failed";
+  return candidates.some((candidate) => candidate === expected) ? "matched" : "failed";
+}
+
+function discoveryPreferenceState(item: FinanceItem, preference: string): "matched" | "unknown" {
+  const tokens: Record<string, readonly string[]> = { "마일리지": ["마일", "mileage"], "구독": ["구독", "subscription"], "교통": ["교통"], "쇼핑": ["쇼핑"], "온라인": ["온라인"], "대한항공": ["대한항공"], "SKYPASS": ["skypass"], "청년": ["청년", "youth"], "자유": ["자유", "free"] };
+  return (tokens[preference] ?? [preference]).some((token) => discoveryItemText(item).includes(normalizeQuery(token))) ? "matched" : "unknown";
+}
+
 function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
   const domain = discoveryDomainForQuery(query);
   const enabled = domain === "card" ? ENABLE_CARD_DISCOVERY : domain === "loan" ? ENABLE_LOAN_DISCOVERY : domain === "insurance" ? ENABLE_INSURANCE_DISCOVERY : true;
   if (!domain || !enabled) return { requested_intent: "discovery", executed_mode: "discovery", parsed_query: { original_query: query, parser_version: QUERY_PARSER_VERSION, domain: domain ?? null }, exact_candidates: [], partial_candidates: [], related_candidates: [], excluded_summary: {}, warnings: [domain ? "이 도메인의 탐색은 현재 비활성화되어 있습니다." : "상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
-  const tokens = queryTokens(query).filter((token) => !DISCOVERY_ACTION_RE.test(token) && !DISCOVERY_DOMAIN_TOKENS[domain].some((domainToken) => normalizeQuery(domainToken) === normalizeQuery(token)));
-  const productKind = requestedProductKind(query);
+  const parsed = parseDiscoveryQuery(query, domain);
   const groups = { exact_candidates: [] as Record<string, unknown>[], partial_candidates: [] as Record<string, unknown>[], related_candidates: [] as Record<string, unknown>[] };
+  const excludedSummary: Record<string, number> = {};
   const seen = new Set<string>();
-  for (const item of items.filter((candidate) => isDiscoveryCandidate(candidate, domain))) {
-    const text = itemSearchText(item);
-    const matched = tokens.filter((token) => text.includes(normalizeQuery(token)));
+  for (const item of items) {
+    if (discoveryDomainForItem(item) !== domain) {
+      excludedSummary.domain_mismatch = (excludedSummary.domain_mismatch ?? 0) + 1;
+      continue;
+    }
+    if (!isDiscoveryCandidate(item, domain)) {
+      excludedSummary.inactive_or_unlisted = (excludedSummary.inactive_or_unlisted ?? 0) + 1;
+      continue;
+    }
+    const text = discoveryItemText(item);
+    const matched = parsed.soft_preferences.filter((preference) => discoveryPreferenceState(item, preference) === "matched");
     const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
     const score = 35 + Math.min(20, matched.length * 10) + Math.round(ratio * 10) + (item.source_freshness_status === "current" ? 5 : 0);
     const canonicalId = item.canonical_product_id ?? item.id;
-    if (seen.has(canonicalId)) continue;
-    seen.add(canonicalId);
-    const kindMatched = productKind === undefined || item.product_kind === productKind || (productKind === "rent-loan" && item.product_kind === "policy-loan" && text.includes("전세"));
-    const requestedTerm = query.match(/(\d+)\s*개월/);
-    const termMatched = requestedTerm === null || (item.comparison_options ?? []).some((option) => isRecord(option) && (option.term_months === Number(requestedTerm[1]) || option.save_trm === String(requestedTerm[1])));
-    const hasUnparsedHardConstraint = /전월실적\s*없는|연회비\s*없는|비갱신|갱신형|직장인|중도상환수수료\s*없는/.test(query) || !termMatched;
-    const eligibility = !kindMatched ? "related_candidate" : (hasUnparsedHardConstraint ? "partial_candidate" : "exact_candidate");
+    const states = new Map(parsed.hard_constraints.map((constraint) => [constraint.field, discoveryConstraintState(item, constraint)]));
+    const preferenceStates = new Map(parsed.soft_preferences.map((preference) => [preference, discoveryPreferenceState(item, preference)]));
+    const failed = [...states.entries()].filter(([, state]) => state === "failed").map(([field]) => field);
+    const unknown = [...states.entries(), ...preferenceStates.entries()].filter(([, state]) => state === "unknown").map(([field]) => field);
+    const matchedConstraints = [...states.entries(), ...preferenceStates.entries()].filter(([, state]) => state === "matched").map(([field]) => field);
+    const eligibility = failed.length ? (failed.includes("product_kind") ? "related_candidate" : "excluded") : (unknown.length ? "partial_candidate" : "exact_candidate");
     const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
-    const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" ? "A" : item.source_urls?.length ? "C" : "D";
-    const overall = relevance === "D" || verification === "D" ? "D" : relevance === "B" || verification === "C" ? "C" : "A";
-    const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: kindMatched && productKind ? ["product_kind"] : [], unknown_constraints: hasUnparsedHardConstraint ? ["structured_hard_constraint"] : [], failed_constraints: kindMatched ? [] : ["product_kind"], decision_reasons: kindMatched && productKind ? [{ constraint: "product_kind", matched_value: item.product_kind, evidence_field: "product_kind" }] : [], limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
+    const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" && item.verified_completeness_ratio === 1 ? "A" : item.verification_status === "verified" ? "B" : item.source_urls?.length ? "C" : "D";
+    let overall: "A" | "B" | "C" | "D" = relevance > verification ? relevance : verification;
+    if (item.sales_verification_status === "listed_unverified" || !item.domain_gate_passed || ratio === 0) {
+      overall = overall > "C" ? overall : "C";
+    }
+    const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: matchedConstraints, unknown_constraints: unknown, failed_constraints: failed, decision_reasons: matchedConstraints.map((field) => ({ constraint: field, matched_value: field === "product_kind" ? item.product_kind : field, evidence_field: field })), limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
+    if (eligibility === "excluded") {
+      excludedSummary.hard_constraint_failed = (excludedSummary.hard_constraint_failed ?? 0) + 1;
+      continue;
+    }
+    if (seen.has(canonicalId)) {
+      excludedSummary.duplicate_canonical_product = (excludedSummary.duplicate_canonical_product ?? 0) + 1;
+      continue;
+    }
+    seen.add(canonicalId);
     groups[`${eligibility}s` as keyof typeof groups].push({ canonical_product_id: canonicalId, id: item.id, title: item.title, provider: item.provider, product_kind: item.product_kind, catalog_recommendation_status: item.catalog_recommendation_status ?? item.recommendation_status, catalog_recommendation_scope: item.catalog_recommendation_scope ?? item.recommendation_scope, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: decision.matched_constraints, unknown_constraints: decision.unknown_constraints, failed_constraints: decision.failed_constraints, why_included: decision.decision_reasons, limitations: decision.limitations, source_urls: item.source_urls ?? [], source_basis_dates: item.source_basis_dates ?? [], decision });
   }
   for (const values of Object.values(groups)) values.sort((left, right) => Number((right.decision as Record<string, unknown>).score) - Number((left.decision as Record<string, unknown>).score) || String(left.canonical_product_id).localeCompare(String(right.canonical_product_id), "ko-KR")).splice(limit);
-  return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: { original_query: query, parser_version: QUERY_PARSER_VERSION, intent: "discovery", domain, product_kind: productKind }, ...groups, excluded_summary: {}, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
+  return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: parsed, ...groups, excluded_summary: excludedSummary, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
 }
 
 function scoreItem(item: FinanceItem, query: string): number {
@@ -713,9 +829,11 @@ function recommendationBlocker(item: FinanceItem): string | undefined {
     return "missing_verification_evidence";
   }
   const checksums = item.verification_evidence.source_checksums;
+  if (!item.source_records?.length) return "missing_source_records";
   const sourceChecksums = item.source_records
-    ?.map((record) => record.source_checksum)
-    .filter((checksum): checksum is string => typeof checksum === "string" && checksum.length > 0) ?? [item.source_checksum];
+    .map((record) => record.source_checksum)
+    .filter((checksum): checksum is string => typeof checksum === "string" && checksum.length > 0);
+  if (sourceChecksums.length !== item.source_records.length) return "missing_source_checksum";
   if (!Array.isArray(checksums) || !sourceChecksums.every((checksum) => checksums.includes(checksum))) return "source_checksum_mismatch";
   const expiresAt = item.verification_evidence.expires_at;
   if (!isFutureOrCurrentIsoDate(expiresAt)) return "verification_expired";
@@ -1092,7 +1210,7 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, limit }) => {
-      if (!ENABLE_DEPOSIT_SAVING_COMPARISON) {
+      if ((domain === "deposit" && !ENABLE_DEPOSIT_COMPARISON) || (domain === "saving" && !ENABLE_SAVING_COMPARISON)) {
         const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
       }

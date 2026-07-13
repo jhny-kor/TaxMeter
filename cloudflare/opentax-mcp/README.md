@@ -87,7 +87,7 @@ frequently. Use the official importer when a FinLife API key is available:
 
 ```sh
 FINLIFE_API_KEY=... python3 ontology/scripts/import_finance_products.py
-python3 ontology/scripts/build_finance_ontology.py
+python3 ontology/scripts/verify_openfin_release.py --build
 ```
 
 The generated product nodes must keep provider, product code, sale status,
