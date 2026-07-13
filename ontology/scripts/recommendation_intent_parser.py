@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import re
 
+from recommendation_policy import QUERY_PARSER_VERSION
+
 
 PRODUCT_KINDS = (
     ("check-card", "card", ("체크카드",)),
@@ -65,4 +67,4 @@ def parse_query(query: str) -> dict:
     if amount is not None:
         hard_constraints.append({"field": "deposit_amount_krw" if domain == "deposit" else "monthly_payment_krw", "operator": "lte", "value": amount})
     soft_preferences = [token for token in ("마일리지", "구독", "교통", "쇼핑", "온라인", "우대금리", "낮은 금리", "높은 한도") if token in normalized]
-    return {"original_query": query, "intent": intent, "domain": domain, "product_kind": product_kind, "hard_constraints": hard_constraints, "soft_preferences": soft_preferences, "negative_constraints": [], "numeric_constraints": [constraint for constraint in hard_constraints if isinstance(constraint["value"], int)], "unparsed_tokens": []}
+    return {"original_query": query, "parser_version": QUERY_PARSER_VERSION, "intent": intent, "domain": domain, "product_kind": product_kind, "hard_constraints": hard_constraints, "soft_preferences": soft_preferences, "negative_constraints": [], "numeric_constraints": [constraint for constraint in hard_constraints if isinstance(constraint["value"], int)], "unparsed_tokens": []}

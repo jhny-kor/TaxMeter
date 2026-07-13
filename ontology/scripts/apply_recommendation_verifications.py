@@ -94,7 +94,7 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         if item.get("recommendation_scope") in {None, "", "unspecified"}:
             item["recommendation_scope"] = "listing_only"
         item["recommendation_model_version"] = MODEL_VERSION
-        item["canonical_product_id"] = str(item.get("id") or "")
+        item["canonical_product_id"] = str(item.get("canonical_product_id") or item.get("id") or "")
         item["recommendation_basis_fields"] = item.get("recommendation_basis_fields") or []
         item["recommendation_exclusion_reasons"] = item.get("recommendation_exclusion_reasons") or []
         item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
@@ -105,7 +105,7 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         item["last_verified_at"] = None
         source_checksum = item_source_checksum(item)
         item["source_checksum"] = source_checksum
-        record = records.get(str(item.get("id")))
+        record = records.get(str(item["canonical_product_id"]))
         if not record:
             if item.get("recommendation_status") == "eligible_for_listing" and item.get("type") == "bank-product":
                 item["recommendation_scope"] = "comparison_only"

@@ -4,9 +4,10 @@ from __future__ import annotations
 from typing import Any
 
 from recommendation_intent_parser import parse_query
+from recommendation_policy import DISCOVERY_ENABLED_DOMAINS, DISCOVERY_ENGINE_VERSION, FIELD_EXTRACTOR_VERSION
 
 
-ENGINE_VERSION = "openfin-discovery-v1.0.0"
+ENGINE_VERSION = DISCOVERY_ENGINE_VERSION
 
 
 def is_discovery_query(query: str) -> bool:
@@ -137,6 +138,8 @@ def candidate(item: dict[str, Any], decision_data: dict[str, Any]) -> dict[str, 
 def discover(query: str, items: list[dict[str, Any]], limit: int = 10) -> dict[str, Any]:
     parsed = parse_query(query)
     groups = {"exact_candidates": [], "partial_candidates": [], "related_candidates": []}
+    if not DISCOVERY_ENABLED_DOMAINS.get(str(parsed["domain"]), False):
+        return {"requested_intent": parsed["intent"], "executed_mode": "discovery", "fallback_reason": "discovery_domain_disabled", "parsed_query": parsed, **groups, "excluded_summary": {}, "warnings": ["이 도메인의 탐색은 현재 비활성화되어 있습니다."], "basis_date": None, "engine_version": ENGINE_VERSION, "field_extractor_version": FIELD_EXTRACTOR_VERSION}
     excluded: dict[str, int] = {}
     seen: set[str] = set()
     for item in items:
@@ -156,4 +159,4 @@ def discover(query: str, items: list[dict[str, Any]], limit: int = 10) -> dict[s
         values_.sort(key=lambda value: (-int(value["decision"]["score"]), str(value["canonical_product_id"])))
         del values_[limit:]
     requested_intent = "recommend" if any(token in query for token in ("추천", "골라", "알려", "찾아")) else parsed["intent"]
-    return {"requested_intent": requested_intent, "executed_mode": "discovery", "fallback_reason": "verified_recommendation_candidate_not_available" if requested_intent == "recommend" else None, "parsed_query": parsed, **groups, "excluded_summary": excluded, "warnings": ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], "basis_date": None, "engine_version": ENGINE_VERSION}
+    return {"requested_intent": requested_intent, "executed_mode": "discovery", "fallback_reason": "verified_recommendation_candidate_not_available" if requested_intent == "recommend" else None, "parsed_query": parsed, **groups, "excluded_summary": excluded, "warnings": ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], "basis_date": None, "engine_version": ENGINE_VERSION, "field_extractor_version": FIELD_EXTRACTOR_VERSION}

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from recommendation_intent_parser import parse_query
+from recommendation_policy import QUERY_PARSER_VERSION
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,8 @@ def main() -> int:
     errors: list[str] = []
     for case in json.loads((ROOT / "tests" / "query_parser_cases.json").read_text(encoding="utf-8")):
         parsed = parse_query(str(case["query"]))
+        if parsed.get("parser_version") != QUERY_PARSER_VERSION:
+            errors.append(f"{case['query']}: parser version missing")
         for key in ("intent", "domain", "product_kind"):
             if parsed.get(key) != case[key]:
                 errors.append(f"{case['query']}: {key}={parsed.get(key)!r}")

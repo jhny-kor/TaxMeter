@@ -42,6 +42,11 @@ type FinanceItem = {
   catalog_recommendation_status?: string;
   catalog_recommendation_scope?: string;
   canonical_product_id?: string;
+  source_records?: Record<string, unknown>[];
+  preferred_source?: string;
+  merged_fields?: Record<string, unknown>;
+  field_provenance?: Record<string, string[]>;
+  field_conflicts?: Record<string, unknown>;
   recommendation_model_version?: string;
   recommendation_exclusion_reasons?: string[];
   recommendation_basis_fields?: string[];
@@ -181,6 +186,15 @@ const READ_ONLY_TOOL_ANNOTATIONS = {
   idempotentHint: true,
   openWorldHint: false,
 } as const;
+const ENABLE_CARD_DISCOVERY = true;
+const ENABLE_LOAN_DISCOVERY = true;
+const ENABLE_INSURANCE_DISCOVERY = true;
+const ENABLE_DEPOSIT_SAVING_COMPARISON = true;
+const ENABLE_PUBLIC_RECOMMENDATION = false;
+const QUERY_PARSER_VERSION = "openfin-query-parser-v1.0.0";
+const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.0.0";
+const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.0.0";
+const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.0";
 
 let cachedGraph: CachedGraph | undefined;
 let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
@@ -401,17 +415,22 @@ function requestedProductKind(query: string): string | undefined {
   if (query.includes("신용대출")) return "credit-loan";
   if (query.includes("전세대출") || query.includes("월세대출")) return "rent-loan";
   if (query.includes("주택담보대출")) return "mortgage-loan";
+  if (query.includes("정책대출")) return "policy-loan";
   if (query.includes("실손") || query.includes("실비")) return "indemnity-health";
   if (query.includes("암보험")) return "cancer";
   if (query.includes("상해보험")) return "accident";
+  if (query.includes("질병보험")) return "disease";
   if (query.includes("정기보험")) return "term-life";
   if (query.includes("종신보험")) return "whole-life";
+  if (query.includes("정기예금") || query.includes("예금")) return "deposit";
+  if (query.includes("자유적금") || query.includes("적금")) return "saving";
   return undefined;
 }
 
 function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
   const domain = discoveryDomainForQuery(query);
-  if (!domain) return { requested_intent: "discovery", executed_mode: "discovery", parsed_query: { original_query: query, domain: null }, exact_candidates: [], partial_candidates: [], related_candidates: [], excluded_summary: {}, warnings: ["상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."], engine_version: "openfin-discovery-v1.0.0" };
+  const enabled = domain === "card" ? ENABLE_CARD_DISCOVERY : domain === "loan" ? ENABLE_LOAN_DISCOVERY : domain === "insurance" ? ENABLE_INSURANCE_DISCOVERY : true;
+  if (!domain || !enabled) return { requested_intent: "discovery", executed_mode: "discovery", parsed_query: { original_query: query, parser_version: QUERY_PARSER_VERSION, domain: domain ?? null }, exact_candidates: [], partial_candidates: [], related_candidates: [], excluded_summary: {}, warnings: [domain ? "이 도메인의 탐색은 현재 비활성화되어 있습니다." : "상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
   const tokens = queryTokens(query).filter((token) => !DISCOVERY_ACTION_RE.test(token) && !DISCOVERY_DOMAIN_TOKENS[domain].some((domainToken) => normalizeQuery(domainToken) === normalizeQuery(token)));
   const productKind = requestedProductKind(query);
   const groups = { exact_candidates: [] as Record<string, unknown>[], partial_candidates: [] as Record<string, unknown>[], related_candidates: [] as Record<string, unknown>[] };
@@ -436,7 +455,7 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
     groups[`${eligibility}s` as keyof typeof groups].push({ canonical_product_id: canonicalId, id: item.id, title: item.title, provider: item.provider, product_kind: item.product_kind, catalog_recommendation_status: item.catalog_recommendation_status ?? item.recommendation_status, catalog_recommendation_scope: item.catalog_recommendation_scope ?? item.recommendation_scope, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: decision.matched_constraints, unknown_constraints: decision.unknown_constraints, failed_constraints: decision.failed_constraints, why_included: decision.decision_reasons, limitations: decision.limitations, source_urls: item.source_urls ?? [], source_basis_dates: item.source_basis_dates ?? [], decision });
   }
   for (const values of Object.values(groups)) values.sort((left, right) => Number((right.decision as Record<string, unknown>).score) - Number((left.decision as Record<string, unknown>).score) || String(left.canonical_product_id).localeCompare(String(right.canonical_product_id), "ko-KR")).splice(limit);
-  return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: { original_query: query, intent: "discovery", domain, product_kind: productKind }, ...groups, excluded_summary: {}, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: "openfin-discovery-v1.0.0" };
+  return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: { original_query: query, parser_version: QUERY_PARSER_VERSION, intent: "discovery", domain, product_kind: productKind }, ...groups, excluded_summary: {}, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: DISCOVERY_ENGINE_VERSION, field_extractor_version: FIELD_EXTRACTOR_VERSION };
 }
 
 function scoreItem(item: FinanceItem, query: string): number {
@@ -627,7 +646,7 @@ function itemAliases(item: FinanceItem): readonly string[] {
 function resolveCanonicalItemId(rawId: string, searchIndex: SearchIndex): FinanceItem | undefined {
   const itemId = normalizeQuery(resolveItemId(rawId));
   return searchIndex.items.find(
-    (item) => normalizeQuery(item.id) === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
+    (item) => normalizeQuery(item.id) === itemId || normalizeQuery(item.canonical_product_id ?? "") === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
   );
 }
 
@@ -681,6 +700,8 @@ function domainMatches(item: FinanceItem, domain: string): boolean {
 }
 
 function recommendationBlocker(item: FinanceItem): string | undefined {
+  if (!ENABLE_PUBLIC_RECOMMENDATION) return "public_recommendation_disabled";
+  if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
   if (item.recommendation_status !== "verified_recommendation_candidate") {
     return "not_verified_recommendation_candidate";
   }
@@ -692,7 +713,10 @@ function recommendationBlocker(item: FinanceItem): string | undefined {
     return "missing_verification_evidence";
   }
   const checksums = item.verification_evidence.source_checksums;
-  if (!Array.isArray(checksums) || !checksums.includes(item.source_checksum)) return "source_checksum_mismatch";
+  const sourceChecksums = item.source_records
+    ?.map((record) => record.source_checksum)
+    .filter((checksum): checksum is string => typeof checksum === "string" && checksum.length > 0) ?? [item.source_checksum];
+  if (!Array.isArray(checksums) || !sourceChecksums.every((checksum) => checksums.includes(checksum))) return "source_checksum_mismatch";
   const expiresAt = item.verification_evidence.expires_at;
   if (!isFutureOrCurrentIsoDate(expiresAt)) return "verification_expired";
   if (item.freshness_status === "stale") {
@@ -726,6 +750,7 @@ function isFutureOrCurrentIsoDate(value: unknown): value is string {
 }
 
 function comparisonBlocker(item: FinanceItem): string | undefined {
+  if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
   if (item.source_listing_status !== "listed") return "source_not_listed";
   if (item.sales_verification_status !== "verified_active") return "sales_not_verified";
@@ -804,7 +829,12 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
     const itemsById = new Map(items.map((item) => [item.id, item]));
     const item = itemsById.get(itemId);
     if (item) {
-      return { item, itemsById };
+      return {
+        item: indexedItem?.canonical_product_id
+          ? { ...item, ...indexedItem, criteria: item.criteria, options: item.options, benefits: item.benefits }
+          : item,
+        itemsById,
+      };
     }
   }
 
@@ -969,7 +999,7 @@ function createServer(env: Env): McpServer {
       const data = await loadSearchIndex(env);
       const maxResults = limit ?? 5;
       const domainItems = data.items.filter((item) => domainMatches(item, domain));
-      if (["card", "loan", "insurance"].includes(domain)) {
+      if (!ENABLE_PUBLIC_RECOMMENDATION) {
         const payload = {
           domain,
           profile: profile ?? {},
@@ -1062,6 +1092,10 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, limit }) => {
+      if (!ENABLE_DEPOSIT_SAVING_COMPARISON) {
+        const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
+        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      }
       const data = await loadSearchIndex(env);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
       const conditions = new Set(eligible_conditions ?? []);
@@ -1100,6 +1134,7 @@ function createServer(env: Env): McpServer {
           "Missing preferential conditions are not assumed to be satisfied.",
         ],
         comparison_model_version: "openfin-comparison-v0.1.0",
+        comparison_engine_version: COMPARISON_ENGINE_VERSION,
         basis_date: data.basis_date,
       };
       return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
@@ -1159,6 +1194,11 @@ function createServer(env: Env): McpServer {
         catalog_recommendation_status: item.catalog_recommendation_status,
         catalog_recommendation_scope: item.catalog_recommendation_scope,
         canonical_product_id: item.canonical_product_id,
+        source_records: item.source_records ?? [],
+        preferred_source: item.preferred_source,
+        merged_fields: item.merged_fields ?? {},
+        field_provenance: item.field_provenance ?? {},
+        field_conflicts: item.field_conflicts ?? {},
         recommendation_model_version: item.recommendation_model_version,
         recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
         recommendation_basis_fields: item.recommendation_basis_fields ?? [],

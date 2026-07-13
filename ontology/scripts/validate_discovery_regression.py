@@ -12,6 +12,19 @@ INDEX_PATH = ROOT / "exports" / "finance-search-index-2026.json"
 GOLDEN_CASES = ROOT / "tests" / "discovery_golden_cases.json"
 
 
+def candidate_domain(candidate: dict) -> str | None:
+    product_kind = str(candidate.get("product_kind") or "")
+    if product_kind in {"check-card", "credit-card"}:
+        return "card"
+    if product_kind in {"credit-loan", "rent-loan", "mortgage-loan", "policy-loan"}:
+        return "loan"
+    if product_kind in {"indemnity-health", "cancer", "accident", "disease", "term-life", "whole-life"}:
+        return "insurance"
+    if product_kind in {"deposit", "saving"}:
+        return product_kind
+    return None
+
+
 def main() -> int:
     items = json.loads(INDEX_PATH.read_text(encoding="utf-8")).get("items") or []
     cases = json.loads(GOLDEN_CASES.read_text(encoding="utf-8"))
@@ -24,7 +37,7 @@ def main() -> int:
         if not candidates:
             errors.append(f"{case['name']}: no discovery candidates")
             continue
-        if not any((candidate.get("decision") or {}).get("mode") == "discovery" for candidate in candidates):
+        if not any(candidate_domain(candidate) == case["expected_domain"] for candidate in candidates):
             errors.append(f"{case['name']}: expected {case['expected_domain']} candidates")
         for candidate in candidates:
             if candidate.get("catalog_recommendation_status") in {"discovery_candidate", None}:

@@ -25,8 +25,14 @@ def main() -> int:
                     errors.append(f"{item_id}: missing {field}")
             if item.get("verification_status") == "not_verified" and item.get("last_verified_at") is not None:
                 errors.append(f"{item_id}: unverified item has last_verified_at")
-            if item.get("canonical_product_id") != item.get("id"):
-                errors.append(f"{item_id}: unsupported canonical id")
+            if not item.get("canonical_product_id"):
+                errors.append(f"{item_id}: missing canonical id")
+            if not item.get("source_records"):
+                errors.append(f"{item_id}: missing source records")
+            if any(not isinstance(record, dict) or not record.get("source_checksum") for record in item.get("source_records") or []):
+                errors.append(f"{item_id}: source record missing checksum")
+            if not item.get("field_provenance"):
+                errors.append(f"{item_id}: missing field provenance")
     if errors:
         print("Runtime/catalog consistency validation failed:")
         for error in errors[:30]:

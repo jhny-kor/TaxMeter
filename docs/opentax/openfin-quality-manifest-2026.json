@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-13T03:40:16Z",
+  "built_at": "2026-07-13T04:18:53Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -120,7 +120,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b06a1cb7efad945350f2eb1260c15628d2af46e69a5d5fadf00f5eefc23b13d4"
+      "export_checksum": "6335fb1c90297739cdd077eb938dcee6020501648a7703beaf546fc31196d738"
     },
     {
       "id": "deposit-products-ontology",
@@ -178,7 +178,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e23c6c97f17b7d29e13391c687f90baecb2de01d0fceb5c0e231be8dc096872e"
+      "export_checksum": "32e30bc08a3dcdee0e2d36152a55419346e409f7760c49feba5fad4702c31715"
     },
     {
       "id": "saving-products-ontology",
@@ -237,7 +237,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "c943f6a22fb7ee3f18010dab4d9377e00f1f98b4e8c3fddff61f3dc0132142ce"
+      "export_checksum": "47c4381181516be41ac1bced8ecc495b0d90a797a6ddb01239fe4a645313ba06"
     },
     {
       "id": "loan-products-ontology",
@@ -302,7 +302,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "2013e5b6c41bc67a0254dbbf58da0ca541fdc347ddbea11cc179d8219c99165f"
+      "export_checksum": "85bb6d23a94c792ca829ab472299794b5571022e1b0babedb10193a9a67b8862"
     },
     {
       "id": "insurance-products-ontology",
@@ -369,7 +369,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5bd4af4a3e000455044363e096efaec09a69238ed1e215442ed96e644b612b76"
+      "export_checksum": "42531d41195bb90fb96198d9a75e68f3a0201fb5bfcc322c57143010900b643d"
     },
     {
       "id": "finance-reference-ontology",
@@ -422,7 +422,7 @@
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 20,
     "product_count": 0,
-    "export_checksum": "87587431a2bba73021748f7a8e4f5919944648ef276352eadccf8f0619a1fa46",
+    "export_checksum": "c7cfb4d3fed5e77ba58c506d7b2f1baeadbd4d49ef6161cf2851e3bd27c137bd",
     "quality_summary": {
       "test_count": 20,
       "passed_count": 20,
@@ -572,9 +572,11 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-13T03:40:16Z",
+    "built_at": "2026-07-13T04:18:53Z",
     "domain_export_count": 8,
     "search_index_item_count": 21233,
+    "canonical_product_count": 3431,
+    "duplicate_canonical_product_count": 0,
     "checksum_covered_export_count": 9,
     "broken_relation_count": 0,
     "collection_failure_sources": "see source_access_risks"
@@ -618,16 +620,5 @@
   "semantic_validation_passed": true,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "live_search_regression": {
-    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-13T03:45:46+00:00",
-    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "217d58384226fb8a4d0b24b635b1e56fb1e995c35c0f1d12e26ca7d26d326c02",
-    "test_count": 8,
-    "passed_count": 8,
-    "failed_count": 0,
-    "failures": [],
-    "last_failed_at": null
-  },
-  "export_checksum": "368fa97f10998aa35c811eb5f62cffe48858cfc97791cc3a2b0fc87623678509"
+  "export_checksum": "37c4d94265134ba37eb09aeb20925b5074897a50a11af0718e4fa4b9c75dc280"
 }

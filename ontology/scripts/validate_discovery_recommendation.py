@@ -15,7 +15,7 @@ def main() -> int:
     errors: list[str] = []
     for query in ("마일리지 체크카드 추천", "직장인 신용대출 추천", "비갱신 암보험 추천", "12개월 정기예금 추천"):
         payload = discover(query, items)
-        for field in ("requested_intent", "executed_mode", "parsed_query", "exact_candidates", "partial_candidates", "related_candidates", "excluded_summary", "engine_version"):
+        for field in ("requested_intent", "executed_mode", "parsed_query", "exact_candidates", "partial_candidates", "related_candidates", "excluded_summary", "engine_version", "field_extractor_version"):
             if field not in payload:
                 errors.append(f"{query}: missing {field}")
         for candidate in payload.get("exact_candidates") or []:

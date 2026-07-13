@@ -20,6 +20,7 @@ from insurance_recommendation_guard import apply_insurance_recommendation_guard,
 from loan_product_normalizer import normalize_loan_product
 from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
 from apply_recommendation_verifications import apply_recommendation_verifications
+from canonical_product_registry import canonicalize_product_records, merge_product_records
 from calculate_recommendation_completeness import enrich_products
 from discovery_recommendation_engine import discover
 from typing import Iterable
@@ -2002,7 +2003,10 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
         apply_recommendation_scope(item)
         normalize_loan_product(item)
         apply_legacy_ids(item)
-    return apply_recommendation_verifications(enrich_products(items))
+    enriched = enrich_products(items)
+    canonicalize_product_records(enriched)
+    verified = apply_recommendation_verifications(enriched)
+    return canonicalize_product_records(verified)
 
 
 def export_quality_summary(items: list[dict], product_type: str) -> dict:
@@ -2371,6 +2375,11 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "catalog_recommendation_status": item.get("catalog_recommendation_status"),
         "catalog_recommendation_scope": item.get("catalog_recommendation_scope"),
         "canonical_product_id": item.get("canonical_product_id"),
+        "source_records": item.get("source_records") or [],
+        "preferred_source": item.get("preferred_source"),
+        "merged_fields": item.get("merged_fields") or {},
+        "field_provenance": item.get("field_provenance") or {},
+        "field_conflicts": item.get("field_conflicts") or {},
         "recommendation_model_version": item.get("recommendation_model_version") or RECOMMENDATION_MODEL_VERSION,
         "recommendation_exclusion_reasons": item.get("recommendation_exclusion_reasons") or [],
         "recommendation_basis_fields": item.get("recommendation_basis_fields") or [],
@@ -2563,6 +2572,12 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
                 continue
             seen.add(item_id)
             indexed.append(search_index_item(item, export_id))
+    indexed = merge_product_records(indexed)
+    canonical_product_ids = [
+        str(item.get("canonical_product_id"))
+        for item in indexed
+        if item.get("type") in PRODUCT_TYPES
+    ]
     payload = {
         "version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
         "basis_date": CURRENT_REVIEW_DATE,
@@ -2570,6 +2585,8 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
         "ontology_kind": "finance-search-index",
         "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
         "item_count": len(indexed),
+        "canonical_product_count": len(set(canonical_product_ids)),
+        "duplicate_canonical_product_count": len(canonical_product_ids) - len(set(canonical_product_ids)),
         "items": sorted(indexed, key=lambda item: item["id"]),
     }
     payload["export_checksum"] = payload_checksum(payload)
@@ -2578,6 +2595,8 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
         "path": str(SEARCH_INDEX_EXPORT.relative_to(REPO_ROOT)),
         "item_count": len(indexed),
         "product_count": 0,
+        "canonical_product_count": payload["canonical_product_count"],
+        "duplicate_canonical_product_count": payload["duplicate_canonical_product_count"],
         "export_checksum": payload["export_checksum"],
     }
 
@@ -2888,6 +2907,8 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         "built_at": built_at,
         "domain_export_count": len(full_export_paths),
         "search_index_item_count": search_index["item_count"],
+        "canonical_product_count": search_index["canonical_product_count"],
+        "duplicate_canonical_product_count": search_index["duplicate_canonical_product_count"],
         "checksum_covered_export_count": sum(
             1
             for value in (*results.values(), search_index)

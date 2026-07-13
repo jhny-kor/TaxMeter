@@ -42,6 +42,8 @@ def matches_domain(item: dict[str, Any], domain: str) -> bool:
 
 
 def public_recommendation_blocker(item: dict[str, Any]) -> str | None:
+    if item.get("public_recommendation_exclusion_reasons"):
+        return "public_recommendation_excluded"
     if item.get("recommendation_status") != "verified_recommendation_candidate":
         return "not_verified_recommendation_candidate"
     if item.get("recommendation_scope") != "public_recommendation":
@@ -51,7 +53,12 @@ def public_recommendation_blocker(item: dict[str, Any]) -> str | None:
     evidence = item.get("verification_evidence")
     if not isinstance(evidence, dict):
         return "missing_verification_evidence"
-    if item.get("source_checksum") not in set(str(value) for value in evidence.get("source_checksums") or []):
+    source_checksums = {
+        str(record.get("source_checksum"))
+        for record in item.get("source_records") or []
+        if isinstance(record, dict) and record.get("source_checksum")
+    } or {str(item.get("source_checksum"))}
+    if not source_checksums.issubset(set(str(value) for value in evidence.get("source_checksums") or [])):
         return "source_checksum_mismatch"
     expires_at = evidence.get("expires_at")
     if not isinstance(expires_at, str):

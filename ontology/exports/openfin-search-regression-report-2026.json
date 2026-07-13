@@ -463,7 +463,7 @@
       "expected_search_type": "card",
       "top_results": [
         {
-          "canonical_product_id": "finance.card.credit-card.ibk기업은행.i-mileage-대한항공마일리지-103401",
+          "canonical_product_id": "finance.canonical.ibk기업은행.i-mileage-대한항공마일리지-103401.credit-card",
           "id": "finance.card.credit-card.ibk기업은행.i-mileage-대한항공마일리지-103401",
           "title": "IBK기업은행 I-Mileage(대한항공마일리지)",
           "provider": "IBK기업은행",
@@ -473,7 +473,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "마일리지"
           ],
@@ -508,7 +508,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "마일리지"
             ],
@@ -527,7 +527,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.card.credit-card.kb국민카드.bev-카드-스카이패스형-09306",
+          "canonical_product_id": "finance.canonical.kb국민카드.bev-카드-스카이패스형-09306.credit-card",
           "id": "finance.card.credit-card.kb국민카드.bev-카드-스카이패스형-09306",
           "title": "KB국민카드 BeV Ⅴ카드 (스카이패스형)",
           "provider": "KB국민카드",
@@ -537,7 +537,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "마일리지"
           ],
@@ -571,7 +571,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "마일리지"
             ],
@@ -590,7 +590,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.card.credit-card.kb국민카드.제주항공-j-포인트-kb국민카드-04420",
+          "canonical_product_id": "finance.canonical.kb국민카드.제주항공-j-포인트-kb국민카드-04420.credit-card",
           "id": "finance.card.credit-card.kb국민카드.제주항공-j-포인트-kb국민카드-04420",
           "title": "KB국민카드 제주항공 J 포인트 KB국민카드",
           "provider": "KB국민카드",
@@ -600,7 +600,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "마일리지"
           ],
@@ -634,7 +634,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "마일리지"
             ],
@@ -653,7 +653,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.card.credit-card.sc제일은행.퍼스트-시그니처-스카이패스-231141",
+          "canonical_product_id": "finance.canonical.sc제일은행.퍼스트-시그니처-스카이패스-231141.credit-card",
           "id": "finance.card.credit-card.sc제일은행.퍼스트-시그니처-스카이패스-231141",
           "title": "SC제일은행 퍼스트 시그니처 스카이패스",
           "provider": "SC제일은행",
@@ -663,7 +663,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "마일리지"
           ],
@@ -698,7 +698,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "마일리지"
             ],
@@ -717,7 +717,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.card.credit-card.비씨카드.bc-miles카드-222804",
+          "canonical_product_id": "finance.canonical.비씨카드.bc-miles카드-222804.credit-card",
           "id": "finance.card.credit-card.비씨카드.bc-miles카드-222804",
           "title": "비씨카드 BC Miles카드",
           "provider": "비씨카드",
@@ -727,7 +727,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "마일리지"
           ],
@@ -762,7 +762,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "마일리지"
             ],
@@ -792,7 +792,7 @@
       "expected_search_type": "loan",
       "top_results": [
         {
-          "canonical_product_id": "finance.loan.credit-loan.0010001.cr0001a",
+          "canonical_product_id": "finance.canonical.0010001.cr0001a.credit-loan",
           "id": "finance.loan.credit-loan.0010001.cr0001a",
           "title": "우리은행 협약금리 外 신용대출상품",
           "provider": "우리은행",
@@ -802,7 +802,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -836,7 +836,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -855,7 +855,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.loan.credit-loan.0010001.cr0001c",
+          "canonical_product_id": "finance.canonical.0010001.cr0001c.credit-loan",
           "id": "finance.loan.credit-loan.0010001.cr0001c",
           "title": "우리은행 협약금리 外 신용대출상품",
           "provider": "우리은행",
@@ -865,7 +865,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -899,7 +899,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -918,70 +918,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.loan.credit-loan.0010002.sc001217",
-          "id": "finance.loan.credit-loan.0010002.sc001217",
-          "title": "한국스탠다드차타드은행 개인신용대출",
-          "provider": "한국스탠다드차타드은행",
-          "product_kind": "credit-loan",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "A",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-12 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 16,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "A",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.loan.credit-loan.0010002.sc001217-1",
+          "canonical_product_id": "finance.canonical.0010002.sc001217-1.credit-loan",
           "id": "finance.loan.credit-loan.0010002.sc001217-1",
           "title": "한국스탠다드차타드은행 개인신용대출",
           "provider": "한국스탠다드차타드은행",
@@ -991,7 +928,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1025,7 +962,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1044,17 +981,17 @@
           }
         },
         {
-          "canonical_product_id": "finance.loan.credit-loan.0010006.wr0002f",
-          "id": "finance.loan.credit-loan.0010006.wr0002f",
-          "title": "한국씨티은행 장기카드대출",
-          "provider": "한국씨티은행",
+          "canonical_product_id": "finance.canonical.0010002.sc001217.credit-loan",
+          "id": "finance.loan.credit-loan.0010002.sc001217",
+          "title": "한국스탠다드차타드은행 개인신용대출",
+          "provider": "한국스탠다드차타드은행",
           "product_kind": "credit-loan",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
           "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1088,7 +1025,70 @@
             "relevance_grade": "A",
             "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "credit-loan",
+                "evidence_field": "product_kind"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.0010006.wr0002f.credit-loan",
+          "id": "finance.loan.credit-loan.0010006.wr0002f",
+          "title": "한국씨티은행 장기카드대출",
+          "provider": "한국씨티은행",
+          "product_kind": "credit-loan",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "credit-loan",
+              "evidence_field": "product_kind"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-12 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 16,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1118,7 +1118,7 @@
       "expected_search_type": "insurance",
       "top_results": [
         {
-          "canonical_product_id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
+          "canonical_product_id": "finance.canonical.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
           "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(갱신형)(2605)",
           "provider": "DB생명",
@@ -1128,7 +1128,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1162,7 +1162,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1181,7 +1181,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02",
+          "canonical_product_id": "finance.canonical.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02",
           "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(계약전환용)(갱신형)",
           "provider": "DB생명",
@@ -1191,7 +1191,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1225,7 +1225,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1244,7 +1244,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213",
+          "canonical_product_id": "finance.canonical.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213",
           "title": "NH농협생명 NH유병력자실손의료비보험(갱신형,무배당)_2605",
           "provider": "NH농협생명",
@@ -1254,7 +1254,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1288,7 +1288,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1307,7 +1307,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178",
+          "canonical_product_id": "finance.canonical.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178",
           "title": "NH농협생명 New안심케어NH실손의료비보험(갱신형,무배당)_2605",
           "provider": "NH농협생명",
@@ -1317,7 +1317,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1351,7 +1351,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1370,7 +1370,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
+          "canonical_product_id": "finance.canonical.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
           "title": "교보생명 교보실손의료비보험Ⅴ (무배당,갱신형)",
           "provider": "교보생명",
@@ -1380,7 +1380,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1414,7 +1414,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1444,7 +1444,7 @@
       "expected_search_type": "insurance",
       "top_results": [
         {
-          "canonical_product_id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
+          "canonical_product_id": "finance.canonical.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930.cancer",
           "id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
           "title": "ABL생명 (무)우리WON인터넷5대미니암보험",
           "provider": "ABL생명",
@@ -1454,7 +1454,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1488,7 +1488,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1507,7 +1507,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.cancer.abl생명.l023nnb1i00dc310",
+          "canonical_product_id": "finance.canonical.abl생명.l023nnb1i00dc310.cancer",
           "id": "finance.insurance.klia.cancer.abl생명.l023nnb1i00dc310",
           "title": "ABL생명 (무)우리WON인터넷암보험(갱신형)",
           "provider": "ABL생명",
@@ -1517,7 +1517,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1551,7 +1551,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1570,7 +1570,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9001",
+          "canonical_product_id": "finance.canonical.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9001.cancer",
           "id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9001",
           "title": "AIA생명 (무) AIA 건강+ 암보험 (갱신형) 1형",
           "provider": "AIA생명",
@@ -1580,7 +1580,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1614,7 +1614,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1633,7 +1633,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9002",
+          "canonical_product_id": "finance.canonical.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9002.cancer",
           "id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9002",
           "title": "AIA생명 (무) AIA 건강+ 암보험 (갱신형) 2형",
           "provider": "AIA생명",
@@ -1643,7 +1643,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1677,7 +1677,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1696,7 +1696,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.insurance.klia.cancer.aia생명.l5202460001nny0247000202440001024400010004024400010004000102440001000400010004r6001",
+          "canonical_product_id": "finance.canonical.aia생명.l5202460001nny0247000202440001024400010004024400010004000102440001000400010004r6001.cancer",
           "id": "finance.insurance.klia.cancer.aia생명.l5202460001nny0247000202440001024400010004024400010004000102440001000400010004r6001",
           "title": "AIA생명 (무) AIA 더 안심되는 초간편 건강보험 (갱신형) 1형(암보장형)",
           "provider": "AIA생명",
@@ -1706,7 +1706,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1740,7 +1740,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1770,7 +1770,7 @@
       "expected_search_type": "deposit",
       "top_results": [
         {
-          "canonical_product_id": "finance.deposit.deposit.0010001.wr0001b",
+          "canonical_product_id": "finance.canonical.0010001.wr0001b.deposit",
           "id": "finance.deposit.deposit.0010001.wr0001b",
           "title": "우리은행 WON플러스예금",
           "provider": "우리은행",
@@ -1780,7 +1780,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "B",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
             "term_months"
@@ -1820,7 +1820,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
               "term_months"
@@ -1845,7 +1845,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.deposit.deposit.0010019.td11300027000",
+          "canonical_product_id": "finance.canonical.0010019.td11300027000.deposit",
           "id": "finance.deposit.deposit.0010019.td11300027000",
           "title": "광주은행 미즈월복리정기예금",
           "provider": "광주은행",
@@ -1855,7 +1855,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "B",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
             "term_months"
@@ -1895,7 +1895,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
               "term_months"
@@ -1920,7 +1920,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.deposit.deposit.0010019.td11300031000",
+          "canonical_product_id": "finance.canonical.0010019.td11300031000.deposit",
           "id": "finance.deposit.deposit.0010019.td11300031000",
           "title": "광주은행 스마트모아Dream정기예금",
           "provider": "광주은행",
@@ -1930,7 +1930,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "B",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
             "term_months"
@@ -1970,7 +1970,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
               "term_months"
@@ -1995,7 +1995,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.deposit.deposit.0010019.td11300035000",
+          "canonical_product_id": "finance.canonical.0010019.td11300035000.deposit",
           "id": "finance.deposit.deposit.0010019.td11300035000",
           "title": "광주은행 굿스타트예금",
           "provider": "광주은행",
@@ -2005,7 +2005,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "B",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
             "term_months"
@@ -2045,7 +2045,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
               "term_months"
@@ -2070,7 +2070,7 @@
           }
         },
         {
-          "canonical_product_id": "finance.deposit.deposit.0010019.td11300036000",
+          "canonical_product_id": "finance.canonical.0010019.td11300036000.deposit",
           "id": "finance.deposit.deposit.0010019.td11300036000",
           "title": "광주은행 The플러스예금",
           "provider": "광주은행",
@@ -2080,7 +2080,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "B",
           "verification_grade": "C",
-          "overall_candidate_grade": "A",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
             "term_months"
@@ -2120,7 +2120,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "C",
-            "overall_candidate_grade": "A",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
               "term_months"
@@ -2391,5 +2391,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "c046fd3d415e1b821177ab34510eecf968f10727fa830fc5002c84f3c665e19e"
+  "export_checksum": "c7cfb4d3fed5e77ba58c506d7b2f1baeadbd4d49ef6161cf2851e3bd27c137bd"
 }

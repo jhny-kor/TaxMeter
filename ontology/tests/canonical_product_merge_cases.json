@@ -1,0 +1,117 @@
+[
+  {
+    "name": "official provider and product codes merge source records",
+    "items": [
+      {
+        "id": "finance.card.a",
+        "type": "card-product",
+        "provider_code": "9999",
+        "product_code": "CARD-01",
+        "title": "테스트 카드",
+        "source_urls": ["https://official.example/card-01"],
+        "benefits": [{"kind": "mileage"}]
+      },
+      {
+        "id": "finance.card.b",
+        "type": "card-product",
+        "provider_code": "9999",
+        "product_code": "CARD-01",
+        "title": "테스트 카드",
+        "source_urls": ["https://disclosure.example/card-01"],
+        "criteria": [{"criteria_kind": "annual_fee"}]
+      }
+    ],
+    "expected_canonical_product_id": "finance.canonical.9999.card-01",
+    "expected_source_record_count": 2,
+    "expected_merged_field": "benefits"
+  },
+  {
+    "name": "registry id and normalized title merge when product code is absent",
+    "items": [
+      {
+        "id": "finance.insurance.a",
+        "type": "insurance-product",
+        "provider_code": "L100",
+        "source_record_id": "REG-77",
+        "title": "안심 암 보험",
+        "source_urls": ["https://official.example/insurance/detail"]
+      },
+      {
+        "id": "finance.insurance.b",
+        "type": "insurance-product",
+        "provider_code": "L100",
+        "source_record_id": "REG-77",
+        "title": "안심암보험",
+        "source_urls": ["https://disclosure.example/insurance/detail"]
+      }
+    ],
+    "expected_canonical_product_id": "finance.canonical.l100.reg-77.안심암보험",
+    "expected_source_record_count": 2
+  },
+  {
+    "name": "conflicting scalar values are retained as conflicts",
+    "items": [
+      {
+        "id": "finance.deposit.a",
+        "type": "bank-product",
+        "provider_code": "001",
+        "product_code": "D-1",
+        "title": "테스트 예금",
+        "annual_fee_krw": 0,
+        "search_text": "테스트 예금 공식",
+        "recommendation_status": "verified_recommendation_candidate",
+        "recommendation_scope": "public_recommendation",
+        "verification_status": "verified",
+        "source_urls": ["https://official.example/deposit/1"]
+      },
+      {
+        "id": "finance.deposit.b",
+        "type": "bank-product",
+        "provider_code": "001",
+        "product_code": "D-1",
+        "title": "테스트 예금",
+        "annual_fee_krw": 1000,
+        "search_text": "테스트 예금 공시",
+        "recommendation_status": "verified_recommendation_candidate",
+        "recommendation_scope": "public_recommendation",
+        "verification_status": "verified",
+        "source_urls": ["https://disclosure.example/deposit/1"]
+      }
+    ],
+    "expected_canonical_product_id": "finance.canonical.001.d-1",
+    "expected_source_record_count": 2,
+    "expected_conflict_field": "annual_fee_krw",
+    "forbidden_conflict_field": "search_text",
+    "expected_public_exclusion": "canonical_field_conflict"
+  },
+  {
+    "name": "product kind scoped product codes do not merge",
+    "items": [
+      {
+        "id": "finance.loan.credit.a",
+        "type": "bank-product",
+        "provider_code": "0010509",
+        "product_code": "240019",
+        "search_type": "loan",
+        "product_kind": "credit-loan",
+        "title": "신용대출",
+        "source_urls": ["https://official.example/credit"]
+      },
+      {
+        "id": "finance.loan.mortgage.a",
+        "type": "bank-product",
+        "provider_code": "0010509",
+        "product_code": "240019",
+        "search_type": "loan",
+        "product_kind": "mortgage-loan",
+        "title": "주택담보대출",
+        "source_urls": ["https://official.example/mortgage"]
+      }
+    ],
+    "expected_merged_count": 2,
+    "expected_canonical_product_ids": [
+      "finance.canonical.0010509.240019.credit-loan",
+      "finance.canonical.0010509.240019.mortgage-loan"
+    ]
+  }
+]

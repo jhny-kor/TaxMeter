@@ -6,6 +6,8 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
+from recommendation_policy import COMPARISON_ENABLED_DOMAINS, COMPARISON_ENGINE_VERSION
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH_INDEX = ROOT / "exports" / "finance-search-index-2026.json"
@@ -25,7 +27,12 @@ def verification_evidence_blocker(item: dict[str, Any]) -> str | None:
     evidence = item.get("verification_evidence")
     if not isinstance(evidence, dict):
         return "missing_verification_evidence"
-    if item.get("source_checksum") not in set(str(value) for value in evidence.get("source_checksums") or []):
+    source_checksums = {
+        str(record.get("source_checksum"))
+        for record in item.get("source_records") or []
+        if isinstance(record, dict) and record.get("source_checksum")
+    } or {str(item.get("source_checksum"))}
+    if not source_checksums.issubset(set(str(value) for value in evidence.get("source_checksums") or [])):
         return "source_checksum_mismatch"
     expires_at = evidence.get("expires_at")
     if not isinstance(expires_at, str):
@@ -39,6 +46,8 @@ def verification_evidence_blocker(item: dict[str, Any]) -> str | None:
 
 
 def comparison_blocker(item: dict[str, Any]) -> str | None:
+    if item.get("comparison_exclusion_reasons"):
+        return "comparison_excluded"
     if item.get("recommendation_scope") != "comparison_only":
         return "not_comparison_scope"
     if item.get("source_listing_status") != "listed":
@@ -141,6 +150,8 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
     domain = str(arguments.get("domain") or "")
     if domain not in {"deposit", "saving"}:
         raise ValueError("Comparison supports only deposit and saving domains")
+    if not COMPARISON_ENABLED_DOMAINS.get(domain, False):
+        return {"domain": domain, "comparison_model_version": MODEL_VERSION, "comparison_engine_version": COMPARISON_ENGINE_VERSION, "result_count": 0, "candidates": [], "excluded": [], "warnings": ["Deposit and saving comparison is currently disabled."]}
     if type(arguments.get("term_months")) is not int or int(arguments["term_months"]) <= 0:
         raise ValueError("term_months must be a positive integer")
     for key in ("deposit_amount_krw", "monthly_payment_krw"):
@@ -177,5 +188,6 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         "excluded": sorted(excluded, key=lambda item: (item["item_id"], item["reason"])),
         "assumptions": ["Achievable rate includes only user-declared preferential conditions.", "Missing preferential conditions are not assumed to be satisfied."],
         "comparison_model_version": MODEL_VERSION,
+        "comparison_engine_version": COMPARISON_ENGINE_VERSION,
         "basis_date": basis_date if basis_date is not None else (index_basis_date() if items is None else ""),
     }
