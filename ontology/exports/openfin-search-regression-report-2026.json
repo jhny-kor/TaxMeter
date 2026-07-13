@@ -2304,7 +2304,7 @@
       "type": null,
       "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": "finance.card.check-card.bc바로카드.페이북-머니-체크카드-101681",
+      "actual_top_id": "finance.card.check-card.롯데카드.likit-on-체크카드",
       "expected_search_type": "card",
       "discovery_candidates_only": true,
       "passed": true
@@ -2314,7 +2314,7 @@
       "type": null,
       "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": "finance.bank.policy-loan.kinfa-api.104",
+      "actual_top_id": "finance.loan.credit-loan.0010001.cr0001a",
       "expected_search_type": "loan",
       "discovery_candidates_only": true,
       "passed": true
@@ -2334,7 +2334,7 @@
       "type": null,
       "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.accident.교보라이프플래닛생명.l4302460002nnn024700020244000102440001000602440001000600020244000100060002000217306",
+      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
       "expected_search_type": "insurance",
       "discovery_candidates_only": true,
       "passed": true
@@ -2382,14 +2382,14 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-12T14:13:21+00:00",
+    "checked_at": "2026-07-13T03:45:46+00:00",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
-    "search_index_checksum": "821629721c741fe17a789b65ba0f94d865ff3cc8b471e449b6613ee233e9cda5",
+    "search_index_checksum": "217d58384226fb8a4d0b24b635b1e56fb1e995c35c0f1d12e26ca7d26d326c02",
     "test_count": 8,
     "passed_count": 8,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "87587431a2bba73021748f7a8e4f5919944648ef276352eadccf8f0619a1fa46"
+  "export_checksum": "c046fd3d415e1b821177ab34510eecf968f10727fa830fc5002c84f3c665e19e"
 }
