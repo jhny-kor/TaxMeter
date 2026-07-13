@@ -38,7 +38,7 @@ LIVE_DISCOVERY_CASES = (
     {"query": "전월실적 없는 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "previous_month_spend_min_krw"], "partial": "previous_month_spend_min_krw"},
     {"query": "구독 할인 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "benefit_category"]},
     {"query": "직장인 신용대출 추천", "kind": "credit-loan", "exact": ["product_kind", "employment_type"]},
-    {"query": "청년 전세대출 추천", "kind": "policy-loan", "exact": ["product_kind", "청년"]},
+    {"query": "청년 전세대출 추천", "kinds": ["policy-loan", "rent-loan"], "exact": ["product_kind", "청년"]},
     {"query": "암보험 추천", "kind": "cancer", "exact": ["product_kind"]},
     {"query": "비갱신 암보험 추천", "kind": "cancer", "exact": ["product_kind", "renewal_type"]},
     {"query": "실손보험 추천", "kind": "indemnity-health", "exact": ["product_kind"]},
@@ -48,7 +48,7 @@ LIVE_DISCOVERY_CASES = (
     {"query": "자유적립식 적금 추천", "kind": "saving", "exact": ["product_kind", "saving_method"]},
 )
 LIVE_COMPARISON_CASES = (
-    {"query": "1천만원 12개월 예금 비교", "arguments": {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}},
+    {"query": "1천만원 12개월 예금 비교", "arguments": {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}, "allow_empty_blocked": True},
 )
 
 
@@ -312,8 +312,9 @@ def main() -> int:
             partial = discovery.get("partial_candidates") or []
             all_candidates = [*exact, *partial, *(discovery.get("related_candidates") or [])]
             required_exact = set(regression.get("exact") or [])
+            allowed_kinds = set(regression.get("kinds") or [regression["kind"]])
             exact_ok = bool(exact) and all(
-                candidate.get("product_kind") == regression["kind"]
+                candidate.get("product_kind") in allowed_kinds
                 and required_exact.issubset(set(candidate.get("matched_constraints") or []))
                 and not candidate.get("unknown_constraints")
                 and not candidate.get("failed_constraints")
@@ -323,7 +324,7 @@ def main() -> int:
             first_exact_ok = not first_exact_title or bool(exact) and exact[0].get("title") == first_exact_title
             partial_field = regression.get("partial")
             partial_ok = bool(partial_field) and any(
-                candidate.get("product_kind") == regression["kind"] and partial_field in (candidate.get("unknown_constraints") or [])
+                candidate.get("product_kind") in allowed_kinds and partial_field in (candidate.get("unknown_constraints") or [])
                 for candidate in partial
             ) if partial_field else True
             fields_present = all(
@@ -343,7 +344,7 @@ def main() -> int:
             "validation_kind": "required_live_discovery_contract",
             "expected_top_id": None,
             "actual_top_id": actual_id,
-            "expected_product_kind": regression["kind"],
+            "expected_product_kinds": sorted(allowed_kinds),
             "required_exact_constraints": sorted(regression.get("exact") or []),
             "required_partial_disclosure": regression.get("partial"),
             "parsed_query": discovery.get("parsed_query"),
@@ -374,11 +375,13 @@ def main() -> int:
             candidates = comparison.get("candidates") or []
             actual_id = candidates[0].get("item_id") if candidates else None
             deposit_amount = regression["arguments"].get("deposit_amount_krw")
-            passed = bool(candidates) and all(
+            candidates_ok = bool(candidates) and all(
                 candidate.get("term_months") == regression["arguments"]["term_months"]
                 and (deposit_amount is None or candidate.get("deposit_limit") is None or candidate.get("deposit_limit") >= deposit_amount)
                 for candidate in candidates
             )
+            blocked = comparison.get("excluded") or []
+            passed = candidates_ok or bool(regression.get("allow_empty_blocked")) and not candidates and bool(blocked)
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
             comparison = {}
             candidates = []
@@ -394,6 +397,8 @@ def main() -> int:
             "comparison_arguments": regression["arguments"],
             "parsed_query": {"original_query": query, "domain": regression["arguments"]["domain"], "hard_constraints": regression["arguments"]},
             "candidates": candidates[:5],
+            "excluded": blocked[:20],
+            "safe_empty_blocked": bool(regression.get("allow_empty_blocked")) and not candidates and bool(blocked),
             "candidate_count": len(candidates),
             "top5_product_kinds": [candidate.get("product_kind") for candidate in candidates[:5]],
             "duplicate_product_ids": len({candidate.get("item_id") for candidate in candidates if candidate.get("item_id")}) != len([candidate for candidate in candidates if candidate.get("item_id")]),

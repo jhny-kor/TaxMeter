@@ -91,7 +91,7 @@ def main() -> int:
                     if key not in test:
                         errors.append(f"필수 라이브 탐색 증적에 {key}가 없습니다: {test.get('query')}")
             if test.get("validation_kind") == "required_live_comparison_contract":
-                for key in ("parsed_query", "comparison_arguments", "candidates", "candidate_count", "top5_product_kinds", "duplicate_product_ids"):
+                for key in ("parsed_query", "comparison_arguments", "candidates", "excluded", "safe_empty_blocked", "candidate_count", "top5_product_kinds", "duplicate_product_ids"):
                     if key not in test:
                         errors.append(f"필수 라이브 비교 증적에 {key}가 없습니다: {test.get('query')}")
 
