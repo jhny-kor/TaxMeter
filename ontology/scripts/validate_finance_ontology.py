@@ -41,7 +41,6 @@ REQUIRED_OPERATIONAL_FIELDS = (
     "status",
     "status_reason",
     "status_confidence",
-    "last_verified_at",
     "recommendation_status",
 )
 RATE_QUERY_RE = re.compile(r"(금리|최고금리|중도해지|정기예금|적금|대출|개월)", re.I)
@@ -189,6 +188,9 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
             require(bool(item.get(field)), f"{export_id}:{item_id}: missing {field}", errors)
         for field in REQUIRED_OPERATIONAL_FIELDS:
             require(item.get(field) not in {None, ""}, f"{export_id}:{item_id}: missing {field}", errors)
+        require("last_verified_at" in item, f"{export_id}:{item_id}: missing last_verified_at", errors)
+        if item.get("verification_status") == "not_verified":
+            require(item.get("last_verified_at") is None, f"{export_id}:{item_id}: unverified item has last_verified_at", errors)
         require(item.get("product_status") in {"active", "ended", "suspended", "unknown"}, f"{export_id}:{item_id}: invalid product_status", errors)
         require(item.get("sales_status") in {"active", "ended", "suspended", "unknown"}, f"{export_id}:{item_id}: invalid sales_status", errors)
         require(item.get("status") in VALID_OPERATIONAL_STATUSES, f"{export_id}:{item_id}: invalid status", errors)
@@ -218,7 +220,8 @@ def validate_products(export_id: str, items: list[dict], expected_product_count:
                 if NO_ANNUAL_FEE_RE.search(text):
                     require(benefit.get("annual_fee_required") is False, f"{export_id}:{item_id}: benefit #{index} No연회비 not normalized", errors)
                 if "적립" in text:
-                    require(benefit.get("benefit_type") == "point_accumulation", f"{export_id}:{item_id}: benefit #{index} 적립 benefit_type not normalized", errors)
+                    expected_benefit_type = "mileage" if "마일" in text else "point_accumulation"
+                    require(benefit.get("benefit_type") == expected_benefit_type, f"{export_id}:{item_id}: benefit #{index} 적립 benefit_type not normalized", errors)
                 if BENEFIT_RATE_RE.search(text):
                     require(benefit.get("benefit_rate_percent") is not None, f"{export_id}:{item_id}: benefit #{index} % rate not normalized to benefit_rate_percent", errors)
             benefits_partial_or_incomplete = any(

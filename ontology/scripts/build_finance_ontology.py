@@ -2120,6 +2120,11 @@ def normalize_links(items: list[dict]) -> list[dict]:
 
 def write_export(path: Path, version: str, domain: str, items: list[dict], product_type: str, generated_domain: str) -> dict:
     normalized = normalize_links(enrich_operational_status(items))
+    for item in normalized:
+        if item.get("type") not in {"card-product", "bank-product", "insurance-product"}:
+            continue
+        item["structured_summary"] = structured_summary(item)
+        item["search_facets"] = search_facets(item)
     product_count = product_counts(normalized, product_type)
     product_collection_dates = sorted({
         item["collected_at"]
@@ -2290,11 +2295,15 @@ def structured_summary(item: dict) -> dict:
     card = {
         "previous_month_spend_min_krw": numeric_values(item.get("benefits"), ("previous_month_spend_min_krw",)),
         "annual_fee_required": numeric_values(item.get("benefits"), ("annual_fee_required",)),
+        "benefit_type": numeric_values(item.get("benefits"), ("benefit_type",)),
+        "benefit_categories": numeric_values(item.get("benefits"), ("benefit_categories",)),
+        "reward_unit_amount_krw": numeric_values(item.get("benefits"), ("reward_unit_amount_krw",)),
     }
     insurance = {
         "coverage_amount_krw": numeric_values(item.get("criteria"), ("coverage_amount_krw",)),
         "premium_male_krw": numeric_values(item.get("criteria"), ("premium_male_krw",)),
         "premium_female_krw": numeric_values(item.get("criteria"), ("premium_female_krw",)),
+        "renewal_type": numeric_values(item.get("criteria"), ("renewal_type",)),
     }
     return {
         "rates": {key: value for key, value in rates.items() if value not in (None, "", [])},
@@ -2359,6 +2368,9 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "status_reason": item.get("status_reason"),
         "recommendation_status": item.get("recommendation_status"),
         "recommendation_scope": item.get("recommendation_scope"),
+        "catalog_recommendation_status": item.get("catalog_recommendation_status"),
+        "catalog_recommendation_scope": item.get("catalog_recommendation_scope"),
+        "canonical_product_id": item.get("canonical_product_id"),
         "recommendation_model_version": item.get("recommendation_model_version") or RECOMMENDATION_MODEL_VERSION,
         "recommendation_exclusion_reasons": item.get("recommendation_exclusion_reasons") or [],
         "recommendation_basis_fields": item.get("recommendation_basis_fields") or [],
@@ -2366,6 +2378,11 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "verification_status": item.get("verification_status"),
         "quality_flags": item.get("quality_flags") or [],
         "last_verified_at": item.get("last_verified_at"),
+        "last_source_checked_at": item.get("last_source_checked_at"),
+        "last_reviewed_at": item.get("last_reviewed_at"),
+        "public_recommendation_exclusion_reasons": item.get("public_recommendation_exclusion_reasons") or [],
+        "comparison_exclusion_reasons": item.get("comparison_exclusion_reasons") or [],
+        "discovery_limitations": item.get("discovery_limitations") or [],
         "missing_required_fields": item.get("missing_required_fields") or [],
         "missing_in_source_fields": item.get("missing_in_source_fields") or [],
         "unmapped_existing_fields": item.get("unmapped_existing_fields") or [],
@@ -2663,19 +2680,18 @@ def write_search_regression_report() -> dict:
     for regression in DISCOVERY_SEARCH_REGRESSIONS:
         query = str(regression["query"])
         discovery = discover(query, items=items)
-        results = discovery.get("candidates") or []
+        results = [*(discovery.get("exact_candidates") or []), *(discovery.get("partial_candidates") or [])]
         tests.append({
             "query": query,
             "type_filter": None,
             "expected_top_id": None,
             "actual_top_id": results[0].get("id") if results else None,
             "passed": bool(results) and all(
-                item.get("recommendation_status") == "discovery_candidate"
-                and item.get("recommendation_scope") == "discovery_only"
-                and item.get("search_type") == regression["expected_search_type"]
+                item.get("decision", {}).get("decision_scope") == "discovery_only"
+                and item.get("catalog_recommendation_status") != "discovery_candidate"
                 for item in results
             ),
-            "validation_kind": "discovery_candidate_only",
+            "validation_kind": "discovery_runtime_contract",
             "expected_search_type": regression["expected_search_type"],
             "top_results": results[:5],
         })

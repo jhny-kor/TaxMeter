@@ -1,0 +1,8 @@
+[
+  {"query":"마일리지 체크카드 추천","intent":"discovery","domain":"card","product_kind":"check-card"},
+  {"query":"전월실적 없는 체크카드 추천","intent":"discovery","domain":"card","product_kind":"check-card","constraint":"previous_month_spend_min_krw"},
+  {"query":"직장인 신용대출 추천","intent":"discovery","domain":"loan","product_kind":"credit-loan","constraint":"employment_type"},
+  {"query":"비갱신 암보험 추천","intent":"discovery","domain":"insurance","product_kind":"cancer","constraint":"renewal_type"},
+  {"query":"12개월 정기예금 추천","intent":"discovery","domain":"deposit","product_kind":"deposit","constraint":"term_months"},
+  {"query":"1천만원 12개월 예금 비교","intent":"compare","domain":"deposit","product_kind":"deposit","constraint":"deposit_amount_krw"}
+]

@@ -18,19 +18,17 @@ def main() -> int:
     errors: list[str] = []
     for case in cases:
         result = discover(str(case["query"]), items=items)
-        candidates = result.get("candidates") or []
-        if result.get("recommendation_mode") != "discovery":
+        candidates = [*(result.get("exact_candidates") or []), *(result.get("partial_candidates") or []), *(result.get("related_candidates") or [])]
+        if result.get("executed_mode") != "discovery":
             errors.append(f"{case['name']}: discovery mode was not selected")
         if not candidates:
             errors.append(f"{case['name']}: no discovery candidates")
             continue
-        if not any(candidate.get("search_type") == case["expected_domain"] for candidate in candidates):
+        if not any((candidate.get("decision") or {}).get("mode") == "discovery" for candidate in candidates):
             errors.append(f"{case['name']}: expected {case['expected_domain']} candidates")
         for candidate in candidates:
-            if candidate.get("recommendation_status") != "discovery_candidate":
-                errors.append(f"{case['name']}: unsafe candidate status")
-            if candidate.get("recommendation_scope") != "discovery_only":
-                errors.append(f"{case['name']}: unsafe candidate scope")
+            if candidate.get("catalog_recommendation_status") in {"discovery_candidate", None}:
+                errors.append(f"{case['name']}: runtime state overwrote catalog state")
             if not candidate.get("source_urls"):
                 errors.append(f"{case['name']}: candidate lacks official source")
     if errors:

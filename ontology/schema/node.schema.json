@@ -29,6 +29,9 @@
         "required": [
           "recommendation_status",
           "recommendation_scope",
+          "catalog_recommendation_status",
+          "catalog_recommendation_scope",
+          "canonical_product_id",
           "verification_status",
           "recommendation_exclusion_reasons",
           "recommendation_basis_fields",
@@ -153,6 +156,16 @@
     },
     "recommendation_scope": {
       "$ref": "recommendation.schema.json#/$defs/recommendationScope"
+    },
+    "catalog_recommendation_status": {
+      "$ref": "recommendation.schema.json#/$defs/recommendationStatus"
+    },
+    "catalog_recommendation_scope": {
+      "$ref": "recommendation.schema.json#/$defs/recommendationScope"
+    },
+    "canonical_product_id": {
+      "type": "string",
+      "minLength": 1
     },
     "verification_status": {
       "$ref": "recommendation.schema.json#/$defs/verificationStatus"

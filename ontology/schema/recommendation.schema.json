@@ -8,7 +8,6 @@
       "enum": [
         "reference_only",
         "eligible_for_listing",
-        "discovery_candidate",
         "comparison_candidate",
         "manual_review_candidate",
         "verified_recommendation_candidate"
@@ -18,7 +17,6 @@
       "type": "string",
       "enum": [
         "listing_only",
-        "discovery_only",
         "comparison_only",
         "internal_verification_candidate",
         "public_recommendation"

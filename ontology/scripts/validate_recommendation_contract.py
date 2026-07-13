@@ -29,12 +29,20 @@ EVIDENCE_REQUIRED_FIELDS = ("reviewer", "verified_at", "source_urls", "source_ch
 REQUIRED_CONTRACT_FIELDS = (
     "recommendation_status",
     "recommendation_scope",
+    "catalog_recommendation_status",
+    "catalog_recommendation_scope",
+    "canonical_product_id",
     "verification_status",
     "recommendation_exclusion_reasons",
     "recommendation_basis_fields",
     "comparison_basis_fields",
     "quality_flags",
     "last_verified_at",
+    "last_source_checked_at",
+    "last_reviewed_at",
+    "public_recommendation_exclusion_reasons",
+    "comparison_exclusion_reasons",
+    "discovery_limitations",
     "verification_evidence",
     "freshness_status",
     "recommendation_model_version",
@@ -101,6 +109,8 @@ def validate_contract() -> list[str]:
             errors.append(f"{export_id}:{item_id}: verified status requires verification evidence")
         if verification_status == "verified" and item.get("source_checksum") not in set((item.get("verification_evidence") or {}).get("source_checksums") or []):
             errors.append(f"{export_id}:{item_id}: verified status requires matching source checksum")
+        if verification_status == "not_verified" and item.get("last_verified_at") is not None:
+            errors.append(f"{export_id}:{item_id}: not_verified must not have last_verified_at")
         if status == "reference_only" and scope == "public_recommendation":
             errors.append(f"{export_id}:{item_id}: reference_only cannot be public_recommendation")
     overlay = load_json(OVERLAY_PATH) if OVERLAY_PATH.exists() else {"verifications": []}

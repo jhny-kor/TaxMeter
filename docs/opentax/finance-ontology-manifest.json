@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-12T14:06:25Z",
+  "built_at": "2026-07-13T03:40:16Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-12T14:06:25Z",
+      "built_at": "2026-07-13T03:40:16Z",
       "domain_export_count": 8,
       "search_index_item_count": 21233,
       "checksum_covered_export_count": 9,
@@ -53,7 +53,7 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 123,
+        "card_benefits_with_incomplete_conditions": 122,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
@@ -77,14 +77,14 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.1233,
+        "average_completeness_ratio": 0.1218,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "annual_fee_krw": 1003,
           "benefit_categories": 712,
           "benefit_frequency_limit": 1004,
-          "benefit_rate_or_amount": 481,
+          "benefit_rate_or_amount": 499,
           "benefit_type": 355,
           "criteria_or_options": 355,
           "excluded_spend": 1004,
@@ -573,7 +573,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "821629721c741fe17a789b65ba0f94d865ff3cc8b471e449b6613ee233e9cda5",
+    "export_checksum": "217d58384226fb8a4d0b24b635b1e56fb1e995c35c0f1d12e26ca7d26d326c02",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -588,14 +588,14 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-12T14:06:25Z",
+        "built_at": "2026-07-13T03:40:16Z",
         "domain_export_count": 8,
         "search_index_item_count": 21233,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "62ce5d5967c7179f844285788793b12cc89889f6d936d913cb340ddc54a891cf",
+      "export_checksum": "58c8d834545d5c51ae7ce04dae30985c7443226ff96766c0893a9a7ee5c81a32",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -615,7 +615,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "84d9762e40b3d499b48a833174f3912697ee64c1312f6a6091c3a4ba25102db1",
+      "export_checksum": "87587431a2bba73021748f7a8e4f5919944648ef276352eadccf8f0619a1fa46",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],
@@ -704,7 +704,7 @@
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 123,
+        "card_benefits_with_incomplete_conditions": 122,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
@@ -728,14 +728,14 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.1233,
+        "average_completeness_ratio": 0.1218,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "annual_fee_krw": 1003,
           "benefit_categories": 712,
           "benefit_frequency_limit": 1004,
-          "benefit_rate_or_amount": 481,
+          "benefit_rate_or_amount": 499,
           "benefit_type": 355,
           "criteria_or_options": 355,
           "excluded_spend": 1004,
@@ -754,7 +754,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "bf9cb927a36995bf77d259581768b4583f5a98ea78470dd03c5a5ba4ded244eb",
+      "export_checksum": "b06a1cb7efad945350f2eb1260c15628d2af46e69a5d5fadf00f5eefc23b13d4",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -820,7 +820,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5afed9be3a25920f79de2d73830dcf7cdc64d4c7cbf809a2890934eb0dcd0c22",
+      "export_checksum": "e23c6c97f17b7d29e13391c687f90baecb2de01d0fceb5c0e231be8dc096872e",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -887,7 +887,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cbfabec9da43f9c9852c82f44c2bb1ecee49781cd4e9fb67399f45b65fa6b520",
+      "export_checksum": "c943f6a22fb7ee3f18010dab4d9377e00f1f98b4e8c3fddff61f3dc0132142ce",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -962,7 +962,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "93044f5c5534c8fae8f9cf3dc1e5b4e809e5e48117fab4718b197054d3e1485f",
+      "export_checksum": "2013e5b6c41bc67a0254dbbf58da0ca541fdc347ddbea11cc179d8219c99165f",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -1037,7 +1037,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6ad3d8a54b811761ba55f49e9fb1c0bb52faf3b8fb84c79c45df58c01a962388",
+      "export_checksum": "5bd4af4a3e000455044363e096efaec09a69238ed1e215442ed96e644b612b76",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {

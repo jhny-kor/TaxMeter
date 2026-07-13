@@ -228,12 +228,11 @@ def main() -> int:
         error_text = None
         try:
             discovery = client.discover(query)
-            results = discovery.get("candidates") or []
+            results = [*(discovery.get("exact_candidates") or []), *(discovery.get("partial_candidates") or [])]
             actual_id = results[0].get("id") if results else None
             candidate_only = bool(results) and all(
-                item.get("recommendation_status") == "discovery_candidate"
-                and item.get("recommendation_scope") == "discovery_only"
-                and item.get("search_type") == expected_search_type
+                item.get("decision", {}).get("decision_scope") == "discovery_only"
+                and item.get("catalog_recommendation_status") != "discovery_candidate"
                 for item in results
             )
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:

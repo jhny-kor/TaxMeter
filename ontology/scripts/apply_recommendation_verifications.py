@@ -94,16 +94,23 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         if item.get("recommendation_scope") in {None, "", "unspecified"}:
             item["recommendation_scope"] = "listing_only"
         item["recommendation_model_version"] = MODEL_VERSION
+        item["canonical_product_id"] = str(item.get("id") or "")
         item["recommendation_basis_fields"] = item.get("recommendation_basis_fields") or []
         item["recommendation_exclusion_reasons"] = item.get("recommendation_exclusion_reasons") or []
+        item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
+        item["comparison_exclusion_reasons"] = []
+        item["discovery_limitations"] = ["sales_status_unverified"]
         item["verification_status"] = "not_verified"
         item["verification_evidence"] = None
+        item["last_verified_at"] = None
         source_checksum = item_source_checksum(item)
         item["source_checksum"] = source_checksum
         record = records.get(str(item.get("id")))
         if not record:
             if item.get("recommendation_status") == "eligible_for_listing" and item.get("type") == "bank-product":
                 item["recommendation_scope"] = "comparison_only"
+            item["catalog_recommendation_status"] = item["recommendation_status"]
+            item["catalog_recommendation_scope"] = item["recommendation_scope"]
             continue
         errors = verification_errors(record)
         matched_checksum = source_checksum in set(str(value) for value in record.get("source_checksums") or [])
@@ -117,6 +124,8 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             reasons.extend(errors or (["verification_expired"] if is_expired else ["source_checksum_mismatch"]))
             item["recommendation_exclusion_reasons"] = sorted(set(reasons))
             item["verification_status"] = "expired" if is_expired else ("source_changed" if not matched_checksum else "rejected")
+            item["catalog_recommendation_status"] = item["recommendation_status"]
+            item["catalog_recommendation_scope"] = item["recommendation_scope"]
             continue
         item["verification_evidence"] = {
             "reviewer": record.get("reviewer"),
@@ -131,10 +140,17 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             item["verification_status"] = "verified"
             item["recommendation_scope"] = "comparison_only" if item.get("type") == "bank-product" else "listing_only"
             item["recommendation_exclusion_reasons"] = sorted(set([*item["recommendation_exclusion_reasons"], "domain_gate_not_passed"]))
+            item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
+            item["catalog_recommendation_status"] = item["recommendation_status"]
+            item["catalog_recommendation_scope"] = item["recommendation_scope"]
             continue
         item["recommendation_status"] = "verified_recommendation_candidate"
         item["recommendation_scope"] = "public_recommendation"
         item["verification_status"] = "verified"
         item["last_verified_at"] = record["verified_at"]
         item["recommendation_basis_fields"] = record.get("verified_fields") or []
+        item["public_recommendation_exclusion_reasons"] = []
+        item["discovery_limitations"] = []
+        item["catalog_recommendation_status"] = item["recommendation_status"]
+        item["catalog_recommendation_scope"] = item["recommendation_scope"]
     return items

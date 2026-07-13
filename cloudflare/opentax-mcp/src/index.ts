@@ -39,6 +39,9 @@ type FinanceItem = {
   status_reason?: string;
   recommendation_status?: string;
   recommendation_scope?: string;
+  catalog_recommendation_status?: string;
+  catalog_recommendation_scope?: string;
+  canonical_product_id?: string;
   recommendation_model_version?: string;
   recommendation_exclusion_reasons?: string[];
   recommendation_basis_fields?: string[];
@@ -69,6 +72,11 @@ type FinanceItem = {
   freshness_status?: string;
   collection_status?: string;
   last_verified_at?: string;
+  last_source_checked_at?: string;
+  last_reviewed_at?: string;
+  public_recommendation_exclusion_reasons?: string[];
+  comparison_exclusion_reasons?: string[];
+  discovery_limitations?: string[];
   export_id?: string;
   search_text?: string;
   search_aliases?: string[];
@@ -387,28 +395,46 @@ function discoveryConfidence(item: FinanceItem): "A" | "B" | "C" | "D" {
   return "D";
 }
 
+function requestedProductKind(query: string): string | undefined {
+  if (query.includes("체크카드")) return "check-card";
+  if (query.includes("신용카드")) return "credit-card";
+  if (query.includes("신용대출")) return "credit-loan";
+  if (query.includes("전세대출") || query.includes("월세대출")) return "rent-loan";
+  if (query.includes("주택담보대출")) return "mortgage-loan";
+  if (query.includes("실손") || query.includes("실비")) return "indemnity-health";
+  if (query.includes("암보험")) return "cancer";
+  if (query.includes("상해보험")) return "accident";
+  if (query.includes("정기보험")) return "term-life";
+  if (query.includes("종신보험")) return "whole-life";
+  return undefined;
+}
+
 function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
   const domain = discoveryDomainForQuery(query);
-  if (!domain) return { recommendation_mode: "discovery", label: "탐색 결과", query, candidates: [], warnings: ["상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."] };
+  if (!domain) return { requested_intent: "discovery", executed_mode: "discovery", parsed_query: { original_query: query, domain: null }, exact_candidates: [], partial_candidates: [], related_candidates: [], excluded_summary: {}, warnings: ["상품 유형을 특정할 수 없어 탐색 후보를 만들지 않았습니다."], engine_version: "openfin-discovery-v1.0.0" };
   const tokens = queryTokens(query).filter((token) => !DISCOVERY_ACTION_RE.test(token) && !DISCOVERY_DOMAIN_TOKENS[domain].some((domainToken) => normalizeQuery(domainToken) === normalizeQuery(token)));
-  const candidates = items.filter((item) => isDiscoveryCandidate(item, domain)).map((item) => {
+  const productKind = requestedProductKind(query);
+  const groups = { exact_candidates: [] as Record<string, unknown>[], partial_candidates: [] as Record<string, unknown>[], related_candidates: [] as Record<string, unknown>[] };
+  const seen = new Set<string>();
+  for (const item of items.filter((candidate) => isDiscoveryCandidate(candidate, domain))) {
     const text = itemSearchText(item);
     const matched = tokens.filter((token) => text.includes(normalizeQuery(token)));
     const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
     const score = 35 + Math.min(20, matched.length * 10) + Math.round(ratio * 10) + (item.source_freshness_status === "current" ? 5 : 0);
-    const limitations = ["탐색 후보이며 개인 적합성·승인·보험료·최적 상품을 판단하지 않습니다."];
-    if (item.sales_verification_status !== "verified_active") limitations.push("공식 목록 기반 후보이므로 실제 판매·가입 가능 여부는 상세 페이지에서 재확인해야 합니다.");
-    return {
-      id: item.id, title: item.title, provider: item.provider, product_kind: item.product_kind, search_type: domain,
-      recommendation_status: "discovery_candidate", recommendation_scope: "discovery_only", confidence_grade: discoveryConfidence(item), discovery_score: score,
-      matched_conditions: matched.length ? matched : ["product_domain"], unmatched_conditions: [], unknown_conditions: tokens.filter((token) => !matched.includes(token)),
-      missing_required_fields: item.missing_required_fields ?? [], why_included: "공식 출처의 현재 상품이며 탐색에 필요한 최소 구조 필드를 보유했습니다.", limitations,
-      source_urls: item.source_urls ?? [], basis_dates: item.source_basis_dates ?? [], source_listing_status: item.source_listing_status,
-      sales_verification_status: item.sales_verification_status, source_freshness_status: item.source_freshness_status,
-      source_completeness_ratio: item.source_completeness_ratio, normalized_completeness_ratio: ratio, verified_completeness_ratio: item.verified_completeness_ratio,
-    };
-  }).sort((left, right) => Number(right.discovery_score) - Number(left.discovery_score) || Number(right.normalized_completeness_ratio ?? 0) - Number(left.normalized_completeness_ratio ?? 0) || String(left.id).localeCompare(String(right.id), "ko-KR"));
-  return { recommendation_mode: "discovery", label: "탐색 후보", query, domain, result_count: Math.min(candidates.length, limit), candidates: candidates.slice(0, limit), excluded_count: items.filter((item) => discoveryDomainForItem(item) === domain).length - candidates.length, warnings: ["결과는 탐색용 후보입니다. 최적·승인·보험료·보장 적합성을 뜻하지 않습니다."] };
+    const canonicalId = item.canonical_product_id ?? item.id;
+    if (seen.has(canonicalId)) continue;
+    seen.add(canonicalId);
+    const kindMatched = productKind === undefined || item.product_kind === productKind || (productKind === "rent-loan" && item.product_kind === "policy-loan" && text.includes("전세"));
+    const hasUnparsedHardConstraint = /전월실적\s*없는|연회비\s*없는|비갱신|갱신형|직장인|중도상환수수료\s*없는|\d+\s*개월/.test(query);
+    const eligibility = !kindMatched ? "related_candidate" : (hasUnparsedHardConstraint ? "partial_candidate" : "exact_candidate");
+    const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
+    const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" ? "A" : item.source_urls?.length ? "C" : "D";
+    const overall = relevance === "D" || verification === "D" ? "D" : relevance === "B" || verification === "C" ? "C" : "A";
+    const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: kindMatched && productKind ? ["product_kind"] : [], unknown_constraints: hasUnparsedHardConstraint ? ["structured_hard_constraint"] : [], failed_constraints: kindMatched ? [] : ["product_kind"], decision_reasons: kindMatched && productKind ? [{ constraint: "product_kind", matched_value: item.product_kind, evidence_field: "product_kind" }] : [], limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
+    groups[`${eligibility}s` as keyof typeof groups].push({ canonical_product_id: canonicalId, id: item.id, title: item.title, provider: item.provider, product_kind: item.product_kind, catalog_recommendation_status: item.catalog_recommendation_status ?? item.recommendation_status, catalog_recommendation_scope: item.catalog_recommendation_scope ?? item.recommendation_scope, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: decision.matched_constraints, unknown_constraints: decision.unknown_constraints, failed_constraints: decision.failed_constraints, why_included: decision.decision_reasons, limitations: decision.limitations, source_urls: item.source_urls ?? [], source_basis_dates: item.source_basis_dates ?? [], decision });
+  }
+  for (const values of Object.values(groups)) values.sort((left, right) => Number((right.decision as Record<string, unknown>).score) - Number((left.decision as Record<string, unknown>).score) || String(left.canonical_product_id).localeCompare(String(right.canonical_product_id), "ko-KR")).splice(limit);
+  return { requested_intent: /추천|골라|알려|찾아/.test(query) ? "recommend" : "discovery", executed_mode: "discovery", fallback_reason: /추천|골라|알려|찾아/.test(query) ? "verified_recommendation_candidate_not_available" : undefined, parsed_query: { original_query: query, intent: "discovery", domain, product_kind: productKind }, ...groups, excluded_summary: {}, warnings: ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], engine_version: "openfin-discovery-v1.0.0" };
 }
 
 function scoreItem(item: FinanceItem, query: string): number {
@@ -859,6 +885,9 @@ function createServer(env: Env): McpServer {
           status: item.status,
           recommendation_status: item.recommendation_status,
           recommendation_scope: item.recommendation_scope,
+          catalog_recommendation_status: item.catalog_recommendation_status,
+          catalog_recommendation_scope: item.catalog_recommendation_scope,
+          canonical_product_id: item.canonical_product_id,
           application_status: item.application_status,
           is_currently_applicable: item.is_currently_applicable,
           application_open_to: item.application_open_to,
@@ -1125,6 +1154,9 @@ function createServer(env: Env): McpServer {
         status_reason: item.status_reason,
         recommendation_status: item.recommendation_status,
         recommendation_scope: item.recommendation_scope,
+        catalog_recommendation_status: item.catalog_recommendation_status,
+        catalog_recommendation_scope: item.catalog_recommendation_scope,
+        canonical_product_id: item.canonical_product_id,
         recommendation_model_version: item.recommendation_model_version,
         recommendation_exclusion_reasons: item.recommendation_exclusion_reasons ?? [],
         recommendation_basis_fields: item.recommendation_basis_fields ?? [],
@@ -1133,6 +1165,11 @@ function createServer(env: Env): McpServer {
         quality_flags: item.quality_flags ?? [],
         freshness_status: item.freshness_status,
         last_verified_at: item.last_verified_at,
+        last_source_checked_at: item.last_source_checked_at,
+        last_reviewed_at: item.last_reviewed_at,
+        public_recommendation_exclusion_reasons: item.public_recommendation_exclusion_reasons ?? [],
+        comparison_exclusion_reasons: item.comparison_exclusion_reasons ?? [],
+        discovery_limitations: item.discovery_limitations ?? [],
         verification_evidence: item.verification_evidence,
         missing_required_fields: item.missing_required_fields ?? [],
         missing_in_source_fields: item.missing_in_source_fields ?? [],

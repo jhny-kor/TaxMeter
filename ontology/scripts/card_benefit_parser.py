@@ -20,6 +20,7 @@ PREV_MONTH_SPEND_MIN_RE = re.compile(r"전월(?:카드)?(?:이용)?(?:실적|금
 ANNUAL_FEE_AMOUNT_RE = re.compile(r"연회비:?(\d+(?:\.\d+)?)(만원|천원|원)")
 PER_TRANSACTION_RE = re.compile(r"(?:1?건당|회당)(\d+(?:\.\d+)?)(만원|천원|원)")
 INTEGRATED_LIMIT_RE = re.compile(r"통합한도(?:월)?(\d+(?:\.\d+)?)(만원|천원|원)")
+MILEAGE_UNIT_RE = re.compile(r"([\d,]+)\s*원당\s*(\d+(?:\.\d+)?)\s*마일")
 
 
 def parse_krw_amount(text: str) -> int | None:
@@ -107,6 +108,8 @@ def has_no_annual_fee(text: str) -> bool:
 
 
 def benefit_type(text: str) -> str | None:
+    if "마일" in text:
+        return "mileage"
     if any(keyword in text for keyword in ("적립", "포인트", "마일리지", "캐시백")):
         return "point_accumulation"
     if any(keyword in text for keyword in ("할인", "환급할인", "청구할인", "즉시할인")):
@@ -242,6 +245,15 @@ def enrich_card_benefits(item: dict) -> None:
             benefit["benefit_type"] = parsed_benefit_type
         else:
             benefit.setdefault("benefit_type", None)
+        mileage_match = MILEAGE_UNIT_RE.search(text)
+        if mileage_match:
+            benefit["reward_unit_amount_krw"] = int(mileage_match.group(1).replace(",", ""))
+            benefit["reward_unit_value"] = float(mileage_match.group(2))
+            benefit["reward_unit_type"] = "mileage"
+        else:
+            benefit.setdefault("reward_unit_amount_krw", None)
+            benefit.setdefault("reward_unit_value", None)
+            benefit.setdefault("reward_unit_type", None)
         parsed_rate = card_benefit_rate_percent(text)
         if parsed_rate is not None:
             benefit["benefit_rate_percent"] = parsed_rate

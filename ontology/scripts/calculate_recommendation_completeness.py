@@ -164,6 +164,9 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
     item["condition_verification_status"] = "source_text" if item.get("criteria") else "unverified"
     item["source_freshness_status"] = "current" if fresh else "stale"
     item["freshness_status"] = item["source_freshness_status"]
+    item["last_source_checked_at"] = item.get("collected_at") or None
+    item["last_reviewed_at"] = item.get("reviewed_at") or None
+    item["last_verified_at"] = None
     required = REQUIRED_FIELDS[domain]
     source_values = {field: source_field_value(item, field) for field in required}
     if domain != "loan":
