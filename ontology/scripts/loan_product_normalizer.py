@@ -234,6 +234,10 @@ def normalize_loan_product(item: dict) -> None:
 
     rate_types = unique([str(option["lend_rate_type_nm"]) for option in options if option.get("lend_rate_type_nm")])
     if not rate_types:
+        rate_type = raw_text(raw, "lend_rate_type")
+        if rate_type:
+            rate_types = [rate_type]
+    if not rate_types:
         rate_types = unique([str(option["crdt_lend_rate_type_nm"]) for option in options if option.get("crdt_lend_rate_type_nm")])
     if not rate_types:
         irt_category = raw_text(raw, "irtCtg", "irtctg")
@@ -247,6 +251,10 @@ def normalize_loan_product(item: dict) -> None:
 
     repayment = unique([str(option["rpay_type_nm"]) for option in options if option.get("rpay_type_nm")])
     if not repayment:
+        repayment_text = raw_text(raw, "rpay_type")
+        if repayment_text:
+            repayment = [repayment_text]
+    if not repayment:
         repayment_text = raw_text(raw, "rdptmthd")
         if repayment_text:
             repayment = [repayment_text]
@@ -258,6 +266,8 @@ def normalize_loan_product(item: dict) -> None:
 
     kinfa_limit_text = raw_text(raw, "lnlmt") or ""
     limit_text = raw_text(raw, "loan_lmt") or kinfa_limit_text or option_text(options, "loan_limit") or ""
+    if limit_text == "기타":
+        limit_text = raw_text(raw, "loan_limit_detl") or limit_text
     limit_krw = None
     limit_unit = None
     limit_normalization_status = "unverified"
@@ -296,7 +306,8 @@ def normalize_loan_product(item: dict) -> None:
 
     item["early_repayment_fee"] = raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee")
 
-    item["eligible_borrower"] = raw_text(raw, "trgt", "crdt_prdt_type_nm") or option_text(options, "eligibility")
+    eligible_borrower = raw_text(raw, "trgt", "crdt_prdt_type_nm", "join_deny_detl") or option_text(options, "eligibility")
+    item["eligible_borrower"] = None if eligible_borrower in {"제한없음", "-"} else eligible_borrower
 
     collateral = unique([str(option["mrtg_type_nm"]) for option in options if option.get("mrtg_type_nm")])
     if collateral:

@@ -38,6 +38,11 @@ def run_case(case: dict[str, Any]) -> list[str]:
     for item_id, rate in (case.get("expected_achievable_rates") or {}).items():
         if rates.get(item_id) != rate:
             errors.append(f"{case['name']}: expected achievable rate {rate} for {item_id}, got {rates.get(item_id)}")
+    for item_id, expected in (case.get("expected_interest_estimates") or {}).items():
+        candidate = next((value for value in first["candidates"] if value["item_id"] == item_id), None)
+        for field, value in expected.items():
+            if candidate is None or candidate.get(field) != value:
+                errors.append(f"{case['name']}: expected {field} {value} for {item_id}, got {candidate.get(field) if candidate else None}")
     if case.get("require_score_sources"):
         for candidate in first["candidates"]:
             if not candidate.get("score_components") or not candidate.get("source_urls"):

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
@@ -12,6 +13,7 @@ from recommendation_policy import COMPARISON_ENABLED_DOMAINS, COMPARISON_ENGINE_
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH_INDEX = ROOT / "exports" / "finance-search-index-2026.json"
 MODEL_VERSION = "openfin-comparison-v0.1.0"
+DEFAULT_INTEREST_TAX_RATE_PERCENT = 15.4
 
 
 def load_items(path: Path = SEARCH_INDEX) -> list[dict[str, Any]]:
@@ -86,10 +88,16 @@ def option_blocker(option: dict[str, Any], arguments: dict[str, Any]) -> str | N
         return "join_channel_mismatch"
     amount = arguments.get("deposit_amount_krw")
     maximum = option.get("maximum_deposit_krw")
+    minimum = option.get("minimum_deposit_krw")
+    if amount is not None and minimum is not None and int(amount) < int(minimum):
+        return "amount_below_minimum"
     if amount is not None and maximum is not None and int(amount) > int(maximum):
         return "amount_exceeds_limit"
     payment = arguments.get("monthly_payment_krw")
     monthly_maximum = option.get("monthly_payment_max_krw")
+    monthly_minimum = option.get("monthly_payment_min_krw")
+    if payment is not None and monthly_minimum is not None and int(payment) < int(monthly_minimum):
+        return "monthly_payment_below_minimum"
     if payment is not None and monthly_maximum is not None and int(payment) > int(monthly_maximum):
         return "monthly_payment_exceeds_limit"
     saving_method = arguments.get("saving_method")
@@ -115,19 +123,46 @@ def achievable_rate(option: dict[str, Any], eligible_conditions: set[str]) -> tu
             additional_rate += float(condition.get("additional_rate_percent") or 0)
         else:
             unmatched.append(condition_id)
-    maximum_rate = float(option.get("maximum_rate_percent") or base_rate)
+    maximum_rate = float(option["maximum_rate_percent"]) if isinstance(option.get("maximum_rate_percent"), (int, float)) else base_rate
     return min(base_rate + additional_rate, maximum_rate), matched, unmatched, unknown
 
 
-def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_conditions: set[str]) -> dict[str, Any]:
+def interest_estimate(domain: str, arguments: dict[str, Any], rate_percent: float) -> dict[str, Any]:
+    term_months = int(arguments["term_months"])
+    tax_rate_percent = float(arguments.get("tax_rate_percent", DEFAULT_INTEREST_TAX_RATE_PERCENT))
+    if domain == "deposit":
+        if arguments.get("deposit_amount_krw") is None:
+            return {"principal_krw": None, "gross_interest_krw": None, "tax_rate_percent": tax_rate_percent, "tax_withheld_krw": None, "net_interest_krw": None, "calculation_assumption": "deposit_amount_required"}
+        principal = int(arguments["deposit_amount_krw"])
+        gross_interest = principal * rate_percent / 100 * term_months / 12
+        assumption = "simple_interest_for_full_term_deposit"
+    else:
+        if arguments.get("monthly_payment_krw") is None:
+            return {"principal_krw": None, "gross_interest_krw": None, "tax_rate_percent": tax_rate_percent, "tax_withheld_krw": None, "net_interest_krw": None, "calculation_assumption": "monthly_payment_required"}
+        monthly_payment = int(arguments["monthly_payment_krw"])
+        principal = monthly_payment * term_months
+        gross_interest = monthly_payment * rate_percent / 100 * sum(range(1, term_months + 1)) / 12
+        assumption = "simple_interest_with_each_month_paid_at_month_start"
+    tax_withheld = gross_interest * tax_rate_percent / 100
+    return {
+        "principal_krw": principal,
+        "gross_interest_krw": math.floor(gross_interest + 0.5),
+        "tax_rate_percent": tax_rate_percent,
+        "tax_withheld_krw": math.floor(tax_withheld + 0.5),
+        "net_interest_krw": math.floor(gross_interest - tax_withheld + 0.5),
+        "calculation_assumption": assumption,
+    }
+
+
+def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_conditions: set[str], arguments: dict[str, Any]) -> dict[str, Any]:
     achievable, matched, unmatched, unknown = achievable_rate(option, eligible_conditions)
     base_rate = float(option["base_rate_percent"])
-    return {
+    candidate = {
         "item_id": item["id"],
         "title": item.get("title"),
         "provider": item.get("provider"),
         "base_rate_percent": base_rate,
-        "maximum_rate_percent": float(option.get("maximum_rate_percent") or base_rate),
+        "maximum_rate_percent": float(option["maximum_rate_percent"]) if isinstance(option.get("maximum_rate_percent"), (int, float)) else base_rate,
         "achievable_rate_percent": achievable,
         "matched_preferential_conditions": matched,
         "unmatched_preferential_conditions": unmatched,
@@ -144,6 +179,8 @@ def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_
         "comparison_basis_fields": item.get("comparison_basis_fields") or [],
         "missing_required_fields": item.get("missing_required_fields") or [],
     }
+    candidate.update(interest_estimate(str(item.get("search_type")), arguments, achievable))
+    return candidate
 
 
 def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = None, basis_date: str | None = None) -> dict[str, Any]:
@@ -155,8 +192,11 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
     if type(arguments.get("term_months")) is not int or int(arguments["term_months"]) <= 0:
         raise ValueError("term_months must be a positive integer")
     for key in ("deposit_amount_krw", "monthly_payment_krw"):
-        if key in arguments and type(arguments[key]) is not int:
-            raise ValueError(f"{key} must be an integer")
+        if key in arguments and (type(arguments[key]) is not int or int(arguments[key]) <= 0):
+            raise ValueError(f"{key} must be a positive integer")
+    tax_rate_percent = arguments.get("tax_rate_percent", DEFAULT_INTEREST_TAX_RATE_PERCENT)
+    if type(tax_rate_percent) not in (int, float) or not 0 <= float(tax_rate_percent) <= 100:
+        raise ValueError("tax_rate_percent must be between 0 and 100")
     source_items = items if items is not None else load_items()
     eligible_conditions = {str(value) for value in arguments.get("eligible_conditions") or []}
     candidates: list[dict[str, Any]] = []
@@ -179,7 +219,7 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         if not matching_options:
             excluded.append({"item_id": str(item.get("id")), "reason": sorted(option_reasons or ["missing_comparison_option"])[0]})
             continue
-        candidates.extend(comparison_candidate(item, option, eligible_conditions) for option in matching_options)
+        candidates.extend(comparison_candidate(item, option, eligible_conditions, arguments) for option in matching_options)
     candidates.sort(key=lambda candidate: (-float(candidate["achievable_rate_percent"]), str(candidate["item_id"])))
     limit = max(1, min(int(arguments.get("limit") or 10), 20))
     return {
@@ -187,6 +227,8 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         "candidates": candidates[:limit],
         "excluded": sorted(excluded, key=lambda item: (item["item_id"], item["reason"])),
         "assumptions": ["Achievable rate includes only user-declared preferential conditions.", "Missing preferential conditions are not assumed to be satisfied."],
+        "requested_intent": arguments,
+        "executed_mode": "deterministic_comparison",
         "comparison_model_version": MODEL_VERSION,
         "comparison_engine_version": COMPARISON_ENGINE_VERSION,
         "basis_date": basis_date if basis_date is not None else (index_basis_date() if items is None else ""),

@@ -24,7 +24,10 @@ FIELD_ALIASES = {
     "benefit_categories": ("benefit_categories", "category"),
     "loan_rate_min_percent": ("loan_rate_min_percent", "lend_rate_min", "rate_percent"),
     "loan_rate_max_percent": ("loan_rate_max_percent", "lend_rate_max", "rate_percent"),
-    "loan_limit_krw": ("loan_limit_krw", "limit_krw", "loan_limit"),
+    "loan_limit_krw": ("loan_limit_krw", "limit_krw", "loan_limit", "loan_limit_detl", "lnlmt"),
+    "repayment_method": ("repayment_method", "rpay_type", "rpay_type_nm", "rdptMthd"),
+    "early_repayment_fee": ("early_repayment_fee", "erly_rpay_fee", "rpymdCfe"),
+    "rate_type": ("rate_type", "lend_rate_type", "lend_rate_type_nm", "irtCtg"),
     "eligible_borrower": ("eligible_borrower", "join_member", "target"),
     "coverage_amount_krw": ("coverage_amount_krw", "coverage_amount", "amount_krw"),
     "renewal_type": ("renewal_type", "renewal", "renewal_cycle_years"),
@@ -96,7 +99,11 @@ def rate_options(item: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def field_present(value: Any) -> bool:
-    return value not in (None, "", [], {}, "unknown", "unverified", "listed_unverified")
+    if value in (None, "", [], {}, "unknown", "unverified", "listed_unverified"):
+        return False
+    if isinstance(value, str) and value.strip().lower() in {"-", "해당없음", "해당 사항 없음", "없음", "없음정보", "n/a", "na"}:
+        return False
+    return True
 
 
 def nested_values(value: Any, names: set[str]) -> list[Any]:
@@ -159,9 +166,11 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
         item["deposit_protection_status"] = "listed" if (normalized(item.get("provider")), normalized(raw.get("fin_prdt_nm"))) in protected else "unknown"
     fresh = str(item.get("collected_at") or "") >= (date.today() - timedelta(days=31)).isoformat()
     item["source_listing_status"] = "listed" if item.get("product_status") == "active" and (item.get("source_record_id") or item.get("source_urls")) else "not_listed"
+    if item.get("sales_status") != "ended":
+        item["sales_status"] = "unknown"
     item["sales_verification_status"] = "listed_unverified"
     item["sales_verified_at"] = None
-    item["condition_verification_status"] = "source_text" if item.get("criteria") else "unverified"
+    item["condition_verification_status"] = "source_text" if item.get("criteria") else "not_collected"
     item["source_freshness_status"] = "current" if fresh else "stale"
     item["freshness_status"] = item["source_freshness_status"]
     item["last_source_checked_at"] = item.get("collected_at") or None
@@ -189,9 +198,20 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
         4,
     )
     item["missing_in_source_fields"] = sorted(field for field, value in source_values.items() if not field_present(value))
-    item["unmapped_existing_fields"] = sorted(
+    unmapped_existing_fields = [
         field for field, value in source_values.items() if field_present(value) and not field_present(item.get(field))
-    )
+    ]
+    if domain == "loan" and "loan_limit_krw" in unmapped_existing_fields:
+        raw_limit = str(source_values["loan_limit_krw"])
+        item["manual_review_required"] = True
+        item["manual_review_reason"] = (
+            "loan_limit_conditional_or_free_text"
+            if any(marker in raw_limit for marker in ("조건", "한도 내", "범위", "~", "부터", "까지"))
+            else "loan_limit_unit_ambiguous"
+        )
+        item["manual_review_fields"] = ["loan_limit_krw"]
+        unmapped_existing_fields.remove("loan_limit_krw")
+    item["unmapped_existing_fields"] = sorted(unmapped_existing_fields)
     item["unverified_fields"] = sorted(field for field in required if field_present(item.get(field)) and item.get("sales_verification_status") != "verified_active")
     item["discovery_evidence_fields"] = sorted(field for field, value in source_values.items() if field_present(value))
     item["missing_required_fields"] = sorted(set([*(item.get("missing_required_fields") or []), *missing]))

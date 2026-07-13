@@ -815,20 +815,14 @@ function domainMatches(item: FinanceItem, domain: string): boolean {
   return false;
 }
 
-function recommendationBlocker(item: FinanceItem): string | undefined {
-  if (!ENABLE_PUBLIC_RECOMMENDATION) return "public_recommendation_disabled";
-  if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
-  if (item.recommendation_status !== "verified_recommendation_candidate") {
-    return "not_verified_recommendation_candidate";
-  }
-  if (item.recommendation_scope !== "public_recommendation") {
-    return "not_public_recommendation_scope";
-  }
+function verificationEvidenceBlocker(item: FinanceItem): string | undefined {
   if (item.verification_status !== "verified") return "verification_not_verified";
   if (!isRecord(item.verification_evidence)) {
     return "missing_verification_evidence";
   }
   const checksums = item.verification_evidence.source_checksums;
+  const evidence = item.verification_evidence.evidence;
+  if (!Array.isArray(evidence) || !evidence.length || evidence.some((value) => !isRecord(value) || typeof value.source_url !== "string" || !value.source_url || typeof value.document_type !== "string" || !value.document_type || typeof value.locator !== "string" || !value.locator || !isPastOrCurrentIsoDate(value.captured_at) || (typeof value.field !== "string" && typeof value.verified_field !== "string") || (value.value === undefined && typeof value.source_text !== "string"))) return "invalid_verification_evidence";
   if (!item.source_records?.length) return "missing_source_records";
   const sourceChecksums = item.source_records
     .map((record) => record.source_checksum)
@@ -844,6 +838,15 @@ function recommendationBlocker(item: FinanceItem): string | undefined {
     return `status_${item.status}`;
   }
   return undefined;
+}
+
+function recommendationBlocker(item: FinanceItem): string | undefined {
+  if (!ENABLE_PUBLIC_RECOMMENDATION) return "public_recommendation_disabled";
+  if (item.public_recommendation_exclusion_reasons?.length) return "public_recommendation_excluded";
+  if (item.recommendation_status !== "verified_recommendation_candidate") return "not_verified_recommendation_candidate";
+  if (item.recommendation_scope !== "public_recommendation") return "not_public_recommendation_scope";
+  if (item.sales_status !== "active" || item.sales_verification_status !== "verified_active") return "sales_not_verified";
+  return verificationEvidenceBlocker(item);
 }
 
 function recommendationScore(item: FinanceItem, profile: Record<string, unknown>): { score: number; components: Record<string, number> } {
@@ -867,6 +870,12 @@ function isFutureOrCurrentIsoDate(value: unknown): value is string {
   return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value >= new Date().toISOString().slice(0, 10);
 }
 
+function isPastOrCurrentIsoDate(value: unknown): value is string {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const timestamp = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === value && value <= new Date().toISOString().slice(0, 10);
+}
+
 function comparisonBlocker(item: FinanceItem): string | undefined {
   if (item.comparison_exclusion_reasons?.length) return "comparison_excluded";
   if (item.recommendation_scope !== "comparison_only") return "not_comparison_scope";
@@ -876,7 +885,7 @@ function comparisonBlocker(item: FinanceItem): string | undefined {
   const verifiedAt = Date.parse(`${item.sales_verified_at ?? ""}T00:00:00Z`);
   if (!Number.isFinite(verifiedAt) || verifiedAt > Date.now() || Date.now() - verifiedAt > 31 * 24 * 60 * 60 * 1000) return "stale_source";
   if (item.verification_status !== "verified") return "not_verified";
-  const evidenceBlocker = recommendationBlocker({ ...item, recommendation_status: "verified_recommendation_candidate", recommendation_scope: "public_recommendation" });
+  const evidenceBlocker = verificationEvidenceBlocker(item);
   if (evidenceBlocker) return evidenceBlocker;
   if (item.domain_gate_passed !== true) return "domain_gate_not_passed";
   if (["closed", "ended", "unknown", "suspended"].includes(item.status ?? "")) return `status_${item.status}`;
@@ -893,13 +902,15 @@ function comparisonOptionBlocker(option: Record<string, unknown>, domain: string
   const optionChannels = Array.isArray(option.join_channels) ? option.join_channels.filter((value): value is string => typeof value === "string").map((value) => normalizeQuery(value)) : [];
   if (joinChannels.length && optionChannels.length && !joinChannels.some((channel) => optionChannels.includes(normalizeQuery(channel)))) return "join_channel_mismatch";
   if (depositAmount !== undefined && typeof option.maximum_deposit_krw === "number" && depositAmount > option.maximum_deposit_krw) return "amount_exceeds_limit";
+  if (depositAmount !== undefined && typeof option.minimum_deposit_krw === "number" && depositAmount < option.minimum_deposit_krw) return "amount_below_minimum";
   if (monthlyPayment !== undefined && typeof option.monthly_payment_max_krw === "number" && monthlyPayment > option.monthly_payment_max_krw) return "monthly_payment_exceeds_limit";
+  if (monthlyPayment !== undefined && typeof option.monthly_payment_min_krw === "number" && monthlyPayment < option.monthly_payment_min_krw) return "monthly_payment_below_minimum";
   if (domain === "saving" && savingMethod && typeof option.saving_method === "string" && option.saving_method !== savingMethod) return "saving_method_mismatch";
   if (!Array.isArray(option.source_urls) || !option.source_urls.length) return "missing_source_url";
   return undefined;
 }
 
-function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>, eligibleConditions: ReadonlySet<string>): Record<string, unknown> {
+function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>, eligibleConditions: ReadonlySet<string>, depositAmount: number | undefined, monthlyPayment: number | undefined, taxRatePercent: number): Record<string, unknown> {
   const baseRate = option.base_rate_percent;
   const maximumRate = typeof option.maximum_rate_percent === "number" ? option.maximum_rate_percent : baseRate;
   if (typeof baseRate !== "number" || typeof maximumRate !== "number") throw new Error("Comparison option has invalid rate fields");
@@ -907,13 +918,22 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
   const matched = conditions.filter((condition) => typeof condition.condition_id === "string" && eligibleConditions.has(condition.condition_id));
   const unmatched = conditions.filter((condition) => typeof condition.condition_id === "string" && !eligibleConditions.has(condition.condition_id));
   const additionalRate = matched.reduce((total, condition) => total + (typeof condition.additional_rate_percent === "number" ? condition.additional_rate_percent : 0), 0);
+  const achievableRate = Math.min(baseRate + additionalRate, maximumRate);
+  const termMonths = typeof option.term_months === "number" ? option.term_months : 0;
+  const isDeposit = item.search_type === "deposit";
+  const amountMissing = isDeposit ? depositAmount === undefined : monthlyPayment === undefined;
+  const principal = amountMissing ? null : isDeposit ? depositAmount : monthlyPayment! * termMonths;
+  const grossInterest = amountMissing ? null : isDeposit
+    ? principal! * achievableRate / 100 * termMonths / 12
+    : monthlyPayment! * achievableRate / 100 * (termMonths * (termMonths + 1) / 2) / 12;
+  const taxWithheld = grossInterest === null ? null : grossInterest * taxRatePercent / 100;
   return {
     item_id: item.id,
     title: item.title,
     provider: item.provider,
     base_rate_percent: baseRate,
     maximum_rate_percent: maximumRate,
-    achievable_rate_percent: Math.min(baseRate + additionalRate, maximumRate),
+    achievable_rate_percent: achievableRate,
     matched_preferential_conditions: matched.map((condition) => condition.condition_id),
     unmatched_preferential_conditions: unmatched.map((condition) => condition.condition_id),
     unknown_preferential_conditions: conditions.filter((condition) => typeof condition.condition_id !== "string").map((condition) => condition.description ?? "unidentified_preferential_condition"),
@@ -923,11 +943,17 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     saving_method: option.saving_method,
     join_channel: option.join_channels ?? [],
     sales_verified_at: item.sales_verified_at,
-    score_components: { achievable_rate_percent: Math.min(baseRate + additionalRate, maximumRate), source_verified: 1 },
+    score_components: { achievable_rate_percent: achievableRate, source_verified: 1 },
     source_urls: option.source_urls,
     source_basis_dates: item.source_basis_dates ?? [],
     comparison_basis_fields: item.comparison_basis_fields ?? [],
     missing_required_fields: item.missing_required_fields ?? [],
+    principal_krw: principal,
+    gross_interest_krw: grossInterest === null ? null : Math.round(grossInterest),
+    tax_rate_percent: taxRatePercent,
+    tax_withheld_krw: taxWithheld === null ? null : Math.round(taxWithheld),
+    net_interest_krw: grossInterest === null || taxWithheld === null ? null : Math.round(grossInterest - taxWithheld),
+    calculation_assumption: amountMissing ? (isDeposit ? "deposit_amount_required" : "monthly_payment_required") : isDeposit ? "simple_interest_for_full_term_deposit" : "simple_interest_with_each_month_paid_at_month_start",
   };
 }
 
@@ -1202,6 +1228,7 @@ function createServer(env: Env): McpServer {
         join_channels: z.array(z.string()).optional(),
         eligible_conditions: z.array(z.string()).optional(),
         saving_method: z.enum(["free", "fixed"]).optional(),
+        tax_rate_percent: z.number().min(0).max(100).optional(),
         limit: z.number().int().min(1).max(20).optional(),
       },
       annotations: {
@@ -1209,7 +1236,7 @@ function createServer(env: Env): McpServer {
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, limit }) => {
+    async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent, limit }) => {
       if ((domain === "deposit" && !ENABLE_DEPOSIT_COMPARISON) || (domain === "saving" && !ENABLE_SAVING_COMPARISON)) {
         const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
@@ -1236,7 +1263,7 @@ function createServer(env: Env): McpServer {
           excluded.push({ item_id: item.id, reason });
           continue;
         }
-        candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, conditions)));
+        candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, conditions, deposit_amount_krw, monthly_payment_krw, tax_rate_percent ?? 15.4)));
       }
       candidates.sort((left, right) => {
         const leftRate = typeof left.achievable_rate_percent === "number" ? left.achievable_rate_percent : 0;
@@ -1254,6 +1281,8 @@ function createServer(env: Env): McpServer {
         comparison_model_version: "openfin-comparison-v0.1.0",
         comparison_engine_version: COMPARISON_ENGINE_VERSION,
         basis_date: data.basis_date,
+        requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
+        executed_mode: "deterministic_comparison",
       };
       return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
     },

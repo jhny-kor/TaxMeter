@@ -4,7 +4,8 @@
     "arguments": {"domain": "deposit", "deposit_amount_krw": 10000000, "term_months": 12, "join_channels": ["online"]},
     "items": [{"id": "deposit-12", "title": "12개월 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.5, "join_channels": ["online"], "maximum_deposit_krw": 20000000, "source_urls": ["https://official.example/deposit-12"]}]}, {"id": "deposit-6", "title": "6개월 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 6, "base_rate_percent": 4.0, "maximum_rate_percent": 4.0, "join_channels": ["online"], "maximum_deposit_krw": 20000000, "source_urls": ["https://official.example/deposit-6"]}]}],
     "expected_candidate_ids": ["deposit-12"],
-    "expected_excluded": {"deposit-6": "term_mismatch"}
+    "expected_excluded": {"deposit-6": "term_mismatch"},
+    "expected_interest_estimates": {"deposit-12": {"principal_krw": 10000000, "gross_interest_krw": 300000, "tax_rate_percent": 15.4, "tax_withheld_krw": 46200, "net_interest_krw": 253800}}
   },
   {
     "name": "deposit over limit is excluded",
@@ -69,5 +70,12 @@
     "items": [{"id": "unverified-comparison", "title": "미검증 적금", "type": "bank-product", "search_type": "saving", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "verification_status": "not_verified", "comparison_options": [{"term_months": 12, "base_rate_percent": 3.0, "maximum_rate_percent": 3.0, "source_urls": ["https://official.example/unverified-comparison"]}]}],
     "expected_candidate_ids": [],
     "expected_excluded": {"unverified-comparison": "not_verified"}
+  },
+  {
+    "name": "half won interest uses shared half up rounding",
+    "arguments": {"domain": "deposit", "deposit_amount_krw": 100, "term_months": 1},
+    "items": [{"id": "half-up", "title": "반올림 예금", "type": "bank-product", "search_type": "deposit", "recommendation_scope": "comparison_only", "source_listing_status": "listed", "sales_verification_status": "verified_active", "source_freshness_status": "current", "comparison_options": [{"term_months": 1, "base_rate_percent": 6.0, "maximum_rate_percent": 6.0, "source_urls": ["https://official.example/half-up"]}]}],
+    "expected_candidate_ids": ["half-up"],
+    "expected_interest_estimates": {"half-up": {"gross_interest_krw": 1, "tax_withheld_krw": 0, "net_interest_krw": 0}}
   }
 ]

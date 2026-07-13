@@ -111,6 +111,8 @@ def validate_contract() -> list[str]:
             errors.append(f"{export_id}:{item_id}: verified status requires matching source checksum")
         if verification_status == "not_verified" and item.get("last_verified_at") is not None:
             errors.append(f"{export_id}:{item_id}: not_verified must not have last_verified_at")
+        if item.get("sales_status") == "active" and item.get("sales_verification_status") != "verified_active":
+            errors.append(f"{export_id}:{item_id}: active sales status requires verified_active evidence")
         if status == "reference_only" and scope == "public_recommendation":
             errors.append(f"{export_id}:{item_id}: reference_only cannot be public_recommendation")
     overlay = load_json(OVERLAY_PATH) if OVERLAY_PATH.exists() else {"verifications": []}

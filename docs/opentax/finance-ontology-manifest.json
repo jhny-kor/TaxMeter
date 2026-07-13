@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-13T04:58:50Z",
+  "built_at": "2026-07-13T23:22:31Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-13T04:58:50Z",
+      "built_at": "2026-07-13T23:22:31Z",
       "domain_export_count": 8,
       "search_index_item_count": 21233,
       "canonical_product_count": 3431,
@@ -138,12 +138,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6079,
+        "average_completeness_ratio": 0.6075,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 370,
           "early_termination_condition": 430,
+          "join_member": 2,
           "maximum_deposit_krw": 395,
           "minimum_deposit_krw": 398,
           "sales_verification_status": 430
@@ -189,13 +190,14 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6264,
+        "average_completeness_ratio": 0.6249,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
           "join_channel": 2,
+          "join_member": 6,
           "monthly_payment_max_krw": 237,
           "monthly_payment_min_krw": 328,
           "sales_verification_status": 335
@@ -244,19 +246,19 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6852,
-        "products_with_unmapped_existing_fields": 245,
+        "average_completeness_ratio": 0.6666,
+        "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 11,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 169,
+          "early_repayment_fee": 431,
+          "eligible_borrower": 165,
           "loan_limit_krw": 299,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
-          "rate_type": 135,
-          "repayment_method": 177
+          "rate_type": 129,
+          "repayment_method": 171
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -285,7 +287,7 @@
         "reference_only_products": 1058,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 1058,
+        "discovery_candidate_products": 857,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1058,
@@ -299,7 +301,7 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.1104,
+        "average_completeness_ratio": 0.0978,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -314,6 +316,7 @@
           "premium_basis": 1058,
           "reduction_period_days": 1058,
           "renewal_cycle_years": 363,
+          "renewal_type": 201,
           "sales_verification_status": 1058,
           "surrender_refund_type": 1058,
           "waiting_period_days": 1058
@@ -575,7 +578,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "67bf60421b68448b826fbb4ae359bfb52e8277a0d5a732d6c307a179a38277af",
+    "export_checksum": "af911534a8f078d5975de990415dd4a627af4a0437744805f2f484575b7430ff",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -590,7 +593,7 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-13T04:58:50Z",
+        "built_at": "2026-07-13T23:22:31Z",
         "domain_export_count": 8,
         "search_index_item_count": 21233,
         "canonical_product_count": 3431,
@@ -599,7 +602,7 @@
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "264f56437f38442d5ba3cd0ae75af0084c9057378cbe7850a1d8676125452a9d",
+      "export_checksum": "3c2ac7a1480834673cebfc1a1008bcbe5def0910461eb9d46ecaa0e65b005d4d",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -619,7 +622,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "c7cfb4d3fed5e77ba58c506d7b2f1baeadbd4d49ef6161cf2851e3bd27c137bd",
+      "export_checksum": "968a9b49cb40200c0729afca8fbaafad30f26baa9014a186129b35e943569d54",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     }
   ],
@@ -758,7 +761,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6335fb1c90297739cdd077eb938dcee6020501648a7703beaf546fc31196d738",
+      "export_checksum": "898d0851acc62177fa5027edc2460da94d8910a77964a7c92798f678021d1d76",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -806,12 +809,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6079,
+        "average_completeness_ratio": 0.6075,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 370,
           "early_termination_condition": 430,
+          "join_member": 2,
           "maximum_deposit_krw": 395,
           "minimum_deposit_krw": 398,
           "sales_verification_status": 430
@@ -824,7 +828,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "32e30bc08a3dcdee0e2d36152a55419346e409f7760c49feba5fad4702c31715",
+      "export_checksum": "acc09bc886ca8d7ed4ad6184de1a21bcdb2000288eecfadada201151ce968143",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -872,13 +876,14 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6264,
+        "average_completeness_ratio": 0.6249,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
           "join_channel": 2,
+          "join_member": 6,
           "monthly_payment_max_krw": 237,
           "monthly_payment_min_krw": 328,
           "sales_verification_status": 335
@@ -891,7 +896,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "47c4381181516be41ac1bced8ecc495b0d90a797a6ddb01239fe4a645313ba06",
+      "export_checksum": "ee3b4e591771bc82394470073b41c27459e436f47b3210eb88d1314d96d0cce9",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -944,19 +949,19 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6852,
-        "products_with_unmapped_existing_fields": 245,
+        "average_completeness_ratio": 0.6666,
+        "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 11,
-          "early_repayment_fee": 325,
-          "eligible_borrower": 169,
+          "early_repayment_fee": 431,
+          "eligible_borrower": 165,
           "loan_limit_krw": 299,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
-          "rate_type": 135,
-          "repayment_method": 177
+          "rate_type": 129,
+          "repayment_method": 171
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -966,7 +971,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "85bb6d23a94c792ca829ab472299794b5571022e1b0babedb10193a9a67b8862",
+      "export_checksum": "9140edda77674b2fc39f6c12280244f33176eb8147a4e98aa0a213c94f3a1ab1",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -1000,7 +1005,7 @@
         "reference_only_products": 1058,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 1058,
+        "discovery_candidate_products": 857,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1058,
@@ -1014,7 +1019,7 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.1104,
+        "average_completeness_ratio": 0.0978,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -1029,6 +1034,7 @@
           "premium_basis": 1058,
           "reduction_period_days": 1058,
           "renewal_cycle_years": 363,
+          "renewal_type": 201,
           "sales_verification_status": 1058,
           "surrender_refund_type": 1058,
           "waiting_period_days": 1058
@@ -1041,7 +1047,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "42531d41195bb90fb96198d9a75e68f3a0201fb5bfcc322c57143010900b643d",
+      "export_checksum": "a1fbe906c61a703942957f6b165f570d056f233aba4516ccff82d37ff761dd3a",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
