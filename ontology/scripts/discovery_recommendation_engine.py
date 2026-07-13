@@ -32,6 +32,10 @@ def values(item: dict[str, Any], field: str) -> list[Any]:
         if isinstance(section, dict) and section.get(field) not in (None, "", [], {}):
             value = section[field]
             found.extend(value if isinstance(value, list) else [value])
+    for option in item.get("comparison_options") or []:
+        if isinstance(option, dict) and option.get(field) not in (None, "", [], {}):
+            value = option[field]
+            found.extend(value if isinstance(value, list) else [value])
     return found
 
 

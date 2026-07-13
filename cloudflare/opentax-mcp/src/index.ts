@@ -425,7 +425,9 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
     if (seen.has(canonicalId)) continue;
     seen.add(canonicalId);
     const kindMatched = productKind === undefined || item.product_kind === productKind || (productKind === "rent-loan" && item.product_kind === "policy-loan" && text.includes("전세"));
-    const hasUnparsedHardConstraint = /전월실적\s*없는|연회비\s*없는|비갱신|갱신형|직장인|중도상환수수료\s*없는|\d+\s*개월/.test(query);
+    const requestedTerm = query.match(/(\d+)\s*개월/);
+    const termMatched = requestedTerm === null || (item.comparison_options ?? []).some((option) => isRecord(option) && (option.term_months === Number(requestedTerm[1]) || option.save_trm === String(requestedTerm[1])));
+    const hasUnparsedHardConstraint = /전월실적\s*없는|연회비\s*없는|비갱신|갱신형|직장인|중도상환수수료\s*없는/.test(query) || !termMatched;
     const eligibility = !kindMatched ? "related_candidate" : (hasUnparsedHardConstraint ? "partial_candidate" : "exact_candidate");
     const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
     const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" ? "A" : item.source_urls?.length ? "C" : "D";

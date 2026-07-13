@@ -23,6 +23,8 @@ def main() -> int:
                 errors.append(f"{query}: invalid exact candidate")
             if candidate.get("canonical_product_id") in {None, ""}:
                 errors.append(f"{query}: missing canonical id")
+        if query == "12개월 정기예금 추천" and not payload.get("exact_candidates"):
+            errors.append(f"{query}: missing exact term candidate")
     if errors:
         print("Discovery recommendation validation failed:")
         for error in errors:
