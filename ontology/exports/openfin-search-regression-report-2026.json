@@ -1899,7 +1899,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "A",
           "data_completeness_grade": "B",
-          "verification_grade": "C",
+          "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
@@ -1945,7 +1945,7 @@
             "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
-            "verification_grade": "C",
+            "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
@@ -1986,7 +1986,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "A",
           "data_completeness_grade": "B",
-          "verification_grade": "C",
+          "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
@@ -2032,7 +2032,7 @@
             "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
-            "verification_grade": "C",
+            "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
@@ -2073,7 +2073,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "A",
           "data_completeness_grade": "B",
-          "verification_grade": "C",
+          "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
@@ -2119,7 +2119,7 @@
             "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
-            "verification_grade": "C",
+            "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
@@ -2160,7 +2160,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "A",
           "data_completeness_grade": "B",
-          "verification_grade": "C",
+          "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
@@ -2206,7 +2206,7 @@
             "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
-            "verification_grade": "C",
+            "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
@@ -2247,7 +2247,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "A",
           "data_completeness_grade": "B",
-          "verification_grade": "C",
+          "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
@@ -2293,7 +2293,7 @@
             "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
-            "verification_grade": "C",
+            "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
@@ -13317,5 +13317,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "a312d97f9f7f7c2f0cde1ffb65f559cb544ce3f765dbb6a241f49e40878999c0"
+  "export_checksum": "16e22a67dc313b159149552b6ce2ed24bd4b798aa0a38c9aeec9d4c3bdc13972"
 }

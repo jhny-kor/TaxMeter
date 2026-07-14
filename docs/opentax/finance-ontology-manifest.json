@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-14T12:52:06Z",
+  "built_at": "2026-07-14T13:05:37Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "degraded",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-14T12:52:06Z",
+      "built_at": "2026-07-14T13:05:37Z",
       "domain_export_count": 8,
       "search_index_item_count": 21241,
       "canonical_product_count": 3433,
@@ -77,8 +77,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.1218,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -198,8 +198,8 @@
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -240,8 +240,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
         "average_completeness_ratio": 0.6075,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -339,17 +339,17 @@
         },
         "structural_comparison_candidate_count": 430,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 30,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -390,8 +390,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
         "average_completeness_ratio": 0.6249,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -490,17 +490,17 @@
         },
         "structural_comparison_candidate_count": 335,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 30,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -531,21 +531,22 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 593,
-        "comparison_candidate_products": 0,
+        "comparison_candidate_products": 20,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 593,
+        "recommendation_listing_only_products": 573,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
           "reference_only": 593
         },
         "recommendation_scope_counts": {
+          "comparison_only": 20,
           "internal_verification_candidate": 11,
-          "listing_only": 593
+          "listing_only": 573
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.6668,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -626,19 +627,19 @@
           "rate_type": 0,
           "repayment_method": 0
         },
-        "structural_comparison_candidate_count": 0,
+        "structural_comparison_candidate_count": 20,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 20,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -679,8 +680,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.0979,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -814,8 +815,8 @@
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -1094,7 +1095,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "24811edf4a17093b2fd60837ecc761f99f223ce4ce596cdffc5eb1c9fbf2275f",
+    "export_checksum": "866f43100fc746c3a34e0c06f4fa2d08044cfaee1f66aab81fad5e4f4b5f1e11",
     "description": "MCP search 전용 경량 인덱스입니다."
   },
   "quality_exports": [
@@ -1109,7 +1110,7 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-14T12:52:06Z",
+        "built_at": "2026-07-14T13:05:37Z",
         "domain_export_count": 8,
         "search_index_item_count": 21241,
         "canonical_product_count": 3433,
@@ -1118,7 +1119,7 @@
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "ce674ec47166f7f2c4b0c8fe2e42ab1b3b0923017ad3c0d7ac875070094629e6",
+      "export_checksum": "c85fb09a16755355e59ced8c7979885cdac934c565feb1a1c3801273cbc6ea33",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1138,7 +1139,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "a312d97f9f7f7c2f0cde1ffb65f559cb544ce3f765dbb6a241f49e40878999c0",
+      "export_checksum": "16e22a67dc313b159149552b6ce2ed24bd4b798aa0a38c9aeec9d4c3bdc13972",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     },
     {
@@ -1154,7 +1155,7 @@
       "quality_summary": {
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "e3cb7f1768b29efac98b70a6729884350d583b5ee5a2444da5f210c6a94936c0",
+      "export_checksum": "7967732a3465f92adb1abdc0356c9df4d884e4ea8d4fa275f3b3a6391620f956",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1211,7 +1212,7 @@
       "quality_summary": {
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "2d89912e78a4789c0e814fd0b5da3aea55ef81c96eaee9d877743fac59f817b8",
+      "export_checksum": "d6836648211d70d7ecf3f037bd9b5a8b656e4ae7c82fcd85b81f1ae66c26dd3e",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1375,8 +1376,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.1218,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1496,8 +1497,8 @@
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -1507,7 +1508,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "72e42064cb4ba3e77dcacc61b3db43024ff427f9a9b546ab3b05ef32b0716eeb",
+      "export_checksum": "6ca3e810ce41565e06a4f316cc833dd9061898481c0cd361dab59976e4a5f48c",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1553,8 +1554,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
         "average_completeness_ratio": 0.6075,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1652,17 +1653,17 @@
         },
         "structural_comparison_candidate_count": 430,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 30,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -1672,7 +1673,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "543bdc9d78e804403ebafd44e900a421c07d234a0ee03bb49a3f2aef6decf855",
+      "export_checksum": "a3eec17aa4c6ad62b72381c5524ca1882094f269c5a7060337215c8ba994fe1f",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1718,8 +1719,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 30,
+        "products_with_verification_evidence": 30,
         "average_completeness_ratio": 0.6249,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1818,17 +1819,17 @@
         },
         "structural_comparison_candidate_count": 335,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 30,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 30,
+          "verification_evidence_product_count": 30
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -1838,7 +1839,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cc15f857487e73a7c535549370f72f091885e0e61066a878f2111af9467159a3",
+      "export_checksum": "d132c9fca8b257187956ea6805e3899c297587c63536137f06c83af8064426b9",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1875,21 +1876,22 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 593,
-        "comparison_candidate_products": 0,
+        "comparison_candidate_products": 20,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 593,
+        "recommendation_listing_only_products": 573,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
           "reference_only": 593
         },
         "recommendation_scope_counts": {
+          "comparison_only": 20,
           "internal_verification_candidate": 11,
-          "listing_only": 593
+          "listing_only": 573
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.6668,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1970,19 +1972,19 @@
           "rate_type": 0,
           "repayment_method": 0
         },
-        "structural_comparison_candidate_count": 0,
+        "structural_comparison_candidate_count": 20,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 0,
+        "verified_comparison_candidate_count": 20,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "blocked",
+          "comparison_data": "ready",
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -1992,7 +1994,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cc467271cb5964c9fddc9efa389977f2dd2bb576b28ed18668f365130a01b2ad",
+      "export_checksum": "5f5b2c00114f36ca28cc106c17cea993476199df403033954db1154dc68b9532",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2038,8 +2040,8 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 0,
-        "products_with_verification_evidence": 0,
+        "products_with_verified_sales_status": 20,
+        "products_with_verification_evidence": 20,
         "average_completeness_ratio": 0.0979,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -2173,8 +2175,8 @@
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 0,
-          "verification_evidence_product_count": 0
+          "verified_sales_product_count": 20,
+          "verification_evidence_product_count": 20
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -2184,7 +2186,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "be4f011cfc42afcff11077e0150c0677da58d55846bcb8619b9b5641535a97b1",
+      "export_checksum": "9bfa4d0c64068a6bb10268f7cca5c5bd4979150e881684ae6079307cfc0b3f17",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -2263,13 +2265,8 @@
   "blocking_reasons": [
     "card-products comparison products below 100",
     "card-products complete products below 200",
-    "card-products verified pilot below 20",
-    "deposit-products verified pilot below 30",
     "insurance-products comparison products below 100",
-    "insurance-products complete products below 200",
-    "insurance-products verified pilot below 20",
-    "loan-products verified pilot below 20",
-    "saving-products verified pilot below 30"
+    "insurance-products complete products below 200"
   ],
   "recommendation_enabled": false
 }

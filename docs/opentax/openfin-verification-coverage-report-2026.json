@@ -19,8 +19,8 @@
     },
     {
       "domain": "card-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
+      "verified_sales_product_count": 20,
+      "verification_evidence_product_count": 20,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
@@ -28,59 +28,59 @@
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20
       }
     },
     {
       "domain": "deposit-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
+      "verified_sales_product_count": 30,
+      "verification_evidence_product_count": 30,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
-        "comparison_data": "blocked",
+        "comparison_data": "ready",
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30
       }
     },
     {
       "domain": "saving-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
+      "verified_sales_product_count": 30,
+      "verification_evidence_product_count": 30,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
-        "comparison_data": "blocked",
+        "comparison_data": "ready",
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
+        "verified_sales_product_count": 30,
+        "verification_evidence_product_count": 30
       }
     },
     {
       "domain": "loan-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
+      "verified_sales_product_count": 20,
+      "verification_evidence_product_count": 20,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
-        "comparison_data": "blocked",
+        "comparison_data": "ready",
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20
       }
     },
     {
       "domain": "insurance-products",
-      "verified_sales_product_count": 0,
-      "verification_evidence_product_count": 0,
+      "verified_sales_product_count": 20,
+      "verification_evidence_product_count": 20,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
@@ -88,8 +88,8 @@
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 0,
-        "verification_evidence_product_count": 0
+        "verified_sales_product_count": 20,
+        "verification_evidence_product_count": 20
       }
     },
     {
@@ -108,5 +108,5 @@
       }
     }
   ],
-  "export_checksum": "e3cb7f1768b29efac98b70a6729884350d583b5ee5a2444da5f210c6a94936c0"
+  "export_checksum": "7967732a3465f92adb1abdc0356c9df4d884e4ea8d4fa275f3b3a6391620f956"
 }
