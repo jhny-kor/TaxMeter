@@ -4,10 +4,10 @@ title: "양천구 보훈예우수당 (서울특별시 양천구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004183&bnefType=all&svcId=314000000115", "https://www.law.go.kr/법령/10ㆍ27법난 피해자의 명예회복 등에 관한 법률 시행령/(32018,20210929)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 거주지 동주민센터(방문신청, 온라인신청 포함)
 - contact: 복지정책과(02-2620-4599)
 - source_modified_at: 2026-05-08
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

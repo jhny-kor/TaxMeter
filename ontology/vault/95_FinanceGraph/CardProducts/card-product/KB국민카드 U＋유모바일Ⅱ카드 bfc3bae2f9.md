@@ -4,10 +4,10 @@ title: "KB국민카드 U＋유모바일Ⅱ카드"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://card.kbcard.com/CRD/DVIEW/HCAM0101", "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=04367", "https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/04367_img.png", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

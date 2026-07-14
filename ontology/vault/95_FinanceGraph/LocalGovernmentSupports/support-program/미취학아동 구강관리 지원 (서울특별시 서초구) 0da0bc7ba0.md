@@ -4,10 +4,10 @@ title: "미취학아동 구강관리 지원 (서울특별시 서초구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1001757&bnefType=all&svcId=321000000111", "https://www.law.go.kr/법령/아동복지법/(20885,20250401)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(의료)", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 보건소
 - contact: 의료지원과(02-2155-8109)
 - source_modified_at: 2026-05-04
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

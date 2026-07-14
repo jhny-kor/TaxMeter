@@ -4,10 +4,10 @@ title: "키움저축은행 SB톡톡정기적금 (비대면)"
 type: "bank-product"
 domain: "saving-products"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-saving-products-ontology-2026.json"
 source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
-source_basis_dates: ["2026-07-11 수집", "202606", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "202606", "2026-07-03 확인"]
 tags: ["graph-materialized", "saving-products", "finance-product", "generated", "saving", "030300"]
 ---
 

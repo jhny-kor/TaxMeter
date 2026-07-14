@@ -18,8 +18,8 @@ def main() -> int:
         len(json.loads((ROOT / "tests" / filename).read_text(encoding="utf-8")))
         for filename in GOLDEN_CASE_FILES
     )
-    if count < 80:
-        print(f"Finance golden case validation failed: expected at least 80, got {count}")
+    if count < 120:
+        print(f"Finance golden case validation failed: expected at least 120, got {count}")
         return 1
     print(f"Finance golden case validation passed: {count} cases")
     return 0

@@ -4,10 +4,10 @@ title: "장루요루 장애인 의료비 지원 (충청남도 당진시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000446&bnefType=all&svcId=568000000102", "https://www.law.go.kr/법령/장애인복지법/(20927,20250422)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 기타
 - contact: 경로장애인과(041-350-3353)
 - source_modified_at: 2026-05-11
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

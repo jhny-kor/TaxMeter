@@ -4,10 +4,10 @@ title: "저소득층 명절 지원 (대전광역시 중구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1006307&bnefType=all&svcId=365000000106", "https://www.law.go.kr/법령/국민기초생활 보장법/(19646,20230816)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-30", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 복지정책과(042-606-7135)
 - source_modified_at: 2026-04-30
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

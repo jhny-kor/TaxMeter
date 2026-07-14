@@ -4,10 +4,10 @@ title: "KB국민카드 내고장사랑카드(옥천사랑)"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://card.kbcard.com/CRD/DVIEW/HCAM0101", "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?mainCC=a&cooperationcode=03900", "https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/03900_img.png", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

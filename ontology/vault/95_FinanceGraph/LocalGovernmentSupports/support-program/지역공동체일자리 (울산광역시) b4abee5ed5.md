@@ -4,10 +4,10 @@ title: "지역공동체일자리 (울산광역시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1002978&bnefType=all&svcId=631000000113", "https://www.law.go.kr/법령/고용정책 기본법/(19965,20240109)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(일자리)", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터, 시·군·구청
 - contact: 중구 일자리정책과(052-290-4455), 남구 일자리청년과(052-226-3282), 동구 노사외국인지원과(052-209-4554), 북구 경제일자리과(052-241-7723), 울주군 일자리지원과(052-204-1353)
 - source_modified_at: 2026-05-06
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

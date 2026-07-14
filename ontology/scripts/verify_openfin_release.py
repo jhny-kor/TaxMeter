@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -25,7 +26,21 @@ SCRIPTS = (
     "validate_recommendation_regression.py",
     "validate_comparison_regression.py",
     "validate_verification_evidence.py",
+    "validate_quality_release_policy.py",
+    "validate_structured_summary.py",
 )
+
+
+def require_production_release_ready(root: Path) -> int:
+    manifest_path = root.parent / "exports" / "openfin-quality-manifest-2026.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("release_status") == "ready":
+        return 0
+    reasons = manifest.get("blocking_reasons") or ["quality manifest is not ready"]
+    print("FAIL: production deployment is blocked by the quality manifest:")
+    for reason in reasons:
+        print(f"- {reason}")
+    return 1
 
 
 def main() -> int:
@@ -43,7 +58,7 @@ def main() -> int:
         completed = subprocess.run([sys.executable, str(root / script)], check=False)
         if completed.returncode:
             return completed.returncode
-    return 0
+    return require_production_release_ready(root)
 
 
 if __name__ == "__main__":

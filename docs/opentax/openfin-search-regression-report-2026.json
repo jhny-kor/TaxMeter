@@ -438,7 +438,7 @@
           "title": "귀농 청년농업인 주거비(월세) 지원 (경기도 연천군)",
           "type": "support-program",
           "status": "active",
-          "application_status": "open",
+          "application_status": "always_open",
           "recommendation_status": "eligible_for_listing",
           "score": 13
         },
@@ -497,7 +497,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -560,7 +560,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -623,7 +623,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -687,7 +687,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -751,7 +751,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -824,7 +824,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -887,7 +887,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -950,7 +950,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1013,7 +1013,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1076,7 +1076,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1150,7 +1150,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1213,7 +1213,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1276,7 +1276,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1339,7 +1339,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1402,7 +1402,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1476,7 +1476,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1539,7 +1539,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1602,7 +1602,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1665,7 +1665,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1728,7 +1728,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-10 수집",
+            "2026-07-14 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1808,7 +1808,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1883,7 +1883,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1958,7 +1958,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2033,7 +2033,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2108,7 +2108,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-12 수집",
+            "2026-07-14 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -13176,5 +13176,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "968a9b49cb40200c0729afca8fbaafad30f26baa9014a186129b35e943569d54"
+  "export_checksum": "b0d935d36913e0efeeefdcfdb2cf35edabe3f4c05c560517708757e4b8e388d2"
 }

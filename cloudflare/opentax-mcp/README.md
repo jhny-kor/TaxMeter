@@ -67,6 +67,8 @@ cd cloudflare/opentax-mcp
 npm run deploy
 ```
 
+`npm run deploy`는 현재 quality manifest와 live regression이 모두 ready일 때만 Worker를 배포합니다.
+
 The deployed MCP endpoint will be:
 
 ```text

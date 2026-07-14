@@ -4,10 +4,10 @@ title: "시각장애인 음성안내 방송서비스 지원사업 (전북특별�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000969&bnefType=all&svcId=470000000113", "https://www.law.go.kr/법령/방송통신발전 기본법/(20255,20240213)", "https://www.law.go.kr/법령/장애인복지법/(20927,20250422)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "이용권", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 주민복지과(063-620-6623), 읍면동별 행정복지센터(())
 - source_modified_at: 2026-05-11
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

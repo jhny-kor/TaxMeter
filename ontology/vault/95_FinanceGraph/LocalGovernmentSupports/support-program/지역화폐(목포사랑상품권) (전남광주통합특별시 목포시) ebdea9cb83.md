@@ -4,10 +4,10 @@ title: "지역화폐(목포사랑상품권) (전남광주통합특별시 목포�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1006195&bnefType=all&svcId=480000000112", "https://www.law.go.kr/자치법규/목포시 지역화폐 발행 및 운영 조례/(3822,20240923)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-06", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "이용권", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 신청 : 목포시 지역경제과 / 환전 : 지류형 : 53개 판매대행점(농협, 광주은행, 신협, 수협, 새마을금고) / 카드형 : 광주은행, 주민센터
 - contact: 지역경제과(061-270-8785)
 - source_modified_at: 2026-05-06
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

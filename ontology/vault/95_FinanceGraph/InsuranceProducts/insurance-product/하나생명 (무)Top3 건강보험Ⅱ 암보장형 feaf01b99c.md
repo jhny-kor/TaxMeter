@@ -4,10 +4,10 @@ title: "하나생명 (무)Top3 건강보험Ⅱ 암보장형"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010003&pageIndex=1&pageUnit=20", "https://www.hanalife.co.kr/anm/product/allProduct.do?status=on", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-10 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-04-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "disease", "024400010003"]
 ---
 

@@ -68,6 +68,15 @@ def region_metadata(region_name: str) -> dict[str, Any]:
         "region_aliases": [region_name, *predecessors],
         "administrative_effective_from": "2026-07-01" if predecessors else None,
         "administrative_transition_source": REGION_TRANSITION_SOURCE if predecessors else None,
+        "parent_jurisdiction_code": "대한민국",
+        "administrative_history": [
+            {
+                "jurisdiction_code": alias,
+                "effective_to": "2026-06-30",
+                "source_url": REGION_TRANSITION_SOURCE,
+            }
+            for alias in predecessors
+        ],
     }
 
 REQUEST_METHOD_LABELS = {
@@ -88,6 +97,24 @@ def clean_text(value: Any) -> str:
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
+
+
+def support_fields(detail: dict[str, Any]) -> tuple[list[str], list[str]]:
+    text = " ".join(
+        clean_text(detail.get(key))
+        for key in ("svcNm", "svcIntrcnCts", "trgterIndvdl", "slctnCritCn", "sportFr")
+    )
+    target_group = [
+        label
+        for token, label in (("청년", "youth"), ("청소년", "youth"), ("신혼", "newlywed"), ("임산부", "pregnant"), ("장애", "disabled"), ("노인", "senior"), ("아동", "child"), ("한부모", "single_parent"))
+        if token in text
+    ]
+    support_category = [
+        label
+        for token, label in (("월세", "housing"), ("주거", "housing"), ("임대", "housing"), ("전세", "housing"), ("취업", "employment"), ("일자리", "employment"), ("창업", "business"), ("출산", "family"), ("보육", "family"), ("의료", "health"), ("건강", "health"), ("교육", "education"))
+        if token in text
+    ]
+    return sorted(set(target_group)), sorted(set(support_category))
 
 
 def post_form(params: dict[str, str], retries: int = 3, timeout: int = 30) -> dict[str, Any]:
@@ -229,7 +256,7 @@ def support_status_fields(deadline_text: str, application_open_to: str | None, r
     if "상시" in compact_deadline:
         return {
             "status": "active",
-            "application_status": "open",
+            "application_status": "always_open",
             "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
             "status_confidence": "confirmed",
         }
@@ -368,6 +395,7 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     source_basis_dates = [f"정부24 원문 수정일 {mod_date}" if mod_date else f"정부24 원문 수집일 {collected_at}", f"수집일 {collected_at}"]
     support_type = clean_text(detail.get("sportFr"))
     regional_metadata = region_metadata(clean_text(detail.get("source_region")))
+    target_group, support_category = support_fields(detail)
     application_open_from, application_open_to = parse_application_dates(deadline_text, collected_at)
     status_fields = support_status_fields(deadline_text, application_open_to, collected_at)
     abolition_status = {
@@ -401,6 +429,8 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "jurisdiction_code": regional_metadata["region_code"],
         "jurisdiction_predecessor_codes": regional_metadata["predecessor_region_codes"],
         "jurisdiction_aliases": regional_metadata["region_aliases"],
+        "parent_jurisdiction_code": regional_metadata["parent_jurisdiction_code"],
+        "administrative_history": regional_metadata["administrative_history"],
         "administrative_effective_from": regional_metadata["administrative_effective_from"],
         "administrative_transition_source": regional_metadata["administrative_transition_source"],
         "gov24_service_id": service_id,
@@ -413,6 +443,9 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "application_open_from": application_open_from,
         "application_open_to": application_open_to,
         "last_verified_at": collected_at,
+        "last_status_checked_at": collected_at,
+        "target_group": target_group,
+        "support_category": support_category,
         "collection_status": "collected_current",
         "last_successful_collected_at": collected_at,
         "current_refresh_attempted_at": collected_at,

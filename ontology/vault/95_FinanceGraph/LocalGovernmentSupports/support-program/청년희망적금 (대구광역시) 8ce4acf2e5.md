@@ -4,10 +4,10 @@ title: "청년희망적금 (대구광역시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003734&bnefType=all&svcId=627000000136", "https://www.law.go.kr/법령/청년고용촉진 특별법/(19940,20231231)", "https://www.law.go.kr/자치법규/대구광역시 청년 기본 조례/(5935,20230510)", "https://www.law.go.kr/자치법규/대구광역시 일자리 창출 지원 조례/(6126,20240517)", "https://youthdream.daegu.go.kr", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 온라인신청
 - contact: 청년정책과(053-803-2971)
 - source_modified_at: 2026-04-27
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

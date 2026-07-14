@@ -17,6 +17,7 @@ SUPPORT_EXPORT = REPO_ROOT / "ontology/exports/korea-local-government-supports-o
 
 STATUS_TO_RECOMMENDATION = {
     "open": "eligible_for_listing",
+    "always_open": "eligible_for_listing",
     "active": "eligible_for_listing",
     "closed": "reference_only",
     "not_required": "reference_only",

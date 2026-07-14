@@ -4,10 +4,10 @@ title: "AIA생명 (무) AIA 평생 안심+ 달러 유니버셜 종신보험 1형
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://mypage.aia.co.kr/AIAHomepage/disclosure/our-products/selling/individual.do", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-10 수집", "2026-05-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-05-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 

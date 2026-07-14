@@ -4,10 +4,10 @@ title: "IBK기업은행 AK IBK 체크카드"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CheckSearch.do", "https://www.bccard.com/app/card/CheckCardMain.do?gdsno=756118&mbkNo=003", "https://www.bccard.com/images/individual/card/renew/list/card_756118.png", "https://www.bccard.com/app/card/CheckCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 

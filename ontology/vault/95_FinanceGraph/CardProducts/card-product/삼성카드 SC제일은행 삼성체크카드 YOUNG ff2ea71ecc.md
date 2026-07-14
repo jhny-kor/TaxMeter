@@ -4,10 +4,10 @@ title: "삼성카드 SC제일은행 삼성체크카드 YOUNG"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoCheckcard001_01.json", "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=ABP1457", "https://static11.samsungcard.com/wcms/home/scard/image/personal/b_ABP1457.png", "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoCheckcard001", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card", "issuer-official"]
 ---
 

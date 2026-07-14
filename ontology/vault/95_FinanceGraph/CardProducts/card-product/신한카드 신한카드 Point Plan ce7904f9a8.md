@@ -4,10 +4,10 @@ title: "신한카드 신한카드 Point Plan"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList", "https://www.shinhancard.com/pconts/html/card/apply/credit/1226113_2207.html", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card"]
 ---
 

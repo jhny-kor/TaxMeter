@@ -4,10 +4,10 @@ title: "지역공동체일자리사업 (대구광역시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005835&bnefType=all&svcId=627000000153", "https://www.law.go.kr/법령/고용정책 기본법/(19965,20240109)", "https://www.law.go.kr/행정규칙/2025년도 지방자치단체 전환사업 운영기준/(302,20241118)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(일자리)", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 대구 중구청 경제과(053-661-2568), 대구 동구청 일자리경제과(053-662-2645), 대구 서구청 경제과(053-663-2663), 대구 남구청 경제일자리과(053-664-2612), 대구 북구청 도시재생과(053-665-2644), 대구 수성구청 일자리청년과(053-666-4332), 대구 달서구청 일자리청년과(053-667-2918), 대구 달성군청 경제산업과(053-668-2663), 대구 군위군청 정책추진단(일자리청년팀)(054-380-6447)
 - source_modified_at: 2026-04-27
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

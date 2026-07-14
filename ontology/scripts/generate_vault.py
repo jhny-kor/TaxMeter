@@ -26,7 +26,7 @@ CUSTOM_DIR = ROOT / "custom"
 CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 CURRENT_REVIEW_DATE = "2026-05-04"
 CURRENT_BASIS_YEAR = 2026
-LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-10"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-14"
 LOCAL_SUPPORTS_SOURCE_ID = "source.gov24.benefit-plus.local-supports"
 LOCAL_SUPPORT_CATEGORY_ID = "category.local-government-supports"
 LOCAL_SUPPORT_TERM_ID = "term.local-government-support"
@@ -3805,7 +3805,7 @@ def local_support_status_fields(item: dict) -> dict:
     if "상시" in compact_deadline:
         return {
             "status": "active",
-            "application_status": "open",
+            "application_status": "always_open",
             "status_reason": "정부24 신청기한이 상시신청으로 표시되어 있습니다.",
             "status_confidence": "confirmed",
         }
@@ -3879,7 +3879,7 @@ def enrich_local_support_status(item: dict) -> dict:
     enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
     enriched["application_open_from"] = application_open_from
     enriched["application_open_to"] = application_open_to
-    enriched["is_currently_applicable"] = enriched["application_status"] in {"open", "not_required"}
+    enriched["is_currently_applicable"] = enriched["application_status"] in {"open", "always_open", "not_required"}
     enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[enriched["status"]]
     enriched["recommendation_status"] = (
         resolve_recommendation_status(
@@ -4034,6 +4034,59 @@ def write_index(items: dict[str, dict]) -> None:
     index.write_text(render_note(root, items), encoding="utf-8")
 
 
+TAX_DECISION_TYPES = {"tax", "deduction", "tax-credit", "tax-reduction", "corporate-tax-support", "filing"}
+
+
+def tax_structured_summary(item: dict) -> dict:
+    limits: dict[str, int | float] = {}
+    thresholds: dict[str, dict[str, int | float]] = {}
+    rates: dict[str, int | float] = {}
+    eligible_persons: list[str] = []
+    for index, criterion in enumerate(item.get("criteria") or [], start=1):
+        if not isinstance(criterion, dict):
+            continue
+        key = f"criterion_{index}"
+        if criterion.get("limit_krw") is not None:
+            limits[key] = criterion["limit_krw"]
+        threshold = {
+            field: criterion[field]
+            for field in ("threshold_krw_min", "threshold_krw_max", "threshold_rate_percent")
+            if criterion.get(field) is not None
+        }
+        if threshold:
+            thresholds[key] = threshold
+        if criterion.get("rate_percent") is not None:
+            rates[key] = criterion["rate_percent"]
+        if criterion.get("condition"):
+            eligible_persons.append(str(criterion["condition"]))
+    return {
+        "tax": {
+            "tax_year": item.get("basis_year"),
+            "rates": rates,
+            "limits": limits,
+            "thresholds": thresholds,
+            "eligible_persons": unique(eligible_persons),
+            "required_documents": unique(str(value) for value in item.get("related") or [] if str(value).startswith("required-document.")),
+            "filing_deadlines": unique(str(value) for value in item.get("deadlines") or []),
+            "law_references": [item["law_reference"]] if item.get("law_reference") else [],
+        }
+    }
+
+
+def enrich_tax_query_fields(items: dict[str, dict]) -> None:
+    for item in items.values():
+        if item.get("type") not in TAX_DECISION_TYPES:
+            continue
+        item["structured_summary"] = tax_structured_summary(item)
+        facets = {
+            "tax_type": item["type"],
+            "credit_or_deduction": item["type"] if item["type"] in {"tax-credit", "deduction", "tax-reduction"} else None,
+            "applicable_year": item.get("basis_year"),
+            "law_reference": item.get("law_reference"),
+        }
+        item["search_facets"] = {key: value for key, value in facets.items() if value not in (None, "")}
+
+
 def write_export(items: dict[str, dict], *, local_support_count: int) -> None:
     EXPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     export = {
@@ -4096,6 +4149,7 @@ def write_local_support_export(items: dict[str, dict]) -> int:
 def main() -> None:
     all_items = build_all_items()
     core_items = core_items_without_local_supports(all_items)
+    enrich_tax_query_fields(core_items)
     local_support_count = write_local_support_export(all_items)
     write_markdown(core_items)
     write_index(core_items)

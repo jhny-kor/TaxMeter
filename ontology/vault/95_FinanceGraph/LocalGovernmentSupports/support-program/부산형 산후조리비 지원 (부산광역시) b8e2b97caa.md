@@ -4,10 +4,10 @@ title: "부산형 산후조리비 지원 (부산광역시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2130824&bnefType=all&svcId=626000000622", "https://www.law.go.kr/법령/저출산ㆍ고령사회기본법/(20112,20240123)", "https://www.law.go.kr/자치법규/부산광역시 산후조리 지원에 관한 조례/(7446,20241211)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-06-01", "수집일 2026-07-11", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-01", "수집일 2026-07-14", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 보건소
 - contact: 중구 보건소(0516004783), 서구 보건소(0512404866), 동구 보건소(0514406564), 영도구 보건소(0514194889), 부산진구 보건소(0516056026), 동래구 보건소 (0515506790), 남구 보건소(0516076429), 북구 보건소(0513097031), 해운대구 보건소(0517497534), 사하구 보건소(0512205761), 금정구 보건소(0515195034), 강서구 보건소(0519703453), 연제구 보건소(0516654876), 수영구 보건소(0516105651), 사상구 보건소(0513104886), 기장군 보건소(0517092956)
 - source_modified_at: 2026-06-01
-- source_collected_at: 2026-07-11
+- source_collected_at: 2026-07-14
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

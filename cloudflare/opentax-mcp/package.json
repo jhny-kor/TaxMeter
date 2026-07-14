@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "python3 ../../ontology/scripts/verify_openfin_release.py --require-live && wrangler deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -4,10 +4,10 @@ title: "BC바로카드 BC 바로 ZONE 카드"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CreditSearch.do", "https://www.bccard.com/app/card/CreditCardMain.do?gdsno=104520&mbkNo=050", "https://www.bccard.com/images/individual/card/renew/list/card_104520.png", "https://www.bccard.com/app/card/CreditCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

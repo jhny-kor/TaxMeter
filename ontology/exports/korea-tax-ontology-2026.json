@@ -63,7 +63,7 @@
   "split_exports": {
     "local_government_supports": {
       "path": "ontology/exports/korea-local-government-supports-ontology-2026.json",
-      "item_count": 7709,
+      "item_count": 7715,
       "source": "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList",
       "description": "정부24 보조금24 기준 지자체 지원금은 메인 온톨로지에서 분리한 별도 파일입니다."
     }
@@ -1065,7 +1065,7 @@
       "id": "category.local-government-supports",
       "title": "지자체 지원금",
       "type": "category",
-      "description": "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 묶음입니다. 개별 지자체 지원금 7709개는 메인 온톨로지에서 분리해 ontology/exports/korea-local-government-supports-ontology-2026.json에 별도 보관합니다.",
+      "description": "정부24 보조금24 전체 혜택에서 관할기관이 지방자치단체로 확인되는 지원금 묶음입니다. 개별 지자체 지원금 7715개는 메인 온톨로지에서 분리해 ontology/exports/korea-local-government-supports-ontology-2026.json에 별도 보관합니다.",
       "folder": "30_Supports/LocalGovernment",
       "basis_year": 2026,
       "effective_date": null,
@@ -2592,7 +2592,34 @@
           "law_reference": "조세특례제한법 제66조",
           "amount_formula": "농업 외 소득 × 감면율 50%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 100,
+            "criterion_2": 50
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "농업법인 요건 충족",
+            "한도 내 감면"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제66조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제66조"
+      }
     },
     {
       "id": "corporate.support.cooperation-credit",
@@ -2652,7 +2679,32 @@
           "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문",
           "amount_formula": "협력중소기업 지원 목적 출연금 등 × 세액공제율 10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "상생협력 지원 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제8조의3 등 상생협력 조세지원 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제8조의3 등 상생협력 조세지원 조문"
+      }
     },
     {
       "id": "corporate.support.crisis-area-startup-reduction",
@@ -2714,7 +2766,30 @@
           "law_reference": "조세특례제한법 제99조의9",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "위기지역 지정 또는 선포 기간 창업·사업장 신설"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제99조의9"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제99조의9"
+      }
     },
     {
       "id": "corporate.support.disaster-loss-credit",
@@ -2775,7 +2850,32 @@
           "law_reference": "법인세법 제58조",
           "amount_formula": "재해상실자산가액 / 상실 전 자산총액 × 상실비율 문턱 20%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 20
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "사업용 총자산가액의 20% 이상 상실"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "법인세법 제58조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "법인세법 제58조"
+      }
     },
     {
       "id": "corporate.support.e-filing-credit",
@@ -2832,7 +2932,30 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제104조의8"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "법인이 직접 전자신고"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제104조의8"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제104조의8"
+      }
     },
     {
       "id": "corporate.support.employment-maintenance-credit",
@@ -2892,7 +3015,32 @@
           "law_reference": "조세특례제한법 제30조의3",
           "amount_formula": "임금감소액 또는 보전액 × 공제율 50%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "고용유지 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제30조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제30조의3"
+      }
     },
     {
       "id": "corporate.support.enterprise-city-reduction",
@@ -2953,7 +3101,30 @@
           "law_reference": "조세특례제한법 제121조의17",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "기업도시개발구역 창업 또는 사업장 신설"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제121조의17"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제121조의17"
+      }
     },
     {
       "id": "corporate.support.facility-investment-credit",
@@ -3036,7 +3207,33 @@
           "law_reference": "조세특례제한법 제24조",
           "amount_formula": "직전 3년 평균 투자액 초과분 × 추가공제율 10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_2": 10
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "통합투자세액공제 대상 투자",
+            "투자 증가"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제24조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제24조"
+      }
     },
     {
       "id": "corporate.support.foreign-tax-paid-credit",
@@ -3096,7 +3293,30 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "국내 산출세액 중 국외원천소득 비율 상당액 한도"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "법인세법 제57조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "법인세법 제57조"
+      }
     },
     {
       "id": "corporate.support.good-landlord-credit",
@@ -3159,7 +3379,32 @@
           "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 70
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "소상공인 임차인 임대료 인하 등 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제96조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제96조의3"
+      }
     },
     {
       "id": "corporate.support.industrial-complex-reduction",
@@ -3220,7 +3465,32 @@
           "law_reference": "조세특례제한법 제64조",
           "amount_formula": "법인세 × 감면율 50%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "농공단지 등 입주 후 최초 소득발생"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제64조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제64조"
+      }
     },
     {
       "id": "corporate.support.jeju-zone-reduction",
@@ -3281,7 +3551,30 @@
           "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "제주첨단과학기술단지 또는 제주투자진흥지구 입주"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제121조의8 등 제주 투자·입주 감면 조문"
+      }
     },
     {
       "id": "corporate.support.local-relocation-deferral",
@@ -3339,7 +3632,30 @@
           "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "지방이전 촉진 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제61조 및 제62조 등 지방이전 과세특례 조문"
+      }
     },
     {
       "id": "corporate.support.local-relocation-reduction",
@@ -3401,7 +3717,30 @@
           "law_reference": "조세특례제한법 제63조 및 제63조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "공장·본사 등 지방 이전 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제63조 및 제63조의2"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제63조 및 제63조의2"
+      }
     },
     {
       "id": "corporate.support.ma-credit",
@@ -3461,7 +3800,32 @@
           "law_reference": "조세특례제한법 제12조의3",
           "amount_formula": "인수가액 중 기술가치 금액 × 세액공제율 10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "기술혁신형 합병·주식취득"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제12조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제12조의3"
+      }
     },
     {
       "id": "corporate.support.minimum-tax-preference",
@@ -3521,7 +3885,32 @@
           "law_reference": "조세특례제한법 제132조",
           "amount_formula": "각종 감면 전 과세표준 × 최저한세율 7%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 7
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "중소기업"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제132조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제132조"
+      }
     },
     {
       "id": "corporate.support.performance-sharing-credit",
@@ -3581,7 +3970,32 @@
           "law_reference": "조세특례제한법 제19조",
           "amount_formula": "성과공유 중소기업 경영성과급 지급액 × 세액공제율 15%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 15
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "성과공유기업 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제19조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제19조"
+      }
     },
     {
       "id": "corporate.support.restructuring-deferral",
@@ -3639,7 +4053,30 @@
           "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "구조조정 및 재무구조개선 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제37조부터 제46조까지 중 구조조정·재무구조개선 과세특례 조문"
+      }
     },
     {
       "id": "corporate.support.rnd-credit",
@@ -3732,7 +4169,32 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "기업규모·증가분 방식별 공제율 적용",
+            "해당 기술 연구개발비",
+            "반도체 등 국가전략기술 연구개발비"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제10조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제10조"
+      }
     },
     {
       "id": "corporate.support.rnd-grant-deferral",
@@ -3790,7 +4252,30 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조의2"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "연구개발 자산 취득 또는 비용 지출"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제10조의2"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제10조의2"
+      }
     },
     {
       "id": "corporate.support.rnd-zone-reduction",
@@ -3852,7 +4337,30 @@
           "law_reference": "조세특례제한법 제12조의2",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "연구개발특구 입주 첨단기술기업 등"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제12조의2"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제12조의2"
+      }
     },
     {
       "id": "corporate.support.sme-special-reduction",
@@ -3969,7 +4477,37 @@
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 20,
+            "criterion_2": 30,
+            "criterion_3": 15
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "소기업, 수도권 내 제조업·출판업 등",
+            "소기업, 수도권 외 제조업·출판업 등",
+            "중기업, 수도권 외 제조업 등",
+            "업종·지역별 차등"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제7조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제7조"
+      }
     },
     {
       "id": "corporate.support.social-enterprise-reduction",
@@ -4031,7 +4569,30 @@
           "law_reference": "조세특례제한법 제85조의6",
           "amount_formula": "법인세 × 감면율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "인증 사회적기업 등"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제85조의6"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제85조의6"
+      }
     },
     {
       "id": "corporate.support.social-insurance-credit",
@@ -4095,7 +4656,30 @@
           "law_reference": "조세특례제한법 제30조의4",
           "amount_formula": "고용증가인원의 사용자 부담 사회보험료 × 세액공제율 50%~100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "상시근로자 증가"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제30조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제30조의4"
+      }
     },
     {
       "id": "corporate.support.startup-sme-reduction",
@@ -4197,7 +4781,36 @@
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50,
+            "criterion_2": 100,
+            "criterion_3": 100
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "수도권 외 지역 또는 수도권 인구감소지역",
+            "수도권 외 지역 또는 수도권과밀억제권역 외",
+            "고용 증가 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제6조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제6조"
+      }
     },
     {
       "id": "corporate.support.tech-transfer-reduction",
@@ -4274,7 +4887,34 @@
           "law_reference": "조세특례제한법 제12조",
           "amount_formula": "기술대여 소득 × 감면율 25%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50,
+            "criterion_2": 25
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "중소기업 기술이전",
+            "중소기업 기술대여"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제12조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제12조"
+      }
     },
     {
       "id": "corporate.support.wage-increase-credit",
@@ -4338,7 +4978,30 @@
           "law_reference": "조세특례제한법 제29조의4",
           "amount_formula": "직전 3년 평균 초과 임금증가분 × 세액공제율 5%~20%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "임금증가 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제29조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제29조의4"
+      }
     },
     {
       "id": "corporate.support.winwin-payment-credit",
@@ -4400,7 +5063,30 @@
           "law_reference": "조세특례제한법 제7조의4",
           "amount_formula": "상생결제 지급금액 × 세액공제율 0.1%~0.3%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "상생결제제도 이용 구매대금 지급"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제7조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "corporate-tax-support",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제7조의4"
+      }
     },
     {
       "id": "credit.child",
@@ -4533,7 +5219,36 @@
           "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제59조의2"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "1명",
+            "2명",
+            "3명 이상",
+            "첫째",
+            "둘째",
+            "셋째 이상"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의2"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의2"
+      }
     },
     {
       "id": "credit.donation",
@@ -4688,7 +5403,63 @@
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 90.91,
+            "criterion_2": 15,
+            "criterion_3": 25,
+            "criterion_4": 90.91,
+            "criterion_5": 15,
+            "criterion_6": 30
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 100000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 100000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 30000000
+            },
+            "criterion_4": {
+              "threshold_krw_max": 100000
+            },
+            "criterion_5": {
+              "threshold_krw_max": 10000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 10000000
+            }
+          },
+          "eligible_persons": [
+            "10만원 이하",
+            "10만원 초과",
+            "3천만원 초과분",
+            "1천만원 이하",
+            "1천만원 초과"
+          ],
+          "required_documents": [
+            "required-document.donation-receipt"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의4"
+      }
     },
     {
       "id": "credit.earned-income",
@@ -4833,7 +5604,65 @@
           "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제59조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 55,
+            "criterion_2": 30
+          },
+          "limits": {
+            "criterion_3": 740000,
+            "criterion_4": 660000,
+            "criterion_5": 500000,
+            "criterion_6": 200000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 1300000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 1300000
+            },
+            "criterion_3": {
+              "threshold_krw_max": 33000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 33000000,
+              "threshold_krw_max": 70000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 70000000,
+              "threshold_krw_max": 120000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 120000000
+            }
+          },
+          "eligible_persons": [
+            "130만원 이하",
+            "130만원 초과",
+            "3,300만원 이하",
+            "3,300만원 초과 7,000만원 이하",
+            "7,000만원 초과 1.2억원 이하",
+            "1.2억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조"
+      }
     },
     {
       "id": "credit.education-expense",
@@ -4953,7 +5782,44 @@
           "rate_label": "세액공제율",
           "amount_formula": "장애인 특수교육비 × 세액공제율 15%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 15,
+            "criterion_2": 15,
+            "criterion_3": 15,
+            "criterion_4": 15
+          },
+          "limits": {
+            "criterion_2": 3000000,
+            "criterion_3": 9000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "한도 없음",
+            "취학전 아동, 초·중·고등학생",
+            "대학생",
+            "직계존속 포함, 소득제한 없음"
+          ],
+          "required_documents": [
+            "required-document.education-payment-certificate"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의4"
+      }
     },
     {
       "id": "credit.foreign-tax-paid",
@@ -5015,7 +5881,32 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "법인세법 제57조 및 소득세법 제57조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "국내 산출세액 중 국외원천소득 비율 상당액 한도"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement",
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "법인세법 제57조 및 소득세법 제57조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "법인세법 제57조 및 소득세법 제57조"
+      }
     },
     {
       "id": "credit.insurance-premium",
@@ -5091,7 +5982,38 @@
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 12,
+            "criterion_2": 15
+          },
+          "limits": {
+            "criterion_1": 1000000,
+            "criterion_2": 1000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "기본공제대상자를 위해 지급",
+            "장애인전용 보장성보험"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의4"
+      }
     },
     {
       "id": "credit.integrated-employment",
@@ -5167,7 +6089,32 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제29조의8"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "전년 대비 고용 증가",
+            "정책대상 근로자 고용 증가"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제29조의8"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제29조의8"
+      }
     },
     {
       "id": "credit.medical-expense",
@@ -5302,7 +6249,48 @@
           "rate_label": "세액공제율",
           "amount_formula": "난임시술비 × 세액공제율 30%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_2": 15,
+            "criterion_4": 15,
+            "criterion_5": 30
+          },
+          "limits": {
+            "criterion_3": 7000000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_rate_percent": 3
+            }
+          },
+          "eligible_persons": [
+            "총급여액의 3% 초과분",
+            "일반 의료비",
+            "연 700만원 한도",
+            "한도 없음"
+          ],
+          "required_documents": [
+            "required-document.medical-expense-statement",
+            "required-document.medical-receipt",
+            "required-document.eyeglasses-receipt"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의4"
+      }
     },
     {
       "id": "credit.monthly-rent",
@@ -5442,7 +6430,62 @@
           "basis_source": "source.nts.monthly-rent-credit",
           "law_reference": "조세특례제한법 월세액 세액공제 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_3": 17,
+            "criterion_4": 15
+          },
+          "limits": {
+            "criterion_3": 10000000,
+            "criterion_4": 10000000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 80000000
+            },
+            "criterion_2": {
+              "threshold_krw_max": 70000000
+            },
+            "criterion_3": {
+              "threshold_krw_max": 55000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 55000000,
+              "threshold_krw_max": 80000000
+            },
+            "criterion_5": {
+              "threshold_krw_max": 400000000
+            }
+          },
+          "eligible_persons": [
+            "8,000만원 이하",
+            "7,000만원 이하",
+            "5,500만원 이하",
+            "5,500만원 초과 8,000만원 이하",
+            "국민주택규모 또는 기준시가 4억원 이하"
+          ],
+          "required_documents": [
+            "required-document.lease-contract",
+            "required-document.rent-payment-proof",
+            "required-document.resident-registration-copy"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 월세액 세액공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 월세액 세액공제 조문"
+      }
     },
     {
       "id": "credit.pension-account",
@@ -5527,7 +6570,45 @@
           "law_reference": "소득세법 제59조의3",
           "rate_label": "세액공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 15,
+            "criterion_2": 12
+          },
+          "limits": {
+            "criterion_1": 9000000,
+            "criterion_2": 9000000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 55000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 55000000
+            }
+          },
+          "eligible_persons": [
+            "총급여 5,500만원 이하 또는 종합소득금액 4,500만원 이하",
+            "총급여 5,500만원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의3"
+      }
     },
     {
       "id": "credit.research-and-development",
@@ -5619,7 +6700,33 @@
           "basis_source": "source.nts.corporate-tax.reliefs",
           "law_reference": "조세특례제한법 제10조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "기업규모·증가분 방식별 공제율 적용",
+            "해당 기술 연구개발비",
+            "반도체 등 국가전략기술 연구개발비"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제10조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제10조"
+      }
     },
     {
       "id": "credit.special-tax",
@@ -5892,7 +6999,69 @@
           "law_reference": "소득세법 제59조의4",
           "rate_label": "세액공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 12,
+            "criterion_2": 15,
+            "criterion_4": 15,
+            "criterion_6": 15,
+            "criterion_7": 30,
+            "criterion_8": 15,
+            "criterion_9": 15,
+            "criterion_10": 15,
+            "criterion_11": 15,
+            "criterion_12": 90.91,
+            "criterion_13": 15
+          },
+          "limits": {
+            "criterion_1": 1000000,
+            "criterion_2": 1000000,
+            "criterion_5": 7000000,
+            "criterion_9": 3000000,
+            "criterion_10": 9000000
+          },
+          "thresholds": {
+            "criterion_3": {
+              "threshold_rate_percent": 3
+            },
+            "criterion_12": {
+              "threshold_krw_max": 100000
+            },
+            "criterion_13": {
+              "threshold_krw_min": 100000
+            }
+          },
+          "eligible_persons": [
+            "기본공제대상자를 위해 지급",
+            "장애인전용 보장성보험",
+            "총급여액의 3% 초과분",
+            "일반 의료비",
+            "연 700만원 한도",
+            "한도 없음",
+            "취학전 아동, 초·중·고등학생",
+            "대학생",
+            "직계존속 포함, 소득제한 없음",
+            "10만원 이하",
+            "10만원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제59조의4"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-credit",
+        "credit_or_deduction": "tax-credit",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제59조의4"
+      }
     },
     {
       "id": "deadline.business-registration.application",
@@ -6746,7 +7915,39 @@
           "rate_label": "소득공제율",
           "amount_formula": "전통시장·대중교통 사용금액 × 소득공제율 40%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 25,
+            "criterion_2": 15,
+            "criterion_3": 30,
+            "criterion_4": 40
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "총급여액의 25% 초과분",
+            "총급여 25% 초과분 중 신용카드",
+            "총급여 25% 초과분 중 현금영수증·직불카드",
+            "총급여 25% 초과분 중 전통시장·대중교통"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 신용카드 등 사용금액 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 신용카드 등 사용금액 소득공제 조문"
+      }
     },
     {
       "id": "deduction.employee-stock-ownership",
@@ -6817,7 +8018,35 @@
           "basis_source": "source.nts.year-end-settlement.deduction-limit",
           "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {
+            "criterion_1": 4000000,
+            "criterion_2": 15000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "조합원 출연금",
+            "벤처기업 조합원 출연금"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 우리사주조합 출연금 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 우리사주조합 출연금 소득공제 조문"
+      }
     },
     {
       "id": "deduction.employment-maintenance-worker",
@@ -6877,7 +8106,35 @@
           "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50
+          },
+          "limits": {
+            "criterion_1": 10000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "고용유지 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 고용유지 중소기업 근로자 소득공제 조문"
+      }
     },
     {
       "id": "deduction.health-insurance-premium",
@@ -6952,7 +8209,31 @@
           "amount_formula": "본인 부담 고용보험료 전액",
           "unlimited_amount": true
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "근로제공기간 중 부담분"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제52조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제52조"
+      }
     },
     {
       "id": "deduction.housing-funds",
@@ -7082,7 +8363,46 @@
           "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 40
+          },
+          "limits": {
+            "criterion_1": 4000000,
+            "criterion_2": 6000000,
+            "criterion_3": 8000000,
+            "criterion_4": 18000000,
+            "criterion_5": 20000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "무주택 세대주 등, 국민주택규모 주택 임차",
+            "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
+            "상환기간 15년 이상",
+            "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
+            "상환기간 15년 이상, 고정금리이고 비거치식 분할상환"
+          ],
+          "required_documents": [
+            "required-document.lease-contract",
+            "required-document.resident-registration-copy"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제52조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제52조"
+      }
     },
     {
       "id": "deduction.housing-savings",
@@ -7170,7 +8490,46 @@
           "law_reference": "조세특례제한법 주택마련저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_2": 40
+          },
+          "limits": {
+            "criterion_2": 1200000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 70000000
+            },
+            "criterion_2": {
+              "threshold_krw_max": 3000000
+            }
+          },
+          "eligible_persons": [
+            "7,000만원 이하",
+            "연 납입액 300만원 한도"
+          ],
+          "required_documents": [
+            "required-document.resident-registration-copy",
+            "required-document.housing-savings-payment-certificate"
+          ],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 주택마련저축 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 주택마련저축 소득공제 조문"
+      }
     },
     {
       "id": "deduction.investment-association",
@@ -7282,7 +8641,50 @@
           "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10,
+            "criterion_2": 100,
+            "criterion_3": 70,
+            "criterion_4": 30
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_2": {
+              "threshold_krw_max": 30000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 30000000,
+              "threshold_krw_max": 50000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 50000000
+            }
+          },
+          "eligible_persons": [
+            "중소기업창업투자조합 등",
+            "벤처기업 등 직접·간접 투자 3천만원 이하",
+            "3천만원 초과 5천만원 이하",
+            "5천만원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 중소기업창업투자조합 출자 등 소득공제 조문"
+      }
     },
     {
       "id": "deduction.long-term-fund",
@@ -7343,7 +8745,39 @@
           "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 40
+          },
+          "limits": {
+            "criterion_1": 2400000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 6000000
+            }
+          },
+          "eligible_persons": [
+            "연 600만원 한도"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 장기집합투자증권저축 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 장기집합투자증권저축 소득공제 조문"
+      }
     },
     {
       "id": "deduction.other-income",
@@ -7441,7 +8875,35 @@
           "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문",
           "amount_applicability": "정액 금액 기준 없음"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {
+            "criterion_1": 25000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "2,500만원 초과액은 과세표준에 합산",
+            "종합한도 적용 대상",
+            "일부 벤처투자 예외를 제외하고 종합한도 적용 대상"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제52조 및 조세특례제한법 소득공제 특례 조문"
+      }
     },
     {
       "id": "deduction.pension-insurance",
@@ -7500,7 +8962,31 @@
           "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제51조의3"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "근로자가 부담한 공적연금보험료"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제51조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제51조의3"
+      }
     },
     {
       "id": "deduction.personal",
@@ -7649,7 +9135,47 @@
           "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {
+            "criterion_2": {
+              "threshold_krw_max": 1000000
+            },
+            "criterion_3": {
+              "threshold_krw_max": 5000000
+            },
+            "criterion_6": {
+              "threshold_krw_max": 30000000
+            }
+          },
+          "eligible_persons": [
+            "기본공제 대상자",
+            "100만원 이하",
+            "500만원 이하",
+            "70세 이상",
+            "장애인",
+            "3,000만원 이하 등 요건 충족",
+            "기본공제대상 직계비속 또는 입양자 있음"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제50조 및 제51조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제50조 및 제51조"
+      }
     },
     {
       "id": "deduction.personal-pension-savings",
@@ -7710,7 +9236,35 @@
           "law_reference": "조세특례제한법 개인연금저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 40
+          },
+          "limits": {
+            "criterion_1": 720000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "연 납입액의 40%"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 개인연금저축 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 개인연금저축 소득공제 조문"
+      }
     },
     {
       "id": "deduction.personal.additional",
@@ -7812,7 +9366,38 @@
           "basis_source": "source.nts.year-end-settlement.calculation",
           "law_reference": "소득세법 제50조 및 제51조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {
+            "criterion_3": {
+              "threshold_krw_max": 30000000
+            }
+          },
+          "eligible_persons": [
+            "70세 이상",
+            "장애인",
+            "3,000만원 이하 등 요건 충족",
+            "기본공제대상 직계비속 또는 입양자 있음"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제51조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제51조"
+      }
     },
     {
       "id": "deduction.personal.basic",
@@ -7900,7 +9485,40 @@
           "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제50조 및 제51조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {
+            "criterion_2": {
+              "threshold_krw_max": 1000000
+            },
+            "criterion_3": {
+              "threshold_krw_max": 5000000
+            }
+          },
+          "eligible_persons": [
+            "기본공제 대상자",
+            "100만원 이하",
+            "500만원 이하"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제50조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제50조"
+      }
     },
     {
       "id": "deduction.small-business-mutual-aid",
@@ -7991,7 +9609,48 @@
           "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {
+            "criterion_1": 5000000,
+            "criterion_2": 3000000,
+            "criterion_3": 2000000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 40000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 40000000,
+              "threshold_krw_max": 100000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 100000000
+            }
+          },
+          "eligible_persons": [
+            "4,000만원 이하",
+            "4,000만원 초과 1억원 이하",
+            "1억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 소기업·소상공인 공제부금 소득공제 조문"
+      }
     },
     {
       "id": "deduction.special-income",
@@ -8152,7 +9811,44 @@
           "basis_source": "source.nts.housing-mortgage-interest-deduction",
           "law_reference": "소득세법 제52조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_3": 40
+          },
+          "limits": {
+            "criterion_3": 4000000,
+            "criterion_4": 6000000,
+            "criterion_5": 8000000,
+            "criterion_6": 18000000,
+            "criterion_7": 20000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "근로제공기간 중 부담분",
+            "무주택 세대주 등, 국민주택규모 주택 임차",
+            "상환기간 10년 이상, 고정금리 또는 비거치식 분할상환",
+            "상환기간 15년 이상",
+            "상환기간 15년 이상, 고정금리 또는 비거치식 분할상환",
+            "상환기간 15년 이상, 고정금리이고 비거치식 분할상환"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제52조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제52조"
+      }
     },
     {
       "id": "deduction.youth-long-term-fund",
@@ -8229,7 +9925,43 @@
           "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문",
           "rate_label": "소득공제율"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_2": 40
+          },
+          "limits": {
+            "criterion_2": 2400000
+          },
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 50000000
+            },
+            "criterion_2": {
+              "threshold_krw_max": 6000000
+            }
+          },
+          "eligible_persons": [
+            "총급여 5,000만원 이하 또는 종합소득금액 3,800만원 이하",
+            "연 600만원 한도"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "deduction",
+        "credit_or_deduction": "deduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 청년형 장기집합투자증권저축 소득공제 조문"
+      }
     },
     {
       "id": "eligibility-rule.child-age",
@@ -8974,7 +10706,33 @@
           "law_reference": "소득세법 제127조 및 제129조",
           "amount_formula": "원천징수 대상 사업소득 지급금액 × 적용비율 3%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 3
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "사업소득 지급 시"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.withholding.monthly",
+            "deadline.withholding.semiannual"
+          ],
+          "law_references": [
+            "소득세법 제127조 및 제129조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제127조 및 제129조"
+      }
     },
     {
       "id": "filing.business-registration",
@@ -9039,7 +10797,32 @@
           "basis_source": "source.nts.business-registration.application",
           "law_reference": "부가가치세법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "사업 개시 전 또는 사업 개시일부터 20일 이내"
+          ],
+          "required_documents": [
+            "required-document.small-business-registration"
+          ],
+          "filing_deadlines": [
+            "deadline.business-registration.application"
+          ],
+          "law_references": [
+            "부가가치세법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "부가가치세법 제8조"
+      }
     },
     {
       "id": "filing.capital-gains-return",
@@ -9125,7 +10908,32 @@
           "basis_source": "source.nts.capital-gains.deadline",
           "law_reference": "소득세법 제105조 및 제110조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "자산 유형별 예정신고 기한 적용",
+            "예정신고 대상 외 확정신고 필요 여부 확인"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.capital-gains.preliminary",
+            "deadline.capital-gains.final"
+          ],
+          "law_references": [
+            "소득세법 제105조 및 제110조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제105조 및 제110조"
+      }
     },
     {
       "id": "filing.gift-tax-return",
@@ -9183,7 +10991,30 @@
           "basis_source": "source.nts.gift.deadline",
           "law_reference": "상속세 및 증여세법 제68조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "일반 증여 3개월"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.gift.general"
+          ],
+          "law_references": [
+            "상속세 및 증여세법 제68조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "상속세 및 증여세법 제68조"
+      }
     },
     {
       "id": "filing.grant-application",
@@ -9245,7 +11076,31 @@
           "basis_source": "source.nts.grant.deadline",
           "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2025,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "2026년 5월 정기신청"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.grant.regular.2025-income",
+            "deadline.grant.semiannual.2026"
+          ],
+          "law_references": [
+            "조세특례제한법 근로장려금·자녀장려금 신청 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2025,
+        "law_reference": "조세특례제한법 근로장려금·자녀장려금 신청 조문"
+      }
     },
     {
       "id": "filing.income-tax-return",
@@ -9309,7 +11164,30 @@
           "basis_source": "source.nts.income-tax.deadline",
           "law_reference": "소득세법 제70조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2025,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "다음연도 5월 1일부터 5월 31일까지"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.income-tax.2025-return"
+          ],
+          "law_references": [
+            "소득세법 제70조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2025,
+        "law_reference": "소득세법 제70조"
+      }
     },
     {
       "id": "filing.inheritance-tax-return",
@@ -9369,7 +11247,31 @@
           "basis_source": "source.nts.inheritance.overview",
           "law_reference": "상속세 및 증여세법 제67조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "거주자 6개월, 비거주자 9개월"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.inheritance.resident",
+            "deadline.inheritance.nonresident"
+          ],
+          "law_references": [
+            "상속세 및 증여세법 제67조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "상속세 및 증여세법 제67조"
+      }
     },
     {
       "id": "filing.payment-statement-submission",
@@ -9500,7 +11402,32 @@
       "abolition_status": "active",
       "revision_status": "none_announced",
       "children": [],
-      "deadlines": []
+      "deadlines": [],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "1월~12월 지급분",
+            "지급일이 속하는 달의 다음달 말일",
+            "7월 말일까지",
+            "다음연도 1월 말일까지",
+            "다음연도 2월 말일까지"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "소득세법 지급명세서 제출 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 지급명세서 제출 조문"
+      }
     },
     {
       "id": "filing.vat-return",
@@ -9600,7 +11527,35 @@
           "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "부가가치세법 제48조·제49조 및 제67조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "제1기·제2기 확정신고 납부",
+            "간이과세자 과세기간 신고"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.vat.periodic",
+            "deadline.vat.general.first-final",
+            "deadline.vat.general.second-final",
+            "deadline.vat.simplified.annual",
+            "deadline.vat.simplified.preliminary"
+          ],
+          "law_references": [
+            "부가가치세법 제48조·제49조 및 제67조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "부가가치세법 제48조·제49조 및 제67조"
+      }
     },
     {
       "id": "filing.withholding-tax",
@@ -9672,7 +11627,31 @@
           "basis_source": "source.nts.withholding.overview",
           "law_reference": "소득세법 제128조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "징수일이 속하는 달의 다음달 10일까지"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.withholding.monthly",
+            "deadline.withholding.semiannual"
+          ],
+          "law_references": [
+            "소득세법 제128조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제128조"
+      }
     },
     {
       "id": "filing.year-end-settlement",
@@ -9739,7 +11718,30 @@
           "basis_source": "source.nts.employee-income-statement",
           "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "원천징수의무자가 해당 과세기간 근로소득세를 정산"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "소득세법 제137조 및 원천징수 연말정산 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "filing",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제137조 및 원천징수 연말정산 조문"
+      }
     },
     {
       "id": "kr-tax-system",
@@ -11142,7 +13144,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "부동산·차량 등 과세물건 취득"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.automobile",
@@ -11196,7 +13219,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "자동차 보유"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.leisure",
@@ -11252,7 +13296,30 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "경륜·경정·경마 등"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.local-consumption",
@@ -11308,7 +13375,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "부가가치세와 연동"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.local-education",
@@ -11364,7 +13452,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "지방교육재정 확충 목적"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.local-income",
@@ -11421,7 +13530,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "소득세·법인세와 연결"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.property",
@@ -11641,7 +13771,79 @@
           "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 0.1,
+            "criterion_2": 0.15,
+            "criterion_3": 0.25,
+            "criterion_4": 0.4,
+            "criterion_5": 0.2,
+            "criterion_6": 0.3,
+            "criterion_7": 0.5,
+            "criterion_8": 0.2,
+            "criterion_9": 0.3,
+            "criterion_10": 0.4
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 60000000
+            },
+            "criterion_2": {
+              "threshold_krw_max": 150000000
+            },
+            "criterion_3": {
+              "threshold_krw_max": 300000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 300000000
+            },
+            "criterion_5": {
+              "threshold_krw_max": 50000000
+            },
+            "criterion_6": {
+              "threshold_krw_max": 100000000
+            },
+            "criterion_7": {
+              "threshold_krw_min": 100000000
+            },
+            "criterion_8": {
+              "threshold_krw_max": 200000000
+            },
+            "criterion_9": {
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_10": {
+              "threshold_krw_min": 1000000000
+            }
+          },
+          "eligible_persons": [
+            "주택 6천만원 이하",
+            "주택 1억5천만원 이하",
+            "주택 3억원 이하",
+            "주택 3억원 초과",
+            "종합합산 5천만원 이하",
+            "종합합산 1억원 이하",
+            "종합합산 1억원 초과",
+            "별도합산 2억원 이하",
+            "별도합산 10억원 이하",
+            "별도합산 10억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.regional-resource-facility",
@@ -11695,7 +13897,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "지역자원 보호 또는 소방시설 재원 목적"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.registration-license",
@@ -11749,7 +13972,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "등기·등록 또는 면허"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.resident",
@@ -11803,7 +14047,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "지방자치단체 조례와 지방세법 기준 적용"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "local.tobacco-consumption",
@@ -11857,7 +14122,28 @@
           "basis_source": "source.law.local-tax-act.rates",
           "law_reference": "지방세기본법 제8조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "궐련 담배 반출 또는 반입"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "지방세기본법 제8조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "지방세기본법 제8조"
+      }
     },
     {
       "id": "reduction.good-landlord",
@@ -11918,7 +14204,33 @@
           "law_reference": "조세특례제한법 제96조의3",
           "amount_formula": "상가건물 임대료 인하액 × 세액공제율 70%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 70
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "소상공인 임차인 임대료 인하 등 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제96조의3"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-reduction",
+        "credit_or_deduction": "tax-reduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제96조의3"
+      }
     },
     {
       "id": "reduction.sme-employment-income",
@@ -12016,7 +14328,41 @@
           "basis_source": "source.nts.employee-income-statement",
           "law_reference": "조세특례제한법 제30조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 90,
+            "criterion_2": 70,
+            "criterion_3": 70
+          },
+          "limits": {
+            "criterion_1": 2000000,
+            "criterion_2": 2000000,
+            "criterion_3": 2000000
+          },
+          "thresholds": {},
+          "eligible_persons": [
+            "근로계약 체결일 현재 15~34세 이하",
+            "근로계약 체결일 현재 60세 이상",
+            "장애인 또는 경력단절근로자 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "조세특례제한법 제30조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-reduction",
+        "credit_or_deduction": "tax-reduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제30조"
+      }
     },
     {
       "id": "reduction.sme-special",
@@ -12130,7 +14476,38 @@
           "law_reference": "조세특례제한법 제7조",
           "amount_formula": "중소기업 특별세액감면 × 감면율 5%~10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 20,
+            "criterion_2": 30,
+            "criterion_3": 15
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "소기업, 수도권 내 제조업·출판업 등",
+            "소기업, 수도권 외 제조업·출판업 등",
+            "중기업, 수도권 외 제조업 등",
+            "업종·지역별 차등"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제7조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-reduction",
+        "credit_or_deduction": "tax-reduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제7조"
+      }
     },
     {
       "id": "reduction.startup-sme",
@@ -12229,7 +14606,37 @@
           "law_reference": "조세특례제한법 제6조",
           "amount_formula": "상시근로자 증가율 × 추가감면 산식 100%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 50,
+            "criterion_2": 100,
+            "criterion_3": 100
+          },
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "수도권 외 지역 또는 수도권 인구감소지역",
+            "수도권 외 지역 또는 수도권과밀억제권역 외",
+            "고용 증가 요건 충족"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "조세특례제한법 제6조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax-reduction",
+        "credit_or_deduction": "tax-reduction",
+        "applicable_year": 2026,
+        "law_reference": "조세특례제한법 제6조"
+      }
     },
     {
       "id": "required-document.birth-registration",
@@ -20498,7 +22905,118 @@
           "basis_source": "source.nts.real-estate-tax.faq",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_5": 0.5,
+            "criterion_6": 0.7,
+            "criterion_7": 1.0,
+            "criterion_8": 1.3,
+            "criterion_9": 1.5,
+            "criterion_10": 2.0,
+            "criterion_11": 2.7,
+            "criterion_12": 2.0,
+            "criterion_13": 3.0,
+            "criterion_14": 4.0,
+            "criterion_15": 5.0,
+            "criterion_16": 1.0,
+            "criterion_17": 2.0,
+            "criterion_18": 3.0,
+            "criterion_19": 0.5,
+            "criterion_20": 0.6,
+            "criterion_21": 0.7
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_5": {
+              "threshold_krw_max": 300000000
+            },
+            "criterion_6": {
+              "threshold_krw_max": 600000000
+            },
+            "criterion_7": {
+              "threshold_krw_max": 1200000000
+            },
+            "criterion_8": {
+              "threshold_krw_max": 2500000000
+            },
+            "criterion_9": {
+              "threshold_krw_max": 5000000000
+            },
+            "criterion_10": {
+              "threshold_krw_max": 9400000000
+            },
+            "criterion_11": {
+              "threshold_krw_min": 9400000000
+            },
+            "criterion_12": {
+              "threshold_krw_max": 2500000000
+            },
+            "criterion_13": {
+              "threshold_krw_max": 5000000000
+            },
+            "criterion_14": {
+              "threshold_krw_max": 9400000000
+            },
+            "criterion_15": {
+              "threshold_krw_min": 9400000000
+            },
+            "criterion_16": {
+              "threshold_krw_max": 1500000000
+            },
+            "criterion_17": {
+              "threshold_krw_max": 4500000000
+            },
+            "criterion_18": {
+              "threshold_krw_min": 4500000000
+            },
+            "criterion_19": {
+              "threshold_krw_max": 20000000000
+            },
+            "criterion_20": {
+              "threshold_krw_max": 40000000000
+            },
+            "criterion_21": {
+              "threshold_krw_min": 40000000000
+            }
+          },
+          "eligible_persons": [
+            "주택",
+            "1세대 1주택자",
+            "종합합산토지",
+            "별도합산토지",
+            "주택 2주택 이하, 3억원 이하",
+            "주택 2주택 이하, 6억원 이하",
+            "주택 2주택 이하, 12억원 이하",
+            "주택 2주택 이하, 25억원 이하",
+            "주택 2주택 이하, 50억원 이하",
+            "주택 2주택 이하, 94억원 이하",
+            "주택 2주택 이하, 94억원 초과",
+            "주택 3주택 이상, 25억원 이하",
+            "주택 3주택 이상, 50억원 이하",
+            "주택 3주택 이상, 94억원 이하",
+            "주택 3주택 이상, 94억원 초과",
+            "종합합산토지 15억원 이하",
+            "종합합산토지 45억원 이하",
+            "종합합산토지 45억원 초과",
+            "별도합산토지 200억원 이하",
+            "별도합산토지 400억원 이하",
+            "별도합산토지 400억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.corporate",
@@ -20627,7 +23145,53 @@
           "basis_source": "source.nts.corporate-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10,
+            "criterion_2": 20,
+            "criterion_3": 22,
+            "criterion_4": 25
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 200000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 200000000,
+              "threshold_krw_max": 20000000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 20000000000,
+              "threshold_krw_max": 300000000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 300000000000
+            }
+          },
+          "eligible_persons": [
+            "2억원 이하",
+            "2억원 초과 200억원 이하",
+            "200억원 초과 3,000억원 이하",
+            "3,000억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.corporate-tax.return"
+          ],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.customs",
@@ -20680,7 +23244,28 @@
           "basis_source": "source.law.customs-tariff",
           "law_reference": "관세법 제14조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "품목분류별 관세율표 적용"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "관세법 제14조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "관세법 제14조"
+      }
     },
     {
       "id": "tax.education",
@@ -20737,7 +23322,28 @@
           "basis_source": "source.law.education-tax-act.article5",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "교육세법상 납세의무자"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.gift",
@@ -20877,7 +23483,59 @@
           "basis_source": "source.nts.gift.rates",
           "law_reference": "상속세 및 증여세법 제26조 및 제68조"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10,
+            "criterion_2": 20,
+            "criterion_3": 30,
+            "criterion_4": 40,
+            "criterion_5": 50
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 100000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 100000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 1000000000,
+              "threshold_krw_max": 3000000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 3000000000
+            }
+          },
+          "eligible_persons": [
+            "1억원 이하",
+            "1억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과 30억원 이하",
+            "30억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.gift.general"
+          ],
+          "law_references": [
+            "상속세 및 증여세법 제26조 및 제68조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "상속세 및 증여세법 제26조 및 제68조"
+      }
     },
     {
       "id": "tax.income",
@@ -21080,7 +23738,78 @@
           "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 6,
+            "criterion_2": 15,
+            "criterion_3": 24,
+            "criterion_4": 35,
+            "criterion_5": 38,
+            "criterion_6": 40,
+            "criterion_7": 42,
+            "criterion_8": 45
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 14000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 14000000,
+              "threshold_krw_max": 50000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 50000000,
+              "threshold_krw_max": 88000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 88000000,
+              "threshold_krw_max": 150000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 150000000,
+              "threshold_krw_max": 300000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 300000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_7": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_8": {
+              "threshold_krw_min": 1000000000
+            }
+          },
+          "eligible_persons": [
+            "1,400만원 이하",
+            "1,400만원 초과 5,000만원 이하",
+            "5,000만원 초과 8,800만원 이하",
+            "8,800만원 초과 1억5,000만원 이하",
+            "1억5,000만원 초과 3억원 이하",
+            "3억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.income-tax.2025-return",
+            "deadline.year-end-settlement"
+          ],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.income.capital-gains",
@@ -21332,7 +24061,84 @@
           "law_reference": "소득세법 제92조·제104조·제105조·제110조",
           "amount_formula": "양도소득 과세표준 × 적용비율 10%"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 6,
+            "criterion_2": 15,
+            "criterion_3": 24,
+            "criterion_4": 35,
+            "criterion_5": 38,
+            "criterion_6": 40,
+            "criterion_7": 42,
+            "criterion_8": 45,
+            "criterion_9": 10,
+            "criterion_10": 20,
+            "criterion_11": 10
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 14000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 14000000,
+              "threshold_krw_max": 50000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 50000000,
+              "threshold_krw_max": 88000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 88000000,
+              "threshold_krw_max": 150000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 150000000,
+              "threshold_krw_max": 300000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 300000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_7": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_8": {
+              "threshold_krw_min": 1000000000
+            }
+          },
+          "eligible_persons": [
+            "1,400만원 이하",
+            "1,400만원 초과 5,000만원 이하",
+            "5,000만원 초과 8,800만원 이하",
+            "8,800만원 초과 1억5,000만원 이하",
+            "1억5,000만원 초과 3억원 이하",
+            "3억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과",
+            "국외 중소기업주식 등",
+            "국외 그 밖의 주식 등",
+            "2018.4.1. 이후 양도분"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.capital-gains.preliminary",
+            "deadline.capital-gains.final"
+          ],
+          "law_references": [
+            "소득세법 제92조·제104조·제105조·제110조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제92조·제104조·제105조·제110조"
+      }
     },
     {
       "id": "tax.income.comprehensive",
@@ -21534,7 +24340,77 @@
           "basis_source": "source.nts.income-tax.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2025,
+          "rates": {
+            "criterion_1": 6,
+            "criterion_2": 15,
+            "criterion_3": 24,
+            "criterion_4": 35,
+            "criterion_5": 38,
+            "criterion_6": 40,
+            "criterion_7": 42,
+            "criterion_8": 45
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 14000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 14000000,
+              "threshold_krw_max": 50000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 50000000,
+              "threshold_krw_max": 88000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 88000000,
+              "threshold_krw_max": 150000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 150000000,
+              "threshold_krw_max": 300000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 300000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_7": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_8": {
+              "threshold_krw_min": 1000000000
+            }
+          },
+          "eligible_persons": [
+            "1,400만원 이하",
+            "1,400만원 초과 5,000만원 이하",
+            "5,000만원 초과 8,800만원 이하",
+            "8,800만원 초과 1억5,000만원 이하",
+            "1억5,000만원 초과 3억원 이하",
+            "3억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.income-tax.2025-return"
+          ],
+          "law_references": [
+            "소득세법 제55조 및 제70조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2025,
+        "law_reference": "소득세법 제55조 및 제70조"
+      }
     },
     {
       "id": "tax.income.retirement",
@@ -21662,7 +24538,32 @@
           "basis_source": "source.nts.retirement-income.calculation",
           "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "2020년 이후 퇴직분",
+            "5년 이하",
+            "5년 초과 10년 이하",
+            "10년 초과 20년 이하",
+            "20년 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "소득세법 제48조·제55조 및 퇴직소득세액 계산 조문"
+      }
     },
     {
       "id": "tax.individual-consumption",
@@ -21717,7 +24618,28 @@
           "basis_source": "source.law.individual-consumption-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "개별소비세법상 과세물품·장소·행위"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.inheritance",
@@ -21858,7 +24780,60 @@
           "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10,
+            "criterion_2": 20,
+            "criterion_3": 30,
+            "criterion_4": 40,
+            "criterion_5": 50
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 100000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 100000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 1000000000,
+              "threshold_krw_max": 3000000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 3000000000
+            }
+          },
+          "eligible_persons": [
+            "1억원 이하",
+            "1억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과 30억원 이하",
+            "30억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.inheritance.resident",
+            "deadline.inheritance.nonresident"
+          ],
+          "law_references": [
+            "상속세 및 증여세법 제26조 및 제67조"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "상속세 및 증여세법 제26조 및 제67조"
+      }
     },
     {
       "id": "tax.inheritance-and-gift",
@@ -22006,7 +24981,60 @@
           "basis_source": "source.nts.inheritance.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_1": 10,
+            "criterion_2": 20,
+            "criterion_3": 30,
+            "criterion_4": 40,
+            "criterion_5": 50
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_max": 100000000
+            },
+            "criterion_2": {
+              "threshold_krw_min": 100000000,
+              "threshold_krw_max": 500000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 500000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 1000000000,
+              "threshold_krw_max": 3000000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 3000000000
+            }
+          },
+          "eligible_persons": [
+            "1억원 이하",
+            "1억원 초과 5억원 이하",
+            "5억원 초과 10억원 이하",
+            "10억원 초과 30억원 이하",
+            "30억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.inheritance.resident",
+            "deadline.gift.general"
+          ],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.liquor",
@@ -22061,7 +25089,28 @@
           "basis_source": "source.law.liquor-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "주정·탁주·맥주·증류주 등 주류 종류별"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.securities-transaction",
@@ -22120,7 +25169,28 @@
           "basis_source": "source.law.securities-transaction-tax-act.article8",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "주권 또는 지분 양도"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.special-rural-development",
@@ -22175,7 +25245,28 @@
           "basis_source": "source.law.special-rural-development-tax-act.article5",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "농어촌특별세법상 납세의무자"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.stamp",
@@ -22309,7 +25400,53 @@
           "basis_source": "source.law.stamp-tax-act.article3",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {
+            "criterion_2": {
+              "threshold_krw_min": 10000000,
+              "threshold_krw_max": 30000000
+            },
+            "criterion_3": {
+              "threshold_krw_min": 30000000,
+              "threshold_krw_max": 50000000
+            },
+            "criterion_4": {
+              "threshold_krw_min": 50000000,
+              "threshold_krw_max": 100000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 100000000,
+              "threshold_krw_max": 1000000000
+            },
+            "criterion_6": {
+              "threshold_krw_min": 1000000000
+            }
+          },
+          "eligible_persons": [
+            "1천만원 이하",
+            "1천만원 초과 3천만원 이하",
+            "3천만원 초과 5천만원 이하",
+            "5천만원 초과 1억원 이하",
+            "1억원 초과 10억원 이하",
+            "10억원 초과"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.transport-energy-environment",
@@ -22364,7 +25501,28 @@
           "basis_source": "source.law.transport-energy-environment-tax-act.rates",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {},
+          "limits": {},
+          "thresholds": {},
+          "eligible_persons": [
+            "휘발유·경유 등 법정 과세물품"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "tax.value-added",
@@ -22528,7 +25686,54 @@
           "basis_source": "source.nts.vat.filing-duty",
           "law_reference": "국세기본법 제2조 제1호"
         }
-      ]
+      ],
+      "structured_summary": {
+        "tax": {
+          "tax_year": 2026,
+          "rates": {
+            "criterion_3": 10
+          },
+          "limits": {},
+          "thresholds": {
+            "criterion_1": {
+              "threshold_krw_min": 104000000
+            },
+            "criterion_2": {
+              "threshold_krw_max": 104000000
+            },
+            "criterion_5": {
+              "threshold_krw_min": 48000000,
+              "threshold_krw_max": 104000000
+            },
+            "criterion_6": {
+              "threshold_krw_max": 48000000
+            }
+          },
+          "eligible_persons": [
+            "1억400만원 이상",
+            "1억400만원 미만",
+            "매출액에 기본세율 적용",
+            "2021.7.1. 이후 업종별 15%~40%",
+            "4,800만원 이상 1억400만원 미만이고 예정부과기간에 세금계산서 발급",
+            "4,800만원 미만"
+          ],
+          "required_documents": [],
+          "filing_deadlines": [
+            "deadline.vat.periodic",
+            "deadline.vat.general.first-final",
+            "deadline.vat.general.second-final",
+            "deadline.vat.simplified.annual"
+          ],
+          "law_references": [
+            "국세기본법 제2조 제1호"
+          ]
+        }
+      },
+      "search_facets": {
+        "tax_type": "tax",
+        "applicable_year": 2026,
+        "law_reference": "국세기본법 제2조 제1호"
+      }
     },
     {
       "id": "term.capital-gain",

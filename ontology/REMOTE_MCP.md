@@ -83,6 +83,8 @@ cd cloudflare/opentax-mcp
 npm run deploy
 ```
 
+배포 명령은 quality manifest와 live regression이 ready가 아니면 중단됩니다.
+
 The deployed endpoint will look like:
 
 ```text

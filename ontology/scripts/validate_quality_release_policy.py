@@ -10,12 +10,13 @@ def main() -> int:
     assert degraded["recommendation_enabled"] is False
     assert "local-government-supports" in degraded["degraded_domains"]
 
-    ready = release_policy(
+    incomplete_pilots = release_policy(
         [{"domain": "local-government-supports", "quality_summary": {"current_refresh_complete": True, "unpreserved_missing_regions": []}}],
         {"failed_count": 0},
     )
-    assert ready["release_status"] == "ready"
-    print("OK: quality release policy blocks incomplete regional refreshes")
+    assert incomplete_pilots["release_status"] == "degraded"
+    assert "deposit-products verified pilot below 30" in incomplete_pilots["blocking_reasons"]
+    print("OK: quality release policy blocks incomplete regional refreshes and missing verified pilots")
     return 0
 
 

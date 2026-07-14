@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-13T23:22:31Z",
+  "built_at": "2026-07-14T03:42:29Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -11,24 +11,25 @@
       "item_count": 374,
       "product_count": 0,
       "quality_summary": {},
-      "export_checksum": "b890c126b8169c774408b4d9da14aa4e6b55ff0c951f0f6f630598d0f36e911d"
+      "export_checksum": "bfc837a9495df55a1e056e12e662218d0a4828b2771b68e01a8b125e05b419e0"
     },
     {
       "id": "local-government-supports-ontology",
       "domain": "local-government-supports",
-      "item_count": 7709,
+      "item_count": 7715,
       "product_count": 0,
       "quality_summary": {
-        "status_review_date": "2026-07-10",
+        "status_review_date": "2026-07-14",
         "status_counts": {
-          "active": 5274,
-          "closed": 434,
+          "active": 5278,
+          "closed": 436,
           "unknown": 2001
         },
         "application_status_counts": {
-          "closed": 434,
+          "always_open": 4959,
+          "closed": 436,
           "not_required": 114,
-          "open": 5160,
+          "open": 205,
           "unknown": 2001
         },
         "expired_active_local_supports": 0,
@@ -45,50 +46,50 @@
           "schedule_pending": 8
         },
         "preserved_snapshot_local_supports": 0,
-        "currently_applicable_local_supports": 5274,
-        "eligible_for_listing": 5160,
-        "recommendation_reference_only": 2549,
+        "currently_applicable_local_supports": 5278,
+        "eligible_for_listing": 5164,
+        "recommendation_reference_only": 2551,
         "source_refresh_missing_regions": [],
         "unpreserved_missing_regions": [],
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "b83d41b92de4b89131868fbc7eab295260aaa19168784ab6270763581aa020b5"
+      "export_checksum": "59b1de2f16b3cdc58235afcbf54f95b8540dd3f9bb352af87487430b3f2c566a"
     },
     {
       "id": "card-products-ontology",
       "domain": "card-products",
-      "item_count": 1027,
-      "product_count": 1004,
+      "item_count": 1030,
+      "product_count": 1007,
       "quality_summary": {
-        "product_count": 1004,
+        "product_count": 1007,
         "status_counts": {
-          "active": 649,
+          "active": 652,
           "unknown": 355
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 122,
+        "card_benefits_with_incomplete_conditions": 123,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1004,
+        "reference_only_products": 1007,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 649,
+        "discovery_candidate_products": 652,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1004,
+        "recommendation_listing_only_products": 1007,
         "recommendation_status_counts": {
-          "reference_only": 1004
+          "reference_only": 1007
         },
         "recommendation_scope_counts": {
-          "listing_only": 1004
+          "listing_only": 1007
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
@@ -98,19 +99,19 @@
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "annual_fee_krw": 1003,
-          "benefit_categories": 712,
-          "benefit_frequency_limit": 1004,
-          "benefit_rate_or_amount": 499,
+          "annual_fee_krw": 1006,
+          "benefit_categories": 715,
+          "benefit_frequency_limit": 1007,
+          "benefit_rate_or_amount": 500,
           "benefit_type": 355,
           "criteria_or_options": 355,
-          "excluded_spend": 1004,
-          "minimum_payment_amount": 1004,
-          "monthly_benefit_limit_krw": 992,
-          "per_transaction_limit_krw": 1001,
-          "performance_excluded_spend": 1004,
-          "previous_month_spend_min_krw": 999,
-          "sales_verification_status": 1004
+          "excluded_spend": 1007,
+          "minimum_payment_amount": 1007,
+          "monthly_benefit_limit_krw": 995,
+          "per_transaction_limit_krw": 1004,
+          "performance_excluded_spend": 1007,
+          "previous_month_spend_min_krw": 1002,
+          "sales_verification_status": 1007
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -120,7 +121,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "898d0851acc62177fa5027edc2460da94d8910a77964a7c92798f678021d1d76"
+      "export_checksum": "ba10ee85ff97e00a8bd8bdea3ecea2b5b3f965093661d4f1da5dfa73cff6ac97"
     },
     {
       "id": "deposit-products-ontology",
@@ -179,7 +180,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "acc09bc886ca8d7ed4ad6184de1a21bcdb2000288eecfadada201151ce968143"
+      "export_checksum": "95b253245aaabcf2e7d9fab83be8d35510caa50cc25f7b9c6969c3bca1ed2398"
     },
     {
       "id": "saving-products-ontology",
@@ -239,7 +240,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ee3b4e591771bc82394470073b41c27459e436f47b3210eb88d1314d96d0cce9"
+      "export_checksum": "de5c94f2169cd29c0b9fd8c9741fdadd35b2c2d824b0f38f6cce1d4e5c650436"
     },
     {
       "id": "loan-products-ontology",
@@ -282,7 +283,7 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.6666,
+        "average_completeness_ratio": 0.6668,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -293,7 +294,7 @@
           "loan_limit_krw": 299,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
-          "rate_type": 129,
+          "rate_type": 128,
           "repayment_method": 171
         },
         "quality_gate": {
@@ -304,65 +305,65 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9140edda77674b2fc39f6c12280244f33176eb8147a4e98aa0a213c94f3a1ab1"
+      "export_checksum": "0e16911f680782bdfdbdd34aa72eaec9f414f298bcb875ae30e81de55ace010e"
     },
     {
       "id": "insurance-products-ontology",
       "domain": "insurance-products",
-      "item_count": 1076,
-      "product_count": 1058,
+      "item_count": 1075,
+      "product_count": 1057,
       "quality_summary": {
-        "product_count": 1058,
+        "product_count": 1057,
         "status_counts": {
-          "active": 1058
+          "active": 1057
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 1058,
+        "insurance_coverages_with_incomplete_conditions": 1057,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1058,
+        "reference_only_products": 1057,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 857,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1058,
+        "recommendation_listing_only_products": 1057,
         "recommendation_status_counts": {
-          "reference_only": 1058
+          "reference_only": 1057
         },
         "recommendation_scope_counts": {
-          "listing_only": 1058
+          "listing_only": 1057
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
-        "average_completeness_ratio": 0.0978,
+        "average_completeness_ratio": 0.0979,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "claim_condition": 1058,
-          "coverage_amount_krw": 1058,
-          "exclusion_condition": 1058,
-          "insurance_term": 1058,
-          "insured_age_max": 1058,
-          "insured_age_min": 1058,
-          "payment_count_limit": 1058,
-          "payment_term": 1058,
-          "premium_basis": 1058,
-          "reduction_period_days": 1058,
-          "renewal_cycle_years": 363,
-          "renewal_type": 201,
-          "sales_verification_status": 1058,
-          "surrender_refund_type": 1058,
-          "waiting_period_days": 1058
+          "claim_condition": 1057,
+          "coverage_amount_krw": 1057,
+          "exclusion_condition": 1057,
+          "insurance_term": 1057,
+          "insured_age_max": 1057,
+          "insured_age_min": 1057,
+          "payment_count_limit": 1057,
+          "payment_term": 1057,
+          "premium_basis": 1057,
+          "reduction_period_days": 1057,
+          "renewal_cycle_years": 362,
+          "renewal_type": 200,
+          "sales_verification_status": 1057,
+          "surrender_refund_type": 1057,
+          "waiting_period_days": 1057
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -372,7 +373,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "a1fbe906c61a703942957f6b165f570d056f233aba4516ccff82d37ff761dd3a"
+      "export_checksum": "e9b9fb713240937b472966d7aaee049a21a6132ea7c34dad478d4ffb386ba4ea"
     },
     {
       "id": "finance-reference-ontology",
@@ -418,14 +419,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "42a7b683dafb39135412e20867d9564715cfbcd318ee3b4e82f2d60759b37b96"
+      "export_checksum": "00c6ba82e1ef1a3f4f99cc14fb27e0256661385a6ff3bee036c94ab1413fdde8"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 20,
     "product_count": 0,
-    "export_checksum": "968a9b49cb40200c0729afca8fbaafad30f26baa9014a186129b35e943569d54",
+    "export_checksum": "b0d935d36913e0efeeefdcfdb2cf35edabe3f4c05c560517708757e4b8e388d2",
     "quality_summary": {
       "test_count": 20,
       "passed_count": 20,
@@ -446,7 +447,7 @@
       "source_id": "source.klia.insurance-disclosure",
       "status": "live_imported",
       "last_checked": "2026-07-10",
-      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1058",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1057",
       "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
     },
     {
@@ -575,10 +576,10 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-13T23:22:31Z",
+    "built_at": "2026-07-14T03:42:29Z",
     "domain_export_count": 8,
-    "search_index_item_count": 21233,
-    "canonical_product_count": 3431,
+    "search_index_item_count": 21241,
+    "canonical_product_count": 3433,
     "duplicate_canonical_product_count": 0,
     "checksum_covered_export_count": 9,
     "broken_relation_count": 0,
@@ -616,10 +617,10 @@
   },
   "runtime_quality_metrics": {
     "catalog_status_counts": {
-      "active": 3065,
+      "active": 3067,
       "unknown": 366
     },
-    "runtime_discovery_eligible_count": 2864,
+    "runtime_discovery_eligible_count": 2867,
     "exact_discovery_candidate_count": 281,
     "partial_discovery_candidate_count": 190,
     "duplicate_canonical_product_count": 0,
@@ -630,10 +631,10 @@
     "empty_search_facets_count": 0,
     "unmapped_existing_field_count": 0,
     "sales_verification_status_counts": {
-      "listed_unverified": 3431
+      "listed_unverified": 3433
     },
     "verification_grade_counts": {
-      "C": 3431
+      "C": 3433
     },
     "relevance_grade_counts": {
       "A": 281,
@@ -647,14 +648,43 @@
     "unknown_constraint_disclosure_rate": 1.0,
     "golden_case_count": 36
   },
-  "release_status": "ready",
+  "release_status": "degraded",
   "recommendation_enabled": false,
-  "degraded_domains": [],
-  "blocking_reasons": [],
-  "blocking_issues": [],
+  "degraded_domains": [
+    "card-products",
+    "deposit-products",
+    "insurance-products",
+    "loan-products",
+    "regression",
+    "saving-products"
+  ],
+  "blocking_reasons": [
+    "card-products comparison products below 100",
+    "card-products complete products below 200",
+    "card-products verified pilot below 20",
+    "deposit-products verified pilot below 30",
+    "golden cases below 120 (81)",
+    "insurance-products comparison products below 100",
+    "insurance-products complete products below 200",
+    "insurance-products verified pilot below 20",
+    "loan-products verified pilot below 20",
+    "saving-products verified pilot below 30"
+  ],
+  "blocking_issues": [
+    "card-products comparison products below 100",
+    "card-products complete products below 200",
+    "card-products verified pilot below 20",
+    "deposit-products verified pilot below 30",
+    "golden cases below 120 (81)",
+    "insurance-products comparison products below 100",
+    "insurance-products complete products below 200",
+    "insurance-products verified pilot below 20",
+    "loan-products verified pilot below 20",
+    "saving-products verified pilot below 30"
+  ],
   "warning_issues": [],
-  "semantic_validation_passed": true,
+  "semantic_validation_passed": false,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "3c2ac7a1480834673cebfc1a1008bcbe5def0910461eb9d46ecaa0e65b005d4d"
+  "export_checksum": "eee071a6c9be6dd92d09721b55630605fc6d6e89aac939b450f25d1964699c33"
 }

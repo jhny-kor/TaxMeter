@@ -1,8 +1,3 @@
-"""지원사업 신청 상태와 추천 상태의 정합성 검증.
-
-application_status=unknown/closed/not_required → recommendation_status=reference_only (추천 후보 제외),
-application_status=open → eligible_for_listing.
-"""
 from __future__ import annotations
 
 import json
@@ -19,7 +14,7 @@ def main() -> int:
     items = [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
     programs = [item for item in items if item.get("type") == "support-program"]
     errors: list[str] = []
-    counts = {"open": 0, "closed": 0, "not_required": 0, "unknown": 0}
+    counts = {"open": 0, "always_open": 0, "closed": 0, "not_required": 0, "unknown": 0}
     for program in programs:
         application_status = str(program.get("application_status") or "unknown")
         recommendation_status = program.get("recommendation_status")
@@ -28,11 +23,11 @@ def main() -> int:
             errors.append(
                 f"{program['id']}: application_status={application_status}인데 recommendation_status={recommendation_status}"
             )
-        if application_status == "open" and refresh_complete and recommendation_status not in OPEN_STATUSES:
+        if application_status in {"open", "always_open"} and refresh_complete and recommendation_status not in OPEN_STATUSES:
             errors.append(
                 f"{program['id']}: application_status=open인데 recommendation_status={recommendation_status}"
             )
-        if application_status == "open" and not refresh_complete and recommendation_status != "reference_only":
+        if application_status in {"open", "always_open"} and not refresh_complete and recommendation_status != "reference_only":
             errors.append(
                 f"{program['id']}: 부분 수집 중 open 지원사업은 reference_only여야 합니다."
             )
@@ -43,7 +38,7 @@ def main() -> int:
         return 1
     print(
         f"OK: {len(programs)} support programs consistent "
-        f"(open={counts['open']}, closed={counts['closed']}, "
+        f"(open={counts['open']}, always_open={counts['always_open']}, closed={counts['closed']}, "
         f"not_required={counts['not_required']}, unknown={counts['unknown']})"
     )
     return 0

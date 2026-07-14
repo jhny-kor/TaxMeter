@@ -1,6 +1,6 @@
 # OpenFin 금융정보 온톨로지 2026
 
-기준일: 2026-07-11 (정부24 지원사업 재수집일, 금융상품 상태 검토일은 2026-07-10)
+기준일: 2026-07-14 (정부24 지원사업과 금융상품 공식 원천 재수집일)
 
 OpenFin은 세금(OpenTax), 지자체 지원금, 카드·은행·보험 금융상품, 금융
 기준정보를 하나의 노드 스키마로 통합한 금융정보 온톨로지다. 원본 정의와
@@ -27,14 +27,14 @@ export와 `ontology/vault/`의 Obsidian 노트로 나온다. 이 문서는 현�
 | 도메인 | export | 항목 | 상품 | 비고 |
 | --- | --- | ---: | ---: | --- |
 | 세금 | korea-tax-ontology | 374 | - | OpenTax vault 378노트와 동기 |
-| 지자체 지원금 | korea-local-government-supports | 7,709 | - | active 5,224 / closed 342 / unknown 2,143; 전남광주통합특별시 844건 current, 과거 지역명 검색 별칭 유지 |
-| 카드 | korea-card-products | 1,027 | 1,004 | active 649, 전 상품 reference_only |
+| 지자체 지원금 | korea-local-government-supports | 7,715 | - | always_open 4,959 / open 205 / closed 436 / unknown 2,001; 행정이력·상위 관할·대상·분야·상태확인일 구조화 |
+| 카드 | korea-card-products | 1,030 | 1,007 | 공식 목록 원천 재수집, 전 상품 reference_only |
 | 예금 팩 | korea-deposit-products | 474 | 430 | 정기예금 금리·우대조건 |
 | 적금 팩 | korea-saving-products | 379 | 335 | 적립방식·기간별 금리 |
 | 대출 팩 | korea-loan-products | 648 | 604 | 11개는 필수 조건·기간·한도 정규화 완료했으나 manual_review_candidate, 나머지는 reference_only |
-| 보험 | korea-insurance-products | 1,076 | 1,058 | 전건 reference_only, KLIA 공시 리스트 기반 |
+| 보험 | korea-insurance-products | 1,075 | 1,057 | 전건 reference_only, KLIA 공시 리스트 기반 |
 | 기준정보 | korea-finance-reference | 9,651 | 0 | 예금자보호 레지스트리 9,380 + provider 216 + 기준금리·리스크 신호 |
-| 검색 인덱스 | finance-search-index | 21,230 | - | MCP search 전용 경량 인덱스 |
+| 검색 인덱스 | finance-search-index | 21,241 | - | MCP search 전용 경량 인덱스 |
 
 2026-07-10 재분류: 예금자보호 등재 목록(KDIC 9,380건, 대부분 보험사 상품)은
 은행 상품군이 아니라 소비자 보호 레지스트리이므로 `financial-product` 타입으로
@@ -54,8 +54,9 @@ finance-reference에 재배치했다. 이어서 기존 은행 export를 예금/�
   데이터를 지어내지 않고 대기 처리.
 - provenance: 전 상품 `source_urls`, `source_basis_dates`, `source_api`, `raw` 보존.
 - 배포 상태: 품질 manifest의 `release_status`, `degraded_domains`, `blocking_reasons`으로
-  지역 원천 누락과 검색 회귀를 배포 게이트로 기록한다. 공개 추천은
-  `verified_recommendation_candidate`만 허용한다.
+  지역 원천 누락, verified pilot, 카드·보험 완전성, 120 golden case를 배포 게이트로 기록한다.
+  공개 추천은 `verified_recommendation_candidate`만 허용한다. 현재는 pilot/evidence와 golden
+  case 목표가 미달이므로 `degraded`이며 production MCP 배포가 차단된다.
 
 검증 명령:
 

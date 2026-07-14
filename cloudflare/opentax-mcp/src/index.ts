@@ -74,6 +74,11 @@ type FinanceItem = {
   jurisdiction?: string;
   jurisdiction_code?: string;
   jurisdiction_aliases?: string[];
+  parent_jurisdiction_code?: string;
+  administrative_history?: unknown[];
+  target_group?: string[];
+  support_category?: string[];
+  last_status_checked_at?: string;
   freshness_status?: string;
   collection_status?: string;
   last_verified_at?: string;
@@ -248,8 +253,13 @@ const SEARCH_TYPE_GROUPS: Record<string, Set<string>> = {
 };
 
 const TAX_INTENT_RE = /(세액공제|소득공제|연말정산|원천징수|종합소득세|부가가치세|법인세|교육비|의료비|월세|연금계좌)/;
+const SUPPORT_INTENT_RE = /(지원|보조금|신청|청년.*월세|월세.*청년)/;
+const SUPPORT_REGION_TOKENS = ["전남광주통합특별시", "충청북도", "충청남도", "전라북도", "전라남도", "경상북도", "경상남도", "서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"] as const;
 
 function inferredTypesForQuery(query: string): Set<string> | null {
+  if (SUPPORT_INTENT_RE.test(query)) {
+    return new Set(["support-program"]);
+  }
   if (TAX_INTENT_RE.test(query)) {
     return SEARCH_TYPE_GROUPS.tax;
   }
@@ -260,6 +270,29 @@ function inferredTypesForQuery(query: string): Set<string> | null {
     return new Set(["card-product"]);
   }
   return null;
+}
+
+function supportRegionForQuery(query: string): string | undefined {
+  return SUPPORT_REGION_TOKENS.find((region) => query.includes(normalizeQuery(region)));
+}
+
+function matchesSupportRegion(item: FinanceItem, region: string | undefined): boolean {
+  if (item.type !== "support-program" || !region) return true;
+  return [item.jurisdiction, item.jurisdiction_code, item.parent_jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
+    .some((value) => normalizeQuery(value ?? "").includes(region));
+}
+
+function matchesSupportIntent(item: FinanceItem, query: string): boolean {
+  if (item.type !== "support-program" || !SUPPORT_INTENT_RE.test(query)) return true;
+  const targetGroups = new Set((item.target_group ?? []).map(normalizeQuery));
+  const categories = new Set((item.support_category ?? []).map(normalizeQuery));
+  const requiresYouth = query.includes("청년");
+  const requiresHousing = /(월세|주거|전세)/.test(query);
+  const requiresCurrentAvailability = /(지원|보조금|신청|월세|주거)/.test(query);
+  const currentlyAvailable = item.is_currently_applicable === true || ["open", "always_open"].includes(item.application_status ?? "");
+  return (!requiresYouth || targetGroups.has("youth"))
+    && (!requiresHousing || categories.has("housing") || categories.has("rent"))
+    && (!requiresCurrentAvailability || currentlyAvailable);
 }
 
 function inferredSearchTypeForQuery(query: string): string | undefined {
@@ -1029,6 +1062,7 @@ function createServer(env: Env): McpServer {
       }
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
+      const supportRegion = supportRegionForQuery(normalizedQuery);
       const filters: SearchFilters = {
         searchType: search_type ?? inferredSearchTypeForQuery(normalizedQuery),
         productKind: product_kind,
@@ -1041,7 +1075,7 @@ function createServer(env: Env): McpServer {
         freshnessStatus: freshness_status,
       };
       const results = data.items
-        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters))
+        .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter((result) => result.score > 0)
         .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title, "ko-KR"))

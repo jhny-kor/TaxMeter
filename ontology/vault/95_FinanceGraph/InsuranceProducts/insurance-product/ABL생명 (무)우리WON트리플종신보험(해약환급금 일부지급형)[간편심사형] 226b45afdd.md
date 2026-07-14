@@ -4,10 +4,10 @@ title: "ABL생명 (무)우리WON트리플종신보험(해약환급금 일부지�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://abllife.co.kr/st/pban/prdtPban/whlPrdt?page=1251933_1260", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-10 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-04-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 

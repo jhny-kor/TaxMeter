@@ -2125,10 +2125,9 @@ def normalize_links(items: list[dict]) -> list[dict]:
 def write_export(path: Path, version: str, domain: str, items: list[dict], product_type: str, generated_domain: str) -> dict:
     normalized = normalize_links(enrich_operational_status(items))
     for item in normalized:
-        if item.get("type") not in {"card-product", "bank-product", "insurance-product"}:
-            continue
-        item["structured_summary"] = structured_summary(item)
-        item["search_facets"] = search_facets(item)
+        if item.get("type") in {"card-product", "bank-product", "insurance-product", "support-program", *TAX_DECISION_TYPES}:
+            item["structured_summary"] = structured_summary(item)
+            item["search_facets"] = search_facets(item)
     product_count = product_counts(normalized, product_type)
     product_collection_dates = sorted({
         item["collected_at"]
@@ -2280,6 +2279,41 @@ def numeric_values(values: object, keys: tuple[str, ...]) -> list[object]:
 
 
 def structured_summary(item: dict) -> dict:
+    tax_criteria = item.get("criteria") or []
+    if item.get("type") in TAX_DECISION_TYPES:
+        limits: dict[str, int | float] = {}
+        thresholds: dict[str, dict[str, int | float]] = {}
+        rates: dict[str, int | float] = {}
+        eligible_persons: list[str] = []
+        for index, criterion in enumerate(tax_criteria, start=1):
+            if not isinstance(criterion, dict):
+                continue
+            key = f"criterion_{index}"
+            if criterion.get("limit_krw") is not None:
+                limits[key] = criterion["limit_krw"]
+            threshold = {
+                field: criterion[field]
+                for field in ("threshold_krw_min", "threshold_krw_max", "threshold_rate_percent")
+                if criterion.get(field) is not None
+            }
+            if threshold:
+                thresholds[key] = threshold
+            if criterion.get("rate_percent") is not None:
+                rates[key] = criterion["rate_percent"]
+            if criterion.get("condition"):
+                eligible_persons.append(str(criterion["condition"]))
+        return {
+            "tax": {
+                "tax_year": item.get("basis_year"),
+                "rates": rates,
+                "limits": limits,
+                "thresholds": thresholds,
+                "eligible_persons": unique(eligible_persons),
+                "required_documents": unique(str(value) for value in item.get("related") or [] if str(value).startswith("required-document.")),
+                "filing_deadlines": unique(str(value) for value in item.get("deadlines") or []),
+                "law_references": [item["law_reference"]] if item.get("law_reference") else [],
+            }
+        }
     rates = {
         "loan_rate_min_percent": item.get("loan_rate_min_percent"),
         "loan_rate_max_percent": item.get("loan_rate_max_percent"),
@@ -2339,6 +2373,9 @@ def search_facets(item: dict) -> dict:
             "recommendation_scope": item.get("recommendation_scope"),
             "freshness_status": item.get("freshness_status"),
             "jurisdiction_code": item.get("jurisdiction_code"),
+            "tax_type": item.get("type") if item.get("type") in TAX_DECISION_TYPES else None,
+            "applicable_year": item.get("basis_year") if item.get("type") in TAX_DECISION_TYPES else None,
+            "law_reference": item.get("law_reference") if item.get("type") in TAX_DECISION_TYPES else None,
         }.items()
         if value not in (None, "", [])
     }
@@ -2413,6 +2450,11 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "jurisdiction": item.get("jurisdiction"),
         "jurisdiction_code": item.get("jurisdiction_code"),
         "jurisdiction_aliases": item.get("jurisdiction_aliases") or [],
+        "parent_jurisdiction_code": item.get("parent_jurisdiction_code"),
+        "administrative_history": item.get("administrative_history") or [],
+        "target_group": item.get("target_group") or [],
+        "support_category": item.get("support_category") or [],
+        "last_status_checked_at": item.get("last_status_checked_at"),
         "freshness_status": item.get("freshness_status"),
         "collection_status": item.get("collection_status"),
         "legacy_ids": item.get("legacy_ids") or [],
@@ -2828,6 +2870,35 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
     if search_report.get("failed_count"):
         blocked_domains.add("search")
         blocking_reasons.append("search regression failed")
+    quality_by_domain = {
+        str(summary.get("domain")): summary.get("quality_summary") or {}
+        for summary in domain_summaries
+    }
+    pilot_targets = {
+        "deposit-products": 30,
+        "saving-products": 30,
+        "card-products": 20,
+        "loan-products": 20,
+        "insurance-products": 20,
+    }
+    for domain, target in pilot_targets.items():
+        quality = quality_by_domain.get(domain, {})
+        if min(int(quality.get("products_with_verified_sales_status") or 0), int(quality.get("products_with_verification_evidence") or 0)) < target:
+            blocked_domains.add(domain)
+            blocking_reasons.append(f"{domain} verified pilot below {target}")
+    for domain in ("card-products", "insurance-products"):
+        quality = quality_by_domain.get(domain, {})
+        if int(quality.get("products_with_complete_recommendation_fields") or 0) < 200:
+            blocked_domains.add(domain)
+            blocking_reasons.append(f"{domain} complete products below 200")
+        if int(quality.get("products_with_complete_comparison_fields") or 0) < 100:
+            blocked_domains.add(domain)
+            blocking_reasons.append(f"{domain} comparison products below 100")
+    golden_files = ("comparison_golden_cases.json", "discovery_golden_cases.json", "recommendation_golden_cases.json")
+    golden_count = sum(len(json.loads((ROOT / "tests" / filename).read_text(encoding="utf-8"))) for filename in golden_files)
+    if golden_count < 120:
+        blocked_domains.add("regression")
+        blocking_reasons.append(f"golden cases below 120 ({golden_count})")
     blocking_issues = sorted(set(blocking_reasons))
     return {
         "release_status": "degraded" if blocking_issues else "ready",
@@ -2944,6 +3015,9 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         "product_count": 0,
         "export_checksum": payload["export_checksum"],
         "quality_summary": payload["export_audit"],
+        "release_status": payload["release_status"],
+        "blocking_reasons": payload["blocking_reasons"],
+        "recommendation_enabled": payload["recommendation_enabled"],
     }
 
 
@@ -3306,6 +3380,9 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         ],
     }
     quality_manifest = write_quality_manifest(manifest, search_report)
+    manifest["release_status"] = quality_manifest["release_status"]
+    manifest["blocking_reasons"] = quality_manifest["blocking_reasons"]
+    manifest["recommendation_enabled"] = quality_manifest["recommendation_enabled"]
     manifest["quality_exports"].insert(
         0,
         export_entry(

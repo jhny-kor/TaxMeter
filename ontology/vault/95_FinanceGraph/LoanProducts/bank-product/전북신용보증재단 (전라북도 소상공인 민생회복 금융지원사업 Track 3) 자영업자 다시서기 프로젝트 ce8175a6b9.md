@@ -4,10 +4,10 @@ title: "전북신용보증재단 (전라북도 소상공인 민생회복 금융�
 type: "bank-product"
 domain: "loan-products"
 basis_year: 2026
-reviewed_at: "2026-07-11"
+reviewed_at: "2026-07-14"
 source_export: "korea-loan-products-ontology-2026.json"
 source_urls: ["https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y", "https://www.jbcredit.or.kr/site/menu/MENU_000000000000040/board/view/NTT_003519"]
-source_basis_dates: ["2026-07-11 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
 tags: ["graph-materialized", "loan-products", "finance-product", "generated", "bank", "policy-loan", "kinfa", "1", "창업"]
 ---
 

@@ -4,10 +4,10 @@ title: "SC제일은행 국민행복카드(신용)"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-10"
+reviewed_at: "2026-07-14"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://www.bccard.com/app/card/CreditSearch.do", "https://www.bccard.com/app/card/CreditCardMain.do?gdsno=232124&mbkNo=023", "https://www.bccard.com/images/individual/card/renew/list/card_232124.png", "https://www.bccard.com/app/card/CreditCardMain.do", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-10 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

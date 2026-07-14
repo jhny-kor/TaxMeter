@@ -150,9 +150,9 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
     "status_check_url",
 )
 LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
-LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-10"
+LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-14"
 LOCAL_SUPPORT_VALID_STATUSES = {"active", "closed", "unknown"}
-LOCAL_SUPPORT_APPLICATION_STATUSES = {"open", "closed", "not_required", "unknown"}
+LOCAL_SUPPORT_APPLICATION_STATUSES = {"open", "always_open", "closed", "not_required", "unknown"}
 
 
 def parse_frontmatter(path: Path) -> dict | None:
