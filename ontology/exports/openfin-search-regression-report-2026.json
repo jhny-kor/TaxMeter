@@ -473,7 +473,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "마일리지"
           ],
@@ -482,8 +482,11 @@
           "why_included": [
             {
               "constraint": "마일리지",
-              "matched_value": "마일리지",
-              "evidence_field": "마일리지"
+              "matched_value": null,
+              "evidence_field": "마일리지",
+              "evidence_text": null,
+              "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -508,7 +511,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "마일리지"
             ],
@@ -517,8 +520,11 @@
             "decision_reasons": [
               {
                 "constraint": "마일리지",
-                "matched_value": "마일리지",
-                "evidence_field": "마일리지"
+                "matched_value": null,
+                "evidence_field": "마일리지",
+                "evidence_text": null,
+                "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -537,7 +543,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "마일리지"
           ],
@@ -546,8 +552,11 @@
           "why_included": [
             {
               "constraint": "마일리지",
-              "matched_value": "마일리지",
-              "evidence_field": "마일리지"
+              "matched_value": null,
+              "evidence_field": "마일리지",
+              "evidence_text": null,
+              "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -571,7 +580,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "마일리지"
             ],
@@ -580,8 +589,11 @@
             "decision_reasons": [
               {
                 "constraint": "마일리지",
-                "matched_value": "마일리지",
-                "evidence_field": "마일리지"
+                "matched_value": null,
+                "evidence_field": "마일리지",
+                "evidence_text": null,
+                "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -600,7 +612,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "마일리지"
           ],
@@ -609,8 +621,11 @@
           "why_included": [
             {
               "constraint": "마일리지",
-              "matched_value": "마일리지",
-              "evidence_field": "마일리지"
+              "matched_value": null,
+              "evidence_field": "마일리지",
+              "evidence_text": null,
+              "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -634,7 +649,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "마일리지"
             ],
@@ -643,8 +658,11 @@
             "decision_reasons": [
               {
                 "constraint": "마일리지",
-                "matched_value": "마일리지",
-                "evidence_field": "마일리지"
+                "matched_value": null,
+                "evidence_field": "마일리지",
+                "evidence_text": null,
+                "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -663,7 +681,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "마일리지"
           ],
@@ -672,8 +690,11 @@
           "why_included": [
             {
               "constraint": "마일리지",
-              "matched_value": "마일리지",
-              "evidence_field": "마일리지"
+              "matched_value": null,
+              "evidence_field": "마일리지",
+              "evidence_text": null,
+              "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -698,7 +719,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "마일리지"
             ],
@@ -707,8 +728,11 @@
             "decision_reasons": [
               {
                 "constraint": "마일리지",
-                "matched_value": "마일리지",
-                "evidence_field": "마일리지"
+                "matched_value": null,
+                "evidence_field": "마일리지",
+                "evidence_text": null,
+                "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -727,7 +751,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "마일리지"
           ],
@@ -736,8 +760,11 @@
           "why_included": [
             {
               "constraint": "마일리지",
-              "matched_value": "마일리지",
-              "evidence_field": "마일리지"
+              "matched_value": null,
+              "evidence_field": "마일리지",
+              "evidence_text": null,
+              "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -762,7 +789,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "마일리지"
             ],
@@ -771,8 +798,11 @@
             "decision_reasons": [
               {
                 "constraint": "마일리지",
-                "matched_value": "마일리지",
-                "evidence_field": "마일리지"
+                "matched_value": null,
+                "evidence_field": "마일리지",
+                "evidence_text": null,
+                "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -812,7 +842,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "credit-loan",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -846,7 +879,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "credit-loan",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -875,7 +911,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "credit-loan",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -909,7 +948,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "credit-loan",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -938,7 +980,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "credit-loan",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -972,7 +1017,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "credit-loan",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1001,7 +1049,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "credit-loan",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1035,7 +1086,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "credit-loan",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1064,7 +1118,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "credit-loan",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "credit-loan",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1098,7 +1155,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "credit-loan",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "credit-loan",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1128,7 +1188,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1138,7 +1198,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "indemnity-health",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1162,7 +1225,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1172,7 +1235,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "indemnity-health",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1191,7 +1257,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1201,7 +1267,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "indemnity-health",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1225,7 +1294,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1235,7 +1304,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "indemnity-health",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1254,7 +1326,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1264,7 +1336,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "indemnity-health",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1288,7 +1363,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1298,7 +1373,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "indemnity-health",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1317,7 +1395,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1327,7 +1405,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "indemnity-health",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1351,7 +1432,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1361,7 +1442,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "indemnity-health",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1380,7 +1464,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1390,7 +1474,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "indemnity-health",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1414,7 +1501,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1424,7 +1511,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "indemnity-health",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1454,7 +1544,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1464,7 +1554,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "cancer",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1488,7 +1581,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1498,7 +1591,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "cancer",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1517,7 +1613,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1527,7 +1623,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "cancer",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1551,7 +1650,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1561,7 +1660,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "cancer",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1580,7 +1682,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1590,7 +1692,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "cancer",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1614,7 +1719,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1624,7 +1729,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "cancer",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1643,7 +1751,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1653,7 +1761,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "cancer",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1677,7 +1788,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1687,7 +1798,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "cancer",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1706,7 +1820,7 @@
           "relevance_grade": "A",
           "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1716,7 +1830,10 @@
             {
               "constraint": "product_kind",
               "matched_value": "cancer",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1740,7 +1857,7 @@
             "relevance_grade": "A",
             "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1750,7 +1867,10 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "cancer",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1791,12 +1911,18 @@
             {
               "constraint": "product_kind",
               "matched_value": "deposit",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             },
             {
               "constraint": "term_months",
-              "matched_value": "term_months",
-              "evidence_field": "term_months"
+              "matched_value": 1,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1831,12 +1957,18 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "deposit",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               },
               {
                 "constraint": "term_months",
-                "matched_value": "term_months",
-                "evidence_field": "term_months"
+                "matched_value": 1,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1866,12 +1998,18 @@
             {
               "constraint": "product_kind",
               "matched_value": "deposit",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             },
             {
               "constraint": "term_months",
-              "matched_value": "term_months",
-              "evidence_field": "term_months"
+              "matched_value": 12,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1906,12 +2044,18 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "deposit",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               },
               {
                 "constraint": "term_months",
-                "matched_value": "term_months",
-                "evidence_field": "term_months"
+                "matched_value": 12,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -1941,12 +2085,18 @@
             {
               "constraint": "product_kind",
               "matched_value": "deposit",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             },
             {
               "constraint": "term_months",
-              "matched_value": "term_months",
-              "evidence_field": "term_months"
+              "matched_value": 1,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -1981,12 +2131,18 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "deposit",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               },
               {
                 "constraint": "term_months",
-                "matched_value": "term_months",
-                "evidence_field": "term_months"
+                "matched_value": 1,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -2016,12 +2172,18 @@
             {
               "constraint": "product_kind",
               "matched_value": "deposit",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             },
             {
               "constraint": "term_months",
-              "matched_value": "term_months",
-              "evidence_field": "term_months"
+              "matched_value": 12,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -2056,12 +2218,18 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "deposit",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               },
               {
                 "constraint": "term_months",
-                "matched_value": "term_months",
-                "evidence_field": "term_months"
+                "matched_value": 12,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -2091,12 +2259,18 @@
             {
               "constraint": "product_kind",
               "matched_value": "deposit",
-              "evidence_field": "product_kind"
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             },
             {
               "constraint": "term_months",
-              "matched_value": "term_months",
-              "evidence_field": "term_months"
+              "matched_value": 3,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-14 수집"
             }
           ],
           "limitations": [
@@ -2131,12 +2305,18 @@
               {
                 "constraint": "product_kind",
                 "matched_value": "deposit",
-                "evidence_field": "product_kind"
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               },
               {
                 "constraint": "term_months",
-                "matched_value": "term_months",
-                "evidence_field": "term_months"
+                "matched_value": 3,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-14 수집"
               }
             ],
             "limitations": [
@@ -13045,7 +13225,12 @@
         }
       },
       "candidates": [],
-      "excluded": [
+      "safe_empty_blocked": true,
+      "candidate_count": 0,
+      "top5_product_kinds": [],
+      "duplicate_product_ids": false,
+      "passed": true,
+      "excluded_sample": [
         {
           "item_id": "finance.deposit.deposit.0010001.wr0001b",
           "reason": "sales_not_verified"
@@ -13085,53 +13270,9 @@
         {
           "item_id": "finance.deposit.deposit.0010019.td11300036000",
           "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010020.101272000006",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010020.101272000057",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010020.101272000058",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010022.10-01-20-024-0046-0000",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010022.10-01-20-024-0059-0000",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010022.10-01-20-024-0063-0000",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010024.21001115",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010024.21001280",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010024.21001285",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010026.01211310121",
-          "reason": "sales_not_verified"
         }
       ],
-      "safe_empty_blocked": true,
-      "candidate_count": 0,
-      "top5_product_kinds": [],
-      "duplicate_product_ids": false,
-      "passed": true
+      "excluded_count": 20
     },
     {
       "query": "정기예금 비교해",
@@ -13176,5 +13317,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "b0d935d36913e0efeeefdcfdb2cf35edabe3f4c05c560517708757e4b8e388d2"
+  "export_checksum": "a312d97f9f7f7c2f0cde1ffb65f559cb544ce3f765dbb6a241f49e40878999c0"
 }

@@ -197,10 +197,11 @@ const ENABLE_INSURANCE_DISCOVERY = true;
 const ENABLE_DEPOSIT_COMPARISON = true;
 const ENABLE_SAVING_COMPARISON = true;
 const ENABLE_PUBLIC_RECOMMENDATION = false;
+const EXCLUDED_SAMPLE_LIMIT = 10;
 const QUERY_PARSER_VERSION = "openfin-query-parser-v1.1.0";
 const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
 const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.1.0";
-const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.0";
+const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.1";
 
 let cachedGraph: CachedGraph | undefined;
 let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
@@ -557,6 +558,19 @@ function discoveryPreferenceState(item: FinanceItem, preference: string): "match
   return (tokens[preference] ?? [preference]).some((token) => discoveryItemText(item).includes(normalizeQuery(token))) ? "matched" : "unknown";
 }
 
+function discoveryDecisionReason(item: FinanceItem, field: string): Record<string, unknown> {
+  const values = discoveryValues(item, field === "benefit_category" ? "benefit_categories" : field);
+  const matchedValue = field === "product_kind" ? item.product_kind : values[0];
+  return {
+    constraint: field,
+    matched_value: matchedValue ?? null,
+    evidence_field: field,
+    evidence_text: typeof matchedValue === "string" ? matchedValue : undefined,
+    source_url: item.source_urls?.[0],
+    source_locator: item.source_basis_dates?.[0],
+  };
+}
+
 function discoveryPayload(query: string, items: readonly FinanceItem[], limit: number): Record<string, unknown> {
   const domain = discoveryDomainForQuery(query);
   const enabled = domain === "card" ? ENABLE_CARD_DISCOVERY : domain === "loan" ? ENABLE_LOAN_DISCOVERY : domain === "insurance" ? ENABLE_INSURANCE_DISCOVERY : true;
@@ -587,11 +601,14 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
     const eligibility = failed.length ? (failed.includes("product_kind") ? "related_candidate" : "excluded") : (unknown.length ? "partial_candidate" : "exact_candidate");
     const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
     const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" && item.verified_completeness_ratio === 1 ? "A" : item.verification_status === "verified" ? "B" : item.source_urls?.length ? "C" : "D";
-    let overall: "A" | "B" | "C" | "D" = relevance > verification ? relevance : verification;
+    const dataGrade = discoveryConfidence(item);
+    let overall: "A" | "B" | "C" | "D" = relevance;
+    if (verification > overall) overall = verification;
+    if (dataGrade > overall) overall = dataGrade;
     if (item.sales_verification_status === "listed_unverified" || !item.domain_gate_passed || ratio === 0) {
       overall = overall > "C" ? overall : "C";
     }
-    const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: discoveryConfidence(item), verification_grade: verification, overall_candidate_grade: overall, matched_constraints: matchedConstraints, unknown_constraints: unknown, failed_constraints: failed, decision_reasons: matchedConstraints.map((field) => ({ constraint: field, matched_value: field === "product_kind" ? item.product_kind : field, evidence_field: field })), limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
+    const decision = { mode: "discovery", eligibility, decision_scope: "discovery_only", score, relevance_grade: relevance, data_completeness_grade: dataGrade, verification_grade: verification, overall_candidate_grade: overall, matched_constraints: matchedConstraints, unknown_constraints: unknown, failed_constraints: failed, decision_reasons: matchedConstraints.map((field) => discoveryDecisionReason(item, field)), limitations: item.discovery_limitations ?? ["sales_status_unverified"] };
     if (eligibility === "excluded") {
       excludedSummary.hard_constraint_failed = (excludedSummary.hard_constraint_failed ?? 0) + 1;
       continue;
@@ -893,6 +910,40 @@ function recommendationScore(item: FinanceItem, profile: Record<string, unknown>
   return { score: Object.values(components).reduce((total, value) => total + value, 0), components };
 }
 
+function reasonCounts(excluded: readonly { readonly reason: string }[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const item of excluded) {
+    counts[item.reason] = (counts[item.reason] ?? 0) + 1;
+  }
+  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
+}
+
+function minimumVerifiedCount(domain: string): number {
+  if (domain === "deposit" || domain === "saving") return 30;
+  if (domain === "card" || domain === "loan" || domain === "insurance") return 20;
+  return 0;
+}
+
+function recommendationReadiness(domain: string, items: readonly FinanceItem[]): Record<string, number> {
+  return {
+    verified_active_product_count: items.filter((item) => item.sales_verification_status === "verified_active").length,
+    verification_evidence_product_count: items.filter((item) => isRecord(item.verification_evidence)).length,
+    public_recommendation_candidate_count: items.filter((item) => recommendationBlocker(item) === undefined).length,
+    minimum_required_count: minimumVerifiedCount(domain),
+  };
+}
+
+function nextRecommendationAction(domain: string, readiness: Record<string, number>): string {
+  return readiness.public_recommendation_candidate_count > 0 ? "Use verified public recommendation candidates." : `Complete ${domain} product verification pilot.`;
+}
+
+function comparisonBlockers(domain: string, excludedSummary: Record<string, number>): readonly Record<string, unknown>[] {
+  const salesNotVerified = excludedSummary.sales_not_verified ?? 0;
+  return salesNotVerified
+    ? [{ code: "NO_VERIFIED_ACTIVE_PRODUCTS", count: salesNotVerified, message: `판매상태가 검증된 ${domain === "deposit" ? "정기예금" : "적금"}이 없습니다.` }]
+    : [];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -1177,17 +1228,28 @@ function createServer(env: Env): McpServer {
       const data = await loadSearchIndex(env);
       const maxResults = limit ?? 5;
       const domainItems = data.items.filter((item) => domainMatches(item, domain));
+      const readiness = recommendationReadiness(domain, domainItems);
       if (!ENABLE_PUBLIC_RECOMMENDATION) {
+        const blockerCounts = {
+          domain_recommendation_not_enabled: domainItems.length,
+          sales_not_verified: domainItems.filter((item) => item.sales_verification_status !== "verified_active").length,
+          verification_evidence_missing: domainItems.filter((item) => !isRecord(item.verification_evidence)).length,
+          verified_completeness_incomplete: domainItems.filter((item) => item.verified_completeness_ratio !== 1).length,
+        };
         const payload = {
           domain,
+          domain_enabled: false,
           profile: profile ?? {},
           constraints: constraints ?? {},
           preferences: preferences ?? {},
           recommendation_model_version: "openfin-recommendation-v0.1.0",
           result_count: 0,
           candidates: [],
+          blocker_counts: blockerCounts,
+          readiness,
+          next_required_action: nextRecommendationAction(domain, readiness),
           excluded_count: domainItems.length,
-          excluded_sample: domainItems.slice(0, 20).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
+          excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
           warnings: ["No verified public recommendation candidates are available for this domain."],
         };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
@@ -1230,10 +1292,14 @@ function createServer(env: Env): McpServer {
         constraints: constraints ?? {},
         preferences: preferences ?? {},
         recommendation_model_version: "openfin-recommendation-v0.1.0",
+        domain_enabled: true,
         result_count: results.length,
         candidates: results,
+        blocker_counts: reasonCounts(excluded),
+        readiness,
+        next_required_action: nextRecommendationAction(domain, readiness),
         excluded_count: excluded.length,
-        excluded_sample: excluded.slice(0, 20),
+        excluded_sample: excluded.slice(0, EXCLUDED_SAMPLE_LIMIT),
         warnings: results.length ? [] : ["No verified public recommendation candidates are available for this domain."],
       };
       return {
@@ -1304,17 +1370,29 @@ function createServer(env: Env): McpServer {
         const rightRate = typeof right.achievable_rate_percent === "number" ? right.achievable_rate_percent : 0;
         return rightRate - leftRate || String(left.item_id).localeCompare(String(right.item_id));
       });
+      const sortedExcluded = excluded.sort((left, right) => left.item_id.localeCompare(right.item_id) || left.reason.localeCompare(right.reason));
+      const excludedSummary = reasonCounts(sortedExcluded);
+      const results = candidates.slice(0, limit ?? 10);
       const payload = {
         domain,
-        candidates: candidates.slice(0, limit ?? 10),
-        excluded: excluded.sort((left, right) => left.item_id.localeCompare(right.item_id) || left.reason.localeCompare(right.reason)),
+        candidates: results,
+        candidate_count: results.length,
+        result_count: results.length,
+        excluded_count: sortedExcluded.length,
+        excluded_summary: excludedSummary,
+        excluded_sample: sortedExcluded.slice(0, EXCLUDED_SAMPLE_LIMIT),
+        blockers: comparisonBlockers(domain, excludedSummary),
         assumptions: [
           "Achievable rate includes only user-declared preferential conditions.",
           "Missing preferential conditions are not assumed to be satisfied.",
         ],
         comparison_model_version: "openfin-comparison-v0.1.0",
         comparison_engine_version: COMPARISON_ENGINE_VERSION,
-        basis_date: data.basis_date,
+        ontology_basis_date: data.basis_date,
+        latest_product_collection_date: data.basis_date,
+        verification_basis_date: data.basis_date,
+        calculation_policy_basis_date: "2026-07-14",
+        executed_at: new Date().toISOString(),
         requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
         executed_mode: "deterministic_comparison",
       };

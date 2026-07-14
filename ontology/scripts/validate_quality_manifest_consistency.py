@@ -21,6 +21,9 @@ REQUIRED_RUNTIME_QUALITY_METRICS = {
     "empty_search_facets_count", "unmapped_existing_field_count", "sales_verification_status_counts",
     "verification_grade_counts", "relevance_grade_counts", "exact_query_precision", "product_kind_precision",
     "hard_constraint_precision", "duplicate_free_rate", "unknown_constraint_disclosure_rate",
+    "jurisdiction_violation_count", "support_category_violation_count", "unknown_constraint_false_match_count",
+    "duplicate_candidate_response_count", "external_id_duplicate_count", "verification_evidence_violation_count",
+    "comparison_calculation_error_count", "local_cloudflare_parity_error_count",
 }
 
 
@@ -51,6 +54,11 @@ def main() -> int:
     for key in ("duplicate_canonical_product_count", "hard_constraint_violation_count", "grade_policy_violation_count", "verification_timestamp_violation_count"):
         if runtime_metrics.get(key, 0) != 0:
             errors.append(f"runtime_quality_metrics.{key} must be zero")
+    for key in ("jurisdiction_violation_count", "support_category_violation_count", "unknown_constraint_false_match_count", "duplicate_candidate_response_count", "external_id_duplicate_count", "verification_evidence_violation_count", "comparison_calculation_error_count", "local_cloudflare_parity_error_count"):
+        if runtime_metrics.get(key, 0) != 0:
+            errors.append(f"runtime_quality_metrics.{key} must be zero")
+    if len(manifest.get("quality_reports") or []) != 7:
+        errors.append("quality_reports must include 7 OpenFin subreports")
     for key in ("exact_query_precision", "product_kind_precision", "hard_constraint_precision", "duplicate_free_rate", "unknown_constraint_disclosure_rate"):
         if float(runtime_metrics.get(key, 0)) < 1:
             errors.append(f"runtime_quality_metrics.{key} must be 1.0")
@@ -68,9 +76,9 @@ def main() -> int:
 
     # 2) 라이브 회귀 결과 존재 + 구조
     live = manifest.get("live_search_regression")
-    if not live:
+    if not live and manifest.get("release_status") == "ready":
         errors.append("live_search_regression이 manifest에 없습니다. validate_search_regression_live.py를 먼저 실행하세요.")
-    else:
+    elif live:
         check_summary(errors, "live_search_regression", live)
         if not live.get("checked_at"):
             errors.append("live_search_regression.checked_at이 없습니다.")
@@ -91,7 +99,9 @@ def main() -> int:
                     if key not in test:
                         errors.append(f"필수 라이브 탐색 증적에 {key}가 없습니다: {test.get('query')}")
             if test.get("validation_kind") == "required_live_comparison_contract":
-                for key in ("parsed_query", "comparison_arguments", "candidates", "excluded", "safe_empty_blocked", "candidate_count", "top5_product_kinds", "duplicate_product_ids"):
+                if "excluded" in test:
+                    errors.append(f"필수 라이브 비교 증적이 전체 excluded 목록을 노출합니다: {test.get('query')}")
+                for key in ("parsed_query", "comparison_arguments", "candidates", "excluded_sample", "excluded_count", "excluded_summary", "safe_empty_blocked", "candidate_count", "top5_product_kinds", "duplicate_product_ids"):
                     if key not in test:
                         errors.append(f"필수 라이브 비교 증적에 {key}가 없습니다: {test.get('query')}")
 

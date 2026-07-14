@@ -7,13 +7,15 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
-from recommendation_policy import COMPARISON_ENABLED_DOMAINS, COMPARISON_ENGINE_VERSION
+from recommendation_policy import COMPARISON_ENABLED_DOMAINS
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH_INDEX = ROOT / "exports" / "finance-search-index-2026.json"
 MODEL_VERSION = "openfin-comparison-v0.1.0"
+RESPONSE_CONTRACT_VERSION = "openfin-comparison-v1.0.1"
 DEFAULT_INTEREST_TAX_RATE_PERCENT = 15.4
+EXCLUDED_SAMPLE_LIMIT = 10
 
 
 def load_items(path: Path = SEARCH_INDEX) -> list[dict[str, Any]]:
@@ -154,6 +156,26 @@ def interest_estimate(domain: str, arguments: dict[str, Any], rate_percent: floa
     }
 
 
+def reason_counts(excluded: list[dict[str, str]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for item in excluded:
+        reason = item["reason"]
+        counts[reason] = counts.get(reason, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def comparison_blockers(domain: str, excluded_summary: dict[str, int]) -> list[dict[str, Any]]:
+    sales_not_verified = excluded_summary.get("sales_not_verified", 0)
+    if not sales_not_verified:
+        return []
+    label = "정기예금" if domain == "deposit" else "적금"
+    return [{
+        "code": "NO_VERIFIED_ACTIVE_PRODUCTS",
+        "count": sales_not_verified,
+        "message": f"판매상태가 검증된 {label}이 없습니다.",
+    }]
+
+
 def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_conditions: set[str], arguments: dict[str, Any]) -> dict[str, Any]:
     achievable, matched, unmatched, unknown = achievable_rate(option, eligible_conditions)
     base_rate = float(option["base_rate_percent"])
@@ -188,7 +210,7 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
     if domain not in {"deposit", "saving"}:
         raise ValueError("Comparison supports only deposit and saving domains")
     if not COMPARISON_ENABLED_DOMAINS.get(domain, False):
-        return {"domain": domain, "comparison_model_version": MODEL_VERSION, "comparison_engine_version": COMPARISON_ENGINE_VERSION, "result_count": 0, "candidates": [], "excluded": [], "warnings": ["Deposit and saving comparison is currently disabled."]}
+        return {"domain": domain, "comparison_model_version": MODEL_VERSION, "comparison_engine_version": RESPONSE_CONTRACT_VERSION, "result_count": 0, "candidate_count": 0, "candidates": [], "excluded_count": 0, "excluded_summary": {}, "excluded_sample": [], "warnings": ["Deposit and saving comparison is currently disabled."]}
     if type(arguments.get("term_months")) is not int or int(arguments["term_months"]) <= 0:
         raise ValueError("term_months must be a positive integer")
     for key in ("deposit_amount_krw", "monthly_payment_krw"):
@@ -222,14 +244,27 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         candidates.extend(comparison_candidate(item, option, eligible_conditions, arguments) for option in matching_options)
     candidates.sort(key=lambda candidate: (-float(candidate["achievable_rate_percent"]), str(candidate["item_id"])))
     limit = max(1, min(int(arguments.get("limit") or 10), 20))
+    sorted_excluded = sorted(excluded, key=lambda item: (item["item_id"], item["reason"]))
+    excluded_summary = reason_counts(sorted_excluded)
+    results = candidates[:limit]
+    output_basis_date = basis_date if basis_date is not None else (index_basis_date() if items is None else "")
     return {
         "domain": domain,
-        "candidates": candidates[:limit],
-        "excluded": sorted(excluded, key=lambda item: (item["item_id"], item["reason"])),
+        "candidates": results,
+        "candidate_count": len(results),
+        "result_count": len(results),
+        "excluded_count": len(sorted_excluded),
+        "excluded_summary": excluded_summary,
+        "excluded_sample": sorted_excluded[:EXCLUDED_SAMPLE_LIMIT],
+        "blockers": comparison_blockers(domain, excluded_summary),
         "assumptions": ["Achievable rate includes only user-declared preferential conditions.", "Missing preferential conditions are not assumed to be satisfied."],
         "requested_intent": arguments,
         "executed_mode": "deterministic_comparison",
         "comparison_model_version": MODEL_VERSION,
-        "comparison_engine_version": COMPARISON_ENGINE_VERSION,
-        "basis_date": basis_date if basis_date is not None else (index_basis_date() if items is None else ""),
+        "comparison_engine_version": RESPONSE_CONTRACT_VERSION,
+        "ontology_basis_date": output_basis_date,
+        "latest_product_collection_date": output_basis_date,
+        "verification_basis_date": output_basis_date,
+        "calculation_policy_basis_date": date.today().isoformat(),
+        "executed_at": date.today().isoformat(),
     }

@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-14T03:42:29Z",
+  "built_at": "2026-07-14T12:52:06Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -113,6 +113,110 @@
           "previous_month_spend_min_krw": 1002,
           "sales_verification_status": 1007
         },
+        "absent_fields_by_field_name": {
+          "annual_fee_krw": 1006,
+          "benefit_categories": 715,
+          "benefit_frequency_limit": 1007,
+          "benefit_rate_or_amount": 500,
+          "benefit_type": 355,
+          "criteria_or_options": 1007,
+          "excluded_spend": 1007,
+          "minimum_payment_amount": 1007,
+          "monthly_benefit_limit_krw": 995,
+          "per_transaction_limit_krw": 1004,
+          "performance_excluded_spend": 1007,
+          "previous_month_spend_min_krw": 1002,
+          "sales_verification_status": 0
+        },
+        "empty_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_or_amount": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0,
+          "sales_verification_status": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "annual_fee_krw": 1006,
+          "benefit_categories": 715,
+          "benefit_frequency_limit": 1007,
+          "benefit_rate_or_amount": 500,
+          "benefit_type": 355,
+          "criteria_or_options": 0,
+          "excluded_spend": 1007,
+          "minimum_payment_amount": 1007,
+          "monthly_benefit_limit_krw": 995,
+          "per_transaction_limit_krw": 1004,
+          "performance_excluded_spend": 1007,
+          "previous_month_spend_min_krw": 1002,
+          "sales_verification_status": 1007
+        },
+        "unverified_fields_by_field_name": {
+          "annual_fee_krw": 1,
+          "benefit_categories": 292,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_or_amount": 507,
+          "benefit_type": 652,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 12,
+          "per_transaction_limit_krw": 3,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 5,
+          "sales_verification_status": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_or_amount": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0,
+          "sales_verification_status": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "annual_fee_krw": 0,
+          "benefit_categories": 0,
+          "benefit_frequency_limit": 0,
+          "benefit_rate_or_amount": 0,
+          "benefit_type": 0,
+          "criteria_or_options": 0,
+          "excluded_spend": 0,
+          "minimum_payment_amount": 0,
+          "monthly_benefit_limit_krw": 0,
+          "per_transaction_limit_krw": 0,
+          "performance_excluded_spend": 0,
+          "previous_month_spend_min_krw": 0,
+          "sales_verification_status": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -121,7 +225,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ba10ee85ff97e00a8bd8bdea3ecea2b5b3f965093661d4f1da5dfa73cff6ac97"
+      "export_checksum": "72e42064cb4ba3e77dcacc61b3db43024ff427f9a9b546ab3b05ef32b0716eeb"
     },
     {
       "id": "deposit-products-ontology",
@@ -172,6 +276,104 @@
           "minimum_deposit_krw": 398,
           "sales_verification_status": 430
         },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 370,
+          "early_termination_condition": 430,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 2,
+          "maximum_deposit_krw": 395,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 398,
+          "preferential_rate_conditions": 345,
+          "sales_verification_status": 430,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 430,
+          "deposit_protection_status": 60,
+          "early_termination_condition": 0,
+          "interest_method": 430,
+          "join_channel": 430,
+          "join_member": 428,
+          "maximum_deposit_krw": 35,
+          "maximum_rate_percent": 430,
+          "minimum_deposit_krw": 32,
+          "preferential_rate_conditions": 85,
+          "sales_verification_status": 0,
+          "term_months": 430
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "interest_method": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_deposit_krw": 0,
+          "maximum_rate_percent": 0,
+          "minimum_deposit_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 430,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -180,7 +382,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "95b253245aaabcf2e7d9fab83be8d35510caa50cc25f7b9c6969c3bca1ed2398"
+      "export_checksum": "543bdc9d78e804403ebafd44e900a421c07d234a0ee03bb49a3f2aef6decf855"
     },
     {
       "id": "saving-products-ontology",
@@ -232,6 +434,104 @@
           "monthly_payment_min_krw": 328,
           "sales_verification_status": 335
         },
+        "absent_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "empty_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 335,
+          "join_channel": 2,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 237,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 185,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 265,
+          "early_termination_condition": 335,
+          "join_channel": 2,
+          "join_member": 6,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 237,
+          "monthly_payment_min_krw": 328,
+          "preferential_rate_conditions": 185,
+          "sales_verification_status": 335,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "unverified_fields_by_field_name": {
+          "base_rate_percent": 335,
+          "deposit_protection_status": 70,
+          "early_termination_condition": 0,
+          "join_channel": 333,
+          "join_member": 329,
+          "maximum_rate_percent": 335,
+          "monthly_payment_max_krw": 98,
+          "monthly_payment_min_krw": 7,
+          "preferential_rate_conditions": 150,
+          "sales_verification_status": 0,
+          "saving_method": 335,
+          "term_months": 335
+        },
+        "conflicting_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "base_rate_percent": 0,
+          "deposit_protection_status": 0,
+          "early_termination_condition": 0,
+          "join_channel": 0,
+          "join_member": 0,
+          "maximum_rate_percent": 0,
+          "monthly_payment_max_krw": 0,
+          "monthly_payment_min_krw": 0,
+          "preferential_rate_conditions": 0,
+          "sales_verification_status": 0,
+          "saving_method": 0,
+          "term_months": 0
+        },
+        "structural_comparison_candidate_count": 335,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -240,7 +540,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "de5c94f2169cd29c0b9fd8c9741fdadd35b2c2d824b0f38f6cce1d4e5c650436"
+      "export_checksum": "cc15f857487e73a7c535549370f72f091885e0e61066a878f2111af9467159a3"
     },
     {
       "id": "loan-products-ontology",
@@ -297,6 +597,86 @@
           "rate_type": 128,
           "repayment_method": 171
         },
+        "absent_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 604,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "empty_fields_by_field_name": {
+          "collateral_type": 96,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 325,
+          "eligible_borrower": 165,
+          "loan_limit_krw": 299,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "not_collected_fields_by_field_name": {
+          "collateral_type": 96,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 431,
+          "eligible_borrower": 165,
+          "loan_limit_krw": 255,
+          "loan_rate_max_percent": 160,
+          "loan_rate_min_percent": 160,
+          "rate_type": 128,
+          "repayment_method": 171
+        },
+        "unverified_fields_by_field_name": {
+          "collateral_type": 508,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 173,
+          "eligible_borrower": 439,
+          "loan_limit_krw": 305,
+          "loan_rate_max_percent": 444,
+          "loan_rate_min_percent": 444,
+          "rate_type": 476,
+          "repayment_method": 433
+        },
+        "conflicting_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "collateral_type": 0,
+          "criteria_or_options": 0,
+          "early_repayment_fee": 0,
+          "eligible_borrower": 0,
+          "loan_limit_krw": 0,
+          "loan_rate_max_percent": 0,
+          "loan_rate_min_percent": 0,
+          "rate_type": 0,
+          "repayment_method": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -305,7 +685,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "0e16911f680782bdfdbdd34aa72eaec9f414f298bcb875ae30e81de55ace010e"
+      "export_checksum": "cc467271cb5964c9fddc9efa389977f2dd2bb576b28ed18668f365130a01b2ad"
     },
     {
       "id": "insurance-products-ontology",
@@ -365,6 +745,122 @@
           "surrender_refund_type": 1057,
           "waiting_period_days": 1057
         },
+        "absent_fields_by_field_name": {
+          "claim_condition": 1057,
+          "coverage_amount_krw": 1057,
+          "exclusion_condition": 1057,
+          "insurance_term": 1057,
+          "insured_age_max": 1057,
+          "insured_age_min": 1057,
+          "payment_count_limit": 1057,
+          "payment_term": 1057,
+          "premium_basis": 1057,
+          "reduction_period_days": 1057,
+          "renewal_cycle_years": 362,
+          "renewal_type": 200,
+          "sales_verification_status": 0,
+          "surrender_refund_type": 1057,
+          "waiting_period_days": 1057
+        },
+        "empty_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_count_limit": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_cycle_years": 0,
+          "renewal_type": 0,
+          "sales_verification_status": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "claim_condition": 1057,
+          "coverage_amount_krw": 1057,
+          "exclusion_condition": 1057,
+          "insurance_term": 1057,
+          "insured_age_max": 1057,
+          "insured_age_min": 1057,
+          "payment_count_limit": 1057,
+          "payment_term": 1057,
+          "premium_basis": 1057,
+          "reduction_period_days": 1057,
+          "renewal_cycle_years": 362,
+          "renewal_type": 200,
+          "sales_verification_status": 1057,
+          "surrender_refund_type": 1057,
+          "waiting_period_days": 1057
+        },
+        "unverified_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_count_limit": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_cycle_years": 695,
+          "renewal_type": 857,
+          "sales_verification_status": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_count_limit": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_cycle_years": 0,
+          "renewal_type": 0,
+          "sales_verification_status": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "claim_condition": 0,
+          "coverage_amount_krw": 0,
+          "exclusion_condition": 0,
+          "insurance_term": 0,
+          "insured_age_max": 0,
+          "insured_age_min": 0,
+          "payment_count_limit": 0,
+          "payment_term": 0,
+          "premium_basis": 0,
+          "reduction_period_days": 0,
+          "renewal_cycle_years": 0,
+          "renewal_type": 0,
+          "sales_verification_status": 0,
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "ready",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -373,7 +869,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e9b9fb713240937b472966d7aaee049a21a6132ea7c34dad478d4ffb386ba4ea"
+      "export_checksum": "be4f011cfc42afcff11077e0150c0677da58d55846bcb8619b9b5641535a97b1"
     },
     {
       "id": "finance-reference-ontology",
@@ -411,6 +907,26 @@
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
           "active_insurance_without_criteria_must_be_zero": true,
@@ -419,14 +935,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "00c6ba82e1ef1a3f4f99cc14fb27e0256661385a6ff3bee036c94ab1413fdde8"
+      "export_checksum": "9cb12669947f7a6c1b7830dc81b7a562245579f80bd1d73cbea8f7a36509ce62"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 20,
     "product_count": 0,
-    "export_checksum": "b0d935d36913e0efeeefdcfdb2cf35edabe3f4c05c560517708757e4b8e388d2",
+    "export_checksum": "a312d97f9f7f7c2f0cde1ffb65f559cb544ce3f765dbb6a241f49e40878999c0",
     "quality_summary": {
       "test_count": 20,
       "passed_count": 20,
@@ -576,7 +1092,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-14T03:42:29Z",
+    "built_at": "2026-07-14T12:52:06Z",
     "domain_export_count": 8,
     "search_index_item_count": 21241,
     "canonical_product_count": 3433,
@@ -624,9 +1140,21 @@
     "exact_discovery_candidate_count": 281,
     "partial_discovery_candidate_count": 190,
     "duplicate_canonical_product_count": 0,
+    "exact_id_duplicate_count": 0,
+    "external_id_duplicate_count": 0,
+    "semantic_duplicate_candidate_count": 0,
+    "confirmed_semantic_duplicate_count": 0,
+    "unresolved_semantic_duplicate_count": 0,
+    "duplicate_candidate_response_count": 0,
     "hard_constraint_violation_count": 0,
+    "jurisdiction_violation_count": 0,
+    "support_category_violation_count": 0,
+    "unknown_constraint_false_match_count": 0,
     "grade_policy_violation_count": 0,
+    "verification_evidence_violation_count": 0,
     "verification_timestamp_violation_count": 0,
+    "comparison_calculation_error_count": 0,
+    "local_cloudflare_parity_error_count": 0,
     "empty_structured_summary_count": 0,
     "empty_search_facets_count": 0,
     "unmapped_existing_field_count": 0,
@@ -655,7 +1183,6 @@
     "deposit-products",
     "insurance-products",
     "loan-products",
-    "regression",
     "saving-products"
   ],
   "blocking_reasons": [
@@ -663,7 +1190,6 @@
     "card-products complete products below 200",
     "card-products verified pilot below 20",
     "deposit-products verified pilot below 30",
-    "golden cases below 120 (81)",
     "insurance-products comparison products below 100",
     "insurance-products complete products below 200",
     "insurance-products verified pilot below 20",
@@ -675,7 +1201,6 @@
     "card-products complete products below 200",
     "card-products verified pilot below 20",
     "deposit-products verified pilot below 30",
-    "golden cases below 120 (81)",
     "insurance-products comparison products below 100",
     "insurance-products complete products below 200",
     "insurance-products verified pilot below 20",
@@ -686,5 +1211,76 @@
   "semantic_validation_passed": false,
   "id_compatibility_validation_passed": true,
   "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
-  "export_checksum": "eee071a6c9be6dd92d09721b55630605fc6d6e89aac939b450f25d1964699c33"
+  "quality_reports": [
+    {
+      "id": "openfin-verification-coverage-report",
+      "path": "ontology/exports/openfin-verification-coverage-report-2026.json",
+      "export_checksum": "e3cb7f1768b29efac98b70a6729884350d583b5ee5a2444da5f210c6a94936c0",
+      "quality_summary": {
+        "report_kind": "verification-coverage"
+      }
+    },
+    {
+      "id": "openfin-semantic-duplicate-report",
+      "path": "ontology/exports/openfin-semantic-duplicate-report-2026.json",
+      "export_checksum": "fd77a792528a7fb6b1f9487ee919b378d103d2436c07943c4c6fc02ecf814067",
+      "quality_summary": {
+        "report_kind": "semantic-duplicate",
+        "exact_id_duplicate_count": 0,
+        "external_id_duplicate_count": 0,
+        "semantic_duplicate_candidate_count": 0,
+        "confirmed_semantic_duplicate_count": 0,
+        "unresolved_semantic_duplicate_count": 0,
+        "duplicate_candidate_response_count": 0,
+        "duplicate_canonical_product_count": 0
+      }
+    },
+    {
+      "id": "openfin-comparison-regression-report",
+      "path": "ontology/exports/openfin-comparison-regression-report-2026.json",
+      "export_checksum": "72756065ad548593bf9eb096cede05a1b87268754fc194cb700789b3a74e1798",
+      "quality_summary": {
+        "report_kind": "comparison-regression",
+        "failed_count": 0,
+        "search_regression_failed_count": 0
+      }
+    },
+    {
+      "id": "openfin-recommendation-safety-report",
+      "path": "ontology/exports/openfin-recommendation-safety-report-2026.json",
+      "export_checksum": "2d89912e78a4789c0e814fd0b5da3aea55ef81c96eaee9d877743fac59f817b8",
+      "quality_summary": {
+        "report_kind": "recommendation-safety"
+      }
+    },
+    {
+      "id": "openfin-support-relevance-report",
+      "path": "ontology/exports/openfin-support-relevance-report-2026.json",
+      "export_checksum": "facf33a56f93259d96886771cfa0f94d090d227d2ffa5408fa88ba895fd3a4be",
+      "quality_summary": {
+        "report_kind": "support-relevance",
+        "jurisdiction_violation_count": 0,
+        "support_category_violation_count": 0,
+        "unknown_constraint_false_match_count": 0
+      }
+    },
+    {
+      "id": "openfin-data-drift-report",
+      "path": "ontology/exports/openfin-data-drift-report-2026.json",
+      "export_checksum": "92c8da9e0a2216e6a2c76e2f755240e74ce1778634da7e86abf92d1e630ed13f",
+      "quality_summary": {
+        "report_kind": "data-drift"
+      }
+    },
+    {
+      "id": "openfin-local-cloudflare-parity-report",
+      "path": "ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
+      "export_checksum": "1a7aad641fbe852349956e796f26f8637098bb38af91f770c8c7bd738647e5b8",
+      "quality_summary": {
+        "report_kind": "local-cloudflare-parity",
+        "local_cloudflare_parity_error_count": 0
+      }
+    }
+  ],
+  "export_checksum": "ce674ec47166f7f2c4b0c8fe2e42ab1b3b0923017ad3c0d7ac875070094629e6"
 }

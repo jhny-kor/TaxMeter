@@ -30,10 +30,16 @@ def run_case(case: dict[str, Any]) -> list[str]:
     candidate_ids = [candidate["item_id"] for candidate in first["candidates"]]
     if candidate_ids != case["expected_candidate_ids"]:
         errors.append(f"{case['name']}: expected candidates {case['expected_candidate_ids']}, got {candidate_ids}")
-    excluded = {item["item_id"]: item["reason"] for item in first["excluded"]}
+    excluded = {item["item_id"]: item["reason"] for item in first["excluded_sample"]}
     for item_id, reason in (case.get("expected_excluded") or {}).items():
         if excluded.get(item_id) != reason:
             errors.append(f"{case['name']}: expected {item_id} exclusion {reason}, got {excluded.get(item_id)}")
+    if "excluded" in first:
+        errors.append(f"{case['name']}: public comparison response must not include full excluded list")
+    if len(first.get("excluded_sample") or []) > 10:
+        errors.append(f"{case['name']}: excluded_sample exceeds 10 entries")
+    if int(first.get("excluded_count") or 0) < len(first.get("excluded_sample") or []):
+        errors.append(f"{case['name']}: excluded_count is smaller than excluded_sample")
     rates = {candidate["item_id"]: candidate["achievable_rate_percent"] for candidate in first["candidates"]}
     for item_id, rate in (case.get("expected_achievable_rates") or {}).items():
         if rates.get(item_id) != rate:

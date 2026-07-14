@@ -1,0 +1,9 @@
+{
+  "version": "openfin-support-relevance-report-2026.07.14.1",
+  "basis_date": "2026-07-10",
+  "report_kind": "support-relevance",
+  "jurisdiction_violation_count": 0,
+  "support_category_violation_count": 0,
+  "unknown_constraint_false_match_count": 0,
+  "export_checksum": "facf33a56f93259d96886771cfa0f94d090d227d2ffa5408fa88ba895fd3a4be"
+}

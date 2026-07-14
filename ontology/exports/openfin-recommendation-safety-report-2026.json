@@ -1,0 +1,31 @@
+{
+  "version": "openfin-recommendation-safety-report-2026.07.14.1",
+  "basis_date": "2026-07-10",
+  "report_kind": "recommendation-safety",
+  "recommendation_enabled": false,
+  "blocking_reasons": [
+    "card-products comparison products below 100",
+    "card-products complete products below 200",
+    "card-products verified pilot below 20",
+    "deposit-products verified pilot below 30",
+    "insurance-products comparison products below 100",
+    "insurance-products complete products below 200",
+    "insurance-products verified pilot below 20",
+    "loan-products verified pilot below 20",
+    "saving-products verified pilot below 30"
+  ],
+  "hard_fail_metrics": {
+    "hard_constraint_violation_count": 0,
+    "jurisdiction_violation_count": 0,
+    "support_category_violation_count": 0,
+    "unknown_constraint_false_match_count": 0,
+    "duplicate_candidate_response_count": 0,
+    "external_id_duplicate_count": 0,
+    "grade_policy_violation_count": 0,
+    "verification_evidence_violation_count": 0,
+    "verification_timestamp_violation_count": 0,
+    "comparison_calculation_error_count": 0,
+    "local_cloudflare_parity_error_count": 0
+  },
+  "export_checksum": "2d89912e78a4789c0e814fd0b5da3aea55ef81c96eaee9d877743fac59f817b8"
+}

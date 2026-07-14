@@ -1,0 +1,9 @@
+{
+  "version": "openfin-comparison-regression-report-2026.07.14.1",
+  "basis_date": "2026-07-10",
+  "report_kind": "comparison-regression",
+  "comparison_engine_version": "openfin-comparison-v1.0.1",
+  "failed_count": 0,
+  "search_regression_failed_count": 0,
+  "export_checksum": "72756065ad548593bf9eb096cede05a1b87268754fc194cb700789b3a74e1798"
+}

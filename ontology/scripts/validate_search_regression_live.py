@@ -380,7 +380,7 @@ def main() -> int:
                 and (deposit_amount is None or candidate.get("deposit_limit") is None or candidate.get("deposit_limit") >= deposit_amount)
                 for candidate in candidates
             )
-            blocked = comparison.get("excluded") or []
+            blocked = comparison.get("excluded_sample") or []
             passed = candidates_ok or bool(regression.get("allow_empty_blocked")) and not candidates and bool(blocked)
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError) as error:
             comparison = {}
@@ -397,7 +397,9 @@ def main() -> int:
             "comparison_arguments": regression["arguments"],
             "parsed_query": {"original_query": query, "domain": regression["arguments"]["domain"], "hard_constraints": regression["arguments"]},
             "candidates": candidates[:5],
-            "excluded": blocked[:20],
+            "excluded_sample": blocked[:10],
+            "excluded_count": comparison.get("excluded_count"),
+            "excluded_summary": comparison.get("excluded_summary") or {},
             "safe_empty_blocked": bool(regression.get("allow_empty_blocked")) and not candidates and bool(blocked),
             "candidate_count": len(candidates),
             "top5_product_kinds": [candidate.get("product_kind") for candidate in candidates[:5]],

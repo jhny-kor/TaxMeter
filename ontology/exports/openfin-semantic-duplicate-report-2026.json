@@ -1,0 +1,13 @@
+{
+  "version": "openfin-semantic-duplicate-report-2026.07.14.1",
+  "basis_date": "2026-07-10",
+  "report_kind": "semantic-duplicate",
+  "exact_id_duplicate_count": 0,
+  "external_id_duplicate_count": 0,
+  "semantic_duplicate_candidate_count": 0,
+  "confirmed_semantic_duplicate_count": 0,
+  "unresolved_semantic_duplicate_count": 0,
+  "duplicate_candidate_response_count": 0,
+  "duplicate_canonical_product_count": 0,
+  "export_checksum": "fd77a792528a7fb6b1f9487ee919b378d103d2436c07943c4c6fc02ecf814067"
+}

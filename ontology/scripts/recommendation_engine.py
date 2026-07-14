@@ -14,6 +14,7 @@ from recommendation_profiles import normalize_domain, normalize_profile
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH_INDEX = ROOT / "exports" / "finance-search-index-2026.json"
 MODEL_VERSION = "openfin-recommendation-v0.1.0"
+EXCLUDED_SAMPLE_LIMIT = 10
 
 DOMAIN_TYPES = {
     "deposit": {"search_type": {"deposit"}, "type": {"bank-product"}},
@@ -86,6 +87,31 @@ def score_candidate(item: dict[str, Any], profile: dict[str, Any]) -> tuple[floa
     return score, components
 
 
+def reason_counts(excluded: list[dict[str, str]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for item in excluded:
+        reason = item["reason"]
+        counts[reason] = counts.get(reason, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def minimum_required_count(domain: str) -> int:
+    if domain in {"deposit", "saving"}:
+        return 30
+    if domain in {"card", "loan", "insurance"}:
+        return 20
+    return 0
+
+
+def readiness(domain: str, items: list[dict[str, Any]]) -> dict[str, int]:
+    return {
+        "verified_active_product_count": sum(1 for item in items if item.get("sales_verification_status") == "verified_active"),
+        "verification_evidence_product_count": sum(1 for item in items if isinstance(item.get("verification_evidence"), dict)),
+        "public_recommendation_candidate_count": sum(1 for item in items if public_recommendation_blocker(item) is None),
+        "minimum_required_count": minimum_required_count(domain),
+    }
+
+
 def recommend(
     domain: str,
     profile: dict[str, Any] | None = None,
@@ -98,18 +124,29 @@ def recommend(
     normalized_profile = normalize_profile(profile)
     source_items = items if items is not None else load_search_items()
     candidates = [item for item in source_items if matches_domain(item, normalized_domain)]
+    domain_readiness = readiness(normalized_domain, candidates)
 
     if normalized_domain in {"card", "loan", "insurance"}:
+        blocker_counts = {
+            "domain_recommendation_not_enabled": len(candidates),
+            "sales_not_verified": sum(1 for item in candidates if item.get("sales_verification_status") != "verified_active"),
+            "verification_evidence_missing": sum(1 for item in candidates if not isinstance(item.get("verification_evidence"), dict)),
+            "verified_completeness_incomplete": sum(1 for item in candidates if item.get("verified_completeness_ratio") != 1),
+        }
         return {
             "domain": normalized_domain,
+            "domain_enabled": False,
             "recommendation_model_version": MODEL_VERSION,
             "profile": normalized_profile,
             "constraints": constraints or {},
             "preferences": preferences or {},
             "result_count": 0,
             "candidates": [],
+            "blocker_counts": blocker_counts,
+            "readiness": domain_readiness,
+            "next_required_action": f"Complete {normalized_domain} product verification pilot.",
             "excluded_count": len(candidates),
-            "excluded_sample": [{"item_id": str(item.get("id")), "reason": "domain_recommendation_not_enabled"} for item in candidates[:20]],
+            "excluded_sample": [{"item_id": str(item.get("id")), "reason": "domain_recommendation_not_enabled"} for item in candidates[:EXCLUDED_SAMPLE_LIMIT]],
             "warnings": ["No verified public recommendation candidates are available for this domain."],
         }
 
@@ -142,10 +179,14 @@ def recommend(
         "profile": normalized_profile,
         "constraints": constraints or {},
         "preferences": preferences or {},
+        "domain_enabled": True,
         "result_count": len(results[:limit]),
         "candidates": results[:limit],
+        "blocker_counts": reason_counts(excluded),
+        "readiness": domain_readiness,
+        "next_required_action": "Use verified public recommendation candidates." if results else f"Complete {normalized_domain} product verification pilot.",
         "excluded_count": len(excluded),
-        "excluded_sample": excluded[:20],
+        "excluded_sample": excluded[:EXCLUDED_SAMPLE_LIMIT],
         "warnings": warnings,
     }
 

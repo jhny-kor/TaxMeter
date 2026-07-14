@@ -116,6 +116,19 @@ def benefit_state(item: dict[str, Any], preference: str) -> str:
     return "matched" if any(token.casefold() in candidate_text for token in tokens.get(preference, (preference,))) else "unknown"
 
 
+def decision_reason(item: dict[str, Any], field: str) -> dict[str, Any]:
+    field_values = values(item, "benefit_categories" if field == "benefit_category" else field)
+    matched_value = item.get("product_kind") if field == "product_kind" else (field_values[0] if field_values else None)
+    return {
+        "constraint": field,
+        "matched_value": matched_value,
+        "evidence_field": field,
+        "evidence_text": matched_value if isinstance(matched_value, str) else None,
+        "source_url": (item.get("source_urls") or [None])[0],
+        "source_locator": (item.get("source_basis_dates") or [None])[0],
+    }
+
+
 def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     if not current_listed(item):
         return "excluded", {"reason": "inactive_or_unlisted"}
@@ -133,12 +146,12 @@ def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[st
     else:
         eligibility = "exact_candidate"
     relevance = "A" if eligibility == "exact_candidate" else ("B" if eligibility == "partial_candidate" else "D")
+    data_grade = grade_data(item)
     verification = grade_verification(item)
-    overall = max(relevance, verification)
+    overall = max(relevance, data_grade, verification)
     if item.get("sales_verification_status") == "listed_unverified" or not item.get("domain_gate_passed") or float(item.get("verified_completeness_ratio") or 0) == 0:
         overall = max(overall, "C")
-    why = [{"constraint": field, "matched_value": item.get("product_kind") if field == "product_kind" else field, "evidence_field": field} for field in matched]
-    payload = {"mode": "discovery", "eligibility": eligibility, "decision_scope": "discovery_only", "score": len(matched) * 10 + round(float(item.get("normalized_completeness_ratio") or 0) * 10), "relevance_grade": relevance, "data_completeness_grade": grade_data(item), "verification_grade": verification, "overall_candidate_grade": overall, "matched_constraints": matched, "unknown_constraints": unknown, "failed_constraints": failed, "decision_reasons": why, "limitations": item.get("discovery_limitations") or ["sales_status_unverified"]}
+    payload = {"mode": "discovery", "eligibility": eligibility, "decision_scope": "discovery_only", "score": len(matched) * 10 + round(float(item.get("normalized_completeness_ratio") or 0) * 10), "relevance_grade": relevance, "data_completeness_grade": data_grade, "verification_grade": verification, "overall_candidate_grade": overall, "matched_constraints": matched, "unknown_constraints": unknown, "failed_constraints": failed, "decision_reasons": [decision_reason(item, field) for field in matched], "limitations": item.get("discovery_limitations") or ["sales_status_unverified"]}
     if eligibility == "excluded":
         payload["reason"] = "hard_constraint_failed"
     return eligibility, payload

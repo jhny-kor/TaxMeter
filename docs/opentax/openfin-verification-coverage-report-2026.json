@@ -1,0 +1,112 @@
+{
+  "version": "openfin-verification-coverage-report-2026.07.14.1",
+  "basis_date": "2026-07-10",
+  "report_kind": "verification-coverage",
+  "domain_summaries": [
+    {
+      "domain": "tax",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {},
+      "blockers": {}
+    },
+    {
+      "domain": "local-government-supports",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {},
+      "blockers": {}
+    },
+    {
+      "domain": "card-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "deposit-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "saving-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "loan-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "insurance-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "ready",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "finance-reference",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    }
+  ],
+  "export_checksum": "e3cb7f1768b29efac98b70a6729884350d583b5ee5a2444da5f210c6a94936c0"
+}
