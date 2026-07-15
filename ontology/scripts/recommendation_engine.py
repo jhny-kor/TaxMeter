@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 import argparse
-import json
 from datetime import date
 from pathlib import Path
 from typing import Any
 
 from recommendation_explanations import recommendation_warning, result_explanation
 from recommendation_profiles import normalize_domain, normalize_profile
+from search_index_loader import load_search_index_items
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,8 +27,7 @@ DOMAIN_TYPES = {
 
 
 def load_search_items(path: Path = SEARCH_INDEX) -> list[dict[str, Any]]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    return [item for item in payload.get("items") or [] if isinstance(item, dict)]
+    return load_search_index_items(path)
 
 
 def matches_domain(item: dict[str, Any], domain: str) -> bool:

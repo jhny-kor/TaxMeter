@@ -116,6 +116,17 @@ type ManifestEntry = {
   item_count?: number;
   product_count?: number;
   description?: string;
+  shards?: SearchIndexShard[];
+};
+
+type SearchIndexShard = {
+  id: string;
+  shard_id: string;
+  path: string;
+  url?: string;
+  web_url?: string;
+  item_count?: number;
+  export_checksum?: string;
 };
 
 type FinanceManifest = {
@@ -145,6 +156,14 @@ type SearchIndex = {
   version: string;
   basis_date: string;
   items: FinanceItem[];
+  shards?: SearchIndexShard[];
+};
+
+type SearchIndexFile = {
+  version: string;
+  basis_date: string;
+  items?: FinanceItem[];
+  shards?: SearchIndexShard[];
 };
 
 type CachedSearchIndex = {
@@ -722,7 +741,7 @@ async function loadFinanceManifest(env: Env): Promise<FinanceManifest> {
   return manifest;
 }
 
-function resolveExportUrl(entry: ManifestEntry, manifestUrl: string): string {
+function resolveExportUrl(entry: { path: string; url?: string; web_url?: string }, manifestUrl: string): string {
   if (entry.web_url) {
     return entry.web_url;
   }
@@ -744,9 +763,20 @@ async function loadSearchIndex(env: Env): Promise<SearchIndex> {
     return { version: graph.version, basis_date: graph.basis_date, items: graph.items };
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const data = await fetchJson<SearchIndex>(indexUrl);
-  cachedSearchIndex = { data, loadedAt: now };
-  return data;
+  const data = await fetchJson<SearchIndexFile>(indexUrl);
+  if (data.items) {
+    cachedSearchIndex = { data: { ...data, items: data.items }, loadedAt: now };
+    return cachedSearchIndex.data;
+  }
+  const items: FinanceItem[] = [];
+  for (const shard of data.shards ?? manifest.search_index.shards ?? []) {
+    const shardUrl = resolveExportUrl(shard, manifestUrl);
+    const shardData = await fetchJson<SearchIndexFile>(shardUrl);
+    items.push(...(shardData.items ?? []));
+  }
+  const combined = { ...data, items };
+  cachedSearchIndex = { data: combined, loadedAt: now };
+  return combined;
 }
 
 async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {

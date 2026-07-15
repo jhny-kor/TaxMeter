@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from discovery_recommendation_engine import discover
+from search_index_loader import load_search_index_items
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,7 +14,7 @@ CASES = ROOT / "tests/discovery_golden_cases.json"
 
 
 def main() -> int:
-    items = json.loads(INDEX.read_text(encoding="utf-8")).get("items") or []
+    items = load_search_index_items(INDEX)
     cases = json.loads(CASES.read_text(encoding="utf-8"))
     errors: list[str] = []
     for case in cases:

@@ -24,6 +24,7 @@ from canonical_product_registry import canonicalize_product_records, merge_produ
 from calculate_recommendation_completeness import enrich_products
 from discovery_recommendation_engine import discover
 from recommendation_policy import COMPARISON_ENGINE_VERSION
+from search_index_loader import load_search_index_items
 from typing import Iterable
 
 
@@ -48,6 +49,7 @@ INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
+SEARCH_INDEX_SHARD_PREFIX = "finance-search-index-2026"
 QUALITY_MANIFEST_EXPORT = EXPORT_DIR / "openfin-quality-manifest-2026.json"
 SEARCH_REGRESSION_REPORT_EXPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
 QUALITY_REPORT_EXPORTS = {
@@ -58,6 +60,14 @@ QUALITY_REPORT_EXPORTS = {
     "openfin-support-relevance-report": EXPORT_DIR / "openfin-support-relevance-report-2026.json",
     "openfin-data-drift-report": EXPORT_DIR / "openfin-data-drift-report-2026.json",
     "openfin-local-cloudflare-parity-report": EXPORT_DIR / "openfin-local-cloudflare-parity-report-2026.json",
+}
+SEARCH_INDEX_SHARDS = {
+    "support": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-support.json",
+    "deposit-protection": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-deposit-protection.json",
+    "bank-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-bank-products.json",
+    "card-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-card-products.json",
+    "insurance-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-insurance-products.json",
+    "reference": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-reference.json",
 }
 HARD_FAIL_METRICS = (
     "hard_constraint_violation_count",
@@ -2662,6 +2672,20 @@ def load_export_items(path: Path) -> list[dict]:
     return [*(payload.get("reference_items") or []), *(payload.get("items") or [])]
 
 
+def search_index_shard_id(item: dict) -> str:
+    if item.get("type") == "support-program":
+        return "support"
+    if item.get("search_type") == "deposit-protection":
+        return "deposit-protection"
+    if item.get("type") == "bank-product":
+        return "bank-products"
+    if item.get("type") == "card-product":
+        return "card-products"
+    if item.get("type") == "insurance-product":
+        return "insurance-products"
+    return "reference"
+
+
 def existing_export_quality_summary(path: Path) -> dict:
     if not path.exists():
         return {}
@@ -2735,7 +2759,35 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
         "items": sorted(indexed, key=lambda item: item["id"]),
     }
     payload["export_checksum"] = payload_checksum(payload)
-    SEARCH_INDEX_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    grouped: dict[str, list[dict]] = {shard_id: [] for shard_id in SEARCH_INDEX_SHARDS}
+    for item in payload["items"]:
+        grouped[search_index_shard_id(item)].append(item)
+    shards = []
+    for shard_id, shard_path in SEARCH_INDEX_SHARDS.items():
+        shard_payload = {
+            "version": payload["version"],
+            "basis_date": payload["basis_date"],
+            "source_review_date": payload["source_review_date"],
+            "ontology_kind": "finance-search-index-shard",
+            "shard_id": shard_id,
+            "item_count": len(grouped[shard_id]),
+            "items": grouped[shard_id],
+        }
+        shard_payload["export_checksum"] = payload_checksum(shard_payload)
+        shard_path.write_text(json.dumps(shard_payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+        shard_relative = str(shard_path.relative_to(REPO_ROOT))
+        shards.append({
+            "id": f"finance-search-index-{shard_id}",
+            "shard_id": shard_id,
+            "path": shard_relative,
+            "url": f"{RAW_BASE_URL}/{shard_relative}",
+            "web_url": f"{WEB_BASE_URL}/{shard_path.name}",
+            "item_count": len(grouped[shard_id]),
+            "export_checksum": shard_payload["export_checksum"],
+        })
+    manifest_payload = {key: value for key, value in payload.items() if key != "items"}
+    manifest_payload["shards"] = shards
+    SEARCH_INDEX_EXPORT.write_text(json.dumps(manifest_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
         "path": str(SEARCH_INDEX_EXPORT.relative_to(REPO_ROOT)),
         "item_count": len(indexed),
@@ -2743,13 +2795,13 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
         "canonical_product_count": payload["canonical_product_count"],
         "duplicate_canonical_product_count": payload["duplicate_canonical_product_count"],
         "export_checksum": payload["export_checksum"],
+        "shards": shards,
     }
 
 
 def write_search_regression_report() -> dict:
     previous_report = json.loads(SEARCH_REGRESSION_REPORT_EXPORT.read_text(encoding="utf-8")) if SEARCH_REGRESSION_REPORT_EXPORT.exists() else {}
-    index_payload = json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8"))
-    items = index_payload.get("items") or []
+    items = load_search_index_items(SEARCH_INDEX_EXPORT)
     tests = []
     for query, expected_id, type_filter in TAX_SEARCH_REGRESSIONS:
         allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
@@ -3025,7 +3077,7 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
 
 
 def runtime_quality_metrics() -> dict:
-    items = (json.loads(SEARCH_INDEX_EXPORT.read_text(encoding="utf-8")).get("items") or [])
+    items = load_search_index_items(SEARCH_INDEX_EXPORT)
     cases = json.loads((ROOT / "tests" / "discovery_golden_cases.json").read_text(encoding="utf-8"))
     exact_count = partial_count = hard_violations = grade_violations = 0
     exact_checks = exact_kind_checks = exact_kind_matches = unknown_disclosures = 0
@@ -3471,17 +3523,20 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 "needed_for": "숨은 금융자산, 소비자 보호 안내, 금융생활 위험 신호 연결",
             },
         ],
-        "search_index": export_entry(
-            "finance-search-index",
-            "search-index",
-            search_index["path"],
-            search_index["item_count"],
-            0,
-            "MCP search 전용 경량 인덱스입니다.",
-            [],
-            {},
-            search_index.get("export_checksum"),
-        ),
+        "search_index": {
+            **export_entry(
+                "finance-search-index",
+                "search-index",
+                search_index["path"],
+                search_index["item_count"],
+                0,
+                "MCP search 전용 경량 인덱스입니다.",
+                [],
+                {},
+                search_index.get("export_checksum"),
+            ),
+            "shards": search_index.get("shards") or [],
+        },
         "quality_exports": [
             export_entry(
                 "openfin-search-regression-report",
@@ -3620,7 +3675,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
+    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, *SEARCH_INDEX_SHARDS.values(), MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 

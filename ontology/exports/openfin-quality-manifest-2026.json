@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-14T13:05:37Z",
+  "built_at": "2026-07-15T04:00:56Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -1093,7 +1093,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-14T13:05:37Z",
+    "built_at": "2026-07-15T04:00:56Z",
     "domain_export_count": 8,
     "search_index_item_count": 21241,
     "canonical_product_count": 3433,
@@ -1272,5 +1272,5 @@
       }
     }
   ],
-  "export_checksum": "c85fb09a16755355e59ced8c7979885cdac934c565feb1a1c3801273cbc6ea33"
+  "export_checksum": "6fe88745ff0bb9d84103e8ca610daf2a084905b8fc8d36979179eb692284d828"
 }

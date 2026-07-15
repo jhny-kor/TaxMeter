@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 from validate_recommendation_contract import validate_contract
+from search_index_loader import load_search_index_items
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -279,7 +280,21 @@ def validate_manifest(errors: list[str]) -> list[dict]:
         require(path.exists(), f"search_index missing export file {search_index_path}", errors)
         if path.exists():
             index_payload = load_json(path)
-            require(index_payload.get("item_count") == len(index_payload.get("items") or []), "search_index item_count mismatch", errors)
+            shards = index_payload.get("shards") or []
+            if shards:
+                shard_total = 0
+                for shard in shards:
+                    shard_path = ROOT.parent / str(shard.get("path") or "")
+                    require(shard_path.exists(), f"search_index missing shard file {shard.get('path')}", errors)
+                    if shard_path.exists():
+                        shard_payload = load_json(shard_path)
+                        shard_items = shard_payload.get("items") or []
+                        shard_total += len(shard_items)
+                        require(shard.get("item_count") == len(shard_items), f"search_index shard item_count mismatch {shard.get('path')}", errors)
+                        require(shard_path.stat().st_size < 50 * 1024 * 1024, f"search_index shard exceeds 50 MiB {shard.get('path')}", errors)
+                require(index_payload.get("item_count") == shard_total, "search_index shard total mismatch", errors)
+            else:
+                require(index_payload.get("item_count") == len(index_payload.get("items") or []), "search_index item_count mismatch", errors)
             require(bool(search_index.get("web_url")), "search_index missing web url", errors)
     quality_summary = payload.get("quality_summary") or {}
     require(bool(quality_summary.get("search_regression_tests")), "manifest missing search_regression_tests", errors)
@@ -408,8 +423,7 @@ def validate_search_regressions(errors: list[str]) -> None:
     require(SEARCH_INDEX.exists(), f"missing {SEARCH_INDEX}", errors)
     if not SEARCH_INDEX.exists():
         return
-    payload = load_json(SEARCH_INDEX)
-    items = payload.get("items") or []
+    items = load_search_index_items(SEARCH_INDEX)
     for regression in SEARCH_REGRESSIONS:
         query = regression["query"]
         type_filter = regression.get("type_filter")

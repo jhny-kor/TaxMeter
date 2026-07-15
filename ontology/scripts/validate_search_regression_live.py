@@ -24,6 +24,7 @@ from build_finance_ontology import (  # noqa: E402
     TAX_SEARCH_REGRESSIONS,
     payload_checksum,
 )
+from search_index_loader import load_search_index_payload  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REGRESSION_REPORT = REPO_ROOT / "ontology/exports/openfin-search-regression-report-2026.json"
@@ -187,7 +188,7 @@ def main() -> int:
 
     checked_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
     tests = []
-    search_index = json.loads(SEARCH_INDEX.read_text(encoding="utf-8"))
+    search_index = load_search_index_payload(SEARCH_INDEX)
     expected_checksum = search_index.get("export_checksum")
     runtime_exports = client.exports()
     actual_checksum = (runtime_exports.get("search_index") or {}).get("export_checksum")

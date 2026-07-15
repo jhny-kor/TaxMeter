@@ -19,6 +19,12 @@ FINANCE_MANIFEST_PATH = ONTOLOGY_ROOT / "exports" / "finance-ontology-manifest.j
 FINANCE_EXPORT_FILENAMES = (
     "finance-ontology-manifest.json",
     "finance-search-index-2026.json",
+    "finance-search-index-2026-support.json",
+    "finance-search-index-2026-deposit-protection.json",
+    "finance-search-index-2026-bank-products.json",
+    "finance-search-index-2026-card-products.json",
+    "finance-search-index-2026-insurance-products.json",
+    "finance-search-index-2026-reference.json",
     "korea-card-products-ontology-2026.json",
     "korea-deposit-products-ontology-2026.json",
     "korea-saving-products-ontology-2026.json",

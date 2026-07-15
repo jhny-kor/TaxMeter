@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from recommendation_policy import COMPARISON_ENABLED_DOMAINS
+from search_index_loader import load_search_index_items, search_index_basis_date
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,12 +20,11 @@ EXCLUDED_SAMPLE_LIMIT = 10
 
 
 def load_items(path: Path = SEARCH_INDEX) -> list[dict[str, Any]]:
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    return [item for item in payload.get("items") or [] if isinstance(item, dict)]
+    return load_search_index_items(path)
 
 
 def index_basis_date(path: Path = SEARCH_INDEX) -> str:
-    return str(json.loads(path.read_text(encoding="utf-8")).get("basis_date") or "")
+    return search_index_basis_date(path)
 
 
 def verification_evidence_blocker(item: dict[str, Any]) -> str | None:

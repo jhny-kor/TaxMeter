@@ -5,12 +5,12 @@
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_finance_ontology import SEARCH_TYPE_GROUPS, score_search_index_item  # noqa: E402
+from search_index_loader import load_search_index_items  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SEARCH_INDEX = REPO_ROOT / "ontology/exports/finance-search-index-2026.json"
@@ -25,7 +25,7 @@ TYPED_REGRESSIONS = (
 
 
 def main() -> int:
-    items = json.loads(SEARCH_INDEX.read_text(encoding="utf-8"))["items"]
+    items = load_search_index_items(SEARCH_INDEX)
     failures = []
     for query, type_filter, expected_id in TYPED_REGRESSIONS:
         allowed = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter})

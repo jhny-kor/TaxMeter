@@ -29,6 +29,7 @@ sys.path.insert(0, str(SCRIPTS))
 
 from product_comparison_engine import compare as compare_products
 from discovery_recommendation_engine import discover, is_discovery_query
+from search_index_loader import load_search_index_items, load_search_index_payload
 
 try:
     from .scripts.generate_vault import build_all_items, expected_note_path  # type: ignore
@@ -382,8 +383,7 @@ def export_summary() -> dict[str, Any]:
 def load_finance_search_items() -> list[dict[str, Any]]:
     if not FINANCE_SEARCH_INDEX_PATH.exists():
         raise ToolError(f"Finance search index does not exist: {FINANCE_SEARCH_INDEX_PATH}")
-    payload = json.loads(FINANCE_SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
-    return [item for item in payload.get("items") or [] if isinstance(item, dict)]
+    return load_search_index_items(FINANCE_SEARCH_INDEX_PATH)
 
 
 def finance_domain_matches(item: dict[str, Any], domain: str) -> bool:
@@ -498,7 +498,7 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
 
 
 def compare_finance(arguments: dict[str, Any]) -> dict[str, Any]:
-    payload = json.loads(FINANCE_SEARCH_INDEX_PATH.read_text(encoding="utf-8"))
+    payload = load_search_index_payload(FINANCE_SEARCH_INDEX_PATH)
     items = [item for item in payload.get("items") or [] if isinstance(item, dict)]
     return compare_products(arguments, items=items, basis_date=str(payload.get("basis_date") or ""))
 

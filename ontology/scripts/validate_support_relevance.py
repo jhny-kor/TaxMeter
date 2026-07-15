@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
+from search_index_loader import load_search_index_items
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "exports/finance-search-index-2026.json"
 
 
 def main() -> int:
-    items = json.loads(INDEX.read_text(encoding="utf-8")).get("items") or []
+    items = load_search_index_items(INDEX)
     errors: list[str] = []
     for item in items:
         if not isinstance(item, dict) or item.get("type") != "support-program":

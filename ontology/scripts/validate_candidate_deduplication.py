@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from discovery_recommendation_engine import discover
+from search_index_loader import load_search_index_items
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,7 +12,7 @@ QUERIES = ("마일리지 체크카드 추천", "직장인 신용대출 추천", 
 
 
 def main() -> int:
-    items = json.loads((ROOT / "exports" / "finance-search-index-2026.json").read_text(encoding="utf-8")).get("items") or []
+    items = load_search_index_items(ROOT / "exports" / "finance-search-index-2026.json")
     errors: list[str] = []
     for query in QUERIES:
         payload = discover(query, items, limit=50)
