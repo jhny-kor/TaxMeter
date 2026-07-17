@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "python3 ../../ontology/scripts/verify_openfin_release.py --require-live && wrangler deploy",
+    "deploy": "python3 ../../ontology/scripts/verify_openfin_release.py --require-live && wrangler deploy && npm run smoke",
+    "smoke": "python3 ../../ontology/scripts/smoke_finance_mcp.py",
     "test": "tsc --noEmit",
     "typecheck": "tsc --noEmit"
   },

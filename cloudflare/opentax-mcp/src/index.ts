@@ -152,23 +152,22 @@ type CachedGraph = {
   loadedAt: number;
 };
 
-type SearchIndex = {
-  version: string;
-  basis_date: string;
-  items: FinanceItem[];
-  shards?: SearchIndexShard[];
-};
-
 type SearchIndexFile = {
-  version: string;
-  basis_date: string;
-  items?: FinanceItem[];
-  shards?: SearchIndexShard[];
+  readonly version: string;
+  readonly basis_date: string;
+  readonly item_count?: number;
+  readonly items?: readonly FinanceItem[];
+  readonly shards?: readonly SearchIndexShard[];
 };
 
-type CachedSearchIndex = {
-  data: SearchIndex;
-  loadedAt: number;
+type CachedSearchIndexMetadata = {
+  readonly data: SearchIndexFile;
+  readonly loadedAt: number;
+};
+
+type CachedSearchItems = {
+  readonly items: readonly FinanceItem[];
+  readonly loadedAt: number;
 };
 
 type SearchFilters = {
@@ -224,7 +223,8 @@ const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.1";
 
 let cachedGraph: CachedGraph | undefined;
 let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
-let cachedSearchIndex: CachedSearchIndex | undefined;
+let cachedSearchIndexMetadata: CachedSearchIndexMetadata | undefined;
+let cachedSearchItems: CachedSearchItems | undefined;
 
 function jsonText(value: unknown): string {
   return JSON.stringify(value, null, 2);
@@ -751,32 +751,138 @@ function resolveExportUrl(entry: { path: string; url?: string; web_url?: string 
   return new URL(entry.path, manifestUrl).toString();
 }
 
-async function loadSearchIndex(env: Env): Promise<SearchIndex> {
+class SearchIndexContractError extends Error {
+  readonly name = "SearchIndexContractError";
+
+  constructor(readonly detail: string) {
+    super(`Finance search-index contract error: ${detail}`);
+  }
+}
+
+function isFinanceItem(value: unknown): value is FinanceItem {
+  return isRecord(value) && typeof value.id === "string" && typeof value.title === "string" && typeof value.type === "string";
+}
+
+function parseSearchItems(value: unknown, source: string): readonly FinanceItem[] {
+  const items = Array.isArray(value) ? value : isRecord(value) ? value.items : undefined;
+  if (!Array.isArray(items) || !items.every(isFinanceItem)) {
+    throw new SearchIndexContractError(`${source} must be a raw item array or an object with an items array`);
+  }
+  return items;
+}
+
+function parseSearchShard(value: unknown, source: string): SearchIndexShard {
+  if (!isRecord(value) || typeof value.id !== "string" || typeof value.shard_id !== "string" || typeof value.path !== "string") {
+    throw new SearchIndexContractError(`${source} must include id, shard_id, path, and integer item_count`);
+  }
+  const itemCount = value.item_count;
+  if (typeof itemCount !== "number" || !Number.isInteger(itemCount)) {
+    throw new SearchIndexContractError(`${source} must include id, shard_id, path, and integer item_count`);
+  }
+  if (value.url !== undefined && typeof value.url !== "string") {
+    throw new SearchIndexContractError(`${source}.url must be a string when present`);
+  }
+  if (value.web_url !== undefined && typeof value.web_url !== "string") {
+    throw new SearchIndexContractError(`${source}.web_url must be a string when present`);
+  }
+  if (value.export_checksum !== undefined && typeof value.export_checksum !== "string") {
+    throw new SearchIndexContractError(`${source}.export_checksum must be a string when present`);
+  }
+  return {
+    id: value.id,
+    shard_id: value.shard_id,
+    path: value.path,
+    url: value.url,
+    web_url: value.web_url,
+    item_count: itemCount,
+    export_checksum: value.export_checksum,
+  };
+}
+
+function parseSearchIndexFile(value: unknown, source: string): SearchIndexFile {
+  if (!isRecord(value) || typeof value.version !== "string" || typeof value.basis_date !== "string") {
+    throw new SearchIndexContractError(`${source} must include version and basis_date`);
+  }
+  const itemCount = value.item_count;
+  if (itemCount !== undefined && (typeof itemCount !== "number" || !Number.isInteger(itemCount))) {
+    throw new SearchIndexContractError(`${source}.item_count must be an integer when present`);
+  }
+  const items = value.items === undefined ? undefined : parseSearchItems(value.items, `${source}.items`);
+  const shards = value.shards === undefined
+    ? undefined
+    : Array.isArray(value.shards)
+      ? value.shards.map((shard, index) => parseSearchShard(shard, `${source}.shards[${index}]`))
+      : (() => { throw new SearchIndexContractError(`${source}.shards must be an array when present`); })();
+  return { version: value.version, basis_date: value.basis_date, item_count: itemCount, items, shards };
+}
+
+function assertSearchItemCount(actual: number, expected: number | undefined, source: string): void {
+  if (!Number.isInteger(expected)) {
+    throw new SearchIndexContractError(`${source} is missing integer item_count`);
+  }
+  if (actual !== expected) {
+    throw new SearchIndexContractError(`${source} item_count=${expected} but hydrated ${actual} items`);
+  }
+}
+
+function assertEmbeddedItemCount(value: unknown, items: readonly FinanceItem[], source: string): void {
+  if (!isRecord(value) || value.item_count === undefined) return;
+  if (typeof value.item_count !== "number") {
+    throw new SearchIndexContractError(`${source}.item_count must be an integer when present`);
+  }
+  assertSearchItemCount(items.length, value.item_count, source);
+}
+
+async function loadSearchIndexMetadata(env: Env): Promise<SearchIndexFile> {
   const now = Date.now();
-  if (cachedSearchIndex && now - cachedSearchIndex.loadedAt < CACHE_TTL_MS) {
-    return cachedSearchIndex.data;
+  if (cachedSearchIndexMetadata && now - cachedSearchIndexMetadata.loadedAt < CACHE_TTL_MS) {
+    return cachedSearchIndexMetadata.data;
   }
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
   if (!manifest.search_index) {
-    const graph = await loadFinanceGraph(env);
-    return { version: graph.version, basis_date: graph.basis_date, items: graph.items };
+    throw new SearchIndexContractError("finance manifest is missing search_index metadata");
   }
   const indexUrl = resolveExportUrl(manifest.search_index, manifestUrl);
-  const data = await fetchJson<SearchIndexFile>(indexUrl);
-  if (data.items) {
-    cachedSearchIndex = { data: { ...data, items: data.items }, loadedAt: now };
-    return cachedSearchIndex.data;
+  const data = parseSearchIndexFile(await fetchJson<unknown>(indexUrl), indexUrl);
+  cachedSearchIndexMetadata = { data, loadedAt: now };
+  return data;
+}
+
+async function loadSearchItems(env: Env): Promise<readonly FinanceItem[]> {
+  const now = Date.now();
+  if (cachedSearchItems && now - cachedSearchItems.loadedAt < CACHE_TTL_MS) {
+    return cachedSearchItems.items;
   }
-  const items: FinanceItem[] = [];
-  for (const shard of data.shards ?? manifest.search_index.shards ?? []) {
+
+  const manifestUrl = financeManifestUrl(env);
+  const manifest = await loadFinanceManifest(env);
+  const metadata = await loadSearchIndexMetadata(env);
+  const inlineItems = metadata.items;
+  if (inlineItems) {
+    assertSearchItemCount(inlineItems.length, metadata.item_count, "search-index root");
+    assertSearchItemCount(inlineItems.length, manifest.search_index?.item_count, "finance manifest search_index");
+    cachedSearchItems = { items: inlineItems, loadedAt: now };
+    return inlineItems;
+  }
+
+  const shards = metadata.shards ?? manifest.search_index?.shards;
+  if (!shards?.length) {
+    throw new SearchIndexContractError("search-index manifest has neither inline items nor shards");
+  }
+  const shardItems = await Promise.all(shards.map(async (shard) => {
     const shardUrl = resolveExportUrl(shard, manifestUrl);
-    const shardData = await fetchJson<SearchIndexFile>(shardUrl);
-    items.push(...(shardData.items ?? []));
-  }
-  const combined = { ...data, items };
-  cachedSearchIndex = { data: combined, loadedAt: now };
-  return combined;
+    const payload = await fetchJson<unknown>(shardUrl);
+    const items = parseSearchItems(payload, shardUrl);
+    assertSearchItemCount(items.length, shard.item_count, `search-index shard ${shard.shard_id}`);
+    assertEmbeddedItemCount(payload, items, `search-index shard ${shard.shard_id}`);
+    return items;
+  }));
+  const items = shardItems.flat();
+  assertSearchItemCount(items.length, metadata.item_count, "search-index root");
+  assertSearchItemCount(items.length, manifest.search_index?.item_count, "finance manifest search_index");
+  cachedSearchItems = { items, loadedAt: now };
+  return items;
 }
 
 async function loadFinanceGraph(env: Env): Promise<FinanceGraph> {
@@ -839,9 +945,9 @@ function itemAliases(item: FinanceItem): readonly string[] {
   return [...(item.legacy_ids ?? []), ...(item.search_aliases ?? []), ...(item.aliases ?? [])];
 }
 
-function resolveCanonicalItemId(rawId: string, searchIndex: SearchIndex): FinanceItem | undefined {
+function resolveCanonicalItemId(rawId: string, items: readonly FinanceItem[]): FinanceItem | undefined {
   const itemId = normalizeQuery(resolveItemId(rawId));
-  return searchIndex.items.find(
+  return items.find(
     (item) => normalizeQuery(item.id) === itemId || normalizeQuery(item.canonical_product_id ?? "") === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
   );
 }
@@ -1074,8 +1180,8 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
-  const searchIndex = await loadSearchIndex(env);
-  const indexedItem = resolveCanonicalItemId(rawId, searchIndex);
+  const searchItems = await loadSearchItems(env);
+  const indexedItem = resolveCanonicalItemId(rawId, searchItems);
   const itemId = indexedItem?.id ?? resolveItemId(rawId);
   const candidateExports = indexedItem?.export_id
     ? manifest.exports.filter((entry) => entry.id === indexedItem.export_id)
@@ -1134,11 +1240,11 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
-      const data = await loadSearchIndex(env);
+      const items = await loadSearchItems(env);
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
       if (isDiscoveryQuery(query)) {
-        const payload = discoveryPayload(query, data.items, maxResults);
+        const payload = discoveryPayload(query, items, maxResults);
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
       }
 
@@ -1155,7 +1261,7 @@ function createServer(env: Env): McpServer {
         region,
         freshnessStatus: freshness_status,
       };
-      const results = data.items
+      const results = items
         .filter((item) => isPubliclySearchable(item) && (!allowedTypes || allowedTypes.has(item.type)) && matchesSearchFilters(item, filters) && matchesSupportRegion(item, supportRegion) && matchesSupportIntent(item, normalizedQuery))
         .map((item) => ({ item, score: scoreItem(item, normalizedQuery) }))
         .filter((result) => result.score > 0)
@@ -1230,8 +1336,8 @@ function createServer(env: Env): McpServer {
       annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
     },
     async ({ query, limit }) => {
-      const data = await loadSearchIndex(env);
-      const payload = discoveryPayload(query, data.items, limit ?? 10);
+      const items = await loadSearchItems(env);
+      const payload = discoveryPayload(query, items, limit ?? 10);
       return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
     },
   );
@@ -1255,9 +1361,9 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ domain, profile, constraints, preferences, limit }) => {
-      const data = await loadSearchIndex(env);
+      const items = await loadSearchItems(env);
       const maxResults = limit ?? 5;
-      const domainItems = data.items.filter((item) => domainMatches(item, domain));
+      const domainItems = items.filter((item) => domainMatches(item, domain));
       const readiness = recommendationReadiness(domain, domainItems);
       if (!ENABLE_PUBLIC_RECOMMENDATION) {
         const blockerCounts = {
@@ -1371,12 +1477,13 @@ function createServer(env: Env): McpServer {
         const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
       }
-      const data = await loadSearchIndex(env);
+      const items = await loadSearchItems(env);
+      const metadata = await loadSearchIndexMetadata(env);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
       const conditions = new Set(eligible_conditions ?? []);
       const excluded: Array<{ item_id: string; reason: string }> = [];
       const candidates: Record<string, unknown>[] = [];
-      for (const item of data.items.filter((candidate) => domainMatches(candidate, domain))) {
+      for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
         const blocker = comparisonBlocker(item);
         if (blocker) {
           excluded.push({ item_id: item.id, reason: blocker });
@@ -1418,9 +1525,9 @@ function createServer(env: Env): McpServer {
         ],
         comparison_model_version: "openfin-comparison-v0.1.0",
         comparison_engine_version: COMPARISON_ENGINE_VERSION,
-        ontology_basis_date: data.basis_date,
-        latest_product_collection_date: data.basis_date,
-        verification_basis_date: data.basis_date,
+        ontology_basis_date: metadata.basis_date,
+        latest_product_collection_date: metadata.basis_date,
+        verification_basis_date: metadata.basis_date,
         calculation_policy_basis_date: "2026-07-14",
         executed_at: new Date().toISOString(),
         requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
