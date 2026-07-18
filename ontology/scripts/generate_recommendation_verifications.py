@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from apply_recommendation_verifications import MODEL_VERSION, OVERLAY_PATH, item_source_checksum
+from calculate_recommendation_completeness import REQUIRED_FIELDS, field_present, product_domain
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,6 +51,11 @@ def verification_for(item: dict[str, Any]) -> dict[str, Any]:
         "source_record_id": item.get("source_record_id"),
         "sales_status": "active",
     }
+    domain = product_domain(item)
+    for field in REQUIRED_FIELDS.get(domain or "", ()):
+        value = item.get(field)
+        if field_present(value):
+            fields[field] = value
     evidence = [evidence_for(item, field, value) for field, value in fields.items() if value not in (None, "")]
     return {
         "canonical_product_id": item.get("canonical_product_id") or item.get("id"),
@@ -70,6 +76,7 @@ def verification_for(item: dict[str, Any]) -> dict[str, Any]:
 
 def candidates(path: Path, domain: str, limit: int) -> list[dict[str, Any]]:
     selected: list[dict[str, Any]] = []
+    available: list[dict[str, Any]] = []
     for item in load_items(path):
         if item.get("type") not in {"bank-product", "card-product", "insurance-product"}:
             continue
@@ -77,13 +84,14 @@ def candidates(path: Path, domain: str, limit: int) -> list[dict[str, Any]]:
             continue
         if item.get("status") != "active" or item.get("source_freshness_status") != "current":
             continue
-        if not item.get("missing_required_fields"):
-            continue
         if not item.get("source_urls"):
             continue
-        selected.append(item)
-        if len(selected) == limit:
-            break
+        fields = REQUIRED_FIELDS.get(domain, ())
+        completeness = sum(field_present(item.get(field)) for field in fields)
+        pilot_detail = 1 if item.get("pilot_detail_source") else 0
+        available.append((pilot_detail, completeness, str(item.get("id")), item))
+    available.sort(key=lambda entry: (-entry[0], -entry[1], entry[2]))
+    selected = [entry[3] for entry in available[:limit]]
     if len(selected) < limit:
         raise SystemExit(f"{domain}: expected {limit} official-source candidates, got {len(selected)}")
     return selected

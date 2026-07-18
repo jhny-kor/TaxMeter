@@ -18,6 +18,7 @@ def run_case(case: dict[str, Any]) -> list[str]:
     items = deepcopy(case["items"])
     for item in items:
         item.setdefault("domain_gate_passed", True)
+        item.setdefault("comparison_engine_gate_passed", True)
         item.setdefault("verification_status", "verified")
         item.setdefault("sales_verified_at", date.today().isoformat())
         item.setdefault("source_checksum", f"test-{item['id']}")

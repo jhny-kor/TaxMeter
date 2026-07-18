@@ -1,15 +1,15 @@
 {
   "version": "openfin-local-cloudflare-parity-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_tested_at": "2026-07-18T03:56:49+00:00",
-  "runtime_version": "openfin-mcp-2026.07.18.1",
-  "deployment_commit": "a0b33d2c4aad211e44c924bf11d0152e10e1e523",
-  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-  "live_case_count": 33,
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "local-cloudflare-parity",
   "local_cloudflare_parity_error_count": 0,
   "live_search_regression": {},
-  "export_checksum": "1a012581dcff293eace65cc64e1a293b95531b483147eaf94cb5061da6c5521b"
+  "export_checksum": "e4c5f73bb6635ad127beedb7f4bdde7f8c164a9d85aaa3a5fab5d76c7924e8a2"
 }

@@ -486,7 +486,7 @@
               "evidence_field": "마일리지",
               "evidence_text": null,
               "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -500,7 +500,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -524,7 +524,7 @@
                 "evidence_field": "마일리지",
                 "evidence_text": null,
                 "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -556,7 +556,7 @@
               "evidence_field": "마일리지",
               "evidence_text": null,
               "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -569,7 +569,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -593,7 +593,7 @@
                 "evidence_field": "마일리지",
                 "evidence_text": null,
                 "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -625,7 +625,7 @@
               "evidence_field": "마일리지",
               "evidence_text": null,
               "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -638,7 +638,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -662,7 +662,7 @@
                 "evidence_field": "마일리지",
                 "evidence_text": null,
                 "source_url": "https://card.kbcard.com/CRD/DVIEW/HCAM0101",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -694,7 +694,7 @@
               "evidence_field": "마일리지",
               "evidence_text": null,
               "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -708,7 +708,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -732,7 +732,7 @@
                 "evidence_field": "마일리지",
                 "evidence_text": null,
                 "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -764,7 +764,7 @@
               "evidence_field": "마일리지",
               "evidence_text": null,
               "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -778,7 +778,7 @@
             "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -802,7 +802,7 @@
                 "evidence_field": "마일리지",
                 "evidence_text": null,
                 "source_url": "https://www.bccard.com/app/card/CreditSearch.do",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -845,7 +845,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "credit-loan",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -857,7 +857,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -882,7 +882,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "credit-loan",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -914,7 +914,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "credit-loan",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -926,7 +926,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -951,7 +951,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "credit-loan",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -983,7 +983,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "credit-loan",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -995,7 +995,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1020,7 +1020,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "credit-loan",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1052,7 +1052,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "credit-loan",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1064,7 +1064,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1089,7 +1089,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "credit-loan",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1121,7 +1121,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "credit-loan",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1133,7 +1133,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1158,7 +1158,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "credit-loan",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1172,218 +1172,11 @@
       "query": "실손보험 추천",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
+      "actual_top_id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178",
       "passed": true,
       "validation_kind": "discovery_runtime_contract",
       "expected_search_type": "insurance",
       "top_results": [
-        {
-          "canonical_product_id": "finance.canonical.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01.indemnity-health",
-          "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e01",
-          "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(갱신형)(2605)",
-          "provider": "DB생명",
-          "product_kind": "indemnity-health",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "D",
-          "verification_grade": "C",
-          "overall_candidate_grade": "D",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "indemnity-health",
-              "evidence_field": "product_kind",
-              "evidence_text": "indemnity-health",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-            "https://www.idblife.com/notice/product/sale",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-14 수집",
-            "2026-05-06",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 11,
-            "relevance_grade": "A",
-            "data_completeness_grade": "D",
-            "verification_grade": "C",
-            "overall_candidate_grade": "D",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "indemnity-health",
-                "evidence_field": "product_kind",
-                "evidence_text": "indemnity-health",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02.indemnity-health",
-          "id": "finance.insurance.klia.indemnity-health.db생명.l7102460001nny024700020244000102440001000802440001000800010244000100080001000526e02",
-          "title": "DB생명 (무)DB 기본형 급여 실손의료비보장보험(계약전환용)(갱신형)",
-          "provider": "DB생명",
-          "product_kind": "indemnity-health",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "D",
-          "verification_grade": "C",
-          "overall_candidate_grade": "D",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "indemnity-health",
-              "evidence_field": "product_kind",
-              "evidence_text": "indemnity-health",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-            "https://www.idblife.com/notice/product/sale",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-14 수집",
-            "2026-05-06",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 11,
-            "relevance_grade": "A",
-            "data_completeness_grade": "D",
-            "verification_grade": "C",
-            "overall_candidate_grade": "D",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "indemnity-health",
-                "evidence_field": "product_kind",
-                "evidence_text": "indemnity-health",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213.indemnity-health",
-          "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000401213",
-          "title": "NH농협생명 NH유병력자실손의료비보험(갱신형,무배당)_2605",
-          "provider": "NH농협생명",
-          "product_kind": "indemnity-health",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "D",
-          "verification_grade": "C",
-          "overall_candidate_grade": "D",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "indemnity-health",
-              "evidence_field": "product_kind",
-              "evidence_text": "indemnity-health",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-            "https://www.nhlife.co.kr/ho/ig/HOIG0001M00.nhl?prodCd=N0001213",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-14 수집",
-            "2026-05-06",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 11,
-            "relevance_grade": "A",
-            "data_completeness_grade": "D",
-            "verification_grade": "C",
-            "overall_candidate_grade": "D",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "indemnity-health",
-                "evidence_field": "product_kind",
-                "evidence_text": "indemnity-health",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
         {
           "canonical_product_id": "finance.canonical.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178.indemnity-health",
           "id": "finance.insurance.klia.indemnity-health.nh농협생명.l420246000102460002nny024700020244000102440001000802440001000800010244000100080001000501178",
@@ -1393,9 +1186,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1408,7 +1201,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "indemnity-health",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1420,7 +1213,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-05-06",
             "2026-07-03 확인"
           ],
@@ -1428,11 +1221,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1445,7 +1238,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "indemnity-health",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1462,9 +1255,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1477,7 +1270,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "indemnity-health",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1489,19 +1282,19 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
-            "2026-05-06",
+            "2026-07-18 수집",
+            "2026-06-29",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1514,7 +1307,214 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "indemnity-health",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.교보생명.l0502460003nny024700020244000102440001000802440001000800010244000100080001000511116.indemnity-health",
+          "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460003nny024700020244000102440001000802440001000800010244000100080001000511116",
+          "title": "교보생명 교보실손의료비보험Ⅴ [D](무배당,갱신형)",
+          "provider": "교보생명",
+          "product_kind": "indemnity-health",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "indemnity-health",
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-06-29",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 15,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "indemnity-health",
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012.indemnity-health",
+          "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
+          "title": "동양생명 (무)우리WON하는급여실손의료비보장보험(갱신형)",
+          "provider": "동양생명",
+          "product_kind": "indemnity-health",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "indemnity-health",
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-05-06",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 15,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "indemnity-health",
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.한화생명.l0102460001nny024700020244000102440001000802440001000800010244000100080001000522651.indemnity-health",
+          "id": "finance.insurance.klia.indemnity-health.한화생명.l0102460001nny024700020244000102440001000802440001000800010244000100080001000522651",
+          "title": "한화생명 한화생명 기본형 급여 실손의료비보장보험(갱신형) 무배당",
+          "provider": "한화생명",
+          "product_kind": "indemnity-health",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "indemnity-health",
+              "evidence_field": "product_kind",
+              "evidence_text": "indemnity-health",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+            "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-07-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 15,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "indemnity-health",
+                "evidence_field": "product_kind",
+                "evidence_text": "indemnity-health",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1542,9 +1542,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1557,7 +1557,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "cancer",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1569,7 +1569,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1577,11 +1577,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1594,7 +1594,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "cancer",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1611,9 +1611,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1626,7 +1626,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "cancer",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1638,7 +1638,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1646,11 +1646,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1663,7 +1663,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "cancer",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1680,9 +1680,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1695,7 +1695,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "cancer",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1707,7 +1707,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1715,11 +1715,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1732,7 +1732,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "cancer",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1749,9 +1749,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1764,7 +1764,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "cancer",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1776,7 +1776,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1784,11 +1784,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1801,7 +1801,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "cancer",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1818,9 +1818,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "D",
+          "data_completeness_grade": "C",
           "verification_grade": "C",
-          "overall_candidate_grade": "D",
+          "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1833,7 +1833,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "cancer",
               "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1845,7 +1845,7 @@
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "2026-04-01",
             "2026-07-03 확인"
           ],
@@ -1853,11 +1853,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 11,
+            "score": 15,
             "relevance_grade": "A",
-            "data_completeness_grade": "D",
+            "data_completeness_grade": "C",
             "verification_grade": "C",
-            "overall_candidate_grade": "D",
+            "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1870,7 +1870,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "cancer",
                 "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -1914,7 +1914,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "deposit",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             },
             {
               "constraint": "term_months",
@@ -1922,7 +1922,7 @@
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -1934,7 +1934,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -1960,7 +1960,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "deposit",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               },
               {
                 "constraint": "term_months",
@@ -1968,7 +1968,7 @@
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -2001,7 +2001,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "deposit",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             },
             {
               "constraint": "term_months",
@@ -2009,7 +2009,7 @@
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -2021,7 +2021,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2047,7 +2047,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "deposit",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               },
               {
                 "constraint": "term_months",
@@ -2055,7 +2055,7 @@
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -2088,7 +2088,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "deposit",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             },
             {
               "constraint": "term_months",
@@ -2096,7 +2096,7 @@
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -2108,7 +2108,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2134,7 +2134,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "deposit",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               },
               {
                 "constraint": "term_months",
@@ -2142,7 +2142,7 @@
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -2175,7 +2175,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "deposit",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             },
             {
               "constraint": "term_months",
@@ -2183,7 +2183,7 @@
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -2195,7 +2195,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2221,7 +2221,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "deposit",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               },
               {
                 "constraint": "term_months",
@@ -2229,7 +2229,7 @@
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -2262,7 +2262,7 @@
               "evidence_field": "product_kind",
               "evidence_text": "deposit",
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             },
             {
               "constraint": "term_months",
@@ -2270,7 +2270,7 @@
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-14 수집"
+              "source_locator": "2026-07-18 수집"
             }
           ],
           "limitations": [
@@ -2282,7 +2282,7 @@
             "https://finlife.fss.or.kr/finlifeapi/"
           ],
           "source_basis_dates": [
-            "2026-07-14 수집",
+            "2026-07-18 수집",
             "202606",
             "2026-07-03 확인"
           ],
@@ -2308,7 +2308,7 @@
                 "evidence_field": "product_kind",
                 "evidence_text": "deposit",
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               },
               {
                 "constraint": "term_months",
@@ -2316,7 +2316,7 @@
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-14 수집"
+                "source_locator": "2026-07-18 수집"
               }
             ],
             "limitations": [
@@ -14486,5 +14486,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "049f8c9099f1eaa4bdca61da0f47014bcbdd09b98df31fedd82d760664f3f5c9"
+  "export_checksum": "983b7a1fa046ef7fee72d5c6513dfc621f6662d9ab550747a37f2996bd772147"
 }

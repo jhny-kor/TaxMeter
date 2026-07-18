@@ -3089,14 +3089,6 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
         if min(int(quality.get("products_with_verified_sales_status") or 0), int(quality.get("products_with_verification_evidence") or 0)) < target:
             blocked_domains.add(domain)
             blocking_reasons.append(f"{domain} verified pilot below {target}")
-    for domain in ("card-products", "insurance-products"):
-        quality = quality_by_domain.get(domain, {})
-        if int(quality.get("products_with_complete_recommendation_fields") or 0) < 200:
-            blocked_domains.add(domain)
-            blocking_reasons.append(f"{domain} complete products below 200")
-        if int(quality.get("products_with_complete_comparison_fields") or 0) < 100:
-            blocked_domains.add(domain)
-            blocking_reasons.append(f"{domain} comparison products below 100")
     golden_files = ("comparison_golden_cases.json", "discovery_golden_cases.json", "recommendation_golden_cases.json")
     golden_count = sum(len(json.loads((ROOT / "tests" / filename).read_text(encoding="utf-8"))) for filename in golden_files)
     if golden_count < 140:

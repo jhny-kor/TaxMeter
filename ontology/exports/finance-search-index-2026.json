@@ -4,11 +4,11 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "finance-search-index",
   "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
-  "item_count": 21241,
-  "canonical_product_count": 3422,
+  "item_count": 21255,
+  "canonical_product_count": 3436,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "4463850448569f23cab2da9f2f4e7532d2cc82b5e76559dcd559b6f67241d4e2",
+  "export_checksum": "8e747e3ddf41f7e7589f73f3b58e81dec7ea36734e80effe0ce5a635966368ee",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -26,7 +26,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
       "item_count": 9380,
-      "export_checksum": "6708d231adae31aa8cdce7bf43b3e406e02bf0469894cfc6797dc21059f88e82"
+      "export_checksum": "ff1a5b7d017481d67ada2176ea712a7df69ca3219347d56a6459b2c1fa45da56"
     },
     {
       "id": "finance-search-index-bank-products",
@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
       "item_count": 1369,
-      "export_checksum": "cc59525cc810045178f6a6cf9753c919618d7863ffa5b7f8d4dd7383b12b5416"
+      "export_checksum": "35608a5fe743f1bbf52a89a7706d4c8758289b96a25e980a34362d40fe8565c6"
     },
     {
       "id": "finance-search-index-card-products",
@@ -44,7 +44,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
       "item_count": 1007,
-      "export_checksum": "41a4de347dd8e7f1665165b773c4c93a7db49c11007b4087c16e08a3d259544e"
+      "export_checksum": "5501bf3635a00d2fdbb62ee7cd4ca6a3a612d41e002a678c93b0035dd5917e5b"
     },
     {
       "id": "finance-search-index-insurance-products",
@@ -52,8 +52,8 @@
       "path": "ontology/exports/finance-search-index-2026-insurance-products.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
-      "item_count": 1057,
-      "export_checksum": "45236308f8e48244ade760caa60449163b308921b7c8708538860cde073ca94e"
+      "item_count": 1071,
+      "export_checksum": "37f0a30c430027c6e191122567bc1c00dab16b148973080228d80a330756fc13"
     },
     {
       "id": "finance-search-index-reference",
@@ -62,7 +62,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
       "item_count": 692,
-      "export_checksum": "6ab82440839867dd473c8692a4261b6c20a4e82998463737bb17e56550577dd4"
+      "export_checksum": "f9478614cd72bcc25841e6b8808e5c6a8294b5e3a50c091fe5a130462728d983"
     }
   ]
 }

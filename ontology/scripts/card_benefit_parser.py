@@ -17,9 +17,13 @@ BENEFIT_RATE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*%")
 BENEFIT_RATE_RANGE_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:~|-|∼|～)\s*(\d+(?:\.\d+)?)\s*%")
 # 공백 제거 후 매칭하는 조건 패턴
 PREV_MONTH_SPEND_MIN_RE = re.compile(r"전월(?:카드)?(?:이용)?(?:실적|금액)(\d+(?:\.\d+)?)(만원|천원|원)이상")
+PREV_MONTH_SPEND_TIER_RE = re.compile(r"전월(?:카드)?(?:이용)?(?:실적|금액)(\d+(?:\.\d+)?)(만원|천원|원)(미만|이상)")
 ANNUAL_FEE_AMOUNT_RE = re.compile(r"연회비:?(\d+(?:\.\d+)?)(만원|천원|원)")
 PER_TRANSACTION_RE = re.compile(r"(?:1?건당|회당)(\d+(?:\.\d+)?)(만원|천원|원)")
 INTEGRATED_LIMIT_RE = re.compile(r"통합한도(?:월)?(\d+(?:\.\d+)?)(만원|천원|원)")
+FREQUENCY_LIMIT_RE = re.compile(r"(?:월|일|연간|연)(?:최대)?(\d+(?:\.\d+)?)(회|건)")
+MINIMUM_PAYMENT_RE = re.compile(r"(?:건당)?최소(?:결제|이용)금액(?:은|:)?(\d+(?:\.\d+)?)(만원|천원|원)(?:이상|초과)?")
+TRANSACTION_MIN_RE = re.compile(r"건당(\d+(?:\.\d+)?)(만원|천원|원)이상")
 MILEAGE_UNIT_RE = re.compile(r"([\d,]+)\s*원당\s*(\d+(?:\.\d+)?)\s*마일")
 
 
@@ -104,7 +108,7 @@ def has_no_previous_month_spend(text: str) -> bool:
 
 def has_no_annual_fee(text: str) -> bool:
     compact = text.replace(" ", "").lower()
-    return any(keyword in compact for keyword in ("no연회비", "연회비없음", "연회비면제"))
+    return any(keyword in compact for keyword in ("no연회비", "연회비없음", "연회비면제", "연회비국내전용없음", "연회비국내전용:없음"))
 
 
 def benefit_type(text: str) -> str | None:
@@ -194,6 +198,20 @@ def excluded_spend(text: str) -> list[str]:
     ]
 
 
+def performance_excluded_spend(text: str) -> list[str]:
+    compact = text.replace(" ", "")
+    if not any(marker in compact for marker in ("전월실적", "전월이용금액", "실적산정")):
+        return []
+    if "제외" not in compact:
+        return []
+    return excluded_spend(text)
+
+
+def has_no_minimum_payment(text: str) -> bool:
+    compact = text.replace(" ", "")
+    return any(marker in compact for marker in ("최소이용금액없음", "최소결제금액없음", "최소이용금액없음"))
+
+
 def condition_source_url(item: dict) -> str | None:
     urls = [str(url) for url in item.get("source_urls") or [] if str(url).startswith("https://")]
     return next(
@@ -221,6 +239,9 @@ def enrich_card_benefits(item: dict) -> None:
         elif (spend_match := PREV_MONTH_SPEND_MIN_RE.search(compact)):
             benefit["previous_month_spend_required"] = True
             benefit["previous_month_spend_min_krw"] = krw_amount(*spend_match.groups())
+        elif (tier_match := PREV_MONTH_SPEND_TIER_RE.search(compact)):
+            benefit["previous_month_spend_required"] = tier_match.group(3) != "미만"
+            benefit["previous_month_spend_min_krw"] = 0 if tier_match.group(3) == "미만" else krw_amount(*tier_match.groups()[:2])
         else:
             benefit.setdefault("previous_month_spend_required", None)
         benefit.setdefault("previous_month_spend_min_krw", None)
@@ -269,6 +290,20 @@ def enrich_card_benefits(item: dict) -> None:
         if (per_tx_match := PER_TRANSACTION_RE.search(compact)):
             benefit["per_transaction_limit_krw"] = krw_amount(*per_tx_match.groups())
         benefit.setdefault("per_transaction_limit_krw", None)
+        if (frequency_match := FREQUENCY_LIMIT_RE.search(compact)):
+            benefit["benefit_frequency_limit"] = {"count": int(float(frequency_match.group(1))), "unit": frequency_match.group(2)}
+        else:
+            benefit.setdefault("benefit_frequency_limit", None)
+        if (minimum_payment_match := MINIMUM_PAYMENT_RE.search(compact)):
+            benefit["minimum_payment_amount"] = krw_amount(*minimum_payment_match.groups())
+        elif has_no_minimum_payment(text):
+            benefit["minimum_payment_amount"] = 0
+        elif has_no_previous_month_spend(text):
+            benefit["minimum_payment_amount"] = 0
+        elif (transaction_minimum_match := TRANSACTION_MIN_RE.search(compact)):
+            benefit["minimum_payment_amount"] = krw_amount(*transaction_minimum_match.groups())
+        else:
+            benefit.setdefault("minimum_payment_amount", None)
         if has_unlimited_monthly_limit(text):
             benefit["monthly_benefit_limit_krw"] = None
             benefit["monthly_benefit_limit_unlimited"] = True
@@ -278,14 +313,23 @@ def enrich_card_benefits(item: dict) -> None:
             benefit.setdefault("fixed_benefit_amount_krw", parse_krw_amount(text))
         else:
             benefit.setdefault("fixed_benefit_amount_krw", None)
+        if benefit.get("fixed_benefit_amount_krw") is None and benefit.get("benefit_rate_percent") is not None:
+            benefit["benefit_amount_krw"] = "not_applicable"
+        elif benefit.get("fixed_benefit_amount_krw") is not None:
+            benefit["benefit_amount_krw"] = benefit["fixed_benefit_amount_krw"]
         benefit["benefit_categories"] = benefit_categories(text)
         parsed_excluded_spend = excluded_spend(text)
         if parsed_excluded_spend:
             benefit["excluded_spend"] = parsed_excluded_spend
         else:
             benefit.setdefault("excluded_spend", [])
+        parsed_performance_excluded_spend = performance_excluded_spend(text)
+        if parsed_performance_excluded_spend:
+            benefit["performance_excluded_spend"] = parsed_performance_excluded_spend
+        else:
+            benefit.setdefault("performance_excluded_spend", [])
         missing = []
-        for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend"):
+        for key in ("previous_month_spend_min_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend", "performance_excluded_spend", "benefit_frequency_limit", "minimum_payment_amount"):
             if key == "monthly_benefit_limit_krw" and benefit.get("monthly_benefit_limit_unlimited") is True:
                 continue
             value = benefit.get(key)
@@ -300,6 +344,19 @@ def enrich_card_benefits(item: dict) -> None:
         benefit["condition_parse_source"] = "benefit_text" if normalized else None
         benefit["condition_source_url"] = source_url
         benefit["condition_source_locator"] = item.get("source_record_id")
+
+    has_official_detail = any(
+        isinstance(benefit, dict)
+        and benefit.get("kind") == "official_detail"
+        and benefit.get("condition_completeness") == "complete"
+        for benefit in item.get("benefits") or []
+    )
+    if has_official_detail:
+        for benefit in item.get("benefits") or []:
+            if isinstance(benefit, dict) and benefit.get("kind") != "official_detail" and benefit.get("condition_completeness") in {"partial", "incomplete"}:
+                benefit["condition_completeness"] = "superseded"
+                benefit["missing_condition_fields"] = []
+                benefit["condition_parse_source"] = "official_detail_supersedes_listing"
 
 
 def apply_card_recommendation_scope(item: dict) -> None:

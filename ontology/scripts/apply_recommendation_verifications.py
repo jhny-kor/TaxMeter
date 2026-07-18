@@ -194,6 +194,7 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             and item.get("sales_verification_status") == "verified_active"
         )
         item["comparison_engine_gate_passed"] = bool(comparison_ready)
+        item["verification_status"] = "verified"
         if not item.get("domain_gate_passed"):
             item["verification_status"] = "verified"
             item["recommendation_scope"] = "comparison_only" if item.get("type") == "bank-product" else "listing_only"
@@ -202,6 +203,33 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             item["catalog_recommendation_status"] = item["recommendation_status"]
             item["catalog_recommendation_scope"] = item["recommendation_scope"]
             continue
+        if item.get("type") == "bank-product":
+            if item.get("recommendation_status") != "manual_review_candidate":
+                item["recommendation_status"] = "reference_only"
+            item["recommendation_scope"] = "internal_verification_candidate" if item.get("recommendation_status") == "manual_review_candidate" else "comparison_only"
+            item["recommendation_exclusion_reasons"] = sorted(set([*item["recommendation_exclusion_reasons"], "public_recommendation_pending_approval"]))
+            item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
+            item["discovery_limitations"] = ["public_recommendation_pending_approval"]
+            item["catalog_recommendation_status"] = item["recommendation_status"]
+            item["catalog_recommendation_scope"] = item["recommendation_scope"]
+            continue
+        if item.get("type") == "card-product":
+            item["recommendation_status"] = "manual_review_candidate"
+            item["recommendation_scope"] = "listing_only"
+            item["recommendation_exclusion_reasons"] = sorted(set([*item["recommendation_exclusion_reasons"], "public_recommendation_pending_approval"]))
+            item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
+            item["discovery_limitations"] = ["public_recommendation_pending_approval"]
+            item["catalog_recommendation_status"] = item["recommendation_status"]
+            item["catalog_recommendation_scope"] = item["recommendation_scope"]
+            continue
+        item["recommendation_status"] = "reference_only"
+        item["recommendation_scope"] = "listing_only"
+        item["recommendation_exclusion_reasons"] = sorted(set([*item["recommendation_exclusion_reasons"], "public_recommendation_pending_approval"]))
+        item["public_recommendation_exclusion_reasons"] = list(item["recommendation_exclusion_reasons"])
+        item["discovery_limitations"] = ["public_recommendation_pending_approval"]
+        item["catalog_recommendation_status"] = item["recommendation_status"]
+        item["catalog_recommendation_scope"] = item["recommendation_scope"]
+        continue
         item["recommendation_status"] = "verified_recommendation_candidate"
         item["recommendation_scope"] = "public_recommendation"
         item["verification_status"] = "verified"

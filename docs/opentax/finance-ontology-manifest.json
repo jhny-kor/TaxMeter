@@ -2,10 +2,10 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-18T03:37:03Z",
+  "built_at": "2026-07-18T05:00:23Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
-  "release_status": "degraded",
+  "release_status": "ready",
   "degraded_domains": [],
   "blocking_issues": [],
   "warning_issues": [],
@@ -13,10 +13,10 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-18T03:37:03Z",
+      "built_at": "2026-07-18T05:00:23Z",
       "domain_export_count": 8,
-      "search_index_item_count": 21241,
-      "canonical_product_count": 3422,
+      "search_index_item_count": 21255,
+      "canonical_product_count": 3436,
       "duplicate_canonical_product_count": 0,
       "checksum_covered_export_count": 9,
       "broken_relation_count": 0,
@@ -51,26 +51,28 @@
           "active": 652,
           "unknown": 355
         },
-        "active_products_without_criteria": 0,
+        "active_products_without_criteria": 1,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 123,
+        "card_benefits_with_incomplete_conditions": 122,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1007,
-        "manual_review_candidate_products": 0,
+        "reference_only_products": 981,
+        "manual_review_candidate_products": 20,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 652,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1007,
         "recommendation_status_counts": {
-          "reference_only": 1007
+          "eligible_for_listing": 6,
+          "manual_review_candidate": 20,
+          "reference_only": 981
         },
         "recommendation_scope_counts": {
           "listing_only": 1007
@@ -79,44 +81,45 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.1218,
+        "average_completeness_ratio": 0.1811,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 355,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 1007
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "absent_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 1007,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 0
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "empty_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -124,44 +127,44 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "not_collected_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 0,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 1007
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "unverified_fields_by_field_name": {
-          "annual_fee_krw": 1,
-          "benefit_categories": 292,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 507,
+          "annual_fee_krw": 32,
+          "benefit_amount_krw": 514,
+          "benefit_categories": 312,
+          "benefit_frequency_limit": 39,
+          "benefit_rate_percent": 413,
           "benefit_type": 652,
           "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 12,
-          "per_transaction_limit_krw": 3,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 5,
-          "sales_verification_status": 0
+          "excluded_spend": 36,
+          "minimum_payment_amount": 35,
+          "monthly_benefit_limit_krw": 48,
+          "per_transaction_limit_krw": 32,
+          "performance_excluded_spend": 36,
+          "previous_month_spend_min_krw": 39
         },
         "conflicting_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -169,14 +172,14 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "expired_verification_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -184,8 +187,7 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -392,15 +394,15 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
-        "average_completeness_ratio": 0.6249,
+        "average_completeness_ratio": 0.6244,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 6,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
           "sales_verification_status": 335
         },
@@ -422,12 +424,12 @@
           "base_rate_percent": 0,
           "deposit_protection_status": 0,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 0,
           "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 185,
+          "preferential_rate_conditions": 186,
           "sales_verification_status": 0,
           "saving_method": 0,
           "term_months": 0
@@ -436,12 +438,12 @@
           "base_rate_percent": 0,
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 6,
           "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 185,
+          "preferential_rate_conditions": 186,
           "sales_verification_status": 335,
           "saving_method": 0,
           "term_months": 0
@@ -450,12 +452,12 @@
           "base_rate_percent": 335,
           "deposit_protection_status": 70,
           "early_termination_condition": 0,
-          "join_channel": 333,
+          "join_channel": 332,
           "join_member": 329,
           "maximum_rate_percent": 335,
-          "monthly_payment_max_krw": 98,
+          "monthly_payment_max_krw": 97,
           "monthly_payment_min_krw": 7,
-          "preferential_rate_conditions": 150,
+          "preferential_rate_conditions": 149,
           "sales_verification_status": 0,
           "saving_method": 335,
           "term_months": 335
@@ -531,29 +533,29 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 593,
-        "comparison_candidate_products": 20,
+        "comparison_candidate_products": 13,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 573,
+        "recommendation_listing_only_products": 580,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
           "reference_only": 593
         },
         "recommendation_scope_counts": {
-          "comparison_only": 20,
+          "comparison_only": 13,
           "internal_verification_candidate": 11,
-          "listing_only": 573
+          "listing_only": 580
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.6668,
+        "average_completeness_ratio": 0.6887,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 11,
-          "early_repayment_fee": 431,
+          "early_repayment_fee": 325,
           "eligible_borrower": 165,
           "loan_limit_krw": 299,
           "loan_rate_max_percent": 160,
@@ -586,7 +588,7 @@
         "not_collected_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 0,
-          "early_repayment_fee": 431,
+          "early_repayment_fee": 325,
           "eligible_borrower": 165,
           "loan_limit_krw": 255,
           "loan_rate_max_percent": 160,
@@ -597,7 +599,7 @@
         "unverified_fields_by_field_name": {
           "collateral_type": 508,
           "criteria_or_options": 0,
-          "early_repayment_fee": 173,
+          "early_repayment_fee": 279,
           "eligible_borrower": 439,
           "loan_limit_krw": 305,
           "loan_rate_max_percent": 444,
@@ -627,7 +629,7 @@
           "rate_type": 0,
           "repayment_method": 0
         },
-        "structural_comparison_candidate_count": 20,
+        "structural_comparison_candidate_count": 13,
         "complete_comparison_data_count": 0,
         "verified_comparison_candidate_count": 0,
         "public_comparison_candidate_count": 0,
@@ -650,159 +652,128 @@
         }
       },
       "insurance": {
-        "product_count": 1057,
+        "product_count": 1071,
         "status_counts": {
-          "active": 1057
+          "active": 1071
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 1057,
+        "insurance_coverages_with_incomplete_conditions": 1071,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1057,
+        "reference_only_products": 1071,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 857,
+        "discovery_candidate_products": 1071,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1057,
+        "recommendation_listing_only_products": 1071,
         "recommendation_status_counts": {
-          "reference_only": 1057
+          "reference_only": 1071
         },
         "recommendation_scope_counts": {
-          "listing_only": 1057
+          "listing_only": 1071
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.0979,
+        "average_completeness_ratio": 0.4954,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 1057,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "coverage_amount_krw": 29,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "absent_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "premium_basis": 0,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "empty_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "not_collected_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 1057,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "premium_basis": 0,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "unverified_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
+          "claim_condition": 1071,
+          "coverage_amount_krw": 1042,
+          "coverage_names": 1071,
           "exclusion_condition": 0,
-          "insurance_term": 0,
+          "insurance_term": 394,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 695,
-          "renewal_type": 857,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "premium_basis": 1071,
+          "renewal_type": 872,
+          "surrender_refund_type": 315
         },
         "conflicting_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "expired_verification_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -929,7 +900,7 @@
       "source_id": "source.klia.insurance-disclosure",
       "status": "live_imported",
       "last_checked": "2026-07-10",
-      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1057",
+      "last_observed_result": "HTTP 200 public disclosure table; active insurance products imported: 1071",
       "mitigation": "상품 상세 약관 파일은 내려받지 않고 리스트 표의 상품명·담보·보험료·갱신여부·판매일자만 운영 export에 반영합니다."
     },
     {
@@ -1090,12 +1061,12 @@
     "path": "ontology/exports/finance-search-index-2026.json",
     "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
     "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-    "item_count": 21241,
+    "item_count": 21255,
     "product_count": 0,
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "4463850448569f23cab2da9f2f4e7532d2cc82b5e76559dcd559b6f67241d4e2",
+    "export_checksum": "8e747e3ddf41f7e7589f73f3b58e81dec7ea36734e80effe0ce5a635966368ee",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
@@ -1114,7 +1085,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "export_checksum": "6708d231adae31aa8cdce7bf43b3e406e02bf0469894cfc6797dc21059f88e82"
+        "export_checksum": "ff1a5b7d017481d67ada2176ea712a7df69ca3219347d56a6459b2c1fa45da56"
       },
       {
         "id": "finance-search-index-bank-products",
@@ -1123,7 +1094,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
         "item_count": 1369,
-        "export_checksum": "cc59525cc810045178f6a6cf9753c919618d7863ffa5b7f8d4dd7383b12b5416"
+        "export_checksum": "35608a5fe743f1bbf52a89a7706d4c8758289b96a25e980a34362d40fe8565c6"
       },
       {
         "id": "finance-search-index-card-products",
@@ -1132,7 +1103,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "41a4de347dd8e7f1665165b773c4c93a7db49c11007b4087c16e08a3d259544e"
+        "export_checksum": "5501bf3635a00d2fdbb62ee7cd4ca6a3a612d41e002a678c93b0035dd5917e5b"
       },
       {
         "id": "finance-search-index-insurance-products",
@@ -1140,8 +1111,8 @@
         "path": "ontology/exports/finance-search-index-2026-insurance-products.json",
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
-        "item_count": 1057,
-        "export_checksum": "45236308f8e48244ade760caa60449163b308921b7c8708538860cde073ca94e"
+        "item_count": 1071,
+        "export_checksum": "37f0a30c430027c6e191122567bc1c00dab16b148973080228d80a330756fc13"
       },
       {
         "id": "finance-search-index-reference",
@@ -1150,7 +1121,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
         "item_count": 692,
-        "export_checksum": "6ab82440839867dd473c8692a4261b6c20a4e82998463737bb17e56550577dd4"
+        "export_checksum": "f9478614cd72bcc25841e6b8808e5c6a8294b5e3a50c091fe5a130462728d983"
       }
     ]
   },
@@ -1166,16 +1137,16 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-18T03:37:03Z",
+        "built_at": "2026-07-18T05:00:23Z",
         "domain_export_count": 8,
-        "search_index_item_count": 21241,
-        "canonical_product_count": 3422,
+        "search_index_item_count": 21255,
+        "canonical_product_count": 3436,
         "duplicate_canonical_product_count": 0,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "c8223779b7b055eb4fdc6b33bb50068b7173337a90e0de661aa0739f527d92da",
+      "export_checksum": "726743fdf88d5243c81a9308347097b043b3abc046d037082e9aa4bfdf0c85c5",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1195,7 +1166,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "9f776466f7a42cae2e67aeee0030fc04efcb7f2ef26357dd9b87822f258896c1",
+      "export_checksum": "983b7a1fa046ef7fee72d5c6513dfc621f6662d9ab550747a37f2996bd772147",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     },
     {
@@ -1277,7 +1248,7 @@
         "live_failed_count": 0,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "811b4ad7503de2f4dba9f280ddd04aeff6c765295cdd8263348867d208118272",
+      "export_checksum": "efc35e58a1451f5837019b62814f21640f7faccea8dc6e3163317aadaa1ae145",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1414,7 +1385,7 @@
       "product_count": 1007,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
-        "2026-07-14"
+        "2026-07-18"
       ],
       "quality_summary": {
         "product_count": 1007,
@@ -1422,26 +1393,28 @@
           "active": 652,
           "unknown": 355
         },
-        "active_products_without_criteria": 0,
+        "active_products_without_criteria": 1,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
-        "card_benefits_with_incomplete_conditions": 123,
+        "card_benefits_with_incomplete_conditions": 122,
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1007,
-        "manual_review_candidate_products": 0,
+        "reference_only_products": 981,
+        "manual_review_candidate_products": 20,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 652,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1007,
         "recommendation_status_counts": {
-          "reference_only": 1007
+          "eligible_for_listing": 6,
+          "manual_review_candidate": 20,
+          "reference_only": 981
         },
         "recommendation_scope_counts": {
           "listing_only": 1007
@@ -1450,44 +1423,45 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.1218,
+        "average_completeness_ratio": 0.1811,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 355,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 1007
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "absent_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 1007,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 0
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "empty_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -1495,44 +1469,44 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "not_collected_fields_by_field_name": {
-          "annual_fee_krw": 1006,
-          "benefit_categories": 715,
-          "benefit_frequency_limit": 1007,
-          "benefit_rate_or_amount": 500,
+          "annual_fee_krw": 975,
+          "benefit_amount_krw": 493,
+          "benefit_categories": 695,
+          "benefit_frequency_limit": 968,
+          "benefit_rate_percent": 594,
           "benefit_type": 355,
           "criteria_or_options": 0,
-          "excluded_spend": 1007,
-          "minimum_payment_amount": 1007,
-          "monthly_benefit_limit_krw": 995,
-          "per_transaction_limit_krw": 1004,
-          "performance_excluded_spend": 1007,
-          "previous_month_spend_min_krw": 1002,
-          "sales_verification_status": 1007
+          "excluded_spend": 971,
+          "minimum_payment_amount": 972,
+          "monthly_benefit_limit_krw": 959,
+          "per_transaction_limit_krw": 975,
+          "performance_excluded_spend": 971,
+          "previous_month_spend_min_krw": 968
         },
         "unverified_fields_by_field_name": {
-          "annual_fee_krw": 1,
-          "benefit_categories": 292,
-          "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 507,
+          "annual_fee_krw": 32,
+          "benefit_amount_krw": 514,
+          "benefit_categories": 312,
+          "benefit_frequency_limit": 39,
+          "benefit_rate_percent": 413,
           "benefit_type": 652,
           "criteria_or_options": 0,
-          "excluded_spend": 0,
-          "minimum_payment_amount": 0,
-          "monthly_benefit_limit_krw": 12,
-          "per_transaction_limit_krw": 3,
-          "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 5,
-          "sales_verification_status": 0
+          "excluded_spend": 36,
+          "minimum_payment_amount": 35,
+          "monthly_benefit_limit_krw": 48,
+          "per_transaction_limit_krw": 32,
+          "performance_excluded_spend": 36,
+          "previous_month_spend_min_krw": 39
         },
         "conflicting_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -1540,14 +1514,14 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "expired_verification_fields_by_field_name": {
           "annual_fee_krw": 0,
+          "benefit_amount_krw": 0,
           "benefit_categories": 0,
           "benefit_frequency_limit": 0,
-          "benefit_rate_or_amount": 0,
+          "benefit_rate_percent": 0,
           "benefit_type": 0,
           "criteria_or_options": 0,
           "excluded_spend": 0,
@@ -1555,8 +1529,7 @@
           "monthly_benefit_limit_krw": 0,
           "per_transaction_limit_krw": 0,
           "performance_excluded_spend": 0,
-          "previous_month_spend_min_krw": 0,
-          "sales_verification_status": 0
+          "previous_month_spend_min_krw": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -1580,7 +1553,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e3cb52f4acf04f32f758dae6c84c42b0975b775da2a3676cb0933d0dba797481",
+      "export_checksum": "9428ec3c2bbd41050eea220f50b415cc80ea65f7e7a219996a7bcc795f6beca1",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1593,7 +1566,7 @@
       "product_count": 430,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
-        "2026-07-14"
+        "2026-07-18"
       ],
       "quality_summary": {
         "product_count": 430,
@@ -1745,7 +1718,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "7dede4010ff88e9f292ba04aa64d4b828d1d83bef0cb5c67247d27ff5bc494d9",
+      "export_checksum": "f5fe629bf2353ee3baf75ce12787ba6ec5a3c2bc1faa4a0cb36f188a0d847122",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1758,7 +1731,7 @@
       "product_count": 335,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
-        "2026-07-14"
+        "2026-07-18"
       ],
       "quality_summary": {
         "product_count": 335,
@@ -1793,15 +1766,15 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
-        "average_completeness_ratio": 0.6249,
+        "average_completeness_ratio": 0.6244,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 6,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
           "sales_verification_status": 335
         },
@@ -1823,12 +1796,12 @@
           "base_rate_percent": 0,
           "deposit_protection_status": 0,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 0,
           "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 185,
+          "preferential_rate_conditions": 186,
           "sales_verification_status": 0,
           "saving_method": 0,
           "term_months": 0
@@ -1837,12 +1810,12 @@
           "base_rate_percent": 0,
           "deposit_protection_status": 265,
           "early_termination_condition": 335,
-          "join_channel": 2,
+          "join_channel": 3,
           "join_member": 6,
           "maximum_rate_percent": 0,
-          "monthly_payment_max_krw": 237,
+          "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
-          "preferential_rate_conditions": 185,
+          "preferential_rate_conditions": 186,
           "sales_verification_status": 335,
           "saving_method": 0,
           "term_months": 0
@@ -1851,12 +1824,12 @@
           "base_rate_percent": 335,
           "deposit_protection_status": 70,
           "early_termination_condition": 0,
-          "join_channel": 333,
+          "join_channel": 332,
           "join_member": 329,
           "maximum_rate_percent": 335,
-          "monthly_payment_max_krw": 98,
+          "monthly_payment_max_krw": 97,
           "monthly_payment_min_krw": 7,
-          "preferential_rate_conditions": 150,
+          "preferential_rate_conditions": 149,
           "sales_verification_status": 0,
           "saving_method": 335,
           "term_months": 335
@@ -1911,7 +1884,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "29a17e61000a93e967cd0bcd2602b573b0e1de1e39e8e130ede0b64f496bc902",
+      "export_checksum": "b47f9ae9d2613dcb1fd68af1d099fcfac7b5460fc4ace5cf42203db5278b7d07",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1925,7 +1898,7 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
         "2026-07-10",
-        "2026-07-14"
+        "2026-07-18"
       ],
       "quality_summary": {
         "product_count": 604,
@@ -1948,29 +1921,29 @@
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 593,
-        "comparison_candidate_products": 20,
+        "comparison_candidate_products": 13,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 573,
+        "recommendation_listing_only_products": 580,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
           "reference_only": 593
         },
         "recommendation_scope_counts": {
-          "comparison_only": 20,
+          "comparison_only": 13,
           "internal_verification_candidate": 11,
-          "listing_only": 573
+          "listing_only": 580
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.6668,
+        "average_completeness_ratio": 0.6887,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 11,
-          "early_repayment_fee": 431,
+          "early_repayment_fee": 325,
           "eligible_borrower": 165,
           "loan_limit_krw": 299,
           "loan_rate_max_percent": 160,
@@ -2003,7 +1976,7 @@
         "not_collected_fields_by_field_name": {
           "collateral_type": 96,
           "criteria_or_options": 0,
-          "early_repayment_fee": 431,
+          "early_repayment_fee": 325,
           "eligible_borrower": 165,
           "loan_limit_krw": 255,
           "loan_rate_max_percent": 160,
@@ -2014,7 +1987,7 @@
         "unverified_fields_by_field_name": {
           "collateral_type": 508,
           "criteria_or_options": 0,
-          "early_repayment_fee": 173,
+          "early_repayment_fee": 279,
           "eligible_borrower": 439,
           "loan_limit_krw": 305,
           "loan_rate_max_percent": 444,
@@ -2044,7 +2017,7 @@
           "rate_type": 0,
           "repayment_method": 0
         },
-        "structural_comparison_candidate_count": 20,
+        "structural_comparison_candidate_count": 13,
         "complete_comparison_data_count": 0,
         "verified_comparison_candidate_count": 0,
         "public_comparison_candidate_count": 0,
@@ -2066,7 +2039,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "71a6f2ae5ed04a9a9503d4d08d386aa39c7c171e77c49233c9e38f20d3411ad1",
+      "export_checksum": "f0dc6d9ce10aceafcbdb00e22e34c6a679004d6fd1b1136044c0b4bb10fc1bd2",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2075,166 +2048,135 @@
       "path": "ontology/exports/korea-insurance-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-insurance-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-insurance-products-ontology-2026.json",
-      "item_count": 1075,
-      "product_count": 1057,
+      "item_count": 1089,
+      "product_count": 1071,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
-        "2026-07-14"
+        "2026-07-18"
       ],
       "quality_summary": {
-        "product_count": 1057,
+        "product_count": 1071,
         "status_counts": {
-          "active": 1057
+          "active": 1071
         },
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
         "products_without_related": 0,
         "active_products_without_related": 0,
         "card_benefits_with_incomplete_conditions": 0,
-        "insurance_coverages_with_incomplete_conditions": 1057,
+        "insurance_coverages_with_incomplete_conditions": 1071,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 0,
         "loans_missing_required_fields": 0,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 1057,
+        "reference_only_products": 1071,
         "manual_review_candidate_products": 0,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 857,
+        "discovery_candidate_products": 1071,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 1057,
+        "recommendation_listing_only_products": 1071,
         "recommendation_status_counts": {
-          "reference_only": 1057
+          "reference_only": 1071
         },
         "recommendation_scope_counts": {
-          "listing_only": 1057
+          "listing_only": 1071
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.0979,
+        "average_completeness_ratio": 0.4954,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 1057,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "coverage_amount_krw": 29,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "absent_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "premium_basis": 0,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "empty_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "not_collected_fields_by_field_name": {
-          "claim_condition": 1057,
-          "coverage_amount_krw": 1057,
-          "exclusion_condition": 1057,
-          "insurance_term": 1057,
-          "insured_age_max": 1057,
-          "insured_age_min": 1057,
-          "payment_count_limit": 1057,
-          "payment_term": 1057,
-          "premium_basis": 1057,
-          "reduction_period_days": 1057,
-          "renewal_cycle_years": 362,
-          "renewal_type": 200,
-          "sales_verification_status": 1057,
-          "surrender_refund_type": 1057,
-          "waiting_period_days": 1057
+          "claim_condition": 0,
+          "coverage_amount_krw": 29,
+          "coverage_names": 0,
+          "exclusion_condition": 1071,
+          "insurance_term": 677,
+          "insured_age_max": 1071,
+          "insured_age_min": 1071,
+          "payment_term": 1071,
+          "premium_basis": 0,
+          "renewal_type": 199,
+          "surrender_refund_type": 756
         },
         "unverified_fields_by_field_name": {
-          "claim_condition": 0,
-          "coverage_amount_krw": 0,
+          "claim_condition": 1071,
+          "coverage_amount_krw": 1042,
+          "coverage_names": 1071,
           "exclusion_condition": 0,
-          "insurance_term": 0,
+          "insurance_term": 394,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
-          "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 695,
-          "renewal_type": 857,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "premium_basis": 1071,
+          "renewal_type": 872,
+          "surrender_refund_type": 315
         },
         "conflicting_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "expired_verification_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 0,
+          "coverage_names": 0,
           "exclusion_condition": 0,
           "insurance_term": 0,
           "insured_age_max": 0,
           "insured_age_min": 0,
-          "payment_count_limit": 0,
           "payment_term": 0,
           "premium_basis": 0,
-          "reduction_period_days": 0,
-          "renewal_cycle_years": 0,
           "renewal_type": 0,
-          "sales_verification_status": 0,
-          "surrender_refund_type": 0,
-          "waiting_period_days": 0
+          "surrender_refund_type": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -2258,7 +2200,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "a2d1fe2625464ec2dc19a351c6de91b8177fa95af2c9d7cc695a7bb7970ada11",
+      "export_checksum": "43f153e237d6ab72a31bedf929cbdc7bb1ff7cef219919e4cf6dc3be1b6e5aa7",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -2330,15 +2272,10 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9cb12669947f7a6c1b7830dc81b7a562245579f80bd1d73cbea8f7a36509ce62",
+      "export_checksum": "312745c3f4133a41f4fceb6ecc73852a2c35b4b7f9d6f8da0f4e3516a0933cd8",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ],
-  "blocking_reasons": [
-    "card-products comparison products below 100",
-    "card-products complete products below 200",
-    "insurance-products comparison products below 100",
-    "insurance-products complete products below 200"
-  ],
+  "blocking_reasons": [],
   "recommendation_enabled": false
 }

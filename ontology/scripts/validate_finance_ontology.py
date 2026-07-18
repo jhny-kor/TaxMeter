@@ -288,7 +288,7 @@ def validate_manifest(errors: list[str]) -> list[dict]:
                     require(shard_path.exists(), f"search_index missing shard file {shard.get('path')}", errors)
                     if shard_path.exists():
                         shard_payload = load_json(shard_path)
-                        shard_items = shard_payload.get("items") or []
+                        shard_items = shard_payload if isinstance(shard_payload, list) else shard_payload.get("items") or []
                         shard_total += len(shard_items)
                         require(shard.get("item_count") == len(shard_items), f"search_index shard item_count mismatch {shard.get('path')}", errors)
                         require(shard_path.stat().st_size < 50 * 1024 * 1024, f"search_index shard exceeds 50 MiB {shard.get('path')}", errors)

@@ -14,9 +14,9 @@ PROTECTION_PATH = ROOT / "custom" / "finance" / "deposit-protection-products.gen
 REQUIRED_FIELDS = {
     "deposit": ("term_months", "base_rate_percent", "maximum_rate_percent", "preferential_rate_conditions", "minimum_deposit_krw", "maximum_deposit_krw", "join_member", "join_channel", "interest_method", "early_termination_condition", "deposit_protection_status", "sales_verification_status"),
     "saving": ("term_months", "saving_method", "monthly_payment_min_krw", "monthly_payment_max_krw", "base_rate_percent", "maximum_rate_percent", "preferential_rate_conditions", "join_member", "join_channel", "early_termination_condition", "deposit_protection_status", "sales_verification_status"),
-    "card": ("annual_fee_krw", "previous_month_spend_min_krw", "benefit_type", "benefit_rate_or_amount", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "benefit_categories", "excluded_spend", "performance_excluded_spend", "benefit_frequency_limit", "minimum_payment_amount", "sales_verification_status"),
+    "card": ("annual_fee_krw", "previous_month_spend_min_krw", "benefit_type", "benefit_categories", "benefit_rate_percent", "benefit_amount_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "benefit_frequency_limit", "minimum_payment_amount", "excluded_spend", "performance_excluded_spend"),
     "loan": ("loan_rate_min_percent", "loan_rate_max_percent", "repayment_method", "loan_limit_krw", "early_repayment_fee", "eligible_borrower", "collateral_type", "rate_type"),
-    "insurance": ("coverage_amount_krw", "renewal_type", "renewal_cycle_years", "waiting_period_days", "reduction_period_days", "claim_condition", "exclusion_condition", "payment_count_limit", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "surrender_refund_type", "premium_basis", "sales_verification_status"),
+    "insurance": ("coverage_names", "coverage_amount_krw", "claim_condition", "exclusion_condition", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "premium_basis", "renewal_type", "surrender_refund_type"),
 }
 COMPARISON_FIELDS = {
     "deposit": ("term_months", "base_rate_percent", "maximum_rate_percent", "source_urls"),
@@ -24,6 +24,8 @@ COMPARISON_FIELDS = {
 }
 FIELD_ALIASES = {
     "benefit_type": ("benefit_type", "benefit", "kind"),
+    "benefit_rate_percent": ("benefit_rate_percent", "benefit_rate_min_percent", "rate_percent"),
+    "benefit_amount_krw": ("benefit_amount_krw", "fixed_benefit_amount_krw", "reward_amount_krw"),
     "benefit_rate_or_amount": ("benefit_rate_percent", "rate_percent", "fixed_benefit_amount_krw"),
     "benefit_categories": ("benefit_categories", "category"),
     "loan_rate_min_percent": ("loan_rate_min_percent", "lend_rate_min", "rate_percent"),
@@ -36,6 +38,7 @@ FIELD_ALIASES = {
     "coverage_amount_krw": ("coverage_amount_krw", "coverage_amount", "amount_krw"),
     "renewal_type": ("renewal_type", "renewal", "renewal_cycle_years"),
     "premium_basis": ("premium_basis", "premium", "premium_condition"),
+    "coverage_names": ("coverage_names", "coverage_name", "benefit", "coverage"),
 }
 
 
@@ -182,6 +185,60 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
             for field in comparison_fields
         }
         item["comparison_engine_gate_passed"] = option_status
+    elif domain == "card":
+        benefits = [benefit for benefit in item.get("benefits") or [] if isinstance(benefit, dict)]
+
+        def first_benefit_value(*fields: str) -> Any:
+            if fields[0] in {"benefit_categories", "excluded_spend", "performance_excluded_spend"}:
+                values: list[Any] = []
+                for benefit in benefits:
+                    value = benefit.get(fields[0])
+                    if isinstance(value, list):
+                        values.extend(value)
+                return sorted(set(values)) or None
+            present = [
+                benefit[field]
+                for benefit in benefits
+                for field in fields
+                if field_present(benefit.get(field))
+            ]
+            if present:
+                return present[-1]
+            return next(
+                (benefit[field] for benefit in benefits for field in fields if field_present(benefit.get(field))),
+                None,
+            )
+
+        card_fields = {
+            "annual_fee_krw": first_benefit_value("annual_fee_krw"),
+            "previous_month_spend_min_krw": first_benefit_value("previous_month_spend_min_krw"),
+            "benefit_type": first_benefit_value("benefit_type"),
+            "benefit_categories": first_benefit_value("benefit_categories"),
+            "benefit_rate_percent": first_benefit_value("benefit_rate_percent", "benefit_rate_max_percent"),
+            "benefit_amount_krw": first_benefit_value("benefit_amount_krw", "fixed_benefit_amount_krw"),
+            "monthly_benefit_limit_krw": first_benefit_value("monthly_benefit_limit_krw"),
+            "per_transaction_limit_krw": first_benefit_value("per_transaction_limit_krw"),
+            "benefit_frequency_limit": first_benefit_value("benefit_frequency_limit"),
+            "minimum_payment_amount": first_benefit_value("minimum_payment_amount"),
+            "excluded_spend": first_benefit_value("excluded_spend"),
+            "performance_excluded_spend": first_benefit_value("performance_excluded_spend"),
+        }
+        for field, value in card_fields.items():
+            if field_present(value):
+                item[field] = value
+        item["benefit_rate_or_amount"] = item.get("benefit_rate_percent") or item.get("benefit_amount_krw")
+    elif domain == "insurance":
+        coverage = next(
+            (criterion for criterion in item.get("criteria") or []
+             if isinstance(criterion, dict) and criterion.get("criteria_kind") == "coverage"),
+            {},
+        )
+        if field_present(coverage.get("coverage_name")):
+            item["coverage_names"] = coverage["coverage_name"]
+        for field in REQUIRED_FIELDS[domain]:
+            value = source_field_value(item, field)
+            if field_present(value) and not field_present(item.get(field)):
+                item[field] = value
     fresh = str(item.get("collected_at") or "") >= (date.today() - timedelta(days=31)).isoformat()
     item["source_listing_status"] = "listed" if item.get("product_status") == "active" and (item.get("source_record_id") or item.get("source_urls")) else "not_listed"
     if item.get("sales_status") != "ended":

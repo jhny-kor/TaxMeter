@@ -56,6 +56,13 @@ def option_text(options: list[dict], key: str) -> str | None:
     return ", ".join(values) if values else None
 
 
+def normalize_fee(value: str | None) -> int | str | None:
+    text = str(value or "").strip()
+    if text in {"없음", "면제", "면제됨", "없음.", "해당 없음"}:
+        return 0
+    return text or None
+
+
 def parse_loan_limit_krw(text: str) -> int | None:
     values = []
     compact = text.replace(",", "")
@@ -304,7 +311,7 @@ def normalize_loan_product(item: dict) -> None:
     item["normalization_status"] = limit_normalization_status
     item["normalization_source"] = limit_normalization_source
 
-    item["early_repayment_fee"] = raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee")
+    item["early_repayment_fee"] = normalize_fee(raw_text(raw, "erly_rpay_fee", "rpymdcfe") or option_text(options, "fee"))
 
     eligible_borrower = raw_text(raw, "trgt", "crdt_prdt_type_nm", "join_deny_detl") or option_text(options, "eligibility")
     item["eligible_borrower"] = None if eligible_borrower in {"제한없음", "-"} else eligible_borrower

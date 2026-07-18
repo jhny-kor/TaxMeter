@@ -10,6 +10,8 @@ import re
 from card_benefit_parser import parse_krw_amount
 
 RENEWAL_CYCLE_RE = re.compile(r"(\d+)\s*년\s*갱신")
+INSURANCE_TERM_AGE_RE = re.compile(r"(\d+)\s*세")
+PAYMENT_TERM_RE = re.compile(r"(\d+)\s*년\s*납")
 
 
 def premium_basis_amount(options: list[dict]) -> int | None:
@@ -29,6 +31,24 @@ def renewal_cycle_years(renewal_text: str, renewal_type: str | None) -> int | No
     return int(match.group(1)) if match else None
 
 
+def title_refund_type(title: str) -> str | None:
+    compact = str(title or "")
+    for marker in ("해약환급금 미지급", "해약환급금이 없는", "해약환급금 일부지급", "해약환급금 보증", "해약환급금 미보증"):
+        if marker in compact:
+            return marker
+    return None
+
+
+def insurance_term(title: str) -> str | None:
+    match = INSURANCE_TERM_AGE_RE.search(str(title or ""))
+    return f"{match.group(1)}세 만기" if match else None
+
+
+def payment_term(title: str) -> str | None:
+    match = PAYMENT_TERM_RE.search(str(title or ""))
+    return f"{match.group(1)}년납" if match else None
+
+
 def enrich_insurance_coverage(item: dict) -> None:
     if item.get("type") != "insurance-product":
         return
@@ -44,12 +64,33 @@ def enrich_insurance_coverage(item: dict) -> None:
         renewal_type = "renewable"
     amount = premium_basis_amount(options)
     cycle_years = renewal_cycle_years(renewal_text, renewal_type)
+    coverage_name = next((criterion.get("coverage_name") or criterion.get("benefit") for criterion in criteria if criterion.get("criteria_kind") == "coverage"), None)
+    premium_basis = next((option.get("premium_amount") for option in options if option.get("premium_amount")), None)
+    refund_type = title_refund_type(item.get("title"))
+    term = insurance_term(item.get("title"))
+    pay_term = payment_term(item.get("title"))
+    if not term and (item.get("product_kind") == "whole-life" or "종신보험" in str(item.get("title") or "")):
+        term = "종신"
+    if coverage_name:
+        item["coverage_names"] = coverage_name
+        item["claim_condition"] = coverage_name
+    if amount is not None:
+        item["coverage_amount_krw"] = amount
+    if premium_basis:
+        item["premium_basis"] = premium_basis
+    if refund_type:
+        item["surrender_refund_type"] = refund_type
+    if term:
+        item["insurance_term"] = term
+    if pay_term:
+        item["payment_term"] = pay_term
     source_urls = [str(url) for url in item.get("source_urls") or [] if str(url).startswith("https://")]
     source_url = source_urls[0] if source_urls else None
     for criterion in criteria:
         if criterion.get("criteria_kind") != "coverage":
             continue
         criterion.setdefault("coverage_name", criterion.get("benefit") or criterion.get("condition") or criterion.get("label"))
+        criterion.setdefault("coverage_names", criterion.get("coverage_name"))
         criterion.setdefault("coverage_amount_krw", None)
         criterion.setdefault("coverage_amount_basis", None)
         criterion.setdefault("disclosed_insured_amount_krw", amount)
@@ -68,6 +109,14 @@ def enrich_insurance_coverage(item: dict) -> None:
         criterion.setdefault("insurance_term", None)
         criterion.setdefault("payment_term", None)
         criterion.setdefault("surrender_refund_type", None)
+        if coverage_name:
+            criterion["claim_condition"] = coverage_name
+        if refund_type:
+            criterion["surrender_refund_type"] = refund_type
+        if term:
+            criterion["insurance_term"] = term
+        if pay_term:
+            criterion["payment_term"] = pay_term
         criterion.setdefault("policy_detail_collection_status", "not_collected")
         criterion.setdefault("condition_source_url", source_url)
         criterion.setdefault("condition_source_locator", item.get("source_record_id"))
