@@ -130,42 +130,39 @@ class McpClient:
         arguments: dict = {"query": query, "limit": limit}
         if type_filter:
             arguments["type"] = type_filter
-        result = None
-        for attempt in range(3):
-            try:
-                result = self.request("tools/call", {"name": "search", "arguments": arguments})
-                break
-            except urllib.error.HTTPError as error:
-                if error.code < 500 or attempt == 2:
-                    raise
-                self.session_id = None
-                time.sleep(10 * (attempt + 1))
-                self.initialize()
-            except ValueError as error:
-                if "응답이 비어 있습니다" not in str(error) or attempt == 2:
-                    raise
-                self.session_id = None
-                time.sleep(10 * (attempt + 1))
-                self.initialize()
-        if result is None:
-            raise AssertionError("unreachable")
+        result = self.tool_call("search", arguments)
         structured = result.get("structuredContent")
         if not structured:
             structured = json.loads(result["content"][0]["text"])
         return structured.get("results") or []
 
+    def tool_call(self, name: str, arguments: dict, attempts: int = 6) -> dict:
+        for attempt in range(attempts):
+            try:
+                return self.request("tools/call", {"name": name, "arguments": arguments})
+            except urllib.error.HTTPError as error:
+                if error.code < 500 or attempt == attempts - 1:
+                    raise
+            except ValueError as error:
+                if "응답이 비어 있습니다" not in str(error) or attempt == attempts - 1:
+                    raise
+            self.session_id = None
+            time.sleep(3 * (attempt + 1))
+            self.initialize()
+        raise AssertionError("unreachable")
+
     def discover(self, query: str, limit: int = 10) -> dict:
-        result = self.request("tools/call", {"name": "discover", "arguments": {"query": query, "limit": limit}})
+        result = self.tool_call("discover", {"query": query, "limit": limit})
         structured = result.get("structuredContent")
         return structured or json.loads(result["content"][0]["text"])
 
     def compare(self, arguments: dict) -> dict:
-        result = self.request("tools/call", {"name": "compare", "arguments": arguments})
+        result = self.tool_call("compare", arguments)
         structured = result.get("structuredContent")
         return structured or json.loads(result["content"][0]["text"])
 
     def exports(self) -> dict:
-        result = self.request("tools/call", {"name": "exports", "arguments": {}})
+        result = self.tool_call("exports", {})
         structured = result.get("structuredContent")
         return structured or json.loads(result["content"][0]["text"])
 
