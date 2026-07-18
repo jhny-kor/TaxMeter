@@ -29,6 +29,13 @@ from search_index_loader import load_search_index_payload  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REGRESSION_REPORT = REPO_ROOT / "ontology/exports/openfin-search-regression-report-2026.json"
 QUALITY_MANIFEST = REPO_ROOT / "ontology/exports/openfin-quality-manifest-2026.json"
+LIVE_REPORTS = tuple(REPO_ROOT / f"ontology/exports/{name}" for name in (
+    "openfin-semantic-duplicate-report-2026.json",
+    "openfin-comparison-regression-report-2026.json",
+    "openfin-recommendation-safety-report-2026.json",
+    "openfin-support-relevance-report-2026.json",
+    "openfin-local-cloudflare-parity-report-2026.json",
+))
 DOCS_ROOT = REPO_ROOT / "docs/opentax"
 SEARCH_INDEX = REPO_ROOT / "ontology/exports/finance-search-index-2026.json"
 DEFAULT_MCP_URL = "https://finance-mcp.y2kthr.workers.dev/mcp"
@@ -173,7 +180,7 @@ def rewrite_with_checksum(path: Path, mutate) -> None:
 
 
 def mirror_live_reports() -> None:
-    for path in (REGRESSION_REPORT, QUALITY_MANIFEST):
+    for path in (REGRESSION_REPORT, QUALITY_MANIFEST, *LIVE_REPORTS):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -472,6 +479,16 @@ def main() -> int:
         rewrite_with_checksum(QUALITY_MANIFEST, lambda payload: payload.update({
             "live_search_regression": summary,
         }))
+        for path in LIVE_REPORTS:
+            rewrite_with_checksum(path, lambda payload: payload.update({
+                "live_tested_at": checked_at,
+                "runtime_version": runtime_exports.get("runtime", {}).get("runtime_version"),
+                "deployment_commit": runtime_exports.get("runtime", {}).get("deployment_commit"),
+                "manifest_version": runtime_exports.get("runtime", {}).get("manifest_version"),
+                "live_case_count": len(tests),
+                "live_failed_count": len(failures),
+                "live_failures": failures,
+            }))
         mirror_live_reports()
         print(f"라이브 결과를 기록했습니다: {REGRESSION_REPORT.name}, {QUALITY_MANIFEST.name}")
 

@@ -1,6 +1,13 @@
 {
-  "version": "openfin-data-drift-report-2026.07.14.1",
+  "version": "openfin-data-drift-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "data-drift",
   "product_count_added": 0,
   "product_count_removed": 0,
@@ -11,5 +18,5 @@
   "discovery_candidate_changed": 0,
   "verification_expired": 0,
   "note": "Previous comparable export snapshot is not retained in this build; drift is recorded as zero-change baseline.",
-  "export_checksum": "92c8da9e0a2216e6a2c76e2f755240e74ce1778634da7e86abf92d1e630ed13f"
+  "export_checksum": "578717c8285d6c19b1c7e85bc914afd93075ea6bdc9000ebface152b0757d765"
 }

@@ -9,7 +9,22 @@ from urllib.parse import parse_qs, urlparse
 
 
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
-IDENTIFIER_QUERY_KEYS = ("product_code", "productCode", "gdsno", "prodNo", "productId")
+IDENTIFIER_QUERY_KEYS = (
+    "product_code", "productCode", "productCodeNo", "fin_prdt_cd", "finPrdtCd",
+    "gdsno", "mbkNo", "prodNo", "productId", "code", "product_id", "productId",
+)
+IDENTIFIER_NAMESPACES = {
+    "product_code": "official_product_code",
+    "productCode": "official_product_code",
+    "productCodeNo": "official_product_code",
+    "fin_prdt_cd": "finlife_product_code",
+    "finPrdtCd": "finlife_product_code",
+    "gdsno": "bc_card_gdsno",
+    "prodNo": "official_product_id",
+    "productId": "official_product_id",
+    "product_id": "official_product_id",
+    "code": "disclosure_product_code",
+}
 RECORD_METADATA_FIELDS = {
     "id",
     "canonical_product_id",
@@ -55,9 +70,64 @@ def official_url_identifier(item: dict[str, Any]) -> str:
     return ""
 
 
+def _external_id(namespace: str, value: Any) -> dict[str, str] | None:
+    compact = str(value or "").strip()
+    if not compact:
+        return None
+    return {"namespace": namespace, "value": compact}
+
+
+def external_product_ids(item: dict[str, Any]) -> list[dict[str, str]]:
+    identifiers: list[dict[str, str]] = []
+
+    def add(namespace: str, value: Any) -> None:
+        if value in (None, "", [], {}):
+            return
+        if namespace in {"official_product_code", "finlife_product_code"} and item.get("type") == "bank-product":
+            value = f"{slug(item.get('provider_code') or item.get('provider'))}:{slug(item.get('product_kind') or item.get('search_type'))}:{value}"
+        entry = _external_id(namespace, value)
+        if entry and entry not in identifiers:
+            identifiers.append(entry)
+
+    for key, namespace in IDENTIFIER_NAMESPACES.items():
+        add(namespace, item.get(key))
+    add("official_source_record_id", item.get("source_record_id"))
+    add("insurance_product_code", item.get("insurance_product_code"))
+    add("public_data_product_id", item.get("public_data_product_id"))
+    for record in item.get("source_records") or []:
+        if not isinstance(record, dict):
+            continue
+        for key, namespace in IDENTIFIER_NAMESPACES.items():
+            add(namespace, record.get(key))
+        add("official_source_record_id", record.get("source_record_id"))
+    for raw_url in item.get("source_urls") or []:
+        parsed = urlparse(str(raw_url))
+        query = parse_qs(parsed.query)
+        for key, namespace in IDENTIFIER_NAMESPACES.items():
+            for value in query.get(key) or []:
+                add(namespace, value)
+    return identifiers
+
+
+def provider_external_ids(item: dict[str, Any]) -> list[dict[str, str]]:
+    identifiers: list[dict[str, str]] = []
+
+    def add(namespace: str, value: Any) -> None:
+        entry = _external_id(namespace, value)
+        if entry and entry not in identifiers:
+            identifiers.append(entry)
+
+    add("financial_company_code", item.get("provider_code"))
+    for raw_url in item.get("source_urls") or []:
+        query = parse_qs(urlparse(str(raw_url)).query)
+        for value in query.get("mbkNo") or []:
+            add("bc_card_issuer_code", value)
+    return identifiers
+
+
 def canonical_product_id(item: dict[str, Any]) -> str:
     provider = slug(item.get("provider_code") or item.get("provider"))
-    product = slug(item.get("product_code"))
+    product = slug(item.get("product_code") or item.get("fin_prdt_cd"))
     registry = slug(item.get("source_record_id"))
     url_identifier = official_url_identifier(item)
     title = slug(item.get("title")).replace("-", "")
@@ -81,11 +151,31 @@ def source_record(item: dict[str, Any]) -> dict[str, Any]:
         "source_basis_dates": list(item.get("source_basis_dates") or []),
         "collected_at": item.get("collected_at"),
         "source_checksum": item.get("source_checksum"),
+        "roles": list(item.get("source_roles") or []),
     }
 
 
 def source_id(item: dict[str, Any]) -> str:
     return str(item.get("id") or item.get("source_record_id") or "unknown")
+
+
+def external_merge_key(item: dict[str, Any]) -> str | None:
+    product_type = str(item.get("type") or "")
+    provider = slug(item.get("provider_code") or item.get("provider"))
+    for identifier in item.get("external_product_ids") or []:
+        if not isinstance(identifier, dict):
+            continue
+        namespace = str(identifier.get("namespace") or "")
+        value = slug(identifier.get("value"))
+        if not value:
+            continue
+        if product_type == "card-product" and namespace in {"bc_card_gdsno", "disclosure_product_code"}:
+            return f"product:{namespace}:{value}"
+        if product_type == "bank-product" and namespace in {"finlife_product_code", "official_product_code"}:
+            return f"product:{product_type}:{slug(item.get('product_kind') or item.get('search_type'))}:{provider}:{namespace}:{value}"
+        if product_type == "insurance-product" and namespace == "official_product_code":
+            return f"product:{product_type}:{slug(item.get('product_kind') or item.get('search_type'))}:{provider}:{namespace}:{value}"
+    return None
 
 
 def record_priority(item: dict[str, Any]) -> tuple[int, int, str]:
@@ -108,6 +198,9 @@ def canonicalize_product_records(items: list[dict[str, Any]]) -> list[dict[str, 
         if item.get("type") not in PRODUCT_TYPES:
             continue
         item["canonical_product_id"] = canonical_product_id(item)
+        item["external_product_ids"] = external_product_ids(item)
+        item["provider_external_ids"] = provider_external_ids(item)
+        item["provider_roles"] = list(item.get("provider_roles") or ["issuer"])
         item["source_records"] = [source_record(item)]
         item["preferred_source"] = source_id(item)
         item["merged_fields"] = {}
@@ -129,14 +222,27 @@ def merge_product_records(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
             continue
         record = deepcopy(item)
         record["canonical_product_id"] = str(record.get("canonical_product_id") or canonical_product_id(record))
-        grouped[record["canonical_product_id"]].append(record)
+        record["external_product_ids"] = external_product_ids(record)
+        record["provider_external_ids"] = provider_external_ids(record)
+        grouped[external_merge_key(record) or record["canonical_product_id"]].append(record)
 
     merged: list[dict[str, Any]] = []
-    for canonical_id, records in sorted(grouped.items()):
+    for _, records in sorted(grouped.items()):
         ordered = sorted(records, key=record_priority, reverse=True)
         preferred = deepcopy(ordered[0])
+        canonical_id = str(ordered[0].get("canonical_product_id") or canonical_product_id(ordered[0]))
         preferred["canonical_product_id"] = canonical_id
         preferred["source_records"] = [source_record(record) for record in ordered]
+        preferred["external_product_ids"] = []
+        preferred["provider_external_ids"] = []
+        for record in ordered:
+            for identifier in record.get("external_product_ids") or []:
+                if identifier not in preferred["external_product_ids"]:
+                    preferred["external_product_ids"].append(identifier)
+            for identifier in record.get("provider_external_ids") or []:
+                if identifier not in preferred["provider_external_ids"]:
+                    preferred["provider_external_ids"].append(identifier)
+        preferred["provider_roles"] = sorted({role for record in ordered for role in record.get("provider_roles") or ["issuer"]})
         preferred["preferred_source"] = source_id(ordered[0])
         preferred["merged_fields"] = {}
         preferred["field_provenance"] = {}

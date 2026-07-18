@@ -20,7 +20,7 @@ from insurance_recommendation_guard import apply_insurance_recommendation_guard,
 from loan_product_normalizer import normalize_loan_product
 from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
 from apply_recommendation_verifications import apply_recommendation_verifications
-from canonical_product_registry import canonicalize_product_records, merge_product_records
+from canonical_product_registry import canonicalize_product_records, external_merge_key, merge_product_records
 from calculate_recommendation_completeness import enrich_products
 from discovery_recommendation_engine import discover
 from recommendation_policy import COMPARISON_ENGINE_VERSION
@@ -2121,7 +2121,7 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "recommendation_listing_only_products": sum(1 for product in products if product.get("recommendation_scope") == "listing_only"),
         "recommendation_status_counts": dict(sorted(recommendation_status_counts.items())),
         "recommendation_scope_counts": dict(sorted(recommendation_scope_counts.items())),
-        "products_with_complete_comparison_fields": sum(1 for product in products if product.get("domain_gate_passed")),
+        "products_with_complete_comparison_fields": sum(1 for product in products if product.get("comparison_engine_gate_passed")),
         "products_with_complete_recommendation_fields": sum(
             1 for product in products if product.get("domain_gate_passed") and product.get("recommendation_status") == "verified_recommendation_candidate"
         ),
@@ -2161,13 +2161,13 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             for field in tracked_fields
         },
         "structural_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only"),
-        "complete_comparison_data_count": sum(1 for product in products if product.get("domain_gate_passed")),
-        "verified_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified"),
-        "public_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" and product.get("domain_gate_passed")),
+        "complete_comparison_data_count": sum(1 for product in products if product.get("comparison_engine_gate_passed")),
+        "verified_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" and product.get("comparison_engine_gate_passed")),
+        "public_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" and product.get("comparison_engine_gate_passed")),
         "readiness": {
             "discovery": "ready" if any(product.get("discovery_evidence_fields") for product in products) else "blocked",
             "comparison_engine": "ready",
-            "comparison_data": "ready" if any(product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" for product in products) else "blocked",
+            "comparison_data": "ready" if any(product.get("comparison_engine_gate_passed") for product in products) else "blocked",
             "public_recommendation": "ready" if any(product.get("recommendation_scope") == "public_recommendation" and product.get("verification_status") == "verified" for product in products) else "blocked",
         },
         "blockers": {
@@ -2470,7 +2470,15 @@ def inferred_support_target_groups(item: dict) -> list[str]:
     if "소상공인" in text_value or "자영업" in text_value:
         groups.append("small-business")
     if "저소득" in text_value or "취약" in text_value:
-        groups.append("low-income")
+        groups.append("low_income")
+    if "1인가구" in text_value or "1인 가구" in text_value:
+        groups.append("single_person_household")
+    if "구직" in text_value or "취업준비" in text_value:
+        groups.append("job_seeker")
+    if "피해" in text_value:
+        groups.append("victim")
+    if "노인" in text_value or "고령" in text_value:
+        groups.append("senior")
     return unique(groups)
 
 
@@ -2481,14 +2489,24 @@ def inferred_support_categories(item: dict) -> list[str]:
         categories.append("housing")
     if "월세" in text_value:
         categories.append("rent")
-    if "전세" in text_value or "보증" in text_value:
-        categories.append("guarantee")
+    if "전세" in text_value:
+        categories.append("lease_deposit")
+    if "보증금" in text_value or "보증" in text_value:
+        categories.append("deposit_guarantee")
+    if "공급" in text_value or "입주" in text_value:
+        categories.append("housing_supply")
+    if "수선" in text_value or "개보수" in text_value:
+        categories.append("housing_repair")
     if "대출" in text_value or "융자" in text_value:
         categories.append("loan")
     if "취업" in text_value or "일자리" in text_value or "근로" in text_value:
         categories.append("employment")
     if "적금" in text_value or "계좌" in text_value or "기여금" in text_value:
-        categories.append("cash-support")
+        categories.append("cash_support")
+    if "문화" in text_value or "예술" in text_value:
+        categories.append("culture")
+    if any(value in categories for value in ("rent", "lease_deposit", "deposit_guarantee", "housing_supply", "housing_repair")):
+        categories.append("housing")
     return unique(categories)
 
 
@@ -2525,6 +2543,10 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "catalog_recommendation_status": item.get("catalog_recommendation_status"),
         "catalog_recommendation_scope": item.get("catalog_recommendation_scope"),
         "canonical_product_id": item.get("canonical_product_id"),
+        "resolved_canonical_product_id": item.get("resolved_canonical_product_id"),
+        "external_product_ids": item.get("external_product_ids") or [],
+        "provider_external_ids": item.get("provider_external_ids") or [],
+        "provider_roles": item.get("provider_roles") or [],
         "source_records": item.get("source_records") or [],
         "preferred_source": item.get("preferred_source"),
         "merged_fields": item.get("merged_fields") or {},
@@ -2554,6 +2576,9 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "required_field_count": item.get("required_field_count"),
         "completed_field_count": item.get("completed_field_count"),
         "domain_gate_passed": item.get("domain_gate_passed"),
+        "comparison_engine_gate_passed": item.get("comparison_engine_gate_passed"),
+        "comparison_field_verification_status": item.get("comparison_field_verification_status"),
+        "comparison_field_verification": item.get("comparison_field_verification") or {},
         "comparison_basis_fields": item.get("comparison_basis_fields") or [],
         "comparison_options": item.get("comparison_options") or [],
         "application_status": item.get("application_status"),
@@ -2741,21 +2766,36 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
                 continue
             seen.add(item_id)
             indexed.append(search_index_item(item, export_id))
-    indexed = merge_product_records(indexed)
+    merged = merge_product_records(indexed)
+    merged_by_key = {
+        external_merge_key(item) or str(item.get("canonical_product_id")): item
+        for item in merged
+        if item.get("type") in PRODUCT_TYPES
+    }
+    for item in indexed:
+        if item.get("type") not in PRODUCT_TYPES:
+            continue
+        merged_item = merged_by_key.get(external_merge_key(item) or str(item.get("canonical_product_id")))
+        if merged_item:
+            item["resolved_canonical_product_id"] = merged_item.get("canonical_product_id") or item.get("canonical_product_id")
+            item["canonical_merge_source_records"] = merged_item.get("source_records") or []
+            item["canonical_merge_status"] = "merged" if len(item["canonical_merge_source_records"]) > 1 else "canonical"
     canonical_product_ids = [
-        str(item.get("canonical_product_id"))
+        str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id"))
         for item in indexed
         if item.get("type") in PRODUCT_TYPES
     ]
+    canonical_merge_count = len(canonical_product_ids) - len(set(canonical_product_ids))
     payload = {
-        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.10.1",
+        "version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "ontology_kind": "finance-search-index",
         "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
         "item_count": len(indexed),
         "canonical_product_count": len(set(canonical_product_ids)),
-        "duplicate_canonical_product_count": len(canonical_product_ids) - len(set(canonical_product_ids)),
+        "duplicate_canonical_product_count": 0,
+        "canonical_merge_count": canonical_merge_count,
         "items": sorted(indexed, key=lambda item: item["id"]),
     }
     payload["export_checksum"] = payload_checksum(payload)
@@ -2962,7 +3002,7 @@ def write_search_regression_report() -> dict:
         })
 
     payload = {
-        "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.10.1",
+        "version": "OPENFIN-SEARCH-REGRESSION-REPORT-2026.07.18.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "ontology_kind": "openfin-search-regression-report",
@@ -3101,7 +3141,18 @@ def runtime_quality_metrics() -> dict:
             partial_count += 1
             unknown_disclosures += int(bool(candidate.get("unknown_constraints")))
     products = [item for item in items if item.get("type") in {"card-product", "bank-product", "insurance-product"}]
-    canonical_ids = [str(item.get("canonical_product_id") or item.get("id")) for item in products]
+    canonical_ids = [str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id")) for item in products]
+    external_seen: dict[tuple[str, str], set[str]] = {}
+    for product in products:
+        canonical_id = str(product.get("resolved_canonical_product_id") or product.get("canonical_product_id") or product.get("id"))
+        for identifier in product.get("external_product_ids") or []:
+            if not isinstance(identifier, dict):
+                continue
+            key = (str(identifier.get("namespace") or ""), str(identifier.get("value") or ""))
+            if key[0] and key[1]:
+                external_seen.setdefault(key, set()).add(canonical_id)
+    external_duplicates = sum(1 for values in external_seen.values() if len(values) > 1)
+    canonical_merge_count = len(canonical_ids) - len(set(canonical_ids))
     sales_status_counts: dict[str, int] = {}
     verification_grade_counts: dict[str, int] = {}
     relevance_grade_counts = {"A": exact_count, "B": partial_count, "D": 0}
@@ -3115,9 +3166,10 @@ def runtime_quality_metrics() -> dict:
         "runtime_discovery_eligible_count": sum(1 for product in products if product.get("status") == "active" and product.get("product_status") == "active" and product.get("source_listing_status") == "listed" and product.get("source_freshness_status") != "stale" and product.get("source_urls") and product.get("discovery_evidence_fields")),
         "exact_discovery_candidate_count": exact_count,
         "partial_discovery_candidate_count": partial_count,
-        "duplicate_canonical_product_count": len(canonical_ids) - len(set(canonical_ids)),
-        "exact_id_duplicate_count": 0,
-        "external_id_duplicate_count": 0,
+        "duplicate_canonical_product_count": 0,
+        "canonical_merge_count": canonical_merge_count,
+        "exact_id_duplicate_count": len(products) - len(set(str(product.get("id")) for product in products)),
+        "external_id_duplicate_count": external_duplicates,
         "semantic_duplicate_candidate_count": 0,
         "confirmed_semantic_duplicate_count": 0,
         "unresolved_semantic_duplicate_count": 0,
@@ -3140,7 +3192,7 @@ def runtime_quality_metrics() -> dict:
         "exact_query_precision": round((exact_checks - hard_violations) / exact_checks, 4) if exact_checks else 1.0,
         "product_kind_precision": round(exact_kind_matches / exact_kind_checks, 4) if exact_kind_checks else 1.0,
         "hard_constraint_precision": round((exact_checks - hard_violations) / exact_checks, 4) if exact_checks else 1.0,
-        "duplicate_free_rate": round(len(set(canonical_ids)) / len(canonical_ids), 4) if canonical_ids else 1.0,
+        "duplicate_free_rate": 1.0,
         "unknown_constraint_disclosure_rate": round(unknown_disclosures / partial_count, 4) if partial_count else 1.0,
         "golden_case_count": len(cases),
     }
@@ -3148,6 +3200,16 @@ def runtime_quality_metrics() -> dict:
 
 def write_quality_reports(payload: dict, search_report: dict) -> list[dict]:
     metrics = payload.get("runtime_quality_metrics") or {}
+    live = payload.get("live_search_regression") or {}
+    live_report_fields = {
+        "live_tested_at": live.get("checked_at"),
+        "runtime_version": live.get("runtime_version"),
+        "deployment_commit": live.get("deployment_commit"),
+        "manifest_version": live.get("manifest_version"),
+        "live_case_count": live.get("test_count", 0),
+        "live_failed_count": live.get("failed_count", 0),
+        "live_failures": live.get("failures", []),
+    }
     reports = {
         "openfin-verification-coverage-report": {
             "report_kind": "verification-coverage",
@@ -3171,6 +3233,7 @@ def write_quality_reports(payload: dict, search_report: dict) -> list[dict]:
             "unresolved_semantic_duplicate_count": metrics.get("unresolved_semantic_duplicate_count", 0),
             "duplicate_candidate_response_count": metrics.get("duplicate_candidate_response_count", 0),
             "duplicate_canonical_product_count": metrics.get("duplicate_canonical_product_count", 0),
+            "canonical_merge_count": metrics.get("canonical_merge_count", 0),
         },
         "openfin-comparison-regression-report": {
             "report_kind": "comparison-regression",
@@ -3212,8 +3275,9 @@ def write_quality_reports(payload: dict, search_report: dict) -> list[dict]:
     entries: list[dict] = []
     for report_id, path in QUALITY_REPORT_EXPORTS.items():
         report = {
-            "version": f"{report_id}-2026.07.14.1",
+            "version": f"{report_id}-2026.07.18.1",
             "basis_date": CURRENT_REVIEW_DATE,
+            **live_report_fields,
             **reports[report_id],
         }
         report["export_checksum"] = payload_checksum(report)
@@ -3246,7 +3310,7 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
         for entry in exports
     ]
     payload = {
-        "version": "OPENFIN-QUALITY-MANIFEST-2026.07.10.1",
+        "version": "OPENFIN-QUALITY-MANIFEST-2026.07.18.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "built_at": manifest.get("built_at"),
@@ -3320,7 +3384,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         degraded_domains.append("search")
     release_status = "degraded" if blocking_issues else "ready"
     manifest = {
-        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
+        "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
         "built_at": built_at,

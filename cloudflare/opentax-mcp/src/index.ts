@@ -42,6 +42,10 @@ type FinanceItem = {
   catalog_recommendation_status?: string;
   catalog_recommendation_scope?: string;
   canonical_product_id?: string;
+  resolved_canonical_product_id?: string;
+  external_product_ids?: { namespace: string; value: string }[];
+  provider_external_ids?: { namespace: string; value: string }[];
+  provider_roles?: string[];
   source_records?: Record<string, unknown>[];
   preferred_source?: string;
   merged_fields?: Record<string, unknown>;
@@ -66,6 +70,9 @@ type FinanceItem = {
   required_field_count?: number;
   completed_field_count?: number;
   domain_gate_passed?: boolean;
+  comparison_engine_gate_passed?: boolean;
+  comparison_field_verification_status?: string;
+  comparison_field_verification?: Record<string, unknown>;
   comparison_options?: unknown[];
   application_status?: string;
   is_currently_applicable?: boolean;
@@ -156,6 +163,7 @@ type SearchIndexFile = {
   readonly version: string;
   readonly basis_date: string;
   readonly item_count?: number;
+  readonly export_checksum?: string;
   readonly items?: readonly FinanceItem[];
   readonly shards?: readonly SearchIndexShard[];
 };
@@ -307,12 +315,38 @@ function matchesSupportIntent(item: FinanceItem, query: string): boolean {
   const targetGroups = new Set((item.target_group ?? []).map(normalizeQuery));
   const categories = new Set((item.support_category ?? []).map(normalizeQuery));
   const requiresYouth = query.includes("청년");
-  const requiresHousing = /(월세|주거|전세)/.test(query);
+  const requiresRent = /월세/.test(query);
+  const requiresHousing = /(월세|주거|전세|임대|보증금|입주|공급|수선)/.test(query);
+  const requiresEmployment = /(취업|일자리|구직)/.test(query);
+  const requiresEducation = /교육/.test(query);
+  const requiresHealth = /(의료|건강)/.test(query);
+  const requiresCulture = /(문화|예술)/.test(query);
+  const requiresBusiness = /(창업|사업|소상공인)/.test(query);
   const requiresCurrentAvailability = /(지원|보조금|신청|월세|주거)/.test(query);
   const currentlyAvailable = item.is_currently_applicable === true || ["open", "always_open"].includes(item.application_status ?? "");
   return (!requiresYouth || targetGroups.has("youth"))
-    && (!requiresHousing || categories.has("housing") || categories.has("rent"))
+    && (!requiresRent || categories.has("housing") || categories.has("rent"))
+    && (!requiresHousing || categories.has("housing") || categories.has("rent") || categories.has("lease_deposit") || categories.has("deposit_guarantee") || categories.has("housing_supply") || categories.has("housing_repair"))
+    && (!requiresEmployment || categories.has("employment"))
+    && (!requiresEducation || categories.has("education"))
+    && (!requiresHealth || categories.has("health"))
+    && (!requiresCulture || categories.has("culture"))
+    && (!requiresBusiness || categories.has("business"))
     && (!requiresCurrentAvailability || currentlyAvailable);
+}
+
+function supportMatchTier(item: FinanceItem, query: string): "exact" | "partial" | "related" | undefined {
+  if (item.type !== "support-program" || !SUPPORT_INTENT_RE.test(query)) return undefined;
+  const text = itemSearchText(item);
+  const categories = new Set((item.support_category ?? []).map(normalizeQuery));
+  const youthRequested = query.includes("청년");
+  const youthMatched = !youthRequested || (item.target_group ?? []).map(normalizeQuery).includes("youth");
+  const rentRequested = query.includes("월세");
+  const rentMatched = categories.has("rent") || text.includes("월세");
+  const housingMatched = categories.has("housing") || categories.has("lease_deposit") || categories.has("deposit_guarantee") || categories.has("housing_supply") || categories.has("housing_repair");
+  if (youthMatched && (!rentRequested || rentMatched)) return "exact";
+  if (youthMatched && housingMatched) return "partial";
+  return "related";
 }
 
 function inferredSearchTypeForQuery(query: string): string | undefined {
@@ -611,7 +645,7 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
     const matched = parsed.soft_preferences.filter((preference) => discoveryPreferenceState(item, preference) === "matched");
     const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
     const score = 35 + Math.min(20, matched.length * 10) + Math.round(ratio * 10) + (item.source_freshness_status === "current" ? 5 : 0);
-    const canonicalId = item.canonical_product_id ?? item.id;
+    const canonicalId = item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id;
     const states = new Map(parsed.hard_constraints.map((constraint) => [constraint.field, discoveryConstraintState(item, constraint)]));
     const preferenceStates = new Map(parsed.soft_preferences.map((preference) => [preference, discoveryPreferenceState(item, preference)]));
     const failed = [...states.entries()].filter(([, state]) => state === "failed").map(([field]) => field);
@@ -813,7 +847,10 @@ function parseSearchIndexFile(value: unknown, source: string): SearchIndexFile {
     : Array.isArray(value.shards)
       ? value.shards.map((shard, index) => parseSearchShard(shard, `${source}.shards[${index}]`))
       : (() => { throw new SearchIndexContractError(`${source}.shards must be an array when present`); })();
-  return { version: value.version, basis_date: value.basis_date, item_count: itemCount, items, shards };
+  if (value.export_checksum !== undefined && typeof value.export_checksum !== "string") {
+    throw new SearchIndexContractError(`${source}.export_checksum must be a string when present`);
+  }
+  return { version: value.version, basis_date: value.basis_date, item_count: itemCount, export_checksum: value.export_checksum, items, shards };
 }
 
 function assertSearchItemCount(actual: number, expected: number | undefined, source: string): void {
@@ -947,7 +984,7 @@ function itemAliases(item: FinanceItem): readonly string[] {
 
 function resolveCanonicalItemId(rawId: string, items: readonly FinanceItem[]): FinanceItem | undefined {
   const itemId = normalizeQuery(resolveItemId(rawId));
-  return items.find(
+  return dedupeProductItems(items).find(
     (item) => normalizeQuery(item.id) === itemId || normalizeQuery(item.canonical_product_id ?? "") === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
   );
 }
@@ -1054,6 +1091,26 @@ function reasonCounts(excluded: readonly { readonly reason: string }[]): Record<
   return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
 }
 
+function productQualityScore(item: FinanceItem): number {
+  return (item.verification_status === "verified" ? 1000 : 0)
+    + (item.sales_verification_status === "verified_active" ? 500 : 0)
+    + Math.round((item.verified_completeness_ratio ?? item.completeness_ratio ?? 0) * 100)
+    + (item.source_records?.length ?? 0)
+    + (item.source_urls?.length ?? 0);
+}
+
+function dedupeProductItems(items: readonly FinanceItem[]): readonly FinanceItem[] {
+  const selected = new Map<string, FinanceItem>();
+  for (const item of items) {
+    const key = item.type === "card-product" || item.type === "bank-product" || item.type === "insurance-product"
+      ? item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id
+      : item.id;
+    const previous = selected.get(key);
+    if (!previous || productQualityScore(item) > productQualityScore(previous)) selected.set(key, item);
+  }
+  return [...selected.values()];
+}
+
 function minimumVerifiedCount(domain: string): number {
   if (domain === "deposit" || domain === "saving") return 30;
   if (domain === "card" || domain === "loan" || domain === "insurance") return 20;
@@ -1064,20 +1121,57 @@ function recommendationReadiness(domain: string, items: readonly FinanceItem[]):
   return {
     verified_active_product_count: items.filter((item) => item.sales_verification_status === "verified_active").length,
     verification_evidence_product_count: items.filter((item) => isRecord(item.verification_evidence)).length,
+    comparison_engine_product_count: items.filter((item) => item.comparison_engine_gate_passed === true).length,
+    verified_completeness_product_count: items.filter((item) => item.verified_completeness_ratio === 1).length,
     public_recommendation_candidate_count: items.filter((item) => recommendationBlocker(item) === undefined).length,
     minimum_required_count: minimumVerifiedCount(domain),
   };
 }
 
+function recommendationReadinessStates(domain: string, readiness: Record<string, number>): Record<string, string> {
+  const comparisonDomain = domain === "deposit" || domain === "saving";
+  return {
+    discovery: "ready",
+    comparison_engine: comparisonDomain && readiness.comparison_engine_product_count > 0 ? "ready" : comparisonDomain ? "blocked" : "not_applicable",
+    sales_verification_pilot: readiness.verified_active_product_count >= readiness.minimum_required_count ? "ready" : "blocked",
+    comparison_field_verification: comparisonDomain ? (readiness.comparison_engine_product_count > 0 ? "ready" : "blocked") : "not_applicable",
+    live_comparison: comparisonDomain ? (readiness.comparison_engine_product_count > 0 ? "ready" : "blocked") : "not_applicable",
+    public_recommendation: readiness.public_recommendation_candidate_count > 0 ? "ready" : "blocked",
+  };
+}
+
+function nextRecommendationActions(domain: string, readiness: Record<string, number>): readonly Record<string, unknown>[] {
+  if (readiness.verified_active_product_count === 0) return [{ code: "VERIFY_SALES_STATUS", affected_product_count: readiness.minimum_required_count }];
+  if ((domain === "deposit" || domain === "saving") && readiness.public_recommendation_candidate_count === 0 && readiness.verification_evidence_product_count > 0) {
+    return [
+      { code: "VERIFY_COMPARISON_FIELDS", affected_product_count: readiness.verification_evidence_product_count },
+      { code: "PASS_DOMAIN_GATE", affected_product_count: readiness.verification_evidence_product_count },
+    ];
+  }
+  if (readiness.public_recommendation_candidate_count === 0 && readiness.verification_evidence_product_count > 0) {
+    return [{ code: "VERIFY_RECOMMENDATION_FIELDS", affected_product_count: readiness.verification_evidence_product_count }];
+  }
+  if (readiness.public_recommendation_candidate_count === 0) return [{ code: "REVIEW_PUBLIC_RECOMMENDATION_FLAG", affected_product_count: readiness.minimum_required_count }];
+  return [{ code: "USE_VERIFIED_PUBLIC_CANDIDATES", affected_product_count: readiness.public_recommendation_candidate_count }];
+}
+
 function nextRecommendationAction(domain: string, readiness: Record<string, number>): string {
-  return readiness.public_recommendation_candidate_count > 0 ? "Use verified public recommendation candidates." : `Complete ${domain} product verification pilot.`;
+  const action = nextRecommendationActions(domain, readiness)[0];
+  if (action.code === "VERIFY_SALES_STATUS") return `Verify ${domain} product sales status.`;
+  if (action.code === "VERIFY_COMPARISON_FIELDS" || action.code === "PASS_DOMAIN_GATE") return `Complete ${domain} comparison field verification.`;
+  if (action.code === "VERIFY_RECOMMENDATION_FIELDS") return `Complete ${domain} recommendation field verification.`;
+  if (action.code === "REVIEW_PUBLIC_RECOMMENDATION_FLAG") return `Review ${domain} public recommendation approval and feature flag.`;
+  return "Use verified public recommendation candidates.";
 }
 
 function comparisonBlockers(domain: string, excludedSummary: Record<string, number>): readonly Record<string, unknown>[] {
   const salesNotVerified = excludedSummary.sales_not_verified ?? 0;
-  return salesNotVerified
-    ? [{ code: "NO_VERIFIED_ACTIVE_PRODUCTS", count: salesNotVerified, message: `판매상태가 검증된 ${domain === "deposit" ? "정기예금" : "적금"}이 없습니다.` }]
-    : [];
+  const fieldNotVerified = excludedSummary.comparison_fields_not_verified ?? 0;
+  const label = domain === "deposit" ? "정기예금" : "적금";
+  return [
+    ...(salesNotVerified ? [{ code: "SALES_NOT_VERIFIED", count: salesNotVerified, message: `판매상태가 검증되지 않은 ${label}입니다.` }] : []),
+    ...(fieldNotVerified ? [{ code: "COMPARISON_FIELDS_NOT_VERIFIED", count: fieldNotVerified, message: `비교 필드 검증이 끝나지 않은 ${label}입니다.` }] : []),
+  ];
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -1107,7 +1201,7 @@ function comparisonBlocker(item: FinanceItem): string | undefined {
   if (item.verification_status !== "verified") return "not_verified";
   const evidenceBlocker = verificationEvidenceBlocker(item);
   if (evidenceBlocker) return evidenceBlocker;
-  if (item.domain_gate_passed !== true) return "domain_gate_not_passed";
+  if (item.comparison_engine_gate_passed !== true) return "comparison_fields_not_verified";
   if (["closed", "ended", "unknown", "suspended"].includes(item.status ?? "")) return `status_${item.status}`;
   return undefined;
 }
@@ -1167,6 +1261,8 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     source_urls: option.source_urls,
     source_basis_dates: item.source_basis_dates ?? [],
     comparison_basis_fields: item.comparison_basis_fields ?? [],
+    comparison_field_verification_status: item.comparison_field_verification_status,
+    comparison_field_verification: item.comparison_field_verification ?? {},
     missing_required_fields: item.missing_required_fields ?? [],
     principal_krw: principal,
     gross_interest_krw: grossInterest === null ? null : Math.round(grossInterest),
@@ -1205,6 +1301,17 @@ async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceI
   throw new Error(`Finance ontology item not found: ${rawId}`);
 }
 
+async function runtimeMetadata(env: Env, manifest: FinanceManifest, metadata: SearchIndexFile): Promise<Record<string, unknown>> {
+  const itemCount = metadata.item_count ?? manifest.search_index?.item_count ?? 0;
+  return {
+    runtime_version: env.RUNTIME_VERSION ?? "openfin-mcp-2026.07.18.1",
+    deployment_commit: env.DEPLOYMENT_COMMIT ?? "unknown",
+    manifest_version: manifest.version,
+    loaded_index_checksum: metadata.export_checksum ?? manifest.search_index?.shards?.map((shard) => shard.export_checksum ?? "").join("") ?? null,
+    loaded_item_count: itemCount,
+  };
+}
+
 function createServer(env: Env): McpServer {
   const server = new McpServer({
     name: "finance",
@@ -1240,7 +1347,7 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ query, type, search_type, product_kind, recommendation_status, recommendation_scope, sales_status, application_status, provider, region, freshness_status, limit }) => {
-      const items = await loadSearchItems(env);
+      const items = dedupeProductItems(await loadSearchItems(env));
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
       if (isDiscoveryQuery(query)) {
@@ -1285,6 +1392,10 @@ function createServer(env: Env): McpServer {
           catalog_recommendation_status: item.catalog_recommendation_status,
           catalog_recommendation_scope: item.catalog_recommendation_scope,
           canonical_product_id: item.canonical_product_id,
+          resolved_canonical_product_id: item.resolved_canonical_product_id ?? item.canonical_product_id,
+          external_product_ids: item.external_product_ids ?? [],
+          provider_external_ids: item.provider_external_ids ?? [],
+          provider_roles: item.provider_roles ?? [],
           application_status: item.application_status,
           is_currently_applicable: item.is_currently_applicable,
           application_open_to: item.application_open_to,
@@ -1296,10 +1407,14 @@ function createServer(env: Env): McpServer {
           comparison_basis_fields: item.comparison_basis_fields ?? [],
           verification_status: item.verification_status,
           completeness_ratio: item.completeness_ratio,
+          comparison_engine_gate_passed: item.comparison_engine_gate_passed,
+          comparison_field_verification_status: item.comparison_field_verification_status,
+          comparison_field_verification: item.comparison_field_verification ?? {},
           missing_required_fields: item.missing_required_fields ?? [],
           structured_summary: item.structured_summary ?? {},
           search_facets: item.search_facets ?? {},
           match_reasons: matchReasons(item, normalizedQuery),
+          match_tier: supportMatchTier(item, normalizedQuery),
           url: itemUrl(env, item.id),
           score,
           text: item.description ?? "",
@@ -1310,6 +1425,10 @@ function createServer(env: Env): McpServer {
         filters,
         result_count: results.length,
         results,
+        exact_results: results.filter((item) => item.match_tier === "exact"),
+        partial_results: results.filter((item) => item.match_tier === "partial"),
+        related_results: results.filter((item) => item.match_tier === "related"),
+        support_match_tier_counts: reasonCounts(results.filter((item) => item.match_tier).map((item) => ({ reason: item.match_tier as string }))),
       };
 
       return {
@@ -1336,7 +1455,7 @@ function createServer(env: Env): McpServer {
       annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
     },
     async ({ query, limit }) => {
-      const items = await loadSearchItems(env);
+      const items = dedupeProductItems(await loadSearchItems(env));
       const payload = discoveryPayload(query, items, limit ?? 10);
       return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
     },
@@ -1361,7 +1480,7 @@ function createServer(env: Env): McpServer {
       },
     },
     async ({ domain, profile, constraints, preferences, limit }) => {
-      const items = await loadSearchItems(env);
+      const items = dedupeProductItems(await loadSearchItems(env));
       const maxResults = limit ?? 5;
       const domainItems = items.filter((item) => domainMatches(item, domain));
       const readiness = recommendationReadiness(domain, domainItems);
@@ -1383,6 +1502,8 @@ function createServer(env: Env): McpServer {
           candidates: [],
           blocker_counts: blockerCounts,
           readiness,
+          readiness_states: recommendationReadinessStates(domain, readiness),
+          next_required_actions: nextRecommendationActions(domain, readiness),
           next_required_action: nextRecommendationAction(domain, readiness),
           excluded_count: domainItems.length,
           excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
@@ -1433,6 +1554,8 @@ function createServer(env: Env): McpServer {
         candidates: results,
         blocker_counts: reasonCounts(excluded),
         readiness,
+        readiness_states: recommendationReadinessStates(domain, readiness),
+        next_required_actions: nextRecommendationActions(domain, readiness),
         next_required_action: nextRecommendationAction(domain, readiness),
         excluded_count: excluded.length,
         excluded_sample: excluded.slice(0, EXCLUDED_SAMPLE_LIMIT),
@@ -1477,7 +1600,7 @@ function createServer(env: Env): McpServer {
         const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
       }
-      const items = await loadSearchItems(env);
+      const items = dedupeProductItems(await loadSearchItems(env));
       const metadata = await loadSearchIndexMetadata(env);
       const channels = (join_channels ?? []).map((channel) => normalizeQuery(channel));
       const conditions = new Set(eligible_conditions ?? []);
@@ -1553,6 +1676,9 @@ function createServer(env: Env): McpServer {
     },
     async ({ id }) => {
       const { item, itemsById } = await fetchItemGraph(env, id);
+      const requestedId = resolveItemId(id);
+      const resolvedCanonicalId = item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id;
+      const redirected = requestedId !== item.id;
       const sources = sourceItems(item, itemsById).map((source) => ({
         id: source.id,
         title: source.title,
@@ -1563,7 +1689,11 @@ function createServer(env: Env): McpServer {
       }));
 
       const payload = {
+        requested_id: id,
         id: item.id,
+        resolved_canonical_product_id: resolvedCanonicalId,
+        redirected,
+        legacy_redirect: redirected ? { from: requestedId, to: item.id, resolved_canonical_product_id: resolvedCanonicalId } : null,
         title: item.title,
         type: item.type,
         url: itemUrl(env, item.id),
@@ -1621,6 +1751,9 @@ function createServer(env: Env): McpServer {
         required_field_count: item.required_field_count,
         completed_field_count: item.completed_field_count,
         domain_gate_passed: item.domain_gate_passed,
+        comparison_engine_gate_passed: item.comparison_engine_gate_passed,
+        comparison_field_verification_status: item.comparison_field_verification_status,
+        comparison_field_verification: item.comparison_field_verification ?? {},
         comparison_options: item.comparison_options ?? [],
         application_status: item.application_status,
         is_currently_applicable: item.is_currently_applicable,
@@ -1668,6 +1801,7 @@ function createServer(env: Env): McpServer {
     },
     async () => {
       const manifest = await loadFinanceManifest(env);
+      const metadata = await loadSearchIndexMetadata(env);
       const payload = {
         version: manifest.version,
         basis_date: manifest.basis_date,
@@ -1675,6 +1809,7 @@ function createServer(env: Env): McpServer {
         search_index: manifest.search_index,
         quality_exports: manifest.quality_exports ?? [],
         exports: manifest.exports,
+        runtime: await runtimeMetadata(env, manifest, metadata),
       };
       return {
         structuredContent: payload,

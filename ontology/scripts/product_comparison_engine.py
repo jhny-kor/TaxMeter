@@ -74,8 +74,8 @@ def comparison_blocker(item: dict[str, Any]) -> str | None:
     evidence_blocker = verification_evidence_blocker(item)
     if evidence_blocker:
         return evidence_blocker
-    if item.get("domain_gate_passed") is not True:
-        return "domain_gate_not_passed"
+    if item.get("comparison_engine_gate_passed") is not True:
+        return "comparison_fields_not_verified"
     if item.get("status") in {"closed", "ended", "unknown", "suspended"}:
         return f"status_{item.get('status')}"
     return None
@@ -166,14 +166,22 @@ def reason_counts(excluded: list[dict[str, str]]) -> dict[str, int]:
 
 def comparison_blockers(domain: str, excluded_summary: dict[str, int]) -> list[dict[str, Any]]:
     sales_not_verified = excluded_summary.get("sales_not_verified", 0)
-    if not sales_not_verified:
-        return []
     label = "정기예금" if domain == "deposit" else "적금"
-    return [{
-        "code": "NO_VERIFIED_ACTIVE_PRODUCTS",
-        "count": sales_not_verified,
-        "message": f"판매상태가 검증된 {label}이 없습니다.",
-    }]
+    blockers: list[dict[str, Any]] = []
+    if sales_not_verified:
+        blockers.append({
+            "code": "SALES_NOT_VERIFIED",
+            "count": sales_not_verified,
+            "message": f"판매상태가 검증되지 않은 {label}입니다.",
+        })
+    field_blocked = excluded_summary.get("comparison_fields_not_verified", 0)
+    if field_blocked:
+        blockers.append({
+            "code": "COMPARISON_FIELDS_NOT_VERIFIED",
+            "count": field_blocked,
+            "message": f"비교 필드 검증이 끝나지 않은 {label}입니다.",
+        })
+    return blockers
 
 
 def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_conditions: set[str], arguments: dict[str, Any]) -> dict[str, Any]:
@@ -199,6 +207,8 @@ def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_
         "source_urls": option["source_urls"],
         "source_basis_dates": item.get("source_basis_dates") or [],
         "comparison_basis_fields": item.get("comparison_basis_fields") or [],
+        "comparison_field_verification_status": item.get("comparison_field_verification_status"),
+        "comparison_field_verification": item.get("comparison_field_verification") or {},
         "missing_required_fields": item.get("missing_required_fields") or [],
     }
     candidate.update(interest_estimate(str(item.get("search_type")), arguments, achievable))

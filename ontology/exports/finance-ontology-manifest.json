@@ -1,8 +1,8 @@
 {
-  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.10.1",
+  "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-15T04:00:56Z",
+  "built_at": "2026-07-18T03:37:03Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "degraded",
@@ -13,10 +13,10 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-15T04:00:56Z",
+      "built_at": "2026-07-18T03:37:03Z",
       "domain_export_count": 8,
       "search_index_item_count": 21241,
-      "canonical_product_count": 3433,
+      "canonical_product_count": 3422,
       "duplicate_canonical_product_count": 0,
       "checksum_covered_export_count": 9,
       "broken_relation_count": 0,
@@ -238,7 +238,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 430
         },
-        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
@@ -338,9 +338,9 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 430,
-        "complete_comparison_data_count": 0,
+        "complete_comparison_data_count": 30,
         "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
@@ -388,7 +388,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 335
         },
-        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
@@ -489,9 +489,9 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 335,
-        "complete_comparison_data_count": 0,
+        "complete_comparison_data_count": 30,
         "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
@@ -629,12 +629,12 @@
         },
         "structural_comparison_candidate_count": 20,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 20,
+        "verified_comparison_candidate_count": 0,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "ready",
+          "comparison_data": "blocked",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -1095,7 +1095,7 @@
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "866f43100fc746c3a34e0c06f4fa2d08044cfaee1f66aab81fad5e4f4b5f1e11",
+    "export_checksum": "4463850448569f23cab2da9f2f4e7532d2cc82b5e76559dcd559b6f67241d4e2",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
@@ -1105,7 +1105,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
         "item_count": 7736,
-        "export_checksum": "06f8f312b10a26673cb65dc07278825587f6a073bfd742d0a901ade941cf3a4f"
+        "export_checksum": "b93de7cdadc2d8d9f33c3dd029d64f01438d0556738d19ecb8cfb035409eaf46"
       },
       {
         "id": "finance-search-index-deposit-protection",
@@ -1114,7 +1114,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
         "item_count": 9380,
-        "export_checksum": "cfd58fa03438f653c3e88663f4b097c1c3129ee30a3f3b5c4a1e2aa872f7719b"
+        "export_checksum": "6708d231adae31aa8cdce7bf43b3e406e02bf0469894cfc6797dc21059f88e82"
       },
       {
         "id": "finance-search-index-bank-products",
@@ -1123,7 +1123,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
         "item_count": 1369,
-        "export_checksum": "427c25dc0017036966a76d7aafbc619bacd9b3e4acf2cf82c45186d473109ef2"
+        "export_checksum": "cc59525cc810045178f6a6cf9753c919618d7863ffa5b7f8d4dd7383b12b5416"
       },
       {
         "id": "finance-search-index-card-products",
@@ -1132,7 +1132,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "a098af75ba8ed515893ca7997e8b1b03f785845f52a681634a18a6acb9e0bf2a"
+        "export_checksum": "41a4de347dd8e7f1665165b773c4c93a7db49c11007b4087c16e08a3d259544e"
       },
       {
         "id": "finance-search-index-insurance-products",
@@ -1141,7 +1141,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
         "item_count": 1057,
-        "export_checksum": "27fed68998db63d362a208f9ced761c4b64bdb33b8a348d65da95a10e253299e"
+        "export_checksum": "45236308f8e48244ade760caa60449163b308921b7c8708538860cde073ca94e"
       },
       {
         "id": "finance-search-index-reference",
@@ -1150,7 +1150,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
         "item_count": 692,
-        "export_checksum": "f9cc339fc396ee2ac0bcbb8c945578c668c8e306138096bbe66d5997459c8fe2"
+        "export_checksum": "6ab82440839867dd473c8692a4261b6c20a4e82998463737bb17e56550577dd4"
       }
     ]
   },
@@ -1166,16 +1166,16 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-15T04:00:56Z",
+        "built_at": "2026-07-18T03:37:03Z",
         "domain_export_count": 8,
         "search_index_item_count": 21241,
-        "canonical_product_count": 3433,
+        "canonical_product_count": 3422,
         "duplicate_canonical_product_count": 0,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "6fe88745ff0bb9d84103e8ca610daf2a084905b8fc8d36979179eb692284d828",
+      "export_checksum": "c8223779b7b055eb4fdc6b33bb50068b7173337a90e0de661aa0739f527d92da",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1195,7 +1195,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "16e22a67dc313b159149552b6ce2ed24bd4b798aa0a38c9aeec9d4c3bdc13972",
+      "export_checksum": "9f776466f7a42cae2e67aeee0030fc04efcb7f2ef26357dd9b87822f258896c1",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     },
     {
@@ -1209,9 +1209,11 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "7967732a3465f92adb1abdc0356c9df4d884e4ea8d4fa275f3b3a6391620f956",
+      "export_checksum": "0d74a3c394c56e10e1aa4a160916de0262a84c17ff4053bbcded6c27df6d2beb",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1225,6 +1227,8 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
         "external_id_duplicate_count": 0,
@@ -1232,9 +1236,10 @@
         "confirmed_semantic_duplicate_count": 0,
         "unresolved_semantic_duplicate_count": 0,
         "duplicate_candidate_response_count": 0,
-        "duplicate_canonical_product_count": 0
+        "duplicate_canonical_product_count": 0,
+        "canonical_merge_count": 11
       },
-      "export_checksum": "fd77a792528a7fb6b1f9487ee919b378d103d2436c07943c4c6fc02ecf814067",
+      "export_checksum": "9d3030464cc8b83cf8b5f40e11700fd78084629610dfd1a32da082d05a570999",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1248,11 +1253,13 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "comparison-regression",
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "72756065ad548593bf9eb096cede05a1b87268754fc194cb700789b3a74e1798",
+      "export_checksum": "1282dc4dcdc16665453e0d82fc921863d92d67115c4f829c60ea808595df594a",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1266,9 +1273,11 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "d6836648211d70d7ecf3f037bd9b5a8b656e4ae7c82fcd85b81f1ae66c26dd3e",
+      "export_checksum": "811b4ad7503de2f4dba9f280ddd04aeff6c765295cdd8263348867d208118272",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1282,12 +1291,14 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "facf33a56f93259d96886771cfa0f94d090d227d2ffa5408fa88ba895fd3a4be",
+      "export_checksum": "cff68f7f83460a2be253f2115cccda11030de47cf135a3c6d7aa056a45efab95",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1301,9 +1312,11 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "data-drift"
       },
-      "export_checksum": "92c8da9e0a2216e6a2c76e2f755240e74ce1778634da7e86abf92d1e630ed13f",
+      "export_checksum": "578717c8285d6c19b1c7e85bc914afd93075ea6bdc9000ebface152b0757d765",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1317,10 +1330,12 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
+        "live_case_count": 0,
+        "live_failed_count": 0,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "1a7aad641fbe852349956e796f26f8637098bb38af91f770c8c7bd738647e5b8",
+      "export_checksum": "e4c5f73bb6635ad127beedb7f4bdde7f8c164a9d85aaa3a5fab5d76c7924e8a2",
       "description": "OpenFin 품질 하위 리포트입니다."
     }
   ],
@@ -1371,7 +1386,8 @@
           "announcement_based": 81,
           "budget_exhaustion": 65,
           "conditional_reopen_after_deadline": 1,
-          "date_parse_failed": 1735,
+          "date_parse_invalid": 1683,
+          "date_parse_unstructured": 52,
           "recurring_monthly": 30,
           "recurring_quarterly": 18,
           "schedule_pending": 8
@@ -1385,7 +1401,7 @@
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "59b1de2f16b3cdc58235afcbf54f95b8540dd3f9bb352af87487430b3f2c566a",
+      "export_checksum": "86fcf6e1aaa3a00e1223de8ef788de2c8ee379c945f508b9d44a7fc1ba8057cb",
       "description": "정부24 보조금24 기준 지자체 지원금 대용량 온톨로지입니다."
     },
     {
@@ -1564,7 +1580,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6ca3e810ce41565e06a4f316cc833dd9061898481c0cd361dab59976e4a5f48c",
+      "export_checksum": "e3cb52f4acf04f32f758dae6c84c42b0975b775da2a3676cb0933d0dba797481",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1608,7 +1624,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 430
         },
-        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
@@ -1708,9 +1724,9 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 430,
-        "complete_comparison_data_count": 0,
+        "complete_comparison_data_count": 30,
         "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
@@ -1729,7 +1745,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "a3eec17aa4c6ad62b72381c5524ca1882094f269c5a7060337215c8ba994fe1f",
+      "export_checksum": "7dede4010ff88e9f292ba04aa64d4b828d1d83bef0cb5c67247d27ff5bc494d9",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1773,7 +1789,7 @@
         "recommendation_scope_counts": {
           "comparison_only": 335
         },
-        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_comparison_fields": 30,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
@@ -1874,9 +1890,9 @@
           "term_months": 0
         },
         "structural_comparison_candidate_count": 335,
-        "complete_comparison_data_count": 0,
+        "complete_comparison_data_count": 30,
         "verified_comparison_candidate_count": 30,
-        "public_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 30,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
@@ -1895,7 +1911,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "d132c9fca8b257187956ea6805e3899c297587c63536137f06c83af8064426b9",
+      "export_checksum": "29a17e61000a93e967cd0bcd2602b573b0e1de1e39e8e130ede0b64f496bc902",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -2030,12 +2046,12 @@
         },
         "structural_comparison_candidate_count": 20,
         "complete_comparison_data_count": 0,
-        "verified_comparison_candidate_count": 20,
+        "verified_comparison_candidate_count": 0,
         "public_comparison_candidate_count": 0,
         "readiness": {
           "discovery": "ready",
           "comparison_engine": "ready",
-          "comparison_data": "ready",
+          "comparison_data": "blocked",
           "public_recommendation": "blocked"
         },
         "blockers": {
@@ -2050,7 +2066,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5f5b2c00114f36ca28cc106c17cea993476199df403033954db1154dc68b9532",
+      "export_checksum": "71a6f2ae5ed04a9a9503d4d08d386aa39c7c171e77c49233c9e38f20d3411ad1",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2242,7 +2258,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9bfa4d0c64068a6bb10268f7cca5c5bd4979150e881684ae6079307cfc0b3f17",
+      "export_checksum": "a2d1fe2625464ec2dc19a351c6de91b8177fa95af2c9d7cc695a7bb7970ada11",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {

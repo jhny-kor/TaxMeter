@@ -1,8 +1,15 @@
 {
-  "version": "openfin-local-cloudflare-parity-report-2026.07.14.1",
+  "version": "openfin-local-cloudflare-parity-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "local-cloudflare-parity",
   "local_cloudflare_parity_error_count": 0,
   "live_search_regression": {},
-  "export_checksum": "1a7aad641fbe852349956e796f26f8637098bb38af91f770c8c7bd738647e5b8"
+  "export_checksum": "e4c5f73bb6635ad127beedb7f4bdde7f8c164a9d85aaa3a5fab5d76c7924e8a2"
 }

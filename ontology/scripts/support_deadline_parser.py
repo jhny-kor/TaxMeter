@@ -76,4 +76,10 @@ def classify_deadline(deadline_text: str) -> str:
         return "recurring_monthly"
     if any(marker in compact_text for marker in RECURRING_QUARTERLY_MARKERS):
         return "recurring_quarterly"
-    return "date_parse_failed" if compact_text else "date_missing"
+    if not compact_text:
+        return "date_missing"
+    if "날짜 원문 확인 불가" in deadline_text:
+        return "date_parse_failed"
+    if any(token in compact_text for token in ("없음", "해당사항없음", "미정")):
+        return "date_parse_unstructured"
+    return "date_parse_invalid"

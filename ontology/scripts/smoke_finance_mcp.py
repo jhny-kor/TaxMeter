@@ -20,9 +20,12 @@ McpParams: TypeAlias = dict[str, JsonValue]
 SmokeCall: TypeAlias = tuple[str, McpParams]
 SMOKE_CALLS: Final[tuple[SmokeCall, ...]] = (
     ("search", {"query": "월세 세액공제 조건", "limit": 1}),
+    ("support_search", {"query": "서울 청년 월세 지원", "limit": 5}),
     ("fetch", {"id": "credit.monthly-rent"}),
-    ("discover", {"query": "실손보험 추천", "limit": 1}),
+    ("discover_card", {"query": "마일리지 체크카드 추천", "limit": 5}),
+    ("discover_insurance", {"query": "실손보험 추천", "limit": 5}),
     ("compare", {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}),
+    ("compare_saving", {"domain": "saving", "monthly_payment_krw": 500_000, "term_months": 12}),
     ("recommend", {"domain": "deposit", "limit": 1}),
 )
 
@@ -52,6 +55,54 @@ def response_error(result: Mapping[str, JsonValue]) -> str | None:
     if result.get("isError") is True or result.get("is_error") is True or "TypeError" in serialized:
         return serialized
     return None
+
+
+def tool_payload(result: Mapping[str, JsonValue]) -> Mapping[str, JsonValue]:
+    structured = result.get("structuredContent")
+    if isinstance(structured, Mapping):
+        return structured
+    content = result.get("content")
+    if isinstance(content, list):
+        for block in content:
+            if isinstance(block, Mapping) and isinstance(text := block.get("text"), str):
+                try:
+                    parsed = json.loads(text)
+                except json.JSONDecodeError:
+                    continue
+                if isinstance(parsed, Mapping):
+                    return parsed
+    return {}
+
+
+def validate_tool_payload(label: str, payload: Mapping[str, JsonValue]) -> None:
+    candidate_count = payload.get("candidate_count")
+    candidates = payload.get("candidates")
+    excluded_count = payload.get("excluded_count")
+    excluded_summary = payload.get("excluded_summary")
+    if isinstance(candidate_count, int) and isinstance(candidates, list) and candidate_count != len(candidates):
+        raise McpSmokeError(f"{label}: candidate_count does not match candidates length")
+    if isinstance(excluded_count, int) and isinstance(excluded_summary, Mapping) and sum(value for value in excluded_summary.values() if isinstance(value, int)) != excluded_count:
+        raise McpSmokeError(f"{label}: excluded_summary does not sum to excluded_count")
+    if isinstance(candidates, list):
+        external_ids: dict[str, str] = {}
+        for candidate in candidates:
+            if not isinstance(candidate, Mapping):
+                continue
+            for external in candidate.get("external_product_ids", []) if isinstance(candidate.get("external_product_ids"), list) else []:
+                if not isinstance(external, Mapping):
+                    continue
+                key = f"{external.get('namespace')}:{external.get('value')}"
+                item_id = str(candidate.get("item_id") or candidate.get("id") or "")
+                previous = external_ids.get(key)
+                if previous and previous != item_id:
+                    raise McpSmokeError(f"{label}: duplicate external product id {key}")
+                external_ids[key] = item_id
+    readiness = payload.get("readiness")
+    states = payload.get("readiness_states")
+    if isinstance(readiness, Mapping) and isinstance(states, Mapping):
+        public_count = readiness.get("public_recommendation_candidate_count")
+        if states.get("public_recommendation") == "ready" and public_count != payload.get("result_count"):
+            raise McpSmokeError(f"{label}: readiness public recommendation state mismatches result count")
 
 
 class McpSmokeClient:
@@ -131,12 +182,14 @@ def main() -> int:
         for tool in tools
         if isinstance(tool, Mapping) and isinstance(name := tool.get("name"), str)
     } if isinstance(tools, list) else set()
-    missing = {name for name, _ in SMOKE_CALLS} - names
+    missing = {"search", "fetch", "discover", "compare", "recommend"} - names
     if missing:
         raise McpSmokeError(f"MCP tools/list is missing required tools: {sorted(missing)}")
-    for name, arguments in SMOKE_CALLS:
-        client.request("tools/call", {"name": name, "arguments": arguments})
-        print(f"PASS {name}")
+    for label, arguments in SMOKE_CALLS:
+        name = "discover" if label.startswith("discover") else "search" if label == "support_search" else "compare" if label == "compare_saving" else label
+        result = client.request("tools/call", {"name": name, "arguments": arguments})
+        validate_tool_payload(label, tool_payload(result))
+        print(f"PASS {label}")
     print(f"OK: Finance MCP smoke passed ({args.mcp_url})")
     return 0
 

@@ -18,6 +18,10 @@ REQUIRED_FIELDS = {
     "loan": ("loan_rate_min_percent", "loan_rate_max_percent", "repayment_method", "loan_limit_krw", "early_repayment_fee", "eligible_borrower", "collateral_type", "rate_type"),
     "insurance": ("coverage_amount_krw", "renewal_type", "renewal_cycle_years", "waiting_period_days", "reduction_period_days", "claim_condition", "exclusion_condition", "payment_count_limit", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "surrender_refund_type", "premium_basis", "sales_verification_status"),
 }
+COMPARISON_FIELDS = {
+    "deposit": ("term_months", "base_rate_percent", "maximum_rate_percent", "source_urls"),
+    "saving": ("term_months", "base_rate_percent", "maximum_rate_percent", "source_urls"),
+}
 FIELD_ALIASES = {
     "benefit_type": ("benefit_type", "benefit", "kind"),
     "benefit_rate_or_amount": ("benefit_rate_percent", "rate_percent", "fixed_benefit_amount_krw"),
@@ -164,6 +168,20 @@ def enrich_product(item: dict[str, Any], protected: set[tuple[str, str]]) -> Non
         item["interest_method"] = sorted({str(option["interest_method"]) for option in options if option.get("interest_method")})
         item["early_termination_condition"] = raw.get("mid_termination_rate")
         item["deposit_protection_status"] = "listed" if (normalized(item.get("provider")), normalized(raw.get("fin_prdt_nm"))) in protected else "unknown"
+        comparison_fields = COMPARISON_FIELDS[domain]
+        option_status = all(
+            any(field_present(option.get(field)) for option in options)
+            for field in comparison_fields
+        )
+        item["comparison_field_verification_status"] = "verified" if option_status else "blocked"
+        item["comparison_field_verification"] = {
+            field: {
+                "status": "verified" if any(field_present(option.get(field)) for option in options) else "unknown",
+                "source": "official_finlife_option",
+            }
+            for field in comparison_fields
+        }
+        item["comparison_engine_gate_passed"] = option_status
     fresh = str(item.get("collected_at") or "") >= (date.today() - timedelta(days=31)).isoformat()
     item["source_listing_status"] = "listed" if item.get("product_status") == "active" and (item.get("source_record_id") or item.get("source_urls")) else "not_listed"
     if item.get("sales_status") != "ended":

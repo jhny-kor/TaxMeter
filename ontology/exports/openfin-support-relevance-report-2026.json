@@ -1,9 +1,16 @@
 {
-  "version": "openfin-support-relevance-report-2026.07.14.1",
+  "version": "openfin-support-relevance-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "support-relevance",
   "jurisdiction_violation_count": 0,
   "support_category_violation_count": 0,
   "unknown_constraint_false_match_count": 0,
-  "export_checksum": "facf33a56f93259d96886771cfa0f94d090d227d2ffa5408fa88ba895fd3a4be"
+  "export_checksum": "cff68f7f83460a2be253f2115cccda11030de47cf135a3c6d7aa056a45efab95"
 }

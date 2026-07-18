@@ -1,6 +1,13 @@
 {
-  "version": "openfin-recommendation-safety-report-2026.07.14.1",
+  "version": "openfin-recommendation-safety-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "recommendation-safety",
   "recommendation_enabled": false,
   "blocking_reasons": [
@@ -22,5 +29,5 @@
     "comparison_calculation_error_count": 0,
     "local_cloudflare_parity_error_count": 0
   },
-  "export_checksum": "d6836648211d70d7ecf3f037bd9b5a8b656e4ae7c82fcd85b81f1ae66c26dd3e"
+  "export_checksum": "811b4ad7503de2f4dba9f280ddd04aeff6c765295cdd8263348867d208118272"
 }

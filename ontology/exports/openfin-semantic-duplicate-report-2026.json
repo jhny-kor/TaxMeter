@@ -1,6 +1,13 @@
 {
-  "version": "openfin-semantic-duplicate-report-2026.07.14.1",
+  "version": "openfin-semantic-duplicate-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "semantic-duplicate",
   "exact_id_duplicate_count": 0,
   "external_id_duplicate_count": 0,
@@ -9,5 +16,6 @@
   "unresolved_semantic_duplicate_count": 0,
   "duplicate_candidate_response_count": 0,
   "duplicate_canonical_product_count": 0,
-  "export_checksum": "fd77a792528a7fb6b1f9487ee919b378d103d2436c07943c4c6fc02ecf814067"
+  "canonical_merge_count": 11,
+  "export_checksum": "9d3030464cc8b83cf8b5f40e11700fd78084629610dfd1a32da082d05a570999"
 }

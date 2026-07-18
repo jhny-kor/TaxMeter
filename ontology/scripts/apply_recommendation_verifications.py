@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OVERLAY_PATH = ROOT / "custom" / "finance" / "recommendation-verifications.json"
 MODEL_VERSION = "openfin-recommendation-v0.1.0"
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
+COMPARISON_DOMAINS = {"deposit", "saving"}
 VERIFICATION_REQUIRED_FIELDS = (
     "canonical_product_id",
     "verified_at",
@@ -146,6 +147,8 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         item["last_verified_at"] = None
         source_checksum = item_source_checksum(item)
         item["source_checksum"] = source_checksum
+        comparison_ready = item.get("search_type") in COMPARISON_DOMAINS and item.get("comparison_field_verification_status") == "verified"
+        item["comparison_engine_gate_passed"] = bool(comparison_ready and item.get("sales_verification_status") == "verified_active")
         record = records.get(str(item["canonical_product_id"]))
         if not record:
             if item.get("recommendation_status") == "eligible_for_listing" and item.get("type") == "bank-product":
@@ -190,6 +193,7 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             and item.get("source_freshness_status") == "current"
             and item.get("sales_verification_status") == "verified_active"
         )
+        item["comparison_engine_gate_passed"] = bool(comparison_ready)
         if not item.get("domain_gate_passed"):
             item["verification_status"] = "verified"
             item["recommendation_scope"] = "comparison_only" if item.get("type") == "bank-product" else "listing_only"

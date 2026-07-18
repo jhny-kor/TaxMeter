@@ -22,10 +22,11 @@ def main() -> int:
             if not isinstance(external_id, dict):
                 continue
             key = f"{external_id.get('namespace')}:{external_id.get('value')}"
-            if key in seen and seen[key] != item.get("canonical_product_id"):
+            resolved_id = item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id")
+            if key in seen and seen[key] != resolved_id:
                 duplicates.append(key)
             else:
-                seen[key] = str(item.get("canonical_product_id") or item.get("id"))
+                seen[key] = str(resolved_id)
     metrics = json.loads(QUALITY.read_text(encoding="utf-8")).get("runtime_quality_metrics") or {}
     for key in ("external_id_duplicate_count", "duplicate_candidate_response_count"):
         if int(metrics.get(key) or 0):

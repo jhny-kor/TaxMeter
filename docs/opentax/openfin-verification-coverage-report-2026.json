@@ -1,6 +1,13 @@
 {
-  "version": "openfin-verification-coverage-report-2026.07.14.1",
+  "version": "openfin-verification-coverage-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_failed_count": 0,
+  "live_failures": [],
   "report_kind": "verification-coverage",
   "domain_summaries": [
     {
@@ -69,7 +76,7 @@
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
-        "comparison_data": "ready",
+        "comparison_data": "blocked",
         "public_recommendation": "blocked"
       },
       "blockers": {
@@ -108,5 +115,5 @@
       }
     }
   ],
-  "export_checksum": "7967732a3465f92adb1abdc0356c9df4d884e4ea8d4fa275f3b3a6391620f956"
+  "export_checksum": "0d74a3c394c56e10e1aa4a160916de0262a84c17ff4053bbcded6c27df6d2beb"
 }

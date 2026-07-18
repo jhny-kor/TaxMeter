@@ -106,14 +106,16 @@ def support_fields(detail: dict[str, Any]) -> tuple[list[str], list[str]]:
     )
     target_group = [
         label
-        for token, label in (("청년", "youth"), ("청소년", "youth"), ("신혼", "newlywed"), ("임산부", "pregnant"), ("장애", "disabled"), ("노인", "senior"), ("아동", "child"), ("한부모", "single_parent"))
+        for token, label in (("청년", "youth"), ("청소년", "youth"), ("신혼", "newlywed"), ("임산부", "pregnant"), ("장애", "disabled"), ("노인", "senior"), ("고령", "senior"), ("아동", "child"), ("한부모", "single_parent"), ("1인가구", "single_person_household"), ("저소득", "low_income"), ("구직", "job_seeker"), ("취업준비", "job_seeker"), ("피해", "victim"))
         if token in text
     ]
     support_category = [
         label
-        for token, label in (("월세", "housing"), ("주거", "housing"), ("임대", "housing"), ("전세", "housing"), ("취업", "employment"), ("일자리", "employment"), ("창업", "business"), ("출산", "family"), ("보육", "family"), ("의료", "health"), ("건강", "health"), ("교육", "education"))
+        for token, label in (("월세", "rent"), ("임차료", "rent"), ("전세", "lease_deposit"), ("주거", "housing"), ("임대", "housing"), ("보증금", "deposit_guarantee"), ("보증", "deposit_guarantee"), ("공급", "housing_supply"), ("수선", "housing_repair"), ("취업", "employment"), ("일자리", "employment"), ("창업", "business"), ("사업", "business"), ("출산", "family"), ("보육", "family"), ("의료", "health"), ("건강", "health"), ("교육", "education"), ("문화", "culture"), ("예술", "culture"), ("현금", "cash_support"), ("생활비", "cash_support"))
         if token in text
     ]
+    if any(value in support_category for value in ("rent", "lease_deposit", "deposit_guarantee", "housing_supply", "housing_repair")):
+        support_category.append("housing")
     return sorted(set(target_group)), sorted(set(support_category))
 
 
