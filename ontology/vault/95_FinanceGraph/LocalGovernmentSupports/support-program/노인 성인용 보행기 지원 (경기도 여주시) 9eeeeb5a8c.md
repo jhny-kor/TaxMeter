@@ -4,10 +4,10 @@ title: "노인 성인용 보행기 지원 (경기도 여주시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003303&bnefType=all&svcId=570000000115", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-24", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금, 현물", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 주민센터
 - contact: 여주시청 노인복지과(031-887-2262)
 - source_modified_at: 2026-04-24
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

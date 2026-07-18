@@ -4,10 +4,10 @@ title: "대상포진 예방접종 지원 (경상북도 영천시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=806194&bnefType=all&svcId=510000000121", "https://www.law.go.kr/자치법규/경상북도 선택예방접종 지원에 관한 조례/(4859,20230713)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-23", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-23", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 관내 위탁 의료기관, 보건소
 - contact: 054-339-7782(054-339-7780)
 - source_modified_at: 2026-04-23
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

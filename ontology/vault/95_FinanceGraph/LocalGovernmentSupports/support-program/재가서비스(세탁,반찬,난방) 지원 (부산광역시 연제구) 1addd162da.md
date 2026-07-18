@@ -4,10 +4,10 @@ title: "재가서비스(세탁,반찬,난방) 지원 (부산광역시 연제구)
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1000133&bnefType=all&svcId=337000000115", "https://www.law.go.kr/법령/자원봉사활동 기본법/(19634,20230816)", "https://www.law.go.kr/법령/사회복지사업법/(20883,20250401)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 연제구 거제종합사회복지관
 - contact: 복지정책과(051-665-4315)
 - source_modified_at: 2026-05-04
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

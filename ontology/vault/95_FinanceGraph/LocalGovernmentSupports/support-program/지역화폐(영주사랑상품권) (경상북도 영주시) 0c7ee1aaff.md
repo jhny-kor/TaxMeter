@@ -4,10 +4,10 @@ title: "지역화폐(영주사랑상품권) (경상북도 영주시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1004574&bnefType=all&svcId=509000000116", "https://www.law.go.kr/자치법규/영주시 영주사랑 상품권 발행 및 운영 조례/(1602,20240701)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-11", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "이용권", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: NH농협은행, 지역농축협, 신협, 새마을금고, 대구은행, 우체국 등
 - contact: 영주시청 일자리경제과(054-639-6103)
 - source_modified_at: 2026-05-11
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

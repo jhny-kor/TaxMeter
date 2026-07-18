@@ -19,8 +19,10 @@ JsonValue: TypeAlias = str | int | float | bool | None | list["JsonValue"] | dic
 McpParams: TypeAlias = dict[str, JsonValue]
 SmokeCall: TypeAlias = tuple[str, McpParams]
 SMOKE_CALLS: Final[tuple[SmokeCall, ...]] = (
+    ("exports", {}),
     ("search", {"query": "월세 세액공제 조건", "limit": 1}),
-    ("support_search", {"query": "서울 청년 월세 지원", "limit": 5}),
+    ("search_insurance_tax", {"query": "보험료 세액공제", "limit": 5}),
+    ("support_search", {"query": "서울 청년 월세 지원", "region": "서울특별시", "limit": 5}),
     ("fetch", {"id": "credit.monthly-rent"}),
     ("discover_card", {"query": "마일리지 체크카드 추천", "limit": 5}),
     ("discover_insurance", {"query": "실손보험 추천", "limit": 5}),
@@ -97,6 +99,19 @@ def validate_tool_payload(label: str, payload: Mapping[str, JsonValue]) -> None:
                 if previous and previous != item_id:
                     raise McpSmokeError(f"{label}: duplicate external product id {key}")
                 external_ids[key] = item_id
+    if label == "exports":
+        runtime = payload.get("runtime")
+        search_index = payload.get("search_index")
+        if not isinstance(runtime, Mapping) or not all(isinstance(runtime.get(key), str) and runtime.get(key) for key in ("runtime_version", "deployment_commit", "manifest_version")):
+            raise McpSmokeError("exports: runtime metadata is incomplete")
+        if not isinstance(search_index, Mapping) or not isinstance(search_index.get("loaded_item_count"), int) or search_index.get("loaded_item_count", 0) <= 0:
+            raise McpSmokeError("exports: hydrated search-index metadata is incomplete")
+    if label == "support_search":
+        if not all(key in payload for key in ("exact_results", "partial_results", "related_results", "parsed_query")):
+            raise McpSmokeError("support_search: match-tier response fields are incomplete")
+        parsed_query = payload.get("parsed_query")
+        if not isinstance(parsed_query, Mapping) or parsed_query.get("region") != "서울특별시" or "youth" not in (parsed_query.get("target_groups") or []):
+            raise McpSmokeError("support_search: parsed region/target group contract failed")
     readiness = payload.get("readiness")
     states = payload.get("readiness_states")
     if isinstance(readiness, Mapping) and isinstance(states, Mapping):
@@ -186,7 +201,7 @@ def main() -> int:
     if missing:
         raise McpSmokeError(f"MCP tools/list is missing required tools: {sorted(missing)}")
     for label, arguments in SMOKE_CALLS:
-        name = "discover" if label.startswith("discover") else "search" if label == "support_search" else "compare" if label == "compare_saving" else label
+        name = "discover" if label.startswith("discover") else "search" if label in {"support_search", "search_insurance_tax"} else "compare" if label == "compare_saving" else label
         result = client.request("tools/call", {"name": name, "arguments": arguments})
         validate_tool_payload(label, tool_payload(result))
         print(f"PASS {label}")

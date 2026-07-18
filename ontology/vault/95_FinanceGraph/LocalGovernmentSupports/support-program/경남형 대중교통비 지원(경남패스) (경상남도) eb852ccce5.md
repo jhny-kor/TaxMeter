@@ -4,10 +4,10 @@ title: "경남형 대중교통비 지원(경남패스) (경상남도)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2126129&bnefType=all&svcId=648000001131", "https://www.law.go.kr/법령/대중교통의 육성 및 이용촉진에 관한 법률/(19972,20240109)", "https://korea-pass.kr", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 은행(경남,농협, 신한, 국민, 우리, 하나, 기업)
 - contact: 경상남도 교통정책과(055-211-4135)
 - source_modified_at: 2026-05-08
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

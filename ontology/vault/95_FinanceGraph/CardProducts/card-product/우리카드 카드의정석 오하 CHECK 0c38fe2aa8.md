@@ -4,10 +4,10 @@ title: "우리카드 카드의정석 오하 CHECK"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList", "https://pc.wooricard.com/dcpc/yh1/crd/crd01/H1CRD101S02.do?cdPrdCd=103489", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "check-card"]
 ---
 

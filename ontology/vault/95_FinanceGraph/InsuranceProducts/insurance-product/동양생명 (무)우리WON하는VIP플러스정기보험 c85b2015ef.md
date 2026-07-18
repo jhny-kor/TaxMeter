@@ -4,10 +4,10 @@ title: "동양생명 (무)우리WON하는VIP플러스정기보험"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010002&pageIndex=1&pageUnit=20", "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-01-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "term-life", "024400010002"]
 ---
 

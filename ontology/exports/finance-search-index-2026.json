@@ -4,11 +4,11 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "finance-search-index",
   "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
-  "item_count": 21255,
+  "item_count": 21258,
   "canonical_product_count": 3436,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "8e747e3ddf41f7e7589f73f3b58e81dec7ea36734e80effe0ce5a635966368ee",
+  "export_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -16,8 +16,8 @@
       "path": "ontology/exports/finance-search-index-2026-support.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
-      "item_count": 7736,
-      "export_checksum": "b93de7cdadc2d8d9f33c3dd029d64f01438d0556738d19ecb8cfb035409eaf46"
+      "item_count": 7739,
+      "export_checksum": "0fd9c4c0b3c0117b4634588a8ff63fee54ec2da393cbe576ee81a6dd63332421"
     },
     {
       "id": "finance-search-index-deposit-protection",
@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
       "item_count": 1369,
-      "export_checksum": "35608a5fe743f1bbf52a89a7706d4c8758289b96a25e980a34362d40fe8565c6"
+      "export_checksum": "98e8095016b6b59b2e954725bcffdbd816ccdfd3e85d966b9501b70653428b59"
     },
     {
       "id": "finance-search-index-card-products",
@@ -62,7 +62,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
       "item_count": 692,
-      "export_checksum": "f9478614cd72bcc25841e6b8808e5c6a8294b5e3a50c091fe5a130462728d983"
+      "export_checksum": "741647a42207060f6e731c543d3410aef928241ec11a07bdff65a547cbd5bc5f"
     }
   ]
 }

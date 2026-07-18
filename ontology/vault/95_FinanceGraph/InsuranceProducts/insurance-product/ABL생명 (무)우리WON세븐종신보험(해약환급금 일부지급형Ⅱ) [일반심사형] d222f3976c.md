@@ -4,10 +4,10 @@ title: "ABL생명 (무)우리WON세븐종신보험(해약환급금 일부지급�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://abllife.co.kr/st/pban/prdtPban/whlPrdt?page=1252956_1260", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.whole-life.abl생명.l0202460001nnn0247000202440001024400010001024400010001000202440001000100020002w0869`
 - Type: `insurance-product`
 - provider: ABL생명
-- source_modified_at: 2026-04-01
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

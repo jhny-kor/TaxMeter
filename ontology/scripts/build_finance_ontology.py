@@ -2162,7 +2162,17 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         },
         "structural_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only"),
         "complete_comparison_data_count": sum(1 for product in products if product.get("comparison_engine_gate_passed")),
-        "verified_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" and product.get("comparison_engine_gate_passed")),
+        "verified_comparison_candidate_count": sum(
+            1
+            for product in products
+            if (
+                product.get("recommendation_scope") == "comparison_only"
+                or (product.get("search_type") == "loan" and product.get("recommendation_scope") == "internal_verification_candidate")
+            )
+            and product.get("sales_verification_status") == "verified_active"
+            and product.get("verification_status") == "verified"
+            and product.get("comparison_engine_gate_passed")
+        ),
         "public_comparison_candidate_count": sum(1 for product in products if product.get("recommendation_scope") == "comparison_only" and product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" and product.get("comparison_engine_gate_passed")),
         "readiness": {
             "discovery": "ready" if any(product.get("discovery_evidence_fields") for product in products) else "blocked",

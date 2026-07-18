@@ -4,10 +4,10 @@ title: "유축기 대여 서비스 (서울특별시 중랑구)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2184016&bnefType=all&svcId=306000000243", "https://www.law.go.kr/법령/모자보건법/(20879,20250401)", "https://www.jungnang.go.kr/health/bbs/list/B0000412.do?menuNo=400364", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-06-22", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-22", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현물", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 중랑구 보건소 모자건강센터(02-2094-0176), 중랑구 보건소 모자건강센터(02-2094-0818)
 - source_modified_at: 2026-06-22
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

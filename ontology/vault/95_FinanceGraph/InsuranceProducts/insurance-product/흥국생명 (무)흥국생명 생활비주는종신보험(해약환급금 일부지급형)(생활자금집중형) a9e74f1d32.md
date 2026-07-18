@@ -4,10 +4,10 @@ title: "흥국생명 (무)흥국생명 생활비주는종신보험(해약환급�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20", "https://www.heungkuklife.co.kr/front/public/saleProduct.do?searchFlgSale=Y", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-01-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "whole-life", "024400010001"]
 ---
 

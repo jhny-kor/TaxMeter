@@ -4,10 +4,10 @@ title: "청년 부동산 중개보수 및 이사비 지원 (서울특별시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=811700&bnefType=all&svcId=611000000170", "https://www.law.go.kr/법령/청년기본법/(19253,20230321)", "https://www.law.go.kr/자치법규/서울특별시 청년 기본 조례/(9765,20250714)", "https://www.law.go.kr/자치법규/서울특별시 청년주거 기본 조례/(10064,20260330)", "https://youth.seoul.go.kr", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-08", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 미래청년기획관(02-120), 서울시 청년 부동산 중개보수 및 이사비 지원사업 콜센터(1877-9358)
 - source_modified_at: 2026-05-08
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

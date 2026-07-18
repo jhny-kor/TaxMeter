@@ -4,10 +4,10 @@ title: "롯데카드 LOCA LIKIT 2.0"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://gongsi.crefia.or.kr/portal/carddamoa/carddamoaList", "https://m.lottecard.co.kr/front/card/basic/credit/info/likit2.0?brand=likit&pcYn=Y", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card"]
 ---
 

@@ -4,10 +4,10 @@ title: "시흥시 구직 청년 면접정장 대여사업「면접 흥하시흥�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2128449&bnefType=all&svcId=401000000485", "https://www.law.go.kr/법령/청년기본법/(19253,20230321)", "https://www.law.go.kr/법령/청년고용촉진 특별법/(19940,20231231)", "https://www.law.go.kr/자치법규/시흥시 청년 기본 조례/(2493,20250605)", "https://apply.jobaba.net", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-06-24", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-06-24", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "기타", "custom-overlay"]
 ---
 
@@ -24,7 +24,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - application_method: 온라인
 - contact: 청년창업팀(031-310-2520)
 - source_modified_at: 2026-06-24
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

@@ -4,10 +4,10 @@ title: "신한라이프생명 신한SOL다치면속상해보험 mini(무배당)"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010011&pageIndex=1&pageUnit=20", "https://www.shinhanlife.co.kr/hp/cdhi0030.do", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "other-protection", "024400010011"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.other-protection.신한라이프생명.l110246000102460004nnn0247000202440001024400010011024400010011000102440001001100010004s0725`
 - Type: `insurance-product`
 - provider: 신한라이프생명
-- source_modified_at: 2026-01-01
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

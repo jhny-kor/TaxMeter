@@ -26,7 +26,7 @@ def main() -> int:
     assert classify_deadline("매월 1일~10일") == "recurring_monthly"
     assert classify_deadline("분기별 접수") == "recurring_quarterly"
     assert classify_deadline("") == "date_missing"
-    assert classify_deadline("날짜 원문 확인 불가") == "date_parse_failed"
+    assert classify_deadline("날짜 원문 확인 불가") == "invalid_source_value"
     print(f"OK: {len(cases)} date ranges and 11 deadline states verified")
     return 0
 

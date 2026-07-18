@@ -4,10 +4,10 @@ title: "삼성카드 삼성 iD VITA 카드"
 type: "card-product"
 domain: "card-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-card-products-ontology-2026.json"
 source_urls: ["https://static11.samsungcard.com/wcms/home/scard/personal/PGHPPCCCardCardinfoRecommend001.json", "https://www.samsungcard.com/home/card/cardinfo/PGHPPCCCardCardinfoDetails001?code=AAP1790", "https://static11.samsungcard.com/wcms/home/scard/image/personal/DN_AAP1790.gif", "https://www.samsungcard.com/home/card/cardinfo/PGHPPDCCardCardinfoRecommendPC001", "https://gongsi.crefia.or.kr/portal/financialProdInfo/cardProd"]
-source_basis_dates: ["2026-07-14 수집", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-03 확인"]
 tags: ["graph-materialized", "card-products", "finance-product", "generated", "credit-card", "issuer-official"]
 ---
 

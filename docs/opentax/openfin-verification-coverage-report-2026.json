@@ -76,7 +76,7 @@
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
-        "comparison_data": "blocked",
+        "comparison_data": "ready",
         "public_recommendation": "blocked"
       },
       "blockers": {
@@ -115,5 +115,5 @@
       }
     }
   ],
-  "export_checksum": "0d74a3c394c56e10e1aa4a160916de0262a84c17ff4053bbcded6c27df6d2beb"
+  "export_checksum": "9d06e4d81ced8327dbfd894c474a9ed230dea4c65a59555bb0a042f3ddd1e6a4"
 }

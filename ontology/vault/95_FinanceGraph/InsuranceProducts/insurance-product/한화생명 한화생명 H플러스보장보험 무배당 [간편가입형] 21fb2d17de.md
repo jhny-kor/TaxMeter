@@ -4,10 +4,10 @@ title: "한화생명 한화생명 H플러스보장보험 무배당 [간편가입
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010010&pageIndex=1&pageUnit=20", "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-05-04", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2026-07-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "dementia-care", "024400010010"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.dementia-care.한화생명.l0102460001nnn024700020244000102440001001002440001001000010244000100100001000222613`
 - Type: `insurance-product`
 - provider: 한화생명
-- source_modified_at: 2026-05-04
+- source_modified_at: 2026-07-01
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

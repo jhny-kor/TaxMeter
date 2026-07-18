@@ -4,10 +4,10 @@ title: "KB라이프생명 KB 내맘대로Pick! e-건강보험 무배당(갱신�
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20", "https://www.kblife.co.kr/insurance-product/productDetails.do?id=1520827&productType=5", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2025-04-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2025-04-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "accident", "024400010006"]
 ---
 

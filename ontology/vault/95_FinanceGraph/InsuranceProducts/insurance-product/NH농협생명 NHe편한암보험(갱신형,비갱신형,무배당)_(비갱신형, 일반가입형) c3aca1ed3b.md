@@ -4,10 +4,10 @@ title: "NH농협생명 NHe편한암보험(갱신형,비갱신형,무배당)_(비
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20", "https://www.nhelife.co.kr/main.nhl", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2025-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2025-01-01", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "cancer", "024400010004"]
 ---
 

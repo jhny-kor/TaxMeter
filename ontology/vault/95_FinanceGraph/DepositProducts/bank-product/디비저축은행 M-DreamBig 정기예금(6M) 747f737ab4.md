@@ -4,10 +4,10 @@ title: "디비저축은행 M-DreamBig 정기예금(6M)"
 type: "bank-product"
 domain: "deposit-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-deposit-products-ontology-2026.json"
 source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
-source_basis_dates: ["2026-07-14 수집", "202606", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "202606", "2026-07-03 확인"]
 tags: ["graph-materialized", "deposit-products", "finance-product", "generated", "deposit", "030300"]
 ---
 

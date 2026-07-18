@@ -4,10 +4,10 @@ title: "한국스탠다드차타드은행 퍼스트가계적금"
 type: "bank-product"
 domain: "saving-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-saving-products-ontology-2026.json"
 source_urls: ["https://finlife.fss.or.kr/", "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json", "https://finlife.fss.or.kr/finlifeapi/"]
-source_basis_dates: ["2026-07-14 수집", "202606", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "202606", "2026-07-03 확인"]
 tags: ["graph-materialized", "saving-products", "finance-product", "generated", "saving", "020000"]
 ---
 

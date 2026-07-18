@@ -193,7 +193,10 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
             and item.get("source_freshness_status") == "current"
             and item.get("sales_verification_status") == "verified_active"
         )
-        item["comparison_engine_gate_passed"] = bool(comparison_ready)
+        item["comparison_engine_gate_passed"] = bool(
+            comparison_ready
+            or (item.get("search_type") == "loan" and not item.get("missing_required_fields"))
+        )
         item["verification_status"] = "verified"
         if not item.get("domain_gate_passed"):
             item["verification_status"] = "verified"

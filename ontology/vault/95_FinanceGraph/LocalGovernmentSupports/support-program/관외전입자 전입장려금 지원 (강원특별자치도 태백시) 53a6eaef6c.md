@@ -4,10 +4,10 @@ title: "관외전입자 전입장려금 지원 (강원특별자치도 태백시)
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1003770&bnefType=all&svcId=422000000119", "https://www.law.go.kr/자치법규/태백시 인구늘리기 지원 조례/(2066,20221014)", "https://www.law.go.kr/자치법규/태백시 인구늘리기 지원 조례 시행규칙/(1061,20221014)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-29", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-29", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -26,7 +26,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 동 행정복지센터, 주민센터
 - contact: 태백시청 예산정책실(033-550-2441)
 - source_modified_at: 2026-04-29
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

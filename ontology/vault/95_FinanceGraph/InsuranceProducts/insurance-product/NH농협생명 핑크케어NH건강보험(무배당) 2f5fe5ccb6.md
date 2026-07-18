@@ -4,10 +4,10 @@ title: "NH농협생명 핑크케어NH건강보험(무배당)"
 type: "insurance-product"
 domain: "insurance-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-insurance-products-ontology-2026.json"
 source_urls: ["https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010003&pageIndex=1&pageUnit=20", "https://www.nhlife.co.kr/ho/on/HOON0004M00.nhl", "https://pub.insure.or.kr/"]
-source_basis_dates: ["2026-07-14 수집", "2026-01-01", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "2024-05-08", "2026-07-03 확인"]
 tags: ["graph-materialized", "insurance-products", "finance-product", "generated", "insurance", "klia", "disease", "024400010003"]
 ---
 
@@ -21,7 +21,7 @@ tags: ["graph-materialized", "insurance-products", "finance-product", "generated
 - Materialized ID: `finance.insurance.klia.disease.nh농협생명.l420246000102460002nnn024700020244000102440001000302440001000300020244000100030002000401099`
 - Type: `insurance-product`
 - provider: NH농협생명
-- source_modified_at: 2026-01-01
+- source_modified_at: 2024-05-08
 
 ## Relations
 - parents: [[95_FinanceGraph/InsuranceProducts/category/보장성 보험 상품 65d154bf21|보장성 보험 상품]]

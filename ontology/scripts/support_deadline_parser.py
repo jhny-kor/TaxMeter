@@ -79,7 +79,7 @@ def classify_deadline(deadline_text: str) -> str:
     if not compact_text:
         return "date_missing"
     if "날짜 원문 확인 불가" in deadline_text:
-        return "date_parse_failed"
+        return "invalid_source_value"
     if any(token in compact_text for token in ("없음", "해당사항없음", "미정")):
-        return "date_parse_unstructured"
-    return "date_parse_invalid"
+        return "unsupported_date_format"
+    return "unsupported_date_format"

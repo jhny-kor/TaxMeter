@@ -4,10 +4,10 @@ title: "산모신생아 건강관리 지원 (경기도 화성시)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=2116811&bnefType=all&svcId=553000000579", "https://www.law.go.kr/법령/사회서비스 이용 및 이용권 관리에 관한 법률/(19894,20240102)", "https://www.law.go.kr/법령/저출산ㆍ고령사회기본법/(20112,20240123)", "https://www.law.go.kr/법령/모자보건법/(20879,20250401)", "https://www.law.go.kr/법령/지방세법/(21308,20251231)", "http://www.bokjiro.go.kr", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-04-27", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "서비스(돌봄)", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 보건소
 - contact: 화성시서부보건소 건강증진과(031-5189-3563)
 - source_modified_at: 2026-04-27
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

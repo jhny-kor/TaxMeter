@@ -304,6 +304,31 @@ function supportRegionForQuery(query: string): string | undefined {
   return SUPPORT_REGION_TOKENS.find((region) => query.includes(normalizeQuery(region)));
 }
 
+function canonicalSupportRegion(region: string | undefined): string | undefined {
+  if (!region) return undefined;
+  const normalized = normalizeQuery(region);
+  const aliases: Record<string, string> = {
+    "서울": "서울특별시",
+    "부산": "부산광역시",
+    "대구": "대구광역시",
+    "인천": "인천광역시",
+    "광주": "광주광역시",
+    "대전": "대전광역시",
+    "울산": "울산광역시",
+    "세종": "세종특별자치시",
+    "경기": "경기도",
+    "강원": "강원특별자치도",
+    "충북": "충청북도",
+    "충남": "충청남도",
+    "전북": "전북특별자치도",
+    "전남": "전라남도",
+    "경북": "경상북도",
+    "경남": "경상남도",
+    "제주": "제주특별자치도",
+  };
+  return aliases[normalized] ?? region;
+}
+
 function matchesSupportRegion(item: FinanceItem, region: string | undefined): boolean {
   if (item.type !== "support-program" || !region) return true;
   return [item.jurisdiction, item.jurisdiction_code, item.parent_jurisdiction_code, ...(item.jurisdiction_aliases ?? [])]
@@ -347,6 +372,25 @@ function supportMatchTier(item: FinanceItem, query: string): "exact" | "partial"
   if (youthMatched && (!rentRequested || rentMatched)) return "exact";
   if (youthMatched && housingMatched) return "partial";
   return "related";
+}
+
+function supportParsedQuery(query: string, explicitRegion: string | undefined): Record<string, unknown> {
+  const normalized = normalizeQuery(query);
+  const categories = [
+    ...(normalized.includes("월세") ? ["housing", "rent"] : []),
+    ...(normalized.includes("전세") || normalized.includes("보증금") ? ["lease_deposit", "deposit_guarantee"] : []),
+    ...(normalized.includes("취업") || normalized.includes("일자리") || normalized.includes("구직") ? ["employment"] : []),
+    ...(normalized.includes("교육") ? ["education"] : []),
+    ...(normalized.includes("의료") || normalized.includes("건강") ? ["health"] : []),
+    ...(normalized.includes("문화") || normalized.includes("예술") ? ["culture"] : []),
+    ...(normalized.includes("창업") || normalized.includes("사업") || normalized.includes("소상공인") ? ["business"] : []),
+  ];
+  return {
+    original_query: query,
+    region: canonicalSupportRegion(explicitRegion ?? supportRegionForQuery(normalized)),
+    target_groups: normalized.includes("청년") ? ["youth"] : [],
+    support_categories: [...new Set(categories)],
+  };
 }
 
 function inferredSearchTypeForQuery(query: string): string | undefined {
@@ -1423,6 +1467,7 @@ function createServer(env: Env): McpServer {
       const payload = {
         query,
         filters,
+        parsed_query: supportParsedQuery(query, region),
         result_count: results.length,
         results,
         exact_results: results.filter((item) => item.match_tier === "exact"),

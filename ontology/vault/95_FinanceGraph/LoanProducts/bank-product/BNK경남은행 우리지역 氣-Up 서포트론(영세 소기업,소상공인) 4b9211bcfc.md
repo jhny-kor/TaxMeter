@@ -4,10 +4,10 @@ title: "BNK경남은행 우리지역 氣-Up 서포트론(영세 소기업,소상
 type: "bank-product"
 domain: "loan-products"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-loan-products-ontology-2026.json"
 source_urls: ["https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y", "https://www.knbank.co.kr"]
-source_basis_dates: ["2026-07-14 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
+source_basis_dates: ["2026-07-18 수집", "공공데이터포털 연 1회 업데이트", "2026-07-03 확인"]
 tags: ["graph-materialized", "loan-products", "finance-product", "generated", "bank", "policy-loan", "kinfa", "1", "운영·시설"]
 ---
 

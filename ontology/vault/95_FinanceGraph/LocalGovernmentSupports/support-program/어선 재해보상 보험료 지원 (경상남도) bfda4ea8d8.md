@@ -4,10 +4,10 @@ title: "어선 재해보상 보험료 지원 (경상남도)"
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1005690&bnefType=all&svcId=648000001073", "https://www.law.go.kr/법령/어선원 및 어선 재해보상보험법/(20132,20240123)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-05-04", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금(보험)", "custom-overlay"]
 ---
 
@@ -25,7 +25,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 수협
 - contact: 수산자원과(055-211-5275), 창원시 수산과(055-225-3386), 통영시 수산과(055-650-5065), 사천시 해양수산과(055-831-3122), 거제시 수산과(055-639-4284), 고성군 해양수산과(055-670-2684), 남해군 수산자원과(0558603356), 하동군 해양수산과(055-880-2454)
 - source_modified_at: 2026-05-04
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]

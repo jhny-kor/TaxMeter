@@ -4,10 +4,10 @@ title: "중·고등학교 신입생 교복구입비 지원 (경상북도 김천�
 type: "support-program"
 domain: "local-government-supports"
 basis_year: 2026
-reviewed_at: "2026-07-14"
+reviewed_at: "2026-07-18"
 source_export: "korea-local-government-supports-ontology-2026.json"
 source_urls: ["https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList/benefitSrvcDtl?svcSeq=1006194&bnefType=all&svcId=506000000130", "https://www.law.go.kr/자치법규/김천시 교복 지원 조례/(1611,20241226)", "https://plus.gov.kr/portal/benefitV2/benefitTotalSrvcList"]
-source_basis_dates: ["정부24 원문 수정일 2026-01-11", "수집일 2026-07-14", "2026-05-04 확인"]
+source_basis_dates: ["정부24 원문 수정일 2026-01-11", "수집일 2026-07-18", "2026-05-04 확인"]
 tags: ["graph-materialized", "local-government-supports", "local-government-support", "gov24", "generated", "현금", "custom-overlay"]
 ---
 
@@ -27,7 +27,7 @@ tags: ["graph-materialized", "local-government-supports", "local-government-supp
 - receiving_agency: 재학(입학 예정) 중인 학교(중·고등학교), 주민센터
 - contact: 총무새마을과(054-420-6036)
 - source_modified_at: 2026-01-11
-- source_collected_at: 2026-07-14
+- source_collected_at: 2026-07-18
 
 ## Relations
 - parents: [[30_Supports/LocalGovernment/지자체 지원금|지자체 지원금]]
