@@ -1246,5 +1246,20 @@
       }
     }
   ],
-  "export_checksum": "d091fadb2c15862e0c07212ea73e5271960d20f190c8780e2749f7a5d5f783eb"
+  "live_search_regression": {
+    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "checked_at": "2026-07-18T12:30:17+00:00",
+    "runtime_version": "openfin-mcp-2026.07.18.3",
+    "deployment_commit": "04d5d90076e917577af7ca4443ad34f0ff747e22",
+    "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
+    "search_index_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
+    "runtime_search_index_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
+    "test_count": 33,
+    "passed_count": 33,
+    "failed_count": 0,
+    "failures": [],
+    "last_failed_at": null
+  },
+  "export_checksum": "76c29cf07861d544d8fb0ec78dd701bf78b01c4183fe4157b5ca14b96863b622"
 }

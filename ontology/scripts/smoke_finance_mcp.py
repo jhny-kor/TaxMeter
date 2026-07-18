@@ -104,8 +104,10 @@ def validate_tool_payload(label: str, payload: Mapping[str, JsonValue]) -> None:
         search_index = payload.get("search_index")
         if not isinstance(runtime, Mapping) or not all(isinstance(runtime.get(key), str) and runtime.get(key) for key in ("runtime_version", "deployment_commit", "manifest_version")):
             raise McpSmokeError("exports: runtime metadata is incomplete")
-        if not isinstance(search_index, Mapping) or not isinstance(search_index.get("loaded_item_count"), int) or search_index.get("loaded_item_count", 0) <= 0:
+        if not isinstance(runtime.get("loaded_item_count"), int) or runtime.get("loaded_item_count", 0) <= 0:
             raise McpSmokeError("exports: hydrated search-index metadata is incomplete")
+        if not isinstance(search_index, Mapping) or not isinstance(search_index.get("item_count"), int) or search_index.get("item_count", 0) <= 0:
+            raise McpSmokeError("exports: manifest search-index metadata is incomplete")
     if label == "support_search":
         if not all(key in payload for key in ("exact_results", "partial_results", "related_results", "parsed_query")):
             raise McpSmokeError("support_search: match-tier response fields are incomplete")
