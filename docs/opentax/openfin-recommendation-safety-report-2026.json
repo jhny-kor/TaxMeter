@@ -1,11 +1,11 @@
 {
   "version": "openfin-recommendation-safety-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_tested_at": null,
-  "runtime_version": null,
-  "deployment_commit": null,
-  "manifest_version": null,
-  "live_case_count": 0,
+  "live_tested_at": "2026-07-18T03:56:49+00:00",
+  "runtime_version": "openfin-mcp-2026.07.18.1",
+  "deployment_commit": "a0b33d2c4aad211e44c924bf11d0152e10e1e523",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 33,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "recommendation-safety",
@@ -29,5 +29,5 @@
     "comparison_calculation_error_count": 0,
     "local_cloudflare_parity_error_count": 0
   },
-  "export_checksum": "811b4ad7503de2f4dba9f280ddd04aeff6c765295cdd8263348867d208118272"
+  "export_checksum": "c08cf2d7949cefa695af78a60007590a46757664fc41974c16ce7a9e20258002"
 }
