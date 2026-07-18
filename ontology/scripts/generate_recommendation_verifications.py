@@ -65,7 +65,7 @@ def verification_for(item: dict[str, Any]) -> dict[str, Any]:
         "reviewer": REVIEWER,
         "decision": "approved",
         "source_urls": item.get("source_urls") or [],
-        "source_checksums": [item.get("source_checksum") or item_source_checksum(item)],
+        "source_checksums": [item_source_checksum(item)],
         "verified_fields": sorted(fields),
         "expires_at": EXPIRES_AT,
         "freshness_policy": "reverify within 45 days or when source checksum changes",

@@ -139,7 +139,11 @@ class McpClient:
     def tool_call(self, name: str, arguments: dict, attempts: int = 6) -> dict:
         for attempt in range(attempts):
             try:
-                return self.request("tools/call", {"name": name, "arguments": arguments})
+                result = self.request("tools/call", {"name": name, "arguments": arguments})
+                serialized = json.dumps(result, ensure_ascii=False)
+                if result.get("isError") is True or result.get("is_error") is True or "TypeError" in serialized:
+                    raise ValueError(f"{name} returned an MCP error or TypeError: {serialized[:500]}")
+                return result
             except urllib.error.HTTPError as error:
                 if error.code < 500 or attempt == attempts - 1:
                     raise
@@ -158,6 +162,21 @@ class McpClient:
 
     def compare(self, arguments: dict) -> dict:
         result = self.tool_call("compare", arguments)
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
+    def fetch(self, item_id: str) -> dict:
+        result = self.tool_call("fetch", {"id": item_id})
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
+    def recommend(self, arguments: dict) -> dict:
+        result = self.tool_call("recommend", arguments)
+        structured = result.get("structuredContent")
+        return structured or json.loads(result["content"][0]["text"])
+
+    def support_search(self, arguments: dict) -> dict:
+        result = self.tool_call("search", arguments)
         structured = result.get("structuredContent")
         return structured or json.loads(result["content"][0]["text"])
 
@@ -206,6 +225,103 @@ def main() -> int:
         "passed": checksum_passed,
     })
     print(f"[{'PASS' if checksum_passed else 'FAIL'}] runtime search-index checksum expected={expected_checksum} actual={actual_checksum}")
+
+    required_cases: list[dict] = []
+
+    def record_required_case(query: str, validation_kind: str, passed: bool, actual: dict, error_text: str | None = None) -> None:
+        test = {
+            "query": query,
+            "type": None,
+            "validation_kind": validation_kind,
+            "expected_top_id": None,
+            "actual_top_id": None,
+            "passed": passed,
+            "payload_summary": actual,
+        }
+        if error_text:
+            test["error"] = error_text
+        required_cases.append(test)
+        print(f"[{'PASS' if passed else 'FAIL'}] required {validation_kind} query={query!r}" + (f" error={error_text}" if error_text else ""))
+
+    try:
+        fetched = client.fetch("credit.insurance-premium")
+        fetched_item = fetched.get("item") or fetched.get("result") or {}
+        fetch_ok = bool(fetched_item) and fetched.get("found", True) is not False
+        record_required_case("credit.insurance-premium", "required_live_fetch_contract", fetch_ok, {
+            "found": fetched.get("found"),
+            "item_id": fetched_item.get("id") if isinstance(fetched_item, dict) else None,
+        })
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("credit.insurance-premium", "required_live_fetch_contract", False, {}, str(error))
+
+    try:
+        support = client.support_search({"query": "청년 월세 지원", "type": "support-program", "region": "서울", "limit": 5})
+        parsed_query = support.get("parsed_query") or {}
+        exact = support.get("exact_results") or []
+        partial = support.get("partial_results") or []
+        related = support.get("related_results") or []
+        support_ok = (
+            parsed_query.get("intent") == "find-support"
+            and parsed_query.get("region") == "서울특별시"
+            and "youth" in (parsed_query.get("target_groups") or [])
+            and {"housing", "rent"}.issubset(set(parsed_query.get("support_categories") or []))
+            and isinstance(support.get("excluded_summary"), dict)
+            and bool(exact or partial or related)
+            and all(candidate.get("type") == "support-program" for candidate in [*exact, *partial, *related])
+        )
+        record_required_case("청년 월세 지원", "required_live_support_search_contract", support_ok, {
+            "parsed_query": parsed_query,
+            "exact_count": len(exact),
+            "partial_count": len(partial),
+            "related_count": len(related),
+            "excluded_summary": support.get("excluded_summary"),
+        })
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("청년 월세 지원", "required_live_support_search_contract", False, {}, str(error))
+
+    try:
+        saving = client.compare({"domain": "saving", "monthly_payment_krw": 300_000, "term_months": 12, "saving_method": "free"})
+        candidates = saving.get("candidates") or []
+        excluded = saving.get("excluded_summary") or {}
+        excluded_count = saving.get("excluded_count")
+        saving_ok = (
+            isinstance(excluded, dict)
+            and isinstance(excluded_count, int)
+            and sum(value for value in excluded.values() if isinstance(value, int)) == excluded_count
+            and all(candidate.get("term_months") == 12 for candidate in candidates)
+        )
+        record_required_case("300,000원 자유적립식 12개월 적금 비교", "required_live_saving_comparison_contract", saving_ok, {
+            "candidate_count": len(candidates),
+            "excluded_count": excluded_count,
+            "excluded_summary": excluded,
+        })
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("300,000원 자유적립식 12개월 적금 비교", "required_live_saving_comparison_contract", False, {}, str(error))
+
+    try:
+        recommendation = client.recommend({
+            "domain": "deposit",
+            "profile": {"deposit_amount_krw": 10_000_000, "term_months": 12},
+            "constraints": {"term_months": 12},
+            "limit": 1,
+        })
+        readiness = recommendation.get("readiness") or {}
+        actions = recommendation.get("next_required_actions") or []
+        action_codes = {action.get("code") for action in actions if isinstance(action, dict)}
+        recommendation_ok = (
+            recommendation.get("result_count") == 0
+            and readiness.get("comparison_engine_product_count", 0) > 0
+            and "VERIFY_RECOMMENDATION_FIELDS" in action_codes
+        )
+        record_required_case("10,000,000원 12개월 예금 추천", "required_live_recommendation_contract", recommendation_ok, {
+            "result_count": recommendation.get("result_count"),
+            "readiness": readiness,
+            "next_required_actions": actions,
+        })
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("10,000,000원 12개월 예금 추천", "required_live_recommendation_contract", False, {}, str(error))
+
+    tests.extend(required_cases)
     for query, expected_id, type_filter in TAX_SEARCH_REGRESSIONS:
         error_text = None
         try:

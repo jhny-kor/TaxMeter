@@ -22,13 +22,14 @@ SMOKE_CALLS: Final[tuple[SmokeCall, ...]] = (
     ("exports", {}),
     ("search", {"query": "월세 세액공제 조건", "limit": 1}),
     ("search_insurance_tax", {"query": "보험료 세액공제", "limit": 5}),
-    ("support_search", {"query": "서울 청년 월세 지원", "region": "서울특별시", "limit": 5}),
+    ("support_search", {"query": "청년 월세 지원", "type": "support-program", "region": "서울", "limit": 5}),
     ("fetch", {"id": "credit.monthly-rent"}),
+    ("fetch_insurance", {"id": "credit.insurance-premium"}),
     ("discover_card", {"query": "마일리지 체크카드 추천", "limit": 5}),
     ("discover_insurance", {"query": "실손보험 추천", "limit": 5}),
     ("compare", {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}),
-    ("compare_saving", {"domain": "saving", "monthly_payment_krw": 500_000, "term_months": 12}),
-    ("recommend", {"domain": "deposit", "limit": 1}),
+    ("compare_saving", {"domain": "saving", "monthly_payment_krw": 300_000, "term_months": 12, "saving_method": "free"}),
+    ("recommend", {"domain": "deposit", "profile": {"deposit_amount_krw": 10_000_000, "term_months": 12}, "constraints": {"term_months": 12}, "limit": 1}),
 )
 
 
@@ -109,11 +110,13 @@ def validate_tool_payload(label: str, payload: Mapping[str, JsonValue]) -> None:
         if not isinstance(search_index, Mapping) or not isinstance(search_index.get("item_count"), int) or search_index.get("item_count", 0) <= 0:
             raise McpSmokeError("exports: manifest search-index metadata is incomplete")
     if label == "support_search":
-        if not all(key in payload for key in ("exact_results", "partial_results", "related_results", "parsed_query")):
+        if not all(key in payload for key in ("exact_results", "partial_results", "related_results", "excluded_summary", "parsed_query")):
             raise McpSmokeError("support_search: match-tier response fields are incomplete")
         parsed_query = payload.get("parsed_query")
-        if not isinstance(parsed_query, Mapping) or parsed_query.get("region") != "서울특별시" or "youth" not in (parsed_query.get("target_groups") or []):
+        if not isinstance(parsed_query, Mapping) or parsed_query.get("intent") != "find-support" or parsed_query.get("region") != "서울특별시" or "youth" not in (parsed_query.get("target_groups") or []):
             raise McpSmokeError("support_search: parsed region/target group contract failed")
+        if not isinstance(payload.get("excluded_summary"), Mapping):
+            raise McpSmokeError("support_search: excluded_summary must be an object")
     readiness = payload.get("readiness")
     states = payload.get("readiness_states")
     if isinstance(readiness, Mapping) and isinstance(states, Mapping):
@@ -203,7 +206,7 @@ def main() -> int:
     if missing:
         raise McpSmokeError(f"MCP tools/list is missing required tools: {sorted(missing)}")
     for label, arguments in SMOKE_CALLS:
-        name = "discover" if label.startswith("discover") else "search" if label in {"support_search", "search_insurance_tax"} else "compare" if label == "compare_saving" else label
+        name = "discover" if label.startswith("discover") else "search" if label in {"support_search", "search_insurance_tax"} else "compare" if label == "compare_saving" else "fetch" if label == "fetch_insurance" else label
         result = client.request("tools/call", {"name": name, "arguments": arguments})
         validate_tool_payload(label, tool_payload(result))
         print(f"PASS {label}")

@@ -1186,9 +1186,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1210,6 +1210,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.nhlife.co.kr/ho/ig/HOIG0001M00.nhl?prodCd=N0001178",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45432&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1221,11 +1222,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 15,
+            "score": 14,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1255,9 +1256,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1279,6 +1280,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45421&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1290,11 +1292,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 15,
+            "score": 14,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1324,9 +1326,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1348,6 +1350,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45425&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1359,11 +1362,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 15,
+            "score": 14,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1393,9 +1396,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1417,6 +1420,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45360&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1428,11 +1432,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 15,
+            "score": 14,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1462,9 +1466,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -1486,6 +1490,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45305&seq=6",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1497,11 +1502,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 15,
+            "score": 14,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -1528,153 +1533,15 @@
       "query": "암보험 추천",
       "type_filter": null,
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
+      "actual_top_id": "finance.insurance.klia.cancer.aia생명.l520246000302460004nny0247000202440001024400010004024400010004000102440001000400010004q2001",
       "passed": true,
       "validation_kind": "discovery_runtime_contract",
       "expected_search_type": "insurance",
       "top_results": [
         {
-          "canonical_product_id": "finance.canonical.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930.cancer",
-          "id": "finance.insurance.klia.cancer.abl생명.l0202460004nnn0247000202440001024400010004024400010004000102440001000400010004dc930",
-          "title": "ABL생명 (무)우리WON인터넷5대미니암보험",
-          "provider": "ABL생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://abllife.co.kr/st/pban/prdtPban/whlPrdt?page=1254508_1260",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 15,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.abl생명.l023nnb1i00dc310.cancer",
-          "id": "finance.insurance.klia.cancer.abl생명.l023nnb1i00dc310",
-          "title": "ABL생명 (무)우리WON인터넷암보험(갱신형)",
-          "provider": "ABL생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://abllife.co.kr/st/pban/prdtPban/whlPrdt?page=1254511_1260",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 15,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9001.cancer",
-          "id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9001",
-          "title": "AIA생명 (무) AIA 건강+ 암보험 (갱신형) 1형",
+          "canonical_product_id": "finance.canonical.aia생명.l520246000302460004nny0247000202440001024400010004024400010004000102440001000400010004q2001.cancer",
+          "id": "finance.insurance.klia.cancer.aia생명.l520246000302460004nny0247000202440001024400010004024400010004000102440001000400010004q2001",
+          "title": "AIA생명 (무) AIA 100세 든든 슈퍼 암보험 (갱신형)",
           "provider": "AIA생명",
           "product_kind": "cancer",
           "catalog_recommendation_status": "reference_only",
@@ -1704,6 +1571,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
             "https://mypage.aia.co.kr/AIAHomepage/disclosure/our-products/selling/individual.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=29690&seq=3",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1741,10 +1609,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9002.cancer",
-          "id": "finance.insurance.klia.cancer.aia생명.l520246000102460003nny0247000202440001024400010004024400010004000102440001000400010004q9002",
-          "title": "AIA생명 (무) AIA 건강+ 암보험 (갱신형) 2형",
-          "provider": "AIA생명",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e04.cancer",
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e04",
+          "title": "DB생명 (무) 생활비 암보험, 하이파이브(High-5)(2605)(해약환급금 미지급형)",
+          "provider": "DB생명",
           "product_kind": "cancer",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
@@ -1772,7 +1640,148 @@
           ],
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://mypage.aia.co.kr/AIAHomepage/disclosure/our-products/selling/individual.do",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45355&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 15,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e06.cancer",
+          "id": "finance.insurance.klia.cancer.db생명.l710246000102460003nnn024700020244000102440001000402440001000400010244000100040001000226e06",
+          "title": "DB생명 (무) 간편한(3105) 생활비 암보험, 하이파이브(High-5)(2605)(해약환급금 미지급형)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45357&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 15,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.db생명.l7102460004nnn024700020244000102440001000402440001000400010244000100040001000226a35.cancer",
+          "id": "finance.insurance.klia.cancer.db생명.l7102460004nnn024700020244000102440001000402440001000400010244000100040001000226a35",
+          "title": "DB생명 (무)e로운 암보험(해약환급금 미지급형)(2601)",
+          "provider": "DB생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=43735&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -1810,10 +1819,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.aia생명.l5202460001nny0247000202440001024400010004024400010004000102440001000400010004r6001.cancer",
-          "id": "finance.insurance.klia.cancer.aia생명.l5202460001nny0247000202440001024400010004024400010004000102440001000400010004r6001",
-          "title": "AIA생명 (무) AIA 더 안심되는 초간편 건강보험 (갱신형) 1형(암보장형)",
-          "provider": "AIA생명",
+          "canonical_product_id": "finance.canonical.kb라이프생명.l6102460004nnn024700020244000102440001000402440001000400010244000100040001000221350.cancer",
+          "id": "finance.insurance.klia.cancer.kb라이프생명.l6102460004nnn024700020244000102440001000402440001000400010244000100040001000221350",
+          "title": "KB라이프생명 KB 착한암보험 무배당(해약환급금 미지급형)",
+          "provider": "KB라이프생명",
           "product_kind": "cancer",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
@@ -1841,12 +1850,13 @@
           ],
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://mypage.aia.co.kr/AIAHomepage/disclosure/our-products/selling/individual.do",
+            "https://www.kblife.co.kr/customer-common/productList.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=34849&seq=8",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-04-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -15265,5 +15275,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "b7b07e06b0bd8efdc21efe165358c771306c2aa1d9c495dfcf2e298c383dabce"
+  "export_checksum": "32787b5b9b21fa139911abf977d726198e577c3f00262c7ed890eaa73936bd3b"
 }

@@ -387,10 +387,36 @@ function supportParsedQuery(query: string, explicitRegion: string | undefined): 
   ];
   return {
     original_query: query,
+    intent: SUPPORT_INTENT_RE.test(normalized) ? "find-support" : "search",
     region: canonicalSupportRegion(explicitRegion ?? supportRegionForQuery(normalized)),
     target_groups: normalized.includes("청년") ? ["youth"] : [],
     support_categories: [...new Set(categories)],
   };
+}
+
+function supportExcludedSummary(
+  items: readonly FinanceItem[],
+  query: string,
+  supportRegion: string | undefined,
+  filters: SearchFilters,
+  allowedTypes: Set<string> | null,
+  returnedIds: ReadonlySet<string>,
+  maxResults: number,
+): Record<string, number> {
+  if (!SUPPORT_INTENT_RE.test(query)) return {};
+  const counts: Record<string, number> = {};
+  const add = (reason: string) => { counts[reason] = (counts[reason] ?? 0) + 1; };
+  for (const item of items.filter((candidate) => candidate.type === "support-program")) {
+    if (returnedIds.has(item.id)) continue;
+    if (!isPubliclySearchable(item)) { add("not_publicly_searchable"); continue; }
+    if (allowedTypes && !allowedTypes.has(item.type)) { add("type_filter"); continue; }
+    if (!matchesSearchFilters(item, filters)) { add("filter_mismatch"); continue; }
+    if (!matchesSupportRegion(item, supportRegion)) { add("region_mismatch"); continue; }
+    if (!matchesSupportIntent(item, query)) { add("support_intent_mismatch"); continue; }
+    if (scoreItem(item, query) <= 0) { add("query_mismatch"); continue; }
+    if (maxResults > 0) add("result_limit");
+  }
+  return counts;
 }
 
 function inferredSearchTypeForQuery(query: string): string | undefined {
@@ -1186,7 +1212,7 @@ function recommendationReadinessStates(domain: string, readiness: Record<string,
 
 function nextRecommendationActions(domain: string, readiness: Record<string, number>): readonly Record<string, unknown>[] {
   if (readiness.verified_active_product_count === 0) return [{ code: "VERIFY_SALES_STATUS", affected_product_count: readiness.minimum_required_count }];
-  if ((domain === "deposit" || domain === "saving") && readiness.public_recommendation_candidate_count === 0 && readiness.verification_evidence_product_count > 0) {
+  if ((domain === "deposit" || domain === "saving") && readiness.public_recommendation_candidate_count === 0 && readiness.verification_evidence_product_count > 0 && readiness.comparison_engine_product_count === 0) {
     return [
       { code: "VERIFY_COMPARISON_FIELDS", affected_product_count: readiness.verification_evidence_product_count },
       { code: "PASS_DOMAIN_GATE", affected_product_count: readiness.verification_evidence_product_count },
@@ -1474,6 +1500,15 @@ function createServer(env: Env): McpServer {
         partial_results: results.filter((item) => item.match_tier === "partial"),
         related_results: results.filter((item) => item.match_tier === "related"),
         support_match_tier_counts: reasonCounts(results.filter((item) => item.match_tier).map((item) => ({ reason: item.match_tier as string }))),
+        excluded_summary: supportExcludedSummary(
+          items,
+          normalizedQuery,
+          supportRegion,
+          filters,
+          allowedTypes,
+          new Set(results.map((item) => item.id)),
+          maxResults,
+        ),
       };
 
       return {

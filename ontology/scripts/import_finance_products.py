@@ -585,6 +585,11 @@ def klia_item_from_block(group_code: str, block: str) -> dict | None:
     product_name = hidden_label(block, "l_prodNm", product_code) or "보험상품명 미상"
     detail_match = re.search(r'<a href="([^"]+)"[^>]+상품정보', block)
     detail_url = unescape(detail_match.group(1)) if detail_match else KLIA_ASSURANCE_LIST_URL
+    document_match = re.search(r"fn_fileDown\(\s*['\"](\d+)['\"]\s*,\s*['\"](\d+)['\"]\s*\)", block)
+    document_url = (
+        f"https://pub.insure.or.kr/FileDown.do?fileNo={document_match.group(1)}&seq={document_match.group(2)}"
+        if document_match else None
+    )
     sale_date = field_near_comment(block, "판매일자")
     renewal = field_near_comment(block, "갱신여부")
     premium_amount = field_near_comment(block, "보험료:가입금액")
@@ -672,7 +677,8 @@ def klia_item_from_block(group_code: str, block: str) -> dict | None:
         "source_modified_at": sale_date or None,
         "source_api": KLIA_ASSURANCE_LIST_URL,
         "source_record_id": f"klia-assurance:{group_code}:{product_code}",
-        "source_urls": unique([klia_list_url(group_code, 1), detail_url]),
+        "official_document_url": document_url,
+        "source_urls": unique([klia_list_url(group_code, 1), detail_url, document_url]),
         "source_basis_dates": unique([f"{COLLECTED_AT} 수집", sale_date]),
         "options": [
             {

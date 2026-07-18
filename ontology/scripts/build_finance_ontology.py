@@ -19,7 +19,7 @@ from card_benefit_parser import apply_card_recommendation_scope, enrich_card_ben
 from insurance_recommendation_guard import apply_insurance_recommendation_guard, enrich_insurance_coverage
 from loan_product_normalizer import normalize_loan_product
 from apply_recommendation_verifications import MODEL_VERSION as RECOMMENDATION_MODEL_VERSION
-from apply_recommendation_verifications import apply_recommendation_verifications
+from apply_recommendation_verifications import apply_recommendation_verifications, item_source_checksum
 from canonical_product_registry import canonicalize_product_records, external_merge_key, merge_product_records
 from calculate_recommendation_completeness import enrich_products
 from discovery_recommendation_engine import discover
@@ -184,6 +184,7 @@ GENERATED_FILES = {
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
     "reference": CUSTOM_FINANCE_DIR / "finance-reference.generated.json",
 }
+INSURANCE_PILOT_DETAILS_PATH = CUSTOM_FINANCE_DIR / "insurance-pilot-details.json"
 
 
 def unique(values: Iterable[str]) -> list[str]:
@@ -707,7 +708,36 @@ def load_generated(domain: str) -> list[dict]:
         raw_items = payload
     else:
         raise ValueError(f"{path}: generated payload must be a list or object with items")
-    return [dict(item) for item in raw_items]
+    items = [dict(item) for item in raw_items]
+    if domain == "insurance" and INSURANCE_PILOT_DETAILS_PATH.exists():
+        details_payload = json.loads(INSURANCE_PILOT_DETAILS_PATH.read_text(encoding="utf-8"))
+        details = details_payload.get("items") if isinstance(details_payload, dict) else details_payload
+        details_by_id = {
+            str(detail.get("id")): detail
+            for detail in details or []
+            if isinstance(detail, dict) and detail.get("id")
+        }
+        for item in items:
+            detail = details_by_id.get(str(item.get("id")))
+            if not detail:
+                continue
+            for key, value in detail.get("fields", {}).items():
+                if value not in (None, "", [], {}):
+                    item[key] = value
+            item["pilot_detail_source"] = detail.get("source") or "official_klia_product_summary_pdf"
+            item["pilot_detail_source_url"] = detail.get("source_url")
+            for criterion in item.get("criteria") or []:
+                if not isinstance(criterion, dict) or criterion.get("criteria_kind") != "coverage":
+                    continue
+                for key in (
+                    "exclusion_condition", "insured_age_min", "insured_age_max", "insurance_term",
+                    "payment_term", "waiting_period_days", "reduction_period_days",
+                ):
+                    if key in detail.get("fields", {}):
+                        criterion[key] = detail["fields"][key]
+                criterion["condition_source_url"] = detail.get("source_url")
+                criterion["policy_detail_collection_status"] = "official_pdf_parsed"
+    return items
 
 
 def generated_status(domain: str, product_count: int) -> dict:
@@ -2039,7 +2069,11 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
     enriched = enrich_products(items)
     canonicalize_product_records(enriched)
     verified = apply_recommendation_verifications(enriched)
-    return canonicalize_product_records(verified)
+    finalized = canonicalize_product_records(verified)
+    for item in finalized:
+        if item.get("type") in PRODUCT_TYPES:
+            item["source_checksum"] = item_source_checksum(item)
+    return finalized
 
 
 def export_quality_summary(items: list[dict], product_type: str) -> dict:

@@ -1,0 +1,235 @@
+{
+  "version": "KR-FINANCE-INSURANCE-PILOT-DETAILS-2026.07.18.1",
+  "source": "생명보험협회 상품요약서 PDF",
+  "items": [
+    {
+      "id": "finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac104",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=32773&seq=7",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "70세 / 75세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.abl생명.l0202460001nny0247000202440001024400010006024400010006000202440001000600020004ac105",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=32775&seq=7",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "70세 / 75세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac109",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=43951&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "15세 / 40세 / 50세 / 60세 / 100세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 아래의 내용은 보험금 지급사유 및 보험급부별 보험금 지급제한 사유에 대한 개략적인 내용이므로 자세한 내용은 해당약관을 참조하시기 바랍니다. ■ 주계약 ① 1형 (장해보장형) [기준 : 보험가입금액 1,000만원] 급부명 지급사유 지급금액 피보험자가 보험기간 중 「동일한 재해 또는 재 매월 20만원 해 이외의 동일한 원인」으로 인하여 장해분류 (다만, 계약일로부터 1년이 지난 50%이상 표 중 여러 신체부위의 장해지급률을 더하여 보험계약해당일 전일 이전에 재해 장해생활자금 50%이상인 장해상태가 되었을"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.abl생명.l0202460002nnn0247000202440001024400010006024400010006000202440001000600020004ac110",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=43952&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "15세 / 40세 / 50세 / 60세 / 100세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 아래의 내용은 보험금 지급사유 및 보험급부별 보험금 지급제한 사유에 대한 개략적인 내용이므로 자세한 내용은 해당약관을 참조하시기 바랍니다. ■ 주계약 ① 1형 (장해보장형) [기준 : 보험가입금액 1,000만원] 급부명 지급사유 지급금액 피보험자가 보험기간 중 「동일한 재해 또는 재 매월 20만원 해 이외의 동일한 원인」으로 인하여 장해분류 (다만, 계약일로부터 1년이 지난 50%이상 표 중 여러 신체부위의 장해지급률을 더하여 보험계약해당일 전일 이전에 재해 장해생활자금 50%이상인 장해상태가 되었을"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.abl생명.l0202460004nny0247000202440001024400010006024400010006000202440001000600020004ac106",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=34325&seq=4",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "60세 / 80세 / 75세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44985&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 25,
+        "insured_age_max": 80,
+        "insurance_term": "25 세 / 70 세 / 65 세 / 종신 / 15세 / 20세 / 40세 / 60세",
+        "payment_term": "전기납",
+        "exclusion_condition": "보험금 지급제한 사유 (1) 보험급부별 제한사유 또는 한도 ① [2종 종합보장형에 한합니다] 재해장해보험금은 다른 재해로 장해가 2회 이상 발생하였을 경우에는 그 때마다 이에 해당하는 장해지급률을 결정합니다. 그러나 그 장해가 이미 재해 장해보험금을 지급받은 동일부위에 가중된 때에는 최종 장해상태에 해당하는 재해장해보험 금에서 이미 지급받은 재해장해보험금을 차감한 금액을 지급합니다. 다만, 장해분류표의 각 신체부위별 판정기준에서 별도로 정한 경우에는 그 기준에 따릅니다. ② [2종 종합보장형에 한합니다] 재해장해보험금 지급의 경우 해당 지급사유 발생 전에 이미 다음 중 한 가지의 경우에 해당하는 장해가 있었던 피보험자에게 그 신체의 동일 부위에 또 다시 재해장해보험금에 해당하는 장해의 상태가 발생하였을 경우에는 다음 중 한가지의 경 우에 해당되는 장해에 대한 재해장해보험금이 지급된 것으로 보고 최종 장해상태에 해당하"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=45028&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 25,
+        "insured_age_max": 80,
+        "insurance_term": "25 세 / 70 세 / 65 세 / 종신 / 15세 / 20세 / 40세 / 60세",
+        "payment_term": "전기납",
+        "exclusion_condition": "보험금 지급제한 사유 (1) 보험급부별 제한사유 또는 한도 ① [2종 종합보장형에 한합니다] 재해장해보험금은 다른 재해로 장해가 2회 이상 발생하였을 경우에는 그 때마다 이에 해당하는 장해지급률을 결정합니다. 그러나 그 장해가 이미 재해 장해보험금을 지급받은 동일부위에 가중된 때에는 최종 장해상태에 해당하는 재해장해보험 금에서 이미 지급받은 재해장해보험금을 차감한 금액을 지급합니다. 다만, 장해분류표의 각 신체부위별 판정기준에서 별도로 정한 경우에는 그 기준에 따릅니다. ② [2종 종합보장형에 한합니다] 재해장해보험금 지급의 경우 해당 지급사유 발생 전에 이미 다음 중 한 가지의 경우에 해당하는 장해가 있었던 피보험자에게 그 신체의 동일 부위에 또 다시 재해장해보험금에 해당하는 장해의 상태가 발생하였을 경우에는 다음 중 한가지의 경 우에 해당되는 장해에 대한 재해장해보험금이 지급된 것으로 보고 최종 장해상태에 해당하"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44372&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 0,
+        "insured_age_max": 75,
+        "insurance_term": "15세 / 75세 / 0세 / 70세 / 71세 / 50세 / 60세 / 40세 / 110세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 ○ 계약의 무효 다음 중 한 가지에 해당되는 경우에는 계약을 무효로 하며 이미 납입한 보험료(실제 납입 한 보험료에 한하므로, 납입면제, 보험료 할인 등 실질적으로 보험료 납입이 없는 경우를 제외한 금액)를 돌려 드립니다. 다만, 회사의 고의 또는 과실로 계약이 무효로 된 경우와 회사가 승낙전에 무효임을 알았거나 알 수 있었음에도 보험료를 반환하지 않은 경우에는 매회차 보험료(초회보험료 포함)를 납입한 날의 다음날부터 반환일까지의 기간에 대하여 회사는 이 계약의 보험계약대출이율을 연단위 복리로 계산한 금액을 더하여 돌려 드립니 다. ① 계약을 체결할 때 계약에서 정한 피보험자의 나이에 미달되었거나 초과되었을 경우 다만, 회사가 나이의 착오를 발견하였을 때 이미 계약나이에 도달한 경우에는 유효한 계약으로 봅니다. ② 치매보장형의 경우, 치매보장개시일 전일 이전에 “중증치매상태”이거나 진단"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44371&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 0,
+        "insured_age_max": 75,
+        "insurance_term": "15세 / 75세 / 0세 / 70세 / 71세 / 50세 / 60세 / 40세 / 110세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 ○ 계약의 무효 다음 중 한 가지에 해당되는 경우에는 계약을 무효로 하며 이미 납입한 보험료(실제 납입 한 보험료에 한하므로, 납입면제, 보험료 할인 등 실질적으로 보험료 납입이 없는 경우를 제외한 금액)를 돌려 드립니다. 다만, 회사의 고의 또는 과실로 계약이 무효로 된 경우와 회사가 승낙전에 무효임을 알았거나 알 수 있었음에도 보험료를 반환하지 않은 경우에는 매회차 보험료(초회보험료 포함)를 납입한 날의 다음날부터 반환일까지의 기간에 대하여 회사는 이 계약의 보험계약대출이율을 연단위 복리로 계산한 금액을 더하여 돌려 드립니 다. ① 계약을 체결할 때 계약에서 정한 피보험자의 나이에 미달되었거나 초과되었을 경우 다만, 회사가 나이의 착오를 발견하였을 때 이미 계약나이에 도달한 경우에는 유효한 계약으로 봅니다. ② 치매보장형의 경우, 치매보장개시일 전일 이전에 “중증치매상태”이거나 진단"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b04",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44380&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "15세 / 20세 / 40세 / 60세",
+        "payment_term": "2년납",
+        "exclusion_condition": "보험금 지급제한 사유 ○ 계약의 무효 다음 중 한 가지에 해당되는 경우에는 계약을 무효로 하며, 이미 납입한 보험료(실제 납입 한 보험료에 한하므로, 납입면제, 보험료 할인 등 실질적으로 보험료 납입이 없는 경우를 제외한 금액)를 돌려 드립니다. 다만, 회사의 고의 또는 과실로 계약이 무효로 된 경우와 회사가 승낙전에 무효임을 알았거나 알 수 있었음에도 보험료를 반환하지 않은 경우에는 매회차 보험료(첫회보험료 포함)를 납입한 날의 다음날부터 반환일까지의 기간에 대하여 회사는 이 계약의 보험계약대출이율을 연단위 복리로 계산한 금액을 더하여 돌려드립니다. 1. 타인의 사망을 보험금 지급사유로 하는 계약에서 계약을 체결할 때까지 피보험자의 서면(전자서명법 제2조 제2호([부록] 보험계약관련 법·규정 참조)에 따른 전자서명이 있는 경우로서 상법 시행령 제44조의2([부록] 보험계약관련 법·규정 참조)에 정하는"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b05",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44381&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "15세 / 20세 / 40세 / 60세",
+        "payment_term": "2년납",
+        "exclusion_condition": "보험금 지급제한 사유 ○ 계약의 무효 다음 중 한 가지에 해당되는 경우에는 계약을 무효로 하며, 이미 납입한 보험료(실제 납입 한 보험료에 한하므로, 납입면제, 보험료 할인 등 실질적으로 보험료 납입이 없는 경우를 제외한 금액)를 돌려 드립니다. 다만, 회사의 고의 또는 과실로 계약이 무효로 된 경우와 회사가 승낙전에 무효임을 알았거나 알 수 있었음에도 보험료를 반환하지 않은 경우에는 매회차 보험료(첫회보험료 포함)를 납입한 날의 다음날부터 반환일까지의 기간에 대하여 회사는 이 계약의 보험계약대출이율을 연단위 복리로 계산한 금액을 더하여 돌려드립니다. 1. 타인의 사망을 보험금 지급사유로 하는 계약에서 계약을 체결할 때까지 피보험자의 서면(전자서명법 제2조 제2호([부록] 보험계약관련 법·규정 참조)에 따른 전자서명이 있는 경우로서 상법 시행령 제44조의2([부록] 보험계약관련 법·규정 참조)에 정하는"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b06",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44382&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "15세 / 20세 / 40세 / 60세",
+        "payment_term": "2년납",
+        "exclusion_condition": "보험금 지급제한 사유 ○ 계약의 무효 다음 중 한 가지에 해당되는 경우에는 계약을 무효로 하며, 이미 납입한 보험료(실제 납입 한 보험료에 한하므로, 납입면제, 보험료 할인 등 실질적으로 보험료 납입이 없는 경우를 제외한 금액)를 돌려 드립니다. 다만, 회사의 고의 또는 과실로 계약이 무효로 된 경우와 회사가 승낙전에 무효임을 알았거나 알 수 있었음에도 보험료를 반환하지 않은 경우에는 매회차 보험료(첫회보험료 포함)를 납입한 날의 다음날부터 반환일까지의 기간에 대하여 회사는 이 계약의 보험계약대출이율을 연단위 복리로 계산한 금액을 더하여 돌려드립니다. 1. 타인의 사망을 보험금 지급사유로 하는 계약에서 계약을 체결할 때까지 피보험자의 서면(전자서명법 제2조 제2호([부록] 보험계약관련 법·규정 참조)에 따른 전자서명이 있는 경우로서 상법 시행령 제44조의2([부록] 보험계약관련 법·규정 참조)에 정하는"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460003nny024700020244000102440001000602440001000600020244000100060002000424d43",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=38487&seq=3",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "60세 / 80세 / 75세 / 100세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.db생명.l710246000102460003nny024700020244000102440001000602440001000600020244000100060002000425d22",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=41773&seq=1",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "60세 / 80세 / 75세 / 100세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44561&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 15,
+        "insured_age_max": 75,
+        "insurance_term": "110세 / 30세 / 70세 / 20세 / 100세 / 15세 / 75세 / 72세 / 68세 / 64세 / 40세 / 50세 / 60세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 ● 1종(치매보장형) (기준 : 보험가입금액 1,000만원) 급 부명 칭 지 급 사 유 지 급 금액 피보험자가 보험기간 중 “치매보장개시일” 이후에 경도치매 “경도치매상태”로 최종 진단확정 받은 때 300만원 진단자금 (최초 1회에 한함) 1,000만원 피보험자가 보험기간 중 “치매보장개시일” 이후에 중등도치매",
+        "surrender_refund_type": "해약환급금 일부지급형”은 무엇인가요?"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020004hc316",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=44562&seq=2",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 15,
+        "insured_age_max": 75,
+        "insurance_term": "110세 / 30세 / 70세 / 20세 / 100세 / 15세 / 75세 / 72세 / 68세 / 64세 / 40세 / 50세 / 60세",
+        "payment_term": "20년납",
+        "exclusion_condition": "보험금 지급제한 사유 ● 1종(치매보장형) (기준 : 보험가입금액 1,000만원) 급 부명 칭 지 급 사 유 지 급 금액 피보험자가 보험기간 중 “치매보장개시일” 이후에 경도치매 “경도치매상태”로 최종 진단확정 받은 때 300만원 진단자금 (최초 1회에 한함) 1,000만원 피보험자가 보험기간 중 “치매보장개시일” 이후에 중등도치매",
+        "surrender_refund_type": "해약환급금 일부지급형”은 무엇인가요?"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.kb라이프생명.l6102460004nnn024700020244000102440001000602440001000600020244000100060002000431640",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=41181&seq=5",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 19,
+        "insured_age_max": 64,
+        "insurance_term": "64세 / 15세",
+        "exclusion_condition": "보험금을 지급하지 않는 사유 회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다. 1) 피보험자가 고의로 자신을 해친 경우 다만, 피보험자가 심신상실 등으로 자유로운 의사결정을 할 수 없는 상태에서 자신을 해친 경우 이 보험 약관 제3조(보험금의 지급사유)에서 정한 보험금 지급사유가 발생한 때에는 해당 보험금을 지급합니다. 2) 보험수익자가 고의로 피보험자를 해친 경우 다만, 그 보험수익자가 보험금의 일부 보험수익자인 경우에는 다른 보험수익자에 대한 보험금은 지급합 니다. 3) 계약자가 고의로 피보험자를 해친 경우 2. 계약 전 알릴 의무에 관한 사항 1) 계약자 또는 피보험자는 청약할 때(진단계약의 경우에는 건강진단할 때를 말합니다) 청약서에서 질문한 사항에 대하여 알고 있는 사실을 반드시 사실대로 알려야(이하 ‘계약 전 알릴 의무’라 하며, 상법상 ‘고 지"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.kb라이프생명.l6102460004nnn024700020244000102440001000602440001000600020244000100060002000431641",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=41182&seq=4",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insured_age_min": 19,
+        "insured_age_max": 64,
+        "insurance_term": "64세 / 15세",
+        "exclusion_condition": "보험금을 지급하지 않는 사유 회사는 다음 중 어느 한 가지로 보험금 지급사유가 발생한 때에는 보험금을 지급하지 않습니다. 1) 피보험자가 고의로 자신을 해친 경우 다만, 피보험자가 심신상실 등으로 자유로운 의사결정을 할 수 없는 상태에서 자신을 해친 경우 이 보험 약관 제3조(보험금의 지급사유)에서 정한 보험금 지급사유가 발생한 때에는 해당 보험금을 지급합니다. 2) 보험수익자가 고의로 피보험자를 해친 경우 다만, 그 보험수익자가 보험금의 일부 보험수익자인 경우에는 다른 보험수익자에 대한 보험금은 지급합 니다. 3) 계약자가 고의로 피보험자를 해친 경우 2. 계약 전 알릴 의무에 관한 사항 1) 계약자 또는 피보험자는 청약할 때(진단계약의 경우에는 건강진단할 때를 말합니다) 청약서에서 질문한 사항에 대하여 알고 있는 사실을 반드시 사실대로 알려야(이하 ‘계약 전 알릴 의무’라 하며, 상법상 ‘고 지"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.kb라이프생명.l6102460005nny024700020244000102440001000602440001000600020244000100060002000431620",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=38034&seq=4",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "60세 / 70세 / 80세 / 90세",
+        "payment_term": "전기납"
+      }
+    },
+    {
+      "id": "finance.insurance.klia.accident.kb라이프생명.l6102460005nny024700020244000102440001000602440001000600020244000100060002000431621",
+      "source": "official_klia_product_summary_pdf",
+      "source_url": "https://pub.insure.or.kr/FileDown.do?fileNo=38036&seq=4",
+      "captured_at": "2026-07-18",
+      "fields": {
+        "insurance_term": "60세 / 70세 / 80세 / 90세",
+        "payment_term": "전기납"
+      }
+    }
+  ]
+}

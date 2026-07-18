@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-18T12:16:26Z",
+  "built_at": "2026-07-18T13:15:52Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,10 +13,10 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-18T12:16:26Z",
+      "built_at": "2026-07-18T13:15:52Z",
       "domain_export_count": 8,
-      "search_index_item_count": 21258,
-      "canonical_product_count": 3436,
+      "search_index_item_count": 21251,
+      "canonical_product_count": 3430,
       "duplicate_canonical_product_count": 0,
       "checksum_covered_export_count": 9,
       "broken_relation_count": 0,
@@ -513,9 +513,9 @@
         }
       },
       "loan": {
-        "product_count": 604,
+        "product_count": 598,
         "status_counts": {
-          "active": 593,
+          "active": 587,
           "unknown": 11
         },
         "active_products_without_criteria": 4,
@@ -526,38 +526,38 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 570,
+        "loans_missing_required_fields": 564,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 593,
+        "reference_only_products": 587,
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 593,
+        "discovery_candidate_products": 587,
         "comparison_candidate_products": 13,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 580,
+        "recommendation_listing_only_products": 574,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
-          "reference_only": 593
+          "reference_only": 587
         },
         "recommendation_scope_counts": {
           "comparison_only": 13,
           "internal_verification_candidate": 11,
-          "listing_only": 580
+          "listing_only": 574
         },
         "products_with_complete_comparison_fields": 20,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.6887,
+        "average_completeness_ratio": 0.6885,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 11,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
-          "loan_limit_krw": 299,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
           "rate_type": 128,
@@ -565,7 +565,7 @@
         },
         "absent_fields_by_field_name": {
           "collateral_type": 0,
-          "criteria_or_options": 604,
+          "criteria_or_options": 598,
           "early_repayment_fee": 0,
           "eligible_borrower": 0,
           "loan_limit_krw": 0,
@@ -575,21 +575,21 @@
           "repayment_method": 0
         },
         "empty_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 0,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
-          "loan_limit_krw": 299,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
           "rate_type": 128,
           "repayment_method": 171
         },
         "not_collected_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 0,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
+          "eligible_borrower": 163,
           "loan_limit_krw": 255,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
@@ -599,13 +599,13 @@
         "unverified_fields_by_field_name": {
           "collateral_type": 508,
           "criteria_or_options": 0,
-          "early_repayment_fee": 279,
-          "eligible_borrower": 439,
+          "early_repayment_fee": 273,
+          "eligible_borrower": 435,
           "loan_limit_krw": 305,
-          "loan_rate_max_percent": 444,
-          "loan_rate_min_percent": 444,
-          "rate_type": 476,
-          "repayment_method": 433
+          "loan_rate_max_percent": 438,
+          "loan_rate_min_percent": 438,
+          "rate_type": 470,
+          "repayment_method": 427
         },
         "conflicting_fields_by_field_name": {
           "collateral_type": 0,
@@ -684,31 +684,35 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.4954,
+        "average_completeness_ratio": 0.424,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "coverage_amount_krw": 29,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "absent_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 29,
           "coverage_names": 0,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
           "premium_basis": 0,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "empty_fields_by_field_name": {
           "claim_condition": 0,
@@ -720,34 +724,40 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "not_collected_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 29,
           "coverage_names": 0,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
           "premium_basis": 0,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "unverified_fields_by_field_name": {
           "claim_condition": 1071,
           "coverage_amount_krw": 1042,
           "coverage_names": 1071,
-          "exclusion_condition": 0,
-          "insurance_term": 394,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
+          "exclusion_condition": 13,
+          "insurance_term": 414,
+          "insured_age_max": 8,
+          "insured_age_min": 8,
+          "payment_term": 18,
           "premium_basis": 1071,
+          "reduction_period_days": 0,
           "renewal_type": 872,
-          "surrender_refund_type": 315
+          "surrender_refund_type": 316,
+          "waiting_period_days": 0
         },
         "conflicting_fields_by_field_name": {
           "claim_condition": 0,
@@ -759,8 +769,10 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "expired_verification_fields_by_field_name": {
           "claim_condition": 0,
@@ -772,8 +784,10 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -1061,12 +1075,12 @@
     "path": "ontology/exports/finance-search-index-2026.json",
     "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
     "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-    "item_count": 21258,
+    "item_count": 21251,
     "product_count": 0,
     "source_review_date": "2026-07-10",
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
+    "export_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
@@ -1093,8 +1107,8 @@
         "path": "ontology/exports/finance-search-index-2026-bank-products.json",
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
-        "item_count": 1369,
-        "export_checksum": "98e8095016b6b59b2e954725bcffdbd816ccdfd3e85d966b9501b70653428b59"
+        "item_count": 1363,
+        "export_checksum": "abe752adbe0c98a47bc90200c093ad93b6b90c476a4c711f40789577371705ab"
       },
       {
         "id": "finance-search-index-card-products",
@@ -1103,7 +1117,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
         "item_count": 1007,
-        "export_checksum": "5501bf3635a00d2fdbb62ee7cd4ca6a3a612d41e002a678c93b0035dd5917e5b"
+        "export_checksum": "69c24c76855aa245cfe02e41701bc865467dc56593a57ed9c02abce36181ead1"
       },
       {
         "id": "finance-search-index-insurance-products",
@@ -1112,7 +1126,7 @@
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
         "item_count": 1071,
-        "export_checksum": "37f0a30c430027c6e191122567bc1c00dab16b148973080228d80a330756fc13"
+        "export_checksum": "c6a83218439311f7cc951aab8b37273eb380d17adbc22a0f89468cba3dec575d"
       },
       {
         "id": "finance-search-index-reference",
@@ -1120,8 +1134,8 @@
         "path": "ontology/exports/finance-search-index-2026-reference.json",
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
-        "item_count": 692,
-        "export_checksum": "741647a42207060f6e731c543d3410aef928241ec11a07bdff65a547cbd5bc5f"
+        "item_count": 691,
+        "export_checksum": "f0d957480983d7846f584d89bebf18a46870c87403ddf1139923ab7b7b8e4cd9"
       }
     ]
   },
@@ -1137,16 +1151,16 @@
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-18T12:16:26Z",
+        "built_at": "2026-07-18T13:15:52Z",
         "domain_export_count": 8,
-        "search_index_item_count": 21258,
-        "canonical_product_count": 3436,
+        "search_index_item_count": 21251,
+        "canonical_product_count": 3430,
         "duplicate_canonical_product_count": 0,
         "checksum_covered_export_count": 9,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "d091fadb2c15862e0c07212ea73e5271960d20f190c8780e2749f7a5d5f783eb",
+      "export_checksum": "0d0fd1383b616cadf9dfbaca6e184a51739fa0923f10f5a4d244ad264849dbfc",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1166,7 +1180,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "42418ef0cb1ca3c102dc40a2695357a7bd8fea17172350407387950c4d11e355",
+      "export_checksum": "32787b5b9b21fa139911abf977d726198e577c3f00262c7ed890eaa73936bd3b",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     },
     {
@@ -1552,7 +1566,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9428ec3c2bbd41050eea220f50b415cc80ea65f7e7a219996a7bcc795f6beca1",
+      "export_checksum": "9b3006a119aaebfe61ef6138f0e23bc5c3a8722b1f8d98239d3ce184c6635377",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1717,7 +1731,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f5fe629bf2353ee3baf75ce12787ba6ec5a3c2bc1faa4a0cb36f188a0d847122",
+      "export_checksum": "95d920ce015c3c2f30fbc0f3501f2f01703067df6d2f48607e58479fa660f307",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1883,7 +1897,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b47f9ae9d2613dcb1fd68af1d099fcfac7b5460fc4ace5cf42203db5278b7d07",
+      "export_checksum": "ffe32f652c37e16981021f26cb8327ed2d36079f38e1314c9916cebea7fa52a7",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1892,17 +1906,17 @@
       "path": "ontology/exports/korea-loan-products-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-loan-products-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-loan-products-ontology-2026.json",
-      "item_count": 648,
-      "product_count": 604,
+      "item_count": 642,
+      "product_count": 598,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [
         "2026-07-10",
         "2026-07-18"
       ],
       "quality_summary": {
-        "product_count": 604,
+        "product_count": 598,
         "status_counts": {
-          "active": 593,
+          "active": 587,
           "unknown": 11
         },
         "active_products_without_criteria": 4,
@@ -1913,38 +1927,38 @@
         "insurance_coverages_with_incomplete_conditions": 0,
         "deposit_protection_products": 0,
         "active_loans_without_criteria": 4,
-        "loans_missing_required_fields": 570,
+        "loans_missing_required_fields": 564,
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
-        "reference_only_products": 593,
+        "reference_only_products": 587,
         "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
-        "discovery_candidate_products": 593,
+        "discovery_candidate_products": 587,
         "comparison_candidate_products": 13,
         "public_recommendation_candidate_products": 0,
-        "recommendation_listing_only_products": 580,
+        "recommendation_listing_only_products": 574,
         "recommendation_status_counts": {
           "manual_review_candidate": 11,
-          "reference_only": 593
+          "reference_only": 587
         },
         "recommendation_scope_counts": {
           "comparison_only": 13,
           "internal_verification_candidate": 11,
-          "listing_only": 580
+          "listing_only": 574
         },
         "products_with_complete_comparison_fields": 20,
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.6887,
+        "average_completeness_ratio": 0.6885,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 11,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
-          "loan_limit_krw": 299,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
           "rate_type": 128,
@@ -1952,7 +1966,7 @@
         },
         "absent_fields_by_field_name": {
           "collateral_type": 0,
-          "criteria_or_options": 604,
+          "criteria_or_options": 598,
           "early_repayment_fee": 0,
           "eligible_borrower": 0,
           "loan_limit_krw": 0,
@@ -1962,21 +1976,21 @@
           "repayment_method": 0
         },
         "empty_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 0,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
-          "loan_limit_krw": 299,
+          "eligible_borrower": 163,
+          "loan_limit_krw": 293,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
           "rate_type": 128,
           "repayment_method": 171
         },
         "not_collected_fields_by_field_name": {
-          "collateral_type": 96,
+          "collateral_type": 90,
           "criteria_or_options": 0,
           "early_repayment_fee": 325,
-          "eligible_borrower": 165,
+          "eligible_borrower": 163,
           "loan_limit_krw": 255,
           "loan_rate_max_percent": 160,
           "loan_rate_min_percent": 160,
@@ -1986,13 +2000,13 @@
         "unverified_fields_by_field_name": {
           "collateral_type": 508,
           "criteria_or_options": 0,
-          "early_repayment_fee": 279,
-          "eligible_borrower": 439,
+          "early_repayment_fee": 273,
+          "eligible_borrower": 435,
           "loan_limit_krw": 305,
-          "loan_rate_max_percent": 444,
-          "loan_rate_min_percent": 444,
-          "rate_type": 476,
-          "repayment_method": 433
+          "loan_rate_max_percent": 438,
+          "loan_rate_min_percent": 438,
+          "rate_type": 470,
+          "repayment_method": 427
         },
         "conflicting_fields_by_field_name": {
           "collateral_type": 0,
@@ -2038,7 +2052,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "66beaa6f9cb6ea451f5b5b09af9f1aee2635af5f1d3225ed436d10e5248f165e",
+      "export_checksum": "90ca7814ae130f8dd12e3bcb61ffe201fc468468b696678255677efb05dcbd25",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2086,31 +2100,35 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.4954,
+        "average_completeness_ratio": 0.424,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
           "coverage_amount_krw": 29,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "absent_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 29,
           "coverage_names": 0,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
           "premium_basis": 0,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "empty_fields_by_field_name": {
           "claim_condition": 0,
@@ -2122,34 +2140,40 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "not_collected_fields_by_field_name": {
           "claim_condition": 0,
           "coverage_amount_krw": 29,
           "coverage_names": 0,
-          "exclusion_condition": 1071,
-          "insurance_term": 677,
-          "insured_age_max": 1071,
-          "insured_age_min": 1071,
-          "payment_term": 1071,
+          "exclusion_condition": 1058,
+          "insurance_term": 657,
+          "insured_age_max": 1063,
+          "insured_age_min": 1063,
+          "payment_term": 1053,
           "premium_basis": 0,
+          "reduction_period_days": 1071,
           "renewal_type": 199,
-          "surrender_refund_type": 756
+          "surrender_refund_type": 755,
+          "waiting_period_days": 1071
         },
         "unverified_fields_by_field_name": {
           "claim_condition": 1071,
           "coverage_amount_krw": 1042,
           "coverage_names": 1071,
-          "exclusion_condition": 0,
-          "insurance_term": 394,
-          "insured_age_max": 0,
-          "insured_age_min": 0,
-          "payment_term": 0,
+          "exclusion_condition": 13,
+          "insurance_term": 414,
+          "insured_age_max": 8,
+          "insured_age_min": 8,
+          "payment_term": 18,
           "premium_basis": 1071,
+          "reduction_period_days": 0,
           "renewal_type": 872,
-          "surrender_refund_type": 315
+          "surrender_refund_type": 316,
+          "waiting_period_days": 0
         },
         "conflicting_fields_by_field_name": {
           "claim_condition": 0,
@@ -2161,8 +2185,10 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "expired_verification_fields_by_field_name": {
           "claim_condition": 0,
@@ -2174,8 +2200,10 @@
           "insured_age_min": 0,
           "payment_term": 0,
           "premium_basis": 0,
+          "reduction_period_days": 0,
           "renewal_type": 0,
-          "surrender_refund_type": 0
+          "surrender_refund_type": 0,
+          "waiting_period_days": 0
         },
         "structural_comparison_candidate_count": 0,
         "complete_comparison_data_count": 0,
@@ -2199,7 +2227,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "43f153e237d6ab72a31bedf929cbdc7bb1ff7cef219919e4cf6dc3be1b6e5aa7",
+      "export_checksum": "dfd7b9850c2267b53102adcbd72e4fbbcb030888b6d828bcd700333daccd389b",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -2208,7 +2236,7 @@
       "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
-      "item_count": 9651,
+      "item_count": 9650,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "product_collection_dates": [],
@@ -2271,7 +2299,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "312745c3f4133a41f4fceb6ecc73852a2c35b4b7f9d6f8da0f4e3516a0933cd8",
+      "export_checksum": "2ba4d28c59abf6af8a7bbc9829035c2b90b0a13a86216edcfbe16faa982c5195",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ],

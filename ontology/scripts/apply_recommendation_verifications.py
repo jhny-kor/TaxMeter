@@ -40,7 +40,6 @@ def item_source_checksum(item: dict[str, Any]) -> str:
         "source_urls": item.get("source_urls") or [],
         "source_basis_dates": item.get("source_basis_dates") or [],
         "title": item.get("title"),
-        "sales_status": item.get("sales_status"),
         "criteria": item.get("criteria") or [],
         "options": item.get("options") or [],
         "benefits": item.get("benefits") or [],
