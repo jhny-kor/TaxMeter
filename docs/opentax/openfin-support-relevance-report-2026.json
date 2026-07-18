@@ -1,16 +1,16 @@
 {
   "version": "openfin-support-relevance-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_tested_at": null,
-  "runtime_version": null,
-  "deployment_commit": null,
-  "manifest_version": null,
-  "live_case_count": 0,
+  "live_tested_at": "2026-07-18T05:12:15+00:00",
+  "runtime_version": "openfin-mcp-2026.07.18.2",
+  "deployment_commit": "80eef2c58",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 33,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "support-relevance",
   "jurisdiction_violation_count": 0,
   "support_category_violation_count": 0,
   "unknown_constraint_false_match_count": 0,
-  "export_checksum": "cff68f7f83460a2be253f2115cccda11030de47cf135a3c6d7aa056a45efab95"
+  "export_checksum": "940847e89116667e6a89cc4f88de0e985057fe8466875e83e7fe16ac124382e5"
 }

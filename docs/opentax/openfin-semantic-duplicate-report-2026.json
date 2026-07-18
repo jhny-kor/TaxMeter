@@ -1,11 +1,11 @@
 {
   "version": "openfin-semantic-duplicate-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_tested_at": null,
-  "runtime_version": null,
-  "deployment_commit": null,
-  "manifest_version": null,
-  "live_case_count": 0,
+  "live_tested_at": "2026-07-18T05:12:15+00:00",
+  "runtime_version": "openfin-mcp-2026.07.18.2",
+  "deployment_commit": "80eef2c58",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 33,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "semantic-duplicate",
@@ -17,5 +17,5 @@
   "duplicate_candidate_response_count": 0,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "9d3030464cc8b83cf8b5f40e11700fd78084629610dfd1a32da082d05a570999"
+  "export_checksum": "a07ab984a96bdcd0802b7441b75a2c902648f2f43203393da2a2b9de17055767"
 }
