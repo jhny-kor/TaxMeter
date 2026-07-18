@@ -461,6 +461,9 @@ def main() -> int:
     summary = {
         "mcp_url": args.mcp_url,
         "checked_at": checked_at,
+        "runtime_version": (runtime_exports.get("runtime") or {}).get("runtime_version"),
+        "deployment_commit": (runtime_exports.get("runtime") or {}).get("deployment_commit"),
+        "manifest_version": (runtime_exports.get("runtime") or {}).get("manifest_version"),
         "search_index_version": search_index.get("version"),
         "search_index_checksum": search_index.get("export_checksum"),
         "runtime_search_index_checksum": actual_checksum,
