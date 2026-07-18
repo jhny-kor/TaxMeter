@@ -314,13 +314,16 @@ def main() -> int:
     for regression in LIVE_DISCOVERY_CASES:
         query = str(regression["query"])
         error_text = None
+        allowed_kinds = set(regression.get("kinds") or [regression["kind"]])
+        exact: list[dict] = []
+        partial: list[dict] = []
+        all_candidates: list[dict] = []
         try:
             discovery = client.discover(query)
             exact = discovery.get("exact_candidates") or []
             partial = discovery.get("partial_candidates") or []
             all_candidates = [*exact, *partial, *(discovery.get("related_candidates") or [])]
             required_exact = set(regression.get("exact") or [])
-            allowed_kinds = set(regression.get("kinds") or [regression["kind"]])
             exact_ok = bool(exact) and all(
                 candidate.get("product_kind") in allowed_kinds
                 and required_exact.issubset(set(candidate.get("matched_constraints") or []))
