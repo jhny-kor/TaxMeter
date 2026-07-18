@@ -1,16 +1,16 @@
 {
   "version": "openfin-comparison-regression-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_tested_at": null,
-  "runtime_version": null,
-  "deployment_commit": null,
-  "manifest_version": null,
-  "live_case_count": 0,
+  "live_tested_at": "2026-07-18T13:24:56+00:00",
+  "runtime_version": "openfin-mcp-2026.07.18.4",
+  "deployment_commit": "55808baab",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 37,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "comparison-regression",
   "comparison_engine_version": "openfin-comparison-v1.0.1",
   "failed_count": 0,
   "search_regression_failed_count": 0,
-  "export_checksum": "1282dc4dcdc16665453e0d82fc921863d92d67115c4f829c60ea808595df594a"
+  "export_checksum": "4e50a6d223173fa3b22040a8c234cfc46ea9f3eb99635cd63385d36f959b7a66"
 }

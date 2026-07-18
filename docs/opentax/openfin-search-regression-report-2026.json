@@ -2493,9 +2493,93 @@
       "query": "runtime search-index checksum",
       "type": null,
       "validation_kind": "runtime_search_index_checksum",
-      "expected_top_id": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
-      "actual_top_id": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
+      "expected_top_id": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
+      "actual_top_id": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
       "passed": true
+    },
+    {
+      "query": "credit.insurance-premium",
+      "type": null,
+      "validation_kind": "required_live_fetch_contract",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "payload_summary": {
+        "found": null,
+        "item_id": "credit.insurance-premium"
+      }
+    },
+    {
+      "query": "청년 월세 지원",
+      "type": null,
+      "validation_kind": "required_live_support_search_contract",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "payload_summary": {
+        "parsed_query": {
+          "original_query": "청년 월세 지원",
+          "intent": "find-support",
+          "region": "서울특별시",
+          "target_groups": [
+            "youth"
+          ],
+          "support_categories": [
+            "housing",
+            "rent"
+          ]
+        },
+        "exact_count": 1,
+        "partial_count": 3,
+        "related_count": 0,
+        "excluded_summary": {
+          "filter_mismatch": 6806,
+          "support_intent_mismatch": 929
+        }
+      }
+    },
+    {
+      "query": "300,000원 자유적립식 12개월 적금 비교",
+      "type": null,
+      "validation_kind": "required_live_saving_comparison_contract",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "payload_summary": {
+        "candidate_count": 10,
+        "excluded_count": 316,
+        "excluded_summary": {
+          "monthly_payment_exceeds_limit": 1,
+          "sales_not_verified": 305,
+          "saving_method_mismatch": 6,
+          "term_mismatch": 4
+        }
+      }
+    },
+    {
+      "query": "10,000,000원 12개월 예금 추천",
+      "type": null,
+      "validation_kind": "required_live_recommendation_contract",
+      "expected_top_id": null,
+      "actual_top_id": null,
+      "passed": true,
+      "payload_summary": {
+        "result_count": 0,
+        "readiness": {
+          "verified_active_product_count": 30,
+          "verification_evidence_product_count": 30,
+          "comparison_engine_product_count": 30,
+          "verified_completeness_product_count": 0,
+          "public_recommendation_candidate_count": 0,
+          "minimum_required_count": 30
+        },
+        "next_required_actions": [
+          {
+            "code": "VERIFY_RECOMMENDATION_FIELDS",
+            "affected_product_count": 30
+          }
+        ]
+      }
     },
     {
       "query": "연말정산 의료비 세액공제 한도 대상",
@@ -2602,7 +2686,7 @@
       "type": null,
       "validation_kind": "discovery_candidate_only",
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
+      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
       "expected_search_type": "insurance",
       "discovery_candidates_only": true,
       "passed": true
@@ -9372,7 +9456,7 @@
       "type": null,
       "validation_kind": "required_live_discovery_contract",
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
+      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
       "expected_product_kinds": [
         "cancer"
       ],
@@ -9399,144 +9483,6 @@
         "unparsed_tokens": []
       },
       "exact_candidates": [
-        {
-          "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413.cancer",
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
-          "title": "교보라이프플래닛생명 (무)교보라플 비갱신암보험(만기지급형, 표준체)",
-          "provider": "교보라이프플래닛생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 45,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414.cancer",
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414",
-          "title": "교보라이프플래닛생명 (무)교보라플 비갱신암보험(만기지급형, 비흡연체)",
-          "provider": "교보라이프플래닛생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 45,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
         {
           "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401.cancer",
           "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
@@ -9570,6 +9516,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
             "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=28220&seq=22",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -9639,6 +9586,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
             "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=28221&seq=22",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -9676,10 +9624,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333.cancer",
-          "id": "finance.insurance.klia.cancer.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333",
-          "title": "교보생명 장애인전용(무)교보곰두리보장보험",
-          "provider": "교보생명",
+          "canonical_product_id": "finance.canonical.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757.cancer",
+          "id": "finance.insurance.klia.cancer.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757",
+          "title": "미래에셋생명 온라인 암보험 무배당 [해약환급금이 없는 유형]",
+          "provider": "미래에셋생명",
           "product_kind": "cancer",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
@@ -9707,12 +9655,153 @@
           ],
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://life.miraeasset.com/micro/disclosure/product/PC-HO-080301-000000.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44356&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 45,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761.cancer",
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761",
+          "title": "신한라이프생명 신한(간편가입)꼬박꼬박항암치료비보험Ⅱ(무배당, 해약환급금 미지급형)_일반심사형",
+          "provider": "신한라이프생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.shinhanlife.co.kr/hp/cdhi0030.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45388&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-07-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 45,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691.cancer",
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691",
+          "title": "신한라이프생명 신한SOL암보험(무배당, 해약환급금 미지급형)",
+          "provider": "신한라이프생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.shinhanlife.co.kr/hp/cdhi0030.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=41603&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -9748,16 +9837,16 @@
       "partial_candidates": [],
       "related_candidates": [
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062",
-          "title": "동양생명 (무)우리WON하는건강보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(1종 재해사망형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -9769,23 +9858,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44985&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -9799,16 +9889,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102",
-          "title": "동양생명 (무)우리WON하는암보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(2종 종합보장형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -9820,23 +9910,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45028&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -9850,16 +9941,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052",
-          "title": "동양생명 (무)우리WON하는보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(장해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -9871,23 +9962,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44372&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -9901,16 +9993,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_기납입P플러스형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(상해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -9922,23 +10014,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44371&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -9952,16 +10045,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_체증형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313.accident",
+          "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313",
+          "title": "iM라이프 iM 프리미엄안심보험 무배당 2603 3종(상해보장형) 1형(해약환급금 일부지급형)",
+          "provider": "iM라이프",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -9973,23 +10066,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.imlifeins.co.kr/BA/BA_A020.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44561&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-03-03",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -10018,27 +10112,15 @@
         ],
         "partial": [],
         "related": [
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life"
+          "accident",
+          "accident",
+          "accident",
+          "accident",
+          "accident"
         ]
       },
       "duplicate_canonical_product_ids": false,
       "candidate_grades": [
-        {
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
-          "relevance_grade": "A",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C"
-        },
-        {
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414",
-          "relevance_grade": "A",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C"
-        },
         {
           "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
           "relevance_grade": "A",
@@ -10052,7 +10134,19 @@
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.insurance.klia.cancer.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333",
+          "id": "finance.insurance.klia.cancer.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757",
+          "relevance_grade": "A",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C"
+        },
+        {
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761",
+          "relevance_grade": "A",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C"
+        },
+        {
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691",
           "relevance_grade": "A",
           "verification_grade": "C",
           "overall_candidate_grade": "C"
@@ -10065,7 +10159,7 @@
       "type": null,
       "validation_kind": "required_live_discovery_contract",
       "expected_top_id": null,
-      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
+      "actual_top_id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
       "expected_product_kinds": [
         "cancer"
       ],
@@ -10099,180 +10193,6 @@
       },
       "exact_candidates": [
         {
-          "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413.cancer",
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
-          "title": "교보라이프플래닛생명 (무)교보라플 비갱신암보험(만기지급형, 표준체)",
-          "provider": "교보라이프플래닛생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind",
-            "renewal_type"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "renewal_type",
-              "matched_value": "non_renewable",
-              "evidence_field": "renewal_type",
-              "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 45,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind",
-              "renewal_type"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "renewal_type",
-                "matched_value": "non_renewable",
-                "evidence_field": "renewal_type",
-                "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414.cancer",
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414",
-          "title": "교보라이프플래닛생명 (무)교보라플 비갱신암보험(만기지급형, 비흡연체)",
-          "provider": "교보라이프플래닛생명",
-          "product_kind": "cancer",
-          "catalog_recommendation_status": "reference_only",
-          "catalog_recommendation_scope": "listing_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind",
-            "renewal_type"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "cancer",
-              "evidence_field": "product_kind",
-              "evidence_text": "cancer",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "renewal_type",
-              "matched_value": "non_renewable",
-              "evidence_field": "renewal_type",
-              "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
-            "https://pub.insure.or.kr/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "2026-04-01",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 45,
-            "relevance_grade": "A",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind",
-              "renewal_type"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "cancer",
-                "evidence_field": "product_kind",
-                "evidence_text": "cancer",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "renewal_type",
-                "matched_value": "non_renewable",
-                "evidence_field": "renewal_type",
-                "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
           "canonical_product_id": "finance.canonical.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401.cancer",
           "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
           "title": "교보라이프플래닛생명 (무)교보라플 비갱신암보험(해약환급금 미지급형, 표준체)",
@@ -10314,6 +10234,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
             "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=28220&seq=22",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -10401,6 +10322,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
             "https://www.lifeplanet.co.kr/disclosure/good/HPDA01S0.dev",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=28221&seq=22",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -10447,10 +10369,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333.cancer",
-          "id": "finance.insurance.klia.cancer.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333",
-          "title": "교보생명 장애인전용(무)교보곰두리보장보험",
-          "provider": "교보생명",
+          "canonical_product_id": "finance.canonical.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757.cancer",
+          "id": "finance.insurance.klia.cancer.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757",
+          "title": "미래에셋생명 온라인 암보험 무배당 [해약환급금이 없는 유형]",
+          "provider": "미래에셋생명",
           "product_kind": "cancer",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
@@ -10487,12 +10409,189 @@
           ],
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
-            "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://life.miraeasset.com/micro/disclosure/product/PC-HO-080301-000000.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44356&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-05-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 45,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind",
+              "renewal_type"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "renewal_type",
+                "matched_value": "non_renewable",
+                "evidence_field": "renewal_type",
+                "evidence_text": "non_renewable",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761.cancer",
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761",
+          "title": "신한라이프생명 신한(간편가입)꼬박꼬박항암치료비보험Ⅱ(무배당, 해약환급금 미지급형)_일반심사형",
+          "provider": "신한라이프생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind",
+            "renewal_type"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "renewal_type",
+              "matched_value": "non_renewable",
+              "evidence_field": "renewal_type",
+              "evidence_text": "non_renewable",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.shinhanlife.co.kr/hp/cdhi0030.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45388&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-07-01",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 45,
+            "relevance_grade": "A",
+            "data_completeness_grade": "C",
+            "verification_grade": "C",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind",
+              "renewal_type"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "cancer",
+                "evidence_field": "product_kind",
+                "evidence_text": "cancer",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "renewal_type",
+                "matched_value": "non_renewable",
+                "evidence_field": "renewal_type",
+                "evidence_text": "non_renewable",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691.cancer",
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691",
+          "title": "신한라이프생명 신한SOL암보험(무배당, 해약환급금 미지급형)",
+          "provider": "신한라이프생명",
+          "product_kind": "cancer",
+          "catalog_recommendation_status": "reference_only",
+          "catalog_recommendation_scope": "listing_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "C",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind",
+            "renewal_type"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "cancer",
+              "evidence_field": "product_kind",
+              "evidence_text": "cancer",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "renewal_type",
+              "matched_value": "non_renewable",
+              "evidence_field": "renewal_type",
+              "evidence_text": "non_renewable",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010004&pageIndex=1&pageUnit=20",
+            "https://www.shinhanlife.co.kr/hp/cdhi0030.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=41603&seq=2",
+            "https://pub.insure.or.kr/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
@@ -10537,16 +10636,16 @@
       "partial_candidates": [],
       "related_candidates": [
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062",
-          "title": "동양생명 (무)우리WON하는건강보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(1종 재해사망형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [
             "renewal_type"
@@ -10561,7 +10660,7 @@
               "matched_value": "non_renewable",
               "evidence_field": "renewal_type",
               "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
               "source_locator": "2026-07-18 수집"
             }
           ],
@@ -10569,23 +10668,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44985&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [
               "renewal_type"
@@ -10600,7 +10700,7 @@
                 "matched_value": "non_renewable",
                 "evidence_field": "renewal_type",
                 "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
                 "source_locator": "2026-07-18 수집"
               }
             ],
@@ -10610,16 +10710,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102",
-          "title": "동양생명 (무)우리WON하는암보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(2종 종합보장형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [
             "renewal_type"
@@ -10634,7 +10734,7 @@
               "matched_value": "non_renewable",
               "evidence_field": "renewal_type",
               "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
               "source_locator": "2026-07-18 수집"
             }
           ],
@@ -10642,23 +10742,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45028&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [
               "renewal_type"
@@ -10673,7 +10774,7 @@
                 "matched_value": "non_renewable",
                 "evidence_field": "renewal_type",
                 "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
                 "source_locator": "2026-07-18 수집"
               }
             ],
@@ -10683,16 +10784,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052",
-          "title": "동양생명 (무)우리WON하는보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(장해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [
             "renewal_type"
@@ -10707,7 +10808,7 @@
               "matched_value": "non_renewable",
               "evidence_field": "renewal_type",
               "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
               "source_locator": "2026-07-18 수집"
             }
           ],
@@ -10715,23 +10816,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44372&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [
               "renewal_type"
@@ -10746,7 +10848,7 @@
                 "matched_value": "non_renewable",
                 "evidence_field": "renewal_type",
                 "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
                 "source_locator": "2026-07-18 수집"
               }
             ],
@@ -10756,16 +10858,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_기납입P플러스형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(상해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [
             "renewal_type"
@@ -10780,7 +10882,7 @@
               "matched_value": "non_renewable",
               "evidence_field": "renewal_type",
               "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
               "source_locator": "2026-07-18 수집"
             }
           ],
@@ -10788,23 +10890,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44371&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [
               "renewal_type"
@@ -10819,7 +10922,7 @@
                 "matched_value": "non_renewable",
                 "evidence_field": "renewal_type",
                 "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
                 "source_locator": "2026-07-18 수집"
               }
             ],
@@ -10829,16 +10932,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_체증형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313.accident",
+          "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313",
+          "title": "iM라이프 iM 프리미엄안심보험 무배당 2603 3종(상해보장형) 1형(해약환급금 일부지급형)",
+          "provider": "iM라이프",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [
             "renewal_type"
@@ -10853,7 +10956,7 @@
               "matched_value": "non_renewable",
               "evidence_field": "renewal_type",
               "evidence_text": "non_renewable",
-              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+              "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
               "source_locator": "2026-07-18 수집"
             }
           ],
@@ -10861,23 +10964,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.imlifeins.co.kr/BA/BA_A020.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44561&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-03-03",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [
               "renewal_type"
@@ -10892,7 +10996,7 @@
                 "matched_value": "non_renewable",
                 "evidence_field": "renewal_type",
                 "evidence_text": "non_renewable",
-                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
+                "source_url": "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
                 "source_locator": "2026-07-18 수집"
               }
             ],
@@ -10917,27 +11021,15 @@
         ],
         "partial": [],
         "related": [
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life"
+          "accident",
+          "accident",
+          "accident",
+          "accident",
+          "accident"
         ]
       },
       "duplicate_canonical_product_ids": false,
       "candidate_grades": [
-        {
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115413",
-          "relevance_grade": "A",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C"
-        },
-        {
-          "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000115414",
-          "relevance_grade": "A",
-          "verification_grade": "C",
-          "overall_candidate_grade": "C"
-        },
         {
           "id": "finance.insurance.klia.cancer.교보라이프플래닛생명.l4302460004nnn024700020244000102440001000402440001000400010244000100040001000215401",
           "relevance_grade": "A",
@@ -10951,7 +11043,19 @@
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.insurance.klia.cancer.교보생명.l0502460001nnn0247000202440001024400010004024400010004000102440001000400010001b0333",
+          "id": "finance.insurance.klia.cancer.미래에셋생명.l3402460004nnn0247000202440001024400010004024400010004000102440001000400010002a3757",
+          "relevance_grade": "A",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C"
+        },
+        {
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460003nnn0247000202440001024400010004024400010004000102440001000400010002s0761",
+          "relevance_grade": "A",
+          "verification_grade": "C",
+          "overall_candidate_grade": "C"
+        },
+        {
+          "id": "finance.insurance.klia.cancer.신한라이프생명.l1102460004nnn0247000202440001024400010004024400010004000102440001000400010002s0691",
           "relevance_grade": "A",
           "verification_grade": "C",
           "overall_candidate_grade": "C"
@@ -11000,9 +11104,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -11024,6 +11128,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45421&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11035,11 +11140,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -11069,9 +11174,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -11093,6 +11198,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45425&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11104,11 +11210,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -11138,9 +11244,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -11162,6 +11268,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45360&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11173,11 +11280,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -11207,9 +11314,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -11231,6 +11338,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45305&seq=6",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11242,11 +11350,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -11276,9 +11384,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind"
           ],
@@ -11300,6 +11408,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.heungkuklife.co.kr/front/public/saleProduct.do?searchFlgSale=Y",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45334&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11311,11 +11420,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind"
             ],
@@ -11340,16 +11449,16 @@
       "partial_candidates": [],
       "related_candidates": [
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062",
-          "title": "동양생명 (무)우리WON하는건강보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(1종 재해사망형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -11361,23 +11470,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44985&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -11391,16 +11501,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102",
-          "title": "동양생명 (무)우리WON하는암보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(2종 종합보장형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -11412,23 +11522,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45028&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -11442,16 +11553,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052",
-          "title": "동양생명 (무)우리WON하는보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(장해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -11463,23 +11574,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44372&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -11493,16 +11605,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_기납입P플러스형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(상해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -11514,23 +11626,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44371&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -11544,16 +11657,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_체증형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313.accident",
+          "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313",
+          "title": "iM라이프 iM 프리미엄안심보험 무배당 2603 3종(상해보장형) 1형(해약환급금 일부지급형)",
+          "provider": "iM라이프",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -11565,23 +11678,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.imlifeins.co.kr/BA/BA_A020.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44561&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-03-03",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -11610,11 +11724,11 @@
         ],
         "partial": [],
         "related": [
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life"
+          "accident",
+          "accident",
+          "accident",
+          "accident",
+          "accident"
         ]
       },
       "duplicate_canonical_product_ids": false,
@@ -11623,31 +11737,31 @@
           "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460003nny024700020244000102440001000802440001000800010244000100080001000511116",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.한화생명.l0102460001nny024700020244000102440001000802440001000800010244000100080001000522651",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.흥국생명.l040246000102460003nny0247000202440001024400010008024400010008000102440001000800010005hk073",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         }
       ],
       "passed": true
@@ -11699,9 +11813,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind",
             "renewal_type"
@@ -11732,6 +11846,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45421&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11743,11 +11858,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind",
               "renewal_type"
@@ -11786,9 +11901,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind",
             "renewal_type"
@@ -11819,6 +11934,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "http://www.kyobo.com/dgt/web/product-official/all-product/search",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45425&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11830,11 +11946,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind",
               "renewal_type"
@@ -11873,9 +11989,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind",
             "renewal_type"
@@ -11906,6 +12022,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45360&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -11917,11 +12034,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind",
               "renewal_type"
@@ -11960,9 +12077,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind",
             "renewal_type"
@@ -11993,6 +12110,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.hanwhalife.com/index.jsp?goUrl=/main/disclosure/goods/disclosurenotice/DF_GDDN000_P10000.do?MENU_ID1=DF_GDGL000$MENU_ID2=DF_GDGL000_P10000",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45305&seq=6",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -12004,11 +12122,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind",
               "renewal_type"
@@ -12047,9 +12165,9 @@
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "A",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "D",
           "verification_grade": "C",
-          "overall_candidate_grade": "C",
+          "overall_candidate_grade": "D",
           "matched_constraints": [
             "product_kind",
             "renewal_type"
@@ -12080,6 +12198,7 @@
           "source_urls": [
             "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010008&pageIndex=1&pageUnit=20",
             "https://www.heungkuklife.co.kr/front/public/saleProduct.do?searchFlgSale=Y",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45334&seq=1",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
@@ -12091,11 +12210,11 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 45,
+            "score": 44,
             "relevance_grade": "A",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "D",
             "verification_grade": "C",
-            "overall_candidate_grade": "C",
+            "overall_candidate_grade": "D",
             "matched_constraints": [
               "product_kind",
               "renewal_type"
@@ -12129,16 +12248,16 @@
       "partial_candidates": [],
       "related_candidates": [
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002q8062",
-          "title": "동양생명 (무)우리WON하는건강보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1506",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(1종 재해사망형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -12151,23 +12270,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44985&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -12182,16 +12302,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010001024400010001000102440001000100010002r6102",
-          "title": "동양생명 (무)우리WON하는암보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510.accident",
+          "id": "finance.insurance.klia.accident.bnp파리바카디프생명.l780246000202460004nnn0247000202440001024400010006024400010006000202440001000600020001s1510",
+          "title": "BNP파리바카디프생명 무배당 안심드림(Dream) 상해보험(2종 종합보장형)",
+          "provider": "BNP파리바카디프생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -12204,23 +12324,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.cardif.co.kr/web/main/disclosure/product/onsale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=45028&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-07-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -12235,16 +12356,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052.whole-life",
-          "id": "finance.insurance.klia.whole-life.동양생명.l74024600010246000302460005nnn0247000202440001024400010006024400010006000202440001000600020002l4052",
-          "title": "동양생명 (무)우리WON하는보장보험(해약환급금 미지급형)",
-          "provider": "동양생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b02",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(장해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -12257,23 +12378,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.myangel.co.kr/paging/WE_AC_WEPAAP020100L",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44372&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -12288,16 +12410,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200409",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_기납입P플러스형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03.accident",
+          "id": "finance.insurance.klia.accident.db생명.l710246000102460002nnn024700020244000102440001000602440001000600020244000100060002000426b03",
+          "title": "DB생명 (무)백년친구 안심보험(2602)(상해보장형)",
+          "provider": "DB생명",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -12310,23 +12432,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.idblife.com/notice/product/sale",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44371&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-04-01",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -12341,16 +12464,16 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410.whole-life",
-          "id": "finance.insurance.klia.whole-life.라이나생명.l5102460004nnn024700020244000102440001000102440001000100020244000100010002000200410",
-          "title": "라이나생명 (무)채우는종신보험(해약환급금 일부지급형)_체증형",
-          "provider": "라이나생명",
-          "product_kind": "whole-life",
+          "canonical_product_id": "finance.canonical.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313.accident",
+          "id": "finance.insurance.klia.accident.im라이프.l310246000102460002nnn0247000202440001024400010006024400010006000202440001000600020002hc313",
+          "title": "iM라이프 iM 프리미엄안심보험 무배당 2603 3종(상해보장형) 1형(해약환급금 일부지급형)",
+          "provider": "iM라이프",
+          "product_kind": "accident",
           "catalog_recommendation_status": "reference_only",
           "catalog_recommendation_scope": "listing_only",
           "relevance_grade": "D",
-          "data_completeness_grade": "C",
-          "verification_grade": "C",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
           "overall_candidate_grade": "D",
           "matched_constraints": [],
           "unknown_constraints": [],
@@ -12363,23 +12486,24 @@
             "sales_status_unverified"
           ],
           "source_urls": [
-            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010001&pageIndex=1&pageUnit=20",
-            "https://www.lina.co.kr/disclosure/product-public-announcement/product-on-sales?key=0",
+            "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do?search_prodGroup=024400010006&pageIndex=1&pageUnit=20",
+            "https://www.imlifeins.co.kr/BA/BA_A020.do",
+            "https://pub.insure.or.kr/FileDown.do?fileNo=44561&seq=2",
             "https://pub.insure.or.kr/"
           ],
           "source_basis_dates": [
             "2026-07-18 수집",
-            "2026-01-01",
+            "2026-03-03",
             "2026-07-03 확인"
           ],
           "decision": {
             "mode": "discovery",
             "eligibility": "related_candidate",
             "decision_scope": "discovery_only",
-            "score": 46,
+            "score": 48,
             "relevance_grade": "D",
-            "data_completeness_grade": "C",
-            "verification_grade": "C",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
             "overall_candidate_grade": "D",
             "matched_constraints": [],
             "unknown_constraints": [],
@@ -12409,11 +12533,11 @@
         ],
         "partial": [],
         "related": [
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life",
-          "whole-life"
+          "accident",
+          "accident",
+          "accident",
+          "accident",
+          "accident"
         ]
       },
       "duplicate_canonical_product_ids": false,
@@ -12422,31 +12546,31 @@
           "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460001nny024700020244000102440001000802440001000800010244000100080001000511115",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.교보생명.l0502460003nny024700020244000102440001000802440001000800010244000100080001000511116",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.동양생명.l74024600010246000302460005nny0247000202440001024400010008024400010008000102440001000800010005s1012",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.한화생명.l0102460001nny024700020244000102440001000802440001000800010244000100080001000522651",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         },
         {
           "id": "finance.insurance.klia.indemnity-health.흥국생명.l040246000102460003nny0247000202440001024400010008024400010008000102440001000800010005hk073",
           "relevance_grade": "A",
           "verification_grade": "C",
-          "overall_candidate_grade": "C"
+          "overall_candidate_grade": "D"
         }
       ],
       "passed": true
@@ -14046,7 +14170,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "B",
           "data_completeness_grade": "C",
-          "verification_grade": "B",
+          "verification_grade": "C",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
@@ -14085,7 +14209,7 @@
             "score": 47,
             "relevance_grade": "B",
             "data_completeness_grade": "C",
-            "verification_grade": "B",
+            "verification_grade": "C",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
@@ -14119,7 +14243,7 @@
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "B",
           "data_completeness_grade": "C",
-          "verification_grade": "B",
+          "verification_grade": "C",
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind"
@@ -14158,7 +14282,7 @@
             "score": 47,
             "relevance_grade": "B",
             "data_completeness_grade": "C",
-            "verification_grade": "B",
+            "verification_grade": "C",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind"
@@ -14866,6 +14990,232 @@
           "calculation_assumption": "simple_interest_for_full_term_deposit"
         },
         {
+          "item_id": "finance.deposit.deposit.0010471.24-0081",
+          "title": "페퍼저축은행 페퍼스회전정기예금 (디지털페퍼앱)",
+          "provider": "페퍼저축은행",
+          "base_rate_percent": 4.45,
+          "maximum_rate_percent": 4.45,
+          "achievable_rate_percent": 4.45,
+          "matched_preferential_conditions": [],
+          "unmatched_preferential_conditions": [],
+          "unknown_preferential_conditions": [
+            "*페퍼스회전정기예금(회전주기 12개월) 기본금리:매 1년마다 해당시점 정기예금 1년 금리 +0.1%로 자동연장되는 변동금리 상품(1년 단위 확정금리). 매 1년 경과 후 중도해지시 회전일로부터 1년 경과 시점까지는 정상이율 적용.\n12개월 정기예금(비대면) 기본금리(연 4.35%)+ 기본 우대금리(연 0.10%)"
+          ],
+          "deposit_limit": null,
+          "monthly_payment_limit": null,
+          "term_months": 12,
+          "saving_method": null,
+          "join_channel": [
+            "online"
+          ],
+          "sales_verified_at": "2026-07-18",
+          "score_components": {
+            "achievable_rate_percent": 4.45,
+            "source_verified": 1
+          },
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "comparison_basis_fields": [
+            "term_months",
+            "base_rate_percent",
+            "maximum_rate_percent",
+            "preferential_rate_conditions",
+            "minimum_deposit_krw",
+            "join_member",
+            "join_channel",
+            "interest_method"
+          ],
+          "comparison_field_verification_status": "verified",
+          "comparison_field_verification": {
+            "term_months": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "base_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "maximum_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "source_urls": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            }
+          },
+          "missing_required_fields": [
+            "deposit_protection_status",
+            "early_termination_condition",
+            "maximum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "principal_krw": 10000000,
+          "gross_interest_krw": 445000,
+          "tax_rate_percent": 15.4,
+          "tax_withheld_krw": 68530,
+          "net_interest_krw": 376470,
+          "calculation_assumption": "simple_interest_for_full_term_deposit"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010471.24-0061",
+          "title": "페퍼저축은행 정기예금 (비대면)",
+          "provider": "페퍼저축은행",
+          "base_rate_percent": 4.35,
+          "maximum_rate_percent": 4.35,
+          "achievable_rate_percent": 4.35,
+          "matched_preferential_conditions": [],
+          "unmatched_preferential_conditions": [],
+          "unknown_preferential_conditions": [],
+          "deposit_limit": null,
+          "monthly_payment_limit": null,
+          "term_months": 12,
+          "saving_method": null,
+          "join_channel": [
+            "online"
+          ],
+          "sales_verified_at": "2026-07-18",
+          "score_components": {
+            "achievable_rate_percent": 4.35,
+            "source_verified": 1
+          },
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "comparison_basis_fields": [
+            "term_months",
+            "base_rate_percent",
+            "maximum_rate_percent",
+            "preferential_rate_conditions",
+            "minimum_deposit_krw",
+            "join_member",
+            "join_channel",
+            "interest_method",
+            "deposit_protection_status"
+          ],
+          "comparison_field_verification_status": "verified",
+          "comparison_field_verification": {
+            "term_months": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "base_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "maximum_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "source_urls": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            }
+          },
+          "missing_required_fields": [
+            "early_termination_condition",
+            "maximum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "principal_krw": 10000000,
+          "gross_interest_krw": 435000,
+          "tax_rate_percent": 15.4,
+          "tax_withheld_krw": 66990,
+          "net_interest_krw": 368010,
+          "calculation_assumption": "simple_interest_for_full_term_deposit"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010471.24-0055",
+          "title": "페퍼저축은행 회전정기예금 (대면, 전지점)",
+          "provider": "페퍼저축은행",
+          "base_rate_percent": 4.2,
+          "maximum_rate_percent": 4.2,
+          "achievable_rate_percent": 4.2,
+          "matched_preferential_conditions": [],
+          "unmatched_preferential_conditions": [],
+          "unknown_preferential_conditions": [
+            "*회전정기예금(회전주기 12개월) 기본금리: 매 1년마다 해당시점 정기예금 1년 금리 +0.1%로 자동연장되는 변동금리 상품(1년 단위 확정금리). 매 1년 경과 후 중도해지시 회전일로부터 1년 경과 시점까지는 정상이율 적용.\n12개월 정기예금(대면) 기본금리(연 4.10%)+ 기본 우대금리(연 0.10%)"
+          ],
+          "deposit_limit": null,
+          "monthly_payment_limit": null,
+          "term_months": 12,
+          "saving_method": null,
+          "join_channel": [
+            "branch"
+          ],
+          "sales_verified_at": "2026-07-18",
+          "score_components": {
+            "achievable_rate_percent": 4.2,
+            "source_verified": 1
+          },
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "comparison_basis_fields": [
+            "term_months",
+            "base_rate_percent",
+            "maximum_rate_percent",
+            "preferential_rate_conditions",
+            "minimum_deposit_krw",
+            "join_member",
+            "join_channel",
+            "interest_method"
+          ],
+          "comparison_field_verification_status": "verified",
+          "comparison_field_verification": {
+            "term_months": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "base_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "maximum_rate_percent": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            },
+            "source_urls": {
+              "status": "verified",
+              "source": "official_finlife_option"
+            }
+          },
+          "missing_required_fields": [
+            "deposit_protection_status",
+            "early_termination_condition",
+            "maximum_deposit_krw",
+            "sales_verification_status"
+          ],
+          "principal_krw": 10000000,
+          "gross_interest_krw": 420000,
+          "tax_rate_percent": 15.4,
+          "tax_withheld_krw": 64680,
+          "net_interest_krw": 355320,
+          "calculation_assumption": "simple_interest_for_full_term_deposit"
+        },
+        {
           "item_id": "finance.deposit.deposit.0010345.hk00012",
           "title": "애큐온저축은행 처음만난예금(모바일전용)",
           "provider": "애큐온저축은행",
@@ -14940,240 +15290,35 @@
           "tax_withheld_krw": 63140,
           "net_interest_krw": 346860,
           "calculation_assumption": "simple_interest_for_full_term_deposit"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010356.1001",
-          "title": "푸른저축은행 푸른 정기예금",
-          "provider": "푸른저축은행",
-          "base_rate_percent": 3.9,
-          "maximum_rate_percent": 4,
-          "achievable_rate_percent": 3.9,
-          "matched_preferential_conditions": [],
-          "unmatched_preferential_conditions": [],
-          "unknown_preferential_conditions": [
-            "* 가입시점 우대금리 조건 충족시 최대 0.1%p 가산 적용(계약기간 24개월 이내)\n- 계좌별 가입금액 10억원 이상 : 0.1%p(최초 계약기간 한정)\n- 우수고객 : 0.1%p(거래기간 3년 이상, 직전 2년 평잔 10억원 이상인 고객. 단, 대출관련 예금 등 제외)"
-          ],
-          "deposit_limit": null,
-          "monthly_payment_limit": null,
-          "term_months": 12,
-          "saving_method": null,
-          "join_channel": [
-            "branch",
-            "online"
-          ],
-          "sales_verified_at": "2026-07-18",
-          "score_components": {
-            "achievable_rate_percent": 3.9,
-            "source_verified": 1
-          },
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "comparison_basis_fields": [
-            "term_months",
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "preferential_rate_conditions",
-            "join_member",
-            "join_channel",
-            "interest_method",
-            "deposit_protection_status"
-          ],
-          "comparison_field_verification_status": "verified",
-          "comparison_field_verification": {
-            "term_months": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "base_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "maximum_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "source_urls": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            }
-          },
-          "missing_required_fields": [
-            "early_termination_condition",
-            "maximum_deposit_krw",
-            "minimum_deposit_krw",
-            "sales_verification_status"
-          ],
-          "principal_krw": 10000000,
-          "gross_interest_krw": 390000,
-          "tax_rate_percent": 15.4,
-          "tax_withheld_krw": 60060,
-          "net_interest_krw": 329940,
-          "calculation_assumption": "simple_interest_for_full_term_deposit"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00007",
-          "title": "애큐온저축은행 애큐온모바일예금",
-          "provider": "애큐온저축은행",
-          "base_rate_percent": 3.8,
-          "maximum_rate_percent": 3.95,
-          "achievable_rate_percent": 3.8,
-          "matched_preferential_conditions": [],
-          "unmatched_preferential_conditions": [],
-          "unknown_preferential_conditions": [
-            "모바일 가입 : 연 0.10%\n(고시금리 포함)\n\n멤버십 동의 : 연 0.050%\n(고시금리 미포함)"
-          ],
-          "deposit_limit": null,
-          "monthly_payment_limit": null,
-          "term_months": 12,
-          "saving_method": null,
-          "join_channel": [
-            "online"
-          ],
-          "sales_verified_at": "2026-07-18",
-          "score_components": {
-            "achievable_rate_percent": 3.8,
-            "source_verified": 1
-          },
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "comparison_basis_fields": [
-            "term_months",
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "preferential_rate_conditions",
-            "join_member",
-            "join_channel",
-            "interest_method"
-          ],
-          "comparison_field_verification_status": "verified",
-          "comparison_field_verification": {
-            "term_months": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "base_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "maximum_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "source_urls": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            }
-          },
-          "missing_required_fields": [
-            "deposit_protection_status",
-            "early_termination_condition",
-            "maximum_deposit_krw",
-            "minimum_deposit_krw",
-            "sales_verification_status"
-          ],
-          "principal_krw": 10000000,
-          "gross_interest_krw": 380000,
-          "tax_rate_percent": 15.4,
-          "tax_withheld_krw": 58520,
-          "net_interest_krw": 321480,
-          "calculation_assumption": "simple_interest_for_full_term_deposit"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00013",
-          "title": "애큐온저축은행 다시만난예금(모바일전용)",
-          "provider": "애큐온저축은행",
-          "base_rate_percent": 3.8,
-          "maximum_rate_percent": 4.15,
-          "achievable_rate_percent": 3.8,
-          "matched_preferential_conditions": [],
-          "unmatched_preferential_conditions": [],
-          "unknown_preferential_conditions": [
-            "최고우대금리 : 0.35%\n- 다시 거래하는 고객 우대(6개월 이상 정기예금 미보유 : 0.25%\n(고시금리 미포함)\n- 다시 거래하는 고객 우대(12개월 이상 정기예금 미보유 : 0.35%\n(고시금리 미포함)"
-          ],
-          "deposit_limit": 30000000,
-          "monthly_payment_limit": 30000000,
-          "term_months": 12,
-          "saving_method": null,
-          "join_channel": [
-            "online"
-          ],
-          "sales_verified_at": "2026-07-18",
-          "score_components": {
-            "achievable_rate_percent": 3.8,
-            "source_verified": 1
-          },
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "comparison_basis_fields": [
-            "term_months",
-            "base_rate_percent",
-            "maximum_rate_percent",
-            "preferential_rate_conditions",
-            "maximum_deposit_krw",
-            "join_member",
-            "join_channel",
-            "interest_method"
-          ],
-          "comparison_field_verification_status": "verified",
-          "comparison_field_verification": {
-            "term_months": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "base_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "maximum_rate_percent": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            },
-            "source_urls": {
-              "status": "verified",
-              "source": "official_finlife_option"
-            }
-          },
-          "missing_required_fields": [
-            "deposit_protection_status",
-            "early_termination_condition",
-            "minimum_deposit_krw",
-            "sales_verification_status"
-          ],
-          "principal_krw": 10000000,
-          "gross_interest_krw": 380000,
-          "tax_rate_percent": 15.4,
-          "tax_withheld_krw": 58520,
-          "net_interest_krw": 321480,
-          "calculation_assumption": "simple_interest_for_full_term_deposit"
         }
       ],
       "excluded_sample": [
         {
+          "item_id": "finance.deposit.deposit.0010020.101272000006",
+          "reason": "sales_not_verified"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010020.101272000057",
+          "reason": "sales_not_verified"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010020.101272000058",
+          "reason": "sales_not_verified"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010022.10-01-20-024-0046-0000",
+          "reason": "sales_not_verified"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010022.10-01-20-024-0059-0000",
+          "reason": "sales_not_verified"
+        },
+        {
           "item_id": "finance.deposit.deposit.0010026.01211310130",
+          "reason": "sales_not_verified"
+        },
+        {
+          "item_id": "finance.deposit.deposit.0010026.01211310142",
           "reason": "sales_not_verified"
         },
         {
@@ -15185,31 +15330,7 @@
           "reason": "sales_not_verified"
         },
         {
-          "item_id": "finance.deposit.deposit.0010345.hk00009",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00010",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00011",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00014",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010345.hk00015",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010346.24000",
-          "reason": "sales_not_verified"
-        },
-        {
-          "item_id": "finance.deposit.deposit.0010346.24002",
+          "item_id": "finance.deposit.deposit.0010345.hk00007",
           "reason": "sales_not_verified"
         }
       ],
@@ -15262,18 +15383,18 @@
   ],
   "live_summary": {
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-18T12:30:17+00:00",
-    "runtime_version": "openfin-mcp-2026.07.18.3",
-    "deployment_commit": "04d5d90076e917577af7ca4443ad34f0ff747e22",
+    "checked_at": "2026-07-18T13:24:56+00:00",
+    "runtime_version": "openfin-mcp-2026.07.18.4",
+    "deployment_commit": "55808baab",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
-    "runtime_search_index_checksum": "5d90f9204cd66b8660152df09c020aa695a29d0603ba86ce7f6b2a33400d0c92",
-    "test_count": 33,
-    "passed_count": 33,
+    "search_index_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
+    "runtime_search_index_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
+    "test_count": 37,
+    "passed_count": 37,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "32787b5b9b21fa139911abf977d726198e577c3f00262c7ed890eaa73936bd3b"
+  "export_checksum": "b181e5910e7d4d7a35252a871fb09c3a3754b0107b2d40c2d8f9953158c19448"
 }

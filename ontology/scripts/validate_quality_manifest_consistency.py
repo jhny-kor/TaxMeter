@@ -91,8 +91,8 @@ def main() -> int:
         if live.get("runtime_search_index_checksum") != expected_search_checksum:
             errors.append("live_search_regression.runtime_search_index_checksum이 현재 검색 인덱스와 다릅니다.")
         required_live = [test for test in report.get("live_tests") or [] if str(test.get("validation_kind") or "").startswith("required_live_")]
-        if len(required_live) != 14:
-            errors.append(f"필수 라이브 회귀가 14건이 아닙니다: {len(required_live)}")
+        if len(required_live) != 18:
+            errors.append(f"필수 라이브 회귀가 18건이 아닙니다: {len(required_live)}")
         for test in required_live:
             if test.get("validation_kind") == "required_live_discovery_contract":
                 for key in ("parsed_query", "exact_candidates", "partial_candidates", "related_candidates", "candidate_counts", "top5_product_kinds", "duplicate_canonical_product_ids", "candidate_grades"):

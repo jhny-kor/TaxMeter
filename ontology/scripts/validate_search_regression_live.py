@@ -245,7 +245,7 @@ def main() -> int:
 
     try:
         fetched = client.fetch("credit.insurance-premium")
-        fetched_item = fetched.get("item") or fetched.get("result") or {}
+        fetched_item = fetched.get("item") or fetched.get("result") or (fetched if fetched.get("id") else {})
         fetch_ok = bool(fetched_item) and fetched.get("found", True) is not False
         record_required_case("credit.insurance-premium", "required_live_fetch_contract", fetch_ok, {
             "found": fetched.get("found"),
