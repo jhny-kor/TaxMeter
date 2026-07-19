@@ -39,7 +39,7 @@
         <h1>OpenFin</h1>
         <p class="hero-lede">
           세금, 지자체 지원금, 카드, 은행, 보험 데이터를 하나의 금융 온톨로지로 묶고
-          GitHub Pages와 읽기 전용 MCP가 같은 manifest를 바라보게 만든 공개 탐색면입니다.
+          검색·탐색·비교·추천 결과와 근거를 같은 manifest에서 확인하는 공개 탐색면입니다.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="#graph">통합 그래프 보기</a>
@@ -68,16 +68,16 @@
         </svg>
         <button class="graph-node root" type="button" data-domain="all">
           <strong>Finance Manifest</strong>
-          <span data-total-items>21,335 items</span>
+          <span data-total-items>manifest 로딩 중</span>
         </button>
-        <button class="graph-node tax" type="button" data-domain="tax"><strong>Tax</strong><span data-domain-count="tax">374</span></button>
-        <button class="graph-node local" type="button" data-domain="local-government-supports"><strong>Local Supports</strong><span data-domain-count="local-government-supports">7,706</span></button>
-        <button class="graph-node card" type="button" data-domain="card-products"><strong>Cards</strong><span data-domain-count="card-products">1,027</span></button>
-        <button class="graph-node deposit" type="button" data-domain="deposit-products"><strong>Deposits</strong><span data-domain-count="deposit-products">474</span></button>
-        <button class="graph-node saving" type="button" data-domain="saving-products"><strong>Savings</strong><span data-domain-count="saving-products">379</span></button>
-        <button class="graph-node loan" type="button" data-domain="loan-products"><strong>Loans</strong><span data-domain-count="loan-products">648</span></button>
-        <button class="graph-node insurance" type="button" data-domain="insurance-products"><strong>Insurance</strong><span data-domain-count="insurance-products">1,076</span></button>
-        <button class="graph-node reference" type="button" data-domain="finance-reference"><strong>Reference</strong><span data-domain-count="finance-reference">9,651</span></button>
+        <button class="graph-node tax" type="button" data-domain="tax"><strong>Tax</strong><span data-domain-count="tax">로딩 중</span></button>
+        <button class="graph-node local" type="button" data-domain="local-government-supports"><strong>Local Supports</strong><span data-domain-count="local-government-supports">로딩 중</span></button>
+        <button class="graph-node card" type="button" data-domain="card-products"><strong>Cards</strong><span data-domain-count="card-products">로딩 중</span></button>
+        <button class="graph-node deposit" type="button" data-domain="deposit-products"><strong>Deposits</strong><span data-domain-count="deposit-products">로딩 중</span></button>
+        <button class="graph-node saving" type="button" data-domain="saving-products"><strong>Savings</strong><span data-domain-count="saving-products">로딩 중</span></button>
+        <button class="graph-node loan" type="button" data-domain="loan-products"><strong>Loans</strong><span data-domain-count="loan-products">로딩 중</span></button>
+        <button class="graph-node insurance" type="button" data-domain="insurance-products"><strong>Insurance</strong><span data-domain-count="insurance-products">로딩 중</span></button>
+        <button class="graph-node reference" type="button" data-domain="finance-reference"><strong>Reference</strong><span data-domain-count="finance-reference">로딩 중</span></button>
         <a class="graph-node mcp" href="https://finance-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">
           <strong>OpenFin MCP</strong>
           <span>read-only tools</span>
@@ -86,11 +86,11 @@
     </section>
 
     <section class="metrics section" aria-label="OpenFin 요약 수치">
-      <div><strong data-total-items-plain>21,335</strong><span>통합 항목</span></div>
-      <div><strong data-export-count>8</strong><span>도메인 export</span></div>
-      <div><strong data-product-count>3,431</strong><span>금융 상품</span></div>
-      <div><strong data-local-count>7,706</strong><span>지자체 지원금</span></div>
-      <div><strong data-basis-date-short>2026-07-10</strong><span>최종 기준일</span></div>
+      <div><strong data-total-items-plain>로딩 중</strong><span>통합 항목</span></div>
+      <div><strong data-export-count>로딩 중</strong><span>도메인 export</span></div>
+      <div><strong data-product-count>로딩 중</strong><span>금융 상품 노드</span></div>
+      <div><strong data-local-count>로딩 중</strong><span>지자체 지원금</span></div>
+      <div><strong data-basis-date-short>로딩 중</strong><span>최종 기준일</span></div>
     </section>
 
     <section class="section operational-status" aria-label="운영 품질 상태" data-operational-summary>
@@ -121,7 +121,7 @@
         <article>
           <h3>OpenFin에 반영한 방식</h3>
           <ul>
-            <li>8개 export를 manifest로 묶고 도메인별 item_count와 product_count를 첫 화면에 노출합니다.</li>
+            <li>manifest와 샤드 인덱스를 묶고 도메인별 item_count와 product_count를 첫 화면에 노출합니다.</li>
             <li>각 노드는 ID, 타입, 설명, provider, criteria, source_urls, 이웃 노드를 유지합니다.</li>
             <li>GitHub Pages 탐색기와 Cloudflare MCP가 같은 export를 읽도록 연결했습니다.</li>
           </ul>
@@ -151,15 +151,15 @@
           <strong>Finance Manifest</strong>
           <span data-version-short>KR-FINANCE-ONTOLOGY</span>
         </button>
-        <button class="map-node tax" data-domain="tax"><strong>세금·공제</strong><span data-domain-count="tax">374</span></button>
-        <button class="map-node local" data-domain="local-government-supports"><strong>지자체 지원금</strong><span data-domain-count="local-government-supports">7,706</span></button>
-        <button class="map-node card" data-domain="card-products"><strong>카드 상품</strong><span data-domain-count="card-products">1,027</span></button>
-        <button class="map-node deposit" data-domain="deposit-products"><strong>정기예금 상품</strong><span data-domain-count="deposit-products">474</span></button>
-        <button class="map-node saving" data-domain="saving-products"><strong>적금 상품</strong><span data-domain-count="saving-products">379</span></button>
-        <button class="map-node loan" data-domain="loan-products"><strong>대출 상품</strong><span data-domain-count="loan-products">648</span></button>
-        <button class="map-node insurance" data-domain="insurance-products"><strong>보험 상품</strong><span data-domain-count="insurance-products">1,076</span></button>
-        <button class="map-node reference" data-domain="finance-reference"><strong>금융 기준정보</strong><span data-domain-count="finance-reference">9,651</span></button>
-        <a class="map-node mcp" href="#mcp"><strong>MCP</strong><span>search · fetch · exports</span></a>
+        <button class="map-node tax" data-domain="tax"><strong>세금·공제</strong><span data-domain-count="tax">로딩 중</span></button>
+        <button class="map-node local" data-domain="local-government-supports"><strong>지자체 지원금</strong><span data-domain-count="local-government-supports">로딩 중</span></button>
+        <button class="map-node card" data-domain="card-products"><strong>카드 상품</strong><span data-domain-count="card-products">로딩 중</span></button>
+        <button class="map-node deposit" data-domain="deposit-products"><strong>정기예금 상품</strong><span data-domain-count="deposit-products">로딩 중</span></button>
+        <button class="map-node saving" data-domain="saving-products"><strong>적금 상품</strong><span data-domain-count="saving-products">로딩 중</span></button>
+        <button class="map-node loan" data-domain="loan-products"><strong>대출 상품</strong><span data-domain-count="loan-products">로딩 중</span></button>
+        <button class="map-node insurance" data-domain="insurance-products"><strong>보험 상품</strong><span data-domain-count="insurance-products">로딩 중</span></button>
+        <button class="map-node reference" data-domain="finance-reference"><strong>금융 기준정보</strong><span data-domain-count="finance-reference">로딩 중</span></button>
+        <a class="map-node mcp" href="#mcp"><strong>MCP</strong><span>search · fetch · compare · recommend</span></a>
       </div>
     </section>
 
@@ -183,7 +183,8 @@
         <h2 id="mcp-title">ChatGPT에 OpenFin MCP 연결하기</h2>
         <p>
           OpenFin MCP는 읽기 전용 서버입니다. ChatGPT의 Connectors에서 아래 MCP URL을 추가하면
-          세금, 지원금, 카드, 은행, 보험 온톨로지를 ChatGPT 대화 안에서 검색하고 조회할 수 있습니다.
+          세금, 지원금, 카드, 은행, 보험 온톨로지를 ChatGPT 대화 안에서 검색하고,
+          조건에 맞는 비교·추천 후보와 다음 행동을 확인할 수 있습니다.
         </p>
       </div>
       <div class="pipeline">
@@ -196,7 +197,7 @@
         <article class="connector-endpoint">
           <h3>붙여 넣을 MCP 서버 URL</h3>
           <code>https://finance-mcp.y2kthr.workers.dev/mcp</code>
-          <p>읽기 전용 도구만 제공합니다: `search`, `fetch`, `exports`.</p>
+          <p>읽기 전용 도구를 제공합니다: `exports`, `search`, `fetch`, `discover`, `compare`, `recommend`.</p>
         </article>
         <ol class="connector-steps">
           <li>
@@ -216,15 +217,23 @@
       <div class="mcp-grid">
         <article>
           <h3>exports</h3>
-          <p>OpenFin이 현재 읽는 8개 export, 기준일, 총 항목 수를 확인합니다.</p>
+          <p>OpenFin이 현재 읽는 export, 샤드 manifest, 기준일, 총 항목 수를 확인합니다.</p>
         </article>
         <article>
           <h3>search</h3>
-          <p>사용자 질문을 기준으로 세금, 지원금, 카드, 은행, 보험 노드를 찾습니다.</p>
+          <p>사용자 질문과 의도를 기준으로 세금, 지원금, 카드, 은행, 보험 노드를 찾습니다.</p>
         </article>
         <article>
           <h3>fetch</h3>
           <p>선택한 노드의 기준, 출처, 상품 메타데이터, 연결 노드를 자세히 조회합니다.</p>
+        </article>
+        <article>
+          <h3>discover / compare</h3>
+          <p>상품 후보를 구조화하고 예금·적금·대출의 비교 가능 필드를 기준으로 비교합니다.</p>
+        </article>
+        <article>
+          <h3>recommend</h3>
+          <p>필수 프로필·제약조건과 검증 상태를 확인한 뒤, 근거가 부족한 상품은 추천에서 제외합니다.</p>
         </article>
       </div>
     </section>
@@ -232,44 +241,44 @@
     <section class="section improvements" aria-labelledby="improvements-title">
       <div class="section-heading">
         <p class="eyebrow">Content Additions</p>
-        <h2 id="improvements-title">반영한 확장 항목과 다음 후보</h2>
-        <p>현재 온톨로지를 기준으로 OpenFin 탐색기와 MCP에서 바로 확인할 수 있는 금융 확장 축입니다.</p>
+        <h2 id="improvements-title">현재 반영된 추천형 금융 표면</h2>
+        <p>현재 데이터와 운영 게이트를 기준으로 웹 탐색기와 MCP에서 확인할 수 있는 기능 상태입니다.</p>
       </div>
       <div class="improvement-grid">
         <article>
-          <h3>정책대출 API</h3>
-          <p>서민금융진흥원 대출상품한눈에 API에서 정책대출 318건을 수집해 상품별 한도, 금리, 지원대상, 취급기관을 확인할 수 있게 했습니다.</p>
-          <span>반영: 공공데이터포털 서민금융진흥원_대출상품한눈에 정보 서비스, 2026-07-02 수집</span>
+          <h3>검색·탐색</h3>
+          <p>질의를 의도와 분야로 해석해 세금·지원금·카드·은행·보험 후보를 찾고, 종료·미확인 항목은 기본 결과에서 분리합니다.</p>
+          <span>반영: search · discover · status-aware filtering · 샤드 hydration</span>
         </article>
         <article>
-          <h3>예금자보호 상품</h3>
-          <p>예금보험공사 예금자보호 금융상품 API를 수집해 금융회사별 보호대상 상품과 판매중단일자를 확인할 수 있게 했습니다.</p>
-          <span>반영: 판매중단일자가 있는 행은 closed/reference_only로 표시하고 기본 검색과 추천 후보에서 제외</span>
+          <h3>상품 비교</h3>
+          <p>예금·적금·대출은 기간, 금리, 한도, 상환 등 비교 필드를 구조화하고 검증된 비교 후보만 비교 결과에 사용합니다.</p>
+          <span>반영: compare · comparison completeness · sales verification evidence</span>
         </article>
         <article>
-          <h3>취급기관·센터 리스크</h3>
-          <p>서민대출 취급기관과 서민금융통합지원센터 API는 신청 완료 후에도 현재 키로 403이므로 상품 상세에 섞지 않고 리스크로 추적합니다.</p>
-          <span>대비: 권한 전파 확인 후 정책대출의 신청·방문 경로 노드로 연결</span>
+          <h3>추천 안전 게이트</h3>
+          <p>추천은 프로필·제약조건·판매상태·필수 필드·검증 증거를 모두 확인하며, 현재 공개 추천이 차단된 도메인은 후보 설명만 제공합니다.</p>
+          <span>반영: recommend · reference_only 제외 · fail-closed recommendation policy</span>
         </article>
         <article>
-          <h3>카드대출·리볼빙</h3>
-          <p>현금서비스, 카드론, 결제성 리볼빙의 신용점수별 금리·수수료율과 설명의무 기준을 별도 카테고리와 용어로 분리했습니다.</p>
-          <span>반영: 여신금융협회 카드대출 공시, 카드대출·리볼빙 수수료율, 금융위원회 리볼빙 개선방안 출처 연결</span>
+          <h3>지원사업 필드화</h3>
+          <p>지역, 대상, 신청기간, 상태, 제외 요약을 필드로 유지해 “내가 신청할 수 있는 지원”을 설명할 수 있게 했습니다.</p>
+          <span>반영: support search · region/youth intent · excluded_summary</span>
         </article>
         <article>
-          <h3>리스·할부·여신전문 신용대출</h3>
-          <p>자동차리스, 자동차·주택·가전·기계류 할부금융, 카드사·캐피탈사 신용대출을 예금·대출 축에 추가했습니다.</p>
-          <span>반영: 리스할부상품, 자동차리스 비교공시, 신용대출상품 평균금리 공시 출처 연결</span>
+          <h3>공식 보험 출처</h3>
+          <p>보험 공시와 공식 문서에서 확인된 보장·가입·보험료 필드를 반영하고, 공개되지 않은 대기·감액 정보는 unknown으로 보존합니다.</p>
+          <span>반영: official disclosure overlay · source checksum · unknown fail-closed</span>
         </article>
         <article>
-          <h3>상품 비교 축</h3>
-          <p>카드 혜택률, 예적금 금리, 대출 평균금리, 보험 수익률처럼 도메인별 비교 가능한 값을 별도 표로 빼냅니다.</p>
-          <span>다음 후보: `criteria`와 `options`의 수치 필드를 normalize하여 product metric index 생성</span>
+          <h3>샤드 인덱스</h3>
+          <p>대용량 검색 인덱스는 manifest와 도메인 샤드로 나누고, 화면과 MCP가 같은 공통 데이터 계약으로 hydrate합니다.</p>
+          <span>반영: 21,251 items · shard item_count 검증 · inline/shard loader</span>
         </article>
         <article>
-          <h3>변경 이력</h3>
-          <p>금리·혜택·세제 기준이 언제 바뀌었는지 Git diff와 수집일 기준으로 비교할 수 있게 합니다.</p>
-          <span>다음 후보: manifest version별 export hash, changed item count, ended product count, source_access_risks를 별도 이력으로 누적</span>
+          <h3>검증 표면</h3>
+          <p>로컬 릴리스 검증과 실제 MCP smoke/regression 결과를 함께 기록해 화면에 표시되는 데이터 계약을 추적할 수 있습니다.</p>
+          <span>반영: release 20/20 · live regression 37/37 · smoke 11/11</span>
         </article>
       </div>
     </section>

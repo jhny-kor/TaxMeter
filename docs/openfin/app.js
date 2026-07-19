@@ -133,7 +133,7 @@ function updateManifestUI() {
   const manifest = state.manifest;
   const exports = manifest.exports || [];
   const exportItemTotal = exports.reduce((sum, item) => sum + Number(item.item_count || 0), 0);
-  const totalItems = Number(manifest.item_count || manifest.unique_item_count || exportItemTotal);
+  const totalItems = Number(manifest.search_index?.item_count || manifest.item_count || manifest.unique_item_count || exportItemTotal);
   const productItems = exports.reduce((sum, item) => sum + Number(item.product_count || 0), 0);
   const localCount = exports.find((item) => item.domain === "local-government-supports")?.item_count || 0;
   const versionShort = String(manifest.version || "").replace("-2026.05.05.1", "");
@@ -665,6 +665,10 @@ function renderOperationalSummary() {
   const activeInsuranceGap = state.manifest.quality_summary?.finance_exports?.insurance?.active_insurance_without_criteria ?? 0;
   const cardConditionGap = state.manifest.quality_summary?.finance_exports?.card?.card_benefits_with_incomplete_conditions ?? 0;
   const insuranceConditionGap = state.manifest.quality_summary?.finance_exports?.insurance?.insurance_coverages_with_incomplete_conditions ?? 0;
+  const recommendationEnabled = state.manifest.recommendation_enabled === true;
+  const comparisonReadyDomains = financeExports
+    .filter((entry) => entry.quality_summary?.readiness?.comparison_data === "ready")
+    .map((entry) => domainMeta(entry.domain).label);
   const riskLines = risks.slice(0, 5).map((risk) => `${risk.source_id}: ${risk.status}`).join(" · ");
   const apiLines = apiRequired.slice(0, 4).map((source) => `${source.source_id}: ${source.required_secret}`).join(" · ");
   const webLines = webCandidates.slice(0, 3).map((source) => `${source.source_id}: ${source.collection_mode}`).join(" · ");
@@ -689,6 +693,11 @@ function renderOperationalSummary() {
     <article>
       <h3>품질 요약</h3>
       <p>${escapeHtml(qualityLines || "품질 요약 로딩 전입니다.")}</p>
+    </article>
+    <article>
+      <h3>추천·비교 게이트</h3>
+      <p>공개 추천: <strong>${recommendationEnabled ? "활성" : "안전 차단"}</strong>. 검증 증거와 필수 필드가 없는 상품은 추천 후보에서 제외합니다.</p>
+      <p>비교 데이터 준비: ${escapeHtml(comparisonReadyDomains.join(" · ") || "준비된 도메인 없음")}</p>
     </article>
   `;
 }
