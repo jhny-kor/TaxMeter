@@ -7,7 +7,7 @@
   <meta name="description" content="세금, 지자체 지원금, 카드, 은행, 보험 온톨로지를 통합한 OpenFin GitHub Pages 탐색기">
   <meta name="theme-color" content="#05080d">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8Z' fill='%2305080d' stroke='%2373f0c1' stroke-width='2'/%3E%3Cpath d='M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5' fill='none' stroke='%2373f0c1' stroke-width='2'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=2026.07.22.1">
+  <link rel="stylesheet" href="./styles.css?v=2026.07.22.3">
 </head>
 <body>
   <header class="site-header">
@@ -42,7 +42,7 @@
           검색·탐색·비교·추천 결과와 근거를 같은 manifest에서 확인하는 공개 탐색면입니다.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="./explorer.html">데이터 직접 조회 →</a>
+          <a class="button primary" href="./explorer.html?scope=all">정보 검색 →</a>
           <a class="button secondary" href="#mcp">MCP 연결</a>
         </div>
         <dl class="hero-meta">
@@ -100,8 +100,20 @@
           </ul>
         </article>
         <div class="comparison-arrow" aria-hidden="true">
-          <svg viewBox="0 0 48 24" role="img" focusable="false">
-            <path d="M2 12h40M32 3l10 9-10 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 72 40" role="img" focusable="false">
+            <defs>
+              <linearGradient id="comparison-arrow-gradient" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#73f0c1"/>
+                <stop offset="0.55" stop-color="#38a7ff"/>
+                <stop offset="1" stop-color="#8c7bff"/>
+              </linearGradient>
+              <filter id="comparison-arrow-glow" x="-30%" y="-50%" width="160%" height="200%">
+                <feDropShadow dx="0" dy="4" flood-color="#38a7ff" flood-opacity="0.38" stdDeviation="3"/>
+              </filter>
+            </defs>
+            <path class="arrow-shadow" d="M5 21h43l-7-8 4-4 17 17-17 17-4-4 7-8H5Z" fill="#02050a" opacity="0.58"/>
+            <path class="arrow-face" d="M4 16h43l-7-8 4-4 17 17-17 17-4-4 7-8H4Z" fill="url(#comparison-arrow-gradient)" filter="url(#comparison-arrow-glow)"/>
+            <path class="arrow-highlight" d="M7 13h37" fill="none" stroke="#d9fff2" stroke-linecap="round" stroke-opacity="0.82" stroke-width="2"/>
           </svg>
         </div>
         <article>
@@ -143,7 +155,7 @@
         <div><strong>GitHub JSON</strong><span>ontology/exports</span></div>
         <div><strong>Pages Mirror</strong><span>/opentax/*.json</span></div>
         <div><strong>Cloudflare MCP</strong><span>finance-mcp worker</span></div>
-        <div><strong>ChatGPT</strong><span>Connectors에서 사용</span></div>
+        <div><strong>ChatGPT</strong><span>Plugins에서 사용</span></div>
       </div>
       <div class="connector-guide">
         <article class="connector-endpoint">
@@ -193,7 +205,7 @@
     <section class="section improvements" aria-labelledby="improvements-title">
       <div class="section-heading">
         <p class="eyebrow">Content Additions</p>
-        <h2 id="improvements-title">현재 반영된 추천형 금융 표면</h2>
+        <h2 id="improvements-title">현재 반영된 금융 온톨로지</h2>
         <p>현재 데이터와 운영 게이트를 기준으로 웹 탐색기와 MCP에서 확인할 수 있는 기능 상태입니다.</p>
       </div>
       <div class="improvement-grid">
@@ -254,7 +266,7 @@
     <a href="https://finance-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">MCP Health</a>
   </footer>
 
-  <script src="./app.js?v=2026.07.22.1"></script>
+  <script src="./app.js?v=2026.07.22.3"></script>
   <script src="./galaxy.js"></script>
 </body>
 </html>

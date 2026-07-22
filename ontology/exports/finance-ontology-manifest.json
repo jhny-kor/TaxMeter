@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-22T01:31:25Z",
+  "built_at": "2026-07-22T14:18:29Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-22T01:31:25Z",
+      "built_at": "2026-07-22T14:18:29Z",
       "domain_export_count": 8,
       "search_index_item_count": 21251,
       "canonical_product_count": 3430,
@@ -1102,6 +1102,7 @@
     "item_count": 21251,
     "product_count": 0,
     "source_review_date": "2026-07-10",
+    "collection_dates": [],
     "product_collection_dates": [],
     "quality_summary": {},
     "export_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
@@ -1173,9 +1174,10 @@
       "item_count": 8,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-22T01:31:25Z",
+        "built_at": "2026-07-22T14:18:29Z",
         "domain_export_count": 8,
         "search_index_item_count": 21251,
         "canonical_product_count": 3430,
@@ -1184,7 +1186,7 @@
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "7b47a9c259fa0f5a4bb1f8b326b305b03d2d3aa50f5dd75a504e1c541990155e",
+      "export_checksum": "b0084c83a03e0d01a5da790cd7ae0107b66c4e0b8f04e94c18d9cc674c92d7c5",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1196,6 +1198,7 @@
       "item_count": 20,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
         "test_count": 20,
@@ -1204,7 +1207,7 @@
         "failures": [],
         "last_failed_at": null
       },
-      "export_checksum": "f7ec05decef79a0647df5ec16c9c144489608bcb850c97dd6b2f9084aa3316ee",
+      "export_checksum": "cc87d33822688d70fa001d6ce5373a50bc5238df38d5e1448c04102ec7538db7",
       "description": "세금 검색 P0 질의가 올바른 노드로 가는지 검증한 회귀테스트 결과입니다."
     },
     {
@@ -1216,14 +1219,15 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "0acf07fca56850497210afaceafba5606b793fa3b50040dba4f46033f3350896",
+      "export_checksum": "b27d8ee3b5499e7bd1962ae2a7dba66564ee17ce2052af29e8054f2f70f026d3",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1235,10 +1239,11 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
@@ -1250,7 +1255,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "a49db29298f7718fc05e7c45d8965bef4c1072f796b2227311cbf8922100a102",
+      "export_checksum": "6d651d8125c5200ed9052e451003e4b63d734fe2dcd91e71185ab1d06a9db448",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1262,16 +1267,17 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "comparison-regression",
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "feea1e4e7f0e4092facf9c0c829c2b4b64be6c6241d90ed0eb80473334ca0f9c",
+      "export_checksum": "41dded46563976513a9da084b32762303008bc9669ff7982b5ab4309a2aba646",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1283,14 +1289,15 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "ac55f8bf11c9a81b4595bb2c6a8a562b96cc2d59d48365bf5eae8967ec80d648",
+      "export_checksum": "71a1248f701a95cf11a9e1146baa1183d53315d8ef4c0cc0e514872ba20259d6",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1302,17 +1309,18 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "d95e173ead8f2b0ad9571e80f0d2ff128ae4f92b7974a0d0498433d1113a0af2",
+      "export_checksum": "b48cd32ebef59ab7e2c46e66bae498009b7986612a46ecdd8d836a124048e442",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1324,14 +1332,15 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "data-drift"
       },
-      "export_checksum": "117068e69cccd6a86ce3288ed91e89887262fa6cc95f98d31d836648fd184293",
+      "export_checksum": "50e25c499de12fded8359931175e9dbfd44950d748611695e8022cef244b2d55",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1343,15 +1352,16 @@
       "item_count": 1,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 0,
-        "live_passed_count": 0,
+        "live_case_count": 47,
+        "live_passed_count": 47,
         "live_failed_count": 0,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "289e174a6c15d9d9053bd30b753a1df2b292510e3ffdc8485c92edd8d105530b",
+      "export_checksum": "0679fbad8bc90687af6304be96fc9393f618a46baca25a205c19ea06c9c147ea",
       "description": "OpenFin 품질 하위 리포트입니다."
     }
   ],
@@ -1365,6 +1375,7 @@
       "item_count": 374,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {},
       "export_checksum": "53a9f3f91070351135a79668b063994de26b40fcb098ccf5cffddb28e9fab31b",
@@ -1379,6 +1390,9 @@
       "item_count": 7718,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [],
       "quality_summary": {
         "status_review_date": "2026-07-14",
@@ -1430,6 +1444,9 @@
       "item_count": 1030,
       "product_count": 1007,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [
         "2026-07-18"
       ],
@@ -1603,7 +1620,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "5c9d853ca902da8fee8a2438ba5d0e2e43ae01eb1bb43b614ffe06402ee9f8f1",
+      "export_checksum": "6c3029de6d371c9eb9e9f05ff82d387304024eaac841f377a59d2c4c415aa9ee",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1615,6 +1632,9 @@
       "item_count": 474,
       "product_count": 430,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [
         "2026-07-18"
       ],
@@ -1772,7 +1792,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6243930cd1a548ff491d7df7cf1bf653231fd1923c40254de8326b5a92d9746d",
+      "export_checksum": "fcbbab7a7071cf03f37e7c67efeeee2137ad1972463539df27b90b607df04f51",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1784,6 +1804,9 @@
       "item_count": 379,
       "product_count": 335,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [
         "2026-07-18"
       ],
@@ -1942,7 +1965,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ea284025be6c5a7ec764b45d1bd1d6f7812f68a12a2a345b0b272c9c14785020",
+      "export_checksum": "ca31d560f44ec216802e8cd407ff6d7702c96ebf808086d634dbd9a14dadcf0b",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -1954,6 +1977,10 @@
       "item_count": 642,
       "product_count": 598,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-10",
+        "2026-07-18"
+      ],
       "product_collection_dates": [
         "2026-07-10",
         "2026-07-18"
@@ -2101,7 +2128,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "a69667430594d1b7f89ddd244e3860cbfef0ca6a6bb9e1ce67e92d3c20f23715",
+      "export_checksum": "e6506e31b9f67f64a421cafbb072a98ce7996a08c89fed3b49c2b795e77a3693",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2113,6 +2140,9 @@
       "item_count": 1089,
       "product_count": 1071,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [
         "2026-07-18"
       ],
@@ -2280,7 +2310,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1ae12ceee7e82bc32914ee6840c81650601a54dbe54e9270278c0e8bbb7d062d",
+      "export_checksum": "1e61ca6b5c991264d56c42aab25b75156f966bf7ec64e1edb153b8a5f64b2e85",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -2292,6 +2322,9 @@
       "item_count": 9650,
       "product_count": 0,
       "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-18"
+      ],
       "product_collection_dates": [],
       "quality_summary": {
         "product_count": 0,
@@ -2356,7 +2389,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "f680bd91b70386690ff42652fa1379bdeee742a25190a5fae874cd8ed4dbd617",
+      "export_checksum": "c065774a7f2c86de6f159244b20e97f77a5b83240137777191c323f54ff150be",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ],

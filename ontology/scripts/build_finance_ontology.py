@@ -2300,11 +2300,17 @@ def write_export(path: Path, version: str, domain: str, items: list[dict], produ
         for item in normalized
         if item.get("type") == product_type and item.get("collected_at")
     })
+    collection_dates = sorted({
+        item["collected_at"]
+        for item in normalized
+        if item.get("collected_at")
+    })
     quality_summary = export_quality_summary(normalized, product_type)
     payload = {
         "version": version,
         "basis_date": CURRENT_REVIEW_DATE,
         "source_review_date": CURRENT_REVIEW_DATE,
+        "collection_dates": collection_dates,
         "product_collection_dates": product_collection_dates,
         "domain": domain,
         "ontology_kind": f"{domain}-ontology",
@@ -2319,6 +2325,7 @@ def write_export(path: Path, version: str, domain: str, items: list[dict], produ
         "path": str(path.relative_to(REPO_ROOT)),
         "item_count": len(normalized),
         "product_count": product_count,
+        "collection_dates": collection_dates,
         "product_collection_dates": product_collection_dates,
         "quality_summary": quality_summary,
         "export_checksum": payload["export_checksum"],
@@ -2335,6 +2342,7 @@ def export_entry(
     product_collection_dates: list[str] | None = None,
     quality_summary: dict | None = None,
     export_checksum: str | None = None,
+    collection_dates: list[str] | None = None,
 ) -> dict:
     return {
         "id": id_,
@@ -2345,6 +2353,7 @@ def export_entry(
         "item_count": item_count,
         "product_count": product_count,
         "source_review_date": CURRENT_REVIEW_DATE,
+        "collection_dates": collection_dates if collection_dates is not None else (product_collection_dates or []),
         "product_collection_dates": product_collection_dates or [],
         "quality_summary": quality_summary or {},
         "export_checksum": export_checksum,
@@ -2814,6 +2823,25 @@ def existing_export_checksum(path: Path) -> str | None:
         return None
     payload = json.loads(path.read_text(encoding="utf-8"))
     return payload.get("export_checksum") or payload_checksum(payload)
+
+
+def existing_export_collection_dates(path: Path) -> list[str]:
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    for key in ("collection_dates", "product_collection_dates"):
+        values = payload.get(key)
+        if isinstance(values, list) and values:
+            return sorted({str(value) for value in values if value})
+    dates: set[str] = set()
+    for item in [*(payload.get("reference_items") or []), *(payload.get("items") or [])]:
+        if not isinstance(item, dict):
+            continue
+        if item.get("collected_at"):
+            dates.add(str(item["collected_at"]))
+        for basis in item.get("source_basis_dates") or []:
+            dates.update(re.findall(r"(?:수집일|collected_at)\s*[:：]?\s*(\d{4}-\d{2}-\d{2})", str(basis)))
+    return sorted(dates)
 
 
 def broken_relation_count(path_texts: list[str]) -> int:
@@ -3775,6 +3803,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 [],
                 existing_export_quality_summary(REPO_ROOT / tax_path),
                 existing_export_checksum(REPO_ROOT / tax_path),
+                existing_export_collection_dates(REPO_ROOT / tax_path),
             ),
             export_entry(
                 "local-government-supports-ontology",
@@ -3786,6 +3815,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 [],
                 existing_export_quality_summary(REPO_ROOT / local_path),
                 existing_export_checksum(REPO_ROOT / local_path),
+                existing_export_collection_dates(REPO_ROOT / local_path),
             ),
             export_entry(
                 "card-products-ontology",
@@ -3797,6 +3827,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["card"]["product_collection_dates"],
                 results["card"].get("quality_summary"),
                 results["card"].get("export_checksum"),
+                results["card"]["collection_dates"],
             ),
             export_entry(
                 "deposit-products-ontology",
@@ -3808,6 +3839,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["deposit"]["product_collection_dates"],
                 results["deposit"].get("quality_summary"),
                 results["deposit"].get("export_checksum"),
+                results["deposit"]["collection_dates"],
             ),
             export_entry(
                 "saving-products-ontology",
@@ -3819,6 +3851,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["saving"]["product_collection_dates"],
                 results["saving"].get("quality_summary"),
                 results["saving"].get("export_checksum"),
+                results["saving"]["collection_dates"],
             ),
             export_entry(
                 "loan-products-ontology",
@@ -3830,6 +3863,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["loan"]["product_collection_dates"],
                 results["loan"].get("quality_summary"),
                 results["loan"].get("export_checksum"),
+                results["loan"]["collection_dates"],
             ),
             export_entry(
                 "insurance-products-ontology",
@@ -3841,6 +3875,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["insurance"]["product_collection_dates"],
                 results["insurance"].get("quality_summary"),
                 results["insurance"].get("export_checksum"),
+                results["insurance"]["collection_dates"],
             ),
             export_entry(
                 "finance-reference-ontology",
@@ -3852,6 +3887,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["reference"]["product_collection_dates"],
                 results["reference"].get("quality_summary"),
                 results["reference"].get("export_checksum"),
+                results["reference"]["collection_dates"],
             ),
         ],
     }

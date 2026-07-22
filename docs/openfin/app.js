@@ -2,6 +2,7 @@
 const DATA_BASE = "../opentax/";
 const MANIFEST_FILE = "finance-ontology-manifest.json";
 const MAX_RESULTS = 120;
+const SEARCH_DEBOUNCE_MS = 90;
 const RATE_QUERY_RE = /(금리|최고금리|중도해지|정기예금|적금|대출|개월)/i;
 const PROTECTION_QUERY_RE = /(예금자보호|보호대상|보호상품|kdic|보호)/i;
 const GENERIC_SEARCH_TYPES = new Set(["category", "term", "domain", "source"]);
@@ -74,6 +75,7 @@ const state = {
   itemIndex: new Map(),
   selectedId: "",
   isLoadingAll: false,
+  searchTimer: null,
 };
 
 document.addEventListener("DOMContentLoaded", init);
@@ -92,6 +94,7 @@ async function init() {
     const params = new URLSearchParams(window.location.search);
     const paramDomain = params.get("domain");
     const paramQuery = params.get("q");
+    const paramScope = params.get("scope");
     const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
     const hasExplorer = Boolean(document.querySelector("[data-results]"));
 
@@ -99,9 +102,9 @@ async function init() {
       const searchInput = document.querySelector("[data-search]");
       if (searchInput) searchInput.value = paramQuery;
     }
-    if (hashId) {
+    if (hashId || paramScope === "all") {
       await loadAllDomains();
-      selectItem(hashId, { updateHash: false });
+      if (hashId) selectItem(hashId, { updateHash: false });
     } else if (paramDomain && findExport(paramDomain)) {
       await loadDomain(paramDomain);
     } else if (hasExplorer) {
@@ -113,9 +116,11 @@ async function init() {
 }
 
 function bindStaticControls() {
-  document.querySelector("[data-search]")?.addEventListener("input", renderResults);
+  document.querySelector("[data-search]")?.addEventListener("input", () => {
+    window.clearTimeout(state.searchTimer);
+    state.searchTimer = window.setTimeout(renderResults, SEARCH_DEBOUNCE_MS);
+  });
   document.querySelector("[data-type-filter]")?.addEventListener("change", renderResults);
-  document.querySelector("[data-load-all]")?.addEventListener("click", () => loadAllDomains());
 
   document.querySelectorAll("[data-domain]").forEach((node) => {
     node.addEventListener("click", async (event) => {
@@ -178,7 +183,7 @@ function renderExportCards() {
     .map((entry) => {
       const meta = domainMeta(entry.domain);
       const filename = fileNameFromEntry(entry);
-      const collectionDates = collectionDatesForEntry(entry);
+      const collectionMeta = collectionMetaForEntry(entry, state.manifest);
       return `
         <article class="export-card ${meta.className}">
           <span class="domain-chip">${escapeHtml(meta.label)}</span>
@@ -188,7 +193,7 @@ function renderExportCards() {
             <span>items</span>
           </div>
           <p>${escapeHtml(entry.description || meta.summary)}</p>
-          <p>${formatNumber(entry.product_count || 0)} product nodes · 수집일 ${escapeHtml(collectionDates || "미기록")} · ${escapeHtml(filename)}</p>
+          <p>${formatNumber(entry.product_count || 0)} product nodes · ${escapeHtml(collectionMeta.label)} ${escapeHtml(collectionMeta.value)} · ${escapeHtml(filename)}</p>
           <a class="export-open" href="explorer.html?domain=${escapeAttribute(entry.domain)}">탐색기에서 열기 →</a>
         </article>
       `;
@@ -199,21 +204,46 @@ function renderExportCards() {
 function financeCollectionLabel(manifest) {
   const labels = {
     "card-products": "카드",
-    "bank-products": "은행·대출",
+    "deposit-products": "예금",
+    "saving-products": "적금",
+    "loan-products": "대출",
     "insurance-products": "보험",
   };
   return (manifest.exports || [])
     .filter((entry) => Number(entry.product_count || 0) > 0)
     .map((entry) => {
-      const dates = collectionDatesForEntry(entry);
+      const dates = productCollectionDatesForEntry(entry);
       return dates ? `${labels[entry.domain] || entry.domain} ${dates}` : "";
     })
     .filter(Boolean)
     .join(" · ");
 }
 
+function uniqueDateValues(value) {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter(Boolean).map((date) => String(date).slice(0, 10)))].filter((date) => /^\d{4}-\d{2}-\d{2}$/.test(date));
+}
+
+function productCollectionDatesForEntry(entry) {
+  return uniqueDateValues(entry.product_collection_dates).join(", ");
+}
+
 function collectionDatesForEntry(entry) {
-  return [...new Set(entry.product_collection_dates || [])].join(", ");
+  return uniqueDateValues(entry.collection_dates || entry.product_collection_dates).join(", ");
+}
+
+function dateOnly(value) {
+  const date = String(value || "").slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : "";
+}
+
+function collectionMetaForEntry(entry, manifest) {
+  const dates = collectionDatesForEntry(entry);
+  if (dates) return { label: "수집일", value: dates };
+  const builtDate = dateOnly(manifest?.built_at);
+  if (builtDate) return { label: "팩 생성일", value: builtDate };
+  const reviewDate = dateOnly(entry.source_review_date || entry.basis_date);
+  return { label: "확인일", value: reviewDate || "미기록" };
 }
 
 function renderLoadingTabs() {
@@ -250,11 +280,12 @@ function renderDomainTabs() {
   markActiveDomainTab();
 }
 
-async function loadDomain(domain) {
+async function loadDomain(domain, options = {}) {
   if (!domain) return;
+  const { render = true } = options;
   state.currentDomain = domain;
   markActiveDomainTab();
-  setResultSummary(`${domainMeta(domain).label} 데이터를 로딩 중입니다.`);
+  if (render) setResultSummary(`${domainMeta(domain).label} 데이터를 로딩 중입니다.`);
 
   if (!state.loadedDomains.has(domain)) {
     const entry = findExport(domain);
@@ -272,9 +303,11 @@ async function loadDomain(domain) {
     mergeItems(items);
   }
 
-  updateTypeFilter();
-  renderResults();
-  selectFirstVisibleResult();
+  if (render) {
+    updateTypeFilter();
+    renderResults();
+    selectFirstVisibleResult();
+  }
 }
 
 async function loadAllDomains() {
@@ -287,7 +320,7 @@ async function loadAllDomains() {
   try {
     for (const entry of state.manifest.exports || []) {
       if (!state.loadedDomains.has(entry.domain)) {
-        await loadDomain(entry.domain);
+        await loadDomain(entry.domain, { render: false });
       }
     }
     state.currentDomain = "all";
@@ -302,11 +335,43 @@ async function loadAllDomains() {
 
 function mergeItems(items) {
   for (const item of items) {
+    indexSearchItem(item);
     if (!state.itemIndex.has(item.id)) {
       state.items.push(item);
       state.itemIndex.set(item.id, item);
     }
   }
+}
+
+function indexSearchItem(item) {
+  item.__searchTitle = normalize(item.title || "");
+  item.__searchId = normalize(item.id || "");
+  item.__searchType = normalize(item.search_type || item.product_kind || "");
+  item.__searchAliases = (TAX_SEARCH_ALIASES[item.id] || []).map(normalize);
+  item.__searchText = normalize([
+    item.id,
+    item.title,
+    item.type,
+    item.description,
+    item.provider,
+    item.financial_sector,
+    item.product_kind,
+    item.search_type,
+    item.product_code,
+    item.jurisdiction,
+    item.status,
+    item.status_reason,
+    item.status_confidence,
+    item.recommendation_status,
+    ...(TAX_SEARCH_ALIASES[item.id] || []),
+    structuredSearchText(item.criteria, 4),
+    structuredSearchText(item.options, 3),
+    structuredSearchText(item.benefits, 3),
+    ...(item.tags || []),
+    ...(item.sources || []),
+    ...(item.source_urls || []),
+  ].filter(Boolean).join(" "));
+  item.__searchTokens = item.__searchTitle.split(/\s+/).filter(Boolean);
 }
 
 function renderResults() {
@@ -606,35 +671,14 @@ function currentItems() {
 
 function scoreItem(item, query) {
   if (!query) return 1;
-  const title = normalize(item.title || "");
-  const id = normalize(item.id || "");
-  const searchType = normalize(item.search_type || item.product_kind || "");
-  const text = normalize([
-    item.id,
-    item.title,
-    item.type,
-    item.description,
-    item.provider,
-    item.financial_sector,
-    item.product_kind,
-    item.search_type,
-    item.product_code,
-    item.jurisdiction,
-    item.status,
-    item.status_reason,
-    item.status_confidence,
-    item.recommendation_status,
-    ...(TAX_SEARCH_ALIASES[item.id] || []),
-    structuredSearchText(item.criteria, 4),
-    structuredSearchText(item.options, 3),
-    structuredSearchText(item.benefits, 3),
-    ...(item.tags || []),
-    ...(item.sources || []),
-    ...(item.source_urls || []),
-  ].filter(Boolean).join(" "));
+  if (!item.__searchText) indexSearchItem(item);
+  const title = item.__searchTitle;
+  const id = item.__searchId;
+  const searchType = item.__searchType;
+  const text = item.__searchText;
   const tokens = query.split(/\s+/).filter(Boolean);
-  const titleTokens = title.split(/\s+/).filter(Boolean);
-  const aliases = (TAX_SEARCH_ALIASES[item.id] || []).map(normalize);
+  const titleTokens = item.__searchTokens;
+  const aliases = item.__searchAliases;
   const rateIntent = RATE_QUERY_RE.test(query);
   if (searchType === "deposit-protection" && rateIntent && !PROTECTION_QUERY_RE.test(query)) return 0;
 
@@ -663,8 +707,6 @@ function renderOperationalSummary() {
   const apiRequired = state.manifest.api_required_sources || [];
   const webCandidates = state.manifest.public_web_collection_candidates || [];
   const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
-  const apiLines = apiRequired.slice(0, 4).map((source) => `${source.source_id}: ${source.required_secret}`).join(" · ");
-  const webLines = webCandidates.slice(0, 3).map((source) => `${source.source_id}: ${source.collection_mode}`).join(" · ");
   const qualityLines = financeExports
     .map((entry) => {
       const summary = qualityLine(entry.quality_summary);
@@ -675,14 +717,40 @@ function renderOperationalSummary() {
   container.innerHTML = `
     <article>
       <h3>API 필요</h3>
-      <p>${escapeHtml(apiLines || "추가 API 키가 필요한 출처가 없습니다.")}</p>
-      <p>${escapeHtml(webLines || "공개 웹 수집 후보가 없습니다.")}</p>
+      <div class="operational-source-group">
+        <h4>키·권한이 필요한 출처</h4>
+        <ul class="operational-source-list">
+          ${apiRequired.map((source) => sourceRequirementHtml(source, "api")).join("") || sourceEmptyHtml("추가 API 키가 필요한 출처가 없습니다.")}
+        </ul>
+      </div>
+      <div class="operational-source-group">
+        <h4>공개 웹 수집 후보</h4>
+        <ul class="operational-source-list">
+          ${webCandidates.map((source) => sourceRequirementHtml(source, "web")).join("") || sourceEmptyHtml("공개 웹 수집 후보가 없습니다.")}
+        </ul>
+      </div>
     </article>
     <article>
       <h3>품질 요약</h3>
       <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
     </article>
   `;
+}
+
+function sourceRequirementHtml(source, kind) {
+  const value = kind === "api" ? source.required_secret : source.collection_mode;
+  const detail = source.needed_for || source.status || "";
+  return `
+    <li>
+      <strong>${escapeHtml(source.source_id || "출처 미상")}</strong>
+      <span>${escapeHtml(value || "값 미기록")}</span>
+      ${detail ? `<small>${escapeHtml(detail)}</small>` : ""}
+    </li>
+  `;
+}
+
+function sourceEmptyHtml(message) {
+  return `<li class="source-empty">${escapeHtml(message)}</li>`;
 }
 
 function qualityLine(summary) {
