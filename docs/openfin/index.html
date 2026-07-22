@@ -21,10 +21,10 @@
       <span>OpenFin</span>
     </a>
     <nav class="top-nav" aria-label="주요 섹션">
-      <a href="#graph">Graph</a>
+      <a href="#top">Universe</a>
       <a href="#exports">Exports</a>
       <a href="#mcp">MCP</a>
-      <a href="#explorer">Explorer</a>
+      <a href="./explorer.html">Explorer</a>
     </nav>
     <div class="header-actions">
       <a href="https://github.com/jhny-kor/TaxMeter" rel="noreferrer" target="_blank">GitHub</a>
@@ -42,8 +42,8 @@
           검색·탐색·비교·추천 결과와 근거를 같은 manifest에서 확인하는 공개 탐색면입니다.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="#graph">통합 그래프 보기</a>
-          <a class="button secondary" href="#explorer">온톨로지 탐색</a>
+          <a class="button primary" href="./explorer.html">데이터 직접 조회 →</a>
+          <a class="button secondary" href="#mcp">MCP 연결</a>
         </div>
         <dl class="hero-meta">
           <div><dt>version</dt><dd data-version>로딩 중</dd></div>
@@ -54,35 +54,15 @@
         </dl>
       </div>
 
-      <div class="hero-map" aria-label="OpenFin 상위 그래프">
-        <svg class="graph-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line class="soft" x1="50" y1="50" x2="50" y2="12" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="74" y2="22" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="84" y2="46" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="78" y2="70" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="60" y2="86" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="40" y2="86" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="22" y2="70" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="16" y2="46" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="26" y2="22" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <button class="graph-node root" type="button" data-domain="all">
-          <strong>Finance Manifest</strong>
-          <span data-total-items>manifest 로딩 중</span>
-        </button>
-        <button class="graph-node tax" type="button" data-domain="tax"><strong>Tax</strong><span data-domain-count="tax">로딩 중</span></button>
-        <button class="graph-node local" type="button" data-domain="local-government-supports"><strong>Local Supports</strong><span data-domain-count="local-government-supports">로딩 중</span></button>
-        <button class="graph-node card" type="button" data-domain="card-products"><strong>Cards</strong><span data-domain-count="card-products">로딩 중</span></button>
-        <button class="graph-node deposit" type="button" data-domain="deposit-products"><strong>Deposits</strong><span data-domain-count="deposit-products">로딩 중</span></button>
-        <button class="graph-node saving" type="button" data-domain="saving-products"><strong>Savings</strong><span data-domain-count="saving-products">로딩 중</span></button>
-        <button class="graph-node loan" type="button" data-domain="loan-products"><strong>Loans</strong><span data-domain-count="loan-products">로딩 중</span></button>
-        <button class="graph-node insurance" type="button" data-domain="insurance-products"><strong>Insurance</strong><span data-domain-count="insurance-products">로딩 중</span></button>
-        <button class="graph-node reference" type="button" data-domain="finance-reference"><strong>Reference</strong><span data-domain-count="finance-reference">로딩 중</span></button>
-        <a class="graph-node mcp" href="https://finance-mcp.y2kthr.workers.dev/mcp" rel="noreferrer" target="_blank">
-          <strong>OpenFin MCP</strong>
-          <span>read-only tools</span>
-        </a>
+      <div class="galaxy-stage" data-galaxy aria-label="OpenFin 금융 온톨로지 유니버스">
+        <canvas role="img" aria-label="세금·지원금·카드·은행·보험 도메인이 매니페스트 코어를 공전하는 금융 온톨로지 성계"></canvas>
+        <div class="galaxy-tooltip" data-galaxy-tooltip hidden></div>
+        <p class="galaxy-hint">노드를 눌러 해당 도메인을 직접 조회하세요</p>
       </div>
+    </section>
+
+    <section class="section galaxy-legend-section" aria-label="도메인 성계 범례">
+      <div class="galaxy-legend" data-galaxy-legend></div>
     </section>
 
     <section class="metrics section" aria-label="OpenFin 요약 수치">
@@ -126,40 +106,6 @@
             <li>GitHub Pages 탐색기와 Cloudflare MCP가 같은 export를 읽도록 연결했습니다.</li>
           </ul>
         </article>
-      </div>
-    </section>
-
-    <section class="section graph-section" id="graph" aria-labelledby="graph-title">
-      <div class="section-heading">
-        <p class="eyebrow">Major Nodes</p>
-        <h2 id="graph-title">큰 노드 중심 그래프</h2>
-        <p>현재 통합 온톨로지의 상위 도메인입니다. 노드를 누르면 해당 export를 로드하고 탐색기로 이동합니다.</p>
-      </div>
-      <div class="major-map">
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line class="soft" x1="50" y1="50" x2="50" y2="11" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="71" y2="17" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="87" y2="39" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="84" y2="66" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="64" y2="87" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="36" y2="87" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="16" y2="66" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="13" y2="39" vector-effect="non-scaling-stroke"/>
-          <line x1="50" y1="50" x2="29" y2="17" vector-effect="non-scaling-stroke"/>
-        </svg>
-        <button class="map-node manifest" data-domain="all">
-          <strong>Finance Manifest</strong>
-          <span data-version-short>KR-FINANCE-ONTOLOGY</span>
-        </button>
-        <button class="map-node tax" data-domain="tax"><strong>세금·공제</strong><span data-domain-count="tax">로딩 중</span></button>
-        <button class="map-node local" data-domain="local-government-supports"><strong>지자체 지원금</strong><span data-domain-count="local-government-supports">로딩 중</span></button>
-        <button class="map-node card" data-domain="card-products"><strong>카드 상품</strong><span data-domain-count="card-products">로딩 중</span></button>
-        <button class="map-node deposit" data-domain="deposit-products"><strong>정기예금 상품</strong><span data-domain-count="deposit-products">로딩 중</span></button>
-        <button class="map-node saving" data-domain="saving-products"><strong>적금 상품</strong><span data-domain-count="saving-products">로딩 중</span></button>
-        <button class="map-node loan" data-domain="loan-products"><strong>대출 상품</strong><span data-domain-count="loan-products">로딩 중</span></button>
-        <button class="map-node insurance" data-domain="insurance-products"><strong>보험 상품</strong><span data-domain-count="insurance-products">로딩 중</span></button>
-        <button class="map-node reference" data-domain="finance-reference"><strong>금융 기준정보</strong><span data-domain-count="finance-reference">로딩 중</span></button>
-        <a class="map-node mcp" href="#mcp"><strong>MCP</strong><span>search · fetch · compare · recommend</span></a>
       </div>
     </section>
 
@@ -283,35 +229,14 @@
       </div>
     </section>
 
-    <section class="section explorer-shell" id="explorer" aria-labelledby="explorer-title">
-      <div class="section-heading row-heading">
+    <section class="section explorer-cta" aria-labelledby="explorer-cta-title">
+      <div class="explorer-cta-card">
         <div>
           <p class="eyebrow">Explorer</p>
-          <h2 id="explorer-title">온톨로지 탐색기</h2>
-          <p>도메인을 선택하면 해당 JSON을 브라우저에서 로드합니다. 전체 로드는 1만 개 이상이므로 필요할 때만 실행합니다.</p>
+          <h2 id="explorer-cta-title">데이터 직접 조회</h2>
+          <p>세금·지원금·카드·예금·적금·대출·보험·기준정보 노드를 검색하고, 기준·출처·상품 메타데이터·연결 노드를 별도 화면에서 직접 조회합니다.</p>
         </div>
-        <div class="load-actions">
-          <button class="button secondary" type="button" data-load-all>전체 인덱스 로딩</button>
-        </div>
-      </div>
-      <div class="explorer-toolbar">
-        <label class="search-field">
-          <span class="visually-hidden">검색어</span>
-          <input type="search" data-search placeholder="검색어를 입력하세요. 예: 청년, 전월실적, 신용대출, 보험료">
-        </label>
-        <select data-type-filter aria-label="타입 필터">
-          <option value="">모든 타입</option>
-        </select>
-      </div>
-      <div class="domain-tabs" data-domain-tabs></div>
-      <div class="explorer-grid">
-        <aside class="result-list" aria-label="검색 결과">
-          <div class="result-summary" data-result-summary>도메인을 선택해 데이터를 로드하세요.</div>
-          <div data-results></div>
-        </aside>
-        <article class="detail-panel" data-detail-panel>
-          <p class="empty-state">왼쪽 결과를 선택하면 기준, 출처, 상품 메타데이터, 연결 노드를 확인할 수 있습니다.</p>
-        </article>
+        <a class="button primary" href="./explorer.html">탐색기 열기 →</a>
       </div>
     </section>
   </main>
@@ -324,5 +249,6 @@
   </footer>
 
   <script src="./app.js"></script>
+  <script src="./galaxy.js"></script>
 </body>
 </html>

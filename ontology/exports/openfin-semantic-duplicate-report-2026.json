@@ -3,9 +3,9 @@
   "basis_date": "2026-07-10",
   "live_status": "executed",
   "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-22T02:57:35+00:00",
-  "runtime_version": "openfin-mcp-2026.07.18.1",
-  "deployment_commit": "unknown",
+  "live_tested_at": "2026-07-22T03:12:56+00:00",
+  "runtime_version": "openfin-mcp-2026.07.22.1",
+  "deployment_commit": "40215ba9c",
   "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "live_case_count": 47,
   "live_passed_count": 47,
@@ -20,5 +20,5 @@
   "duplicate_candidate_response_count": 0,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "7edb8a2d988be3452001b1bcb7e87cd2417219da592191764d97d66f380cf957"
+  "export_checksum": "6d651d8125c5200ed9052e451003e4b63d734fe2dcd91e71185ab1d06a9db448"
 }

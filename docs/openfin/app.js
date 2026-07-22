@@ -89,11 +89,22 @@ async function init() {
     renderExportCards();
     renderDomainTabs();
 
+    const params = new URLSearchParams(window.location.search);
+    const paramDomain = params.get("domain");
+    const paramQuery = params.get("q");
     const hashId = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+    const hasExplorer = Boolean(document.querySelector("[data-results]"));
+
+    if (paramQuery) {
+      const searchInput = document.querySelector("[data-search]");
+      if (searchInput) searchInput.value = paramQuery;
+    }
     if (hashId) {
       await loadAllDomains();
       selectItem(hashId, { updateHash: false });
-    } else {
+    } else if (paramDomain && findExport(paramDomain)) {
+      await loadDomain(paramDomain);
+    } else if (hasExplorer) {
       await loadDomain("tax");
     }
   } catch (error) {
@@ -180,18 +191,11 @@ function renderExportCards() {
           <p>${escapeHtml(entry.description || meta.summary)}</p>
           <p>${formatNumber(entry.product_count || 0)} product nodes · 수집일 ${escapeHtml(collectionDates || "미기록")} · ${escapeHtml(filename)}</p>
           ${quality ? `<p>${escapeHtml(quality)}</p>` : ""}
-          <button type="button" data-load-domain="${escapeHtml(entry.domain)}">탐색기에 로드</button>
+          <a class="export-open" href="explorer.html?domain=${escapeAttribute(entry.domain)}">탐색기에서 열기 →</a>
         </article>
       `;
     })
     .join("");
-
-  grid.querySelectorAll("[data-load-domain]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      await loadDomain(button.dataset.loadDomain);
-      document.querySelector("#explorer")?.scrollIntoView({ block: "start" });
-    });
-  });
 }
 
 function financeCollectionLabel(manifest) {

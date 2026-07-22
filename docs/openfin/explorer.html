@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenFin Explorer | 데이터 직접 조회</title>
+  <meta name="description" content="세금·지원금·카드·은행·보험 금융 온톨로지를 직접 검색하고 기준·출처·상품 메타데이터를 조회하는 OpenFin 탐색기">
+  <meta name="theme-color" content="#05080d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8Z' fill='%2305080d' stroke='%2373f0c1' stroke-width='2'/%3E%3Cpath d='M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5' fill='none' stroke='%2373f0c1' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="explorer-page">
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="OpenFin 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path d="M16 3.5 27 9.8v12.4l-11 6.3-11-6.3V9.8L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M9.5 17.5 16 21l6.5-3.5M9.5 13.5 16 17l6.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>OpenFin</span>
+    </a>
+    <nav class="top-nav" aria-label="주요 섹션">
+      <a href="./index.html#top">Universe</a>
+      <a href="./index.html#exports">Exports</a>
+      <a href="./index.html#mcp">MCP</a>
+    </nav>
+    <div class="header-actions">
+      <a href="./index.html">← 유니버스</a>
+    </div>
+  </header>
+
+  <main class="explorer-main">
+    <section class="explorer-head section">
+      <p class="eyebrow">Explorer</p>
+      <h1>데이터 직접 조회</h1>
+      <p class="explorer-sub">
+        통합 금융 온톨로지를 브라우저에서 직접 검색합니다.
+        도메인을 선택하면 해당 JSON을 로드하고, 항목을 누르면 기준·출처·상품 메타데이터·연결 노드를 확인할 수 있습니다.
+      </p>
+      <dl class="explorer-meta">
+        <div><dt>version</dt><dd data-version>로딩 중</dd></div>
+        <div><dt>basis date</dt><dd data-basis-date>로딩 중</dd></div>
+        <div><dt>total items</dt><dd data-total-items-plain>로딩 중</dd></div>
+      </dl>
+    </section>
+
+    <section class="section explorer-shell">
+      <div class="explorer-toolbar">
+        <label class="search-field">
+          <span class="visually-hidden">검색어</span>
+          <input type="search" data-search placeholder="검색어를 입력하세요. 예: 청년, 전월실적, 신용대출, 보험료">
+        </label>
+        <select data-type-filter aria-label="타입 필터">
+          <option value="">모든 타입</option>
+        </select>
+        <button class="button secondary" type="button" data-load-all>전체 인덱스 로딩</button>
+      </div>
+      <div class="domain-tabs" data-domain-tabs></div>
+      <div class="explorer-grid">
+        <aside class="result-list" aria-label="검색 결과">
+          <div class="result-summary" data-result-summary>도메인을 선택해 데이터를 로드하세요.</div>
+          <div data-results></div>
+        </aside>
+        <article class="detail-panel" data-detail-panel>
+          <p class="empty-state">왼쪽 결과를 선택하면 기준, 출처, 상품 메타데이터, 연결 노드를 확인할 수 있습니다.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2026 TaxMeter</span>
+    <a href="./index.html">OpenFin Universe</a>
+    <a href="https://github.com/jhny-kor/TaxMeter" rel="noreferrer" target="_blank">GitHub</a>
+    <a href="https://finance-mcp.y2kthr.workers.dev/health" rel="noreferrer" target="_blank">MCP Health</a>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
