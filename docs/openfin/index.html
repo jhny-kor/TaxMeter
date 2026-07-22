@@ -87,24 +87,29 @@
         <h2 id="why-title">OpenFin의 운영 목적</h2>
         <p>
           OpenFin은 금융·세금 데이터를 보여주는 소개 페이지가 아니라, 앱과 AI가 같은 기준을
-          읽도록 만드는 운영용 온톨로지 표면입니다.
+          읽도록 만드는 온톨로지 표면입니다.
         </p>
       </div>
       <div class="comparison-grid">
         <article>
           <h3>기존 금융 정보의 문제</h3>
           <ul>
-            <li>세금, 복지, 카드 혜택, 은행 금리, 보험 조건이 서로 다른 기관과 파일에 흩어져 있습니다.</li>
-            <li>상품명, 우대조건, 한도, 기준일은 자주 바뀌므로 앱과 AI가 같은 기준을 읽어야 합니다.</li>
-            <li>원문 출처와 수집일이 빠지면 금융·세무 답변의 검증 가능성이 떨어집니다.</li>
+            <li>세금·복지·카드·은행·보험 정보가 기관·파일별로 흩어집니다.</li>
+            <li>상품명·우대조건·한도·기준일이 바뀌어 공통 기준이 필요합니다.</li>
+            <li>원문 출처·수집일이 없으면 답변을 검증하기 어렵습니다.</li>
           </ul>
         </article>
+        <div class="comparison-arrow" aria-hidden="true">
+          <svg viewBox="0 0 48 24" role="img" focusable="false">
+            <path d="M2 12h40M32 3l10 9-10 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <article>
           <h3>OpenFin에 반영한 방식</h3>
           <ul>
-            <li>manifest와 샤드 인덱스를 묶고 도메인별 item_count와 product_count를 첫 화면에 노출합니다.</li>
-            <li>각 노드는 ID, 타입, 설명, provider, criteria, source_urls, 이웃 노드를 유지합니다.</li>
-            <li>GitHub Pages 탐색기와 Cloudflare MCP가 같은 export를 읽도록 연결했습니다.</li>
+            <li>manifest·샤드 인덱스로 도메인별 항목·상품 수를 노출합니다.</li>
+            <li>각 노드에 ID·타입·설명·조건·출처·이웃 노드를 보존합니다.</li>
+            <li>Pages 탐색기와 Cloudflare MCP가 같은 export를 읽습니다.</li>
           </ul>
         </article>
       </div>
@@ -129,7 +134,7 @@
         <p class="eyebrow">ChatGPT Connector</p>
         <h2 id="mcp-title">ChatGPT에 OpenFin MCP 연결하기</h2>
         <p>
-          OpenFin MCP는 읽기 전용 서버입니다. ChatGPT의 Connectors에서 아래 MCP URL을 추가하면
+          OpenFin MCP는 읽기 전용 서버입니다. ChatGPT의 Plugins에서 아래 MCP URL을 추가하면
           세금, 지원금, 카드, 은행, 보험 온톨로지를 ChatGPT 대화 안에서 검색하고,
           조건에 맞는 비교·추천 후보와 다음 행동을 확인할 수 있습니다.
         </p>
@@ -149,11 +154,11 @@
         <ol class="connector-steps">
           <li>
             <strong>ChatGPT 설정 열기</strong>
-            <span>Settings → Connectors → Advanced에서 Developer mode를 켭니다.</span>
+            <span>Settings → Plugins → Advanced에서 Developer mode를 켭니다.</span>
           </li>
           <li>
             <strong>원격 MCP 서버 추가</strong>
-            <span>Connectors 탭에서 새 MCP 서버를 추가하고 위 URL을 입력합니다.</span>
+            <span>Plugins 탭에서 새 MCP 서버를 추가하고 위 URL을 입력합니다.</span>
           </li>
           <li>
             <strong>대화에서 커넥터 선택</strong>
@@ -234,8 +239,8 @@
       <div class="explorer-cta-card">
         <div>
           <p class="eyebrow">Explorer</p>
-          <h2 id="explorer-cta-title">데이터 직접 조회</h2>
-          <p>세금·지원금·카드·예금·적금·대출·보험·기준정보 노드를 검색하고, 기준·출처·상품 메타데이터·연결 노드를 별도 화면에서 직접 조회합니다.</p>
+          <h2 id="explorer-cta-title">정보 검색</h2>
+          <p>세금·지원금·카드·예금·적금·대출·보험·기준정보 노드를 검색하고, 기준·출처·상품 메타데이터·연결 노드를 별도 화면에서 조회합니다.</p>
         </div>
         <a class="button primary" href="./explorer.html">탐색기 열기 →</a>
       </div>

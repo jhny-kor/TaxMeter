@@ -179,7 +179,6 @@ function renderExportCards() {
       const meta = domainMeta(entry.domain);
       const filename = fileNameFromEntry(entry);
       const collectionDates = collectionDatesForEntry(entry);
-      const quality = qualityLine(entry.quality_summary);
       return `
         <article class="export-card ${meta.className}">
           <span class="domain-chip">${escapeHtml(meta.label)}</span>
@@ -190,7 +189,6 @@ function renderExportCards() {
           </div>
           <p>${escapeHtml(entry.description || meta.summary)}</p>
           <p>${formatNumber(entry.product_count || 0)} product nodes · 수집일 ${escapeHtml(collectionDates || "미기록")} · ${escapeHtml(filename)}</p>
-          ${quality ? `<p>${escapeHtml(quality)}</p>` : ""}
           <a class="export-open" href="explorer.html?domain=${escapeAttribute(entry.domain)}">탐색기에서 열기 →</a>
         </article>
       `;
@@ -662,33 +660,19 @@ function scoreItem(item, query) {
 function renderOperationalSummary() {
   const container = document.querySelector("[data-operational-summary]");
   if (!container) return;
-  const risks = state.manifest.source_access_risks || [];
   const apiRequired = state.manifest.api_required_sources || [];
   const webCandidates = state.manifest.public_web_collection_candidates || [];
   const financeExports = (state.manifest.exports || []).filter((entry) => entry.domain.endsWith("products"));
-  const activeInsuranceGap = state.manifest.quality_summary?.finance_exports?.insurance?.active_insurance_without_criteria ?? 0;
-  const cardConditionGap = state.manifest.quality_summary?.finance_exports?.card?.card_benefits_with_incomplete_conditions ?? 0;
-  const insuranceConditionGap = state.manifest.quality_summary?.finance_exports?.insurance?.insurance_coverages_with_incomplete_conditions ?? 0;
-  const recommendationEnabled = state.manifest.recommendation_enabled === true;
-  const comparisonReadyDomains = financeExports
-    .filter((entry) => entry.quality_summary?.readiness?.comparison_data === "ready")
-    .map((entry) => domainMeta(entry.domain).label);
-  const riskLines = risks.slice(0, 5).map((risk) => `${risk.source_id}: ${risk.status}`).join(" · ");
   const apiLines = apiRequired.slice(0, 4).map((source) => `${source.source_id}: ${source.required_secret}`).join(" · ");
   const webLines = webCandidates.slice(0, 3).map((source) => `${source.source_id}: ${source.collection_mode}`).join(" · ");
   const qualityLines = financeExports
-    .map((entry) => `${domainMeta(entry.domain).label} ${qualityLine(entry.quality_summary)}`)
+    .map((entry) => {
+      const summary = qualityLine(entry.quality_summary);
+      return summary ? `<span>${escapeHtml(domainMeta(entry.domain).label)} ${escapeHtml(summary)}</span>` : "";
+    })
     .filter((line) => line.trim())
-    .join(" · ");
+    .join("");
   container.innerHTML = `
-    <article>
-      <h3>상태 게이트</h3>
-      <p>active 보험상품 criteria 빈 값 ${formatNumber(activeInsuranceGap)}건. 카드 혜택 조건 미수집 ${formatNumber(cardConditionGap)}건, 보험 보장 조건 미수집 ${formatNumber(insuranceConditionGap)}건은 상세 필드에 incomplete로 표시합니다.</p>
-    </article>
-    <article>
-      <h3>출처 접근 리스크</h3>
-      <p>${escapeHtml(riskLines || "현재 manifest에 기록된 출처 접근 리스크가 없습니다.")}</p>
-    </article>
     <article>
       <h3>API 필요</h3>
       <p>${escapeHtml(apiLines || "추가 API 키가 필요한 출처가 없습니다.")}</p>
@@ -696,12 +680,7 @@ function renderOperationalSummary() {
     </article>
     <article>
       <h3>품질 요약</h3>
-      <p>${escapeHtml(qualityLines || "품질 요약 로딩 전입니다.")}</p>
-    </article>
-    <article>
-      <h3>추천·비교 게이트</h3>
-      <p>공개 추천: <strong>${recommendationEnabled ? "활성" : "안전 차단"}</strong>. 검증 증거와 필수 필드가 없는 상품은 추천 후보에서 제외합니다.</p>
-      <p>비교 데이터 준비: ${escapeHtml(comparisonReadyDomains.join(" · ") || "준비된 도메인 없음")}</p>
+      <p class="quality-summary-list">${qualityLines || "품질 요약 로딩 전입니다."}</p>
     </article>
   `;
 }
