@@ -248,7 +248,7 @@ def detail_page_url(detail: dict[str, Any]) -> str:
 
 def support_status_fields(deadline_text: str, application_open_to: str | None, reviewed_at: str) -> dict[str, Any]:
     compact_deadline = deadline_text.replace(" ", "")
-    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
+    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음", "별도의신청절차가없음", "신청절차가없음")):
         return {
             "status": "active",
             "application_status": "not_required",
@@ -277,6 +277,20 @@ def support_status_fields(deadline_text: str, application_open_to: str | None, r
             "status_confidence": "derived",
         }
     unknown_reason = classify_deadline(deadline_text)
+    non_actionable_statuses = {
+        "budget_exhaustion", "announcement_based", "agency_contact_required",
+        "schedule_pending", "recurring_monthly", "recurring_quarterly",
+        "recurring_annual", "agency_schedule_varies", "source_schedule_ambiguous",
+    }
+    if unknown_reason in non_actionable_statuses:
+        return {
+            "status": "unknown",
+            "application_status": unknown_reason,
+            "application_status_reason": unknown_reason,
+            "status_reason": f"정부24 신청기한 원문이 {unknown_reason} 형식이므로 현재 신청 가능 여부를 추정하지 않습니다.",
+            "status_confidence": "unverified",
+            "unknown_reason": unknown_reason,
+        }
     return {
         "status": "unknown",
         "application_status": "unknown",

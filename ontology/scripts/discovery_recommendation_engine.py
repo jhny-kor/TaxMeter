@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from recommendation_intent_parser import parse_query
+from recommendation_intent_parser import compact_product_text, parse_query, PROVIDER_ALIASES
 from recommendation_policy import DISCOVERY_ENABLED_DOMAINS, DISCOVERY_ENGINE_VERSION, FIELD_EXTRACTOR_VERSION
 
 
@@ -54,6 +54,11 @@ def text(item: dict[str, Any]) -> str:
     return " ".join(str(value or "") for value in (item.get("title"), item.get("description"), item.get("product_kind"), item.get("search_text"), *(item.get("search_aliases") or []))).casefold()
 
 
+def provider_matches(item_provider: Any, expected: str) -> bool:
+    candidate = compact_product_text(str(item_provider or ""))
+    return any(compact_product_text(alias) in candidate for alias in PROVIDER_ALIASES.get(expected, (expected,)))
+
+
 def current_listed(item: dict[str, Any]) -> bool:
     return item.get("status") == "active" and item.get("product_status") == "active" and item.get("source_listing_status") == "listed" and item.get("source_freshness_status") != "stale" and bool(item.get("source_urls"))
 
@@ -86,6 +91,14 @@ def constraint_state(item: dict[str, Any], constraint: dict[str, Any]) -> str:
         if kind == expected or (expected == "rent-loan" and kind == "policy-loan" and "전세" in text(item)):
             return "matched"
         return "failed"
+    if field == "provider":
+        return "matched" if provider_matches(item.get("provider"), str(expected)) else "failed"
+    if field == "product_name_tokens":
+        candidate_text = compact_product_text(text(item))
+        expected_tokens = [compact_product_text(str(token)) for token in expected if compact_product_text(str(token))]
+        if not expected_tokens:
+            return "unknown"
+        return "matched" if all(token in candidate_text for token in expected_tokens) else "failed"
     if field == "employment_type":
         candidate_text = text(item)
         return "matched" if any(token in candidate_text for token in ("직장인", "재직자", "근로소득자")) else "unknown"
@@ -137,10 +150,15 @@ def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[st
     states = {str(constraint["field"]): constraint_state(item, constraint) for constraint in parsed["hard_constraints"]}
     preference_states = {preference: benefit_state(item, preference) for preference in parsed["soft_preferences"]}
     failed = [field for field, state in states.items() if state == "failed"]
+    if parsed.get("domain") == "insurance" and not parsed.get("product_kind") and item.get("product_kind") == "other-protection":
+        failed.append("product_kind")
     unknown = [field for field, state in {**states, **preference_states}.items() if state == "unknown"]
     matched = [field for field, state in {**states, **preference_states}.items() if state == "matched"]
     if failed:
-        eligibility = "related_candidate" if "product_kind" in failed else "excluded"
+        # A named product/provider mismatch is related context, never an
+        # exact candidate.  Hard factual filters (spend, term, amount, ...)
+        # remain exclusions.
+        eligibility = "related_candidate" if {"product_kind", "provider", "product_name_tokens"}.intersection(failed) else "excluded"
     elif unknown:
         eligibility = "partial_candidate"
     else:
@@ -151,14 +169,17 @@ def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[st
     overall = max(relevance, data_grade, verification)
     if item.get("sales_verification_status") == "listed_unverified" or not item.get("domain_gate_passed") or float(item.get("verified_completeness_ratio") or 0) == 0:
         overall = max(overall, "C")
-    payload = {"mode": "discovery", "eligibility": eligibility, "decision_scope": "discovery_only", "score": len(matched) * 10 + round(float(item.get("normalized_completeness_ratio") or 0) * 10), "relevance_grade": relevance, "data_completeness_grade": data_grade, "verification_grade": verification, "overall_candidate_grade": overall, "matched_constraints": matched, "unknown_constraints": unknown, "failed_constraints": failed, "decision_reasons": [decision_reason(item, field) for field in matched], "limitations": item.get("discovery_limitations") or ["sales_status_unverified"]}
+    name_match = int("product_name_tokens" in matched)
+    provider_match = int("provider" in matched)
+    score = len(matched) * 10 + name_match * 40 + provider_match * 25 + round(float(item.get("normalized_completeness_ratio") or 0) * 10)
+    payload = {"mode": "discovery", "eligibility": eligibility, "decision_scope": "discovery_only", "score": score, "relevance_grade": relevance, "data_completeness_grade": data_grade, "verification_grade": verification, "overall_candidate_grade": overall, "matched_constraints": matched, "unknown_constraints": unknown, "failed_constraints": failed, "decision_reasons": [decision_reason(item, field) for field in matched], "limitations": item.get("discovery_limitations") or ["sales_status_unverified"]}
     if eligibility == "excluded":
         payload["reason"] = "hard_constraint_failed"
     return eligibility, payload
 
 
 def candidate(item: dict[str, Any], decision_data: dict[str, Any]) -> dict[str, Any]:
-    return {"canonical_product_id": item.get("canonical_product_id") or item.get("id"), "id": item.get("id"), "title": item.get("title"), "provider": item.get("provider"), "product_kind": item.get("product_kind"), "catalog_recommendation_status": item.get("catalog_recommendation_status") or item.get("recommendation_status"), "catalog_recommendation_scope": item.get("catalog_recommendation_scope") or item.get("recommendation_scope"), "relevance_grade": decision_data["relevance_grade"], "data_completeness_grade": decision_data["data_completeness_grade"], "verification_grade": decision_data["verification_grade"], "overall_candidate_grade": decision_data["overall_candidate_grade"], "matched_constraints": decision_data["matched_constraints"], "unknown_constraints": decision_data["unknown_constraints"], "failed_constraints": decision_data["failed_constraints"], "why_included": decision_data["decision_reasons"], "limitations": decision_data["limitations"], "source_urls": item.get("source_urls") or [], "source_basis_dates": item.get("source_basis_dates") or [], "decision": decision_data}
+    return {"canonical_product_id": item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id"), "id": item.get("id"), "title": item.get("title"), "provider": item.get("provider"), "product_kind": item.get("product_kind"), "catalog_recommendation_status": item.get("catalog_recommendation_status") or item.get("recommendation_status"), "catalog_recommendation_scope": item.get("catalog_recommendation_scope") or item.get("recommendation_scope"), "relevance_grade": decision_data["relevance_grade"], "data_completeness_grade": decision_data["data_completeness_grade"], "verification_grade": decision_data["verification_grade"], "overall_candidate_grade": decision_data["overall_candidate_grade"], "matched_constraints": decision_data["matched_constraints"], "unknown_constraints": decision_data["unknown_constraints"], "failed_constraints": decision_data["failed_constraints"], "why_included": decision_data["decision_reasons"], "limitations": decision_data["limitations"], "source_urls": item.get("source_urls") or [], "source_basis_dates": item.get("source_basis_dates") or [], "decision": decision_data}
 
 
 def discover(query: str, items: list[dict[str, Any]], limit: int = 10) -> dict[str, Any]:

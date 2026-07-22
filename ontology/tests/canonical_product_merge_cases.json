@@ -113,5 +113,23 @@
       "finance.canonical.0010509.240019.credit-loan",
       "finance.canonical.0010509.240019.mortgage-loan"
     ]
+  },
+  {
+    "name": "BC gdsno 101681 keeps one canonical",
+    "items": [
+      {"id": "finance.card.bc-101681", "type": "card-product", "provider": "BC바로카드", "product_kind": "check-card", "title": "BC바로카드 페이북 머니 체크카드", "external_product_ids": [{"namespace":"bc_card_gdsno","value":"101681"}], "source_urls": ["https://official.example/bc/101681"]},
+      {"id": "finance.card.bc-legacy-101681", "type": "card-product", "provider": "비씨카드", "product_kind": "check-card", "title": "비씨카드 페이북머니(체크)", "external_product_ids": [{"namespace":"bc_card_gdsno","value":"101681"}], "source_urls": ["https://disclosure.example/bc/101681"]}
+    ],
+    "expected_canonical_product_id": "finance.canonical.비씨카드.check-card",
+    "expected_source_record_count": 2
+  },
+  {
+    "name": "Samsung ABP1689 keeps one canonical",
+    "items": [
+      {"id": "finance.card.samsung-abp1689", "type": "card-product", "provider": "삼성카드", "product_kind": "check-card", "title": "삼성카드 국민행복 삼성체크카드 V2", "code": "ABP1689", "source_urls": ["https://official.example/samsung/ABP1689"]},
+      {"id": "finance.card.samsung-legacy-abp1689", "type": "card-product", "provider": "삼성카드", "product_kind": "check-card", "title": "삼성카드 국민행복 삼성체크카드v2", "code": "ABP1689", "source_urls": ["https://disclosure.example/samsung/ABP1689"]}
+    ],
+    "expected_canonical_product_id": "finance.canonical.삼성카드.check-card",
+    "expected_source_record_count": 2
   }
 ]

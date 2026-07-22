@@ -1,11 +1,14 @@
 {
   "version": "openfin-verification-coverage-report-2026.07.18.1",
   "basis_date": "2026-07-10",
+  "live_status": "not_executed",
+  "live_not_executed_reason": "배포 URL smoke test가 아직 실행되지 않았습니다.",
   "live_tested_at": null,
   "runtime_version": null,
   "deployment_commit": null,
   "manifest_version": null,
   "live_case_count": 0,
+  "live_passed_count": 0,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "verification-coverage",
@@ -26,8 +29,8 @@
     },
     {
       "domain": "card-products",
-      "verified_sales_product_count": 20,
-      "verification_evidence_product_count": 20,
+      "verified_sales_product_count": 11,
+      "verification_evidence_product_count": 11,
       "readiness": {
         "discovery": "ready",
         "comparison_engine": "ready",
@@ -35,8 +38,8 @@
         "public_recommendation": "blocked"
       },
       "blockers": {
-        "verified_sales_product_count": 20,
-        "verification_evidence_product_count": 20
+        "verified_sales_product_count": 11,
+        "verification_evidence_product_count": 11
       }
     },
     {
@@ -115,5 +118,5 @@
       }
     }
   ],
-  "export_checksum": "9d06e4d81ced8327dbfd894c474a9ed230dea4c65a59555bb0a042f3ddd1e6a4"
+  "export_checksum": "0acf07fca56850497210afaceafba5606b793fa3b50040dba4f46033f3350896"
 }

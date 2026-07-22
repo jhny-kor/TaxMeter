@@ -77,6 +77,27 @@ def parse_pdf(text: str) -> dict[str, Any]:
         fields["payment_term"] = " / ".join(payment_terms)
     if exclusions:
         fields["exclusion_condition"] = exclusions[0]
+    coverage_amount = re.search(r"(?:보험가입금액|가입금액|보장금액|보험금액)[^\d]{0,30}([\d,]+)\s*(만원|억원|원)", text)
+    if coverage_amount:
+        amount = int(coverage_amount.group(1).replace(",", ""))
+        fields["coverage_amount_krw"] = amount * {"만원": 10_000, "억원": 100_000_000, "원": 1}[coverage_amount.group(2)]
+    claim = re.search(r"(?:보험금 지급사유|보험금 지급조건|지급사유|보장내용)[\s:：-]{0,20}([^\n]{10,240})", text)
+    if claim:
+        fields["claim_condition"] = re.sub(r"\s+", " ", claim.group(1)).strip()
+    premium = re.search(r"(?:보험료 산출기초|보험료 납입|보험료)[\s:：-]{0,20}([^\n]{10,240})", text)
+    if premium:
+        fields["premium_basis"] = re.sub(r"\s+", " ", premium.group(1)).strip()
+    if "갱신형" in text:
+        fields["renewal_type"] = "renewable"
+    elif "비갱신형" in text or "갱신되지" in text:
+        fields["renewal_type"] = "non_renewable"
+    coverage_lines = []
+    for line in re.split(r"\n+", text):
+        compact = re.sub(r"\s+", " ", line).strip()
+        if 4 <= len(compact) <= 100 and any(token in compact for token in ("사망", "진단", "수술", "입원", "장해", "치료")):
+            coverage_lines.append(compact)
+    if coverage_lines:
+        fields["coverage_names"] = unique(coverage_lines[:12])
     refund = re.search(r"해약환급금\s*(미지급|일부지급|보증|미보증)[^\n]{0,20}", text)
     if refund:
         fields["surrender_refund_type"] = refund.group(0).strip()

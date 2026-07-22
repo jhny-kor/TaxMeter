@@ -8,7 +8,7 @@
   "canonical_product_count": 3430,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
+  "export_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -17,7 +17,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
       "item_count": 7739,
-      "export_checksum": "0fd9c4c0b3c0117b4634588a8ff63fee54ec2da393cbe576ee81a6dd63332421"
+      "export_checksum": "a11972732de20dcfdbc0342db4f8b9660548695e16008ae89a854bf700d55913"
     },
     {
       "id": "finance-search-index-deposit-protection",
@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
       "item_count": 1363,
-      "export_checksum": "abe752adbe0c98a47bc90200c093ad93b6b90c476a4c711f40789577371705ab"
+      "export_checksum": "8a7e0fdbcab278b20a920fcdf2f1fa2de0ddc665c0c782ffa69a0ed638de757e"
     },
     {
       "id": "finance-search-index-card-products",
@@ -44,7 +44,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
       "item_count": 1007,
-      "export_checksum": "69c24c76855aa245cfe02e41701bc865467dc56593a57ed9c02abce36181ead1"
+      "export_checksum": "6325fdd1ee0bdab0c381ecfa7f53d270d2c5f68f7f238c79ef2937bc7d279600"
     },
     {
       "id": "finance-search-index-insurance-products",

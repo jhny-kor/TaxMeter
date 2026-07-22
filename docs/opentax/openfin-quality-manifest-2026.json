@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-18T13:15:52Z",
+  "built_at": "2026-07-22T01:31:25Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -21,32 +21,34 @@
       "quality_summary": {
         "status_review_date": "2026-07-14",
         "status_counts": {
-          "active": 5281,
+          "active": 5296,
           "closed": 436,
-          "unknown": 2001
+          "unknown": 1986
         },
         "application_status_counts": {
-          "always_open": 4960,
-          "closed": 436,
-          "not_required": 114,
-          "open": 207,
-          "unknown": 2001
-        },
-        "expired_active_local_supports": 0,
-        "unknown_status_local_supports": 2001,
-        "unknown_reason_counts": {
           "agency_contact_required": 30,
-          "always_open": 33,
+          "agency_schedule_varies": 416,
+          "always_open": 4960,
           "announcement_based": 81,
           "budget_exhaustion": 65,
-          "conditional_reopen_after_deadline": 1,
+          "closed": 436,
+          "not_required": 129,
+          "open": 207,
+          "recurring_annual": 759,
           "recurring_monthly": 30,
           "recurring_quarterly": 18,
           "schedule_pending": 8,
-          "unsupported_date_format": 1735
+          "source_schedule_ambiguous": 545,
+          "unknown": 34
+        },
+        "expired_active_local_supports": 0,
+        "unknown_status_local_supports": 1986,
+        "unknown_reason_counts": {
+          "always_open": 33,
+          "conditional_reopen_after_deadline": 1
         },
         "preserved_snapshot_local_supports": 0,
-        "currently_applicable_local_supports": 5281,
+        "currently_applicable_local_supports": 5296,
         "eligible_for_listing": 5167,
         "recommendation_reference_only": 2551,
         "source_refresh_missing_regions": [],
@@ -54,7 +56,7 @@
         "current_refresh_complete": true,
         "preserved_from_previous_snapshot_count": 0
       },
-      "export_checksum": "2f3134e6a58733c8caa836b45ade5e041862a3b37cb0123a26f82c366217bfa0"
+      "export_checksum": "f8ff34a80adcbb34fbf3ba6f944feda74021bd6a83e22db0c6740117dbdd89ee"
     },
     {
       "id": "card-products-ontology",
@@ -63,6 +65,10 @@
       "product_count": 1007,
       "quality_summary": {
         "product_count": 1007,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.9955,
+        "verified_pilot_threshold": 0.7,
         "status_counts": {
           "active": 652,
           "unknown": 355
@@ -79,15 +85,15 @@
         "active_insurance_without_criteria": 0,
         "stale_disclosure_products": 0,
         "reference_only_products": 981,
-        "manual_review_candidate_products": 20,
+        "manual_review_candidate_products": 11,
         "verified_recommendation_candidate_products": 0,
         "discovery_candidate_products": 652,
         "comparison_candidate_products": 0,
         "public_recommendation_candidate_products": 0,
         "recommendation_listing_only_products": 1007,
         "recommendation_status_counts": {
-          "eligible_for_listing": 6,
-          "manual_review_candidate": 20,
+          "eligible_for_listing": 15,
+          "manual_review_candidate": 11,
           "reference_only": 981
         },
         "recommendation_scope_counts": {
@@ -95,38 +101,38 @@
         },
         "products_with_complete_comparison_fields": 0,
         "products_with_complete_recommendation_fields": 0,
-        "products_with_verified_sales_status": 20,
-        "products_with_verification_evidence": 20,
-        "average_completeness_ratio": 0.1811,
+        "products_with_verified_sales_status": 11,
+        "products_with_verification_evidence": 11,
+        "average_completeness_ratio": 0.1812,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
-          "annual_fee_krw": 975,
-          "benefit_amount_krw": 493,
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
           "benefit_categories": 695,
           "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 594,
+          "benefit_rate_percent": 593,
           "benefit_type": 355,
           "criteria_or_options": 355,
           "excluded_spend": 971,
           "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 959,
-          "per_transaction_limit_krw": 975,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
           "performance_excluded_spend": 971,
           "previous_month_spend_min_krw": 968
         },
         "absent_fields_by_field_name": {
-          "annual_fee_krw": 975,
-          "benefit_amount_krw": 493,
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
           "benefit_categories": 695,
           "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 594,
+          "benefit_rate_percent": 593,
           "benefit_type": 355,
           "criteria_or_options": 1007,
           "excluded_spend": 971,
           "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 959,
-          "per_transaction_limit_krw": 975,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
           "performance_excluded_spend": 971,
           "previous_month_spend_min_krw": 968
         },
@@ -146,32 +152,32 @@
           "previous_month_spend_min_krw": 0
         },
         "not_collected_fields_by_field_name": {
-          "annual_fee_krw": 975,
-          "benefit_amount_krw": 493,
+          "annual_fee_krw": 977,
+          "benefit_amount_krw": 492,
           "benefit_categories": 695,
           "benefit_frequency_limit": 968,
-          "benefit_rate_percent": 594,
+          "benefit_rate_percent": 593,
           "benefit_type": 355,
           "criteria_or_options": 0,
           "excluded_spend": 971,
           "minimum_payment_amount": 972,
-          "monthly_benefit_limit_krw": 959,
-          "per_transaction_limit_krw": 975,
+          "monthly_benefit_limit_krw": 958,
+          "per_transaction_limit_krw": 974,
           "performance_excluded_spend": 971,
           "previous_month_spend_min_krw": 968
         },
         "unverified_fields_by_field_name": {
-          "annual_fee_krw": 32,
-          "benefit_amount_krw": 514,
+          "annual_fee_krw": 30,
+          "benefit_amount_krw": 515,
           "benefit_categories": 312,
           "benefit_frequency_limit": 39,
-          "benefit_rate_percent": 413,
+          "benefit_rate_percent": 414,
           "benefit_type": 652,
           "criteria_or_options": 0,
           "excluded_spend": 36,
           "minimum_payment_amount": 35,
-          "monthly_benefit_limit_krw": 48,
-          "per_transaction_limit_krw": 32,
+          "monthly_benefit_limit_krw": 49,
+          "per_transaction_limit_krw": 33,
           "performance_excluded_spend": 36,
           "previous_month_spend_min_krw": 39
         },
@@ -216,8 +222,8 @@
           "public_recommendation": "blocked"
         },
         "blockers": {
-          "verified_sales_product_count": 20,
-          "verification_evidence_product_count": 20
+          "verified_sales_product_count": 11,
+          "verification_evidence_product_count": 11
         },
         "quality_gate": {
           "expired_active_local_supports": "validated in korea-local-government-supports export",
@@ -227,7 +233,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "9b3006a119aaebfe61ef6138f0e23bc5c3a8722b1f8d98239d3ce184c6635377"
+      "export_checksum": "5c9d853ca902da8fee8a2438ba5d0e2e43ae01eb1bb43b614ffe06402ee9f8f1"
     },
     {
       "id": "deposit-products-ontology",
@@ -236,6 +242,10 @@
       "product_count": 430,
       "quality_summary": {
         "product_count": 430,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 430
         },
@@ -384,7 +394,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "95d920ce015c3c2f30fbc0f3501f2f01703067df6d2f48607e58479fa660f307"
+      "export_checksum": "6243930cd1a548ff491d7df7cf1bf653231fd1923c40254de8326b5a92d9746d"
     },
     {
       "id": "saving-products-ontology",
@@ -393,6 +403,10 @@
       "product_count": 335,
       "quality_summary": {
         "product_count": 335,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 335
         },
@@ -542,7 +556,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ffe32f652c37e16981021f26cb8327ed2d36079f38e1314c9916cebea7fa52a7"
+      "export_checksum": "ea284025be6c5a7ec764b45d1bd1d6f7812f68a12a2a345b0b272c9c14785020"
     },
     {
       "id": "loan-products-ontology",
@@ -551,6 +565,10 @@
       "product_count": 598,
       "quality_summary": {
         "product_count": 598,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 1.0,
+        "verified_pilot_threshold": 0.5,
         "status_counts": {
           "active": 587,
           "unknown": 11
@@ -688,7 +706,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "90ca7814ae130f8dd12e3bcb61ffe201fc468468b696678255677efb05dcbd25"
+      "export_checksum": "a69667430594d1b7f89ddd244e3860cbfef0ca6a6bb9e1ce67e92d3c20f23715"
     },
     {
       "id": "insurance-products-ontology",
@@ -697,6 +715,10 @@
       "product_count": 1071,
       "quality_summary": {
         "product_count": 1071,
+        "verified_pilot_count": 20,
+        "verified_pilot_target": 20,
+        "verified_pilot_completeness_ratio": 0.835,
+        "verified_pilot_threshold": 0.6,
         "status_counts": {
           "active": 1071
         },
@@ -855,7 +877,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "dfd7b9850c2267b53102adcbd72e4fbbcb030888b6d828bcd700333daccd389b"
+      "export_checksum": "1ae12ceee7e82bc32914ee6840c81650601a54dbe54e9270278c0e8bbb7d062d"
     },
     {
       "id": "finance-reference-ontology",
@@ -864,6 +886,10 @@
       "product_count": 0,
       "quality_summary": {
         "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
         "status_counts": {},
         "active_products_without_criteria": 0,
         "active_products_without_conditions": 0,
@@ -921,14 +947,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "2ba4d28c59abf6af8a7bbc9829035c2b90b0a13a86216edcfbe16faa982c5195"
+      "export_checksum": "f680bd91b70386690ff42652fa1379bdeee742a25190a5fae874cd8ed4dbd617"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 20,
     "product_count": 0,
-    "export_checksum": "32787b5b9b21fa139911abf977d726198e577c3f00262c7ed890eaa73936bd3b",
+    "export_checksum": "f7ec05decef79a0647df5ec16c9c144489608bcb850c97dd6b2f9084aa3316ee",
     "quality_summary": {
       "test_count": 20,
       "passed_count": 20,
@@ -1078,7 +1104,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-18T13:15:52Z",
+    "built_at": "2026-07-22T01:31:25Z",
     "domain_export_count": 8,
     "search_index_item_count": 21251,
     "canonical_product_count": 3430,
@@ -1123,12 +1149,15 @@
       "unknown": 366
     },
     "runtime_discovery_eligible_count": 3075,
-    "exact_discovery_candidate_count": 287,
-    "partial_discovery_candidate_count": 190,
+    "exact_discovery_candidate_count": 266,
+    "partial_discovery_candidate_count": 150,
     "duplicate_canonical_product_count": 0,
     "canonical_merge_count": 11,
     "exact_id_duplicate_count": 0,
     "external_id_duplicate_count": 0,
+    "canonical_redirect_failure_count": 0,
+    "canonical_redirect_cycle_count": 0,
+    "legacy_fetch_success_rate": 1.0,
     "semantic_duplicate_candidate_count": 0,
     "confirmed_semantic_duplicate_count": 0,
     "unresolved_semantic_duplicate_count": 0,
@@ -1146,16 +1175,16 @@
     "empty_search_facets_count": 0,
     "unmapped_existing_field_count": 0,
     "sales_verification_status_counts": {
-      "listed_unverified": 3321,
-      "verified_active": 120
+      "listed_unverified": 3330,
+      "verified_active": 111
     },
     "verification_grade_counts": {
-      "A": 120,
-      "C": 3321
+      "A": 111,
+      "C": 3330
     },
     "relevance_grade_counts": {
-      "A": 287,
-      "B": 190,
+      "A": 266,
+      "B": 150,
       "D": 0
     },
     "exact_query_precision": 1.0,
@@ -1178,9 +1207,10 @@
     {
       "id": "openfin-verification-coverage-report",
       "path": "ontology/exports/openfin-verification-coverage-report-2026.json",
-      "export_checksum": "9d06e4d81ced8327dbfd894c474a9ed230dea4c65a59555bb0a042f3ddd1e6a4",
+      "export_checksum": "0acf07fca56850497210afaceafba5606b793fa3b50040dba4f46033f3350896",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "verification-coverage"
       }
@@ -1188,9 +1218,10 @@
     {
       "id": "openfin-semantic-duplicate-report",
       "path": "ontology/exports/openfin-semantic-duplicate-report-2026.json",
-      "export_checksum": "9d3030464cc8b83cf8b5f40e11700fd78084629610dfd1a32da082d05a570999",
+      "export_checksum": "a49db29298f7718fc05e7c45d8965bef4c1072f796b2227311cbf8922100a102",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
@@ -1206,9 +1237,10 @@
     {
       "id": "openfin-comparison-regression-report",
       "path": "ontology/exports/openfin-comparison-regression-report-2026.json",
-      "export_checksum": "1282dc4dcdc16665453e0d82fc921863d92d67115c4f829c60ea808595df594a",
+      "export_checksum": "feea1e4e7f0e4092facf9c0c829c2b4b64be6c6241d90ed0eb80473334ca0f9c",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "comparison-regression",
         "failed_count": 0,
@@ -1218,9 +1250,10 @@
     {
       "id": "openfin-recommendation-safety-report",
       "path": "ontology/exports/openfin-recommendation-safety-report-2026.json",
-      "export_checksum": "efc35e58a1451f5837019b62814f21640f7faccea8dc6e3163317aadaa1ae145",
+      "export_checksum": "ac55f8bf11c9a81b4595bb2c6a8a562b96cc2d59d48365bf5eae8967ec80d648",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "recommendation-safety"
       }
@@ -1228,9 +1261,10 @@
     {
       "id": "openfin-support-relevance-report",
       "path": "ontology/exports/openfin-support-relevance-report-2026.json",
-      "export_checksum": "cff68f7f83460a2be253f2115cccda11030de47cf135a3c6d7aa056a45efab95",
+      "export_checksum": "d95e173ead8f2b0ad9571e80f0d2ff128ae4f92b7974a0d0498433d1113a0af2",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
@@ -1241,9 +1275,10 @@
     {
       "id": "openfin-data-drift-report",
       "path": "ontology/exports/openfin-data-drift-report-2026.json",
-      "export_checksum": "578717c8285d6c19b1c7e85bc914afd93075ea6bdc9000ebface152b0757d765",
+      "export_checksum": "117068e69cccd6a86ce3288ed91e89887262fa6cc95f98d31d836648fd184293",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "data-drift"
       }
@@ -1251,29 +1286,15 @@
     {
       "id": "openfin-local-cloudflare-parity-report",
       "path": "ontology/exports/openfin-local-cloudflare-parity-report-2026.json",
-      "export_checksum": "e4c5f73bb6635ad127beedb7f4bdde7f8c164a9d85aaa3a5fab5d76c7924e8a2",
+      "export_checksum": "289e174a6c15d9d9053bd30b753a1df2b292510e3ffdc8485c92edd8d105530b",
       "quality_summary": {
         "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       }
     }
   ],
-  "live_search_regression": {
-    "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
-    "checked_at": "2026-07-18T13:24:56+00:00",
-    "runtime_version": "openfin-mcp-2026.07.18.4",
-    "deployment_commit": "55808baab",
-    "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-    "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
-    "runtime_search_index_checksum": "1fd935603e9c2fa11239880b74d66c7be042bf2a80269d68fe9c9ea8622d94ac",
-    "test_count": 37,
-    "passed_count": 37,
-    "failed_count": 0,
-    "failures": [],
-    "last_failed_at": null
-  },
-  "export_checksum": "c8a3a37083283992a0c0b107b0c4e63014f79d343a3b7053aaad1d9a2154edcc"
+  "export_checksum": "7b47a9c259fa0f5a4bb1f8b326b305b03d2d3aa50f5dd75a504e1c541990155e"
 }

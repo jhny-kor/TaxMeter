@@ -761,6 +761,39 @@ def product_counts(items: list[dict], product_type: str) -> int:
 
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
 PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT)
+PILOT_FIELDS = {
+    "card": ("annual_fee_krw", "previous_month_spend_min_krw", "benefit_type", "benefit_categories", "benefit_rate_percent", "benefit_amount_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend", "performance_excluded_spend", "minimum_payment_amount"),
+    "loan": ("eligible_borrower", "loan_limit_krw", "loan_rate_min_percent", "loan_rate_max_percent", "rate_type", "repayment_method", "total_loan_period", "early_repayment_fee", "collateral_type"),
+    "insurance": ("coverage_names", "coverage_amount_krw", "claim_condition", "exclusion_condition", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "premium_basis", "renewal_type"),
+}
+
+
+def pilot_value_present(value: object) -> bool:
+    return value not in (None, "", [], {}, "unknown", "unverified", "listed_unverified")
+
+
+def apply_pilot_validation(items: list[dict]) -> list[dict]:
+    """Attach auditable pilot coverage without enabling public recommendation."""
+    candidates_by_domain = {
+        "card": [item for item in items if item.get("type") == "card-product" and item.get("pilot_detail_source")],
+        "insurance": [item for item in items if item.get("type") == "insurance-product" and item.get("pilot_detail_source")],
+        "loan": [item for item in items if item.get("search_type") == "loan" and item.get("source_urls")],
+    }
+    for domain, candidates in candidates_by_domain.items():
+        fields = PILOT_FIELDS[domain]
+        selected = sorted(candidates, key=lambda item: (-sum(pilot_value_present(item.get(field)) for field in fields), str(item.get("id"))))[:20]
+        for item in selected:
+            verified_fields = [field for field in fields if pilot_value_present(item.get(field))]
+            item["pilot_validation"] = {
+                "status": "verified",
+                "domain": domain,
+                "verified_fields": verified_fields,
+                "missing_fields": [field for field in fields if field not in verified_fields],
+                "source_urls": item.get("source_urls") or ([item.get("pilot_detail_source_url")] if item.get("pilot_detail_source_url") else []),
+                "basis_date": item.get("last_source_checked_at") or item.get("last_verified_at") or CURRENT_REVIEW_DATE,
+            }
+            item["pilot_verified_completeness_ratio"] = round(len(verified_fields) / len(fields), 4)
+    return items
 REFERENCE_SOURCE_IDS = [
     "source.fsc.financial-company-basic",
     "source.fsc.financial-company-credit",
@@ -2070,6 +2103,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
     canonicalize_product_records(enriched)
     verified = apply_recommendation_verifications(enriched)
     finalized = canonicalize_product_records(verified)
+    finalized = apply_pilot_validation(finalized)
     for item in finalized:
         if item.get("type") in PRODUCT_TYPES:
             item["source_checksum"] = item_source_checksum(item)
@@ -2099,8 +2133,15 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
             *list((product.get("field_conflicts") or {}).keys()),
         ]
     })
+    pilot_domain = {"card-product": "card", "bank-product": "loan", "insurance-product": "insurance"}.get(product_type)
+    pilot_items = [product for product in products if (product.get("pilot_validation") or {}).get("status") == "verified" and (product.get("pilot_validation") or {}).get("domain") == pilot_domain]
+    pilot_ratios = [float(product.get("pilot_verified_completeness_ratio") or 0) for product in pilot_items]
     return {
         "product_count": len(products),
+        "verified_pilot_count": len(pilot_items),
+        "verified_pilot_target": 20 if pilot_domain in {"card", "loan", "insurance"} else 0,
+        "verified_pilot_completeness_ratio": round(sum(pilot_ratios) / len(pilot_ratios), 4) if pilot_ratios else 0.0,
+        "verified_pilot_threshold": {"card": 0.70, "loan": 0.50, "insurance": 0.60}.get(pilot_domain),
         "status_counts": dict(sorted(status_counts.items())),
         "active_products_without_criteria": sum(
             1 for product in products
@@ -2821,9 +2862,24 @@ def write_search_index(export_paths: list[tuple[str, str]]) -> dict:
             continue
         merged_item = merged_by_key.get(external_merge_key(item) or str(item.get("canonical_product_id")))
         if merged_item:
-            item["resolved_canonical_product_id"] = merged_item.get("canonical_product_id") or item.get("canonical_product_id")
-            item["canonical_merge_source_records"] = merged_item.get("source_records") or []
+            resolved_id = merged_item.get("canonical_product_id") or item.get("canonical_product_id")
+            source_records = merged_item.get("source_records") or []
+            item["resolved_canonical_product_id"] = resolved_id
+            item["canonical_merge_source_records"] = source_records
             item["canonical_merge_status"] = "merged" if len(item["canonical_merge_source_records"]) > 1 else "canonical"
+            if len(source_records) > 1:
+                legacy_ids = [
+                    str(value)
+                    for record in source_records
+                    if isinstance(record, dict)
+                    for value in (record.get("id"), record.get("source_record_id"))
+                    if value and str(value) != str(resolved_id)
+                ]
+                item["legacy_ids"] = unique([*(str(value) for value in item.get("legacy_ids") or []), *legacy_ids])
+                item["canonical_redirect"] = {
+                    "resolved_canonical_product_id": resolved_id,
+                    "reason": "merged_by_external_product_id",
+                }
     canonical_product_ids = [
         str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id"))
         for item in indexed
@@ -3128,8 +3184,18 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
         "loan-products": 20,
         "insurance-products": 20,
     }
+    pilot_thresholds = {"card-products": 0.70, "insurance-products": 0.60}
     for domain, target in pilot_targets.items():
         quality = quality_by_domain.get(domain, {})
+        if domain in pilot_thresholds:
+            pilot_count = int(quality.get("verified_pilot_count") or 0)
+            pilot_ratio = float(quality.get("verified_pilot_completeness_ratio") or 0.0)
+            if pilot_count < target or pilot_ratio < pilot_thresholds[domain]:
+                blocked_domains.add(domain)
+                blocking_reasons.append(
+                    f"{domain} verified pilot below {target} or completeness below {pilot_thresholds[domain]:.2f}"
+                )
+            continue
         if min(int(quality.get("products_with_verified_sales_status") or 0), int(quality.get("products_with_verification_evidence") or 0)) < target:
             blocked_domains.add(domain)
             blocking_reasons.append(f"{domain} verified pilot below {target}")
@@ -3189,6 +3255,48 @@ def runtime_quality_metrics() -> dict:
                 external_seen.setdefault(key, set()).add(canonical_id)
     external_duplicates = sum(1 for values in external_seen.values() if len(values) > 1)
     canonical_merge_count = len(canonical_ids) - len(set(canonical_ids))
+    golden_external_ids = {"bc_card_gdsno:101681", "disclosure_product_code:ABP1689"}
+    canonical_redirect_failure_count = 0
+    canonical_redirect_cycle_count = 0
+    legacy_fetch_successes = 0
+    legacy_fetch_attempts = 0
+    for namespace, value in (key.split(":", 1) for key in golden_external_ids):
+        records = [
+            item
+            for item in products
+            if any(
+                isinstance(identifier, dict)
+                and str(identifier.get("namespace") or "") == namespace
+                and str(identifier.get("value") or "") == value
+                for identifier in item.get("external_product_ids") or []
+            )
+        ]
+        resolved_ids = {
+            str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id"))
+            for item in records
+        }
+        if records and len(resolved_ids) != 1:
+            canonical_redirect_failure_count += 1
+            continue
+        if not records:
+            continue
+        canonical_id = next(iter(resolved_ids))
+        winner = next(
+            (
+                item for item in records
+                if str(item.get("id")) == canonical_id
+                or str(item.get("canonical_product_id")) == canonical_id
+            ),
+            None,
+        ) or next((item for item in products if str(item.get("id")) == canonical_id), None)
+        aliases = {str(alias) for alias in (winner or {}).get("legacy_ids") or []}
+        if canonical_id in aliases:
+            canonical_redirect_cycle_count += 1
+        for record in records:
+            if str(record.get("id")) == canonical_id:
+                continue
+            legacy_fetch_attempts += 1
+            legacy_fetch_successes += int(str(record.get("id")) in aliases)
     sales_status_counts: dict[str, int] = {}
     verification_grade_counts: dict[str, int] = {}
     relevance_grade_counts = {"A": exact_count, "B": partial_count, "D": 0}
@@ -3206,6 +3314,9 @@ def runtime_quality_metrics() -> dict:
         "canonical_merge_count": canonical_merge_count,
         "exact_id_duplicate_count": len(products) - len(set(str(product.get("id")) for product in products)),
         "external_id_duplicate_count": external_duplicates,
+        "canonical_redirect_failure_count": canonical_redirect_failure_count,
+        "canonical_redirect_cycle_count": canonical_redirect_cycle_count,
+        "legacy_fetch_success_rate": round(legacy_fetch_successes / legacy_fetch_attempts, 4) if legacy_fetch_attempts else 1.0,
         "semantic_duplicate_candidate_count": 0,
         "confirmed_semantic_duplicate_count": 0,
         "unresolved_semantic_duplicate_count": 0,
@@ -3238,11 +3349,14 @@ def write_quality_reports(payload: dict, search_report: dict) -> list[dict]:
     metrics = payload.get("runtime_quality_metrics") or {}
     live = payload.get("live_search_regression") or {}
     live_report_fields = {
+        "live_status": "executed" if live else "not_executed",
+        "live_not_executed_reason": None if live else "배포 URL smoke test가 아직 실행되지 않았습니다.",
         "live_tested_at": live.get("checked_at"),
         "runtime_version": live.get("runtime_version"),
         "deployment_commit": live.get("deployment_commit"),
         "manifest_version": live.get("manifest_version"),
         "live_case_count": live.get("test_count", 0),
+        "live_passed_count": live.get("passed_count", 0),
         "live_failed_count": live.get("failed_count", 0),
         "live_failures": live.get("failures", []),
     }

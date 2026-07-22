@@ -7,7 +7,7 @@ DISCOVERY_ENABLED_DOMAINS = {
 }
 COMPARISON_ENABLED_DOMAINS = {"deposit": True, "saving": True}
 PUBLIC_RECOMMENDATION_ENABLED = False
-QUERY_PARSER_VERSION = "openfin-query-parser-v1.1.0"
+QUERY_PARSER_VERSION = "openfin-query-parser-v1.2.0"
 FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0"
-DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.1.0"
+DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.2.0"
 COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.1"

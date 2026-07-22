@@ -58,6 +58,14 @@ LIVE_DISCOVERY_CASES = (
 LIVE_COMPARISON_CASES = (
     {"query": "1천만원 12개월 예금 비교", "arguments": {"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12}, "allow_empty_blocked": True},
 )
+LIVE_PRODUCT_DISCOVERY_CASES = (
+    ("국민행복 삼성체크카드", "삼성카드 국민행복 삼성체크카드 V2"),
+    ("삼성카드 국민행복 체크카드 V2", "삼성카드 국민행복 삼성체크카드 V2"),
+    ("페이북 머니 체크카드", "BC바로카드 페이북 머니 체크카드"),
+    ("신한 SOL트래블 체크카드", "신한카드 신한카드 SOL트래블 체크"),
+    ("KB 노리2 체크카드", "KB국민카드 노리2(Global)체크카드"),
+    ("롯데 LIKIT ON 체크카드", "롯데카드 LIKIT ON 체크카드"),
+)
 
 
 def parse_mcp_response(body: str) -> dict:
@@ -225,7 +233,6 @@ def main() -> int:
         "passed": checksum_passed,
     })
     print(f"[{'PASS' if checksum_passed else 'FAIL'}] runtime search-index checksum expected={expected_checksum} actual={actual_checksum}")
-
     required_cases: list[dict] = []
 
     def record_required_case(query: str, validation_kind: str, passed: bool, actual: dict, error_text: str | None = None) -> None:
@@ -242,6 +249,8 @@ def main() -> int:
             test["error"] = error_text
         required_cases.append(test)
         print(f"[{'PASS' if passed else 'FAIL'}] required {validation_kind} query={query!r}" + (f" error={error_text}" if error_text else ""))
+
+    record_required_case("exports", "required_live_exports_contract", checksum_passed and bool(runtime_exports.get("runtime")), {"search_index": runtime_exports.get("search_index"), "runtime": runtime_exports.get("runtime")})
 
     try:
         fetched = client.fetch("credit.insurance-premium")
@@ -280,6 +289,31 @@ def main() -> int:
         record_required_case("청년 월세 지원", "required_live_support_search_contract", False, {}, str(error))
 
     try:
+        tax_results = client.search("보험료 세액공제", "tax", limit=5)
+        tax_ok = bool(tax_results) and all(result.get("type") in {"tax", "tax-credit", "deduction", "tax-reduction", "official-tax-item"} for result in tax_results)
+        record_required_case("보험료 세액공제", "required_live_tax_search_contract", tax_ok, {"result_count": len(tax_results), "top": tax_results[:3]})
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("보험료 세액공제", "required_live_tax_search_contract", False, {}, str(error))
+
+    try:
+        open_support = client.support_search({"query": "서울 청년 월세 지원", "type": "support-program", "region": "서울", "application_status": "open", "limit": 5})
+        open_results = [*(open_support.get("exact_results") or []), *(open_support.get("partial_results") or []), *(open_support.get("related_results") or [])]
+        open_support_ok = bool(open_results) and all(result.get("type") == "support-program" for result in open_results)
+        record_required_case("서울·open 청년 월세 지원", "required_live_open_support_search_contract", open_support_ok, {"result_count": len(open_results), "parsed_query": open_support.get("parsed_query"), "excluded_summary": open_support.get("excluded_summary")})
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("서울·open 청년 월세 지원", "required_live_open_support_search_contract", False, {}, str(error))
+
+    for query, expected_title in LIVE_PRODUCT_DISCOVERY_CASES:
+        try:
+            discovery = client.discover(query, limit=10)
+            exact = discovery.get("exact_candidates") or []
+            exact_titles = [candidate.get("title") for candidate in exact]
+            product_ok = bool(exact) and exact[0].get("title") == expected_title and len({candidate.get("canonical_product_id") for candidate in exact if candidate.get("canonical_product_id")}) == len([candidate for candidate in exact if candidate.get("canonical_product_id")])
+            record_required_case(query, "required_live_product_name_discovery", product_ok, {"expected_title": expected_title, "exact_titles": exact_titles[:5], "parsed_query": discovery.get("parsed_query")})
+        except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+            record_required_case(query, "required_live_product_name_discovery", False, {}, str(error))
+
+    try:
         saving = client.compare({"domain": "saving", "monthly_payment_krw": 300_000, "term_months": 12, "saving_method": "free"})
         candidates = saving.get("candidates") or []
         excluded = saving.get("excluded_summary") or {}
@@ -297,6 +331,18 @@ def main() -> int:
         })
     except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
         record_required_case("300,000원 자유적립식 12개월 적금 비교", "required_live_saving_comparison_contract", False, {}, str(error))
+
+    try:
+        deposit = client.compare({"domain": "deposit", "deposit_amount_krw": 10_000_000, "term_months": 12})
+        deposit_excluded = deposit.get("excluded_summary") or {}
+        deposit_ok = (
+            sum(value for value in deposit_excluded.values() if isinstance(value, int)) == deposit.get("excluded_count")
+            and deposit.get("candidate_count", 0) + deposit.get("excluded_count", 0) == deposit.get("comparison_target_count")
+            and deposit.get("latest_product_collection_date") == deposit.get("verification_basis_date")
+        )
+        record_required_case("1,000만원 12개월 예금 비교", "required_live_deposit_comparison_contract", deposit_ok, {"candidate_count": deposit.get("candidate_count"), "result_count": deposit.get("result_count"), "excluded_count": deposit.get("excluded_count"), "comparison_target_count": deposit.get("comparison_target_count"), "excluded_summary": deposit_excluded, "latest_product_collection_date": deposit.get("latest_product_collection_date"), "verification_basis_date": deposit.get("verification_basis_date")})
+    except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
+        record_required_case("1,000만원 12개월 예금 비교", "required_live_deposit_comparison_contract", False, {}, str(error))
 
     try:
         recommendation = client.recommend({
@@ -576,6 +622,8 @@ def main() -> int:
     ]
     summary = {
         "mcp_url": args.mcp_url,
+        "live_status": "executed",
+        "live_not_executed_reason": None,
         "checked_at": checked_at,
         "runtime_version": (runtime_exports.get("runtime") or {}).get("runtime_version"),
         "deployment_commit": (runtime_exports.get("runtime") or {}).get("deployment_commit"),
@@ -601,10 +649,13 @@ def main() -> int:
         for path in LIVE_REPORTS:
             rewrite_with_checksum(path, lambda payload: payload.update({
                 "live_tested_at": checked_at,
+                "live_status": "executed",
+                "live_not_executed_reason": None,
                 "runtime_version": runtime_exports.get("runtime", {}).get("runtime_version"),
                 "deployment_commit": runtime_exports.get("runtime", {}).get("deployment_commit"),
                 "manifest_version": runtime_exports.get("runtime", {}).get("manifest_version"),
                 "live_case_count": len(tests),
+                "live_passed_count": len(tests) - len(failures),
                 "live_failed_count": len(failures),
                 "live_failures": failures,
             }))

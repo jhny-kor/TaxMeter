@@ -224,9 +224,9 @@ const ENABLE_DEPOSIT_COMPARISON = true;
 const ENABLE_SAVING_COMPARISON = true;
 const ENABLE_PUBLIC_RECOMMENDATION = false;
 const EXCLUDED_SAMPLE_LIMIT = 10;
-const QUERY_PARSER_VERSION = "openfin-query-parser-v1.1.0";
+const QUERY_PARSER_VERSION = "openfin-query-parser-v1.2.0";
 const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
-const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.1.0";
+const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.2.0";
 const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.1";
 
 let cachedGraph: CachedGraph | undefined;
@@ -585,6 +585,34 @@ function requestedProductKind(query: string): string | undefined {
   return undefined;
 }
 
+const PROVIDER_ALIASES: Record<string, readonly string[]> = {
+  "삼성카드": ["삼성카드", "삼성"],
+  "BC바로카드": ["BC바로카드", "BC카드", "비씨카드"],
+  "신한카드": ["신한카드", "신한"],
+  "KB국민카드": ["KB국민카드", "KB국민", "국민카드", "KB"],
+  "롯데카드": ["롯데카드", "롯데"],
+};
+const GENERIC_PRODUCT_TOKENS = new Set(["카드", "체크카드", "신용카드", "보험", "대출", "예금", "적금", "정기예금", "자유적금", "자유적립", "실손보험", "실비보험", "암보험", "상해보험", "질병보험", "정기보험", "종신보험", "신용대출", "전세대출", "월세대출", "정책대출", "주택담보대출", "상품", "추천", "비교", "후보", "순위", "없는", "비갱신형", "갱신형", "전월실적", "연회비", "교통", "쇼핑", "온라인", "할인", "적립", "마일리지", "구독", "직장인", "중도상환수수료", "낮은", "금리", "청년"]);
+
+function compactProductText(value: string): string {
+  return value.toLocaleLowerCase("ko-KR").replace(/[^0-9a-z가-힣]/g, "");
+}
+
+function providerForQuery(query: string): string | undefined {
+  const compact = compactProductText(query);
+  const matches = Object.entries(PROVIDER_ALIASES).filter(([, aliases]) => aliases.some((alias) => compact.includes(compactProductText(alias))));
+  if (!matches.length) return undefined;
+  return matches.sort((left, right) => Math.max(...right[1].map((alias) => compactProductText(alias).length)) - Math.max(...left[1].map((alias) => compactProductText(alias).length)))[0][0];
+}
+
+function productNameTokens(query: string, provider: string | undefined): readonly string[] {
+  const providerTokens = new Set((provider ? PROVIDER_ALIASES[provider] ?? [] : []).map(compactProductText));
+  const genericTokens = new Set([...GENERIC_PRODUCT_TOKENS].map(compactProductText));
+  return [...new Set((query.match(/[0-9A-Za-z가-힣]+/g) ?? [])
+    .map(compactProductText)
+    .filter((token) => token && !genericTokens.has(token) && !providerTokens.has(token)))];
+}
+
 type DiscoveryConstraint = { readonly field: string; readonly operator: "equals" | "lte" | "contains"; readonly value: string | number };
 type ParsedDiscoveryQuery = {
   readonly original_query: string;
@@ -592,6 +620,8 @@ type ParsedDiscoveryQuery = {
   readonly intent: "discovery";
   readonly domain: DiscoveryDomain;
   readonly product_kind?: string;
+  readonly provider?: string;
+  readonly product_name_tokens: readonly string[];
   readonly hard_constraints: readonly DiscoveryConstraint[];
   readonly soft_preferences: readonly string[];
   readonly negative_constraints: readonly string[];
@@ -609,6 +639,8 @@ function parseAmountKrw(query: string): number | undefined {
 
 function parseDiscoveryQuery(query: string, domain: DiscoveryDomain): ParsedDiscoveryQuery {
   const productKind = requestedProductKind(query);
+  const provider = providerForQuery(query);
+  const nameTokens = productNameTokens(query, provider);
   const hardConstraints: DiscoveryConstraint[] = productKind ? [{ field: "product_kind", operator: "equals", value: productKind }] : [];
   if (query.includes("전월실적 없는")) hardConstraints.push({ field: "previous_month_spend_min_krw", operator: "equals", value: 0 });
   if (query.includes("연회비 없는")) hardConstraints.push({ field: "annual_fee_krw", operator: "equals", value: 0 });
@@ -624,7 +656,9 @@ function parseDiscoveryQuery(query: string, domain: DiscoveryDomain): ParsedDisc
   if (amount !== undefined) hardConstraints.push({ field: domain === "deposit" ? "deposit_amount_krw" : "monthly_payment_krw", operator: "lte", value: amount });
   const softPreferences = ["마일리지", "교통", "쇼핑", "온라인", "우대금리", "낮은 금리", "높은 한도", "대한항공", "SKYPASS", "청년"]
     .filter((token) => normalizeQuery(query).includes(normalizeQuery(token)));
-  return { original_query: query, parser_version: QUERY_PARSER_VERSION, intent: "discovery", domain, product_kind: productKind, hard_constraints: hardConstraints, soft_preferences: softPreferences, negative_constraints: [], numeric_constraints: hardConstraints.filter((constraint) => typeof constraint.value === "number"), unparsed_tokens: [] };
+  if (provider) hardConstraints.push({ field: "provider", operator: "equals", value: provider });
+  if (nameTokens.length) hardConstraints.push({ field: "product_name_tokens", operator: "contains", value: nameTokens.join("|") });
+  return { original_query: query, parser_version: QUERY_PARSER_VERSION, intent: "discovery", domain, product_kind: productKind, provider, product_name_tokens: nameTokens, hard_constraints: hardConstraints, soft_preferences: softPreferences, negative_constraints: [], numeric_constraints: hardConstraints.filter((constraint) => typeof constraint.value === "number"), unparsed_tokens: [] };
 }
 
 function discoveryValues(item: FinanceItem, field: string): unknown[] {
@@ -658,6 +692,15 @@ function discoveryConstraintState(item: FinanceItem, constraint: DiscoveryConstr
   const { field, value: expected } = constraint;
   const candidateText = discoveryItemText(item);
   if (field === "product_kind") return item.product_kind === expected || (expected === "rent-loan" && item.product_kind === "policy-loan" && candidateText.includes("전세")) ? "matched" : "failed";
+  if (field === "provider") {
+    const provider = compactProductText(item.provider ?? "");
+    return (PROVIDER_ALIASES[String(expected)] ?? [String(expected)]).some((alias) => provider.includes(compactProductText(alias))) ? "matched" : "failed";
+  }
+  if (field === "product_name_tokens") {
+    const expectedTokens = String(expected).split("|").map(compactProductText).filter(Boolean);
+    const candidate = compactProductText(candidateText);
+    return expectedTokens.length && expectedTokens.every((token) => candidate.includes(token)) ? "matched" : "failed";
+  }
   if (field === "employment_type") return ["직장인", "재직자", "근로소득자"].some((token) => candidateText.includes(token)) ? "matched" : "unknown";
   if (field === "term_months") {
     const termMonths = discoveryValues(item, "term_months");
@@ -714,14 +757,19 @@ function discoveryPayload(query: string, items: readonly FinanceItem[], limit: n
     const text = discoveryItemText(item);
     const matched = parsed.soft_preferences.filter((preference) => discoveryPreferenceState(item, preference) === "matched");
     const ratio = item.normalized_completeness_ratio ?? item.completeness_ratio ?? 0;
-    const score = 35 + Math.min(20, matched.length * 10) + Math.round(ratio * 10) + (item.source_freshness_status === "current" ? 5 : 0);
     const canonicalId = item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id;
     const states = new Map(parsed.hard_constraints.map((constraint) => [constraint.field, discoveryConstraintState(item, constraint)]));
     const preferenceStates = new Map(parsed.soft_preferences.map((preference) => [preference, discoveryPreferenceState(item, preference)]));
     const failed = [...states.entries()].filter(([, state]) => state === "failed").map(([field]) => field);
+    if (domain === "insurance" && !parsed.product_kind && item.product_kind === "other-protection") failed.push("product_kind");
     const unknown = [...states.entries(), ...preferenceStates.entries()].filter(([, state]) => state === "unknown").map(([field]) => field);
     const matchedConstraints = [...states.entries(), ...preferenceStates.entries()].filter(([, state]) => state === "matched").map(([field]) => field);
-    const eligibility = failed.length ? (failed.includes("product_kind") ? "related_candidate" : "excluded") : (unknown.length ? "partial_candidate" : "exact_candidate");
+    const score = 35 + Math.min(20, matched.length * 10)
+      + (matchedConstraints.includes("product_name_tokens") ? 40 : 0)
+      + (matchedConstraints.includes("provider") ? 25 : 0)
+      + Math.round(ratio * 10)
+      + (item.source_freshness_status === "current" ? 5 : 0);
+    const eligibility = failed.length ? (["product_kind", "provider", "product_name_tokens"].some((field) => failed.includes(field)) ? "related_candidate" : "excluded") : (unknown.length ? "partial_candidate" : "exact_candidate");
     const relevance = eligibility === "exact_candidate" ? "A" : eligibility === "partial_candidate" ? "B" : "D";
     const verification = item.sales_verification_status === "verified_active" && item.verification_status === "verified" && item.verified_completeness_ratio === 1 ? "A" : item.verification_status === "verified" ? "B" : item.source_urls?.length ? "C" : "D";
     const dataGrade = discoveryConfidence(item);
@@ -1049,14 +1097,21 @@ function resolveItemId(rawId: string): string {
 }
 
 function itemAliases(item: FinanceItem): readonly string[] {
-  return [...(item.legacy_ids ?? []), ...(item.search_aliases ?? []), ...(item.aliases ?? [])];
+  return [
+    ...(item.legacy_ids ?? []),
+    ...(item.search_aliases ?? []),
+    ...(item.aliases ?? []),
+    ...(item.source_records ?? []).flatMap((record) => [record.id, record.source_record_id].filter((value): value is string => typeof value === "string")),
+    ...(item.external_product_ids ?? []).flatMap((identifier) => [identifier.value]),
+  ];
 }
 
 function resolveCanonicalItemId(rawId: string, items: readonly FinanceItem[]): FinanceItem | undefined {
   const itemId = normalizeQuery(resolveItemId(rawId));
-  return dedupeProductItems(items).find(
-    (item) => normalizeQuery(item.id) === itemId || normalizeQuery(item.canonical_product_id ?? "") === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId),
-  );
+  const direct = items.find((item) => normalizeQuery(item.id) === itemId || normalizeQuery(item.canonical_product_id ?? "") === itemId || itemAliases(item).some((alias) => normalizeQuery(alias) === itemId));
+  if (!direct) return undefined;
+  const canonicalId = direct.resolved_canonical_product_id ?? direct.canonical_product_id ?? direct.id;
+  return dedupeProductItems(items).find((item) => (item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id) === canonicalId) ?? direct;
 }
 
 function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): FinanceItem[] {
@@ -1284,12 +1339,12 @@ function comparisonOptionCandidates(item: FinanceItem, termMonths: number): read
 
 function comparisonOptionBlocker(option: Record<string, unknown>, domain: string, depositAmount: number | undefined, monthlyPayment: number | undefined, joinChannels: readonly string[], savingMethod: string | undefined): string | undefined {
   const optionChannels = Array.isArray(option.join_channels) ? option.join_channels.filter((value): value is string => typeof value === "string").map((value) => normalizeQuery(value)) : [];
-  if (joinChannels.length && optionChannels.length && !joinChannels.some((channel) => optionChannels.includes(normalizeQuery(channel)))) return "join_channel_mismatch";
+  if (joinChannels.length && (!optionChannels.length || !joinChannels.some((channel) => optionChannels.includes(normalizeQuery(channel))))) return "join_channel_mismatch";
   if (depositAmount !== undefined && typeof option.maximum_deposit_krw === "number" && depositAmount > option.maximum_deposit_krw) return "amount_exceeds_limit";
   if (depositAmount !== undefined && typeof option.minimum_deposit_krw === "number" && depositAmount < option.minimum_deposit_krw) return "amount_below_minimum";
   if (monthlyPayment !== undefined && typeof option.monthly_payment_max_krw === "number" && monthlyPayment > option.monthly_payment_max_krw) return "monthly_payment_exceeds_limit";
   if (monthlyPayment !== undefined && typeof option.monthly_payment_min_krw === "number" && monthlyPayment < option.monthly_payment_min_krw) return "monthly_payment_below_minimum";
-  if (domain === "saving" && savingMethod && typeof option.saving_method === "string" && option.saving_method !== savingMethod) return "saving_method_mismatch";
+  if (domain === "saving" && savingMethod && (typeof option.saving_method !== "string" || option.saving_method !== savingMethod)) return "saving_method_mismatch";
   if (!Array.isArray(option.source_urls) || !option.source_urls.length) return "missing_source_url";
   return undefined;
 }
@@ -1333,7 +1388,7 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
     comparison_basis_fields: item.comparison_basis_fields ?? [],
     comparison_field_verification_status: item.comparison_field_verification_status,
     comparison_field_verification: item.comparison_field_verification ?? {},
-    missing_required_fields: item.missing_required_fields ?? [],
+    missing_required_fields: (item.missing_required_fields ?? []).filter((field) => !(field === "sales_verification_status" && item.sales_verification_status === "verified_active")),
     principal_krw: principal,
     gross_interest_krw: grossInterest === null ? null : Math.round(grossInterest),
     tax_rate_percent: taxRatePercent,
@@ -1686,6 +1741,7 @@ function createServer(env: Env): McpServer {
       const conditions = new Set(eligible_conditions ?? []);
       const excluded: Array<{ item_id: string; reason: string }> = [];
       const candidates: Record<string, unknown>[] = [];
+      const candidateTargetIds = new Set<string>();
       for (const item of items.filter((candidate) => domainMatches(candidate, domain))) {
         const blocker = comparisonBlocker(item);
         if (blocker) {
@@ -1703,6 +1759,7 @@ function createServer(env: Env): McpServer {
           excluded.push({ item_id: item.id, reason });
           continue;
         }
+        candidateTargetIds.add(item.id);
         candidates.push(...usableOptions.map((option) => comparisonCandidate(item, option, conditions, deposit_amount_krw, monthly_payment_krw, tax_rate_percent ?? 15.4)));
       }
       candidates.sort((left, right) => {
@@ -1713,13 +1770,18 @@ function createServer(env: Env): McpServer {
       const sortedExcluded = excluded.sort((left, right) => left.item_id.localeCompare(right.item_id) || left.reason.localeCompare(right.reason));
       const excludedSummary = reasonCounts(sortedExcluded);
       const results = candidates.slice(0, limit ?? 10);
+      const targetItems = items.filter((candidate) => domainMatches(candidate, domain));
+      const verifiedDates = targetItems.map((candidate) => candidate.sales_verified_at?.slice(0, 10)).filter((value): value is string => Boolean(value)).sort();
+      const comparisonBasisDate = verifiedDates[verifiedDates.length - 1] ?? metadata.basis_date;
       const payload = {
         domain,
         candidates: results,
-        candidate_count: results.length,
+        candidate_count: candidateTargetIds.size,
         result_count: results.length,
         excluded_count: sortedExcluded.length,
         excluded_summary: excludedSummary,
+        filter_exclusions: { ...excludedSummary },
+        comparison_target_count: targetItems.length,
         excluded_sample: sortedExcluded.slice(0, EXCLUDED_SAMPLE_LIMIT),
         blockers: comparisonBlockers(domain, excludedSummary),
         assumptions: [
@@ -1728,9 +1790,9 @@ function createServer(env: Env): McpServer {
         ],
         comparison_model_version: "openfin-comparison-v0.1.0",
         comparison_engine_version: COMPARISON_ENGINE_VERSION,
-        ontology_basis_date: metadata.basis_date,
-        latest_product_collection_date: metadata.basis_date,
-        verification_basis_date: metadata.basis_date,
+        ontology_basis_date: comparisonBasisDate,
+        latest_product_collection_date: comparisonBasisDate,
+        verification_basis_date: comparisonBasisDate,
         calculation_policy_basis_date: "2026-07-14",
         executed_at: new Date().toISOString(),
         requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
@@ -1773,7 +1835,7 @@ function createServer(env: Env): McpServer {
         id: item.id,
         resolved_canonical_product_id: resolvedCanonicalId,
         redirected,
-        legacy_redirect: redirected ? { from: requestedId, to: item.id, resolved_canonical_product_id: resolvedCanonicalId } : null,
+        legacy_redirect: redirected ? { from: requestedId, to: item.id, resolved_canonical_product_id: resolvedCanonicalId, reason: "merged_by_external_product_id" } : null,
         title: item.title,
         type: item.type,
         url: itemUrl(env, item.id),

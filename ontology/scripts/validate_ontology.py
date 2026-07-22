@@ -152,7 +152,14 @@ LOCAL_GOV_SUPPORT_REQUIRED_FIELDS = (
 LOCAL_SUPPORT_EXPORT_PATH = ROOT / "exports" / "korea-local-government-supports-ontology-2026.json"
 LOCAL_SUPPORT_STATUS_REVIEW_DATE = "2026-07-14"
 LOCAL_SUPPORT_VALID_STATUSES = {"active", "closed", "unknown"}
-LOCAL_SUPPORT_APPLICATION_STATUSES = {"open", "always_open", "closed", "not_required", "unknown"}
+# 날짜를 단정할 수 없는 원문도 세부 실패 사유를 보존한다. 이 값들은
+# 현재 신청 가능을 뜻하지 않으며 support_status_resolver에서 reference_only로 매핑된다.
+LOCAL_SUPPORT_APPLICATION_STATUSES = {
+    "open", "always_open", "closed", "not_required", "unknown",
+    "budget_exhaustion", "announcement_based", "agency_contact_required", "schedule_pending",
+    "recurring_monthly", "recurring_quarterly", "recurring_annual",
+    "agency_schedule_varies", "source_schedule_ambiguous",
+}
 
 
 def parse_frontmatter(path: Path) -> dict | None:
@@ -378,7 +385,7 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
             require(application_open_to >= application_open_from, f"{item_id}: application_open_to precedes application_open_from", errors)
         if item.get("application_status") == "closed":
             require(item.get("is_currently_applicable") is False, f"{item_id}: closed support cannot be currently applicable", errors)
-        if item.get("application_status") == "unknown":
+        if item.get("application_status") in ({"unknown"} | (LOCAL_SUPPORT_APPLICATION_STATUSES - {"open", "always_open", "closed", "not_required"})):
             require(bool(item.get("unknown_reason")), f"{item_id}: unknown support missing unknown_reason", errors)
         if item.get("collection_status") == "preserved_snapshot":
             require(item.get("freshness_status") == "stale", f"{item_id}: preserved snapshot must be stale", errors)

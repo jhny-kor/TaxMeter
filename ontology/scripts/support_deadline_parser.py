@@ -17,6 +17,8 @@ CONTACT_REQUIRED_MARKERS = ("기관문의", "문의", "담당자문의", "전화
 SCHEDULE_PENDING_MARKERS = ("미정", "확인필요", "일정확인", "접수일정", "추후안내")
 RECURRING_MONTHLY_MARKERS = ("매월", "매달", "월별")
 RECURRING_QUARTERLY_MARKERS = ("분기별", "분기마다", "분기")
+RECURRING_ANNUAL_MARKERS = ("매년", "연초", "연말", "상반기", "하반기", "연중")
+AGENCY_SCHEDULE_MARKERS = ("접수기관별상이", "접수기관별", "기관별상이", "기관별")
 
 
 def parse_application_dates(deadline_text: str, reference_date: str) -> tuple[str | None, str | None]:
@@ -81,5 +83,12 @@ def classify_deadline(deadline_text: str) -> str:
     if "날짜 원문 확인 불가" in deadline_text:
         return "invalid_source_value"
     if any(token in compact_text for token in ("없음", "해당사항없음", "미정")):
-        return "unsupported_date_format"
-    return "unsupported_date_format"
+        return "source_schedule_ambiguous"
+    if any(marker in compact_text for marker in AGENCY_SCHEDULE_MARKERS):
+        return "agency_schedule_varies"
+    if any(marker in compact_text for marker in RECURRING_ANNUAL_MARKERS) or re.search(r"\d{1,2}\s*월", compact_text):
+        return "recurring_annual"
+    # Preserve the failure reason without labeling a valid but non-date
+    # schedule as a parser format error.  The caller keeps it out of public
+    # recommendation and does not infer current availability.
+    return "source_schedule_ambiguous"

@@ -24,6 +24,7 @@ REQUIRED_RUNTIME_QUALITY_METRICS = {
     "jurisdiction_violation_count", "support_category_violation_count", "unknown_constraint_false_match_count",
     "duplicate_candidate_response_count", "external_id_duplicate_count", "verification_evidence_violation_count",
     "comparison_calculation_error_count", "local_cloudflare_parity_error_count",
+    "canonical_redirect_failure_count", "canonical_redirect_cycle_count", "legacy_fetch_success_rate",
 }
 
 
@@ -57,6 +58,11 @@ def main() -> int:
     for key in ("jurisdiction_violation_count", "support_category_violation_count", "unknown_constraint_false_match_count", "duplicate_candidate_response_count", "external_id_duplicate_count", "verification_evidence_violation_count", "comparison_calculation_error_count", "local_cloudflare_parity_error_count"):
         if runtime_metrics.get(key, 0) != 0:
             errors.append(f"runtime_quality_metrics.{key} must be zero")
+    for key in ("canonical_redirect_failure_count", "canonical_redirect_cycle_count"):
+        if runtime_metrics.get(key, 0) != 0:
+            errors.append(f"runtime_quality_metrics.{key} must be zero")
+    if float(runtime_metrics.get("legacy_fetch_success_rate", 0)) < 1:
+        errors.append("runtime_quality_metrics.legacy_fetch_success_rate must be 1.0")
     if len(manifest.get("quality_reports") or []) != 7:
         errors.append("quality_reports must include 7 OpenFin subreports")
     for key in ("exact_query_precision", "product_kind_precision", "hard_constraint_precision", "duplicate_free_rate", "unknown_constraint_disclosure_rate"):

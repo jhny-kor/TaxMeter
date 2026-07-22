@@ -386,6 +386,42 @@ def load_finance_search_items() -> list[dict[str, Any]]:
     return load_search_index_items(FINANCE_SEARCH_INDEX_PATH)
 
 
+def fetch_finance_item(raw_id: str) -> dict[str, Any] | None:
+    """Resolve product IDs and legacy source IDs through the canonical index."""
+    requested = str(raw_id or "").strip()
+    normalized = requested.removeprefix("finance://").removeprefix("opentax://")
+    items = load_finance_search_items()
+
+    def aliases(item: dict[str, Any]) -> set[str]:
+        values = {str(item.get("id") or ""), str(item.get("canonical_product_id") or "")}
+        values.update(str(value) for value in item.get("legacy_ids") or [])
+        values.update(str(identifier.get("value")) for identifier in item.get("external_product_ids") or [] if isinstance(identifier, dict) and identifier.get("value"))
+        for record in item.get("source_records") or []:
+            if isinstance(record, dict):
+                values.update(str(record.get(key)) for key in ("id", "source_record_id") if record.get(key))
+        return values
+
+    direct = next((item for item in items if normalized in aliases(item)), None)
+    if direct is None:
+        return None
+    resolved = str(direct.get("resolved_canonical_product_id") or direct.get("canonical_product_id") or direct.get("id"))
+    winner = next((item for item in items if str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id")) == resolved), direct)
+    redirected = normalized != str(winner.get("id"))
+    payload = serialize_item(winner)
+    payload.update({
+        "requested_id": requested,
+        "resolved_canonical_product_id": resolved,
+        "redirected": redirected,
+        "legacy_redirect": {
+            "from": normalized,
+            "to": winner.get("id"),
+            "resolved_canonical_product_id": resolved,
+            "reason": "merged_by_external_product_id",
+        } if redirected else None,
+    })
+    return payload
+
+
 def finance_domain_matches(item: dict[str, Any], domain: str) -> bool:
     normalized = domain.strip().lower()
     if normalized == "deposit":
@@ -684,7 +720,7 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
     if name == "opentax_get_item":
         return serialize_item(get_item_or_error(arguments["id"]))
     if name == "opentax_fetch":
-        return serialize_item(get_item_or_error(arguments["id"]))
+        return fetch_finance_item(str(arguments["id"])) or serialize_item(get_item_or_error(arguments["id"]))
     if name == "opentax_discover":
         return discover_finance(arguments)
     if name == "opentax_read_note":

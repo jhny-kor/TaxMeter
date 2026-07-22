@@ -19,6 +19,14 @@ DEFAULT_INTEREST_TAX_RATE_PERCENT = 15.4
 EXCLUDED_SAMPLE_LIMIT = 10
 
 
+def final_missing_required_fields(item: dict[str, Any]) -> list[str]:
+    """Recompute the externally visible missing set after verification overlay."""
+    missing = {str(value) for value in item.get("missing_required_fields") or [] if value}
+    if item.get("sales_verification_status") == "verified_active":
+        missing.discard("sales_verification_status")
+    return sorted(missing)
+
+
 def load_items(path: Path = SEARCH_INDEX) -> list[dict[str, Any]]:
     return load_search_index_items(path)
 
@@ -86,7 +94,7 @@ def option_blocker(option: dict[str, Any], arguments: dict[str, Any]) -> str | N
         return "term_mismatch"
     channels = {str(channel).lower() for channel in arguments.get("join_channels") or []}
     option_channels = {str(channel).lower() for channel in option.get("join_channels") or []}
-    if channels and option_channels and not channels.intersection(option_channels):
+    if channels and (not option_channels or not channels.intersection(option_channels)):
         return "join_channel_mismatch"
     amount = arguments.get("deposit_amount_krw")
     maximum = option.get("maximum_deposit_krw")
@@ -103,7 +111,7 @@ def option_blocker(option: dict[str, Any], arguments: dict[str, Any]) -> str | N
     if payment is not None and monthly_maximum is not None and int(payment) > int(monthly_maximum):
         return "monthly_payment_exceeds_limit"
     saving_method = arguments.get("saving_method")
-    if saving_method and option.get("saving_method") and saving_method != option.get("saving_method"):
+    if saving_method and (not option.get("saving_method") or saving_method != option.get("saving_method")):
         return "saving_method_mismatch"
     if not option.get("source_urls"):
         return "missing_source_url"
@@ -209,7 +217,7 @@ def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_
         "comparison_basis_fields": item.get("comparison_basis_fields") or [],
         "comparison_field_verification_status": item.get("comparison_field_verification_status"),
         "comparison_field_verification": item.get("comparison_field_verification") or {},
-        "missing_required_fields": item.get("missing_required_fields") or [],
+        "missing_required_fields": final_missing_required_fields(item),
     }
     candidate.update(interest_estimate(str(item.get("search_type")), arguments, achievable))
     return candidate
@@ -229,9 +237,23 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
     tax_rate_percent = arguments.get("tax_rate_percent", DEFAULT_INTEREST_TAX_RATE_PERCENT)
     if type(tax_rate_percent) not in (int, float) or not 0 <= float(tax_rate_percent) <= 100:
         raise ValueError("tax_rate_percent must be between 0 and 100")
-    source_items = items if items is not None else load_items()
+    raw_items = items if items is not None else load_items()
+    # Search shards retain legacy records for redirect compatibility.  A
+    # comparison target is the resolved canonical product, not each legacy
+    # record, so collapse them before applying filters and counting totals.
+    unique_items: dict[str, dict[str, Any]] = {}
+    for item in raw_items:
+        key = str(item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id"))
+        previous = unique_items.get(key)
+        if previous is None or (
+            item.get("sales_verification_status") == "verified_active"
+            and previous.get("sales_verification_status") != "verified_active"
+        ):
+            unique_items[key] = item
+    source_items = list(unique_items.values())
     eligible_conditions = {str(value) for value in arguments.get("eligible_conditions") or []}
     candidates: list[dict[str, Any]] = []
+    candidate_target_ids: set[str] = set()
     excluded: list[dict[str, str]] = []
     for item in source_items:
         if item.get("search_type") != domain:
@@ -251,20 +273,27 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         if not matching_options:
             excluded.append({"item_id": str(item.get("id")), "reason": sorted(option_reasons or ["missing_comparison_option"])[0]})
             continue
+        candidate_target_ids.add(str(item.get("id")))
         candidates.extend(comparison_candidate(item, option, eligible_conditions, arguments) for option in matching_options)
     candidates.sort(key=lambda candidate: (-float(candidate["achievable_rate_percent"]), str(candidate["item_id"])))
     limit = max(1, min(int(arguments.get("limit") or 10), 20))
     sorted_excluded = sorted(excluded, key=lambda item: (item["item_id"], item["reason"]))
-    excluded_summary = reason_counts(sorted_excluded)
     results = candidates[:limit]
     output_basis_date = basis_date if basis_date is not None else (index_basis_date() if items is None else "")
+    verified_dates = sorted({str(item.get("sales_verified_at"))[:10] for item in source_items if item.get("search_type") == domain and item.get("sales_verified_at")})
+    if verified_dates:
+        output_basis_date = verified_dates[-1]
+    target_count = sum(1 for item in source_items if item.get("search_type") == domain)
+    excluded_summary = reason_counts(sorted_excluded)
     return {
         "domain": domain,
         "candidates": results,
-        "candidate_count": len(results),
+        "candidate_count": len(candidate_target_ids),
         "result_count": len(results),
         "excluded_count": len(sorted_excluded),
         "excluded_summary": excluded_summary,
+        "filter_exclusions": dict(excluded_summary),
+        "comparison_target_count": target_count,
         "excluded_sample": sorted_excluded[:EXCLUDED_SAMPLE_LIMIT],
         "blockers": comparison_blockers(domain, excluded_summary),
         "assumptions": ["Achievable rate includes only user-declared preferential conditions.", "Missing preferential conditions are not assumed to be satisfied."],

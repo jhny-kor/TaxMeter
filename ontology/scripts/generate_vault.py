@@ -3787,7 +3787,7 @@ def local_support_status_fields(item: dict) -> dict:
     compact_deadline = deadline_text.replace(" ", "")
     _, application_open_to = parse_application_dates(deadline_text, LOCAL_SUPPORT_STATUS_REVIEW_DATE)
     expiration_date = application_open_to
-    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음")):
+    if any(marker in compact_deadline for marker in ("신청불필요", "신청불요", "개인신청절차없음", "별도신청절차없음", "별도의신청절차가없음", "신청절차가없음")):
         return {
             "status": "active",
             "application_status": "not_required",
@@ -3823,12 +3823,27 @@ def local_support_status_fields(item: dict) -> dict:
             "status_reason": f"정부24 신청기한 {expiration_date}이 현재 검토일 {LOCAL_SUPPORT_STATUS_REVIEW_DATE} 이후입니다.",
             "status_confidence": "derived",
         }
+    deadline_reason = classify_deadline(deadline_text)
+    non_actionable_statuses = {
+        "budget_exhaustion", "announcement_based", "agency_contact_required",
+        "schedule_pending", "recurring_monthly", "recurring_quarterly",
+        "recurring_annual", "agency_schedule_varies", "source_schedule_ambiguous",
+    }
+    if deadline_reason in non_actionable_statuses:
+        return {
+            "status": "unknown",
+            "application_status": deadline_reason,
+            "application_status_reason": deadline_reason,
+            "status_reason": f"정부24 신청기한 원문이 {deadline_reason} 형식이므로 현재 신청 가능 여부를 추정하지 않습니다.",
+            "status_confidence": "unverified",
+            "unknown_reason": deadline_reason,
+        }
     return {
         "status": "unknown",
         "application_status": "unknown",
         "status_reason": "신청기한 원문을 날짜 또는 상시신청으로 해석할 수 없어 원문 확인이 필요합니다.",
         "status_confidence": "unverified",
-        "unknown_reason": classify_deadline(deadline_text),
+        "unknown_reason": deadline_reason,
     }
 
 

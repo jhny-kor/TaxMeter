@@ -89,6 +89,10 @@ def external_product_ids(item: dict[str, Any]) -> list[dict[str, str]]:
         if entry and entry not in identifiers:
             identifiers.append(entry)
 
+    for identifier in item.get("external_product_ids") or []:
+        if isinstance(identifier, dict):
+            add(str(identifier.get("namespace") or ""), identifier.get("value"))
+
     for key, namespace in IDENTIFIER_NAMESPACES.items():
         add(namespace, item.get(key))
     add("official_source_record_id", item.get("source_record_id"))
