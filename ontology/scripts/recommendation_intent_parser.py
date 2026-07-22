@@ -61,7 +61,9 @@ def product_name_tokens(query: str, provider: str | None) -> list[str]:
     for raw_token in re.findall(r"[0-9A-Za-z가-힣]+", query):
         token = raw_token.strip()
         compact = compact_product_text(token)
-        if not compact or compact in GENERIC_PRODUCT_TOKENS or compact in {compact_product_text(value) for value in provider_aliases}:
+        if not compact or compact in {"월"} or re.fullmatch(r"\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)", compact):
+            continue
+        if compact in GENERIC_PRODUCT_TOKENS or compact in {compact_product_text(value) for value in provider_aliases}:
             continue
         if compact in {compact_product_text(value) for value in GENERIC_PRODUCT_TOKENS}:
             continue

@@ -610,7 +610,7 @@ function productNameTokens(query: string, provider: string | undefined): readonl
   const genericTokens = new Set([...GENERIC_PRODUCT_TOKENS].map(compactProductText));
   return [...new Set((query.match(/[0-9A-Za-z가-힣]+/g) ?? [])
     .map(compactProductText)
-    .filter((token) => token && !genericTokens.has(token) && !providerTokens.has(token)))];
+    .filter((token) => token && token !== "월" && !/^\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)$/.test(token) && !genericTokens.has(token) && !providerTokens.has(token)))];
 }
 
 type DiscoveryConstraint = { readonly field: string; readonly operator: "equals" | "lte" | "contains"; readonly value: string | number };
@@ -1120,6 +1120,18 @@ function sourceItems(item: FinanceItem, itemsById: Map<string, FinanceItem>): Fi
     .filter((source): source is FinanceItem => Boolean(source));
 }
 
+function directExportIdForItem(rawId: string): string | undefined {
+  const itemId = resolveItemId(rawId);
+  if (/^(credit|deduction|tax)\./.test(itemId)) return "tax-ontology";
+  if (itemId.startsWith("support.local-gov.")) return "local-government-supports-ontology";
+  if (itemId.startsWith("finance.card.")) return "card-products-ontology";
+  if (itemId.startsWith("finance.bank.deposit.")) return "deposit-products-ontology";
+  if (itemId.startsWith("finance.bank.saving.")) return "saving-products-ontology";
+  if (itemId.startsWith("finance.bank.loan.")) return "loan-products-ontology";
+  if (itemId.startsWith("finance.insurance.")) return "insurance-products-ontology";
+  return undefined;
+}
+
 function matchReasons(item: FinanceItem, query: string): string[] {
   const normalized = normalizeQuery(query);
   const reasons: string[] = [];
@@ -1401,10 +1413,19 @@ function comparisonCandidate(item: FinanceItem, option: Record<string, unknown>,
 async function fetchItemGraph(env: Env, rawId: string): Promise<{ item: FinanceItem; itemsById: Map<string, FinanceItem> }> {
   const manifestUrl = financeManifestUrl(env);
   const manifest = await loadFinanceManifest(env);
-  const searchItems = await loadSearchItems(env);
-  const indexedItem = resolveCanonicalItemId(rawId, searchItems);
+  const directExportId = directExportIdForItem(rawId);
+  const indexedItem = directExportId ? undefined : resolveCanonicalItemId(rawId, await loadSearchItems(env));
   const itemId = indexedItem?.id ?? resolveItemId(rawId);
-  const candidateExports = indexedItem?.export_id
+  // Non-product nodes are fully represented in the hydrated search index. Avoid
+  // loading every ontology export for a tax/support/reference fetch; this keeps
+  // the MCP response inside the Worker streaming budget while preserving the
+  // same canonical/legacy resolution path used by product fetches.
+  if (indexedItem && !["card-product", "bank-product", "insurance-product"].includes(indexedItem.type)) {
+    return { item: indexedItem, itemsById: new Map([[indexedItem.id, indexedItem]]) };
+  }
+  const candidateExports = directExportId
+    ? manifest.exports.filter((entry) => entry.id === directExportId)
+    : indexedItem?.export_id
     ? manifest.exports.filter((entry) => entry.id === indexedItem.export_id)
     : manifest.exports;
 
@@ -2008,6 +2029,10 @@ export default {
     }
 
     const server = createServer(env);
-    return createMcpHandler(server, { route: "/mcp" })(request, env, ctx);
+    // Keep the request promise open until the tool handler has produced its
+    // result. Streamable SSE responses can otherwise be closed by the
+    // stateless Worker runtime while a shard-backed tool is still hydrating.
+    // JSON mode uses the same MCP transport and is accepted by the live client.
+    return createMcpHandler(server, { route: "/mcp", enableJsonResponse: true })(request, env, ctx);
   },
 } satisfies ExportedHandler<Env>;

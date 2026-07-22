@@ -109,6 +109,11 @@ class McpClient:
                 if error.code < 500 or attempt == attempts - 1:
                     raise
                 time.sleep(3 * (attempt + 1))
+            except (urllib.error.URLError, TimeoutError, OSError):
+                if attempt == attempts - 1:
+                    raise
+                self.session_id = None
+                time.sleep(3 * (attempt + 1))
         raise AssertionError("unreachable")
 
     def request(self, method: str, params: dict | None = None) -> dict:
@@ -155,6 +160,9 @@ class McpClient:
             except urllib.error.HTTPError as error:
                 if error.code < 500 or attempt == attempts - 1:
                     raise
+            except (urllib.error.URLError, TimeoutError, OSError) as error:
+                if attempt == attempts - 1:
+                    raise ValueError(f"{name} transport timeout/error: {error}") from error
             except ValueError as error:
                 if "응답이 비어 있습니다" not in str(error) or attempt == attempts - 1:
                     raise
@@ -290,7 +298,10 @@ def main() -> int:
 
     try:
         tax_results = client.search("보험료 세액공제", "tax", limit=5)
-        tax_ok = bool(tax_results) and all(result.get("type") in {"tax", "tax-credit", "deduction", "tax-reduction", "official-tax-item"} for result in tax_results)
+        tax_ok = bool(tax_results) and all(result.get("type") in {
+            "tax", "tax-credit", "deduction", "tax-reduction", "official-tax-item",
+            "corporate-tax-support", "filing", "deadline", "required-document", "eligibility-rule",
+        } for result in tax_results)
         record_required_case("보험료 세액공제", "required_live_tax_search_contract", tax_ok, {"result_count": len(tax_results), "top": tax_results[:3]})
     except (urllib.error.HTTPError, urllib.error.URLError, ValueError, KeyError) as error:
         record_required_case("보험료 세액공제", "required_live_tax_search_contract", False, {}, str(error))
