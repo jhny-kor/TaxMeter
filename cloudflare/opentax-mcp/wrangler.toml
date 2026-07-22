@@ -6,3 +6,5 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 FINANCE_MANIFEST_URL = "https://jhny-kor.github.io/TaxMeter/opentax/finance-ontology-manifest.json"
 FINANCE_WEB_BASE_URL = "https://jhny-kor.github.io/TaxMeter/opentax/"
+RUNTIME_VERSION = "openfin-mcp-2026.07.22.1"
+DEPLOYMENT_COMMIT = "40215ba9c"
