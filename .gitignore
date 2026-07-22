@@ -6,6 +6,7 @@ ios/TaxMeterApp/build/
 DerivedData/
 xcuserdata/
 *.xcuserstate
+ios/
 .omx/
 .env
 .env.local
