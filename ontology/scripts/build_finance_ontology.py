@@ -47,6 +47,7 @@ SAVING_EXPORT = EXPORT_DIR / "korea-saving-products-ontology-2026.json"
 LOAN_EXPORT = EXPORT_DIR / "korea-loan-products-ontology-2026.json"
 INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
 PENSION_EXPORT = EXPORT_DIR / "korea-pension-products-ontology-2026.json"
+ACCOUNT_EXPORT = EXPORT_DIR / "korea-tax-advantaged-accounts-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
@@ -69,6 +70,7 @@ SEARCH_INDEX_SHARDS = {
     "card-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-card-products.json",
     "insurance-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-insurance-products.json",
     "pension-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-pension-products.json",
+    "account-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-account-products.json",
     "reference": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-reference.json",
 }
 HARD_FAIL_METRICS = (
@@ -185,6 +187,7 @@ GENERATED_FILES = {
     "deposit_protection": CUSTOM_FINANCE_DIR / "deposit-protection-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
     "pension": CUSTOM_FINANCE_DIR / "pension-products.generated.json",
+    "account": CUSTOM_FINANCE_DIR / "tax-advantaged-accounts.generated.json",
     "reference": CUSTOM_FINANCE_DIR / "finance-reference.generated.json",
 }
 INSURANCE_PILOT_DETAILS_PATH = CUSTOM_FINANCE_DIR / "insurance-pilot-details.json"
@@ -442,6 +445,22 @@ SOURCES = {
         "https://www.hf.go.kr/ko/sub01/sub01_01_02.do",
         "보금자리론의 신청대상, 대출요건, 한도, 만기, 상환방식과 특성별 상품 공식 안내입니다.",
         "2026-07-03 확인",
+    ),
+    "source.nhuf.housing-subscription": source_node(
+        "source.nhuf.housing-subscription",
+        "주택청약종합저축·청년 주택드림 청약통장 안내",
+        "주택도시기금",
+        "https://nhuf.molit.go.kr/",
+        "주택청약종합저축과 청년 주택드림 청약통장의 가입대상, 납입방식, 금리 구조, 청약 자격, 소득공제 연계를 안내하는 국토교통부 주택도시기금 공식 페이지입니다. 취급은행·시점별 금리는 변동하므로 상품 노드는 구조와 소득공제 요건 중심으로 보존하고 금리는 출처 확인 대상으로 표시합니다.",
+        "2026-07-24 확인",
+    ),
+    "source.fsc.isa-guide": source_node(
+        "source.fsc.isa-guide",
+        "개인종합자산관리계좌(ISA) 안내",
+        "금융위원회",
+        "https://www.fsc.go.kr/",
+        "ISA(개인종합자산관리계좌)의 유형(신탁형·일임형·중개형), 납입한도, 의무가입기간, 비과세·분리과세 세제혜택과 서민형·농어민형 요건을 설명하는 금융위원회 공식 안내입니다. 세제 한도는 정책 개정에 따라 변동하므로 출처 확인 대상으로 표시합니다.",
+        "2026-07-24 확인",
     ),
     "source.crefia.card-lending-products": source_node(
         "source.crefia.card-lending-products",
@@ -762,8 +781,8 @@ def product_counts(items: list[dict], product_type: str) -> int:
     return sum(1 for item in items if item.get("type") == product_type)
 
 
-PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product"}
-PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT)
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product", "account-product"}
+PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT, ACCOUNT_EXPORT)
 PILOT_FIELDS = {
     "card": ("annual_fee_krw", "previous_month_spend_min_krw", "benefit_type", "benefit_categories", "benefit_rate_percent", "benefit_amount_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend", "performance_excluded_spend", "minimum_payment_amount"),
     "loan": ("eligible_borrower", "loan_limit_krw", "loan_rate_min_percent", "loan_rate_max_percent", "rate_type", "repayment_method", "total_loan_period", "early_repayment_fee", "collateral_type"),
@@ -898,6 +917,8 @@ def finance_search_type(item: dict) -> str | None:
         return "insurance"
     if item.get("type") == "pension-product":
         return "pension"
+    if item.get("type") == "account-product":
+        return "account"
     if item.get("type") == "card-product":
         return "card"
     return None
@@ -2032,7 +2053,7 @@ def active_status_reason(item: dict) -> str:
 def enrich_operational_status(items: list[dict]) -> list[dict]:
     for item in items:
         item_type = item.get("type")
-        if item_type not in {"card-product", "bank-product", "insurance-product", "pension-product"}:
+        if item_type not in {"card-product", "bank-product", "insurance-product", "pension-product", "account-product"}:
             continue
 
         raw_status = str(item.get("product_status") or item.get("sales_status") or item.get("status") or "unknown")
@@ -2093,6 +2114,14 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
             item["recommendation_exclusion_reasons"] = unique([
                 *(item.get("recommendation_exclusion_reasons") or []),
                 "pension_investment_requires_verified_candidate",
+            ])
+        if item_type == "account-product":
+            # 주택청약·ISA는 자격·세제·시점별 금리가 개인 상황에 좌우되는 세제혜택 계좌라
+            # 수동 큐레이션 상태에서는 참조 전용으로 고정한다(맞춤 권유 금지, 조건은 출처 확인).
+            item["recommendation_status"] = "reference_only"
+            item["recommendation_exclusion_reasons"] = unique([
+                *(item.get("recommendation_exclusion_reasons") or []),
+                "tax_advantaged_account_reference_only",
             ])
 
         item["effective_from"] = item.get("effective_from")
@@ -2340,10 +2369,54 @@ def pension_items() -> list[dict]:
     ])
 
 
+def account_items() -> list[dict]:
+    # 주택청약종합저축과 ISA를 아우르는 세제혜택 계좌 도메인. 공개·고정 조건 중심의 수동
+    # 큐레이션 상품을 담고, 주택마련저축 소득공제(deduction.housing-savings)와 ISA 세제혜택
+    # (support.isa) 세금 노드에 related로 연결한다.
+    items = [
+        node(
+            "finance.tax-advantaged-accounts-ontology",
+            "세제혜택 계좌 온톨로지",
+            "domain",
+            "주택청약종합저축과 ISA(개인종합자산관리계좌)처럼 소득공제·비과세 등 세제혜택이 결합된 저축·자산관리 계좌의 가입대상, 납입한도, 세제 요건, 연말정산·청약 연계를 구조화하는 금융상품 온톨로지입니다.",
+            children=["category.finance.housing-subscription-accounts", "category.finance.isa-accounts"],
+            related=["deduction.housing-savings", "support.isa"],
+            sources=["source.nhuf.housing-subscription", "source.fsc.isa-guide"],
+            tags=["finance-ontology", "tax-advantaged-accounts-ontology"],
+        ),
+        node(
+            "category.finance.housing-subscription-accounts",
+            "주택청약종합저축",
+            "category",
+            "주택청약종합저축과 청년 주택드림 청약통장의 가입대상, 납입방식, 청약 자격, 무주택 세대주 소득공제(deduction.housing-savings) 연계를 관리합니다. 취급은행·시점별 금리는 출처 확인 대상으로 보존합니다.",
+            parents=["finance.tax-advantaged-accounts-ontology"],
+            related=["deduction.housing-savings", "eligibility-rule.housing-savings-employee-household", "life-expense.housing-subscription"],
+            sources=["source.nhuf.housing-subscription"],
+            tags=["tax-advantaged-accounts-ontology", "housing-subscription", "tax-qualified"],
+        ),
+        node(
+            "category.finance.isa-accounts",
+            "ISA 개인종합자산관리계좌",
+            "category",
+            "ISA의 유형(신탁형·일임형·중개형), 납입한도, 의무가입기간, 비과세·분리과세 세제혜택(support.isa)과 서민형·농어민형 요건을 관리합니다. 세제 한도는 정책 개정에 따라 변동하므로 출처 확인 대상으로 보존합니다.",
+            parents=["finance.tax-advantaged-accounts-ontology"],
+            related=["support.isa"],
+            sources=["source.fsc.isa-guide"],
+            tags=["tax-advantaged-accounts-ontology", "isa-account", "tax-qualified"],
+        ),
+    ]
+    items.extend(load_generated("account"))
+    return attach_source_metadata([
+        *items,
+        SOURCES["source.nhuf.housing-subscription"],
+        SOURCES["source.fsc.isa-guide"],
+    ])
+
+
 def write_export(path: Path, version: str, domain: str, items: list[dict], product_type: str, generated_domain: str) -> dict:
     normalized = normalize_links(enrich_operational_status(items))
     for item in normalized:
-        if item.get("type") in {"card-product", "bank-product", "insurance-product", "pension-product", "support-program", *TAX_DECISION_TYPES}:
+        if item.get("type") in {"card-product", "bank-product", "insurance-product", "pension-product", "account-product", "support-program", *TAX_DECISION_TYPES}:
             item["structured_summary"] = structured_summary(item)
             item["search_facets"] = search_facets(item)
     product_count = product_counts(normalized, product_type)
@@ -2856,6 +2929,8 @@ def search_index_shard_id(item: dict) -> str:
         return "insurance-products"
     if item.get("type") == "pension-product":
         return "pension-products"
+    if item.get("type") == "account-product":
+        return "account-products"
     return "reference"
 
 
@@ -3588,6 +3663,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         results["loan"]["path"],
         results["insurance"]["path"],
         results["pension"]["path"],
+        results["account"]["path"],
         results["reference"]["path"],
     ]
     built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -3945,6 +4021,18 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["pension"]["collection_dates"],
             ),
             export_entry(
+                "tax-advantaged-accounts-ontology",
+                "tax-advantaged-accounts",
+                results["account"]["path"],
+                results["account"]["item_count"],
+                results["account"]["product_count"],
+                "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다.",
+                results["account"]["product_collection_dates"],
+                results["account"].get("quality_summary"),
+                results["account"].get("export_checksum"),
+                results["account"]["collection_dates"],
+            ),
+            export_entry(
                 "finance-reference-ontology",
                 "finance-reference",
                 results["reference"]["path"],
@@ -3992,7 +4080,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, *SEARCH_INDEX_SHARDS.values(), MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
+    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT, ACCOUNT_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, *SEARCH_INDEX_SHARDS.values(), MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -4046,6 +4134,14 @@ def main() -> int:
             "pension-product",
             "pension",
         ),
+        "account": write_export(
+            ACCOUNT_EXPORT,
+            "KR-TAX-ADVANTAGED-ACCOUNTS-ONTOLOGY-2026.07.24.1",
+            "tax-advantaged-accounts",
+            account_items(),
+            "account-product",
+            "account",
+        ),
     }
     results["reference"] = write_export(
         REFERENCE_EXPORT,
@@ -4064,6 +4160,7 @@ def main() -> int:
         ("loan-products-ontology", results["loan"]["path"]),
         ("insurance-products-ontology", results["insurance"]["path"]),
         ("pension-products-ontology", results["pension"]["path"]),
+        ("tax-advantaged-accounts-ontology", results["account"]["path"]),
         ("finance-reference-ontology", results["reference"]["path"]),
     ])
     search_report = write_search_regression_report()
@@ -4074,6 +4171,7 @@ def main() -> int:
     print(f"Exported {LOAN_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")
     print(f"Exported {PENSION_EXPORT}")
+    print(f"Exported {ACCOUNT_EXPORT}")
     print(f"Exported {REFERENCE_EXPORT}")
     print(f"Exported {MANIFEST_EXPORT}")
     return 0

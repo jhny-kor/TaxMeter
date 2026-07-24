@@ -20,7 +20,7 @@ QUALITY_MANIFEST = EXPORT_DIR / "openfin-quality-manifest-2026.json"
 SEARCH_REGRESSION_REPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
 
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
-PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product"}
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product", "account-product"}
 GENERIC_SEARCH_TYPES = {"category", "term", "domain", "source"}
 TAX_DECISION_TYPES = {"tax-credit", "deduction"}
 VALID_OPERATIONAL_STATUSES = {"active", "closed", "ended", "suspended", "unknown"}

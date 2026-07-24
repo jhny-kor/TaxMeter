@@ -18,6 +18,7 @@ REQUIRED_FIELDS = {
     "loan": ("loan_rate_min_percent", "loan_rate_max_percent", "repayment_method", "loan_limit_krw", "early_repayment_fee", "eligible_borrower", "collateral_type", "rate_type"),
     "insurance": ("coverage_names", "coverage_amount_krw", "claim_condition", "exclusion_condition", "insured_age_min", "insured_age_max", "insurance_term", "payment_term", "premium_basis", "renewal_type", "waiting_period_days", "reduction_period_days", "surrender_refund_type"),
     "pension": ("pension_kind", "guaranteed_min_rate_percent", "disclosed_return_rate_percent", "join_member", "sales_verification_status"),
+    "account": ("account_kind", "join_member", "payment_limit_krw", "tax_benefit", "sales_verification_status"),
 }
 COMPARISON_FIELDS = {
     "deposit": ("term_months", "base_rate_percent", "maximum_rate_percent", "source_urls"),
@@ -149,6 +150,8 @@ def product_domain(item: dict[str, Any]) -> str | None:
         return "insurance"
     if item.get("type") == "pension-product":
         return "pension"
+    if item.get("type") == "account-product":
+        return "account"
     return None
 
 

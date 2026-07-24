@@ -64,6 +64,12 @@ const DOMAIN_META = {
     className: "pension",
     summary: "연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 연금계좌 세액공제 연계",
   },
+  "tax-advantaged-accounts": {
+    label: "세제혜택 계좌",
+    short: "Accounts",
+    className: "account",
+    summary: "주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계",
+  },
   "finance-reference": {
     label: "금융 기준정보",
     short: "Reference",

@@ -8,7 +8,7 @@ from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 
-PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product"}
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product", "account-product"}
 IDENTIFIER_QUERY_KEYS = (
     "product_code", "productCode", "productCodeNo", "fin_prdt_cd", "finPrdtCd",
     "gdsno", "mbkNo", "prodNo", "productId", "code", "product_id", "productId",
