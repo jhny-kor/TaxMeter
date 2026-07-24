@@ -11,7 +11,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 OVERLAY_PATH = ROOT / "custom" / "finance" / "recommendation-verifications.json"
 MODEL_VERSION = "openfin-recommendation-v0.1.0"
-PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product"}
 COMPARISON_DOMAINS = {"deposit", "saving"}
 VERIFICATION_REQUIRED_FIELDS = (
     "canonical_product_id",

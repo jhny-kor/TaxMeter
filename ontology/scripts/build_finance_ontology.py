@@ -46,6 +46,7 @@ DEPOSIT_EXPORT = EXPORT_DIR / "korea-deposit-products-ontology-2026.json"
 SAVING_EXPORT = EXPORT_DIR / "korea-saving-products-ontology-2026.json"
 LOAN_EXPORT = EXPORT_DIR / "korea-loan-products-ontology-2026.json"
 INSURANCE_EXPORT = EXPORT_DIR / "korea-insurance-products-ontology-2026.json"
+PENSION_EXPORT = EXPORT_DIR / "korea-pension-products-ontology-2026.json"
 REFERENCE_EXPORT = EXPORT_DIR / "korea-finance-reference-ontology-2026.json"
 MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
@@ -67,6 +68,7 @@ SEARCH_INDEX_SHARDS = {
     "bank-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-bank-products.json",
     "card-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-card-products.json",
     "insurance-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-insurance-products.json",
+    "pension-products": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-pension-products.json",
     "reference": EXPORT_DIR / f"{SEARCH_INDEX_SHARD_PREFIX}-reference.json",
 }
 HARD_FAIL_METRICS = (
@@ -182,6 +184,7 @@ GENERATED_FILES = {
     "policy_loan": CUSTOM_FINANCE_DIR / "policy-loan-products.generated.json",
     "deposit_protection": CUSTOM_FINANCE_DIR / "deposit-protection-products.generated.json",
     "insurance": CUSTOM_FINANCE_DIR / "insurance-products.generated.json",
+    "pension": CUSTOM_FINANCE_DIR / "pension-products.generated.json",
     "reference": CUSTOM_FINANCE_DIR / "finance-reference.generated.json",
 }
 INSURANCE_PILOT_DETAILS_PATH = CUSTOM_FINANCE_DIR / "insurance-pilot-details.json"
@@ -759,8 +762,8 @@ def product_counts(items: list[dict], product_type: str) -> int:
     return sum(1 for item in items if item.get("type") == product_type)
 
 
-PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product"}
-PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT)
+PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product"}
+PRODUCT_EXPORTS = (CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT)
 PILOT_FIELDS = {
     "card": ("annual_fee_krw", "previous_month_spend_min_krw", "benefit_type", "benefit_categories", "benefit_rate_percent", "benefit_amount_krw", "monthly_benefit_limit_krw", "per_transaction_limit_krw", "excluded_spend", "performance_excluded_spend", "minimum_payment_amount"),
     "loan": ("eligible_borrower", "loan_limit_krw", "loan_rate_min_percent", "loan_rate_max_percent", "rate_type", "repayment_method", "total_loan_period", "early_repayment_fee", "collateral_type"),
@@ -893,6 +896,8 @@ def finance_search_type(item: dict) -> str | None:
         return bank_type
     if item.get("type") == "insurance-product":
         return "insurance"
+    if item.get("type") == "pension-product":
+        return "pension"
     if item.get("type") == "card-product":
         return "card"
     return None
@@ -2027,7 +2032,7 @@ def active_status_reason(item: dict) -> str:
 def enrich_operational_status(items: list[dict]) -> list[dict]:
     for item in items:
         item_type = item.get("type")
-        if item_type not in {"card-product", "bank-product", "insurance-product"}:
+        if item_type not in {"card-product", "bank-product", "insurance-product", "pension-product"}:
             continue
 
         raw_status = str(item.get("product_status") or item.get("sales_status") or item.get("status") or "unknown")
@@ -2080,6 +2085,15 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
             item["status_reason"] = status_reason
             item["status_confidence"] = status_confidence
             item["recommendation_status"] = "reference_only"
+
+        if item_type == "pension-product":
+            # 연금저축은 실적배당·공시이율·세제조건이 개인 상황에 크게 좌우되는 투자성 상품이라
+            # 검증된 추천 후보로 승격되기 전까지 기본은 참조 전용으로 고정한다(맞춤 투자권유 금지).
+            item["recommendation_status"] = "reference_only"
+            item["recommendation_exclusion_reasons"] = unique([
+                *(item.get("recommendation_exclusion_reasons") or []),
+                "pension_investment_requires_verified_candidate",
+            ])
 
         item["effective_from"] = item.get("effective_from")
         item["effective_to"] = item.get("effective_to")
@@ -2288,10 +2302,48 @@ def normalize_links(items: list[dict]) -> list[dict]:
     return sorted(by_id.values(), key=lambda item: item["id"])
 
 
+def pension_items() -> list[dict]:
+    # 연금저축(세제적격)은 보험·펀드·신탁을 아우르는 독립 도메인이다. 상품 카테고리는
+    # 예금/적금 패턴대로 도메인 안에 두고, reference 트리의 연금 축과 related로 잇는다.
+    items = [
+        node(
+            "finance.pension-products-ontology",
+            "연금저축 상품 온톨로지",
+            "domain",
+            "세제적격 연금저축(연금저축보험·연금저축펀드·연금저축신탁)의 공시이율·최저보증이율·과거수익률, 납입·연금개시 조건, 판매상태와 연말정산 세액공제 연계를 구조화하는 금융상품 온톨로지입니다.",
+            children=["category.finance.pension-savings-products"],
+            related=["category.finance.pension-products", "credit.pension-account"],
+            sources=[
+                "source.fss.finlife.api",
+                "source.fss.integrated-pension-portal",
+                "source.fsc.retirement-pension-basic",
+            ],
+            tags=["finance-ontology", "pension-products-ontology"],
+        ),
+        node(
+            "category.finance.pension-savings-products",
+            "연금저축 상품",
+            "category",
+            "연금저축보험·연금저축펀드·연금저축신탁의 최저보증이율, 공시이율, 과거수익률, 납입·연금개시 조건과 세제적격 세액공제 대상 여부를 관리합니다. 연말정산 연금계좌 세액공제(credit.pension-account)와 연결됩니다. 상품 행은 통합연금포털 원천이 확보될 때 추가합니다(FinLife는 연금저축 공시 API를 제공하지 않음). 퇴직연금·IRP 수익률 비교도 같은 원천으로 확장합니다.",
+            parents=["finance.pension-products-ontology"],
+            related=["category.finance.pension-products", "credit.pension-account"],
+            sources=["source.fss.integrated-pension-portal"],
+            tags=["pension-products-ontology", "annuity-saving", "tax-qualified", "pending-product-import"],
+        ),
+    ]
+    items.extend(load_generated("pension"))
+    return attach_source_metadata([
+        *items,
+        SOURCES["source.fss.finlife.api"],
+        SOURCES["source.fss.integrated-pension-portal"],
+        SOURCES["source.fsc.retirement-pension-basic"],
+    ])
+
+
 def write_export(path: Path, version: str, domain: str, items: list[dict], product_type: str, generated_domain: str) -> dict:
     normalized = normalize_links(enrich_operational_status(items))
     for item in normalized:
-        if item.get("type") in {"card-product", "bank-product", "insurance-product", "support-program", *TAX_DECISION_TYPES}:
+        if item.get("type") in {"card-product", "bank-product", "insurance-product", "pension-product", "support-program", *TAX_DECISION_TYPES}:
             item["structured_summary"] = structured_summary(item)
             item["search_facets"] = search_facets(item)
     product_count = product_counts(normalized, product_type)
@@ -2802,6 +2854,8 @@ def search_index_shard_id(item: dict) -> str:
         return "card-products"
     if item.get("type") == "insurance-product":
         return "insurance-products"
+    if item.get("type") == "pension-product":
+        return "pension-products"
     return "reference"
 
 
@@ -3533,6 +3587,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         results["saving"]["path"],
         results["loan"]["path"],
         results["insurance"]["path"],
+        results["pension"]["path"],
         results["reference"]["path"],
     ]
     built_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -3878,6 +3933,18 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
                 results["insurance"]["collection_dates"],
             ),
             export_entry(
+                "pension-products-ontology",
+                "pension-products",
+                results["pension"]["path"],
+                results["pension"]["item_count"],
+                results["pension"]["product_count"],
+                "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다.",
+                results["pension"]["product_collection_dates"],
+                results["pension"].get("quality_summary"),
+                results["pension"].get("export_checksum"),
+                results["pension"]["collection_dates"],
+            ),
+            export_entry(
                 "finance-reference-ontology",
                 "finance-reference",
                 results["reference"]["path"],
@@ -3925,7 +3992,7 @@ def write_manifest(results: dict[str, dict], search_index: dict, search_report: 
         )
     MANIFEST_EXPORT.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     DOCS_ROOT.mkdir(parents=True, exist_ok=True)
-    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, *SEARCH_INDEX_SHARDS.values(), MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
+    for path in (TAX_EXPORT, LOCAL_SUPPORT_EXPORT, CARD_EXPORT, DEPOSIT_EXPORT, SAVING_EXPORT, LOAN_EXPORT, INSURANCE_EXPORT, PENSION_EXPORT, REFERENCE_EXPORT, SEARCH_INDEX_EXPORT, *SEARCH_INDEX_SHARDS.values(), MANIFEST_EXPORT, QUALITY_MANIFEST_EXPORT, SEARCH_REGRESSION_REPORT_EXPORT, *QUALITY_REPORT_EXPORTS.values()):
         (DOCS_ROOT / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
 
 
@@ -3971,6 +4038,14 @@ def main() -> int:
             "insurance-product",
             "insurance",
         ),
+        "pension": write_export(
+            PENSION_EXPORT,
+            "KR-PENSION-PRODUCTS-ONTOLOGY-2026.07.10.1",
+            "pension-products",
+            pension_items(),
+            "pension-product",
+            "pension",
+        ),
     }
     results["reference"] = write_export(
         REFERENCE_EXPORT,
@@ -3988,6 +4063,7 @@ def main() -> int:
         ("saving-products-ontology", results["saving"]["path"]),
         ("loan-products-ontology", results["loan"]["path"]),
         ("insurance-products-ontology", results["insurance"]["path"]),
+        ("pension-products-ontology", results["pension"]["path"]),
         ("finance-reference-ontology", results["reference"]["path"]),
     ])
     search_report = write_search_regression_report()
@@ -3997,6 +4073,7 @@ def main() -> int:
     print(f"Exported {SAVING_EXPORT}")
     print(f"Exported {LOAN_EXPORT}")
     print(f"Exported {INSURANCE_EXPORT}")
+    print(f"Exported {PENSION_EXPORT}")
     print(f"Exported {REFERENCE_EXPORT}")
     print(f"Exported {MANIFEST_EXPORT}")
     return 0

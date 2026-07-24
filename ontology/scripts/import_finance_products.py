@@ -106,15 +106,10 @@ FINLIFE_ENDPOINTS = (
         "group_codes": ("020000", "030200", "030300", "050000"),
         "title": "개인신용대출",
     },
-    {
-        "endpoint": "annuitySavingProductsSearch",
-        "domain": "insurance",
-        "product_kind": "annuity-saving",
-        "product_type": "insurance-product",
-        "category": "category.finance.annuity-insurance-products",
-        "group_codes": ("050000", "060000"),
-        "title": "연금저축",
-    },
+    # annuitySavingProductsSearch는 연금저축이 아니라 보험사 여신(담보대출) 상품을 반환하는
+    # 것으로 실측 확인됨(pnsn_kind_nm 없음, loan_type/lend_rate 필드 반환). FinLife는 연금저축
+    # 공시 API를 제공하지 않으므로 소스에서 제외한다. 연금저축 실데이터는 통합연금포털 원천이
+    # 확보될 때 별도 수집기로 추가한다. pension 도메인은 구조 노드만 유지한다.
 )
 
 KLIA_ASSURANCE_GROUPS = {
@@ -1442,7 +1437,7 @@ def merge_card_items(items: list[dict]) -> list[dict]:
 
 
 def crawl_finlife(api_key: str, *, timeout: int, sleep_seconds: float, limit_pages: int | None) -> dict[str, list[dict]]:
-    by_domain: dict[str, dict[str, dict]] = {"deposit": {}, "saving": {}, "loan": {}, "insurance": {}}
+    by_domain: dict[str, dict[str, dict]] = {"deposit": {}, "saving": {}, "loan": {}}
     for config in FINLIFE_ENDPOINTS:
         for group_code in config["group_codes"]:
             page_no = 1
@@ -1568,7 +1563,6 @@ def main() -> int:
         write_generated("deposit", imported.get("deposit", []), allow_shrink=args.allow_shrink)
         write_generated("saving", imported.get("saving", []), allow_shrink=args.allow_shrink)
         write_generated("loan", imported.get("loan", []), allow_shrink=args.allow_shrink)
-        insurance_items.extend(imported.get("insurance", []))
         imported_any = True
     elif not args.skip_finlife:
         print("FINLIFE_API_KEY is not set; skipped Financial Supervisory Service FinLife API crawl.", file=sys.stderr)

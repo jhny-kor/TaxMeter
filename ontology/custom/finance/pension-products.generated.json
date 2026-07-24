@@ -1,0 +1,8 @@
+{
+  "version": "PENSION-PRODUCTS-PLACEHOLDER-2026-07-24",
+  "source": "https://www.fss.or.kr/fss/lifeplan/",
+  "collected_at": "2026-07-24",
+  "item_count": 0,
+  "_note": "연금저축 상품 행 대기 중. FinLife annuitySavingProductsSearch는 연금저축이 아니라 보험사 여신상품을 반환해 소스에서 제외했다. 실데이터는 통합연금포털(금융감독원) 원천 수집기가 확보되면 채운다. pension 도메인의 구조 노드(도메인·카테고리·세액공제 연계)는 build_finance_ontology.py의 pension_items()에서 생성한다.",
+  "items": []
+}

@@ -58,6 +58,12 @@ const DOMAIN_META = {
     className: "insurance",
     summary: "보험료, 보장, 면책, 갱신, 약관 출처",
   },
+  "pension-products": {
+    label: "연금저축 상품",
+    short: "Pension",
+    className: "pension",
+    summary: "연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 연금계좌 세액공제 연계",
+  },
   "finance-reference": {
     label: "금융 기준정보",
     short: "Reference",
