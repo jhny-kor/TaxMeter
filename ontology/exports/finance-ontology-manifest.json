@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-22T14:18:29Z",
+  "built_at": "2026-07-24T22:31:56Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "ready",
@@ -13,12 +13,12 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-22T14:18:29Z",
-      "domain_export_count": 8,
-      "search_index_item_count": 21251,
-      "canonical_product_count": 3430,
+      "built_at": "2026-07-24T22:31:56Z",
+      "domain_export_count": 10,
+      "search_index_item_count": 21266,
+      "canonical_product_count": 3434,
       "duplicate_canonical_product_count": 0,
-      "checksum_covered_export_count": 9,
+      "checksum_covered_export_count": 11,
       "broken_relation_count": 0,
       "collection_failure_sources": "see source_access_risks"
     },
@@ -831,6 +831,180 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
+      "pension": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "account": {
+        "product_count": 4,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {
+          "active": 4
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 4,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 4,
+        "recommendation_status_counts": {
+          "reference_only": 4
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 4
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "absent_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 0,
+          "tax_benefit": 4
+        },
+        "empty_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "unverified_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
       "reference": {
         "product_count": 0,
         "verified_pilot_count": 0,
@@ -1099,13 +1273,13 @@
     "path": "ontology/exports/finance-search-index-2026.json",
     "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
     "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-    "item_count": 21251,
+    "item_count": 21266,
     "product_count": 0,
     "source_review_date": "2026-07-10",
     "collection_dates": [],
     "product_collection_dates": [],
     "quality_summary": {},
-    "export_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
+    "export_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
     "description": "MCP search 전용 경량 인덱스입니다.",
     "shards": [
       {
@@ -1154,13 +1328,31 @@
         "export_checksum": "c6a83218439311f7cc951aab8b37273eb380d17adbc22a0f89468cba3dec575d"
       },
       {
+        "id": "finance-search-index-pension-products",
+        "shard_id": "pension-products",
+        "path": "ontology/exports/finance-search-index-2026-pension-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-pension-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-pension-products.json",
+        "item_count": 0,
+        "export_checksum": "cae9ea8a457937eb500d7f73f526977c90d1f6d4909d4c27d4e88a1d367f6cc5"
+      },
+      {
+        "id": "finance-search-index-account-products",
+        "shard_id": "account-products",
+        "path": "ontology/exports/finance-search-index-2026-account-products.json",
+        "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
+        "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
+        "item_count": 4,
+        "export_checksum": "85ad132dadeeac72ecf25a970449e8561979db04ac1f9270fee3b908aa1e0bfb"
+      },
+      {
         "id": "finance-search-index-reference",
         "shard_id": "reference",
         "path": "ontology/exports/finance-search-index-2026-reference.json",
         "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
         "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
-        "item_count": 691,
-        "export_checksum": "f0d957480983d7846f584d89bebf18a46870c87403ddf1139923ab7b7b8e4cd9"
+        "item_count": 702,
+        "export_checksum": "886186465e066606cc684bbe9effd9496a0179eaa28499613301ca06b69d4a24"
       }
     ]
   },
@@ -1171,22 +1363,22 @@
       "path": "ontology/exports/openfin-quality-manifest-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/openfin-quality-manifest-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/openfin-quality-manifest-2026.json",
-      "item_count": 8,
+      "item_count": 10,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-22T14:18:29Z",
-        "domain_export_count": 8,
-        "search_index_item_count": 21251,
-        "canonical_product_count": 3430,
+        "built_at": "2026-07-24T22:31:56Z",
+        "domain_export_count": 10,
+        "search_index_item_count": 21266,
+        "canonical_product_count": 3434,
         "duplicate_canonical_product_count": 0,
-        "checksum_covered_export_count": 9,
+        "checksum_covered_export_count": 11,
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "b0084c83a03e0d01a5da790cd7ae0107b66c4e0b8f04e94c18d9cc674c92d7c5",
+      "export_checksum": "c9a2bad5258d746ef60749cea013aa0b386868a63644a761800c5263671f89a2",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1222,12 +1414,12 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "verification-coverage"
       },
-      "export_checksum": "b27d8ee3b5499e7bd1962ae2a7dba66564ee17ce2052af29e8054f2f70f026d3",
+      "export_checksum": "34be7d4ea9d3f397c1d7f03dafc2de1452539507e9f6c0aa451725b171041664",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1242,8 +1434,8 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "semantic-duplicate",
         "exact_id_duplicate_count": 0,
@@ -1255,7 +1447,7 @@
         "duplicate_canonical_product_count": 0,
         "canonical_merge_count": 11
       },
-      "export_checksum": "6d651d8125c5200ed9052e451003e4b63d734fe2dcd91e71185ab1d06a9db448",
+      "export_checksum": "a49db29298f7718fc05e7c45d8965bef4c1072f796b2227311cbf8922100a102",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1270,14 +1462,14 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "comparison-regression",
         "failed_count": 0,
         "search_regression_failed_count": 0
       },
-      "export_checksum": "41dded46563976513a9da084b32762303008bc9669ff7982b5ab4309a2aba646",
+      "export_checksum": "feea1e4e7f0e4092facf9c0c829c2b4b64be6c6241d90ed0eb80473334ca0f9c",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1292,12 +1484,12 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "recommendation-safety"
       },
-      "export_checksum": "71a1248f701a95cf11a9e1146baa1183d53315d8ef4c0cc0e514872ba20259d6",
+      "export_checksum": "ac55f8bf11c9a81b4595bb2c6a8a562b96cc2d59d48365bf5eae8967ec80d648",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1312,15 +1504,15 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "support-relevance",
         "jurisdiction_violation_count": 0,
         "support_category_violation_count": 0,
         "unknown_constraint_false_match_count": 0
       },
-      "export_checksum": "b48cd32ebef59ab7e2c46e66bae498009b7986612a46ecdd8d836a124048e442",
+      "export_checksum": "d95e173ead8f2b0ad9571e80f0d2ff128ae4f92b7974a0d0498433d1113a0af2",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1335,12 +1527,12 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "data-drift"
       },
-      "export_checksum": "50e25c499de12fded8359931175e9dbfd44950d748611695e8022cef244b2d55",
+      "export_checksum": "117068e69cccd6a86ce3288ed91e89887262fa6cc95f98d31d836648fd184293",
       "description": "OpenFin 품질 하위 리포트입니다."
     },
     {
@@ -1355,13 +1547,13 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "live_case_count": 47,
-        "live_passed_count": 47,
+        "live_case_count": 0,
+        "live_passed_count": 0,
         "live_failed_count": 0,
         "report_kind": "local-cloudflare-parity",
         "local_cloudflare_parity_error_count": 0
       },
-      "export_checksum": "0679fbad8bc90687af6304be96fc9393f618a46baca25a205c19ea06c9c147ea",
+      "export_checksum": "289e174a6c15d9d9053bd30b753a1df2b292510e3ffdc8485c92edd8d105530b",
       "description": "OpenFin 품질 하위 리포트입니다."
     }
   ],
@@ -2314,12 +2506,218 @@
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
+      "id": "pension-products-ontology",
+      "domain": "pension-products",
+      "path": "ontology/exports/korea-pension-products-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-pension-products-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-pension-products-ontology-2026.json",
+      "item_count": 5,
+      "product_count": 0,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [],
+      "product_collection_dates": [],
+      "quality_summary": {
+        "product_count": 0,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {},
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 0,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 0,
+        "recommendation_status_counts": {},
+        "recommendation_scope_counts": {},
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {},
+        "absent_fields_by_field_name": {},
+        "empty_fields_by_field_name": {},
+        "not_collected_fields_by_field_name": {},
+        "unverified_fields_by_field_name": {},
+        "conflicting_fields_by_field_name": {},
+        "expired_verification_fields_by_field_name": {},
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "0270e690e99369f82bb9b5977779867d6b07235f849df18722f6c5efc7e3167e",
+      "description": "연금저축 팩: 연금저축보험·펀드·신탁의 공시이율, 최저보증이율, 과거수익률, 세액공제 연계 온톨로지입니다."
+    },
+    {
+      "id": "tax-advantaged-accounts-ontology",
+      "domain": "tax-advantaged-accounts",
+      "path": "ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-tax-advantaged-accounts-ontology-2026.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-tax-advantaged-accounts-ontology-2026.json",
+      "item_count": 9,
+      "product_count": 4,
+      "source_review_date": "2026-07-10",
+      "collection_dates": [
+        "2026-07-24"
+      ],
+      "product_collection_dates": [
+        "2026-07-24"
+      ],
+      "quality_summary": {
+        "product_count": 4,
+        "verified_pilot_count": 0,
+        "verified_pilot_target": 0,
+        "verified_pilot_completeness_ratio": 0.0,
+        "verified_pilot_threshold": null,
+        "status_counts": {
+          "active": 4
+        },
+        "active_products_without_criteria": 0,
+        "active_products_without_conditions": 0,
+        "products_without_related": 0,
+        "active_products_without_related": 0,
+        "card_benefits_with_incomplete_conditions": 0,
+        "insurance_coverages_with_incomplete_conditions": 0,
+        "deposit_protection_products": 0,
+        "active_loans_without_criteria": 0,
+        "loans_missing_required_fields": 0,
+        "active_insurance_without_criteria": 0,
+        "stale_disclosure_products": 0,
+        "reference_only_products": 4,
+        "manual_review_candidate_products": 0,
+        "verified_recommendation_candidate_products": 0,
+        "discovery_candidate_products": 0,
+        "comparison_candidate_products": 0,
+        "public_recommendation_candidate_products": 0,
+        "recommendation_listing_only_products": 4,
+        "recommendation_status_counts": {
+          "reference_only": 4
+        },
+        "recommendation_scope_counts": {
+          "listing_only": 4
+        },
+        "products_with_complete_comparison_fields": 0,
+        "products_with_complete_recommendation_fields": 0,
+        "products_with_verified_sales_status": 0,
+        "products_with_verification_evidence": 0,
+        "average_completeness_ratio": 0.0,
+        "products_with_unmapped_existing_fields": 0,
+        "products_with_missing_search_type": 0,
+        "missing_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "absent_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 0,
+          "tax_benefit": 4
+        },
+        "empty_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "not_collected_fields_by_field_name": {
+          "account_kind": 4,
+          "join_member": 4,
+          "payment_limit_krw": 4,
+          "sales_verification_status": 4,
+          "tax_benefit": 4
+        },
+        "unverified_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "conflicting_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "expired_verification_fields_by_field_name": {
+          "account_kind": 0,
+          "join_member": 0,
+          "payment_limit_krw": 0,
+          "sales_verification_status": 0,
+          "tax_benefit": 0
+        },
+        "structural_comparison_candidate_count": 0,
+        "complete_comparison_data_count": 0,
+        "verified_comparison_candidate_count": 0,
+        "public_comparison_candidate_count": 0,
+        "readiness": {
+          "discovery": "blocked",
+          "comparison_engine": "ready",
+          "comparison_data": "blocked",
+          "public_recommendation": "blocked"
+        },
+        "blockers": {
+          "verified_sales_product_count": 0,
+          "verification_evidence_product_count": 0
+        },
+        "quality_gate": {
+          "expired_active_local_supports": "validated in korea-local-government-supports export",
+          "active_insurance_without_criteria_must_be_zero": true,
+          "active_products_without_conditions_must_be_zero": true,
+          "active_products_without_related_must_be_zero": true,
+          "stale_active_disclosure_products_must_be_zero": true
+        }
+      },
+      "export_checksum": "63b241686edbf0db0e1078ca64b7782bbcc6fc39c17b7319ed43b8dd196e461e",
+      "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다."
+    },
+    {
       "id": "finance-reference-ontology",
       "domain": "finance-reference",
       "path": "ontology/exports/korea-finance-reference-ontology-2026.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/korea-finance-reference-ontology-2026.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/korea-finance-reference-ontology-2026.json",
-      "item_count": 9650,
+      "item_count": 9654,
       "product_count": 0,
       "source_review_date": "2026-07-10",
       "collection_dates": [
@@ -2389,7 +2787,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "c065774a7f2c86de6f159244b20e97f77a5b83240137777191c323f54ff150be",
+      "export_checksum": "7ea9dddac780343c0a3dee897c174986ee703082026ec94fd212a42ef9a3e2ea",
       "description": "금융회사, 기준금리, 보험 리스크, 투자상품 후보, 정책금융 출처 상태, 예금자보호 등재 레지스트리를 묶은 기준정보 온톨로지입니다."
     }
   ],

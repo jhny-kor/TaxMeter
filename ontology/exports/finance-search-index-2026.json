@@ -4,11 +4,11 @@
   "source_review_date": "2026-07-10",
   "ontology_kind": "finance-search-index",
   "description": "MCP search가 대용량 원본 export를 모두 적재하지 않고 검색할 수 있도록 만든 경량 인덱스입니다.",
-  "item_count": 21251,
-  "canonical_product_count": 3430,
+  "item_count": 21266,
+  "canonical_product_count": 3434,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
+  "export_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -56,13 +56,31 @@
       "export_checksum": "c6a83218439311f7cc951aab8b37273eb380d17adbc22a0f89468cba3dec575d"
     },
     {
+      "id": "finance-search-index-pension-products",
+      "shard_id": "pension-products",
+      "path": "ontology/exports/finance-search-index-2026-pension-products.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-pension-products.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-pension-products.json",
+      "item_count": 0,
+      "export_checksum": "cae9ea8a457937eb500d7f73f526977c90d1f6d4909d4c27d4e88a1d367f6cc5"
+    },
+    {
+      "id": "finance-search-index-account-products",
+      "shard_id": "account-products",
+      "path": "ontology/exports/finance-search-index-2026-account-products.json",
+      "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
+      "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
+      "item_count": 4,
+      "export_checksum": "85ad132dadeeac72ecf25a970449e8561979db04ac1f9270fee3b908aa1e0bfb"
+    },
+    {
       "id": "finance-search-index-reference",
       "shard_id": "reference",
       "path": "ontology/exports/finance-search-index-2026-reference.json",
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
-      "item_count": 691,
-      "export_checksum": "f0d957480983d7846f584d89bebf18a46870c87403ddf1139923ab7b7b8e4cd9"
+      "item_count": 702,
+      "export_checksum": "886186465e066606cc684bbe9effd9496a0179eaa28499613301ca06b69d4a24"
     }
   ]
 }

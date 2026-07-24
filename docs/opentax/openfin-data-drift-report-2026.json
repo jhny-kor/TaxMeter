@@ -1,14 +1,14 @@
 {
   "version": "openfin-data-drift-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "executed",
-  "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-22T03:12:56+00:00",
-  "runtime_version": "openfin-mcp-2026.07.22.1",
-  "deployment_commit": "40215ba9c",
-  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-  "live_case_count": 47,
-  "live_passed_count": 47,
+  "live_status": "not_executed",
+  "live_not_executed_reason": "배포 URL smoke test가 아직 실행되지 않았습니다.",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_passed_count": 0,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "data-drift",
@@ -21,5 +21,5 @@
   "discovery_candidate_changed": 0,
   "verification_expired": 0,
   "note": "Previous comparable export snapshot is not retained in this build; drift is recorded as zero-change baseline.",
-  "export_checksum": "50e25c499de12fded8359931175e9dbfd44950d748611695e8022cef244b2d55"
+  "export_checksum": "117068e69cccd6a86ce3288ed91e89887262fa6cc95f98d31d836648fd184293"
 }

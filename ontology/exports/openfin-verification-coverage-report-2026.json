@@ -1,14 +1,14 @@
 {
   "version": "openfin-verification-coverage-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "executed",
-  "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-22T03:12:56+00:00",
-  "runtime_version": "openfin-mcp-2026.07.22.1",
-  "deployment_commit": "40215ba9c",
-  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-  "live_case_count": 47,
-  "live_passed_count": 47,
+  "live_status": "not_executed",
+  "live_not_executed_reason": "배포 URL smoke test가 아직 실행되지 않았습니다.",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_passed_count": 0,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "verification-coverage",
@@ -103,6 +103,36 @@
       }
     },
     {
+      "domain": "pension-products",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
+      "domain": "tax-advantaged-accounts",
+      "verified_sales_product_count": 0,
+      "verification_evidence_product_count": 0,
+      "readiness": {
+        "discovery": "blocked",
+        "comparison_engine": "ready",
+        "comparison_data": "blocked",
+        "public_recommendation": "blocked"
+      },
+      "blockers": {
+        "verified_sales_product_count": 0,
+        "verification_evidence_product_count": 0
+      }
+    },
+    {
       "domain": "finance-reference",
       "verified_sales_product_count": 0,
       "verification_evidence_product_count": 0,
@@ -118,5 +148,5 @@
       }
     }
   ],
-  "export_checksum": "b27d8ee3b5499e7bd1962ae2a7dba66564ee17ce2052af29e8054f2f70f026d3"
+  "export_checksum": "34be7d4ea9d3f397c1d7f03dafc2de1452539507e9f6c0aa451725b171041664"
 }

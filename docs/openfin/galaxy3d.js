@@ -16,6 +16,8 @@ const DOMAINS = {
   "saving-products": { label: "적금", color: "#59c2ff" },
   "loan-products": { label: "대출", color: "#f7b733" },
   "insurance-products": { label: "보험", color: "#ff746b" },
+  "pension-products": { label: "연금저축", color: "#2dd4bf" },
+  "tax-advantaged-accounts": { label: "세제혜택 계좌", color: "#f472b6" },
   "finance-reference": { label: "금융 기준정보", color: "#b9c6d8" },
 };
 

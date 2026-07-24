@@ -1,14 +1,14 @@
 {
   "version": "openfin-recommendation-safety-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "executed",
-  "live_not_executed_reason": null,
-  "live_tested_at": "2026-07-22T03:12:56+00:00",
-  "runtime_version": "openfin-mcp-2026.07.22.1",
-  "deployment_commit": "40215ba9c",
-  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-  "live_case_count": 47,
-  "live_passed_count": 47,
+  "live_status": "not_executed",
+  "live_not_executed_reason": "배포 URL smoke test가 아직 실행되지 않았습니다.",
+  "live_tested_at": null,
+  "runtime_version": null,
+  "deployment_commit": null,
+  "manifest_version": null,
+  "live_case_count": 0,
+  "live_passed_count": 0,
   "live_failed_count": 0,
   "live_failures": [],
   "report_kind": "recommendation-safety",
@@ -27,5 +27,5 @@
     "comparison_calculation_error_count": 0,
     "local_cloudflare_parity_error_count": 0
   },
-  "export_checksum": "71a1248f701a95cf11a9e1146baa1183d53315d8ef4c0cc0e514872ba20259d6"
+  "export_checksum": "ac55f8bf11c9a81b4595bb2c6a8a562b96cc2d59d48365bf5eae8967ec80d648"
 }
