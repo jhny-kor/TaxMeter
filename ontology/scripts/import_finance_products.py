@@ -46,6 +46,10 @@ KINFA_LOAN_API_URL = "https://apis.data.go.kr/B553701/LoanProductSearchingInfo/L
 KINFA_LOAN_DOC_URL = "https://www.data.go.kr/data/15106208/openapi.do?recommendDataYn=Y"
 KDIC_INSURED_PRODUCTS_API_URL = "https://apis.data.go.kr/B190017/service/GetInsuredProductService202008/getProductList202008"
 KDIC_INSURED_PRODUCTS_DOC_URL = "https://www.data.go.kr/data/3037352/openapi.do?recommendDataYn=Y"
+# 한국부동산원 청약홈 APT 분양정보(odcloud). 분양 물건은 시간민감 시장 데이터라 온톨로지
+# export로 materialize하기 전에 실데이터 스키마부터 확인한다(엔드포인트 미검증).
+APPLYHOME_APT_API_URL = "https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1/getAPTLttotPblancDetail"
+APPLYHOME_APT_DOC_URL = "https://www.data.go.kr/data/15101046/openapi.do"
 KLIA_ASSURANCE_LIST_URL = "https://pub.insure.or.kr/compareDis/prodCompare/assurance/listNew.do"
 COLLECTED_AT = date.today().isoformat()
 LOCAL_ENV = REPO_ROOT / ".env"
@@ -1517,6 +1521,85 @@ def write_generated(
     print(f"wrote {path.relative_to(REPO_ROOT)} ({len(items)} items)")
 
 
+def fetch_applyhome_apt_json(service_key: str, page: int, per_page: int, timeout: int) -> dict[str, Any]:
+    params = urllib.parse.urlencode({"page": str(page), "perPage": str(per_page)})
+    url = f"{APPLYHOME_APT_API_URL}?serviceKey={kinfa_service_key(service_key)}&{params}"
+    request = urllib.request.Request(
+        url,
+        headers={"accept": "application/json", "user-agent": "opentax-finance-ontology-importer/1.0"},
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def item_from_applyhome_notice(record: dict[str, Any]) -> dict:
+    # odcloud 응답 필드명은 대문자 스네이크(HOUSE_NM 등). 스키마 변동에 대비해 raw를 보존하고
+    # 알려진 필드만 방어적으로 매핑한다. 실데이터 확인 후 필드 매핑을 확정한다.
+    house_no = clean_text(str(record.get("HOUSE_MANAGE_NO") or ""))
+    pblanc_no = clean_text(str(record.get("PBLANC_NO") or ""))
+    name = clean_text(str(record.get("HOUSE_NM") or "")) or "분양단지명 미상"
+    provider = clean_text(str(record.get("BSNS_MBY_NM") or "")) or "사업주체 미상"
+    region = clean_text(str(record.get("SUBSCRPT_AREA_CODE_NM") or ""))
+    recept_begin = compact_yyyymmdd(str(record.get("RCEPT_BGNDE") or ""))
+    recept_end = compact_yyyymmdd(str(record.get("RCEPT_ENDDE") or ""))
+    identifier = pblanc_no or house_no or slug(name)
+    status = "ended" if recept_end and recept_end < COLLECTED_AT else "active"
+    source_id = "source.applyhome.apt-notice"
+    return {
+        "id": f"finance.housing-subscription-notice.applyhome.{slug(identifier)}",
+        "title": name,
+        "type": "housing-subscription-notice",
+        "description": f"{provider}의 '{name}' APT 청약 분양 공고입니다.",
+        "basis_year": int(COLLECTED_AT[:4]),
+        "reviewed_at": COLLECTED_AT,
+        "abolition_status": "active" if status == "active" else "sunset",
+        "revision_status": "check_source",
+        "parents": [],
+        "children": [],
+        "related": [],
+        "terms": [],
+        "deadlines": [],
+        "sources": [source_id],
+        "tags": unique(["housing-subscription", "generated", "applyhome-notice", region or "region-unknown"]),
+        "provider": provider,
+        "region": region,
+        "recept_begin": recept_begin,
+        "recept_end": recept_end,
+        "product_status": status,
+        "sales_status": status,
+        "collected_at": COLLECTED_AT,
+        "source_api": APPLYHOME_APT_API_URL,
+        "source_record_id": f"applyhome:apt:{identifier}",
+        "source_urls": [APPLYHOME_APT_DOC_URL, clean_text(str(record.get("PBLANC_URL") or "")) or APPLYHOME_APT_API_URL],
+        "source_basis_dates": [f"{COLLECTED_AT} 수집"],
+        "raw": record,
+    }
+
+
+def crawl_applyhome_apt_notices(service_key: str, *, timeout: int, sleep_seconds: float, limit_pages: int | None) -> list[dict]:
+    per_page = 100
+    page = 1
+    items: dict[str, dict] = {}
+    while True:
+        payload = fetch_applyhome_apt_json(service_key, page, per_page, timeout)
+        data = payload.get("data") if isinstance(payload, dict) else None
+        if not isinstance(data, list):
+            raise RuntimeError(f"청약홈 APT 분양정보 API 응답에 data 배열이 없습니다: keys={list(payload)[:8] if isinstance(payload, dict) else type(payload)}")
+        for record in data:
+            if isinstance(record, dict):
+                item = item_from_applyhome_notice(record)
+                items[item["id"]] = item
+        total = int(payload.get("totalCount") or 0)
+        if not data or page * per_page >= total:
+            break
+        if limit_pages is not None and page >= limit_pages:
+            break
+        page += 1
+        if sleep_seconds:
+            time.sleep(sleep_seconds)
+    return sorted(items.values(), key=lambda item: item["id"])
+
+
 def main() -> int:
     load_local_env(LOCAL_ENV)
 
@@ -1533,6 +1616,7 @@ def main() -> int:
     parser.add_argument("--skip-kinfa-policy-loans", action="store_true", help="Skip 서민금융진흥원 대출상품한눈에 공공데이터 API crawl")
     parser.add_argument("--skip-kdic-insured-products", action="store_true", help="Skip 예금보험공사 예금자보호 금융상품 API crawl")
     parser.add_argument("--include-kdic-ended-products", action="store_true", help="Include KDIC rows with 상품판매중단일자; default keeps current rows only")
+    parser.add_argument("--applyhome-notices", action="store_true", help="한국부동산원 청약홈 APT 분양정보(odcloud) 수집. 시간민감 시장 데이터라 기본 비활성; 실데이터 스키마 확인용")
     parser.add_argument("--allow-shrink", action="store_true", help="Allow generated files to shrink when an upstream source returns fewer products")
     args = parser.parse_args()
 
@@ -1609,6 +1693,18 @@ def main() -> int:
         imported_any = True
     elif not args.skip_kdic_insured_products:
         print("DATA_GO_KR_SERVICE_KEY is not set; skipped KDIC insured products API crawl.", file=sys.stderr)
+
+    if args.applyhome_notices and data_go_kr_key:
+        # 스키마 확인용 스냅샷만 생성한다. build 도메인 배선은 실데이터를 본 뒤 결정한다.
+        write_generated(
+            "applyhome-notice",
+            crawl_applyhome_apt_notices(data_go_kr_key, timeout=args.timeout, sleep_seconds=args.sleep, limit_pages=args.limit_pages),
+            version_prefix="OFFICIAL",
+            source=[APPLYHOME_APT_DOC_URL, APPLYHOME_APT_API_URL],
+        )
+        imported_any = True
+    elif args.applyhome_notices:
+        print("DATA_GO_KR_SERVICE_KEY is not set; skipped 청약홈 APT 분양정보 crawl.", file=sys.stderr)
 
     if not imported_any:
         print("No finance source was imported.", file=sys.stderr)
