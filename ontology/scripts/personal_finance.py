@@ -41,6 +41,16 @@ SENSITIVE_KEY_TOKENS = {
     "ssn",
 }
 
+# A finance snapshot is intentionally transient, but it is still public MCP
+# input.  Bound recursive structures before walking them so an oversized JSON
+# document cannot turn the sensitive-field guard into a denial-of-service
+# vector.  These are deliberately generous for a monthly aggregate snapshot.
+MAX_INPUT_DEPTH = 12
+MAX_INPUT_NODES = 1_000
+MAX_OBJECT_KEYS = 100
+MAX_ARRAY_ITEMS = 200
+MAX_STRING_LENGTH = 4_096
+
 
 class FinanceSnapshotError(ValueError):
     """Raised when an input snapshot is unsafe or structurally invalid."""
@@ -50,18 +60,53 @@ def _key_token(value: object) -> str:
     return "".join(character for character in str(value).casefold() if character.isalnum())
 
 
-def _scan_sensitive(value: object, path: str = "snapshot") -> None:
+def _scan_sensitive(value: object, path: str = "snapshot", *, depth: int = 0, seen: list[int] | None = None) -> None:
+    if depth > MAX_INPUT_DEPTH:
+        raise FinanceSnapshotError(f"input nesting exceeds {MAX_INPUT_DEPTH} levels at {path}")
+    counter = seen if seen is not None else [0]
+    counter[0] += 1
+    if counter[0] > MAX_INPUT_NODES:
+        raise FinanceSnapshotError(f"input contains more than {MAX_INPUT_NODES} values")
     if isinstance(value, dict):
+        if len(value) > MAX_OBJECT_KEYS:
+            raise FinanceSnapshotError(f"object has more than {MAX_OBJECT_KEYS} keys at {path}")
         for key, child in value.items():
             token = _key_token(key)
             if token in SENSITIVE_KEY_TOKENS or any(
                 token.endswith(suffix) for suffix in ("password", "token", "secret", "privatekey")
             ):
                 raise FinanceSnapshotError(f"sensitive field is not accepted: {path}.{key}")
-            _scan_sensitive(child, f"{path}.{key}")
+            _scan_sensitive(child, f"{path}.{key}", depth=depth + 1, seen=counter)
     elif isinstance(value, list):
+        if len(value) > MAX_ARRAY_ITEMS:
+            raise FinanceSnapshotError(f"array has more than {MAX_ARRAY_ITEMS} items at {path}")
         for index, child in enumerate(value):
-            _scan_sensitive(child, f"{path}[{index}]")
+            _scan_sensitive(child, f"{path}[{index}]", depth=depth + 1, seen=counter)
+    elif isinstance(value, str) and len(value) > MAX_STRING_LENGTH:
+        raise FinanceSnapshotError(f"string exceeds {MAX_STRING_LENGTH} characters at {path}")
+
+
+def assert_safe_finance_input(value: object, path: str = "input") -> None:
+    """Reject credentials/identifiers and bounded-resource abuse in any MCP record.
+
+    This is public because profile, constraints, preferences, candidate, and
+    advice records are all untrusted MCP input, not only a finance snapshot.
+    """
+
+    _scan_sensitive(value, path)
+
+
+def _with_provenance(payload: dict[str, Any], *, confidence: str = "derived") -> dict[str, Any]:
+    """Apply the mandatory decision-support result provenance envelope."""
+
+    payload.setdefault("as_of", payload.get("data_as_of") or payload.get("profile_as_of"))
+    payload.setdefault(
+        "source",
+        [{"kind": "user_supplied_transient", "description": "Deterministic calculation over transient user-supplied aggregates"}],
+    )
+    payload.setdefault("confidence", confidence)
+    payload.setdefault("limitations", [])
+    return payload
 
 
 def _number(value: object, field: str, *, allow_negative: bool = False) -> float:
@@ -216,7 +261,7 @@ def required_snapshot_fields(snapshot: dict[str, Any]) -> list[str]:
 
 
 def _metric(name: str, value: float | None, formula: str, inputs: dict[str, Any], assumptions: list[str], snapshot: dict[str, Any]) -> dict[str, Any]:
-    return {
+    return _with_provenance({
         "metric": name,
         "value": None if value is None else round(float(value), 6),
         "formula": formula,
@@ -224,7 +269,7 @@ def _metric(name: str, value: float | None, formula: str, inputs: dict[str, Any]
         "assumptions": assumptions,
         "calculated_at": snapshot.get("as_of") or "unspecified",
         "policy_version": POLICY_VERSION,
-    }
+    })
 
 
 def _debt_balance(snapshot: dict[str, Any]) -> float:
@@ -338,7 +383,7 @@ def calculate_finance_metrics(raw_snapshot: dict[str, Any] | None) -> dict[str, 
     snapshot = normalize_finance_snapshot(raw_snapshot)
     metrics = {name: function(snapshot) for name, function in METRIC_FUNCTIONS.items()}
     missing = required_snapshot_fields(snapshot)
-    return {
+    return _with_provenance({
         "mode": "decision_support",
         "status": "insufficient_information" if missing else "ready",
         "reason_codes": ["MISSING_FINANCE_SNAPSHOT_FIELDS"] if missing else [],
@@ -354,7 +399,7 @@ def calculate_finance_metrics(raw_snapshot: dict[str, Any] | None) -> dict[str, 
         "limitations": ["metrics are educational and not financial advice"],
         "audit_id": finance_audit_id("metrics", snapshot),
         "policy_version": POLICY_VERSION,
-    }
+    })
 
 
 def prioritize_financial_needs(raw_snapshot: dict[str, Any] | None) -> dict[str, Any]:
@@ -386,14 +431,16 @@ def prioritize_financial_needs(raw_snapshot: dict[str, Any] | None) -> dict[str,
         elif goal.get("liquidity_need") in {"low", "long", "growth"}:
             needs.append({"need_type": "long_horizon_goal", "priority": 4, "status": "active", "evidence": {"goal_id": goal["id"], "target_date": goal.get("target_date")}, "action": "separate_long_horizon_risk_discussion"})
     needs.sort(key=lambda item: (int(item["priority"]), str(item["need_type"])))
-    return {
+    return _with_provenance({
         "financial_needs": needs,
         "missing_information": missing,
         "metrics": metrics,
         "profile_as_of": snapshot.get("as_of"),
         "policy_version": ADVICE_POLICY_VERSION,
         "decision_owner": "user",
-    }
+        "data_as_of": snapshot.get("as_of"),
+        "limitations": ["needs are deterministic priorities from supplied aggregates, not product recommendations"],
+    })
 
 
 def _product_state(item: dict[str, Any]) -> str:
@@ -404,6 +451,7 @@ def evaluate_product_fit(raw_snapshot: dict[str, Any] | None, item: dict[str, An
     snapshot = normalize_finance_snapshot(raw_snapshot)
     if not isinstance(item, dict):
         raise FinanceSnapshotError("item must be an object")
+    assert_safe_finance_input(item, "item")
     failed: list[str] = []
     unknown: list[str] = []
     if item.get("status") not in (None, "active") or item.get("product_status") not in (None, "active"):
@@ -416,6 +464,20 @@ def evaluate_product_fit(raw_snapshot: dict[str, Any] | None, item: dict[str, An
         failed.append("source_not_verified")
     if item.get("verification_status") is None:
         unknown.append("verification_status")
+    assertions = item.get("source_assertions")
+    if not isinstance(assertions, list) or not assertions:
+        unknown.append("source_assertions")
+    else:
+        primary_assertions = [
+            assertion
+            for assertion in assertions
+            if isinstance(assertion, dict)
+            and assertion.get("source_id")
+            and assertion.get("verification_status") == "verified"
+            and assertion.get("checksum")
+        ]
+        if not primary_assertions:
+            unknown.append("verified_primary_source_assertion")
     if item.get("recommendation_status") in {"manual_review_candidate", "retired"}:
         failed.append("recommendation_state_not_eligible")
     constraints = snapshot.get("constraints") or {}
@@ -444,7 +506,7 @@ def evaluate_product_fit(raw_snapshot: dict[str, Any] | None, item: dict[str, An
         "risk_fit": 25.0 if "risk_capacity_exceeded" not in failed and "product_risk_level" not in unknown else 0.0,
     }
     eligible = not failed and not unknown
-    return {
+    return _with_provenance({
         "mode": "decision_support",
         "status": "ready" if eligible else "insufficient_information",
         "reason_codes": [] if eligible else sorted(set(failed + unknown)),
@@ -464,17 +526,25 @@ def evaluate_product_fit(raw_snapshot: dict[str, Any] | None, item: dict[str, An
         "assumptions": ["only explicit product fields and user constraints are evaluated"],
         "missing_information": sorted(set(unknown)),
         "financial_needs": [],
-        "candidates": [{"item_id": item.get("id"), "eligible": True}] if eligible else [],
+        "candidates": [{
+            "item_id": item.get("id"),
+            "eligible": True,
+            "recommendation_status": item.get("recommendation_status"),
+            "source_assertions": assertions,
+            "verification_status": item.get("verification_status"),
+            "data_as_of": item.get("last_verified_at") or item.get("source_basis_dates"),
+        }] if eligible else [],
         "decision_owner": "user",
         "limitations": ["fit evaluation is not a recommendation", "user remains the decision owner"],
         "audit_id": finance_audit_id("fit", snapshot, item),
         "policy_version": ADVICE_POLICY_VERSION,
-    }
+    }, confidence="verified" if eligible else "insufficient_evidence")
 
 
 def simulate_finance_scenario(raw_snapshot: dict[str, Any] | None, scenario: dict[str, Any] | None) -> dict[str, Any]:
     snapshot = normalize_finance_snapshot(raw_snapshot)
     scenario = scenario if isinstance(scenario, dict) else {}
+    assert_safe_finance_input(scenario, "scenario")
     months = int(_number(scenario.get("months", 12), "scenario.months"))
     if months < 1 or months > 120:
         raise FinanceSnapshotError("scenario.months must be between 1 and 120")
@@ -487,7 +557,7 @@ def simulate_finance_scenario(raw_snapshot: dict[str, Any] | None, scenario: dic
     interest_after = max(0.0, debt_after * float(weighted_rate) / 100 / 12) if debt_after else 0.0
     liquid_before = float(snapshot.get("liquid_assets_krw") or 0)
     liquid_after = liquid_before + contribution * months
-    return {
+    return _with_provenance({
         "mode": "decision_support",
         "status": "ready",
         "reason_codes": [],
@@ -505,15 +575,16 @@ def simulate_finance_scenario(raw_snapshot: dict[str, Any] | None, scenario: dic
         "audit_id": finance_audit_id("scenario", snapshot, scenario),
         "as_of": snapshot.get("as_of"),
         "policy_version": POLICY_VERSION,
-    }
+    })
 
 
 def explain_recommendation(candidate: dict[str, Any], raw_snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
     if not isinstance(candidate, dict):
         raise FinanceSnapshotError("candidate must be an object")
     snapshot = normalize_finance_snapshot(raw_snapshot)
+    assert_safe_finance_input(candidate, "candidate")
     eligible = candidate.get("eligible") is True
-    return {
+    return _with_provenance({
         "mode": "decision_support",
         "status": "ready" if eligible else "blocked",
         "candidate_id": candidate.get("item_id") or candidate.get("id"),
@@ -527,10 +598,13 @@ def explain_recommendation(candidate: dict[str, Any], raw_snapshot: dict[str, An
         "decision_owner": "user",
         "limitations": ["explanation does not constitute financial advice or product approval"],
         "audit_id": finance_audit_id(candidate, snapshot),
-    }
+    }, confidence="derived")
 
 
 def validate_finance_advice(advice: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(advice, dict):
+        raise FinanceSnapshotError("advice must be an object")
+    assert_safe_finance_input(advice, "advice")
     errors: list[str] = []
     required = ("mode", "status", "reason_codes", "profile_as_of", "data_as_of", "assumptions", "missing_information", "financial_needs", "candidates", "decision_owner", "limitations", "audit_id")
     for field in required:
@@ -542,11 +616,38 @@ def validate_finance_advice(advice: dict[str, Any]) -> dict[str, Any]:
         errors.append("ready_requires_candidates")
     if advice.get("status") != "ready" and advice.get("candidates"):
         errors.append("blocked_or_insufficient_must_not_include_candidates")
-    if advice.get("mode") == "recommendation" and advice.get("status") == "ready":
-        for candidate in advice.get("candidates") or []:
+    for candidate in advice.get("candidates") or []:
+        if not isinstance(candidate, dict):
+            errors.append("candidate_must_be_object")
+            continue
+        if not candidate.get("item_id"):
+            errors.append("candidate_missing_item_id")
+        if candidate.get("verification_status") != "verified":
+            errors.append("candidate_verification_not_verified")
+        assertions = candidate.get("source_assertions")
+        if not isinstance(assertions, list) or not any(
+            isinstance(assertion, dict)
+            and assertion.get("source_id")
+            and assertion.get("verification_status") == "verified"
+            and assertion.get("checksum")
+            for assertion in assertions
+        ):
+            errors.append("candidate_missing_verified_primary_source_assertion")
+        if not candidate.get("data_as_of"):
+            errors.append("candidate_missing_data_as_of")
+        if advice.get("mode") == "recommendation":
             if candidate.get("recommendation_status") != "verified_recommendation_candidate":
                 errors.append("recommendation_candidate_not_verified")
-    return {"valid": not errors, "errors": errors, "policy_version": ADVICE_POLICY_VERSION}
+            receipt = candidate.get("promotion_receipt")
+            if not isinstance(receipt, dict) or not receipt.get("reviewer") or not receipt.get("evidence_ids"):
+                errors.append("recommendation_candidate_missing_promotion_receipt")
+    return _with_provenance({
+        "valid": not errors,
+        "errors": sorted(set(errors)),
+        "policy_version": ADVICE_POLICY_VERSION,
+        "data_as_of": advice.get("data_as_of"),
+        "limitations": ["validation checks structure and evidence presence; it does not create a recommendation"],
+    }, confidence="deterministic")
 
 
 def finance_audit_id(*values: object) -> str:
@@ -574,4 +675,4 @@ def blocked_recommendation_case(domain: str, *, profile_as_of: str | None = None
         "recommendation_model_version": "openfin-recommendation-v0.1.0",
         "warnings": ["No verified public recommendation candidates are available for this domain."],
     }
-    return payload
+    return _with_provenance(payload, confidence="blocked")

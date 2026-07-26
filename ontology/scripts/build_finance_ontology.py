@@ -64,6 +64,7 @@ MANIFEST_EXPORT = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX_EXPORT = EXPORT_DIR / "finance-search-index-2026.json"
 SEARCH_INDEX_SHARD_PREFIX = "finance-search-index-2026"
 QUALITY_MANIFEST_EXPORT = EXPORT_DIR / "openfin-quality-manifest-2026.json"
+SOURCE_REGISTRY_PATH = ROOT / "policies" / "source-registry.yaml"
 SEARCH_REGRESSION_REPORT_EXPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
 QUALITY_REPORT_EXPORTS = {
     "openfin-verification-coverage-report": EXPORT_DIR / "openfin-verification-coverage-report-2026.json",
@@ -2061,6 +2062,90 @@ def active_status_reason(item: dict) -> str:
     return "공식 출처 목록에 수집된 상품입니다. 현재 판매 여부는 상세 원문을 다시 확인해야 합니다."
 
 
+def load_source_registry() -> dict:
+    """Load the JSON-compatible source registry without a runtime YAML dependency."""
+    registry = json.loads(SOURCE_REGISTRY_PATH.read_text(encoding="utf-8"))
+    required = {"source_id", "authority_class", "name", "domains", "base_uri", "refresh_sla_hours", "terms_or_license", "parser_id", "enabled", "recommendation_eligible"}
+    for source in registry.get("sources") or []:
+        missing = required - set(source)
+        if missing:
+            raise ValueError(f"source registry {source.get('source_id', '<unknown>')} missing {sorted(missing)}")
+    return registry
+
+
+SOURCE_REGISTRY = load_source_registry()
+
+
+def iso_timestamp(value: object) -> str:
+    text = str(value or CURRENT_REVIEW_DATE)
+    if "T" in text:
+        return text.replace("+00:00", "Z")
+    return f"{text[:10]}T00:00:00Z"
+
+
+def registry_source_for(item: dict) -> dict | None:
+    urls = [str(url) for url in item.get("source_urls") or []]
+    source_ids = {str(source) for source in item.get("sources") or []}
+    for source in SOURCE_REGISTRY.get("sources") or []:
+        if source["source_id"] in source_ids:
+            return source
+        base = str(source["base_uri"]).replace("https://", "").replace("http://", "")
+        if any(base in url for url in urls):
+            return source
+    return None
+
+
+def apply_product_offer_contract(item: dict) -> None:
+    """Attach the ProductOffer lifecycle and field-level source evidence.
+
+    This is deliberately generated for every product record, including
+    reference-only records, so promotion filters can fail closed on registry
+    eligibility instead of treating a missing contract as a green signal.
+    """
+    source = registry_source_for(item)
+    source_id = source["source_id"] if source else "unregistered-source"
+    source_url = next(iter(item.get("source_urls") or []), None)
+    verified = item.get("verification_status") == "verified" and bool(source and source.get("enabled"))
+    recommendation_status = str(item.get("recommendation_status") or "reference_only")
+    state = {
+        "verified_recommendation_candidate": "verified_recommendation_candidate",
+        "recommendation_candidate": "recommendation_candidate",
+        "verified_comparison_candidate": "verified_comparison_candidate",
+        "comparison_candidate": "comparison_candidate",
+        "retired": "retired",
+    }.get(recommendation_status, "reference_only")
+    if str(item.get("status")) in {"closed", "ended"}:
+        state = "retired"
+    collected_at = iso_timestamp(item.get("collected_at") or item.get("reviewed_at"))
+    verified_at = iso_timestamp(item.get("last_verified_at")) if verified else None
+    item.update({
+        "official_name": item.get("official_name") or item.get("title"),
+        "aliases": sorted({str(alias) for alias in item.get("aliases") or []}),
+        "state": state,
+        "collected_at": collected_at,
+        "normalized_at": iso_timestamp(item.get("reviewed_at")),
+        "verified_at": verified_at,
+        "published_at": iso_timestamp(CURRENT_REVIEW_DATE),
+        "source_registry_id": source_id,
+        "source_registry_status": "registered" if source else "unregistered",
+        "source_authority_class": source.get("authority_class") if source else "unknown",
+        "recommendation_source_eligible": bool(source and source.get("enabled") and source.get("recommendation_eligible")),
+        "source_freshness_status": item.get("source_freshness_status") or ("current" if source else "unknown"),
+        "source_assertions": [{
+            "source_id": source_id,
+            "source_url": source_url,
+            "field": "product_identity",
+            "value": {"provider": item.get("provider"), "official_name": item.get("official_name") or item.get("title"), "product_kind": item.get("product_kind")},
+            "locator": source_url or item.get("id"),
+            "collected_at": collected_at,
+            "verification_status": "verified" if verified else "unverified",
+            "checksum": item.get("source_checksum"),
+            "valid_from": iso_timestamp(item.get("effective_from")) if item.get("effective_from") else None,
+            "valid_to": iso_timestamp(item.get("effective_to")) if item.get("effective_to") else None,
+        }],
+    })
+
+
 def enrich_operational_status(items: list[dict]) -> list[dict]:
     for item in items:
         item_type = item.get("type")
@@ -2161,6 +2246,7 @@ def enrich_operational_status(items: list[dict]) -> list[dict]:
     for item in finalized:
         if item.get("type") in PRODUCT_TYPES:
             item["source_checksum"] = item_source_checksum(item)
+            apply_product_offer_contract(item)
     return finalized
 
 
@@ -3592,17 +3678,23 @@ def local_cloudflare_contract_parity_errors() -> int:
     """
 
     local_path = REPO_ROOT / "ontology" / "mcp_server.py"
+    finance_path = REPO_ROOT / "ontology" / "scripts" / "personal_finance.py"
     worker_path = REPO_ROOT / "cloudflare" / "opentax-mcp" / "src" / "index.ts"
-    if not local_path.exists() or not worker_path.exists():
+    if not local_path.exists() or not finance_path.exists() or not worker_path.exists():
         return 1
-    local = local_path.read_text(encoding="utf-8")
+    local = local_path.read_text(encoding="utf-8") + finance_path.read_text(encoding="utf-8")
     worker = worker_path.read_text(encoding="utf-8")
     marker_pairs = (
         ("public_recommendation_gate", "PUBLIC_RECOMMENDATION_ENABLED", "ENABLE_PUBLIC_RECOMMENDATION"),
         ("decision_owner", "decision_owner", "decision_owner"),
         ("audit_id", "audit_id", "audit_id"),
-        ("canonical_product_resolution", "resolved_canonical_product_id", "resolved_canonical_product_id"),
-        ("sensitive_input_rejection", "sensitive", "sensitive"),
+        ("canonical_product_resolution", "fetch_finance_item", "catalog_product_unresolved"),
+        ("sensitive_input_rejection", "MAX_INPUT_DEPTH", "MAX_FINANCE_INPUT_DEPTH"),
+        ("bounded_collection_input", "MAX_ARRAY_ITEMS", "MAX_FINANCE_ARRAY_ITEMS"),
+        ("source_assertion_gate", "source_assertions", "source_assertions"),
+        ("risk_capacity_gate", "risk_capacity_exceeded", "risk_capacity_exceeded"),
+        ("goal_need_parity", "short_horizon_goal", "short_horizon_goal"),
+        ("provenance_envelope", "confidence", "STANDARD_OUTPUT_SCHEMA"),
     )
     return sum(1 for _, local_marker, worker_marker in marker_pairs if local_marker not in local or worker_marker not in worker)
 

@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "python3 ../../ontology/scripts/verify_openfin_release.py --require-live && wrangler deploy && npm run smoke",
+    "predeploy": "python3 ../../ontology/scripts/verify_openfin_release.py --stage predeploy",
+    "deploy": "wrangler deploy && npm run smoke",
+    "verify:postdeploy": "python3 ../../ontology/scripts/validate_openfin_120.py --mode live && python3 ../../ontology/scripts/build_finance_ontology.py && python3 ../../ontology/scripts/verify_openfin_release.py --stage postdeploy",
     "smoke": "python3 ../../ontology/scripts/smoke_finance_mcp.py",
     "test": "tsc --noEmit",
     "typecheck": "tsc --noEmit"

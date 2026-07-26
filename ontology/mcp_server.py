@@ -32,6 +32,7 @@ sys.path.insert(0, str(SCRIPTS))
 from product_comparison_engine import compare as compare_products
 from discovery_recommendation_engine import discover, is_discovery_query
 from personal_finance import (
+    assert_safe_finance_input,
     blocked_recommendation_case,
     calculate_finance_metrics,
     evaluate_product_fit,
@@ -513,6 +514,12 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     constraints = arguments.get("constraints") if isinstance(arguments.get("constraints"), dict) else {}
     preferences = arguments.get("preferences") if isinstance(arguments.get("preferences"), dict) else {}
     decision_context = arguments.get("decision_context") if isinstance(arguments.get("decision_context"), dict) else {}
+    # These records are untrusted public MCP input.  Validate every one before
+    # any branch can reflect it in a response or audit identifier.
+    assert_safe_finance_input(profile, "profile")
+    assert_safe_finance_input(constraints, "constraints")
+    assert_safe_finance_input(preferences, "preferences")
+    assert_safe_finance_input(decision_context, "decision_context")
     limit = max(1, min(int(arguments.get("limit", 5)), 20))
     index_payload = load_search_index_payload(FINANCE_SEARCH_INDEX_PATH)
     domain_items = [
@@ -530,9 +537,11 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
         )
         payload.update(
             {
-                "profile": profile,
-                "constraints": constraints,
-                "preferences": preferences,
+                "input_summary": {
+                    "profile_fields": sorted(profile),
+                    "constraint_fields": sorted(constraints),
+                    "preference_fields": sorted(preferences),
+                },
                 "readiness": {
                     "domain_item_count": len(domain_items),
                     "verified_recommendation_candidate_count": sum(
@@ -552,9 +561,11 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     if domain in {"card", "loan", "insurance"}:
         return {
             "domain": domain,
-            "profile": profile,
-            "constraints": constraints,
-            "preferences": preferences,
+            "input_summary": {
+                "profile_fields": sorted(profile),
+                "constraint_fields": sorted(constraints),
+                "preference_fields": sorted(preferences),
+            },
             "recommendation_model_version": "openfin-recommendation-v0.1.0",
             "result_count": 0,
             "candidates": [],
@@ -596,9 +607,11 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     results = candidates[:limit]
     return {
         "domain": domain,
-        "profile": profile,
-        "constraints": constraints,
-        "preferences": preferences,
+        "input_summary": {
+            "profile_fields": sorted(profile),
+            "constraint_fields": sorted(constraints),
+            "preference_fields": sorted(preferences),
+        },
         "recommendation_model_version": "openfin-recommendation-v0.1.0",
         "result_count": len(results),
         "candidates": results,
@@ -945,6 +958,21 @@ TOOLS: dict[str, dict[str, Any]] = {
     },
 }
 
+# Every advertised tool has a machine-readable output contract.  The shared
+# envelope keeps legacy tool payloads compatible while making provenance and
+# limitations explicit for MCP clients.
+STANDARD_OUTPUT_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "source", "confidence", "limitations"],
+    "properties": {
+        "as_of": {"type": ["string", "null"]},
+        "source": {"type": "array"},
+        "confidence": {"type": "string"},
+        "limitations": {"type": "array"},
+    },
+    "additionalProperties": True,
+}
+
 
 PRIMARY_TOOL_PREFIX = "opentax_"
 FINANCE_TOOL_PREFIX = "finance_"
@@ -963,6 +991,9 @@ for tool_name, definition in list(TOOLS.items()):
             **definition,
             "description": f"Legacy alias for `{tool_name}`. {definition['description']}",
         }
+
+for definition in TOOLS.values():
+    definition.setdefault("outputSchema", STANDARD_OUTPUT_SCHEMA)
 
 
 def normalize_tool_name(name: str) -> str:
@@ -1015,7 +1046,28 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         return calculate_finance_metrics(snapshot)
     if name == "evaluate_product_fit":
         snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
-        return evaluate_product_fit(snapshot, arguments.get("item") or {}, str(arguments.get("domain") or "") or None)
+        supplied = arguments.get("item") if isinstance(arguments.get("item"), dict) else {}
+        assert_safe_finance_input(supplied, "item")
+        requested_id = str(supplied.get("id") or supplied.get("item_id") or "")
+        catalog_item = fetch_finance_item(requested_id) if requested_id else None
+        # Never let a caller manufacture verified fields.  An unresolved item
+        # remains inspectable as a fail-closed insufficient-information case.
+        item = catalog_item if catalog_item is not None else {
+            "id": requested_id or None,
+            "status": supplied.get("status"),
+            "product_status": supplied.get("product_status"),
+            "source_listing_status": supplied.get("source_listing_status"),
+            "term_months": supplied.get("term_months"),
+            "verification_status": None,
+            "source_assertions": [],
+            "catalog_resolution": "not_found",
+        }
+        result = evaluate_product_fit(snapshot, item, str(arguments.get("domain") or "") or None)
+        if catalog_item is None:
+            result["unknown_conditions"] = sorted(set([*(result.get("unknown_conditions") or []), "catalog_product_unresolved"]))
+            result["missing_information"] = sorted(set([*(result.get("missing_information") or []), "catalog_product_unresolved"]))
+            result["reason_codes"] = sorted(set([*(result.get("reason_codes") or []), "catalog_product_unresolved"]))
+        return result
     if name == "simulate_finance_scenario":
         snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
         return simulate_finance_scenario(snapshot, arguments.get("scenario") or {})
@@ -1035,12 +1087,30 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
     raise ToolError(f"Unknown tool: {name}")
 
 
+def output_envelope(payload: Any) -> dict[str, Any]:
+    if isinstance(payload, dict):
+        normalized = dict(payload)
+        normalized.setdefault("as_of", normalized.get("data_as_of") or normalized.get("profile_as_of"))
+        normalized.setdefault("source", [{"kind": "ontology_or_deterministic_runtime"}])
+        normalized.setdefault("confidence", "declared")
+        normalized.setdefault("limitations", [])
+        return normalized
+    return {
+        "result": payload,
+        "as_of": None,
+        "source": [{"kind": "ontology_or_deterministic_runtime"}],
+        "confidence": "declared",
+        "limitations": ["legacy result is preserved in result"],
+    }
+
+
 def content_result(payload: Any, is_error: bool = False) -> dict[str, Any]:
+    structured = output_envelope(payload)
     if isinstance(payload, str):
         text = payload
     else:
         text = json.dumps(payload, ensure_ascii=False, indent=2)
-    return {"content": [{"type": "text", "text": text}], "isError": is_error}
+    return {"structuredContent": structured, "content": [{"type": "text", "text": text}], "isError": is_error}
 
 
 def respond(message_id: Any, result: Any = None, error: dict[str, Any] | None = None) -> None:

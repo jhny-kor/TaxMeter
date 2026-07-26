@@ -29,7 +29,7 @@ transient snapshot
 
 ## 데이터와 증거
 
-모든 상품·지원·비교 값은 `source_id`, `source_url`, `locator`, `collected_at`, `source_checksum`, `verification_status`, `valid_from`, `valid_to`를 가진 assertion으로 추적한다. 시간 순서는 `collected_at <= normalized_at <= verified_at <= published_at`를 검사한다. `fixed`가 아닌 지원 신청창은 `rolling`, `until_budget_exhausted`, `periodic`, `tbd`, `unknown`으로 보존한다.
+모든 상품·지원·비교 값은 `source_id`, `source_url`, `locator`, `collected_at`, `source_checksum`, `verification_status`, `valid_from`, `valid_to`를 가진 assertion으로 추적한다. `source-registry.yaml`은 authority class, refresh SLA, parser, 이용조건, 활성화와 추천 적격성을 함께 관리하며, 집계 사이트는 보조 조회로만 분류한다. 시간 순서는 `collected_at <= normalized_at <= verified_at <= published_at`를 검사한다. `fixed`가 아닌 지원 신청창은 `rolling`, `until_budget_exhausted`, `periodic`, `tbd`, `unknown`으로 보존한다.
 
 공식 1차 출처가 없는 항목은 `reference_only` 또는 `comparison_candidate`까지만 허용한다. 추천 승격에는 공식 primary evidence, 현재 판매상태, 모든 hard filter 해소, 만료 유효성, `PromotionReceipt`가 필요하다.
 
@@ -54,6 +54,8 @@ transient snapshot
 }
 ```
 
+모든 MCP tool output은 이 도메인 계약과 별개로 `as_of`, `source`, `confidence`, `limitations`를 포함한 provenance envelope를 가진다. 공개 `recommend`는 원문 `profile`, `constraints`, `preferences`를 반사하지 않고 허용된 필드명 요약만 남긴다.
+
 ## 운영 수용 기준
 
 1. named product는 provider·공식 상품명·product type을 먼저 확인하고 canonical ID로 dedupe한다.
@@ -63,3 +65,4 @@ transient snapshot
 5. local/Worker 응답은 같은 safety contract와 source/as-of 의미를 사용한다.
 6. offline 120 golden cases와 live 실행 결과를 분리 기록하며, live `case_count=0`은 pass가 아니다.
 7. 공개 추천 플래그를 켜기 전에는 owner auth, 회귀, source freshness, rollback, reviewer receipt를 모두 확인한다.
+8. 배포 전 검증은 offline 계약과 정적 검사만 수행하고, 새 Worker 배포 뒤 live 120/120·매니페스트 정합성·공개 smoke를 별도 post-deploy gate로 판정한다.

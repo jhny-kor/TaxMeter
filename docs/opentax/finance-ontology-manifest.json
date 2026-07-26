@@ -2,7 +2,7 @@
   "version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-26T11:44:09Z",
+  "built_at": "2026-07-26T13:08:27Z",
   "name": "finance",
   "description": "Cloudflare finance MCP가 세금, 지자체 지원금, 카드, 은행, 보험, 금융 기준정보 온톨로지를 통합 로딩하기 위한 manifest입니다.",
   "release_status": "degraded",
@@ -13,7 +13,7 @@
   "id_compatibility_validation_passed": true,
   "quality_summary": {
     "export_audit": {
-      "built_at": "2026-07-26T11:44:09Z",
+      "built_at": "2026-07-26T13:08:27Z",
       "domain_export_count": 10,
       "search_index_item_count": 21266,
       "canonical_product_count": 3434,
@@ -1502,7 +1502,7 @@
       "collection_dates": [],
       "product_collection_dates": [],
       "quality_summary": {
-        "built_at": "2026-07-26T11:44:09Z",
+        "built_at": "2026-07-26T13:08:27Z",
         "domain_export_count": 10,
         "search_index_item_count": 21266,
         "canonical_product_count": 3434,
@@ -1511,7 +1511,7 @@
         "broken_relation_count": 0,
         "collection_failure_sources": "see source_access_risks"
       },
-      "export_checksum": "2a970a0932e63bdbb6f8f98899f79553f694448a6d6bbbcb128a193e644a87d1",
+      "export_checksum": "a539451ea55234261b435971ebabc4114ac9fff05bba54fa0ef6c4004e659bdf",
       "description": "도메인별 품질 요약, 검색 회귀테스트, 출처 리스크, checksum을 모은 운영 감사 manifest입니다."
     },
     {
@@ -1777,10 +1777,10 @@
       "product_count": 1007,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 1007,
@@ -1963,7 +1963,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e05fdc4b131e64c7425277c5998dd7af35b08ce1576043c873f55a5c55e4c946",
+      "export_checksum": "f063fd80f2582506923e93b14030756bdf7dec663a895518973cfa06f58eb0de",
       "description": "신용카드·체크카드 혜택, 전월실적, 한도, 제외조건 온톨로지입니다."
     },
     {
@@ -1976,10 +1976,10 @@
       "product_count": 430,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 430,
@@ -2164,7 +2164,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "915690dc60c25d4c517d6a5a8197ec4164a651bcd08bd4d3d8d20c12a4e55a8d",
+      "export_checksum": "12de700a1a4c22ede9da41fc5eec6df164062e344eba5661bdb4ef70eb2a666d",
       "description": "정기예금 팩: 예치기간별 금리, 최고우대금리, 가입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -2177,10 +2177,10 @@
       "product_count": 335,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 335,
@@ -2366,7 +2366,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cb6411ddac033c184674ac2c0754b9a84ab8d47474d5f1d4fc17ef571442b9f3",
+      "export_checksum": "714f1ea16e50b1c5517670410a9c63802eadc84c455e5b66eb2a8a890565443a",
       "description": "적금 팩: 적립방식, 기간별 금리, 납입한도, 우대조건 온톨로지입니다."
     },
     {
@@ -2379,12 +2379,12 @@
       "product_count": 598,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-10",
-        "2026-07-18"
+        "2026-07-10T00:00:00Z",
+        "2026-07-18T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-10",
-        "2026-07-18"
+        "2026-07-10T00:00:00Z",
+        "2026-07-18T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 598,
@@ -2549,7 +2549,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "121eb778d54af43410de4b280b438cccf93a44c770fb78c739ca3c65b820ed82",
+      "export_checksum": "9ad3743c4dceb56af6aa91ed12a9727c36ee9aa1d23b46361abcd938aefcb7b8",
       "description": "대출 팩: 주택담보·전세·개인신용·정책대출 금리, 한도, 상환방식, 수수료 온톨로지입니다."
     },
     {
@@ -2562,10 +2562,10 @@
       "product_count": 1071,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-18"
+        "2026-07-18T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 1071,
@@ -2742,7 +2742,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "31502ff1b16b6cb4e199e1db41fdf0d6f354cec6b70dc52738bf461a7ff43c3a",
+      "export_checksum": "1ad384bac78b34ddd20783a9cadb4faf602fd9822d6dabd1f8c258e0c346f48b",
       "description": "보험료, 보장, 면책, 갱신, 약관 출처 온톨로지입니다."
     },
     {
@@ -2843,10 +2843,10 @@
       "product_count": 4,
       "source_review_date": "2026-07-10",
       "collection_dates": [
-        "2026-07-24"
+        "2026-07-24T00:00:00Z"
       ],
       "product_collection_dates": [
-        "2026-07-24"
+        "2026-07-24T00:00:00Z"
       ],
       "quality_summary": {
         "product_count": 4,
@@ -2970,7 +2970,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b737a0b4862b0a68559c99f683fba1a3e3ff78f47966f8f93fd8e0c71aadbbee",
+      "export_checksum": "5ff9bfd3e02fbb74c57b8ff154c1833f64cdad37811306e38c0c9e321b3a9f5d",
       "description": "세제혜택 계좌: 주택청약종합저축·청년 주택드림 청약통장·ISA의 가입대상, 납입한도, 세제혜택, 소득공제·청약 연계 온톨로지입니다."
     },
     {

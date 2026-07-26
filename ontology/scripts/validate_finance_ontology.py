@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+from jsonschema import Draft202012Validator
+
 from validate_recommendation_contract import validate_contract
 from search_index_loader import load_search_index_items
 
@@ -18,6 +20,7 @@ MANIFEST = EXPORT_DIR / "finance-ontology-manifest.json"
 SEARCH_INDEX = EXPORT_DIR / "finance-search-index-2026.json"
 QUALITY_MANIFEST = EXPORT_DIR / "openfin-quality-manifest-2026.json"
 SEARCH_REGRESSION_REPORT = EXPORT_DIR / "openfin-search-regression-report-2026.json"
+PRODUCT_OFFER_SCHEMA = ROOT / "schema" / "product-offer.schema.json"
 
 REFERENCE_KEYS = ("parents", "children", "related", "terms", "deadlines", "sources")
 PRODUCT_TYPES = {"card-product", "bank-product", "insurance-product", "pension-product", "account-product"}
@@ -182,9 +185,17 @@ def validate_item_basics(export_id: str, items: list[dict], global_items: dict[s
 
 def validate_products(export_id: str, items: list[dict], expected_product_count: int, errors: list[str]) -> None:
     products = [item for item in items if item.get("type") in PRODUCT_TYPES]
+    schema_validator = Draft202012Validator(load_json(PRODUCT_OFFER_SCHEMA))
     require(len(products) == expected_product_count, f"{export_id}: product_count mismatch", errors)
     for item in products:
         item_id = item["id"]
+        for schema_error in schema_validator.iter_errors(item):
+            location = ".".join(str(part) for part in schema_error.path) or "root"
+            errors.append(f"{export_id}:{item_id}: ProductOffer schema {location}: {schema_error.message}")
+        require(bool(item.get("source_registry_id")), f"{export_id}:{item_id}: missing source_registry_id", errors)
+        require(item.get("source_registry_status") in {"registered", "unregistered"}, f"{export_id}:{item_id}: invalid source_registry_status", errors)
+        if item.get("recommendation_status") == "verified_recommendation_candidate":
+            require(bool(item.get("recommendation_source_eligible")), f"{export_id}:{item_id}: recommendation candidate source is not recommendation eligible", errors)
         for field in REQUIRED_PRODUCT_FIELDS:
             require(bool(item.get(field)), f"{export_id}:{item_id}: missing {field}", errors)
         for field in REQUIRED_OPERATIONAL_FIELDS:

@@ -103,6 +103,14 @@ type FinanceItem = {
   source_urls?: string[];
   source_basis_dates?: string[];
   source_checksum?: string;
+  state?: string;
+  collected_at?: string | null;
+  normalized_at?: string | null;
+  verified_at?: string | null;
+  published_at?: string | null;
+  source_assertions?: Record<string, unknown>[];
+  promotion_receipt?: Record<string, unknown>;
+  risk_level?: string;
   structured_summary?: Record<string, unknown>;
   search_facets?: Record<string, unknown>;
 };
@@ -1578,18 +1586,33 @@ function financeKeyToken(value: unknown): string {
   return String(value).toLocaleLowerCase("en-US").replace(/[^a-z0-9]/g, "");
 }
 
-function assertFinanceSafe(value: unknown, path = "input"): void {
+const MAX_FINANCE_INPUT_DEPTH = 12;
+const MAX_FINANCE_INPUT_NODES = 1_000;
+const MAX_FINANCE_OBJECT_KEYS = 100;
+const MAX_FINANCE_ARRAY_ITEMS = 200;
+const MAX_FINANCE_STRING_LENGTH = 4_096;
+
+function assertFinanceSafe(value: unknown, path = "input", depth = 0, counter: { value: number } = { value: 0 }): void {
+  if (depth > MAX_FINANCE_INPUT_DEPTH) throw new Error(`input nesting exceeds ${MAX_FINANCE_INPUT_DEPTH} levels at ${path}`);
+  counter.value += 1;
+  if (counter.value > MAX_FINANCE_INPUT_NODES) throw new Error(`input contains more than ${MAX_FINANCE_INPUT_NODES} values`);
+  if (typeof value === "string") {
+    if (value.length > MAX_FINANCE_STRING_LENGTH) throw new Error(`string exceeds ${MAX_FINANCE_STRING_LENGTH} characters at ${path}`);
+    return;
+  }
   if (Array.isArray(value)) {
-    value.forEach((child, index) => assertFinanceSafe(child, `${path}[${index}]`));
+    if (value.length > MAX_FINANCE_ARRAY_ITEMS) throw new Error(`array has more than ${MAX_FINANCE_ARRAY_ITEMS} items at ${path}`);
+    value.forEach((child, index) => assertFinanceSafe(child, `${path}[${index}]`, depth + 1, counter));
     return;
   }
   if (!isRecord(value)) return;
+  if (Object.keys(value).length > MAX_FINANCE_OBJECT_KEYS) throw new Error(`object has more than ${MAX_FINANCE_OBJECT_KEYS} keys at ${path}`);
   for (const [key, child] of Object.entries(value)) {
     const token = financeKeyToken(key);
     if (SENSITIVE_KEY_TOKENS.has(token) || ["password", "token", "secret", "privatekey"].some((suffix) => token.endsWith(suffix))) {
       throw new Error(`sensitive field is not accepted: ${path}.${key}`);
     }
-    assertFinanceSafe(child, `${path}.${key}`);
+    assertFinanceSafe(child, `${path}.${key}`, depth + 1, counter);
   }
 }
 
@@ -1655,9 +1678,30 @@ function financeAuditId(...values: unknown[]): string {
 function financeSafety(fields: Partial<Record<string, unknown>> = {}): Record<string, unknown> {
   return {
     mode: "decision_support", status: "ready", reason_codes: [], profile_as_of: null, data_as_of: null,
-    assumptions: [], missing_information: [], financial_needs: [], candidates: [], decision_owner: "user", limitations: [], audit_id: financeAuditId(fields), ...fields,
+    assumptions: [], missing_information: [], financial_needs: [], candidates: [], decision_owner: "user", limitations: [], audit_id: financeAuditId(fields),
+    as_of: null,
+    source: [{ kind: "ontology_or_deterministic_runtime" }],
+    confidence: "derived",
+    ...fields,
   };
 }
+
+function standardResult(payload: Record<string, unknown>): Record<string, unknown> {
+  return {
+    ...payload,
+    as_of: payload.as_of ?? payload.data_as_of ?? payload.profile_as_of ?? null,
+    source: payload.source ?? [{ kind: "ontology_or_deterministic_runtime" }],
+    confidence: payload.confidence ?? "declared",
+    limitations: payload.limitations ?? [],
+  };
+}
+
+const STANDARD_OUTPUT_SCHEMA = z.object({
+  as_of: z.string().nullable(),
+  source: z.array(z.record(z.string(), z.unknown())),
+  confidence: z.string(),
+  limitations: z.array(z.unknown()),
+}).passthrough();
 
 function financeMetric(name: string, value: number | null, formula: string, inputs: Record<string, unknown>, snapshot: Record<string, unknown>, assumptions: string[] = []): Record<string, unknown> {
   return { metric: name, value: value === null ? null : Math.round(value * 1_000_000) / 1_000_000, formula, inputs, assumptions, calculated_at: snapshot.as_of ?? "unspecified", policy_version: PERSONAL_FINANCE_POLICY_VERSION };
@@ -1701,6 +1745,11 @@ function financeNeeds(snapshot: Record<string, unknown>, metrics: Record<string,
   if (typeof value("emergency_fund_months") === "number" && Number(value("emergency_fund_months")) < MINIMUM_EMERGENCY_FUND_MONTHS) add("emergency_liquidity", 2, { emergency_fund_months: value("emergency_fund_months"), target_months: MINIMUM_EMERGENCY_FUND_MONTHS }, "protect_liquid_principal");
   if (typeof value("liquidity_gap") === "number" && Number(value("liquidity_gap")) > 0) add("liquidity_gap", 2, { liquidity_gap_krw: value("liquidity_gap") }, "avoid_locking_required_liquidity");
   if (typeof value("insurance_coverage_gap") === "number" && Number(value("insurance_coverage_gap")) > 0) add("insurance_coverage_gap", 3, { coverage_gap_krw: value("insurance_coverage_gap") }, "review_protection_gap_as_lookup_only");
+  for (const goal of Array.isArray(snapshot.goals) ? snapshot.goals.filter(isRecord) : []) {
+    const liquidityNeed = String(goal.liquidity_need ?? "unknown");
+    if (["high", "short", "principal"].includes(liquidityNeed)) add("short_horizon_goal", 2, { goal_id: goal.id ?? null, target_date: goal.target_date ?? null }, "prefer_liquid_principal_preserving_options");
+    if (["low", "long", "growth"].includes(liquidityNeed)) add("long_horizon_goal", 4, { goal_id: goal.id ?? null, target_date: goal.target_date ?? null }, "separate_long_horizon_risk_discussion");
+  }
   return needs.sort((a, b) => Number(a.priority) - Number(b.priority) || String(a.need_type).localeCompare(String(b.need_type)));
 }
 
@@ -1710,7 +1759,11 @@ function createServer(env: Env): McpServer {
     version: "0.2.0",
   });
 
-  const financeResult = (payload: Record<string, unknown>) => ({ structuredContent: payload, content: [{ type: "text" as const, text: jsonText(payload) }] });
+  const mcpResult = (payload: Record<string, unknown>) => {
+    const normalized = standardResult(payload);
+    return { structuredContent: normalized, content: [{ type: "text" as const, text: jsonText(normalized) }] };
+  };
+  const financeResult = (payload: Record<string, unknown>) => mcpResult(financeSafety(payload));
 
   server.registerTool("get_finance_summary", {
     title: "Get Personal Finance Summary",
@@ -1739,26 +1792,44 @@ function createServer(env: Env): McpServer {
     title: "Evaluate Finance Product Fit",
     description: "Evaluate explicit fit conditions for one supplied product without making a recommendation.",
     inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional(), item: z.record(z.string(), z.unknown()), domain: z.string().optional() },
+    outputSchema: STANDARD_OUTPUT_SCHEMA,
     annotations: { title: "Evaluate Finance Product Fit", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ snapshot, item, domain }) => {
     assertFinanceSafe(item);
     const normalized = normalizeFinanceSnapshot(snapshot);
-    const failed: string[] = []; const unknown: string[] = [];
-    if (item.status !== undefined && item.status !== "active") failed.push("product_not_active");
-    if (item.product_status !== undefined && item.product_status !== "active") failed.push("product_not_active");
-    if (item.source_listing_status !== undefined && item.source_listing_status !== "listed") failed.push("source_not_listed");
-    if (item.freshness_status === "stale" || item.source_freshness_status === "stale") failed.push("stale_source");
-    if (item.verification_status !== undefined && item.verification_status !== "verified") failed.push("source_not_verified");
-    if (item.verification_status === undefined) unknown.push("verification_status");
-    if (item.recommendation_status === "manual_review_candidate" || item.recommendation_status === "retired") failed.push("recommendation_state_not_eligible");
+    const requestedId = typeof item.id === "string" ? item.id : typeof item.item_id === "string" ? item.item_id : undefined;
+    const catalogItem = (await loadSearchItems(env)).find((candidate) => candidate.id === requestedId || candidate.canonical_product_id === requestedId || candidate.resolved_canonical_product_id === requestedId);
+    const candidateItem: FinanceItem | Record<string, unknown> = catalogItem ?? {
+      id: requestedId ?? "unresolved-product",
+      title: "Unresolved catalog product",
+      type: "unknown",
+      status: item.status,
+      product_status: item.product_status,
+      source_listing_status: item.source_listing_status,
+      source_assertions: [],
+    };
+    const value = candidateItem as Record<string, unknown>;
+    const failed: string[] = []; const unknown: string[] = catalogItem ? [] : ["catalog_product_unresolved"];
+    if (value.status !== undefined && value.status !== "active") failed.push("product_not_active");
+    if (value.product_status !== undefined && value.product_status !== "active") failed.push("product_not_active");
+    if (value.source_listing_status !== undefined && value.source_listing_status !== "listed") failed.push("source_not_listed");
+    if (value.freshness_status === "stale" || value.source_freshness_status === "stale") failed.push("stale_source");
+    if (value.verification_status !== "verified") unknown.push("verification_status");
+    const assertions = Array.isArray(value.source_assertions) ? value.source_assertions.filter(isRecord) : [];
+    if (!assertions.some((assertion) => assertion.verification_status === "verified" && typeof assertion.source_id === "string" && typeof assertion.checksum === "string")) unknown.push("verified_primary_source_assertion");
+    if (value.recommendation_status === "manual_review_candidate" || value.recommendation_status === "retired") failed.push("recommendation_state_not_eligible");
     const constraints = isRecord(normalized.constraints) ? normalized.constraints : {};
-    if (constraints.provider && item.provider && String(constraints.provider) !== String(item.provider)) failed.push("provider_constraint_failed");
+    if (constraints.provider && value.provider && String(constraints.provider) !== String(value.provider)) failed.push("provider_constraint_failed");
     const requirement = isRecord(normalized.liquidity_requirement) ? normalized.liquidity_requirement : {};
-    if (typeof requirement.months === "number" && item.term_months === undefined) unknown.push("term_months");
-    if (typeof requirement.months === "number" && typeof item.term_months === "number" && item.term_months > requirement.months) failed.push("term_exceeds_liquidity_horizon");
+    if (typeof requirement.months === "number" && value.term_months === undefined) unknown.push("term_months");
+    if (typeof requirement.months === "number" && typeof value.term_months === "number" && value.term_months > requirement.months) failed.push("term_exceeds_liquidity_horizon");
+    const riskCapacity = String(normalized.risk_capacity ?? "unknown"); const productRisk = typeof value.risk_level === "string" ? value.risk_level : undefined;
+    const riskOrder: Record<string, number> = { low: 1, conservative: 1, medium: 2, moderate: 2, high: 3, aggressive: 3 };
+    if (riskCapacity !== "unknown" && !productRisk) unknown.push("product_risk_level");
+    if (riskCapacity !== "unknown" && productRisk && (riskOrder[productRisk] ?? 0) > (riskOrder[riskCapacity] ?? 0)) failed.push("risk_capacity_exceeded");
     const eligible = !failed.length && !unknown.length;
-    const candidate = { item_id: item.id, domain: domain ?? null, eligible, decision: eligible ? "fit" : failed.length ? "not_fit" : "insufficient_information", failed_conditions: [...new Set(failed)].sort(), unknown_conditions: [...new Set(unknown)].sort(), score: eligible ? 100 : null, score_components: { source_verification: item.verification_status === "verified" ? 30 : 0, current_listing: item.source_listing_status === "listed" ? 20 : 0, liquidity_fit: unknown.includes("term_months") || failed.includes("term_exceeds_liquidity_horizon") ? 0 : 25, risk_fit: 25 }, recommendation_state: item.recommendation_status ?? item.status ?? "unknown", sources: item.source_urls ?? item.sources ?? [], data_as_of: item.last_verified_at ?? item.source_basis_dates ?? normalized.as_of ?? null, limitations: ["fit evaluation is not a recommendation", "user remains the decision owner"], policy_version: ADVICE_POLICY_VERSION };
-    return financeResult(financeSafety({ status: eligible ? "ready" : "insufficient_information", profile_as_of: normalized.as_of ?? null, data_as_of: candidate.data_as_of, assumptions: ["only explicit product fields and user constraints are evaluated"], missing_information: unknown, financial_needs: [], candidates: eligible ? [candidate] : [], limitations: candidate.limitations, fit: candidate }));
+    const candidate = { item_id: value.id ?? requestedId ?? null, domain: domain ?? null, eligible, decision: eligible ? "fit" : failed.length ? "not_fit" : "insufficient_information", failed_conditions: [...new Set(failed)].sort(), unknown_conditions: [...new Set(unknown)].sort(), score: eligible ? 100 : null, score_components: { source_verification: value.verification_status === "verified" ? 30 : 0, current_listing: value.source_listing_status === "listed" ? 20 : 0, liquidity_fit: unknown.includes("term_months") || failed.includes("term_exceeds_liquidity_horizon") ? 0 : 25, risk_fit: unknown.includes("product_risk_level") || failed.includes("risk_capacity_exceeded") ? 0 : 25 }, recommendation_state: value.recommendation_status ?? value.status ?? "unknown", sources: value.source_urls ?? value.sources ?? [], source_assertions: assertions, verification_status: value.verification_status ?? "unknown", promotion_receipt: value.promotion_receipt ?? null, data_as_of: value.last_verified_at ?? value.verified_at ?? value.source_basis_dates ?? normalized.as_of ?? null, limitations: ["fit evaluation is not a recommendation", "user remains the decision owner"], policy_version: ADVICE_POLICY_VERSION };
+    return financeResult({ status: eligible ? "ready" : "insufficient_information", profile_as_of: normalized.as_of ?? null, data_as_of: candidate.data_as_of, assumptions: ["only catalog-resolved product fields and user constraints are evaluated"], missing_information: [...new Set(unknown)].sort(), financial_needs: [], candidates: eligible ? [candidate] : [], limitations: candidate.limitations, fit: candidate });
   });
 
   server.registerTool("simulate_finance_scenario", {
@@ -1790,9 +1861,10 @@ function createServer(env: Env): McpServer {
     title: "Validate Finance Advice Contract",
     description: "Validate the required fail-closed OpenFin advice response fields and recommendation gate.",
     inputSchema: { advice: z.record(z.string(), z.unknown()) },
+    outputSchema: STANDARD_OUTPUT_SCHEMA,
     annotations: { title: "Validate Finance Advice Contract", ...READ_ONLY_TOOL_ANNOTATIONS },
   }, async ({ advice }) => {
-    assertFinanceSafe(advice); const required = ["mode", "status", "reason_codes", "profile_as_of", "data_as_of", "assumptions", "missing_information", "financial_needs", "candidates", "decision_owner", "limitations", "audit_id"]; const errors = required.filter((field) => !(field in advice)); if (advice.decision_owner !== "user") errors.push("decision_owner_must_be_user"); const candidates = Array.isArray(advice.candidates) ? advice.candidates : []; if (advice.status === "ready" && !candidates.length) errors.push("ready_requires_candidates"); if (advice.status !== "ready" && candidates.length) errors.push("blocked_or_insufficient_must_not_include_candidates"); if (advice.mode === "recommendation" && advice.status === "ready") candidates.forEach((candidate) => { if (isRecord(candidate) && candidate.recommendation_status !== "verified_recommendation_candidate") errors.push("recommendation_candidate_not_verified"); });
+    assertFinanceSafe(advice); const required = ["mode", "status", "reason_codes", "profile_as_of", "data_as_of", "assumptions", "missing_information", "financial_needs", "candidates", "decision_owner", "limitations", "audit_id"]; const errors = required.filter((field) => !(field in advice)); if (advice.decision_owner !== "user") errors.push("decision_owner_must_be_user"); const candidates = Array.isArray(advice.candidates) ? advice.candidates : []; if (advice.status === "ready" && !candidates.length) errors.push("ready_requires_candidates"); if (advice.status !== "ready" && candidates.length) errors.push("blocked_or_insufficient_must_not_include_candidates"); candidates.forEach((candidate) => { if (!isRecord(candidate)) { errors.push("candidate_must_be_object"); return; } if (!candidate.item_id) errors.push("candidate_item_id_required"); if (candidate.verification_status !== "verified") errors.push("candidate_verification_required"); const assertions = Array.isArray(candidate.source_assertions) ? candidate.source_assertions.filter(isRecord) : []; if (!assertions.some((assertion) => assertion.verification_status === "verified" && typeof assertion.source_id === "string" && typeof assertion.checksum === "string")) errors.push("candidate_verified_source_assertion_required"); if (!candidate.data_as_of) errors.push("candidate_data_as_of_required"); if (advice.mode === "recommendation" && advice.status === "ready" && candidate.recommendation_status !== "verified_recommendation_candidate") errors.push("recommendation_candidate_not_verified"); if (advice.mode === "recommendation" && advice.status === "ready" && !isRecord(candidate.promotion_receipt)) errors.push("candidate_promotion_receipt_required"); });
     return financeResult(financeSafety({ status: errors.length ? "blocked" : "ready", validation: { valid: !errors.length, errors: [...new Set(errors)], policy_version: ADVICE_POLICY_VERSION }, reason_codes: errors.length ? ["ADVICE_CONTRACT_INVALID"] : [] }));
   });
 
@@ -1851,6 +1923,7 @@ function createServer(env: Env): McpServer {
         freshness_status: z.string().optional().describe("Optional source-freshness filter, for example 'current' or 'stale'."),
         limit: z.number().int().min(1).max(50).optional().describe("Maximum number of results. Defaults to 10."),
       },
+      outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: {
         title: "Search Finance Ontology",
         ...READ_ONLY_TOOL_ANNOTATIONS,
@@ -1862,11 +1935,11 @@ function createServer(env: Env): McpServer {
       const maxResults = limit ?? 10;
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, maxResults, env);
-        if (payload) return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+        if (payload) return mcpResult(payload);
       }
       if (isDiscoveryQuery(query)) {
         const payload = discoveryPayload(query, items, maxResults);
-        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+        return mcpResult(payload);
       }
 
       const allowedTypes = type ? SEARCH_TYPE_GROUPS[type] ?? new Set([type]) : inferredTypesForQuery(normalizedQuery);
@@ -1956,15 +2029,7 @@ function createServer(env: Env): McpServer {
         ),
       };
 
-      return {
-        structuredContent: payload,
-        content: [
-          {
-            type: "text",
-            text: jsonText(payload),
-          },
-        ],
-      };
+      return mcpResult(payload);
     },
   );
 
@@ -1977,16 +2042,17 @@ function createServer(env: Env): McpServer {
         query: z.string().min(1).describe("A finance-product need, for example '실손보험 추천' or '마일리지 카드 추천'."),
         limit: z.number().int().min(1).max(50).optional().describe("Maximum number of discovery candidates. Defaults to 10."),
       },
+      outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: { title: "Discover Finance Products", ...READ_ONLY_TOOL_ANNOTATIONS },
     },
     async ({ query, limit }) => {
       const items = dedupeProductItems(await loadSearchItems(env));
       if (isNamedProductQuery(query)) {
         const payload = strictNamedProductPayload(query, items, limit ?? 10, env);
-        if (payload) return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+        if (payload) return mcpResult(payload);
       }
       const payload = discoveryPayload(query, items, limit ?? 10);
-      return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      return mcpResult(payload);
     },
   );
 
@@ -2004,12 +2070,17 @@ function createServer(env: Env): McpServer {
         decision_context: z.record(z.string(), z.unknown()).optional().describe("Transient typed personal-finance snapshot; sensitive account, credential, and identity fields are rejected."),
         limit: z.number().int().min(1).max(20).optional().describe("Maximum number of recommendations. Defaults to 5."),
       },
+      outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: {
         title: "Recommend Finance Products",
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
     async ({ domain, profile, constraints, preferences, decision_context, limit }) => {
+      assertFinanceSafe(profile, "profile");
+      assertFinanceSafe(constraints, "constraints");
+      assertFinanceSafe(preferences, "preferences");
+      assertFinanceSafe(decision_context, "decision_context");
       const items = dedupeProductItems(await loadSearchItems(env));
       const maxResults = limit ?? 5;
       const domainItems = items.filter((item) => domainMatches(item, domain));
@@ -2036,9 +2107,7 @@ function createServer(env: Env): McpServer {
           financial_needs: contextNeeds,
           domain,
           domain_enabled: false,
-          profile: profile ?? {},
-          constraints: constraints ?? {},
-          preferences: preferences ?? {},
+          input_summary: { profile_fields: Object.keys(profile ?? {}).sort(), constraint_fields: Object.keys(constraints ?? {}).sort(), preference_fields: Object.keys(preferences ?? {}).sort() },
           recommendation_model_version: "openfin-recommendation-v0.1.0",
           result_count: 0,
           candidates: [],
@@ -2054,7 +2123,7 @@ function createServer(env: Env): McpServer {
           audit_id: financeAuditId("blocked-recommendation", domain, context.as_of ?? null),
           warnings: ["No verified public recommendation candidates are available for this domain."],
         };
-        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+        return mcpResult(payload);
       }
       const excluded = [];
       const candidates = [];
@@ -2082,6 +2151,10 @@ function createServer(env: Env): McpServer {
           recommendation_scope: item.recommendation_scope,
           recommendation_model_version: item.recommendation_model_version,
           sources: item.source_urls ?? [],
+          source_assertions: item.source_assertions ?? [],
+          verification_status: item.verification_status ?? "unknown",
+          promotion_receipt: item.promotion_receipt ?? null,
+          data_as_of: item.last_verified_at ?? item.verified_at ?? null,
           structured_summary: item.structured_summary ?? {},
           url: itemUrl(env, item.id),
         });
@@ -2098,9 +2171,7 @@ function createServer(env: Env): McpServer {
         missing_information: contextMissing,
         financial_needs: contextNeeds,
         domain,
-        profile: profile ?? {},
-        constraints: constraints ?? {},
-        preferences: preferences ?? {},
+        input_summary: { profile_fields: Object.keys(profile ?? {}).sort(), constraint_fields: Object.keys(constraints ?? {}).sort(), preference_fields: Object.keys(preferences ?? {}).sort() },
         recommendation_model_version: "openfin-recommendation-v0.1.0",
         domain_enabled: true,
         result_count: results.length,
@@ -2117,15 +2188,7 @@ function createServer(env: Env): McpServer {
         audit_id: financeAuditId("recommendation", domain, profile ?? {}, results),
         warnings: results.length ? [] : ["No verified public recommendation candidates are available for this domain."],
       };
-      return {
-        structuredContent: payload,
-        content: [
-          {
-            type: "text",
-            text: jsonText(payload),
-          },
-        ],
-      };
+      return mcpResult(payload);
     },
   );
 
@@ -2146,6 +2209,7 @@ function createServer(env: Env): McpServer {
         tax_rate_percent: z.number().min(0).max(100).optional(),
         limit: z.number().int().min(1).max(20).optional(),
       },
+      outputSchema: STANDARD_OUTPUT_SCHEMA,
       annotations: {
         title: "Compare Deposit and Saving Products",
         ...READ_ONLY_TOOL_ANNOTATIONS,
@@ -2154,7 +2218,7 @@ function createServer(env: Env): McpServer {
     async ({ domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent, limit }) => {
       if ((domain === "deposit" && !ENABLE_DEPOSIT_COMPARISON) || (domain === "saving" && !ENABLE_SAVING_COMPARISON)) {
         const payload = { domain, result_count: 0, candidates: [], excluded_count: 0, excluded_sample: [], warnings: ["Deposit and saving comparison is currently disabled."], comparison_engine_version: COMPARISON_ENGINE_VERSION };
-        return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+        return mcpResult(payload);
       }
       const items = dedupeProductItems(await loadSearchItems(env));
       const metadata = await loadSearchIndexMetadata(env);
@@ -2219,7 +2283,7 @@ function createServer(env: Env): McpServer {
         requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
         executed_mode: "deterministic_comparison",
       };
-      return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      return mcpResult(payload);
     },
   );
 

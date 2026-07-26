@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-26T11:44:09Z",
+  "built_at": "2026-07-26T13:08:27Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -244,7 +244,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e05fdc4b131e64c7425277c5998dd7af35b08ce1576043c873f55a5c55e4c946"
+      "export_checksum": "f063fd80f2582506923e93b14030756bdf7dec663a895518973cfa06f58eb0de"
     },
     {
       "id": "deposit-products-ontology",
@@ -434,7 +434,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "915690dc60c25d4c517d6a5a8197ec4164a651bcd08bd4d3d8d20c12a4e55a8d"
+      "export_checksum": "12de700a1a4c22ede9da41fc5eec6df164062e344eba5661bdb4ef70eb2a666d"
     },
     {
       "id": "saving-products-ontology",
@@ -625,7 +625,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "cb6411ddac033c184674ac2c0754b9a84ab8d47474d5f1d4fc17ef571442b9f3"
+      "export_checksum": "714f1ea16e50b1c5517670410a9c63802eadc84c455e5b66eb2a8a890565443a"
     },
     {
       "id": "loan-products-ontology",
@@ -795,7 +795,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "121eb778d54af43410de4b280b438cccf93a44c770fb78c739ca3c65b820ed82"
+      "export_checksum": "9ad3743c4dceb56af6aa91ed12a9727c36ee9aa1d23b46361abcd938aefcb7b8"
     },
     {
       "id": "insurance-products-ontology",
@@ -977,7 +977,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "31502ff1b16b6cb4e199e1db41fdf0d6f354cec6b70dc52738bf461a7ff43c3a"
+      "export_checksum": "1ad384bac78b34ddd20783a9cadb4faf602fd9822d6dabd1f8c258e0c346f48b"
     },
     {
       "id": "pension-products-ontology",
@@ -1187,7 +1187,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "b737a0b4862b0a68559c99f683fba1a3e3ff78f47966f8f93fd8e0c71aadbbee"
+      "export_checksum": "5ff9bfd3e02fbb74c57b8ff154c1833f64cdad37811306e38c0c9e321b3a9f5d"
     },
     {
       "id": "finance-reference-ontology",
@@ -1425,7 +1425,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-26T11:44:09Z",
+    "built_at": "2026-07-26T13:08:27Z",
     "domain_export_count": 10,
     "search_index_item_count": 21266,
     "canonical_product_count": 3434,
@@ -2781,5 +2781,5 @@
       }
     }
   ],
-  "export_checksum": "2a970a0932e63bdbb6f8f98899f79553f694448a6d6bbbcb128a193e644a87d1"
+  "export_checksum": "a539451ea55234261b435971ebabc4114ac9fff05bba54fa0ef6c4004e659bdf"
 }
