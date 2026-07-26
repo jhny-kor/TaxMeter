@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sys
+import time
 from typing import Any
 import urllib.error
 import urllib.request
@@ -124,6 +125,7 @@ def fast_live_client(url: str, timeout_seconds: float = 15.0, attempts: int = 2)
                     last_error = exc
                     self.session_id = None
                     if attempt + 1 < call_attempts:
+                        time.sleep(min(3.0, 0.75 * (attempt + 1)))
                         try:
                             self.initialize()
                         except Exception as initialize_error:  # noqa: BLE001
@@ -272,8 +274,31 @@ def main() -> int:
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--live-timeout", type=float, default=15.0)
     parser.add_argument("--live-attempts", type=int, default=2)
+    parser.add_argument("--live-new-session-per-case", action="store_true", help="Use a fresh MCP session per case when a public edge limits long-lived sessions.")
+    parser.add_argument("--case-start", type=int, default=0, help="Zero-based inclusive case index for a bounded live chunk.")
+    parser.add_argument("--case-end", type=int, default=None, help="Zero-based exclusive case index for a bounded live chunk.")
+    parser.add_argument("--append-report", action="store_true", help="Merge this chunk into an existing live report by case id.")
+    parser.add_argument("--merge-reports", type=Path, nargs="+", help="Merge independently collected chunk reports into --report without invoking MCP.")
     args = parser.parse_args()
     cases = load_cases()
+    if args.merge_reports:
+        merged: dict[str, dict[str, Any]] = {}
+        runtime: dict[str, Any] = {}
+        for report_path in args.merge_reports:
+            if not report_path.exists():
+                continue
+            payload = json.loads(report_path.read_text(encoding="utf-8"))
+            runtime = payload.get("runtime") or runtime
+            for result in payload.get("case_results") or []:
+                if result.get("case_id"):
+                    merged[str(result["case_id"])] = result
+        case_results = [merged[case["case_id"]] for case in cases if case["case_id"] in merged]
+        failures = [result for result in case_results if result.get("errors")]
+        report = {"report_version": "openfin-live-120-v1", "mode": "live", "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "endpoint": args.mcp_url, "fixture": str(GOLDEN.relative_to(REPO_ROOT)), "runtime": runtime, "test_count": len(case_results), "passed_count": len(case_results) - len(failures), "failed_count": len(failures), "skipped_count": len(cases) - len(case_results), "failures": failures, "case_results": case_results, "category_counts": CATEGORY_COUNTS, "fixture_output_is_not_live_evidence": False}
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps({key: report[key] for key in ("mode", "test_count", "passed_count", "failed_count", "skipped_count")}, ensure_ascii=False))
+        return 0 if len(case_results) == len(cases) and not failures else 1
     client = None
     runtime: dict[str, Any] = {}
     if args.mode == "live":
@@ -285,12 +310,31 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001 - runtime evidence records the failure.
             runtime = {"initialize_or_exports_error": f"{type(exc).__name__}: {exc}"}
 
-    failures: list[dict[str, Any]] = []
-    for case in cases:
-        payload, error_text = invoke_live(client, case) if client else invoke_offline(case)
+    case_end = args.case_end if args.case_end is not None else len(cases)
+    if not 0 <= args.case_start < case_end <= len(cases):
+        raise ValueError(f"invalid case range {args.case_start}:{case_end} for {len(cases)} cases")
+    selected_cases = cases[args.case_start:case_end]
+    prior_results: dict[str, dict[str, Any]] = {}
+    if args.mode == "live" and args.append_report and args.report.exists():
+        previous = json.loads(args.report.read_text(encoding="utf-8"))
+        prior_results = {str(entry.get("case_id")): entry for entry in previous.get("case_results") or [] if entry.get("case_id")}
+    for case in selected_cases:
+        case_client = client
+        if client and args.live_new_session_per_case:
+            case_client = fast_live_client(args.mcp_url, timeout_seconds=args.live_timeout, attempts=args.live_attempts)
+            try:
+                case_client.initialize()
+            except Exception as exc:  # noqa: BLE001 - recorded through the case result below.
+                error_text = f"{type(exc).__name__}: {exc}"
+                payload = None
+            else:
+                payload, error_text = invoke_live(case_client, case)
+        else:
+            payload, error_text = invoke_live(case_client, case) if case_client else invoke_offline(case)
         errors = check_case(case, payload, error_text, args.mode)
-        if errors:
-            failures.append({"case_id": case["case_id"], "tool": case["tool"], "errors": errors, "error": error_text})
+        prior_results[case["case_id"]] = {"case_id": case["case_id"], "tool": case["tool"], "errors": errors, "error": error_text}
+    case_results = [prior_results[case["case_id"]] for case in cases if case["case_id"] in prior_results]
+    failures = [result for result in case_results if result["errors"]]
     report = {
         "report_version": "openfin-live-120-v1",
         "mode": args.mode,
@@ -298,11 +342,12 @@ def main() -> int:
         "endpoint": args.mcp_url if args.mode == "live" else None,
         "fixture": str(GOLDEN.relative_to(REPO_ROOT)),
         "runtime": runtime,
-        "test_count": len(cases),
-        "passed_count": len(cases) - len(failures),
+        "test_count": len(case_results),
+        "passed_count": len(case_results) - len(failures),
         "failed_count": len(failures),
-        "skipped_count": 0,
+        "skipped_count": len(cases) - len(case_results),
         "failures": failures,
+        "case_results": case_results,
         "category_counts": CATEGORY_COUNTS,
         "fixture_output_is_not_live_evidence": args.mode != "live",
     }
@@ -310,9 +355,11 @@ def main() -> int:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: report[key] for key in ("mode", "test_count", "passed_count", "failed_count", "skipped_count")}, ensure_ascii=False))
-    if failures:
+    if failures or len(case_results) != len(cases):
         for failure in failures[:20]:
             print(f"FAIL {failure['case_id']}: {'; '.join(failure['errors'])}")
+        if len(case_results) != len(cases):
+            print(f"INCOMPLETE: {len(case_results)}/{len(cases)} cases collected")
         return 1
     print(f"OpenFin {args.mode} golden validation passed: {len(cases)}/120, skip=0")
     return 0
