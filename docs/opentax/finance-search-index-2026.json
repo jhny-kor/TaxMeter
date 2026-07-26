@@ -8,7 +8,7 @@
   "canonical_product_count": 3434,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+  "export_checksum": "2df5d30584a85f621979356c5c2006f10a62ef7a089b667804df661abb41327f",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -17,7 +17,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-support.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-support.json",
       "item_count": 7739,
-      "export_checksum": "a11972732de20dcfdbc0342db4f8b9660548695e16008ae89a854bf700d55913"
+      "export_checksum": "5afada398c8d5e3da7ab53b54c807fbb780c65c67a706d43fc6f084bf79d8ecc"
     },
     {
       "id": "finance-search-index-deposit-protection",
@@ -26,7 +26,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-deposit-protection.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-deposit-protection.json",
       "item_count": 9380,
-      "export_checksum": "ff1a5b7d017481d67ada2176ea712a7df69ca3219347d56a6459b2c1fa45da56"
+      "export_checksum": "989c5d54332e7ed97e31acde0c4c4a2029299d53546d9fab9232ea5ef1966875"
     },
     {
       "id": "finance-search-index-bank-products",
@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
       "item_count": 1363,
-      "export_checksum": "f64f95734d8775c807f17b545db60ef0d49a24d25a7a9dc4b7fbe7a6dc41d521"
+      "export_checksum": "5e79acecbad3d1c3b4724f4eb3eadf0812a6a523f9f3999b2b103e92fabe262e"
     },
     {
       "id": "finance-search-index-card-products",
@@ -44,7 +44,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-card-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-card-products.json",
       "item_count": 1007,
-      "export_checksum": "6325fdd1ee0bdab0c381ecfa7f53d270d2c5f68f7f238c79ef2937bc7d279600"
+      "export_checksum": "2d5cd70754548685167fba31819e9102d0d52de245c978230b4b76f0c21c6f3e"
     },
     {
       "id": "finance-search-index-insurance-products",
@@ -53,7 +53,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-insurance-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-insurance-products.json",
       "item_count": 1071,
-      "export_checksum": "c6a83218439311f7cc951aab8b37273eb380d17adbc22a0f89468cba3dec575d"
+      "export_checksum": "560ee35129f18730a55ea79571568bc29d65307ecd792a6e2efe9e6b0c8ca4f3"
     },
     {
       "id": "finance-search-index-pension-products",
@@ -71,7 +71,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
       "item_count": 4,
-      "export_checksum": "85ad132dadeeac72ecf25a970449e8561979db04ac1f9270fee3b908aa1e0bfb"
+      "export_checksum": "3cba29bcf499166d49ec39c6a4b32dc9603685130a3c380fc6006b5585cc99bb"
     },
     {
       "id": "finance-search-index-reference",
@@ -80,7 +80,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
       "item_count": 702,
-      "export_checksum": "886186465e066606cc684bbe9effd9496a0179eaa28499613301ca06b69d4a24"
+      "export_checksum": "140e4a82f25beb2b0a874de4b79e1f41620cd19b861657963210924eeb9dc0a6"
     }
   ]
 }

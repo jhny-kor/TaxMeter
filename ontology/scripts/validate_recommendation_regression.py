@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from recommendation_engine import recommend
+from recommendation_policy import PUBLIC_RECOMMENDATION_ENABLED
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +31,36 @@ def run_case(case: dict[str, Any]) -> list[str]:
     first = outputs[0]
     if repeat > 1 and any(output != first for output in outputs[1:]):
         errors.append(f"{case['name']}: non-deterministic output")
+    if not PUBLIC_RECOMMENDATION_ENABLED:
+        required_fields = {
+            "mode",
+            "status",
+            "reason_codes",
+            "profile_as_of",
+            "data_as_of",
+            "assumptions",
+            "missing_information",
+            "financial_needs",
+            "candidates",
+            "decision_owner",
+            "limitations",
+            "audit_id",
+        }
+        missing_fields = sorted(required_fields - set(first))
+        errors.extend(f"{case['name']}: blocked response missing {field}" for field in missing_fields)
+        if first.get("status") != "blocked":
+            errors.append(f"{case['name']}: disabled public recommendation must be blocked")
+        if first.get("result_count") != 0:
+            errors.append(f"{case['name']}: disabled public recommendation must have zero results")
+        if first.get("candidates"):
+            errors.append(f"{case['name']}: disabled public recommendation contains candidates")
+        if first.get("decision_owner") != "user":
+            errors.append(f"{case['name']}: decision owner must be user")
+        reason_codes = set(first.get("reason_codes") or [])
+        for code in ("PUBLIC_RECOMMENDATION_DISABLED", "NO_VERIFIED_RECOMMENDATION_CANDIDATE"):
+            if code not in reason_codes:
+                errors.append(f"{case['name']}: missing safety reason code {code}")
+        return errors
     if first["result_count"] != int(case["expected_result_count"]):
         errors.append(f"{case['name']}: expected {case['expected_result_count']} results, got {first['result_count']}")
     warning = case.get("expected_warning_contains")

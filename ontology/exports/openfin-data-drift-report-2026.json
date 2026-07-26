@@ -1,16 +1,98 @@
 {
   "version": "openfin-data-drift-report-2026.07.18.1",
   "basis_date": "2026-07-10",
-  "live_status": "not_executed",
-  "live_not_executed_reason": "배포 URL smoke test가 아직 실행되지 않았습니다.",
-  "live_tested_at": null,
-  "runtime_version": null,
-  "deployment_commit": null,
-  "manifest_version": null,
-  "live_case_count": 0,
-  "live_passed_count": 0,
-  "live_failed_count": 0,
-  "live_failures": [],
+  "live_status": "executed",
+  "live_not_executed_reason": null,
+  "live_tested_at": "2026-07-26T11:37:00+00:00",
+  "runtime_version": "openfin-mcp-2026.07.22.1",
+  "deployment_commit": "40215ba9c",
+  "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
+  "live_case_count": 120,
+  "live_passed_count": 15,
+  "live_failed_count": 105,
+  "live_failure_count": 105,
+  "live_failure_sample": [
+    {
+      "case_id": "exact_product-001",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-002",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-003",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-004",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-005",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-006",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-007",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-008",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    },
+    {
+      "case_id": "exact_product-009",
+      "tool": "opentax_search",
+      "errors": [
+        "named product was not resolved as exact"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "exact_product-010",
+      "tool": "opentax_search",
+      "errors": [
+        "unexpected tool error: ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+      ],
+      "error": "ValueError: search live call failed: HTTP Error 503: Service Unavailable"
+    }
+  ],
   "report_kind": "data-drift",
   "product_count_added": 0,
   "product_count_removed": 0,
@@ -21,5 +103,5 @@
   "discovery_candidate_changed": 0,
   "verification_expired": 0,
   "note": "Previous comparable export snapshot is not retained in this build; drift is recorded as zero-change baseline.",
-  "export_checksum": "117068e69cccd6a86ce3288ed91e89887262fa6cc95f98d31d836648fd184293"
+  "export_checksum": "6d0680f31f943a68f96f5f6c340b7aa3278d91327f0d3d897b7126b6a90d4f8c"
 }

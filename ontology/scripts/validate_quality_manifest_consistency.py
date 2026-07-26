@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -42,6 +43,13 @@ def check_summary(errors: list[str], name: str, summary: dict) -> None:
                     errors.append(f"{name}: 실패 사례에 {key}가 없습니다.")
         if not summary.get("last_failed_at"):
             errors.append(f"{name}: 실패가 있는데 last_failed_at이 없습니다.")
+
+
+def payload_checksum(payload: dict) -> str:
+    normalized = dict(payload)
+    normalized.pop("export_checksum", None)
+    serialized = json.dumps(normalized, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
 def main() -> int:
@@ -90,6 +98,12 @@ def main() -> int:
             errors.append("live_search_regression.checked_at이 없습니다.")
         if live.get("failed_count"):
             errors.append("live_search_regression에 실패 사례가 있습니다.")
+        if int(live.get("test_count") or 0) <= 0:
+            errors.append("live_search_regression.test_count must be greater than zero.")
+        if live.get("passed_count") != live.get("test_count"):
+            errors.append("live_search_regression.passed_count must equal test_count.")
+        if "skipped_count" in live and int(live.get("skipped_count") or 0) != 0:
+            errors.append("live_search_regression.skipped_count must be zero.")
         finance_manifest = json.loads(FINANCE_MANIFEST.read_text(encoding="utf-8"))
         expected_search_checksum = (finance_manifest.get("search_index") or {}).get("export_checksum")
         if live.get("search_index_checksum") != expected_search_checksum:
@@ -111,7 +125,36 @@ def main() -> int:
                     if key not in test:
                         errors.append(f"필수 라이브 비교 증적에 {key}가 없습니다: {test.get('query')}")
 
-    # 3) 도메인 요약 체크섬이 실제 export와 일치
+    # 3) quality subreports and finance manifest entries must point to the
+    # exact payload that was checked into the export tree.
+    quality_reports = manifest.get("quality_reports") or []
+    for entry in quality_reports:
+        path = REPO_ROOT / str(entry.get("path") or "")
+        if not path.exists():
+            errors.append(f"quality report is missing: {entry.get('path')}")
+            continue
+        report_payload = json.loads(path.read_text(encoding="utf-8"))
+        expected = str(entry.get("export_checksum") or "")
+        actual = str(report_payload.get("export_checksum") or "")
+        if expected != actual or actual != payload_checksum(report_payload):
+            errors.append(f"quality report checksum mismatch: {entry.get('id')}")
+        if int(report_payload.get("live_case_count") or 0) <= 0:
+            errors.append(f"quality report has no live cases: {entry.get('id')}")
+        if report_payload.get("live_passed_count") != report_payload.get("live_case_count"):
+            errors.append(f"quality report live pass count mismatch: {entry.get('id')}")
+        if int(report_payload.get("live_failed_count") or 0) != 0:
+            errors.append(f"quality report contains live failures: {entry.get('id')}")
+    finance_payload = json.loads(FINANCE_MANIFEST.read_text(encoding="utf-8"))
+    for entry in finance_payload.get("quality_exports") or []:
+        path = REPO_ROOT / str(entry.get("path") or "")
+        if not path.exists():
+            errors.append(f"finance manifest quality export is missing: {entry.get('path')}")
+            continue
+        export_payload = json.loads(path.read_text(encoding="utf-8"))
+        if entry.get("export_checksum") and entry.get("export_checksum") != export_payload.get("export_checksum"):
+            errors.append(f"finance manifest quality export checksum mismatch: {entry.get('id')}")
+
+    # 4) 도메인 요약 체크섬이 실제 export와 일치
     for entry in manifest.get("domain_summaries") or []:
         export_id = entry.get("id")
         checksum = entry.get("export_checksum")

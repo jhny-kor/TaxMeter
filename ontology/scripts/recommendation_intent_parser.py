@@ -32,6 +32,7 @@ PROVIDER_ALIASES = {
     "신한카드": ("신한카드", "신한"),
     "KB국민카드": ("kb국민카드", "kb국민", "국민카드", "kb"),
     "롯데카드": ("롯데카드", "롯데"),
+    "광주은행": ("광주은행",),
 }
 GENERIC_PRODUCT_TOKENS = {
     "카드", "체크카드", "신용카드", "보험", "대출", "예금", "적금", "정기예금", "자유적금", "자유적립",
@@ -39,6 +40,14 @@ GENERIC_PRODUCT_TOKENS = {
     "상품", "추천", "추천해줘", "추천해주세요",
     "비교", "찾아줘", "찾아주세요", "알려줘", "알려주세요", "골라줘", "골라주세요",
     "후보", "순위", "없는", "무엇", "뭐", "비갱신형", "갱신형", "전월실적", "연회비", "교통", "쇼핑", "온라인", "할인", "적립", "마일리지", "구독", "직장인", "중도상환수수료", "낮은", "금리", "청년",
+}
+
+# Once one of these markers appears, the remainder is treated as unparsed
+# instruction text.  It must not become product-name evidence or widen a
+# lookup into unrelated records.
+PROMPT_INJECTION_MARKERS = {
+    "무시", "이전", "지시", "시스템", "프롬프트", "명령", "규칙",
+    "ignore", "previous", "instruction", "instructions", "system", "prompt", "rule", "rules",
 }
 
 
@@ -61,7 +70,9 @@ def product_name_tokens(query: str, provider: str | None) -> list[str]:
     for raw_token in re.findall(r"[0-9A-Za-z가-힣]+", query):
         token = raw_token.strip()
         compact = compact_product_text(token)
-        if not compact or compact in {"월"} or re.fullmatch(r"\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)", compact):
+        if compact in PROMPT_INJECTION_MARKERS:
+            break
+        if not compact or compact in {"월"} or re.fullmatch(r"\d+(?:\.\d+)?개월", compact) or re.fullmatch(r"\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)", compact):
             continue
         if compact in GENERIC_PRODUCT_TOKENS or compact in {compact_product_text(value) for value in provider_aliases}:
             continue
@@ -72,6 +83,14 @@ def product_name_tokens(query: str, provider: str | None) -> list[str]:
         if compact not in tokens:
             tokens.append(compact)
     return tokens
+
+
+def unparsed_query_tokens(query: str) -> list[str]:
+    tokens = re.findall(r"[0-9A-Za-z가-힣]+", query)
+    for index, token in enumerate(tokens):
+        if compact_product_text(token) in PROMPT_INJECTION_MARKERS:
+            return [compact_product_text(value) for value in tokens[index:]]
+    return []
 
 
 def parse_amount_krw(query: str) -> int | None:
@@ -127,4 +146,4 @@ def parse_query(query: str) -> dict:
         hard_constraints.append({"field": "provider", "operator": "equals", "value": provider})
     if name_tokens:
         hard_constraints.append({"field": "product_name_tokens", "operator": "contains", "value": name_tokens})
-    return {"original_query": query, "parser_version": QUERY_PARSER_VERSION, "intent": intent, "domain": domain, "product_kind": product_kind, "provider": provider, "product_name_tokens": name_tokens, "hard_constraints": hard_constraints, "soft_preferences": soft_preferences, "negative_constraints": [], "numeric_constraints": [constraint for constraint in hard_constraints if isinstance(constraint["value"], int)], "unparsed_tokens": []}
+    return {"original_query": query, "parser_version": QUERY_PARSER_VERSION, "intent": intent, "domain": domain, "product_kind": product_kind, "provider": provider, "product_name_tokens": name_tokens, "hard_constraints": hard_constraints, "soft_preferences": soft_preferences, "negative_constraints": [], "numeric_constraints": [constraint for constraint in hard_constraints if isinstance(constraint["value"], int)], "unparsed_tokens": unparsed_query_tokens(normalized)}

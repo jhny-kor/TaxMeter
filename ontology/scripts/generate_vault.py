@@ -12,7 +12,7 @@ import json
 import re
 from copy import deepcopy
 
-from support_deadline_parser import classify_deadline, parse_application_dates
+from support_deadline_parser import application_window, classify_deadline, parse_application_dates
 from support_status_resolver import resolve_recommendation_status
 from datetime import date
 from pathlib import Path
@@ -3861,10 +3861,14 @@ def local_support_source_freshness(item: dict) -> str:
 
 def enrich_local_support_status(item: dict) -> dict:
     enriched = deepcopy(item)
+    deadline_text = str(enriched.get("application_deadline_text") or "")
+    deadline_kind = classify_deadline(deadline_text)
     application_open_from, application_open_to = parse_application_dates(
-        str(enriched.get("application_deadline_text") or ""),
+        deadline_text,
         LOCAL_SUPPORT_STATUS_REVIEW_DATE,
     )
+    if deadline_kind in {"budget_exhaustion", "announcement_based", "agency_contact_required", "schedule_pending", "recurring_monthly", "recurring_quarterly", "recurring_annual", "agency_schedule_varies", "source_schedule_ambiguous"}:
+        application_open_from, application_open_to = None, None
     status_fields = local_support_status_fields(enriched)
     status = status_fields["status"]
     enriched.update(status_fields)
@@ -3894,6 +3898,12 @@ def enrich_local_support_status(item: dict) -> dict:
     enriched["effective_to"] = enriched.get("effective_to") or (enriched.get("expiration_date") if status == "closed" else None)
     enriched["application_open_from"] = application_open_from
     enriched["application_open_to"] = application_open_to
+    enriched["application_window"] = application_window(
+        deadline_text,
+        str(enriched.get("application_status") or "unknown"),
+        application_open_from,
+        application_open_to,
+    )
     enriched["is_currently_applicable"] = enriched["application_status"] in {"open", "always_open", "not_required"}
     enriched["abolition_status"] = {"active": "active", "closed": "sunset", "unknown": "unknown"}[enriched["status"]]
     enriched["recommendation_status"] = (

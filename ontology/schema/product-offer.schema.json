@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentax.local/schema/product-offer.schema.json",
+  "title": "OpenFin product evidence and promotion state",
+  "type": "object",
+  "required": ["id", "product_kind", "state", "source_assertions", "collected_at", "normalized_at", "verified_at", "published_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "provider": {"type": "string"},
+    "official_name": {"type": "string"},
+    "aliases": {"type": "array", "items": {"type": "string"}},
+    "product_kind": {"type": "string"},
+    "state": {"type": "string", "enum": ["raw", "normalized", "reference_only", "comparison_candidate", "verified_comparison_candidate", "recommendation_candidate", "verified_recommendation_candidate", "retired"]},
+    "source_assertions": {"type": "array", "items": {"$ref": "#/$defs/sourceAssertion"}},
+    "collected_at": {"type": ["string", "null"], "format": "date-time"},
+    "normalized_at": {"type": ["string", "null"], "format": "date-time"},
+    "verified_at": {"type": ["string", "null"], "format": "date-time"},
+    "published_at": {"type": ["string", "null"], "format": "date-time"},
+    "application_window": {"$ref": "#/$defs/applicationWindow"},
+    "promotion_receipt": {"$ref": "#/$defs/promotionReceipt"}
+  },
+  "$defs": {
+    "sourceAssertion": {
+      "type": "object",
+      "required": ["source_id", "field", "value", "collected_at", "verification_status"],
+      "properties": {
+        "source_id": {"type": "string"},
+        "field": {"type": "string"},
+        "value": {},
+        "locator": {"type": ["string", "null"]},
+        "collected_at": {"type": "string", "format": "date-time"},
+        "verification_status": {"type": "string", "enum": ["unverified", "verified", "conflict", "stale"]},
+        "checksum": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "applicationWindow": {
+      "type": "object",
+      "required": ["kind", "status"],
+      "properties": {
+        "kind": {"type": "string", "enum": ["fixed", "rolling", "until_budget_exhausted", "periodic", "tbd", "unknown"]},
+        "status": {"type": "string", "enum": ["open", "closed", "unknown", "not_applicable"]},
+        "starts_at": {"type": ["string", "null"], "format": "date-time"},
+        "ends_at": {"type": ["string", "null"], "format": "date-time"},
+        "source_id": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "promotionReceipt": {
+      "type": "object",
+      "required": ["from_state", "to_state", "reviewer", "reviewed_at", "evidence_ids"],
+      "properties": {
+        "from_state": {"type": "string"},
+        "to_state": {"type": "string"},
+        "reviewer": {"type": "string"},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "reason": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

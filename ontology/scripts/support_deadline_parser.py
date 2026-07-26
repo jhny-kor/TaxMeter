@@ -64,10 +64,10 @@ def parse_application_dates(deadline_text: str, reference_date: str) -> tuple[st
 
 def classify_deadline(deadline_text: str) -> str:
     compact_text = deadline_text.replace(" ", "")
-    if any(marker in compact_text for marker in ALWAYS_OPEN_MARKERS):
-        return "always_open"
     if any(marker in compact_text for marker in BUDGET_EXHAUSTION_MARKERS):
         return "budget_exhaustion"
+    if any(marker in compact_text for marker in ALWAYS_OPEN_MARKERS):
+        return "always_open"
     if any(marker in compact_text for marker in ANNOUNCEMENT_MARKERS):
         return "announcement_based"
     if any(marker in compact_text for marker in CONTACT_REQUIRED_MARKERS):
@@ -92,3 +92,31 @@ def classify_deadline(deadline_text: str) -> str:
     # schedule as a parser format error.  The caller keeps it out of public
     # recommendation and does not infer current availability.
     return "source_schedule_ambiguous"
+
+
+def application_window(deadline_text: str, status: str, starts_at: str | None = None, ends_at: str | None = None) -> dict[str, str | None]:
+    """Preserve non-fixed support windows instead of forcing date fields."""
+
+    kind = classify_deadline(deadline_text)
+    if starts_at and ends_at and kind not in {"budget_exhaustion", "announcement_based", "agency_contact_required", "schedule_pending", "recurring_monthly", "recurring_quarterly", "recurring_annual", "agency_schedule_varies", "source_schedule_ambiguous"}:
+        kind = "fixed"
+    kind_map = {
+        "always_open": "rolling",
+        "budget_exhaustion": "until_budget_exhausted",
+        "recurring_monthly": "periodic",
+        "recurring_quarterly": "periodic",
+        "recurring_annual": "periodic",
+        "announcement_based": "tbd",
+        "agency_contact_required": "tbd",
+        "schedule_pending": "tbd",
+        "agency_schedule_varies": "unknown",
+        "source_schedule_ambiguous": "unknown",
+        "date_missing": "unknown",
+        "invalid_source_value": "unknown",
+    }
+    return {
+        "kind": kind_map.get(kind, kind),
+        "status": status,
+        "starts_at": starts_at if kind == "fixed" else None,
+        "ends_at": ends_at if kind == "fixed" else None,
+    }

@@ -1,0 +1,38 @@
+version: openfin-recommendation-state-v1
+states:
+  - raw
+  - normalized
+  - reference_only
+  - comparison_candidate
+  - verified_comparison_candidate
+  - recommendation_candidate
+  - verified_recommendation_candidate
+  - retired
+transitions:
+  - from: raw
+    to: normalized
+    requires: [schema_valid, sensitive_fields_absent]
+  - from: normalized
+    to: reference_only
+    requires: [source_registered, collected_at]
+  - from: reference_only
+    to: comparison_candidate
+    requires: [current_listing_or_explicit_reference_scope, comparison_fields_lineaged]
+  - from: comparison_candidate
+    to: verified_comparison_candidate
+    requires: [official_primary_evidence, current_sales_status, comparison_object_finalized]
+  - from: verified_comparison_candidate
+    to: recommendation_candidate
+    requires: [eligibility_fields_declared, suitability_fields_declared, promotion_receipt]
+  - from: recommendation_candidate
+    to: verified_recommendation_candidate
+    requires: [official_primary_evidence, all_hard_filters_resolved, expiry_valid, reviewer_receipt]
+  - from: '*'
+    to: retired
+    requires: [source_closed_or_expired_or_conflicted]
+invariants:
+  - collected_at <= normalized_at <= verified_at <= published_at
+  - unknown_fields_never_pass_hard_filter
+  - reference_only_never_enters_recommendation
+  - recommendation_candidate_requires_explicit_owner_scope
+  - public_recommendation_flag_remains_false_until_release_gate

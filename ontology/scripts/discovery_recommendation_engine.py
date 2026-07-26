@@ -154,6 +154,11 @@ def decision(item: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, dict[st
         failed.append("product_kind")
     unknown = [field for field, state in {**states, **preference_states}.items() if state == "unknown"]
     matched = [field for field, state in {**states, **preference_states}.items() if state == "matched"]
+    # A product name without a provider is a lookup ambiguity, not an exact
+    # identity.  Keep it available as a partial discovery candidate while
+    # making the missing provider explicit.
+    if parsed.get("product_kind") and parsed.get("product_name_tokens") and not parsed.get("provider") and "provider" not in unknown:
+        unknown.append("provider")
     if failed:
         # A named product/provider mismatch is related context, never an
         # exact candidate.  Hard factual filters (spend, term, amount, ...)
@@ -206,4 +211,42 @@ def discover(query: str, items: list[dict[str, Any]], limit: int = 10) -> dict[s
         values_.sort(key=lambda value: (-int(value["decision"]["score"]), str(value["canonical_product_id"])))
         del values_[limit:]
     requested_intent = "recommend" if any(token in query for token in ("추천", "골라", "알려", "찾아")) else parsed["intent"]
-    return {"requested_intent": requested_intent, "executed_mode": "discovery", "fallback_reason": "verified_recommendation_candidate_not_available" if requested_intent == "recommend" else None, "parsed_query": parsed, **groups, "excluded_summary": excluded, "warnings": ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."], "basis_date": None, "engine_version": ENGINE_VERSION, "field_extractor_version": FIELD_EXTRACTOR_VERSION}
+    exact = groups["exact_candidates"]
+    named_query = bool(parsed.get("product_kind") and parsed.get("product_name_tokens"))
+    if not named_query:
+        resolution_status = "not_applicable"
+    elif not exact and not groups["partial_candidates"]:
+        resolution_status = "not_found"
+    elif parsed.get("provider") and len(exact) == 1:
+        resolution_status = "exact"
+    else:
+        resolution_status = "ambiguous"
+    source_urls = sorted({str(url) for group in groups.values() for result in group for url in result.get("source_urls") or [] if url})
+    source_basis_dates = sorted({str(value) for group in groups.values() for result in group for value in result.get("source_basis_dates") or [] if value})
+    return {
+        "requested_intent": requested_intent,
+        "executed_mode": "discovery",
+        "fallback_reason": "verified_recommendation_candidate_not_available" if requested_intent == "recommend" else None,
+        "parsed_query": parsed,
+        "resolution": {
+            "status": resolution_status,
+            "provider_required": parsed.get("provider"),
+            "product_kind_required": parsed.get("product_kind"),
+            "name_tokens_required": parsed.get("product_name_tokens") or [],
+            "exact_candidate_count": len(exact),
+            "canonical_product_ids": [str(result.get("canonical_product_id")) for result in exact],
+        },
+        **groups,
+        "excluded_summary": excluded,
+        "warnings": ["탐색 결과는 최적 상품·승인·보험료·보장 적합성을 뜻하지 않습니다."],
+        "basis_date": None,
+        "data_as_of": source_basis_dates[-1] if source_basis_dates else None,
+        "sources": source_urls,
+        "limitations": [
+            "탐색 결과는 추천·승인·보험료·보장 적합성을 뜻하지 않습니다.",
+            "provider와 공식 상품명이 모두 확인되지 않으면 exact identity로 승격하지 않습니다.",
+            *( ["질의에서 분리된 비상품 지시 토큰은 해석하지 않았습니다."] if parsed.get("unparsed_tokens") else [] ),
+        ],
+        "engine_version": ENGINE_VERSION,
+        "field_extractor_version": FIELD_EXTRACTOR_VERSION,
+    }

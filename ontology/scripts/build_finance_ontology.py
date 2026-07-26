@@ -34,6 +34,17 @@ EXPORT_DIR = ROOT / "exports"
 CUSTOM_FINANCE_DIR = ROOT / "custom" / "finance"
 FINANCE_SEARCH_ALIASES_PATH = CUSTOM_FINANCE_DIR / "search-aliases.json"
 DOCS_ROOT = REPO_ROOT / "docs" / "opentax"
+OPENFIN_120_GOLDEN_PATH = REPO_ROOT / "tests" / "golden" / "openfin-120.jsonl"
+OPENFIN_120_LIVE_REPORT_PATH = REPO_ROOT / "quality" / "openfin-live-report.json"
+OPENFIN_120_CATEGORY_COUNTS = {
+    "exact_product": 30,
+    "alias_ambiguity": 20,
+    "comparison": 20,
+    "support": 20,
+    "personal_finance": 15,
+    "stale_conflict": 10,
+    "security_auth": 5,
+}
 
 CURRENT_REVIEW_DATE = "2026-07-10"
 CURRENT_BASIS_YEAR = 2026
@@ -2180,6 +2191,11 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
     pilot_items = [product for product in products if (product.get("pilot_validation") or {}).get("status") == "verified" and (product.get("pilot_validation") or {}).get("domain") == pilot_domain]
     pilot_ratios = [float(product.get("pilot_verified_completeness_ratio") or 0) for product in pilot_items]
     comparison_overlay_products = [product for product in products if product.get("comparison_engine_gate_passed")]
+    final_comparison_products = [
+        product
+        for product in comparison_overlay_products
+        if product.get("comparison_options") or product.get("comparison_basis_fields")
+    ]
     overlay_missing_fields = sorted({
         str(field)
         for product in comparison_overlay_products
@@ -2258,6 +2274,15 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         "products_with_verification_evidence": sum(1 for product in products if product.get("verification_evidence")),
         "comparison_overlay_quality": {
             "candidate_count": len(comparison_overlay_products),
+            "statistics_basis": "final_comparison_object",
+            "statistics_candidate_count": len(final_comparison_products),
+            "raw_unverified_candidate_count": sum(
+                1
+                for product in comparison_overlay_products
+                if product.get("verification_status") != "verified"
+                or product.get("sales_verification_status") != "verified_active"
+            ),
+            "raw_unverified_excluded_from_statistics_count": max(0, len(comparison_overlay_products) - len(final_comparison_products)),
             "verified_candidate_count": sum(
                 1
                 for product in comparison_overlay_products
@@ -2685,6 +2710,7 @@ def structured_summary(item: dict) -> dict:
             for key, value in {
                 "deadline_text": item.get("application_deadline_text"),
                 "status": item.get("application_status"),
+                "application_window": item.get("application_window") or {},
             }.items()
             if value not in (None, "", [])
         },
@@ -2835,6 +2861,7 @@ def search_index_item(item: dict, export_id: str) -> dict:
         "is_currently_applicable": item.get("is_currently_applicable"),
         "application_open_from": item.get("application_open_from"),
         "application_open_to": item.get("application_open_to"),
+        "application_window": item.get("application_window") or {},
         "jurisdiction": item.get("jurisdiction"),
         "jurisdiction_code": item.get("jurisdiction_code"),
         "jurisdiction_aliases": item.get("jurisdiction_aliases") or [],
@@ -3392,6 +3419,27 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
     if golden_count < 140:
         blocked_domains.add("regression")
         blocking_reasons.append(f"golden cases below 140 ({golden_count})")
+    openfin_120_count = 0
+    openfin_120_categories: dict[str, int] = {}
+    if OPENFIN_120_GOLDEN_PATH.exists():
+        try:
+            for line in OPENFIN_120_GOLDEN_PATH.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                case = json.loads(line)
+                openfin_120_count += 1
+                category = str(case.get("category") or "unknown")
+                openfin_120_categories[category] = openfin_120_categories.get(category, 0) + 1
+        except (OSError, json.JSONDecodeError, TypeError):
+            openfin_120_count = -1
+    if openfin_120_count != 120 or any(
+        openfin_120_categories.get(category, 0) != expected
+        for category, expected in OPENFIN_120_CATEGORY_COUNTS.items()
+    ):
+        blocked_domains.add("regression")
+        blocking_reasons.append(
+            f"OpenFin 120 golden cases invalid (count={openfin_120_count}, categories={openfin_120_categories})"
+        )
     blocking_issues = sorted(set(blocking_reasons))
     return {
         "release_status": "degraded" if blocking_issues else "ready",
@@ -3403,6 +3451,8 @@ def release_policy(domain_summaries: list[dict], search_report: dict) -> dict:
         "semantic_validation_passed": not blocking_issues,
         "id_compatibility_validation_passed": True,
         "recommendation_policy": "only verified_recommendation_candidate is eligible for public recommendation",
+        "openfin_120_golden_case_count": openfin_120_count,
+        "openfin_120_category_counts": openfin_120_categories,
     }
 
 
@@ -3493,6 +3543,7 @@ def runtime_quality_metrics() -> dict:
         sales_status_counts[sales_status] = sales_status_counts.get(sales_status, 0) + 1
         verification = "A" if product.get("sales_verification_status") == "verified_active" and product.get("verification_status") == "verified" else ("C" if product.get("source_urls") else "D")
         verification_grade_counts[verification] = verification_grade_counts.get(verification, 0) + 1
+    local_cloudflare_parity_error_count = local_cloudflare_contract_parity_errors()
     return {
         "catalog_status_counts": {status: sum(1 for product in products if str(product.get("status") or product.get("product_status") or "unknown") == status) for status in sorted({str(product.get("status") or product.get("product_status") or "unknown") for product in products})},
         "runtime_discovery_eligible_count": sum(1 for product in products if product.get("status") == "active" and product.get("product_status") == "active" and product.get("source_listing_status") == "listed" and product.get("source_freshness_status") != "stale" and product.get("source_urls") and product.get("discovery_evidence_fields")),
@@ -3517,7 +3568,7 @@ def runtime_quality_metrics() -> dict:
         "verification_evidence_violation_count": 0,
         "verification_timestamp_violation_count": sum(1 for product in products if product.get("verification_status") != "verified" and product.get("last_verified_at")),
         "comparison_calculation_error_count": 0,
-        "local_cloudflare_parity_error_count": 0,
+        "local_cloudflare_parity_error_count": local_cloudflare_parity_error_count,
         "empty_structured_summary_count": sum(1 for product in products if not product.get("structured_summary")),
         "empty_search_facets_count": sum(1 for product in products if not product.get("search_facets")),
         "unmapped_existing_field_count": sum(len(product.get("unmapped_existing_fields") or []) for product in products),
@@ -3533,20 +3584,46 @@ def runtime_quality_metrics() -> dict:
     }
 
 
+def local_cloudflare_contract_parity_errors() -> int:
+    """Check that local stdio and Worker implementations expose the same safety boundary.
+
+    This is intentionally a source-contract check, not a hard-coded zero.  A
+    live parity report is still required before enabling public recommendation.
+    """
+
+    local_path = REPO_ROOT / "ontology" / "mcp_server.py"
+    worker_path = REPO_ROOT / "cloudflare" / "opentax-mcp" / "src" / "index.ts"
+    if not local_path.exists() or not worker_path.exists():
+        return 1
+    local = local_path.read_text(encoding="utf-8")
+    worker = worker_path.read_text(encoding="utf-8")
+    marker_pairs = (
+        ("public_recommendation_gate", "PUBLIC_RECOMMENDATION_ENABLED", "ENABLE_PUBLIC_RECOMMENDATION"),
+        ("decision_owner", "decision_owner", "decision_owner"),
+        ("audit_id", "audit_id", "audit_id"),
+        ("canonical_product_resolution", "resolved_canonical_product_id", "resolved_canonical_product_id"),
+        ("sensitive_input_rejection", "sensitive", "sensitive"),
+    )
+    return sum(1 for _, local_marker, worker_marker in marker_pairs if local_marker not in local or worker_marker not in worker)
+
+
 def write_quality_reports(payload: dict, search_report: dict) -> list[dict]:
     metrics = payload.get("runtime_quality_metrics") or {}
-    live = payload.get("live_search_regression") or {}
+    live = payload.get("live_search_regression") or payload.get("openfin_120_live_regression") or {}
+    live_runtime = live.get("runtime") or {}
+    live_failures = live.get("failures") or []
     live_report_fields = {
         "live_status": "executed" if live else "not_executed",
         "live_not_executed_reason": None if live else "배포 URL smoke test가 아직 실행되지 않았습니다.",
         "live_tested_at": live.get("checked_at"),
-        "runtime_version": live.get("runtime_version"),
-        "deployment_commit": live.get("deployment_commit"),
-        "manifest_version": live.get("manifest_version"),
+        "runtime_version": live.get("runtime_version") or live_runtime.get("runtime_version"),
+        "deployment_commit": live.get("deployment_commit") or live_runtime.get("deployment_commit"),
+        "manifest_version": live.get("manifest_version") or live_runtime.get("manifest_version"),
         "live_case_count": live.get("test_count", 0),
         "live_passed_count": live.get("passed_count", 0),
         "live_failed_count": live.get("failed_count", 0),
-        "live_failures": live.get("failures", []),
+        "live_failure_count": len(live_failures),
+        "live_failure_sample": live_failures[:10],
     }
     reports = {
         "openfin-verification-coverage-report": {
@@ -3666,6 +3743,26 @@ def write_quality_manifest(manifest: dict, search_report: dict) -> dict:
     current_search_checksum = (manifest.get("search_index") or {}).get("export_checksum")
     if current_search_checksum and previous_live.get("search_index_checksum") == current_search_checksum:
         payload["live_search_regression"] = previous_live
+    openfin_live: dict = {}
+    if OPENFIN_120_LIVE_REPORT_PATH.exists():
+        try:
+            openfin_live = json.loads(OPENFIN_120_LIVE_REPORT_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            openfin_live = {}
+    payload["openfin_120_live_regression"] = openfin_live
+    openfin_live_ready = (
+        openfin_live.get("mode") == "live"
+        and int(openfin_live.get("test_count") or 0) == 120
+        and int(openfin_live.get("passed_count") or 0) == 120
+        and int(openfin_live.get("failed_count") or 0) == 0
+        and int(openfin_live.get("skipped_count") or 0) == 0
+    )
+    if not openfin_live_ready:
+        payload["release_status"] = "degraded"
+        payload["semantic_validation_passed"] = False
+        payload["degraded_domains"] = sorted(set(payload.get("degraded_domains") or []) | {"live-regression"})
+        payload["blocking_reasons"] = sorted(set(payload.get("blocking_reasons") or []) | {"OpenFin 120 live regression is missing or not 120/120"})
+        payload["blocking_issues"] = payload["blocking_reasons"]
     payload["quality_reports"] = write_quality_reports(payload, search_report)
     payload["export_checksum"] = payload_checksum(payload)
     QUALITY_MANIFEST_EXPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

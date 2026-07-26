@@ -42,7 +42,7 @@ DEFAULT_MCP_URL = "https://finance-mcp.y2kthr.workers.dev/mcp"
 PROTOCOL_VERSION = "2025-03-26"
 LIVE_DISCOVERY_CASES = (
     {"query": "마일리지 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "마일리지"]},
-    {"query": "대한항공 SKYPASS 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "대한항공", "SKYPASS"], "first_exact_title": "광주은행 대한항공 SKYPASS 체크카드"},
+    {"query": "광주은행 대한항공 SKYPASS 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "대한항공", "SKYPASS"], "first_exact_title": "광주은행 대한항공 SKYPASS 체크카드"},
     {"query": "전월실적 없는 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "previous_month_spend_min_krw"], "partial": "previous_month_spend_min_krw"},
     {"query": "구독 할인 체크카드 추천", "kind": "check-card", "exact": ["product_kind", "benefit_category"]},
     {"query": "직장인 신용대출 추천", "kind": "credit-loan", "exact": ["product_kind", "employment_type"]},

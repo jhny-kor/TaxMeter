@@ -2,12 +2,15 @@
 from __future__ import annotations
 
 import argparse
+import json
 from datetime import date
 from pathlib import Path
 from typing import Any
 
 from recommendation_explanations import recommendation_warning, result_explanation
+from personal_finance import blocked_recommendation_case, prioritize_financial_needs
 from recommendation_profiles import normalize_domain, normalize_profile
+from recommendation_policy import PUBLIC_RECOMMENDATION_ENABLED
 from search_index_loader import load_search_index_items
 
 
@@ -116,6 +119,7 @@ def recommend(
     profile: dict[str, Any] | None = None,
     constraints: dict[str, Any] | None = None,
     preferences: dict[str, Any] | None = None,
+    decision_context: dict[str, Any] | None = None,
     limit: int = 5,
     items: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
@@ -124,6 +128,30 @@ def recommend(
     source_items = items if items is not None else load_search_items()
     candidates = [item for item in source_items if matches_domain(item, normalized_domain)]
     domain_readiness = readiness(normalized_domain, candidates)
+
+    if not PUBLIC_RECOMMENDATION_ENABLED:
+        context_summary = prioritize_financial_needs(decision_context or {})
+        payload = blocked_recommendation_case(
+            normalized_domain,
+            profile_as_of=context_summary.get("profile_as_of"),
+            missing_information=context_summary.get("missing_information") or [],
+            financial_needs=context_summary.get("financial_needs") or [],
+        )
+        payload.update(
+            {
+                "profile": normalized_profile,
+                "constraints": constraints or {},
+                "preferences": preferences or {},
+                "readiness": domain_readiness,
+                "blocker_counts": {"public_recommendation_disabled": len(candidates)},
+                "excluded_count": len(candidates),
+                "excluded_sample": [
+                    {"item_id": str(item.get("id")), "reason": "public_recommendation_disabled"}
+                    for item in candidates[:EXCLUDED_SAMPLE_LIMIT]
+                ],
+            }
+        )
+        return payload
 
     if normalized_domain in {"card", "loan", "insurance"}:
         blocker_counts = {

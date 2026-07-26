@@ -1913,8 +1913,7 @@
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
-            "term_months",
-            "product_name_tokens"
+            "term_months"
           ],
           "unknown_constraints": [],
           "failed_constraints": [],
@@ -1931,14 +1930,6 @@
               "constraint": "term_months",
               "matched_value": 1,
               "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -1961,15 +1952,14 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 78,
+            "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
-              "term_months",
-              "product_name_tokens"
+              "term_months"
             ],
             "unknown_constraints": [],
             "failed_constraints": [],
@@ -1986,14 +1976,6 @@
                 "constraint": "term_months",
                 "matched_value": 1,
                 "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -2018,8 +2000,7 @@
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
-            "term_months",
-            "product_name_tokens"
+            "term_months"
           ],
           "unknown_constraints": [],
           "failed_constraints": [],
@@ -2036,14 +2017,6 @@
               "constraint": "term_months",
               "matched_value": 1,
               "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -2066,15 +2039,14 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 78,
+            "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
-              "term_months",
-              "product_name_tokens"
+              "term_months"
             ],
             "unknown_constraints": [],
             "failed_constraints": [],
@@ -2091,14 +2063,6 @@
                 "constraint": "term_months",
                 "matched_value": 1,
                 "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -2123,8 +2087,7 @@
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
-            "term_months",
-            "product_name_tokens"
+            "term_months"
           ],
           "unknown_constraints": [],
           "failed_constraints": [],
@@ -2141,14 +2104,6 @@
               "constraint": "term_months",
               "matched_value": 12,
               "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -2171,15 +2126,14 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 78,
+            "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
-              "term_months",
-              "product_name_tokens"
+              "term_months"
             ],
             "unknown_constraints": [],
             "failed_constraints": [],
@@ -2196,14 +2150,6 @@
                 "constraint": "term_months",
                 "matched_value": 12,
                 "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -2228,8 +2174,7 @@
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
-            "term_months",
-            "product_name_tokens"
+            "term_months"
           ],
           "unknown_constraints": [],
           "failed_constraints": [],
@@ -2246,14 +2191,6 @@
               "constraint": "term_months",
               "matched_value": 1,
               "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -2276,15 +2213,14 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 78,
+            "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
-              "term_months",
-              "product_name_tokens"
+              "term_months"
             ],
             "unknown_constraints": [],
             "failed_constraints": [],
@@ -2301,14 +2237,6 @@
                 "constraint": "term_months",
                 "matched_value": 1,
                 "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -2333,8 +2261,7 @@
           "overall_candidate_grade": "C",
           "matched_constraints": [
             "product_kind",
-            "term_months",
-            "product_name_tokens"
+            "term_months"
           ],
           "unknown_constraints": [],
           "failed_constraints": [],
@@ -2351,14 +2278,6 @@
               "constraint": "term_months",
               "matched_value": 1,
               "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -2381,15 +2300,14 @@
             "mode": "discovery",
             "eligibility": "exact_candidate",
             "decision_scope": "discovery_only",
-            "score": 78,
+            "score": 28,
             "relevance_grade": "A",
             "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
               "product_kind",
-              "term_months",
-              "product_name_tokens"
+              "term_months"
             ],
             "unknown_constraints": [],
             "failed_constraints": [],
@@ -2406,14 +2324,6 @@
                 "constraint": "term_months",
                 "matched_value": 1,
                 "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -16667,5 +16577,5 @@
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "512c0e4fa6fc342f94ab0fb7203bc6cd58892812234e05635048aec58a2c30f6"
+  "export_checksum": "881b6d03070b5d8382056cf3ae48928346ed755d70c2fb225aca926acda55860"
 }

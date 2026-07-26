@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentax.local/schema/personal-finance.schema.json",
+  "title": "OpenFin transient personal finance snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["as_of", "currency"],
+  "properties": {
+    "as_of": {"type": "string", "format": "date"},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "monthly_net_income_krw": {"type": "number", "minimum": 0},
+    "essential_monthly_expenses_krw": {"type": "number", "minimum": 0},
+    "discretionary_monthly_expenses_krw": {"type": "number", "minimum": 0},
+    "liquid_assets_krw": {"type": "number", "minimum": 0},
+    "investment_assets_krw": {"type": "number", "minimum": 0},
+    "other_assets_krw": {"type": "number", "minimum": 0},
+    "dependents": {"type": "integer", "minimum": 0},
+    "liabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["balance_krw"],
+        "properties": {
+          "id": {"type": "string"},
+          "kind": {"type": "string"},
+          "balance_krw": {"type": "number", "minimum": 0},
+          "annual_rate_percent": {"type": ["number", "null"], "minimum": 0},
+          "monthly_payment_krw": {"type": ["number", "null"], "minimum": 0},
+          "remaining_term_months": {"type": ["number", "null"], "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_amount_krw"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "target_amount_krw": {"type": "number", "minimum": 0},
+          "current_funding_krw": {"type": "number", "minimum": 0},
+          "target_date": {"type": ["string", "null"], "format": "date"},
+          "priority": {"type": "string"},
+          "liquidity_need": {"type": "string", "enum": ["high", "short", "principal", "low", "long", "growth", "unknown"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "liquidity_requirement": {
+      "oneOf": [
+        {"type": "number", "minimum": 0},
+        {
+          "type": "object",
+          "properties": {
+            "required_amount_krw": {"type": "number", "minimum": 0},
+            "months": {"type": "number", "minimum": 0}
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        }
+      ]
+    },
+    "risk_tolerance": {"type": "string", "enum": ["low", "medium", "high", "unknown"]},
+    "risk_capacity": {"type": "string", "enum": ["low", "medium", "high", "unknown"]},
+    "constraints": {"type": "object"},
+    "asset_allocation": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0}},
+    "insurance_coverage": {
+      "type": "object",
+      "properties": {
+        "required_coverage_krw": {"type": "number", "minimum": 0},
+        "current_coverage_krw": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {"not": {"required": ["account_number"]}},
+    {"not": {"required": ["card_number"]}},
+    {"not": {"required": ["password"]}},
+    {"not": {"required": ["api_token"]}},
+    {"not": {"required": ["resident_registration_number"]}}
+  ]
+}

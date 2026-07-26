@@ -13,6 +13,7 @@ import os
 import subprocess
 import sys
 from datetime import date
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -24,11 +25,25 @@ CUSTOM_ITEMS_PATH = ROOT / "custom" / "items.json"
 EXPORT_PATH = ROOT / "exports" / "korea-tax-ontology-2026.json"
 FINANCE_SEARCH_INDEX_PATH = ROOT / "exports" / "finance-search-index-2026.json"
 PYTHON = sys.executable
+EXCLUDED_SAMPLE_LIMIT = 20
 
 sys.path.insert(0, str(SCRIPTS))
 
 from product_comparison_engine import compare as compare_products
 from discovery_recommendation_engine import discover, is_discovery_query
+from personal_finance import (
+    blocked_recommendation_case,
+    calculate_finance_metrics,
+    evaluate_product_fit,
+    explain_recommendation,
+    finance_audit_id,
+    normalize_finance_snapshot,
+    prioritize_financial_needs,
+    simulate_finance_scenario,
+    validate_finance_advice,
+)
+from product_resolution import resolve_named_product_query
+from recommendation_policy import PUBLIC_RECOMMENDATION_ENABLED
 from search_index_loader import load_search_index_items, load_search_index_payload
 
 try:
@@ -95,6 +110,8 @@ def regenerate_and_validate() -> dict[str, str]:
     validate = run_command([PYTHON, str(SCRIPTS / "validate_ontology.py")])
     if validate.returncode != 0:
         raise ToolError(f"validate_ontology.py failed:\n{validate.stdout}\n{validate.stderr}".strip())
+    all_items.cache_clear()
+    finance_items_by_id.cache_clear()
     return {"generate": generate.stdout.strip(), "validate": validate.stdout.strip()}
 
 
@@ -111,10 +128,12 @@ def rollback_on_failure(previous_payload: dict[str, Any], operation) -> Any:
         raise
 
 
+@lru_cache(maxsize=1)
 def all_items() -> dict[str, dict[str, Any]]:
     return {**build_all_items(), **finance_items_by_id()}
 
 
+@lru_cache(maxsize=1)
 def finance_items_by_id() -> dict[str, dict[str, Any]]:
     manifest = ROOT / "exports" / "finance-ontology-manifest.json"
     if not manifest.exists():
@@ -182,11 +201,32 @@ SEARCH_TYPE_GROUPS = {
 
 
 def search_items(query: str, type_filter: str | None = None, limit: int = 20) -> list[dict[str, Any]] | dict[str, Any]:
-    if is_discovery_query(query):
-        return discover(query, list(all_items().values()), limit=limit)
-    query_terms = [term.casefold() for term in query.split() if term.strip()]
     allowed_types = SEARCH_TYPE_GROUPS.get(type_filter, {type_filter}) if type_filter else None
     items = all_items()
+    if is_discovery_query(query):
+        return discover(query, [item for item in items.values() if not allowed_types or item.get("type") in allowed_types], limit=limit)
+    finance_named_items = load_finance_search_items()
+    named_resolution = resolve_named_product_query(
+        query,
+        [item for item in finance_named_items if not allowed_types or item.get("type") in allowed_types],
+        limit=limit,
+    )
+    if named_resolution is not None:
+        status = str(named_resolution["resolution"]["status"])
+        results: list[dict[str, Any]] = []
+        for item in named_resolution["items"]:
+            serialized = serialize_item(item)
+            serialized.update(
+                {
+                    "resolved_canonical_product_id": item.get("resolved_canonical_product_id") or item.get("canonical_product_id") or item.get("id"),
+                    "resolution_status": status,
+                    "match_tier": "exact" if status == "exact" else "ambiguous" if status == "ambiguous" else "not_found",
+                    "unparsed_query_tokens": named_resolution.get("unparsed_tokens") or [],
+                }
+            )
+            results.append(serialized)
+        return results
+    query_terms = [term.casefold() for term in query.split() if term.strip()]
 
     def collect(require_all_terms: bool) -> list[tuple[int, dict[str, Any]]]:
         matched: list[tuple[int, dict[str, Any]]] = []
@@ -472,8 +512,43 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     profile = arguments.get("profile") if isinstance(arguments.get("profile"), dict) else {}
     constraints = arguments.get("constraints") if isinstance(arguments.get("constraints"), dict) else {}
     preferences = arguments.get("preferences") if isinstance(arguments.get("preferences"), dict) else {}
+    decision_context = arguments.get("decision_context") if isinstance(arguments.get("decision_context"), dict) else {}
     limit = max(1, min(int(arguments.get("limit", 5)), 20))
-    domain_items = [item for item in load_finance_search_items() if finance_domain_matches(item, domain)]
+    index_payload = load_search_index_payload(FINANCE_SEARCH_INDEX_PATH)
+    domain_items = [
+        item for item in index_payload.get("items") or []
+        if isinstance(item, dict) and finance_domain_matches(item, domain)
+    ]
+    context_summary = prioritize_financial_needs(decision_context)
+    if not PUBLIC_RECOMMENDATION_ENABLED:
+        payload = blocked_recommendation_case(
+            domain,
+            profile_as_of=context_summary.get("profile_as_of"),
+            data_as_of=str(index_payload.get("basis_date") or "") or None,
+            missing_information=context_summary.get("missing_information") or [],
+            financial_needs=context_summary.get("financial_needs") or [],
+        )
+        payload.update(
+            {
+                "profile": profile,
+                "constraints": constraints,
+                "preferences": preferences,
+                "readiness": {
+                    "domain_item_count": len(domain_items),
+                    "verified_recommendation_candidate_count": sum(
+                        1 for item in domain_items if item.get("recommendation_status") == "verified_recommendation_candidate"
+                    ),
+                    "public_recommendation_enabled": False,
+                },
+                "blocker_counts": {"public_recommendation_disabled": len(domain_items)},
+                "excluded_count": len(domain_items),
+                "excluded_sample": [
+                    {"item_id": str(item.get("id")), "reason": "public_recommendation_disabled"}
+                    for item in domain_items[:EXCLUDED_SAMPLE_LIMIT]
+                ],
+            }
+        )
+        return payload
     if domain in {"card", "loan", "insurance"}:
         return {
             "domain": domain,
@@ -533,6 +608,117 @@ def recommend_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def finance_quality_status() -> dict[str, Any]:
+    manifest_path = ROOT / "exports" / "openfin-quality-manifest-2026.json"
+    if not manifest_path.exists():
+        return {
+            "mode": "decision_support",
+            "status": "blocked",
+            "release_status": "unknown",
+            "reason_codes": ["QUALITY_MANIFEST_MISSING"],
+            "profile_as_of": None,
+            "data_as_of": None,
+            "assumptions": [],
+            "missing_information": ["QUALITY_MANIFEST_MISSING"],
+            "financial_needs": [],
+            "candidates": [],
+            "decision_owner": "user",
+            "limitations": ["quality manifest is unavailable"],
+            "audit_id": finance_audit_id("quality", "missing"),
+        }
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    live = manifest.get("openfin_120_live_regression") or manifest.get("live_search_regression") or {}
+    release_status = str(manifest.get("release_status") or "unknown")
+    blocking_reasons = manifest.get("blocking_reasons") or []
+    live_status = live.get("live_status")
+    if live_status is None and live.get("mode") == "live":
+        live_status = "passed" if live.get("test_count") and live.get("passed_count") == live.get("test_count") and not live.get("failed_count") and not live.get("skipped_count") else "failed"
+    live_runtime = live.get("runtime") if isinstance(live.get("runtime"), dict) else {}
+    return {
+        "mode": "decision_support",
+        "status": "ready" if release_status == "ready" else "blocked",
+        "release_status": release_status,
+        "reason_codes": [] if release_status == "ready" else ["QUALITY_RELEASE_BLOCKED"],
+        "profile_as_of": None,
+        "data_as_of": manifest.get("basis_date"),
+        "assumptions": ["quality status reflects the committed release manifest and live regression evidence"],
+        "missing_information": blocking_reasons,
+        "financial_needs": [],
+        "candidates": [],
+        "decision_owner": "user",
+        "manifest_version": manifest.get("version"),
+        "built_at": manifest.get("built_at"),
+        "basis_date": manifest.get("basis_date"),
+        "recommendation_enabled": manifest.get("recommendation_enabled") is True,
+        "openfin_120_live_regression": {
+            "mode": live.get("mode"),
+            "status": live_status,
+            "case_count": live.get("test_count"),
+            "passed_count": live.get("passed_count"),
+            "failed_count": live.get("failed_count"),
+            "checked_at": live.get("checked_at"),
+            "endpoint": live.get("endpoint"),
+            "deployment_commit": live.get("deployment_commit") or live_runtime.get("deployment_commit"),
+        },
+        "limitations": ["quality status is a release artifact summary; it does not expose personal finance data", *blocking_reasons],
+        "audit_id": finance_audit_id("quality", manifest.get("version"), live.get("checked_at")),
+    }
+
+
+def finance_summary(arguments: dict[str, Any]) -> dict[str, Any]:
+    raw_snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
+    snapshot = normalize_finance_snapshot(raw_snapshot)
+    needs = prioritize_financial_needs(snapshot)
+    missing = needs.get("missing_information") or []
+    return {
+        "mode": "decision_support",
+        "status": "insufficient_information" if missing else "ready",
+        "reason_codes": ["MISSING_FINANCE_SNAPSHOT_FIELDS"] if missing else [],
+        "profile_as_of": needs.get("profile_as_of"),
+        "data_as_of": needs.get("profile_as_of"),
+        "assumptions": ["only explicitly supplied snapshot fields are used"],
+        "summary": {
+            "profile_as_of": needs.get("profile_as_of"),
+            "currency": snapshot.get("currency"),
+        },
+        "metrics": needs.get("metrics") or {},
+        "financial_needs": needs.get("financial_needs") or [],
+        "missing_information": missing,
+        "candidates": [],
+        "decision_owner": "user",
+        "limitations": ["snapshot is transient and is not persisted", "metrics are deterministic estimates from supplied fields"],
+        "audit_id": finance_audit_id("summary", needs.get("profile_as_of"), sorted(needs.get("missing_information") or [])),
+    }
+
+
+def update_finance_snapshot(arguments: dict[str, Any]) -> dict[str, Any]:
+    owner_scope = str(arguments.get("owner_scope") or "public")
+    confirmation = str(arguments.get("confirmation") or "")
+    enabled = os.environ.get("OPENFIN_FINANCE_SNAPSHOT_WRITE_ENABLED", "false").casefold() == "true"
+    reason = "FINANCE_SNAPSHOT_WRITE_DISABLED"
+    if owner_scope != "owner":
+        reason = "OWNER_SCOPE_REQUIRED"
+    elif confirmation != "CONFIRM":
+        reason = "EXPLICIT_CONFIRMATION_REQUIRED"
+    elif not enabled:
+        reason = "FINANCE_SNAPSHOT_WRITE_DISABLED"
+    return {
+        "mode": "decision_support",
+        "status": "blocked",
+        "reason_codes": [reason],
+        "profile_as_of": None,
+        "data_as_of": None,
+        "assumptions": ["persistence is disabled unless an owner pilot is explicitly configured"],
+        "missing_information": [reason],
+        "financial_needs": [],
+        "candidates": [],
+        "mutated": False,
+        "decision_owner": "user",
+        "limitations": ["personal finance state is transient in this release; no snapshot is persisted"],
+        "audit_id": finance_audit_id("snapshot-write", owner_scope, confirmation, enabled),
+    }
+
+
 def compare_finance(arguments: dict[str, Any]) -> dict[str, Any]:
     payload = load_search_index_payload(FINANCE_SEARCH_INDEX_PATH)
     items = [item for item in payload.get("items") or [] if isinstance(item, dict)]
@@ -540,11 +726,36 @@ def compare_finance(arguments: dict[str, Any]) -> dict[str, Any]:
 
 
 def discover_finance(arguments: dict[str, Any]) -> dict[str, Any]:
-    return discover(
-        str(arguments.get("query") or ""),
-        load_finance_search_items(),
-        limit=max(1, min(int(arguments.get("limit", 10)), 50)),
-    )
+    query = str(arguments.get("query") or "")
+    limit = max(1, min(int(arguments.get("limit", 10)), 50))
+    items = load_finance_search_items()
+    named_resolution = resolve_named_product_query(query, items, limit=limit)
+    if named_resolution is None:
+        return discover(query, items, limit=limit)
+    resolution = named_resolution.get("resolution") or {}
+    if resolution.get("status") == "not_found":
+        return {
+            "requested_intent": "recommend",
+            "executed_mode": "discovery",
+            "fallback_reason": "named_product_not_found",
+            "parsed_query": named_resolution.get("parsed_intent") or {},
+            "resolution": {**resolution, "exact_candidate_count": 0},
+            "exact_candidates": [],
+            "partial_candidates": [],
+            "related_candidates": [],
+            "excluded_summary": {},
+            "engine_version": "openfin-discovery-v1.3.0",
+            "field_extractor_version": "openfin-field-extractor-v1.1.0",
+            "limitations": named_resolution.get("limitations") or [],
+        }
+    payload = discover(query, named_resolution.get("items") or [], limit=limit)
+    payload["resolution"] = {
+        **resolution,
+        "exact_candidate_count": len(payload.get("exact_candidates") or []) if resolution.get("status") == "exact" else 0,
+    }
+    payload["unparsed_query_tokens"] = named_resolution.get("unparsed_tokens") or []
+    payload["limitations"] = named_resolution.get("limitations") or payload.get("limitations") or []
+    return payload
 
 
 TOOLS: dict[str, dict[str, Any]] = {
@@ -628,6 +839,7 @@ TOOLS: dict[str, dict[str, Any]] = {
                 "profile": {"type": "object"},
                 "constraints": {"type": "object"},
                 "preferences": {"type": "object"},
+                "decision_context": {"type": "object", "description": "Transient typed finance snapshot; sensitive account, credential, and identity fields are rejected."},
                 "limit": {"type": "integer", "minimum": 1, "maximum": 20},
             },
             "required": ["domain"],
@@ -649,6 +861,60 @@ TOOLS: dict[str, dict[str, Any]] = {
             },
             "required": ["domain", "term_months"],
         },
+    },
+    "get_finance_summary": {
+        "description": "Summarize a transient personal-finance snapshot with deterministic metrics, primary needs, missing fields, and limitations. No data is persisted.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"snapshot": {"type": "object"}},
+        },
+    },
+    "update_finance_snapshot": {
+        "description": "Owner-scoped finance snapshot update boundary. Persistence is disabled by default and this tool is fail-closed without explicit confirmation and an enabled owner pilot.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "snapshot": {"type": "object"},
+                "owner_scope": {"type": "string", "enum": ["public", "owner"]},
+                "confirmation": {"type": "string", "enum": ["CONFIRM"]},
+            },
+        },
+    },
+    "calculate_finance_metrics": {
+        "description": "Calculate deterministic personal-finance metrics from a transient typed snapshot.",
+        "inputSchema": {"type": "object", "properties": {"snapshot": {"type": "object"}}},
+    },
+    "evaluate_product_fit": {
+        "description": "Evaluate hard eligibility, unknown fields, liquidity, risk, source state, and score components for a product without producing a recommendation.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"snapshot": {"type": "object"}, "item": {"type": "object"}, "domain": {"type": "string"}},
+            "required": ["item"],
+        },
+    },
+    "simulate_finance_scenario": {
+        "description": "Run a deterministic educational debt-paydown or savings scenario using only declared inputs and explicit assumptions.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"snapshot": {"type": "object"}, "scenario": {"type": "object"}},
+            "required": ["scenario"],
+        },
+    },
+    "explain_recommendation": {
+        "description": "Explain why a supplied candidate was included or excluded, its tradeoffs, sources, as-of date, missing information, and user-decision boundary.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"snapshot": {"type": "object"}, "candidate": {"type": "object"}},
+            "required": ["candidate"],
+        },
+    },
+    "validate_finance_advice": {
+        "description": "Validate the structured finance-advice safety contract, including blocked/insufficient states and user decision ownership.",
+        "inputSchema": {"type": "object", "properties": {"advice": {"type": "object"}}, "required": ["advice"]},
+    },
+    "get_openfin_quality_status": {
+        "description": "Return the release-quality manifest summary, live regression evidence, and feature-flag state without exposing personal data.",
+        "inputSchema": {"type": "object", "properties": {}},
     },
     "opentax_add_or_update_item": {
         "description": "Add or replace an item in ontology/custom/items.json, then regenerate and validate the vault.",
@@ -740,6 +1006,26 @@ def call_tool(name: str, arguments: dict[str, Any]) -> Any:
         return recommend_finance(arguments)
     if name == "opentax_compare":
         return compare_finance(arguments)
+    if name == "get_finance_summary":
+        return finance_summary(arguments)
+    if name == "update_finance_snapshot":
+        return update_finance_snapshot(arguments)
+    if name == "calculate_finance_metrics":
+        snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
+        return calculate_finance_metrics(snapshot)
+    if name == "evaluate_product_fit":
+        snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
+        return evaluate_product_fit(snapshot, arguments.get("item") or {}, str(arguments.get("domain") or "") or None)
+    if name == "simulate_finance_scenario":
+        snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
+        return simulate_finance_scenario(snapshot, arguments.get("scenario") or {})
+    if name == "explain_recommendation":
+        snapshot = arguments.get("snapshot") if isinstance(arguments.get("snapshot"), dict) else {}
+        return explain_recommendation(arguments.get("candidate") or {}, snapshot)
+    if name == "validate_finance_advice":
+        return validate_finance_advice(arguments.get("advice") or {})
+    if name == "get_openfin_quality_status":
+        return finance_quality_status()
     if name == "opentax_add_or_update_item":
         return upsert_custom_item(arguments["item"])
     if name == "opentax_patch_item":

@@ -218,6 +218,13 @@ def comparison_candidate(item: dict[str, Any], option: dict[str, Any], eligible_
         "comparison_field_verification_status": item.get("comparison_field_verification_status"),
         "comparison_field_verification": item.get("comparison_field_verification") or {},
         "missing_required_fields": final_missing_required_fields(item),
+        "comparison_object_version": RESPONSE_CONTRACT_VERSION,
+        "data_as_of": (item.get("source_basis_dates") or [None])[-1],
+        "source_ids": [
+            str(record.get("source_id") or record.get("id"))
+            for record in item.get("source_records") or []
+            if isinstance(record, dict) and (record.get("source_id") or record.get("id"))
+        ],
     }
     candidate.update(interest_estimate(str(item.get("search_type")), arguments, achievable))
     return candidate
@@ -285,6 +292,7 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         output_basis_date = verified_dates[-1]
     target_count = sum(1 for item in source_items if item.get("search_type") == domain)
     excluded_summary = reason_counts(sorted_excluded)
+    source_urls = sorted({str(url) for candidate in candidates for url in candidate.get("source_urls") or [] if url})
     return {
         "domain": domain,
         "candidates": results,
@@ -304,6 +312,17 @@ def compare(arguments: dict[str, Any], *, items: list[dict[str, Any]] | None = N
         "ontology_basis_date": output_basis_date,
         "latest_product_collection_date": output_basis_date,
         "verification_basis_date": output_basis_date,
+        "data_as_of": output_basis_date,
+        "sources": source_urls,
+        "comparison_basis": {
+            "object": "final_comparison_candidate",
+            "version": RESPONSE_CONTRACT_VERSION,
+            "candidate_values_are_from_final_object": True,
+        },
+        "limitations": [
+            "Comparison is not a personalized recommendation.",
+            "Only user-declared preferential conditions are counted; unknown conditions remain unknown.",
+        ],
         "calculation_policy_basis_date": date.today().isoformat(),
         "executed_at": date.today().isoformat(),
     }

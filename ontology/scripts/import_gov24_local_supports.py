@@ -23,7 +23,7 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-from support_deadline_parser import classify_deadline, parse_application_dates
+from support_deadline_parser import application_window, classify_deadline, parse_application_dates
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -413,7 +413,11 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
     regional_metadata = region_metadata(clean_text(detail.get("source_region")))
     target_group, support_category = support_fields(detail)
     application_open_from, application_open_to = parse_application_dates(deadline_text, collected_at)
+    deadline_kind = classify_deadline(deadline_text)
+    if deadline_kind in {"budget_exhaustion", "announcement_based", "agency_contact_required", "schedule_pending", "recurring_monthly", "recurring_quarterly", "recurring_annual", "agency_schedule_varies", "source_schedule_ambiguous"}:
+        application_open_from, application_open_to = None, None
     status_fields = support_status_fields(deadline_text, application_open_to, collected_at)
+    window = application_window(deadline_text, str(status_fields.get("application_status") or "unknown"), application_open_from, application_open_to)
     abolition_status = {
         "active": "active",
         "closed": "sunset",
@@ -458,6 +462,7 @@ def build_item(detail: dict[str, Any], collected_at: str) -> dict[str, Any]:
         "effective_to": application_open_to if status_fields["status"] == "closed" else None,
         "application_open_from": application_open_from,
         "application_open_to": application_open_to,
+        "application_window": window,
         "last_verified_at": collected_at,
         "last_status_checked_at": collected_at,
         "target_group": target_group,

@@ -1,0 +1,59 @@
+version: openfin-source-registry-v1.0.0
+policy:
+  recommendation_evidence: official_provider_primary_only
+  aggregator_role: auxiliary_lookup_and_cross_check
+  conflict_policy: block_promotion_and_mark_conflict
+  stale_policy: reference_or_comparison_only
+sources:
+  - source_id: finlife
+    publisher: 금융위원회 / 금융상품 한눈에
+    base_url: https://finlife.fss.or.kr
+    domains: [deposit, saving, loan, insurance]
+    role: provider_listing_and_terms
+    recommendation_allowed: true
+    collection_method: api_or_official_export
+    freshness_sla_days: 7
+  - source_id: card-daemoa
+    publisher: 여신금융협회 카드다모아
+    base_url: https://www.card-gorilla.com
+    domains: [card]
+    role: card_reference_listing
+    recommendation_allowed: false
+    collection_method: official_page_snapshot
+    freshness_sla_days: 7
+  - source_id: gov24
+    publisher: 정부24
+    base_url: https://www.gov.kr
+    domains: [support]
+    role: official_support_notice
+    recommendation_allowed: false
+    collection_method: official_page_snapshot
+    freshness_sla_days: 3
+  - source_id: local-government
+    publisher: 지방자치단체 공식 공고
+    base_url: https://www.gov.kr
+    domains: [support]
+    role: official_local_support_notice
+    recommendation_allowed: false
+    collection_method: official_page_snapshot
+    freshness_sla_days: 3
+  - source_id: nts
+    publisher: 국세청
+    base_url: https://www.nts.go.kr
+    domains: [tax]
+    role: tax_rule_and_credit_reference
+    recommendation_allowed: false
+    collection_method: official_page_snapshot
+    freshness_sla_days: 30
+field_assertion_required:
+  - source_id
+  - source_url
+  - locator
+  - collected_at
+  - source_checksum
+  - verification_status
+  - valid_from
+  - valid_to
+application_window:
+  allowed_kinds: [fixed, rolling, until_budget_exhausted, periodic, tbd, unknown]
+  no_fixed_date_fallback: true

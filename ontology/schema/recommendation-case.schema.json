@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opentax.local/schema/recommendation-case.schema.json",
+  "title": "OpenFin recommendation safety response",
+  "type": "object",
+  "required": ["mode", "status", "reason_codes", "profile_as_of", "data_as_of", "assumptions", "missing_information", "financial_needs", "candidates", "decision_owner", "limitations", "audit_id"],
+  "properties": {
+    "mode": {"type": "string", "enum": ["education", "decision_support", "recommendation"]},
+    "status": {"type": "string", "enum": ["blocked", "insufficient_information", "ready"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}},
+    "profile_as_of": {"type": ["string", "null"]},
+    "data_as_of": {"type": ["string", "null"]},
+    "assumptions": {"type": "array"},
+    "missing_information": {"type": "array"},
+    "financial_needs": {"type": "array"},
+    "candidates": {"type": "array"},
+    "decision_owner": {"const": "user"},
+    "limitations": {"type": "array"},
+    "audit_id": {"type": "string", "minLength": 8}
+  },
+  "additionalProperties": true
+}

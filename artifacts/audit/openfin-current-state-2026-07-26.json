@@ -1,0 +1,120 @@
+{
+  "audit_date": "2026-07-26",
+  "branch": "main",
+  "head": "38bc7adb998a",
+  "origin_main": "38bc7adb998a",
+  "remote": "https://github.com/jhny-kor/TaxMeter.git",
+  "local_runtime": {
+    "server_path": "ontology/mcp_server.py",
+    "server_version": "0.2.0"
+  },
+  "public_runtime": {
+    "endpoint": "https://finance-mcp.y2kthr.workers.dev/mcp",
+    "recorded_runtime_version": "openfin-mcp-2026.07.22.1",
+    "recorded_deployment_commit": "40215ba9c",
+    "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1"
+  },
+  "catalog": {
+    "search_index_item_count": 21266,
+    "canonical_product_count": 3434,
+    "verified_recommendation_candidate_count": 0,
+    "public_recommendation_enabled": false
+  },
+  "mcp_tools_list": {
+    "tool_count": 42,
+    "output_schema_advertised": false,
+    "tool_names": [
+      "opentax_search", "opentax_get_item", "opentax_fetch", "opentax_discover", "opentax_read_note", "opentax_neighbors", "opentax_sources", "opentax_validate", "opentax_export_summary", "opentax_recommend", "opentax_compare", "opentax_add_or_update_item", "opentax_patch_item", "opentax_delete_custom_item",
+      "finance_search", "tax_ontology_search", "finance_get_item", "tax_ontology_get_item", "finance_fetch", "tax_ontology_fetch", "finance_discover", "tax_ontology_discover", "finance_read_note", "tax_ontology_read_note", "finance_neighbors", "tax_ontology_neighbors", "finance_sources", "tax_ontology_sources", "finance_validate", "tax_ontology_validate", "finance_export_summary", "tax_ontology_export_summary", "finance_recommend", "tax_ontology_recommend", "finance_compare", "tax_ontology_compare", "finance_add_or_update_item", "tax_ontology_add_or_update_item", "finance_patch_item", "tax_ontology_patch_item", "finance_delete_custom_item", "tax_ontology_delete_custom_item"
+    ],
+    "base_input_schemas": {
+      "opentax_search": {"type":"object","properties":{"query":{"type":"string"},"type":{"type":"string"},"limit":{"type":"integer","minimum":1,"maximum":100}},"required":["query"]},
+      "opentax_get_item": {"type":"object","properties":{"id":{"type":"string"}},"required":["id"]},
+      "opentax_fetch": {"type":"object","properties":{"id":{"type":"string"}},"required":["id"]},
+      "opentax_discover": {"type":"object","properties":{"query":{"type":"string"},"limit":{"type":"integer","minimum":1,"maximum":50}},"required":["query"]},
+      "opentax_read_note": {"type":"object","properties":{"path_or_id":{"type":"string"}},"required":["path_or_id"]},
+      "opentax_neighbors": {"type":"object","properties":{"id":{"type":"string"},"depth":{"type":"integer","minimum":1,"maximum":3}},"required":["id"]},
+      "opentax_sources": {"type":"object","properties":{"id":{"type":"string"}},"required":["id"]},
+      "opentax_validate": {"type":"object","properties":{}},
+      "opentax_export_summary": {"type":"object","properties":{}},
+      "opentax_recommend": {"type":"object","properties":{"domain":{"type":"string","enum":["deposit","saving","card","loan","insurance","support"]},"profile":{"type":"object"},"constraints":{"type":"object"},"preferences":{"type":"object"},"limit":{"type":"integer","minimum":1,"maximum":20}},"required":["domain"]},
+      "opentax_compare": {"type":"object","properties":{"domain":{"type":"string","enum":["deposit","saving"]},"deposit_amount_krw":{"type":"integer","minimum":1},"monthly_payment_krw":{"type":"integer","minimum":1},"term_months":{"type":"integer","minimum":1},"join_channels":{"type":"array","items":{"type":"string"}},"eligible_conditions":{"type":"array","items":{"type":"string"}},"saving_method":{"type":"string","enum":["free","fixed"]},"limit":{"type":"integer","minimum":1,"maximum":20}},"required":["domain","term_months"]},
+      "opentax_add_or_update_item": {"type":"object","properties":{"item":{"type":"object"}},"required":["item"]},
+      "opentax_patch_item": {"type":"object","properties":{"id":{"type":"string"},"patch":{"type":"object"}},"required":["id","patch"]},
+      "opentax_delete_custom_item": {"type":"object","properties":{"id":{"type":"string"}},"required":["id"]}
+    },
+    "aliases": {
+      "finance_*": "exact inputSchema/implementation alias of the corresponding opentax_* tool",
+      "tax_ontology_*": "exact inputSchema/implementation alias of the corresponding opentax_* tool"
+    }
+  },
+  "p0_reproduction": {
+    "named_product_query": "two raw records for one resolved canonical product",
+    "prompt_injection_suffix": "partial-token fallback added unrelated records",
+    "expected": "one deterministic canonical result or an explicit ambiguous/not_found result; never unrelated fallback"
+  },
+  "quality_evidence_recorded_before_fix": {
+    "offline_search": {"test_count":20,"passed_count":20,"failed_count":0},
+    "recorded_live_search": {"test_count":47,"passed_count":47,"failed_count":0},
+    "recorded_live_comparison": {"test_count":47,"passed_count":47,"failed_count":0},
+    "fresh_live_smoke": {"status":"pending_at_initial_audit_capture","must_be_nonzero":true}
+  },
+  "existing_dirty_paths_preserved": [".gitignore", "docs/index.html", "ontology/custom/finance/applyhome-notice-products.generated.json"],
+  "post_change_evidence": {
+    "working_tree_base_commit": "38bc7adb998a",
+    "branch": "main",
+    "local_tool_count": 50,
+    "new_tools": [
+      "get_finance_summary",
+      "update_finance_snapshot",
+      "calculate_finance_metrics",
+      "evaluate_product_fit",
+      "simulate_finance_scenario",
+      "explain_recommendation",
+      "validate_finance_advice",
+      "get_openfin_quality_status"
+    ],
+    "offline_openfin_120": {
+      "test_count": 120,
+      "passed_count": 120,
+      "failed_count": 0,
+      "skipped_count": 0
+    },
+    "live_openfin_120": {
+      "endpoint": "https://finance-mcp.y2kthr.workers.dev/mcp",
+      "checked_at": "2026-07-26T11:37:00+00:00",
+      "test_count": 120,
+      "passed_count": 15,
+      "failed_count": 105,
+      "skipped_count": 0,
+      "runtime_version": "openfin-mcp-2026.07.22.1",
+      "deployment_commit": "40215ba9c",
+      "loaded_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+      "release_gate": "blocked_until_120_of_120_live"
+    },
+    "release_manifest": {
+      "path": "ontology/exports/openfin-quality-manifest-2026.json",
+      "release_status": "degraded",
+      "recommendation_enabled": false,
+      "openfin_120_golden_case_count": 120,
+      "blocking_reason": "OpenFin 120 live regression is missing or not 120/120"
+    },
+    "commands": [
+      "python3 ontology/scripts/build_finance_ontology.py",
+      "python3 ontology/scripts/verify_openfin_release.py",
+      "python3 ontology/scripts/validate_openfin_120.py --mode offline",
+      "python3 ontology/scripts/validate_openfin_120.py --mode live --live-timeout 5 --live-attempts 1",
+    "npm test --prefix cloudflare/opentax-mcp",
+    "python3 -m py_compile ontology/mcp_server.py ontology/scripts/*.py",
+    "swift build",
+    "swift test (no Swift test sources present; expected failure)",
+    "xcodebuild -project ios/TaxMeterApp/TaxMeterApp.xcodeproj -scheme TaxMeterApp -sdk iphonesimulator build CODE_SIGNING_ALLOWED=NO (no scheme destination)",
+    "git diff --check"
+  ],
+  "repository_verification_gaps": {
+    "swift_test": "not_run_no_test_sources",
+    "ios_xcodebuild": "no_destination_for_existing_scheme"
+  },
+  "production_deployment_performed": false
+}
+}

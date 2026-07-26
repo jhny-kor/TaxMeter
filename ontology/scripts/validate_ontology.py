@@ -372,11 +372,21 @@ def validate_local_government_supports(items: dict[str, dict], errors: list[str]
         require(bool(item.get("last_verified_at")), f"{item_id}: missing last_verified_at", errors)
         require(item.get("application_status") in LOCAL_SUPPORT_APPLICATION_STATUSES, f"{item_id}: invalid application_status", errors)
         require(isinstance(item.get("is_currently_applicable"), bool), f"{item_id}: missing is_currently_applicable", errors)
+        application_window = item.get("application_window") or {}
+        application_window_kind = application_window.get("kind")
+        require(
+            application_window_kind in {"fixed", "rolling", "until_budget_exhausted", "periodic", "tbd", "unknown"},
+            f"{item_id}: invalid application_window kind",
+            errors,
+        )
         parsed_from, parsed_to = parse_application_dates(
             str(item.get("application_deadline_text") or ""),
             LOCAL_SUPPORT_STATUS_REVIEW_DATE,
         )
-        if parsed_from and parsed_to:
+        if application_window_kind != "fixed":
+            require(item.get("application_open_from") is None, f"{item_id}: non-fixed application window must not have application_open_from", errors)
+            require(item.get("application_open_to") is None, f"{item_id}: non-fixed application window must not have application_open_to", errors)
+        elif parsed_from and parsed_to:
             require(item.get("application_open_from") == parsed_from, f"{item_id}: application_open_from disagrees with deadline text", errors)
             require(item.get("application_open_to") == parsed_to, f"{item_id}: application_open_to disagrees with deadline text", errors)
         application_open_from = item.get("application_open_from")

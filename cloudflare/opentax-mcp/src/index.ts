@@ -78,6 +78,7 @@ type FinanceItem = {
   is_currently_applicable?: boolean;
   application_open_from?: string;
   application_open_to?: string;
+  application_window?: Record<string, unknown>;
   jurisdiction?: string;
   jurisdiction_code?: string;
   jurisdiction_aliases?: string[];
@@ -141,6 +142,11 @@ type FinanceManifest = {
   basis_date: string;
   name: string;
   description?: string;
+  release_status?: string;
+  recommendation_enabled?: boolean;
+  blocking_reasons?: string[];
+  openfin_120_live_regression?: Record<string, unknown>;
+  runtime_quality_metrics?: Record<string, unknown>;
   search_index?: ManifestEntry;
   quality_exports?: ManifestEntry[];
   exports: ManifestEntry[];
@@ -224,10 +230,20 @@ const ENABLE_DEPOSIT_COMPARISON = true;
 const ENABLE_SAVING_COMPARISON = true;
 const ENABLE_PUBLIC_RECOMMENDATION = false;
 const EXCLUDED_SAMPLE_LIMIT = 10;
-const QUERY_PARSER_VERSION = "openfin-query-parser-v1.2.0";
+const QUERY_PARSER_VERSION = "openfin-query-parser-v1.3.0";
 const FIELD_EXTRACTOR_VERSION = "openfin-field-extractor-v1.1.0";
-const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.2.0";
-const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.0.1";
+const DISCOVERY_ENGINE_VERSION = "openfin-discovery-v1.3.0";
+const COMPARISON_ENGINE_VERSION = "openfin-comparison-v1.1.0";
+const PERSONAL_FINANCE_POLICY_VERSION = "openfin-personal-finance-v1.0.0";
+const ADVICE_POLICY_VERSION = "openfin-advice-policy-v1.0.0";
+const MINIMUM_EMERGENCY_FUND_MONTHS = 3;
+const HIGH_INTEREST_DEBT_RATE_PERCENT = 15;
+const SENSITIVE_KEY_TOKENS = new Set([
+  "accountnumber", "bankaccount", "cardnumber", "creditcardnumber", "residentregistrationnumber",
+  "rrn", "password", "passcode", "pin", "certificate", "privatekey", "apikey", "apitoken",
+  "accesstoken", "refreshtoken", "secret", "ssn",
+]);
+const PROMPT_INJECTION_TOKENS = new Set(["무시", "이전", "지시", "시스템", "프롬프트", "명령", "규칙", "ignore", "previous", "instruction", "instructions", "system", "prompt", "rule", "rules"]);
 
 let cachedGraph: CachedGraph | undefined;
 let cachedManifest: { data: FinanceManifest; loadedAt: number } | undefined;
@@ -591,6 +607,7 @@ const PROVIDER_ALIASES: Record<string, readonly string[]> = {
   "신한카드": ["신한카드", "신한"],
   "KB국민카드": ["KB국민카드", "KB국민", "국민카드", "KB"],
   "롯데카드": ["롯데카드", "롯데"],
+  "광주은행": ["광주은행"],
 };
 const GENERIC_PRODUCT_TOKENS = new Set(["카드", "체크카드", "신용카드", "보험", "대출", "예금", "적금", "정기예금", "자유적금", "자유적립", "실손보험", "실비보험", "암보험", "상해보험", "질병보험", "정기보험", "종신보험", "신용대출", "전세대출", "월세대출", "정책대출", "주택담보대출", "상품", "추천", "비교", "후보", "순위", "없는", "비갱신형", "갱신형", "전월실적", "연회비", "교통", "쇼핑", "온라인", "할인", "적립", "마일리지", "구독", "직장인", "중도상환수수료", "낮은", "금리", "청년"]);
 
@@ -610,7 +627,106 @@ function productNameTokens(query: string, provider: string | undefined): readonl
   const genericTokens = new Set([...GENERIC_PRODUCT_TOKENS].map(compactProductText));
   return [...new Set((query.match(/[0-9A-Za-z가-힣]+/g) ?? [])
     .map(compactProductText)
-    .filter((token) => token && token !== "월" && !/^\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)$/.test(token) && !genericTokens.has(token) && !providerTokens.has(token)))];
+    .filter((token) => token && token !== "월" && !/^\d+(?:\.\d+)?개월$/.test(token) && !/^\d+(?:\.\d+)?(?:천만원|억원|만원|천원|원)$/.test(token) && !genericTokens.has(token) && !providerTokens.has(token)))];
+}
+
+function namedQueryParts(query: string): { cleanQuery: string; unparsedTokens: string[]; promptInjectionDetected: boolean } {
+  const tokens = query.match(/[0-9A-Za-z가-힣]+/g) ?? [];
+  const firstInjection = tokens.findIndex((token) => PROMPT_INJECTION_TOKENS.has(token.toLocaleLowerCase("ko-KR")));
+  if (firstInjection < 0) return { cleanQuery: query, unparsedTokens: [], promptInjectionDetected: false };
+  return {
+    cleanQuery: tokens.slice(0, firstInjection).join(" "),
+    unparsedTokens: tokens.slice(firstInjection),
+    promptInjectionDetected: true,
+  };
+}
+
+function providerForNamedQuery(query: string, items: readonly FinanceItem[]): string | undefined {
+  return providerForQuery(query) ?? [...new Set(items.map((item) => item.provider).filter((value): value is string => Boolean(value)))]
+    .filter((provider) => compactProductText(query).includes(compactProductText(provider)))
+    .sort((left, right) => compactProductText(right).length - compactProductText(left).length)[0];
+}
+
+function isNamedProductQuery(query: string): boolean {
+  const provider = providerForQuery(query);
+  return Boolean(requestedProductKind(query) && productNameTokens(query, provider).length);
+}
+
+function strictNamedProductPayload(query: string, items: readonly FinanceItem[], limit: number, env: Env): Record<string, unknown> | undefined {
+  const parts = namedQueryParts(query);
+  const provider = providerForNamedQuery(parts.cleanQuery, items);
+  const productKind = requestedProductKind(parts.cleanQuery);
+  const nameTokens = productNameTokens(parts.cleanQuery, provider);
+  if (!productKind && !provider && !nameTokens.length) return undefined;
+  if (!productKind || !provider || !nameTokens.length) {
+    return {
+      query,
+      resolution_status: "ambiguous",
+      result_count: 0,
+      results: [],
+      exact_results: [],
+      unparsed_query_tokens: parts.unparsedTokens,
+      prompt_injection_detected: parts.promptInjectionDetected,
+      reason_codes: [
+        ...(!provider ? ["PROVIDER_REQUIRED"] : []),
+        ...(!productKind ? ["PRODUCT_KIND_REQUIRED"] : []),
+        ...(!nameTokens.length ? ["OFFICIAL_PRODUCT_NAME_REQUIRED"] : []),
+      ],
+      warnings: ["Named product queries require provider, official product name, and product kind; no broad fallback was used."],
+    };
+  }
+  const compactNames = nameTokens.map(compactProductText);
+  const matches = dedupeProductItems(items).filter((item) => {
+    if (!item.provider || compactProductText(item.provider) !== compactProductText(provider)) return false;
+    if (item.product_kind !== productKind) return false;
+    const text = compactProductText([item.title, ...(item.search_aliases ?? []), ...(item.aliases ?? [])].join(" "));
+    return compactNames.every((token) => text.includes(token));
+  });
+  const resolutionStatus = matches.length === 0 ? "not_found" : matches.length === 1 ? "exact" : "ambiguous";
+  const results = matches.slice(0, limit).map((item) => ({
+    id: item.id,
+    title: item.title,
+    type: item.type,
+    provider: item.provider,
+    product_kind: item.product_kind,
+    canonical_product_id: item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id,
+    resolved_canonical_product_id: item.resolved_canonical_product_id ?? item.canonical_product_id ?? item.id,
+    resolution_status: resolutionStatus,
+    unparsed_query_tokens: parts.unparsedTokens,
+    prompt_injection_detected: parts.promptInjectionDetected,
+    source_urls: item.source_urls ?? [],
+    url: itemUrl(env, item.id),
+  }));
+  const sources = [...new Set(matches.flatMap((item) => item.source_urls ?? []).filter(Boolean))];
+  const dataAsOf = [...new Set(matches.flatMap((item) => item.source_basis_dates ?? []).filter(Boolean))].sort().at(-1) ?? null;
+  return {
+    query,
+    parsed_intent: { intent: "search", domain: productKind === "check-card" || productKind === "credit-card" ? "card" : productKind?.includes("loan") ? "loan" : productKind?.includes("insurance") ? "insurance" : productKind },
+    resolution: {
+      status: resolutionStatus,
+      provider_required: provider,
+      product_kind_required: productKind,
+      name_tokens_required: nameTokens,
+      canonical_product_ids: results.map((result) => result.resolved_canonical_product_id),
+      candidate_count: results.length,
+    },
+    resolution_status: resolutionStatus,
+    result_count: results.length,
+    results,
+    exact_results: resolutionStatus === "exact" ? results : [],
+    partial_results: resolutionStatus === "ambiguous" ? results : [],
+    data_as_of: dataAsOf,
+    sources,
+    limitations: [
+      "named product matching requires provider, official product name, and product kind",
+      "no any-term fallback is used for named product queries",
+      ...(parts.promptInjectionDetected ? ["prompt-injection-like suffix was surfaced as unparsed input and ignored"] : []),
+    ],
+    unparsed_query_tokens: parts.unparsedTokens,
+    prompt_injection_detected: parts.promptInjectionDetected,
+    reason_codes: results.length ? [] : ["EXACT_PRODUCT_NOT_FOUND"],
+    warnings: ["Prompt-injection-like suffixes are surfaced as unparsed tokens and ignored for matching; no any-term fallback was used."],
+  };
 }
 
 type DiscoveryConstraint = { readonly field: string; readonly operator: "equals" | "lte" | "contains"; readonly value: string | number };
@@ -1458,10 +1574,258 @@ async function runtimeMetadata(env: Env, manifest: FinanceManifest, metadata: Se
   };
 }
 
+function financeKeyToken(value: unknown): string {
+  return String(value).toLocaleLowerCase("en-US").replace(/[^a-z0-9]/g, "");
+}
+
+function assertFinanceSafe(value: unknown, path = "input"): void {
+  if (Array.isArray(value)) {
+    value.forEach((child, index) => assertFinanceSafe(child, `${path}[${index}]`));
+    return;
+  }
+  if (!isRecord(value)) return;
+  for (const [key, child] of Object.entries(value)) {
+    const token = financeKeyToken(key);
+    if (SENSITIVE_KEY_TOKENS.has(token) || ["password", "token", "secret", "privatekey"].some((suffix) => token.endsWith(suffix))) {
+      throw new Error(`sensitive field is not accepted: ${path}.${key}`);
+    }
+    assertFinanceSafe(child, `${path}.${key}`);
+  }
+}
+
+function financeNumber(value: unknown, field: string, allowNegative = false): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || (!allowNegative && value < 0)) throw new Error(`${field} must be a finite ${allowNegative ? "" : "non-negative "}number`);
+  return Math.round(value * 1_000_000) / 1_000_000;
+}
+
+function optionalFinanceNumber(value: unknown, field: string): number | null {
+  return value === undefined || value === null || value === "" ? null : financeNumber(value, field);
+}
+
+function normalizeFinanceSnapshot(raw: Record<string, unknown> | undefined): Record<string, unknown> {
+  if (!raw) return {};
+  assertFinanceSafe(raw);
+  const expenses = isRecord(raw.expenses) ? raw.expenses : {};
+  const firstNumber = (keys: readonly string[], field: string, source: Record<string, unknown> = raw): number | null => {
+    const key = keys.find((candidate) => source[candidate] !== undefined && source[candidate] !== null && source[candidate] !== "");
+    return key ? financeNumber(source[key], field) : null;
+  };
+  const rawLiabilities = raw.liabilities === undefined ? [] : Array.isArray(raw.liabilities) ? raw.liabilities : [raw.liabilities];
+  const liabilities = rawLiabilities.map((value, index) => {
+    if (!isRecord(value)) throw new Error(`liabilities[${index}] must be an object`);
+    const balance = firstNumber(["balance_krw", "balance", "principal_krw"], `liabilities[${index}].balance_krw`, value);
+    if (balance === null) throw new Error(`liabilities[${index}].balance_krw is required`);
+    return {
+      id: String(value.id ?? `liability-${index + 1}`), kind: String(value.kind ?? "unspecified"), balance_krw: balance,
+      annual_rate_percent: optionalFinanceNumber(value.annual_rate_percent ?? value.rate_percent, `liabilities[${index}].annual_rate_percent`),
+      monthly_payment_krw: optionalFinanceNumber(value.monthly_payment_krw ?? value.monthly_payment, `liabilities[${index}].monthly_payment_krw`),
+    };
+  });
+  const goals = Array.isArray(raw.goals) ? raw.goals.map((value, index) => {
+    if (!isRecord(value)) throw new Error(`goals[${index}] must be an object`);
+    const target = firstNumber(["target_amount_krw", "amount_krw", "amount"], `goals[${index}].target_amount_krw`, value);
+    if (target === null) throw new Error(`goals[${index}].target_amount_krw is required`);
+    return { id: String(value.id ?? `goal-${index + 1}`), target_amount_krw: target, current_funding_krw: firstNumber(["current_funding_krw", "current_amount_krw", "current"], `goals[${index}].current_funding_krw`, value) ?? 0, target_date: value.target_date ?? null, liquidity_need: String(value.liquidity_need ?? "unknown") };
+  }) : [];
+  const snapshot: Record<string, unknown> = {
+    as_of: raw.as_of ?? raw.profile_as_of ?? null, currency: String(raw.currency ?? "KRW").toUpperCase(),
+    monthly_net_income_krw: firstNumber(["monthly_net_income_krw", "monthly_net_income", "monthly_income_krw", "monthly_income"], "monthly_net_income_krw"),
+    essential_monthly_expenses_krw: firstNumber(["essential_monthly_expenses_krw", "essential_expenses_krw", "essential_monthly_expenses"], "essential_monthly_expenses_krw") ?? firstNumber(["essential_krw", "essential_monthly_krw", "essential"], "essential_monthly_expenses_krw", expenses),
+    discretionary_monthly_expenses_krw: firstNumber(["discretionary_monthly_expenses_krw", "optional_monthly_expenses_krw", "discretionary_expenses_krw"], "discretionary_monthly_expenses_krw") ?? firstNumber(["discretionary_krw", "optional_krw", "discretionary"], "discretionary_monthly_expenses_krw", expenses) ?? 0,
+    liquid_assets_krw: firstNumber(["liquid_assets_krw", "liquid_assets"], "liquid_assets_krw"), investment_assets_krw: firstNumber(["investment_assets_krw", "investment_assets"], "investment_assets_krw"), other_assets_krw: firstNumber(["other_assets_krw", "other_assets"], "other_assets_krw") ?? 0,
+    liabilities, goals, dependents: Math.trunc(financeNumber(raw.dependents ?? 0, "dependents")), liquidity_requirement: raw.liquidity_requirement ?? null,
+    risk_tolerance: String(raw.risk_tolerance ?? "unknown"), risk_capacity: String(raw.risk_capacity ?? "unknown"), constraints: isRecord(raw.constraints) ? raw.constraints : {}, asset_allocation: isRecord(raw.asset_allocation) ? raw.asset_allocation : {}, insurance_coverage: isRecord(raw.insurance_coverage) ? raw.insurance_coverage : {},
+  };
+  if (snapshot.as_of !== null && (typeof snapshot.as_of !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(snapshot.as_of))) throw new Error("as_of must use YYYY-MM-DD");
+  return snapshot;
+}
+
+function financeAuditId(...values: unknown[]): string {
+  const stable = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(stable);
+    if (isRecord(value)) return Object.fromEntries(Object.keys(value).sort().map((key) => [key, stable(value[key])]));
+    return value;
+  };
+  const source = JSON.stringify(stable(values));
+  let hash = 2166136261;
+  for (const character of source) { hash ^= character.charCodeAt(0); hash = Math.imul(hash, 16777619); }
+  return `fin-${(hash >>> 0).toString(16).padStart(8, "0")}`;
+}
+
+function financeSafety(fields: Partial<Record<string, unknown>> = {}): Record<string, unknown> {
+  return {
+    mode: "decision_support", status: "ready", reason_codes: [], profile_as_of: null, data_as_of: null,
+    assumptions: [], missing_information: [], financial_needs: [], candidates: [], decision_owner: "user", limitations: [], audit_id: financeAuditId(fields), ...fields,
+  };
+}
+
+function financeMetric(name: string, value: number | null, formula: string, inputs: Record<string, unknown>, snapshot: Record<string, unknown>, assumptions: string[] = []): Record<string, unknown> {
+  return { metric: name, value: value === null ? null : Math.round(value * 1_000_000) / 1_000_000, formula, inputs, assumptions, calculated_at: snapshot.as_of ?? "unspecified", policy_version: PERSONAL_FINANCE_POLICY_VERSION };
+}
+
+function financeMetrics(snapshot: Record<string, unknown>): Record<string, Record<string, unknown>> {
+  const liabilities = Array.isArray(snapshot.liabilities) ? snapshot.liabilities.filter(isRecord) : [];
+  const debt = liabilities.reduce((sum, item) => sum + Number(item.balance_krw ?? 0), 0);
+  const debtService = liabilities.reduce((sum, item) => sum + Number(item.monthly_payment_krw ?? 0), 0);
+  const income = typeof snapshot.monthly_net_income_krw === "number" ? snapshot.monthly_net_income_krw : null;
+  const essential = typeof snapshot.essential_monthly_expenses_krw === "number" ? snapshot.essential_monthly_expenses_krw : null;
+  const discretionary = Number(snapshot.discretionary_monthly_expenses_krw ?? 0);
+  const surplus = income === null || essential === null ? null : income - essential - discretionary - debtService;
+  const liquid = typeof snapshot.liquid_assets_krw === "number" ? snapshot.liquid_assets_krw : null;
+  const weightedItems = liabilities.filter((item) => typeof item.annual_rate_percent === "number");
+  const weightedBalance = weightedItems.reduce((sum, item) => sum + Number(item.balance_krw ?? 0), 0);
+  const weightedRate = weightedBalance ? weightedItems.reduce((sum, item) => sum + Number(item.balance_krw) * Number(item.annual_rate_percent), 0) / weightedBalance : null;
+  const liquidity = isRecord(snapshot.liquidity_requirement) ? (typeof snapshot.liquidity_requirement.required_amount_krw === "number" ? snapshot.liquidity_requirement.required_amount_krw : typeof snapshot.liquidity_requirement.months === "number" && essential !== null ? snapshot.liquidity_requirement.months * essential : null) : typeof snapshot.liquidity_requirement === "number" ? snapshot.liquidity_requirement : null;
+  const coverage = isRecord(snapshot.insurance_coverage) && typeof snapshot.insurance_coverage.required_coverage_krw === "number" ? Math.max(0, snapshot.insurance_coverage.required_coverage_krw - Number(snapshot.insurance_coverage.current_coverage_krw ?? 0)) : null;
+  const assets = Number(snapshot.liquid_assets_krw ?? 0) + Number(snapshot.investment_assets_krw ?? 0) + Number(snapshot.other_assets_krw ?? 0);
+  return {
+    net_worth: financeMetric("net_worth", assets - debt, "liquid_assets + investment_assets + other_assets - liability_balances", { assets_krw: assets, liabilities_krw: debt }, snapshot),
+    monthly_surplus: financeMetric("monthly_surplus", surplus, "net_income - essential_expenses - discretionary_expenses - debt_service", { income_krw: income, essential_krw: essential, discretionary_krw: discretionary, debt_service_krw: debtService }, snapshot),
+    savings_rate: financeMetric("savings_rate", income && surplus !== null ? surplus / income : null, "monthly_surplus / monthly_net_income", { income_krw: income, surplus_krw: surplus }, snapshot, income ? [] : ["income must be positive"]),
+    emergency_fund_months: financeMetric("emergency_fund_months", liquid !== null && essential ? liquid / essential : null, "liquid_assets / essential_monthly_expenses", { liquid_assets_krw: liquid, essential_krw: essential }, snapshot, ["only liquid assets are counted"]),
+    debt_service_ratio: financeMetric("debt_service_ratio", income ? debtService / income : null, "monthly_debt_service / monthly_net_income", { debt_service_krw: debtService, income_krw: income }, snapshot),
+    weighted_debt_rate_percent: financeMetric("weighted_debt_rate_percent", weightedRate, "sum(balance * annual_rate) / sum(balance)", { rate_known_balance_krw: weightedBalance, liability_count: weightedItems.length }, snapshot, ["liabilities without a known rate are excluded"]),
+    liquidity_gap: financeMetric("liquidity_gap", liquidity !== null && liquid !== null ? Math.max(0, liquidity - liquid) : null, "max(0, required_liquidity - liquid_assets)", { required_liquidity_krw: liquidity, liquid_assets_krw: liquid }, snapshot),
+    goal_funding_gap: financeMetric("goal_funding_gap", (Array.isArray(snapshot.goals) ? snapshot.goals.filter(isRecord) : []).reduce((sum, goal) => sum + Math.max(0, Number(goal.target_amount_krw) - Number(goal.current_funding_krw ?? 0)), 0), "sum(max(0, target_amount - current_funding))", { goal_count: Array.isArray(snapshot.goals) ? snapshot.goals.length : 0 }, snapshot),
+    insurance_coverage_gap: financeMetric("insurance_coverage_gap", coverage, "max(0, required_coverage - current_coverage)", {}, snapshot, ["coverage need must be explicitly supplied"]),
+  };
+}
+
+function financeNeeds(snapshot: Record<string, unknown>, metrics: Record<string, Record<string, unknown>>): Record<string, unknown>[] {
+  const missing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => snapshot[key] === null || snapshot[key] === undefined || snapshot[key] === "");
+  const needs: Record<string, unknown>[] = missing.length ? [{ need_type: "information_completion", priority: 1, status: "blocked", evidence: missing, action: "request_missing_finance_snapshot_fields" }] : [];
+  const add = (name: string, priority: number, evidence: Record<string, unknown>, action: string) => needs.push({ need_type: name, priority, status: "active", evidence, action });
+  const value = (name: string) => metrics[name]?.value;
+  if (typeof value("monthly_surplus") === "number" && Number(value("monthly_surplus")) < 0) add("cashflow_stabilization", 1, { monthly_surplus_krw: value("monthly_surplus") }, "reduce_deficit_before_product_selection");
+  if (typeof value("weighted_debt_rate_percent") === "number" && Number(value("weighted_debt_rate_percent")) >= HIGH_INTEREST_DEBT_RATE_PERCENT) add("high_interest_debt", 2, { weighted_debt_rate_percent: value("weighted_debt_rate_percent") }, "compare_debt_paydown_scenarios");
+  if (typeof value("emergency_fund_months") === "number" && Number(value("emergency_fund_months")) < MINIMUM_EMERGENCY_FUND_MONTHS) add("emergency_liquidity", 2, { emergency_fund_months: value("emergency_fund_months"), target_months: MINIMUM_EMERGENCY_FUND_MONTHS }, "protect_liquid_principal");
+  if (typeof value("liquidity_gap") === "number" && Number(value("liquidity_gap")) > 0) add("liquidity_gap", 2, { liquidity_gap_krw: value("liquidity_gap") }, "avoid_locking_required_liquidity");
+  if (typeof value("insurance_coverage_gap") === "number" && Number(value("insurance_coverage_gap")) > 0) add("insurance_coverage_gap", 3, { coverage_gap_krw: value("insurance_coverage_gap") }, "review_protection_gap_as_lookup_only");
+  return needs.sort((a, b) => Number(a.priority) - Number(b.priority) || String(a.need_type).localeCompare(String(b.need_type)));
+}
+
 function createServer(env: Env): McpServer {
   const server = new McpServer({
     name: "finance",
     version: "0.2.0",
+  });
+
+  const financeResult = (payload: Record<string, unknown>) => ({ structuredContent: payload, content: [{ type: "text" as const, text: jsonText(payload) }] });
+
+  server.registerTool("get_finance_summary", {
+    title: "Get Personal Finance Summary",
+    description: "Summarize a transient user-supplied finance snapshot and prioritize needs. This is decision support, not a recommendation.",
+    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional() },
+    annotations: { title: "Get Personal Finance Summary", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ snapshot }) => {
+    const normalized = normalizeFinanceSnapshot(snapshot);
+    const metrics = financeMetrics(normalized);
+    const needs = financeNeeds(normalized, metrics);
+    return financeResult(financeSafety({ status: needs.some((need) => need.status === "blocked") ? "insufficient_information" : "ready", profile_as_of: normalized.as_of ?? null, data_as_of: normalized.as_of ?? null, assumptions: ["only explicitly supplied snapshot fields are used"], missing_information: ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => normalized[key] === null || normalized[key] === undefined), financial_needs: needs, metrics, currency: normalized.currency ?? "KRW", limitations: ["summary does not constitute financial advice or product approval"] }));
+  });
+
+  server.registerTool("calculate_finance_metrics", {
+    title: "Calculate Finance Metrics",
+    description: "Calculate deterministic personal-finance metrics from a transient snapshot.",
+    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional() },
+    annotations: { title: "Calculate Finance Metrics", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ snapshot }) => {
+    const normalized = normalizeFinanceSnapshot(snapshot);
+    const metrics = financeMetrics(normalized);
+    return financeResult(financeSafety({ profile_as_of: normalized.as_of ?? null, data_as_of: normalized.as_of ?? null, assumptions: ["deterministic formulas; missing inputs produce null metrics"], missing_information: ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => normalized[key] === null || normalized[key] === undefined), financial_needs: financeNeeds(normalized, metrics), metrics, policy_version: PERSONAL_FINANCE_POLICY_VERSION, limitations: ["metrics are educational and not financial advice"] }));
+  });
+
+  server.registerTool("evaluate_product_fit", {
+    title: "Evaluate Finance Product Fit",
+    description: "Evaluate explicit fit conditions for one supplied product without making a recommendation.",
+    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional(), item: z.record(z.string(), z.unknown()), domain: z.string().optional() },
+    annotations: { title: "Evaluate Finance Product Fit", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ snapshot, item, domain }) => {
+    assertFinanceSafe(item);
+    const normalized = normalizeFinanceSnapshot(snapshot);
+    const failed: string[] = []; const unknown: string[] = [];
+    if (item.status !== undefined && item.status !== "active") failed.push("product_not_active");
+    if (item.product_status !== undefined && item.product_status !== "active") failed.push("product_not_active");
+    if (item.source_listing_status !== undefined && item.source_listing_status !== "listed") failed.push("source_not_listed");
+    if (item.freshness_status === "stale" || item.source_freshness_status === "stale") failed.push("stale_source");
+    if (item.verification_status !== undefined && item.verification_status !== "verified") failed.push("source_not_verified");
+    if (item.verification_status === undefined) unknown.push("verification_status");
+    if (item.recommendation_status === "manual_review_candidate" || item.recommendation_status === "retired") failed.push("recommendation_state_not_eligible");
+    const constraints = isRecord(normalized.constraints) ? normalized.constraints : {};
+    if (constraints.provider && item.provider && String(constraints.provider) !== String(item.provider)) failed.push("provider_constraint_failed");
+    const requirement = isRecord(normalized.liquidity_requirement) ? normalized.liquidity_requirement : {};
+    if (typeof requirement.months === "number" && item.term_months === undefined) unknown.push("term_months");
+    if (typeof requirement.months === "number" && typeof item.term_months === "number" && item.term_months > requirement.months) failed.push("term_exceeds_liquidity_horizon");
+    const eligible = !failed.length && !unknown.length;
+    const candidate = { item_id: item.id, domain: domain ?? null, eligible, decision: eligible ? "fit" : failed.length ? "not_fit" : "insufficient_information", failed_conditions: [...new Set(failed)].sort(), unknown_conditions: [...new Set(unknown)].sort(), score: eligible ? 100 : null, score_components: { source_verification: item.verification_status === "verified" ? 30 : 0, current_listing: item.source_listing_status === "listed" ? 20 : 0, liquidity_fit: unknown.includes("term_months") || failed.includes("term_exceeds_liquidity_horizon") ? 0 : 25, risk_fit: 25 }, recommendation_state: item.recommendation_status ?? item.status ?? "unknown", sources: item.source_urls ?? item.sources ?? [], data_as_of: item.last_verified_at ?? item.source_basis_dates ?? normalized.as_of ?? null, limitations: ["fit evaluation is not a recommendation", "user remains the decision owner"], policy_version: ADVICE_POLICY_VERSION };
+    return financeResult(financeSafety({ status: eligible ? "ready" : "insufficient_information", profile_as_of: normalized.as_of ?? null, data_as_of: candidate.data_as_of, assumptions: ["only explicit product fields and user constraints are evaluated"], missing_information: unknown, financial_needs: [], candidates: eligible ? [candidate] : [], limitations: candidate.limitations, fit: candidate }));
+  });
+
+  server.registerTool("simulate_finance_scenario", {
+    title: "Simulate Finance Scenario",
+    description: "Run a deterministic educational scenario using simple monthly balance arithmetic.",
+    inputSchema: { snapshot: z.record(z.string(), z.unknown()).optional(), scenario: z.record(z.string(), z.unknown()).optional() },
+    annotations: { title: "Simulate Finance Scenario", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ snapshot, scenario }) => {
+    const normalized = normalizeFinanceSnapshot(snapshot); assertFinanceSafe(scenario);
+    const input = scenario ?? {}; const months = financeNumber(input.months ?? 12, "scenario.months");
+    if (!Number.isInteger(months) || months < 1 || months > 120) throw new Error("scenario.months must be between 1 and 120");
+    const additional = financeNumber(input.additional_monthly_payment_krw ?? 0, "scenario.additional_monthly_payment_krw"); const contribution = financeNumber(input.monthly_contribution_krw ?? 0, "scenario.monthly_contribution_krw");
+    const liabilities = Array.isArray(normalized.liabilities) ? normalized.liabilities.filter(isRecord) : []; const debt = liabilities.reduce((sum, item) => sum + Number(item.balance_krw ?? 0), 0); const rateKnown = liabilities.filter((item) => typeof item.annual_rate_percent === "number"); const rateBalance = rateKnown.reduce((sum, item) => sum + Number(item.balance_krw ?? 0), 0); const weightedRate = rateBalance ? rateKnown.reduce((sum, item) => sum + Number(item.balance_krw ?? 0) * Number(item.annual_rate_percent), 0) / rateBalance : 0; const interest = liabilities.reduce((sum, item) => sum + Number(item.balance_krw ?? 0) * Number(item.annual_rate_percent ?? 0) / 100 / 12, 0); const liquid = Number(normalized.liquid_assets_krw ?? 0); const afterDebt = Math.max(0, debt - additional * months);
+    const result = { scenario: { months, additional_monthly_payment_krw: additional, monthly_contribution_krw: contribution }, before: { debt_balance_krw: debt, monthly_debt_interest_estimate_krw: interest, liquid_assets_krw: liquid }, after: { debt_balance_krw: afterDebt, monthly_debt_interest_estimate_krw: afterDebt ? afterDebt * weightedRate / 100 / 12 : 0, liquid_assets_krw: liquid + contribution * months }, assumptions: ["simple monthly balance estimate", "weighted debt rate uses only liabilities with a known annual rate", "no taxes, fees, compounding, new borrowing, or product-specific terms are inferred"], limitations: ["scenario is educational and not a promise of future return or approval"] };
+    return financeResult(financeSafety({ profile_as_of: normalized.as_of ?? null, data_as_of: normalized.as_of ?? null, assumptions: result.assumptions, financial_needs: [], scenario: result, limitations: result.limitations, policy_version: PERSONAL_FINANCE_POLICY_VERSION }));
+  });
+
+  server.registerTool("explain_recommendation", {
+    title: "Explain Finance Decision Support",
+    description: "Explain inclusion, exclusion, tradeoffs, and limitations for an already-produced candidate; it never creates a recommendation.",
+    inputSchema: { candidate: z.record(z.string(), z.unknown()), snapshot: z.record(z.string(), z.unknown()).optional() },
+    annotations: { title: "Explain Finance Decision Support", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ candidate, snapshot }) => {
+    assertFinanceSafe(candidate); const normalized = normalizeFinanceSnapshot(snapshot); const eligible = candidate.eligible === true; const explanation = { candidate_id: candidate.item_id ?? candidate.id ?? null, why_included: candidate.matched_conditions ?? candidate.score_components ?? [], why_excluded: candidate.failed_conditions ?? candidate.unknown_conditions ?? [], tradeoffs: candidate.tradeoffs ?? ["source status, eligibility conditions, liquidity, and risk must be checked before the user decides"], sources: candidate.sources ?? [], data_as_of: candidate.data_as_of ?? candidate.as_of ?? normalized.as_of ?? null };
+    return financeResult(financeSafety({ status: eligible ? "ready" : "blocked", profile_as_of: normalized.as_of ?? null, data_as_of: explanation.data_as_of, assumptions: candidate.assumptions ?? [], missing_information: candidate.unknown_conditions ?? [], financial_needs: [], candidates: eligible ? [candidate] : [], explanation, limitations: ["explanation does not constitute financial advice or product approval"], audit_id: financeAuditId(candidate, normalized) }));
+  });
+
+  server.registerTool("validate_finance_advice", {
+    title: "Validate Finance Advice Contract",
+    description: "Validate the required fail-closed OpenFin advice response fields and recommendation gate.",
+    inputSchema: { advice: z.record(z.string(), z.unknown()) },
+    annotations: { title: "Validate Finance Advice Contract", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ advice }) => {
+    assertFinanceSafe(advice); const required = ["mode", "status", "reason_codes", "profile_as_of", "data_as_of", "assumptions", "missing_information", "financial_needs", "candidates", "decision_owner", "limitations", "audit_id"]; const errors = required.filter((field) => !(field in advice)); if (advice.decision_owner !== "user") errors.push("decision_owner_must_be_user"); const candidates = Array.isArray(advice.candidates) ? advice.candidates : []; if (advice.status === "ready" && !candidates.length) errors.push("ready_requires_candidates"); if (advice.status !== "ready" && candidates.length) errors.push("blocked_or_insufficient_must_not_include_candidates"); if (advice.mode === "recommendation" && advice.status === "ready") candidates.forEach((candidate) => { if (isRecord(candidate) && candidate.recommendation_status !== "verified_recommendation_candidate") errors.push("recommendation_candidate_not_verified"); });
+    return financeResult(financeSafety({ status: errors.length ? "blocked" : "ready", validation: { valid: !errors.length, errors: [...new Set(errors)], policy_version: ADVICE_POLICY_VERSION }, reason_codes: errors.length ? ["ADVICE_CONTRACT_INVALID"] : [] }));
+  });
+
+  server.registerTool("get_openfin_quality_status", {
+    title: "Get OpenFin Quality Status",
+    description: "Return manifest, index, and public-recommendation gate status without changing state.",
+    inputSchema: {},
+    annotations: { title: "Get OpenFin Quality Status", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async () => {
+    const manifest = await loadFinanceManifest(env); const metadata = await loadSearchIndexMetadata(env);
+    const live = manifest.openfin_120_live_regression ?? {};
+    const releaseStatus = manifest.release_status ?? "unknown";
+    const blockingReasons = manifest.blocking_reasons ?? [];
+    const livePassed = live.mode === "live" && live.test_count === 120 && live.passed_count === 120 && live.failed_count === 0 && live.skipped_count === 0;
+    return financeResult(financeSafety({
+      status: releaseStatus === "ready" && livePassed ? "ready" : "blocked",
+      reason_codes: releaseStatus === "ready" && livePassed ? [] : ["QUALITY_RELEASE_BLOCKED"],
+      data_as_of: manifest.basis_date,
+      missing_information: blockingReasons,
+      assumptions: ["quality status reflects the loaded manifest and search index"],
+      quality_status: { manifest_version: manifest.version, release_status: releaseStatus, basis_date: manifest.basis_date, search_index_item_count: metadata.item_count ?? null, loaded_index_checksum: metadata.export_checksum ?? null, quality_exports: manifest.quality_exports ?? [], openfin_120_live_regression: live, public_recommendation_enabled: ENABLE_PUBLIC_RECOMMENDATION },
+      limitations: ["quality status is not a product recommendation", ...blockingReasons],
+    }));
+  });
+
+  server.registerTool("update_finance_snapshot", {
+    title: "Update Personal Finance Snapshot",
+    description: "Persistence is fail-closed: owner authentication, explicit confirmation, and an enabled persistence binding are all required, and this public Worker never persists snapshots.",
+    inputSchema: { snapshot: z.record(z.string(), z.unknown()), owner_authenticated: z.boolean(), explicit_confirmation: z.boolean(), persistence_enabled: z.boolean() },
+    annotations: { title: "Update Personal Finance Snapshot", ...READ_ONLY_TOOL_ANNOTATIONS },
+  }, async ({ snapshot, owner_authenticated, explicit_confirmation, persistence_enabled }) => {
+    assertFinanceSafe(snapshot); const reasons = [!owner_authenticated ? "OWNER_AUTH_REQUIRED" : null, !explicit_confirmation ? "EXPLICIT_CONFIRMATION_REQUIRED" : null, !persistence_enabled ? "PERSISTENCE_FLAG_REQUIRED" : null, "PERSISTENCE_BACKEND_NOT_CONFIGURED"].filter((value): value is string => Boolean(value));
+    return financeResult(financeSafety({ status: "blocked", reason_codes: reasons, assumptions: ["the public Worker does not persist personal financial snapshots"], missing_information: reasons, financial_needs: [], candidates: [], limitations: ["no snapshot was written", "use a separately authenticated owner-controlled persistence service"] }));
   });
 
   server.registerTool(
@@ -1496,6 +1860,10 @@ function createServer(env: Env): McpServer {
       const items = dedupeProductItems(await loadSearchItems(env));
       const normalizedQuery = normalizeQuery(query);
       const maxResults = limit ?? 10;
+      if (isNamedProductQuery(query)) {
+        const payload = strictNamedProductPayload(query, items, maxResults, env);
+        if (payload) return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      }
       if (isDiscoveryQuery(query)) {
         const payload = discoveryPayload(query, items, maxResults);
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
@@ -1545,6 +1913,7 @@ function createServer(env: Env): McpServer {
           application_status: item.application_status,
           is_currently_applicable: item.is_currently_applicable,
           application_open_to: item.application_open_to,
+          application_window: item.application_window ?? {},
           jurisdiction: item.jurisdiction,
           freshness_status: item.freshness_status,
           recommendation_model_version: item.recommendation_model_version,
@@ -1612,6 +1981,10 @@ function createServer(env: Env): McpServer {
     },
     async ({ query, limit }) => {
       const items = dedupeProductItems(await loadSearchItems(env));
+      if (isNamedProductQuery(query)) {
+        const payload = strictNamedProductPayload(query, items, limit ?? 10, env);
+        if (payload) return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
+      }
       const payload = discoveryPayload(query, items, limit ?? 10);
       return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
     },
@@ -1628,6 +2001,7 @@ function createServer(env: Env): McpServer {
         profile: z.record(z.string(), z.unknown()).optional().describe("User profile facts already supplied by the user."),
         constraints: z.record(z.string(), z.unknown()).optional().describe("Hard constraints already supplied by the user."),
         preferences: z.record(z.string(), z.unknown()).optional().describe("Soft preferences already supplied by the user."),
+        decision_context: z.record(z.string(), z.unknown()).optional().describe("Transient typed personal-finance snapshot; sensitive account, credential, and identity fields are rejected."),
         limit: z.number().int().min(1).max(20).optional().describe("Maximum number of recommendations. Defaults to 5."),
       },
       annotations: {
@@ -1635,11 +2009,15 @@ function createServer(env: Env): McpServer {
         ...READ_ONLY_TOOL_ANNOTATIONS,
       },
     },
-    async ({ domain, profile, constraints, preferences, limit }) => {
+    async ({ domain, profile, constraints, preferences, decision_context, limit }) => {
       const items = dedupeProductItems(await loadSearchItems(env));
       const maxResults = limit ?? 5;
       const domainItems = items.filter((item) => domainMatches(item, domain));
       const readiness = recommendationReadiness(domain, domainItems);
+      const context = normalizeFinanceSnapshot(decision_context);
+      const contextMetrics = financeMetrics(context);
+      const contextNeeds = financeNeeds(context, contextMetrics);
+      const contextMissing = ["as_of", "monthly_net_income_krw", "essential_monthly_expenses_krw", "liquid_assets_krw", "investment_assets_krw"].filter((key) => context[key] === null || context[key] === undefined || context[key] === "");
       if (!ENABLE_PUBLIC_RECOMMENDATION) {
         const blockerCounts = {
           domain_recommendation_not_enabled: domainItems.length,
@@ -1648,6 +2026,14 @@ function createServer(env: Env): McpServer {
           verified_completeness_incomplete: domainItems.filter((item) => item.verified_completeness_ratio !== 1).length,
         };
         const payload = {
+          mode: "decision_support",
+          status: "blocked",
+          reason_codes: ["PUBLIC_RECOMMENDATION_DISABLED", "NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
+          profile_as_of: context.as_of ?? (isRecord(profile) ? profile.as_of ?? null : null),
+          data_as_of: null,
+          assumptions: ["public recommendation feature flag is disabled", "only verified recommendation candidates could qualify"],
+          missing_information: contextMissing,
+          financial_needs: contextNeeds,
           domain,
           domain_enabled: false,
           profile: profile ?? {},
@@ -1663,6 +2049,9 @@ function createServer(env: Env): McpServer {
           next_required_action: nextRecommendationAction(domain, readiness),
           excluded_count: domainItems.length,
           excluded_sample: domainItems.slice(0, EXCLUDED_SAMPLE_LIMIT).map((item) => ({ item_id: item.id, reason: "domain_recommendation_not_enabled" })),
+          decision_owner: "user",
+          limitations: ["use lookup, education, comparison, and scenario tools only until the owner pilot is enabled"],
+          audit_id: financeAuditId("blocked-recommendation", domain, context.as_of ?? null),
           warnings: ["No verified public recommendation candidates are available for this domain."],
         };
         return { structuredContent: payload, content: [{ type: "text", text: jsonText(payload) }] };
@@ -1700,6 +2089,14 @@ function createServer(env: Env): McpServer {
       candidates.sort((a, b) => b.score - a.score || a.item_id.localeCompare(b.item_id, "ko-KR"));
       const results = candidates.slice(0, maxResults);
       const payload = {
+        mode: "recommendation",
+        status: results.length ? "ready" : "blocked",
+        reason_codes: results.length ? [] : ["NO_VERIFIED_RECOMMENDATION_CANDIDATE"],
+        profile_as_of: context.as_of ?? (isRecord(profile) ? profile.as_of ?? null : null),
+        data_as_of: null,
+        assumptions: ["only verified public recommendation candidates are eligible"],
+        missing_information: contextMissing,
+        financial_needs: contextNeeds,
         domain,
         profile: profile ?? {},
         constraints: constraints ?? {},
@@ -1715,6 +2112,9 @@ function createServer(env: Env): McpServer {
         next_required_action: nextRecommendationAction(domain, readiness),
         excluded_count: excluded.length,
         excluded_sample: excluded.slice(0, EXCLUDED_SAMPLE_LIMIT),
+        decision_owner: "user",
+        limitations: ["recommendation output is subject to source freshness and user verification"],
+        audit_id: financeAuditId("recommendation", domain, profile ?? {}, results),
         warnings: results.length ? [] : ["No verified public recommendation candidates are available for this domain."],
       };
       return {
