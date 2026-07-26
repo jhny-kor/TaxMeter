@@ -2283,6 +2283,7 @@ function createServer(env: Env): McpServer {
         latest_product_collection_date: comparisonBasisDate,
         verification_basis_date: comparisonBasisDate,
         calculation_policy_basis_date: "2026-07-14",
+        comparison_basis: { candidate_values_are_from_final_object: true, object_version: COMPARISON_ENGINE_VERSION },
         executed_at: new Date().toISOString(),
         requested_intent: { domain, deposit_amount_krw, monthly_payment_krw, term_months, join_channels, eligible_conditions, saving_method, tax_rate_percent: tax_rate_percent ?? 15.4 },
         executed_mode: "deterministic_comparison",
