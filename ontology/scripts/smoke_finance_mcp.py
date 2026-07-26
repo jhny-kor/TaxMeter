@@ -80,9 +80,18 @@ def tool_payload(result: Mapping[str, JsonValue]) -> Mapping[str, JsonValue]:
 def validate_tool_payload(label: str, payload: Mapping[str, JsonValue]) -> None:
     candidate_count = payload.get("candidate_count")
     candidates = payload.get("candidates")
+    result_count = payload.get("result_count")
     excluded_count = payload.get("excluded_count")
     excluded_summary = payload.get("excluded_summary")
-    if isinstance(candidate_count, int) and isinstance(candidates, list) and candidate_count != len(candidates):
+    # compare/recommend expose candidate_count as the full eligible population
+    # while candidates is the limited page returned to the caller.  When a
+    # result_count is present, validate the page against it and keep the total
+    # count as a lower-bound check instead of treating pagination as corruption.
+    if isinstance(result_count, int) and isinstance(candidates, list) and result_count != len(candidates):
+        raise McpSmokeError(f"{label}: result_count does not match candidates length")
+    if isinstance(candidate_count, int) and isinstance(result_count, int) and candidate_count < result_count:
+        raise McpSmokeError(f"{label}: candidate_count is smaller than result_count")
+    if not isinstance(result_count, int) and isinstance(candidate_count, int) and isinstance(candidates, list) and candidate_count != len(candidates):
         raise McpSmokeError(f"{label}: candidate_count does not match candidates length")
     if isinstance(excluded_count, int) and isinstance(excluded_summary, Mapping) and sum(value for value in excluded_summary.values() if isinstance(value, int)) != excluded_count:
         raise McpSmokeError(f"{label}: excluded_summary does not sum to excluded_count")

@@ -2583,8 +2583,8 @@
       "query": "runtime search-index checksum",
       "type": null,
       "validation_kind": "runtime_search_index_checksum",
-      "expected_top_id": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
-      "actual_top_id": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+      "expected_top_id": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+      "actual_top_id": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
       "passed": true
     },
     {
@@ -2607,7 +2607,7 @@
           "collection_dates": [],
           "product_collection_dates": [],
           "quality_summary": {},
-          "export_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+          "export_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
           "description": "MCP search 전용 경량 인덱스입니다.",
           "shards": [
             {
@@ -2635,7 +2635,7 @@
               "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
               "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
               "item_count": 1363,
-              "export_checksum": "8a7e0fdbcab278b20a920fcdf2f1fa2de0ddc665c0c782ffa69a0ed638de757e"
+              "export_checksum": "f64f95734d8775c807f17b545db60ef0d49a24d25a7a9dc4b7fbe7a6dc41d521"
             },
             {
               "id": "finance-search-index-card-products",
@@ -2688,7 +2688,7 @@
           "runtime_version": "openfin-mcp-2026.07.22.1",
           "deployment_commit": "40215ba9c",
           "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-          "loaded_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+          "loaded_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
           "loaded_item_count": 21266
         }
       }
@@ -13311,111 +13311,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300027000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300027000",
-          "title": "광주은행 미즈월복리정기예금",
-          "provider": "광주은행",
-          "product_kind": "deposit",
-          "catalog_recommendation_status": "eligible_for_listing",
-          "catalog_recommendation_scope": "comparison_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "B",
-          "verification_grade": "B",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind",
-            "term_months",
-            "product_name_tokens"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "deposit",
-              "evidence_field": "product_kind",
-              "evidence_text": "deposit",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "term_months",
-              "matched_value": 12,
-              "evidence_field": "term_months",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 88,
-            "relevance_grade": "A",
-            "data_completeness_grade": "B",
-            "verification_grade": "B",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind",
-              "term_months",
-              "product_name_tokens"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "deposit",
-                "evidence_field": "product_kind",
-                "evidence_text": "deposit",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "term_months",
-                "matched_value": 12,
-                "evidence_field": "term_months",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.0010019.td11300031000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300031000",
-          "title": "광주은행 스마트모아Dream정기예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010002.00320342.deposit",
+          "id": "finance.deposit.deposit.0010002.00320342",
+          "title": "한국스탠다드차타드은행 e-그린세이브예금",
+          "provider": "한국스탠다드차타드은행",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -13513,10 +13412,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300035000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300035000",
-          "title": "광주은행 굿스타트예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010016.10511008001166004.deposit",
+          "id": "finance.deposit.deposit.0010016.10511008001166004",
+          "title": "아이엠뱅크 iM함께예금",
+          "provider": "아이엠뱅크",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -13614,10 +13513,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300036000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300036000",
-          "title": "광주은행 The플러스예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010017.01030500510002.deposit",
+          "id": "finance.deposit.deposit.0010017.01030500510002",
+          "title": "부산은행 LIVE정기예금",
+          "provider": "부산은행",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -13643,7 +13542,7 @@
             },
             {
               "constraint": "term_months",
-              "matched_value": 3,
+              "matched_value": 1,
               "evidence_field": "term_months",
               "source_url": "https://finlife.fss.or.kr/",
               "source_locator": "2026-07-18 수집"
@@ -13696,7 +13595,108 @@
               },
               {
                 "constraint": "term_months",
-                "matched_value": 3,
+                "matched_value": 1,
+                "evidence_field": "term_months",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "product_name_tokens",
+                "matched_value": null,
+                "evidence_field": "product_name_tokens",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.0010017.01030500560002.deposit",
+          "id": "finance.deposit.deposit.0010017.01030500560002",
+          "title": "부산은행 더(The) 특판 정기예금",
+          "provider": "부산은행",
+          "product_kind": "deposit",
+          "catalog_recommendation_status": "eligible_for_listing",
+          "catalog_recommendation_scope": "comparison_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind",
+            "term_months",
+            "product_name_tokens"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "deposit",
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "term_months",
+              "matched_value": 1,
+              "evidence_field": "term_months",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "product_name_tokens",
+              "matched_value": null,
+              "evidence_field": "product_name_tokens",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 88,
+            "relevance_grade": "A",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind",
+              "term_months",
+              "product_name_tokens"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "deposit",
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "term_months",
+                "matched_value": 1,
                 "evidence_field": "term_months",
                 "source_url": "https://finlife.fss.or.kr/",
                 "source_locator": "2026-07-18 수집"
@@ -14194,25 +14194,25 @@
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.deposit.deposit.0010019.td11300027000",
+          "id": "finance.deposit.deposit.0010002.00320342",
           "relevance_grade": "A",
           "verification_grade": "B",
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.deposit.deposit.0010019.td11300031000",
+          "id": "finance.deposit.deposit.0010016.10511008001166004",
           "relevance_grade": "A",
           "verification_grade": "B",
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.deposit.deposit.0010019.td11300035000",
+          "id": "finance.deposit.deposit.0010017.01030500510002",
           "relevance_grade": "A",
           "verification_grade": "B",
           "overall_candidate_grade": "C"
         },
         {
-          "id": "finance.deposit.deposit.0010019.td11300036000",
+          "id": "finance.deposit.deposit.0010017.01030500560002",
           "relevance_grade": "A",
           "verification_grade": "B",
           "overall_candidate_grade": "C"
@@ -14693,10 +14693,10 @@
       ],
       "partial_candidates": [
         {
-          "canonical_product_id": "finance.canonical.0010471.31-0026.saving",
-          "id": "finance.saving.saving.0010471.31-0026",
-          "title": "페퍼저축은행 정기적금",
-          "provider": "페퍼저축은행",
+          "canonical_product_id": "finance.canonical.0010016.10521001001166004.saving",
+          "id": "finance.saving.saving.0010016.10521001001166004",
+          "title": "아이엠뱅크 iM함께적금",
+          "provider": "아이엠뱅크",
           "product_kind": "saving",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -14766,15 +14766,15 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010016.10521001001166004.saving",
-          "id": "finance.saving.saving.0010016.10521001001166004",
-          "title": "아이엠뱅크 iM함께적금",
-          "provider": "아이엠뱅크",
+          "canonical_product_id": "finance.canonical.0010017.01020400530001.saving",
+          "id": "finance.saving.saving.0010017.01020400530001",
+          "title": "부산은행 BNK내맘대로 \n적금",
+          "provider": "부산은행",
           "product_kind": "saving",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "B",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "B",
           "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
@@ -14811,9 +14811,9 @@
             "mode": "discovery",
             "eligibility": "partial_candidate",
             "decision_scope": "discovery_only",
-            "score": 47,
+            "score": 48,
             "relevance_grade": "B",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
@@ -14839,15 +14839,15 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010017.01020400530001.saving",
-          "id": "finance.saving.saving.0010017.01020400530001",
-          "title": "부산은행 BNK내맘대로 \n적금",
-          "provider": "부산은행",
+          "canonical_product_id": "finance.canonical.0010471.31-0026.saving",
+          "id": "finance.saving.saving.0010471.31-0026",
+          "title": "페퍼저축은행 정기적금",
+          "provider": "페퍼저축은행",
           "product_kind": "saving",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
           "relevance_grade": "B",
-          "data_completeness_grade": "C",
+          "data_completeness_grade": "B",
           "verification_grade": "B",
           "overall_candidate_grade": "C",
           "matched_constraints": [
@@ -14884,9 +14884,9 @@
             "mode": "discovery",
             "eligibility": "partial_candidate",
             "decision_scope": "discovery_only",
-            "score": 47,
+            "score": 48,
             "relevance_grade": "B",
-            "data_completeness_grade": "C",
+            "data_completeness_grade": "B",
             "verification_grade": "B",
             "overall_candidate_grade": "C",
             "matched_constraints": [
@@ -15772,6 +15772,81 @@
           }
         },
         {
+          "canonical_product_id": "finance.canonical.0010016.10521001001166004.saving",
+          "id": "finance.saving.saving.0010016.10521001001166004",
+          "title": "아이엠뱅크 iM함께적금",
+          "provider": "아이엠뱅크",
+          "product_kind": "saving",
+          "catalog_recommendation_status": "eligible_for_listing",
+          "catalog_recommendation_scope": "comparison_only",
+          "relevance_grade": "D",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
+          "overall_candidate_grade": "D",
+          "matched_constraints": [
+            "product_kind"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [
+            "saving_method",
+            "product_name_tokens"
+          ],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "saving",
+              "evidence_field": "product_kind",
+              "evidence_text": "saving",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "related_candidate",
+            "decision_scope": "discovery_only",
+            "score": 48,
+            "relevance_grade": "D",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
+            "overall_candidate_grade": "D",
+            "matched_constraints": [
+              "product_kind"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [
+              "saving_method",
+              "product_name_tokens"
+            ],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "saving",
+                "evidence_field": "product_kind",
+                "evidence_text": "saving",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
           "canonical_product_id": "finance.canonical.0010017.01020400490002.saving",
           "id": "finance.saving.saving.0010017.01020400490002",
           "title": "부산은행 펫 적금",
@@ -15938,100 +16013,9 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010017.01020400660001.saving",
-          "id": "finance.saving.saving.0010017.01020400660001",
-          "title": "부산은행 부산이라 좋다\nBig적금",
-          "provider": "부산은행",
-          "product_kind": "saving",
-          "catalog_recommendation_status": "eligible_for_listing",
-          "catalog_recommendation_scope": "comparison_only",
-          "relevance_grade": "D",
-          "data_completeness_grade": "B",
-          "verification_grade": "B",
-          "overall_candidate_grade": "D",
-          "matched_constraints": [
-            "product_kind",
-            "saving_method"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [
-            "product_name_tokens"
-          ],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "saving",
-              "evidence_field": "product_kind",
-              "evidence_text": "saving",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "saving_method",
-              "matched_value": "free",
-              "evidence_field": "saving_method",
-              "evidence_text": "free",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "related_candidate",
-            "decision_scope": "discovery_only",
-            "score": 48,
-            "relevance_grade": "D",
-            "data_completeness_grade": "B",
-            "verification_grade": "B",
-            "overall_candidate_grade": "D",
-            "matched_constraints": [
-              "product_kind",
-              "saving_method"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [
-              "product_name_tokens"
-            ],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "saving",
-                "evidence_field": "product_kind",
-                "evidence_text": "saving",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "saving_method",
-                "matched_value": "free",
-                "evidence_field": "saving_method",
-                "evidence_text": "free",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.0010017.01020400700001.saving",
-          "id": "finance.saving.saving.0010017.01020400700001",
-          "title": "부산은행 Only One 주거래 우대적금",
+          "canonical_product_id": "finance.canonical.0010017.01020400530001.saving",
+          "id": "finance.saving.saving.0010017.01020400530001",
+          "title": "부산은행 BNK내맘대로 \n적금",
           "provider": "부산은행",
           "product_kind": "saving",
           "catalog_recommendation_status": "eligible_for_listing",
@@ -16241,7 +16225,8 @@
             "join_member",
             "join_channel",
             "interest_method",
-            "deposit_protection_status"
+            "deposit_protection_status",
+            "sales_verification_status"
           ],
           "comparison_field_verification_status": "verified",
           "comparison_field_verification": {
@@ -16315,7 +16300,8 @@
             "minimum_deposit_krw",
             "join_member",
             "join_channel",
-            "interest_method"
+            "interest_method",
+            "sales_verification_status"
           ],
           "comparison_field_verification_status": "verified",
           "comparison_field_verification": {
@@ -16384,12 +16370,12 @@
             "term_months",
             "base_rate_percent",
             "maximum_rate_percent",
-            "preferential_rate_conditions",
             "minimum_deposit_krw",
             "join_member",
             "join_channel",
             "interest_method",
-            "deposit_protection_status"
+            "deposit_protection_status",
+            "sales_verification_status"
           ],
           "comparison_field_verification_status": "verified",
           "comparison_field_verification": {
@@ -16412,7 +16398,8 @@
           },
           "missing_required_fields": [
             "early_termination_condition",
-            "maximum_deposit_krw"
+            "maximum_deposit_krw",
+            "preferential_rate_conditions"
           ],
           "principal_krw": 10000000,
           "gross_interest_krw": 435000,
@@ -16463,7 +16450,8 @@
             "minimum_deposit_krw",
             "join_member",
             "join_channel",
-            "interest_method"
+            "interest_method",
+            "sales_verification_status"
           ],
           "comparison_field_verification_status": "verified",
           "comparison_field_verification": {
@@ -16538,7 +16526,8 @@
             "maximum_deposit_krw",
             "join_member",
             "join_channel",
-            "interest_method"
+            "interest_method",
+            "sales_verification_status"
           ],
           "comparison_field_verification_status": "verified",
           "comparison_field_verification": {
@@ -16665,18 +16654,18 @@
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
     "live_status": "executed",
     "live_not_executed_reason": null,
-    "checked_at": "2026-07-26T08:22:39+00:00",
+    "checked_at": "2026-07-26T08:41:25+00:00",
     "runtime_version": "openfin-mcp-2026.07.22.1",
     "deployment_commit": "40215ba9c",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
-    "runtime_search_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+    "search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
+    "runtime_search_index_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
     "test_count": 47,
     "passed_count": 47,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "a0829316d8422b3610439d752fb5fe52291c76fcefb63d207520de2143fe640e"
+  "export_checksum": "512c0e4fa6fc342f94ab0fb7203bc6cd58892812234e05635048aec58a2c30f6"
 }
