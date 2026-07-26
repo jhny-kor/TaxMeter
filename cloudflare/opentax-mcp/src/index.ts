@@ -2280,6 +2280,7 @@ function createServer(env: Env): McpServer {
         comparison_model_version: "openfin-comparison-v0.1.0",
         comparison_engine_version: COMPARISON_ENGINE_VERSION,
         ontology_basis_date: comparisonBasisDate,
+        data_as_of: comparisonBasisDate,
         latest_product_collection_date: comparisonBasisDate,
         verification_basis_date: comparisonBasisDate,
         calculation_policy_basis_date: "2026-07-14",
