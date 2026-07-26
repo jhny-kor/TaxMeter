@@ -2005,115 +2005,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300027000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300027000",
-          "title": "광주은행 미즈월복리정기예금",
-          "provider": "광주은행",
-          "product_kind": "deposit",
-          "catalog_recommendation_status": "eligible_for_listing",
-          "catalog_recommendation_scope": "comparison_only",
-          "relevance_grade": "A",
-          "data_completeness_grade": "B",
-          "verification_grade": "B",
-          "overall_candidate_grade": "C",
-          "matched_constraints": [
-            "product_kind",
-            "term_months",
-            "product_name_tokens"
-          ],
-          "unknown_constraints": [],
-          "failed_constraints": [],
-          "why_included": [
-            {
-              "constraint": "product_kind",
-              "matched_value": "deposit",
-              "evidence_field": "product_kind",
-              "evidence_text": "deposit",
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "term_months",
-              "matched_value": 12,
-              "evidence_field": "term_months",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            },
-            {
-              "constraint": "product_name_tokens",
-              "matched_value": null,
-              "evidence_field": "product_name_tokens",
-              "evidence_text": null,
-              "source_url": "https://finlife.fss.or.kr/",
-              "source_locator": "2026-07-18 수집"
-            }
-          ],
-          "limitations": [
-            "sales_status_unverified"
-          ],
-          "source_urls": [
-            "https://finlife.fss.or.kr/",
-            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
-            "https://finlife.fss.or.kr/finlifeapi/"
-          ],
-          "source_basis_dates": [
-            "2026-07-18 수집",
-            "202606",
-            "2026-07-03 확인"
-          ],
-          "decision": {
-            "mode": "discovery",
-            "eligibility": "exact_candidate",
-            "decision_scope": "discovery_only",
-            "score": 78,
-            "relevance_grade": "A",
-            "data_completeness_grade": "B",
-            "verification_grade": "B",
-            "overall_candidate_grade": "C",
-            "matched_constraints": [
-              "product_kind",
-              "term_months",
-              "product_name_tokens"
-            ],
-            "unknown_constraints": [],
-            "failed_constraints": [],
-            "decision_reasons": [
-              {
-                "constraint": "product_kind",
-                "matched_value": "deposit",
-                "evidence_field": "product_kind",
-                "evidence_text": "deposit",
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "term_months",
-                "matched_value": 12,
-                "evidence_field": "term_months",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              },
-              {
-                "constraint": "product_name_tokens",
-                "matched_value": null,
-                "evidence_field": "product_name_tokens",
-                "evidence_text": null,
-                "source_url": "https://finlife.fss.or.kr/",
-                "source_locator": "2026-07-18 수집"
-              }
-            ],
-            "limitations": [
-              "sales_status_unverified"
-            ]
-          }
-        },
-        {
-          "canonical_product_id": "finance.canonical.0010019.td11300031000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300031000",
-          "title": "광주은행 스마트모아Dream정기예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010002.00320342.deposit",
+          "id": "finance.deposit.deposit.0010002.00320342",
+          "title": "한국스탠다드차타드은행 e-그린세이브예금",
+          "provider": "한국스탠다드차타드은행",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -2215,10 +2110,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300035000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300035000",
-          "title": "광주은행 굿스타트예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010016.10511008001166004.deposit",
+          "id": "finance.deposit.deposit.0010016.10511008001166004",
+          "title": "아이엠뱅크 iM함께예금",
+          "provider": "아이엠뱅크",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -2320,10 +2215,10 @@
           }
         },
         {
-          "canonical_product_id": "finance.canonical.0010019.td11300036000.deposit",
-          "id": "finance.deposit.deposit.0010019.td11300036000",
-          "title": "광주은행 The플러스예금",
-          "provider": "광주은행",
+          "canonical_product_id": "finance.canonical.0010017.01030500510002.deposit",
+          "id": "finance.deposit.deposit.0010017.01030500510002",
+          "title": "부산은행 LIVE정기예금",
+          "provider": "부산은행",
           "product_kind": "deposit",
           "catalog_recommendation_status": "eligible_for_listing",
           "catalog_recommendation_scope": "comparison_only",
@@ -2349,7 +2244,7 @@
             },
             {
               "constraint": "term_months",
-              "matched_value": 3,
+              "matched_value": 1,
               "evidence_field": "term_months",
               "evidence_text": null,
               "source_url": "https://finlife.fss.or.kr/",
@@ -2404,7 +2299,112 @@
               },
               {
                 "constraint": "term_months",
-                "matched_value": 3,
+                "matched_value": 1,
+                "evidence_field": "term_months",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "product_name_tokens",
+                "matched_value": null,
+                "evidence_field": "product_name_tokens",
+                "evidence_text": null,
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              }
+            ],
+            "limitations": [
+              "sales_status_unverified"
+            ]
+          }
+        },
+        {
+          "canonical_product_id": "finance.canonical.0010017.01030500560002.deposit",
+          "id": "finance.deposit.deposit.0010017.01030500560002",
+          "title": "부산은행 더(The) 특판 정기예금",
+          "provider": "부산은행",
+          "product_kind": "deposit",
+          "catalog_recommendation_status": "eligible_for_listing",
+          "catalog_recommendation_scope": "comparison_only",
+          "relevance_grade": "A",
+          "data_completeness_grade": "B",
+          "verification_grade": "B",
+          "overall_candidate_grade": "C",
+          "matched_constraints": [
+            "product_kind",
+            "term_months",
+            "product_name_tokens"
+          ],
+          "unknown_constraints": [],
+          "failed_constraints": [],
+          "why_included": [
+            {
+              "constraint": "product_kind",
+              "matched_value": "deposit",
+              "evidence_field": "product_kind",
+              "evidence_text": "deposit",
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "term_months",
+              "matched_value": 1,
+              "evidence_field": "term_months",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            },
+            {
+              "constraint": "product_name_tokens",
+              "matched_value": null,
+              "evidence_field": "product_name_tokens",
+              "evidence_text": null,
+              "source_url": "https://finlife.fss.or.kr/",
+              "source_locator": "2026-07-18 수집"
+            }
+          ],
+          "limitations": [
+            "sales_status_unverified"
+          ],
+          "source_urls": [
+            "https://finlife.fss.or.kr/",
+            "https://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json",
+            "https://finlife.fss.or.kr/finlifeapi/"
+          ],
+          "source_basis_dates": [
+            "2026-07-18 수집",
+            "202606",
+            "2026-07-03 확인"
+          ],
+          "decision": {
+            "mode": "discovery",
+            "eligibility": "exact_candidate",
+            "decision_scope": "discovery_only",
+            "score": 78,
+            "relevance_grade": "A",
+            "data_completeness_grade": "B",
+            "verification_grade": "B",
+            "overall_candidate_grade": "C",
+            "matched_constraints": [
+              "product_kind",
+              "term_months",
+              "product_name_tokens"
+            ],
+            "unknown_constraints": [],
+            "failed_constraints": [],
+            "decision_reasons": [
+              {
+                "constraint": "product_kind",
+                "matched_value": "deposit",
+                "evidence_field": "product_kind",
+                "evidence_text": "deposit",
+                "source_url": "https://finlife.fss.or.kr/",
+                "source_locator": "2026-07-18 수집"
+              },
+              {
+                "constraint": "term_months",
+                "matched_value": 1,
                 "evidence_field": "term_months",
                 "evidence_text": null,
                 "source_url": "https://finlife.fss.or.kr/",
@@ -2583,8 +2583,8 @@
       "query": "runtime search-index checksum",
       "type": null,
       "validation_kind": "runtime_search_index_checksum",
-      "expected_top_id": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
-      "actual_top_id": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
+      "expected_top_id": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+      "actual_top_id": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
       "passed": true
     },
     {
@@ -2601,12 +2601,13 @@
           "path": "ontology/exports/finance-search-index-2026.json",
           "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026.json",
           "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026.json",
-          "item_count": 21251,
+          "item_count": 21266,
           "product_count": 0,
           "source_review_date": "2026-07-10",
+          "collection_dates": [],
           "product_collection_dates": [],
           "quality_summary": {},
-          "export_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
+          "export_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
           "description": "MCP search 전용 경량 인덱스입니다.",
           "shards": [
             {
@@ -2655,13 +2656,31 @@
               "export_checksum": "c6a83218439311f7cc951aab8b37273eb380d17adbc22a0f89468cba3dec575d"
             },
             {
+              "id": "finance-search-index-pension-products",
+              "shard_id": "pension-products",
+              "path": "ontology/exports/finance-search-index-2026-pension-products.json",
+              "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-pension-products.json",
+              "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-pension-products.json",
+              "item_count": 0,
+              "export_checksum": "cae9ea8a457937eb500d7f73f526977c90d1f6d4909d4c27d4e88a1d367f6cc5"
+            },
+            {
+              "id": "finance-search-index-account-products",
+              "shard_id": "account-products",
+              "path": "ontology/exports/finance-search-index-2026-account-products.json",
+              "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-account-products.json",
+              "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-account-products.json",
+              "item_count": 4,
+              "export_checksum": "85ad132dadeeac72ecf25a970449e8561979db04ac1f9270fee3b908aa1e0bfb"
+            },
+            {
               "id": "finance-search-index-reference",
               "shard_id": "reference",
               "path": "ontology/exports/finance-search-index-2026-reference.json",
               "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-reference.json",
               "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-reference.json",
-              "item_count": 691,
-              "export_checksum": "f0d957480983d7846f584d89bebf18a46870c87403ddf1139923ab7b7b8e4cd9"
+              "item_count": 702,
+              "export_checksum": "886186465e066606cc684bbe9effd9496a0179eaa28499613301ca06b69d4a24"
             }
           ]
         },
@@ -2669,8 +2688,8 @@
           "runtime_version": "openfin-mcp-2026.07.22.1",
           "deployment_commit": "40215ba9c",
           "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
-          "loaded_index_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
-          "loaded_item_count": 21251
+          "loaded_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+          "loaded_item_count": 21266
         }
       }
     },
@@ -16646,18 +16665,18 @@
     "mcp_url": "https://finance-mcp.y2kthr.workers.dev/mcp",
     "live_status": "executed",
     "live_not_executed_reason": null,
-    "checked_at": "2026-07-22T03:12:56+00:00",
+    "checked_at": "2026-07-26T08:22:39+00:00",
     "runtime_version": "openfin-mcp-2026.07.22.1",
     "deployment_commit": "40215ba9c",
     "manifest_version": "KR-FINANCE-ONTOLOGY-MANIFEST-2026.07.18.1",
     "search_index_version": "KR-FINANCE-SEARCH-INDEX-2026.07.18.1",
-    "search_index_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
-    "runtime_search_index_checksum": "3244483d8edbdf5309cd877d93028658ea48812f4f52a76204733da25cf81a42",
+    "search_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+    "runtime_search_index_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
     "test_count": 47,
     "passed_count": 47,
     "failed_count": 0,
     "failures": [],
     "last_failed_at": null
   },
-  "export_checksum": "cc87d33822688d70fa001d6ce5373a50bc5238df38d5e1448c04102ec7538db7"
+  "export_checksum": "a0829316d8422b3610439d752fb5fe52291c76fcefb63d207520de2143fe640e"
 }

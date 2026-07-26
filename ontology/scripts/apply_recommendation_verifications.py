@@ -7,6 +7,13 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from calculate_recommendation_completeness import (
+    REQUIRED_FIELDS,
+    field_present,
+    product_domain,
+    source_field_value,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OVERLAY_PATH = ROOT / "custom" / "finance" / "recommendation-verifications.json"
@@ -120,6 +127,43 @@ def overlay_by_product_id(payload: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return mapped
 
 
+def recompute_final_completeness(item: dict[str, Any]) -> None:
+    """Recalculate node completeness after applying the verification overlay.
+
+    ``calculate_recommendation_completeness`` runs before the overlay and therefore
+    cannot see fields supplied by a verified record such as
+    ``sales_verification_status``.  The exported node must describe the final
+    source-plus-overlay state; source provenance remains in
+    ``missing_in_source_fields``.
+    """
+    domain = product_domain(item)
+    required = REQUIRED_FIELDS.get(domain or "")
+    if not required:
+        return
+    missing: list[str] = []
+    for field in required:
+        value = item.get(field)
+        if not field_present(value):
+            value = source_field_value(item, field)
+            if field_present(value) and not field_present(item.get(field)):
+                item[field] = value
+        if not field_present(value):
+            missing.append(field)
+    item["required_field_count"] = len(required)
+    item["completed_field_count"] = len(required) - len(missing)
+    item["completeness_ratio"] = round(item["completed_field_count"] / len(required), 4)
+    item["normalized_completeness_ratio"] = item["completeness_ratio"]
+    if item.get("sales_verification_status") == "verified_active":
+        item["verified_completeness_ratio"] = item["completeness_ratio"]
+    item["missing_required_fields"] = sorted(set(missing))
+    item["comparison_basis_fields"] = [field for field in required if field not in missing]
+    item["domain_gate_passed"] = (
+        not missing
+        and item.get("sales_verification_status") == "verified_active"
+        and item.get("source_freshness_status") == "current"
+    )
+
+
 def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path: Path = OVERLAY_PATH) -> list[dict[str, Any]]:
     records = overlay_by_product_id(load_overlay(overlay_path))
     for item in items:
@@ -186,7 +230,7 @@ def apply_recommendation_verifications(items: list[dict[str, Any]], overlay_path
         item["sales_verified_at"] = record.get("verified_at")
         item["condition_verification_status"] = "verified"
         item["last_verified_at"] = record.get("verified_at")
-        item["verified_completeness_ratio"] = item.get("completeness_ratio", 0)
+        recompute_final_completeness(item)
         item["domain_gate_passed"] = (
             not item.get("missing_required_fields")
             and item.get("source_freshness_status") == "current"

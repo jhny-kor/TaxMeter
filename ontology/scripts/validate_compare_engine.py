@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from product_comparison_engine import compare
+
+
+EXPORT_DIR = Path(__file__).resolve().parents[1] / "exports"
 
 
 def main() -> int:
@@ -34,6 +40,19 @@ def main() -> int:
         for candidate in payload.get("candidates") or []:
             if candidate.get("comparison_field_verification_status") == "verified_active" and "sales_verification_status" in (candidate.get("missing_required_fields") or []):
                 errors.append(f"{domain}: verified candidate still lists sales_verification_status as missing")
+    for domain, filename in {
+        "deposit": "korea-deposit-products-ontology-2026.json",
+        "saving": "korea-saving-products-ontology-2026.json",
+    }.items():
+        payload = json.loads((EXPORT_DIR / filename).read_text(encoding="utf-8"))
+        for item in payload.get("items") or []:
+            if (
+                item.get("sales_verification_status") == "verified_active"
+                and item.get("verification_status") == "verified"
+                and item.get("comparison_engine_gate_passed") is True
+                and "sales_verification_status" in (item.get("missing_required_fields") or [])
+            ):
+                errors.append(f"{domain}: exported verified candidate still lists sales_verification_status as missing: {item.get('id')}")
     if errors:
         print("Compare engine validation failed:")
         print(*[f"- {error}" for error in errors], sep="\n")

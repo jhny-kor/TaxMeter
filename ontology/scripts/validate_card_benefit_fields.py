@@ -65,7 +65,11 @@ def main() -> int:
             monthly_limit = benefit.get("monthly_benefit_limit_krw")
             if fixed_amount is not None and fixed_amount == monthly_limit and any(marker in compact for marker in ("월최대", "매월최대", "월한도")):
                 errors.append(f"{card['id']}: 월 한도를 fixed_benefit_amount_krw로 중복 기록했습니다.")
-            if benefit.get("condition_completeness") not in {"complete", "partial", "incomplete"}:
+            # Official detail records supersede a prior listing benefit.  They
+            # intentionally carry a distinct completeness state so the merged
+            # node remains auditable instead of being mistaken for a fresh
+            # complete/partial parse.
+            if benefit.get("condition_completeness") not in {"complete", "partial", "incomplete", "superseded"}:
                 errors.append(f"{card['id']}: condition_completeness 값이 잘못되었습니다.")
             if not str(benefit.get("condition_source_url") or "").startswith("https://"):
                 errors.append(f"{card['id']}: benefit condition_source_url이 없습니다.")

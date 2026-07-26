@@ -8,7 +8,7 @@
   "canonical_product_count": 3434,
   "duplicate_canonical_product_count": 0,
   "canonical_merge_count": 11,
-  "export_checksum": "f85b4666c1615613e931436fa8262e7e0c7d6d7892885756c6980504868e670b",
+  "export_checksum": "e0c9231a215080cfc64a69a0b07ecf5d2ad7ca1a56844cfda7053a39ae1c0156",
   "shards": [
     {
       "id": "finance-search-index-support",
@@ -35,7 +35,7 @@
       "url": "https://raw.githubusercontent.com/jhny-kor/TaxMeter/main/ontology/exports/finance-search-index-2026-bank-products.json",
       "web_url": "https://jhny-kor.github.io/TaxMeter/opentax/finance-search-index-2026-bank-products.json",
       "item_count": 1363,
-      "export_checksum": "8a7e0fdbcab278b20a920fcdf2f1fa2de0ddc665c0c782ffa69a0ed638de757e"
+      "export_checksum": "f64f95734d8775c807f17b545db60ef0d49a24d25a7a9dc4b7fbe7a6dc41d521"
     },
     {
       "id": "finance-search-index-card-products",

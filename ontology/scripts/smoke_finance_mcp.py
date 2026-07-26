@@ -139,7 +139,10 @@ class McpSmokeClient:
         }
         if self.session_id:
             headers["mcp-session-id"] = self.session_id
-        for attempt in range(3):
+        # Workers can briefly return 503 while the Pages manifest or shard cache
+        # is hydrating. Retry transient transport failures, but still fail on a
+        # persistent 5xx/timeout so deployment gates remain fail-closed.
+        for attempt in range(6):
             request = urllib.request.Request(
                 self.url,
                 data=json.dumps(payload).encode("utf-8"),
@@ -152,13 +155,18 @@ class McpSmokeClient:
                         self.session_id = session_id
                     body = response.read().decode("utf-8")
             except urllib.error.HTTPError as error:
-                if error.code < 500 or attempt == 2:
+                if error.code < 500 or attempt == 5:
+                    raise
+                time.sleep(attempt + 1)
+                continue
+            except (urllib.error.URLError, TimeoutError, OSError):
+                if attempt == 5:
                     raise
                 time.sleep(attempt + 1)
                 continue
             if body.strip():
                 return parse_sse_response(body)
-            if attempt < 2:
+            if attempt < 5:
                 time.sleep(attempt + 1)
         return None
 

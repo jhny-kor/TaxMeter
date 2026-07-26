@@ -2,7 +2,7 @@
   "version": "OPENFIN-QUALITY-MANIFEST-2026.07.18.1",
   "basis_date": "2026-07-10",
   "source_review_date": "2026-07-10",
-  "built_at": "2026-07-24T22:31:56Z",
+  "built_at": "2026-07-26T08:30:40Z",
   "ontology_kind": "openfin-quality-manifest",
   "domain_summaries": [
     {
@@ -103,6 +103,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 11,
         "products_with_verification_evidence": 11,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.1812,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -233,7 +240,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "6c3029de6d371c9eb9e9f05ff82d387304024eaac841f377a59d2c4c415aa9ee"
+      "export_checksum": "6ff0d4befb4cc14586fe13d1e8144349838cda30cc2cd0d1d3470c9be771aab9"
     },
     {
       "id": "deposit-products-ontology",
@@ -277,7 +284,31 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
-        "average_completeness_ratio": 0.6075,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 8,
+            "early_termination_condition": 30,
+            "maximum_deposit_krw": 16,
+            "minimum_deposit_krw": 22,
+            "preferential_rate_conditions": 4
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 22,
+            "interest_method": 30,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_deposit_krw": 14,
+            "maximum_rate_percent": 30,
+            "minimum_deposit_krw": 8,
+            "preferential_rate_conditions": 26,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6126,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -286,7 +317,8 @@
           "join_member": 2,
           "maximum_deposit_krw": 395,
           "minimum_deposit_krw": 398,
-          "sales_verification_status": 430
+          "preferential_rate_conditions": 4,
+          "sales_verification_status": 400
         },
         "absent_fields_by_field_name": {
           "base_rate_percent": 0,
@@ -394,7 +426,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "fcbbab7a7071cf03f37e7c67efeeee2137ad1972463539df27b90b607df04f51"
+      "export_checksum": "d7b065633be31475395270bdadab5ef19cbfde6e3615a65186975aa42d7338dc"
     },
     {
       "id": "saving-products-ontology",
@@ -438,7 +470,31 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 30,
         "products_with_verification_evidence": 30,
-        "average_completeness_ratio": 0.6244,
+        "comparison_overlay_quality": {
+          "candidate_count": 30,
+          "verified_candidate_count": 30,
+          "missing_required_fields_by_field_name": {
+            "deposit_protection_status": 1,
+            "early_termination_condition": 30,
+            "monthly_payment_max_krw": 3,
+            "monthly_payment_min_krw": 28,
+            "preferential_rate_conditions": 1
+          },
+          "unverified_fields_by_field_name": {
+            "base_rate_percent": 30,
+            "deposit_protection_status": 29,
+            "join_channel": 30,
+            "join_member": 30,
+            "maximum_rate_percent": 30,
+            "monthly_payment_max_krw": 27,
+            "monthly_payment_min_krw": 2,
+            "preferential_rate_conditions": 29,
+            "saving_method": 30,
+            "term_months": 30
+          },
+          "sales_verification_status_missing_count": 0
+        },
+        "average_completeness_ratio": 0.6316,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
         "missing_fields_by_field_name": {
@@ -448,7 +504,8 @@
           "join_member": 6,
           "monthly_payment_max_krw": 238,
           "monthly_payment_min_krw": 328,
-          "sales_verification_status": 335
+          "preferential_rate_conditions": 1,
+          "sales_verification_status": 305
         },
         "absent_fields_by_field_name": {
           "base_rate_percent": 0,
@@ -556,7 +613,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "ca31d560f44ec216802e8cd407ff6d7702c96ebf808086d634dbd9a14dadcf0b"
+      "export_checksum": "fe09d6a6ad875813ba0b70b6b08316a79cd908c92be0c1f91ca8b810f647bd2c"
     },
     {
       "id": "loan-products-ontology",
@@ -604,6 +661,22 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 20,
+          "verified_candidate_count": 20,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {
+            "collateral_type": 20,
+            "early_repayment_fee": 20,
+            "eligible_borrower": 20,
+            "loan_limit_krw": 20,
+            "loan_rate_max_percent": 20,
+            "loan_rate_min_percent": 20,
+            "rate_type": 20,
+            "repayment_method": 20
+          },
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.6885,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -706,7 +779,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "e6506e31b9f67f64a421cafbb072a98ce7996a08c89fed3b49c2b795e77a3693"
+      "export_checksum": "b582e9306aaf2784adc8bdd93da938babc8c3f5c8ea6541a88d55c0f12df4d41"
     },
     {
       "id": "insurance-products-ontology",
@@ -750,6 +823,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 20,
         "products_with_verification_evidence": 20,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.424,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -877,7 +957,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "1e61ca6b5c991264d56c42aab25b75156f966bf7ec64e1edb153b8a5f64b2e85"
+      "export_checksum": "e4406e347473292132d87b13ec744159e1e953dd1a375cbf64071e1e0277347a"
     },
     {
       "id": "pension-products-ontology",
@@ -915,6 +995,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -947,7 +1034,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "0270e690e99369f82bb9b5977779867d6b07235f849df18722f6c5efc7e3167e"
+      "export_checksum": "e6cf4046415c74a5dd1fe00ef6a0974ac4fe06d239597a67a27e684c449a2b9a"
     },
     {
       "id": "tax-advantaged-accounts-ontology",
@@ -991,6 +1078,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1065,7 +1159,7 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "63b241686edbf0db0e1078ca64b7782bbcc6fc39c17b7319ed43b8dd196e461e"
+      "export_checksum": "8d5b3920f4e6492abef332b7869f99d9ec63197ca8611ca8507ea7ff4d41ba86"
     },
     {
       "id": "finance-reference-ontology",
@@ -1103,6 +1197,13 @@
         "products_with_complete_recommendation_fields": 0,
         "products_with_verified_sales_status": 0,
         "products_with_verification_evidence": 0,
+        "comparison_overlay_quality": {
+          "candidate_count": 0,
+          "verified_candidate_count": 0,
+          "missing_required_fields_by_field_name": {},
+          "unverified_fields_by_field_name": {},
+          "sales_verification_status_missing_count": 0
+        },
         "average_completeness_ratio": 0.0,
         "products_with_unmapped_existing_fields": 0,
         "products_with_missing_search_type": 0,
@@ -1135,14 +1236,14 @@
           "stale_active_disclosure_products_must_be_zero": true
         }
       },
-      "export_checksum": "7ea9dddac780343c0a3dee897c174986ee703082026ec94fd212a42ef9a3e2ea"
+      "export_checksum": "040b01495b99b5ff262579049216a82dff40429e586ca8078812d7064f45c2a5"
     }
   ],
   "search_regression_report": {
     "path": "ontology/exports/openfin-search-regression-report-2026.json",
     "item_count": 20,
     "product_count": 0,
-    "export_checksum": "cc87d33822688d70fa001d6ce5373a50bc5238df38d5e1448c04102ec7538db7",
+    "export_checksum": "a0829316d8422b3610439d752fb5fe52291c76fcefb63d207520de2143fe640e",
     "quality_summary": {
       "test_count": 20,
       "passed_count": 20,
@@ -1292,7 +1393,7 @@
     }
   ],
   "export_audit": {
-    "built_at": "2026-07-24T22:31:56Z",
+    "built_at": "2026-07-26T08:30:40Z",
     "domain_export_count": 10,
     "search_index_item_count": 21266,
     "canonical_product_count": 3434,
@@ -1484,5 +1585,5 @@
       }
     }
   ],
-  "export_checksum": "c9a2bad5258d746ef60749cea013aa0b386868a63644a761800c5263671f89a2"
+  "export_checksum": "91c730975d6e1228102d3999213d78ddac2a229b0cc0d4958443f765ec21b4bd"
 }

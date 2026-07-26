@@ -2179,6 +2179,17 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
     pilot_domain = {"card-product": "card", "bank-product": "loan", "insurance-product": "insurance"}.get(product_type)
     pilot_items = [product for product in products if (product.get("pilot_validation") or {}).get("status") == "verified" and (product.get("pilot_validation") or {}).get("domain") == pilot_domain]
     pilot_ratios = [float(product.get("pilot_verified_completeness_ratio") or 0) for product in pilot_items]
+    comparison_overlay_products = [product for product in products if product.get("comparison_engine_gate_passed")]
+    overlay_missing_fields = sorted({
+        str(field)
+        for product in comparison_overlay_products
+        for field in product.get("missing_required_fields") or []
+    })
+    overlay_unverified_fields = sorted({
+        str(field)
+        for product in comparison_overlay_products
+        for field in product.get("unverified_fields") or []
+    })
     return {
         "product_count": len(products),
         "verified_pilot_count": len(pilot_items),
@@ -2245,6 +2256,26 @@ def export_quality_summary(items: list[dict], product_type: str) -> dict:
         ),
         "products_with_verified_sales_status": sum(1 for product in products if product.get("sales_verification_status") == "verified_active"),
         "products_with_verification_evidence": sum(1 for product in products if product.get("verification_evidence")),
+        "comparison_overlay_quality": {
+            "candidate_count": len(comparison_overlay_products),
+            "verified_candidate_count": sum(
+                1
+                for product in comparison_overlay_products
+                if product.get("sales_verification_status") == "verified_active"
+                and product.get("verification_status") == "verified"
+            ),
+            "missing_required_fields_by_field_name": {
+                field: sum(1 for product in comparison_overlay_products if field in (product.get("missing_required_fields") or []))
+                for field in overlay_missing_fields
+            },
+            "unverified_fields_by_field_name": {
+                field: sum(1 for product in comparison_overlay_products if field in (product.get("unverified_fields") or []))
+                for field in overlay_unverified_fields
+            },
+            "sales_verification_status_missing_count": sum(
+                1 for product in comparison_overlay_products if "sales_verification_status" in (product.get("missing_required_fields") or [])
+            ),
+        },
         "average_completeness_ratio": round(
             sum(float(product.get("completeness_ratio") or 0) for product in products) / len(products), 4
         ) if products else 0.0,
